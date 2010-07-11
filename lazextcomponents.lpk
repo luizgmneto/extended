@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="3">
+    <Name Value="lazextcomponents"/>
+    <AutoUpdate Value="Manually"/>
+    <CompilerOptions>
+      <Version Value="8"/>
+      <SearchPaths>
+        <IncludeFiles Value="composants/"/>
+        <OtherUnitFiles Value="composants/;fonctions/"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <IncludeAssertionCode Value="True"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Version Major="1"/>
+    <Files Count="31">
+      <Item1>
+        <Filename Value="composants/U_OnFormInfoIni.lrs"/>
+        <Type Value="LRS"/>
+      </Item1>
+      <Item2>
+        <Filename Value="composants/U_OnFormInfoIni.pas"/>
+        <UnitName Value="U_OnFormInfoIni"/>
+      </Item2>
+      <Item3>
+        <Filename Value="composants/PDBCheck.lrs"/>
+        <Type Value="LRS"/>
+      </Item3>
+      <Item4>
+        <Filename Value="composants/PDBCheck.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="PDBCheck"/>
+      </Item4>
+      <Item5>
+        <Filename Value="composants/PCheck.lrs"/>
+        <Type Value="LRS"/>
+      </Item5>
+      <Item6>
+        <Filename Value="composants/PCheck.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="PCheck"/>
+      </Item6>
+      <Item7>
+        <Filename Value="composants/U_ExtColorCombos.lrs"/>
+        <Type Value="LRS"/>
+      </Item7>
+      <Item8>
+        <Filename Value="composants/U_ExtColorCombos.pas"/>
+        <UnitName Value="U_ExtColorCombos"/>
+      </Item8>
+      <Item9>
+        <Filename Value="composants/u_regfwbuttons.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regfwbuttons"/>
+      </Item9>
+      <Item10>
+        <Filename Value="composants/u_buttons_appli.pas"/>
+        <UnitName Value="u_buttons_appli"/>
+      </Item10>
+      <Item11>
+        <Filename Value="composants/u_buttons_appli.lrs"/>
+        <Type Value="LRS"/>
+      </Item11>
+      <Item12>
+        <Filename Value="composants/u_extcomponent.pas"/>
+        <UnitName Value="u_extcomponent"/>
+      </Item12>
+      <Item13>
+        <Filename Value="composants/u_framework_components.pas"/>
+        <UnitName Value="u_framework_components"/>
+      </Item13>
+      <Item14>
+        <Filename Value="composants/U_RegisterExtDBNav.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="U_RegisterExtDBNav"/>
+      </Item14>
+      <Item15>
+        <Filename Value="composants/U_DBListView.lrs"/>
+        <Type Value="LRS"/>
+      </Item15>
+      <Item16>
+        <Filename Value="composants/U_DBListView.pas"/>
+        <UnitName Value="U_DBListView"/>
+      </Item16>
+      <Item17>
+        <Filename Value="composants/U_RegisterListView.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="U_RegisterListView"/>
+      </Item17>
+      <Item18>
+        <Filename Value="composants/u_regextcolorcombos.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regextcolorcombos"/>
+      </Item18>
+      <Item19>
+        <Filename Value="composants/u_regonforminfoini.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regonforminfoini"/>
+      </Item19>
+      <Item20>
+        <Filename Value="composants/U_ExtNumEdits.lrs"/>
+        <Type Value="LRS"/>
+      </Item20>
+      <Item21>
+        <Filename Value="composants/U_ExtNumEdits.pas"/>
+        <UnitName Value="U_ExtNumEdits"/>
+      </Item21>
+      <Item22>
+        <Filename Value="composants/u_regextnumedits.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regextnumedits"/>
+      </Item22>
+      <Item23>
+        <Filename Value="composants/u_regframeworkcomponents.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regframeworkcomponents"/>
+      </Item23>
+      <Item24>
+        <Filename Value="composants/U_ExtDBNavigator.lrs"/>
+        <Type Value="LRS"/>
+      </Item24>
+      <Item25>
+        <Filename Value="composants/U_ExtDBNavigator.pas"/>
+        <UnitName Value="U_ExtDBNavigator"/>
+      </Item25>
+      <Item26>
+        <Filename Value="composants/U_FormMainIni.pas"/>
+        <UnitName Value="U_FormMainIni"/>
+      </Item26>
+      <Item27>
+        <Filename Value="composants/U_FormMainIni.lfm"/>
+        <Type Value="LFM"/>
+      </Item27>
+      <Item28>
+        <Filename Value="composants/U_FormMainIni.lrs"/>
+        <Type Value="LRS"/>
+      </Item28>
+      <Item29>
+        <Filename Value="composants/ExtDBImage.pas"/>
+        <UnitName Value="ExtDBImage"/>
+      </Item29>
+      <Item30>
+        <Filename Value="composants/RegImageComponents.lrs"/>
+        <Type Value="LRS"/>
+      </Item30>
+      <Item31>
+        <Filename Value="composants/RegImageComponents.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="RegImageComponents"/>
+      </Item31>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="8">
+      <Item1>
+        <PackageName Value="zcomponent"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="JvXPBarLaz"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="lazrichview"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="rxnew"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="lazfonctions"/>
+      </Item6>
+      <Item7>
+        <PackageName Value="IDEIntf"/>
+      </Item7>
+      <Item8>
+        <PackageName Value="SynEdit"/>
+      </Item8>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)/"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
