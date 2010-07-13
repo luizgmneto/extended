@@ -5,7 +5,6 @@ package ExtComponents;
 {$R 'composants\U_ExtNumEdits.dcr'}
 {$R 'composants\U_OnFormInfoIni.dcr'}
 {$R 'composants\U_ExtDBNavigator.dcr'}
-{$R 'composants\U_RegImageComponents.dcr'}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -90,20 +89,14 @@ contains
   U_ExtNumEdits in 'composants\U_ExtNumEdits.pas',
   fonctions_numedit in 'fonctions\fonctions_numedit.pas',
   u_extcomponent in 'composants\u_extcomponent.pas',
-  U_RegisterListView in 'composants\U_RegisterListView.pas',
   U_DBListView in 'composants\U_DBListView.pas',
   U_ExtPageControl in 'composants\U_ExtPageControl.pas',
-  u_regonforminfoini in 'composants\u_regonforminfoini.pas',
   u_regfwbuttons in 'composants\u_regfwbuttons.pas',
-  u_regextcolorcombos in 'composants\u_regextcolorcombos.pas',
   u_buttons_appli in 'composants\u_buttons_appli.pas',
   u_regframeworkcomponents in 'composants\u_regframeworkcomponents.pas',
   U_ExtDBNavigator in 'composants\U_ExtDBNavigator.pas',
-  U_RegisterExtDBNav in 'composants\U_RegisterExtDBNav.pas',
   u_framework_components in 'composants\u_framework_components.pas',
-  u_regextnumedits in 'composants\u_regextnumedits.pas',
   U_FormMainIni in 'composants\U_FormMainIni.pas',
-  U_ExtDBImage in 'composants\U_ExtDBImage.pas',
-  U_RegImageComponents in 'composants\U_RegImageComponents.pas';
+  U_ExtDBImage in 'composants\U_ExtDBImage.pas';
 
 end.
