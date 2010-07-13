@@ -41,7 +41,7 @@ type TExtDBImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF} )
 
 implementation
 
-uses fonctions_images, Controls, SysUtils;
+uses fonctions_images, Controls;
 
 { TExtDBImage }
 
@@ -87,9 +87,9 @@ end;
 function TExtDBImage.LoadFromFile(const afile: String):Boolean;
 begin
   Result := False;
-  if FileExists ( afile ) then
+  if  assigned ( FDataLink.Field ) then
     Begin
-      p_SetFileToImage(afile, Picture, True);
+      p_SetImageFileToField(afile, FDataLink.Field, Picture, True);
       Result := True;
     End;
 end;
