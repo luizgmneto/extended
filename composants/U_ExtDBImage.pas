@@ -29,6 +29,8 @@ type TExtDBImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF} )
        procedure p_UpdateData(Sender: TObject); virtual;
        procedure p_SetImage ; virtual;
      public
+       procedure LoadFromStream ( const astream : TStream ); virtual;
+       function  LoadFromFile   ( const afile   : String ):Boolean; virtual;
        constructor Create(AOwner: TComponent); override;
        destructor Destroy ; override;
      published
@@ -39,7 +41,7 @@ type TExtDBImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF} )
 
 implementation
 
-uses fonctions_db, Controls;
+uses fonctions_images, Controls, SysUtils;
 
 { TExtDBImage }
 
@@ -82,6 +84,21 @@ begin
 
 end;
 
+function TExtDBImage.LoadFromFile(const afile: String):Boolean;
+begin
+  Result := False;
+  if FileExists ( afile ) then
+    Begin
+      p_SetFileToImage(afile, Picture, True);
+      Result := True;
+    End;
+end;
+
+procedure TExtDBImage.LoadFromStream(const astream: TStream);
+begin
+  p_SetStreamToImage( astream, Picture, True );
+end;
+
 function TExtDBImage.fds_GetDatasource: TDatasource;
 begin
   if assigned ( FDataLink ) then
@@ -118,7 +135,7 @@ begin
   and assigned ( FDataLink.Field )
   and not FDataLink.Field.IsNull Then
     Begin
-      p_SetFieldToImage ( FDataLink.Field, Self.Picture );
+      p_SetFieldToImage ( FDataLink.Field, Self.Picture, True );
     End
    Else
     Picture.Bitmap.Assign(nil);

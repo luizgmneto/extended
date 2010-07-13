@@ -85,7 +85,6 @@ contains
   U_OnFormInfoIni in 'composants\U_OnFormInfoIni.pas',
   U_ExtScrollBox in 'composants\U_ExtScrollBox.pas',
   U_ExtColorCombos in 'composants\U_ExtColorCombos.pas',
-  fonctions_file in 'fonctions\fonctions_file.pas',
   U_ExtNumEdits in 'composants\U_ExtNumEdits.pas',
   fonctions_numedit in 'fonctions\fonctions_numedit.pas',
   u_extcomponent in 'composants\u_extcomponent.pas',

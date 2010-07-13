@@ -18,7 +18,7 @@ uses Forms,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  DB, Graphics, Controls, Dialogs ;
+  DB, Graphics, Classes, Controls, Dialogs ;
 
 const CST_IMAGE_MAUVAISE_TAILLE = 'La taille de l''image doit être au moins de 32 sur 32.' ;
       CST_IMAGE_DEFORMATION = 'L''image sera déformée, continuer ?' ;
@@ -53,12 +53,10 @@ function fb_ChargeIcoBmp ( const aod_ChargerImage : TOpenDialog ;
                            const ab_MontreMessage : Boolean     ;
                            const adxb_Image       : TBitmap     ) : Boolean ;
 
-// Ajoute une image bmp dans une imagelist et efface le handle
-//  aBmp_Picture : L'image
-// ab_AjouteBitmap : Ajoute l'image
-// ab_ImageDefaut  : Ajoute l'image par défaut
-// aIma_ImagesMenus : Liste d'iamges
-// ai_CompteurImageDef : Compteur d'image par défaut
+procedure p_SetFieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean );
+procedure p_SetStreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean );
+procedure p_SetFileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean );
+
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
                                   const ab_AjouteBitmap      ,
                                         ab_ImageDefaut       : Boolean     ;
@@ -100,13 +98,13 @@ function fb_FichierIcoBmpVersBitmap ( const as_Fichier : String; const aBmp_Sort
 procedure p_BitmapVersIco ( const aBmp_Bitmap : TBitmap ; const aIco_Destination : TIcon );
 
 implementation
-uses StrUtils, Classes,
+uses StrUtils, ImagingTypes, ImagingComponents, Imaging,
 {$IFDEF FPC}
      LCLType,
 {$ELSE}
      JclGraphics,
 {$ENDIF}
-      SysUtils ;
+     SysUtils, unite_messages ;
 
 
 
@@ -532,6 +530,74 @@ begin
       LBmp_Tempo.Free ;
     end;
 End ;
+
+
+// Procédure de transfert d'un champ vers une image
+// field : Le champ image
+// Image : La destination
+procedure p_SetFieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean );
+var l_c_memory_stream: tMemoryStream;
+    Aimagedata : TImageData;
+begin
+  if not ( field.IsNull ) then
+    Begin
+      l_c_memory_stream:= tMemoryStream.Create;
+      try
+        ( field as tBlobField ).SaveToStream ( l_c_memory_stream );
+      Except
+        On E:Exception do
+         if ab_ShowError Then
+            ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FIELD_IMAGE);
+      end;
+      p_SetStreamToImage ( l_c_memory_stream, Image, ab_ShowError );
+      l_c_memory_stream.Free;
+    End;
+
+end;
+
+procedure p_SetStreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean );
+var l_c_memory_stream: tMemoryStream;
+    Aimagedata : TImageData;
+begin
+  try
+    stream.Position := 0;
+    aimagedata.Width   := 0;
+    aimagedata.Height  := 0;
+    Aimagedata.Format  := ifUnknown;
+    Aimagedata.Size    := 0;
+    Aimagedata.Bits    := nil;
+    Aimagedata.Palette := nil;
+    LoadImageFromStream( stream, aimagedata );
+    ConvertDataToBitmap( aimagedata, Image.Bitmap );
+    Image.Bitmap.Canvas.Refresh;
+  Except
+    On E:Exception do
+      if ab_ShowError Then
+        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_STREAM_IMAGE);
+  end;
+end;
+
+procedure p_SetFileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean );
+var Aimagedata : TImageData;
+begin
+  try
+    aimagedata.Width   := 0;
+    aimagedata.Height  := 0;
+    Aimagedata.Format  := ifUnknown;
+    Aimagedata.Size    := 0;
+    Aimagedata.Bits    := nil;
+    Aimagedata.Palette := nil;
+    LoadImageFromFile  ( afile, aimagedata );
+    ConvertDataToBitmap( aimagedata, Image.Bitmap );
+    Image.Bitmap.Canvas.Refresh;
+  Except
+    On E:Exception do
+      if ab_ShowError Then
+        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
+  end;
+end;
+
+
 initialization
 {$IFDEF VERSIONS}
   p_ConcatVersion ( gVer_fonctions_images );

@@ -49,8 +49,6 @@ function fs_AjouteRechercheClePrimaire ( const adat_Dataset         : TDataset  
                                          const as_ChampsClePrimaire : TStringList ;
                                          const avar_ValeursCle      : Variant     ;
                                          const as_ChampExclu        : String      ): String ;
-procedure p_SetFieldToImage ( const field : TField ; const Image : TPicture );
-
 function fb_ChangeEnregistrement(var avar_EnregistrementCle : Variant ; const adat_Dataset : TDataset ;
   const as_Cle: String; const ab_Sort:Boolean): Boolean;
 
@@ -81,8 +79,7 @@ uses Variants,  Math, fonctions_erreurs, fonctions_string, unite_messages,
 {$IFDEF ZEOS}
    ZDataset, ZAbstractRODataset,
  {$ENDIF}
-    ImagingTypes, ImagingComponents, Imaging,
-    fonctions_proprietes, TypInfo, ExtCtrls;
+   fonctions_proprietes, TypInfo, ExtCtrls;
 
 
 function fb_LocateFilter ( const aado_Seeker : TDataset ; const as_oldFilter, as_Fields, as_Condition : String ; const avar_Records : Variant ; const ach_Separator : Char ): Boolean ;
@@ -611,39 +608,6 @@ Begin
   Except
   End ;
 End ;
-
-// Procédure de transfert d'un champ vers une image
-// field : Le champ image
-// Image : La destination
-procedure p_SetFieldToImage ( const field : TField ; const Image : TPicture );
-var l_c_memory_stream: tMemoryStream;
-    Aimagedata : TImageData;
-begin
-  if not ( field.IsNull ) then
-    Begin
-      l_c_memory_stream:= tMemoryStream.Create;
-      try
-        ( field as tBlobField ).SaveToStream ( l_c_memory_stream );
-        l_c_memory_stream.Position := 0;
-        aimagedata.Width   := 0;
-        aimagedata.Height  := 0;
-        Aimagedata.Format  := ifUnknown;
-        Aimagedata.Size    := 0;
-        Aimagedata.Bits    := nil;
-        Aimagedata.Palette := nil;
-        LoadImageFromStream( l_c_memory_stream, aimagedata );
-        ConvertDataToBitmap( aimagedata, Image.Bitmap );
-        Image.Bitmap.Canvas.Refresh;
-      Except
-        On E:Exception do
-          Begin
-
-          End;
-      end;
-        l_c_memory_stream.Free;
-    End;
-
-end;
 
 
 // récupère la propriété sort
