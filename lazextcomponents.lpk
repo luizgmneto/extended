@@ -20,7 +20,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1"/>
-    <Files Count="31">
+    <Files Count="24">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.lrs"/>
         <Type Value="LRS"/>
@@ -77,84 +77,50 @@
         <UnitName Value="u_framework_components"/>
       </Item13>
       <Item14>
-        <Filename Value="composants/U_RegisterExtDBNav.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="U_RegisterExtDBNav"/>
-      </Item14>
-      <Item15>
         <Filename Value="composants/U_DBListView.lrs"/>
         <Type Value="LRS"/>
-      </Item15>
-      <Item16>
+      </Item14>
+      <Item15>
         <Filename Value="composants/U_DBListView.pas"/>
         <UnitName Value="U_DBListView"/>
-      </Item16>
-      <Item17>
-        <Filename Value="composants/U_RegisterListView.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="U_RegisterListView"/>
-      </Item17>
-      <Item18>
-        <Filename Value="composants/u_regextcolorcombos.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="u_regextcolorcombos"/>
-      </Item18>
-      <Item19>
-        <Filename Value="composants/u_regonforminfoini.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="u_regonforminfoini"/>
-      </Item19>
-      <Item20>
+      </Item15>
+      <Item16>
         <Filename Value="composants/U_ExtNumEdits.lrs"/>
         <Type Value="LRS"/>
-      </Item20>
-      <Item21>
+      </Item16>
+      <Item17>
         <Filename Value="composants/U_ExtNumEdits.pas"/>
         <UnitName Value="U_ExtNumEdits"/>
-      </Item21>
-      <Item22>
-        <Filename Value="composants/u_regextnumedits.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="u_regextnumedits"/>
-      </Item22>
-      <Item23>
+      </Item17>
+      <Item18>
         <Filename Value="composants/u_regframeworkcomponents.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regframeworkcomponents"/>
-      </Item23>
-      <Item24>
+      </Item18>
+      <Item19>
         <Filename Value="composants/U_ExtDBNavigator.lrs"/>
         <Type Value="LRS"/>
-      </Item24>
-      <Item25>
+      </Item19>
+      <Item20>
         <Filename Value="composants/U_ExtDBNavigator.pas"/>
         <UnitName Value="U_ExtDBNavigator"/>
-      </Item25>
-      <Item26>
+      </Item20>
+      <Item21>
         <Filename Value="composants/U_FormMainIni.pas"/>
         <UnitName Value="U_FormMainIni"/>
-      </Item26>
-      <Item27>
+      </Item21>
+      <Item22>
         <Filename Value="composants/U_FormMainIni.lfm"/>
         <Type Value="LFM"/>
-      </Item27>
-      <Item28>
+      </Item22>
+      <Item23>
         <Filename Value="composants/U_FormMainIni.lrs"/>
         <Type Value="LRS"/>
-      </Item28>
-      <Item29>
-        <Filename Value="composants/ExtDBImage.pas"/>
-        <UnitName Value="ExtDBImage"/>
-      </Item29>
-      <Item30>
-        <Filename Value="composants/RegImageComponents.lrs"/>
-        <Type Value="LRS"/>
-      </Item30>
-      <Item31>
-        <Filename Value="composants/RegImageComponents.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="RegImageComponents"/>
-      </Item31>
+      </Item23>
+      <Item24>
+        <Filename Value="composants/U_ExtDBImage.pas"/>
+        <UnitName Value="U_ExtDBImage"/>
+      </Item24>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="8">
