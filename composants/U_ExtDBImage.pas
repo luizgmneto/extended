@@ -89,14 +89,17 @@ begin
   Result := False;
   if  assigned ( FDataLink.Field ) then
     Begin
-      p_SetImageFileToField(afile, FDataLink.Field, Picture, True);
+      p_SetImageFileToField(afile, FDataLink.Field, True);
       Result := True;
     End;
 end;
 
 procedure TExtDBImage.LoadFromStream(const astream: TStream);
 begin
-  p_SetStreamToImage( astream, Picture, True );
+  if  assigned ( FDataLink.Field ) then
+    Begin
+      p_SetStreamToField( astream, FDataLink.Field, True );
+    End;
 end;
 
 function TExtDBImage.fds_GetDatasource: TDatasource;
