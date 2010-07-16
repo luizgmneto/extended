@@ -53,12 +53,8 @@ function fb_ChargeIcoBmp ( const aod_ChargerImage : TOpenDialog ;
                            const ab_MontreMessage : Boolean     ;
                            const adxb_Image       : TBitmap     ) : Boolean ;
 
-<<<<<<< local
-procedure p_SetImageFileToField ( const afile: String; const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean );
-=======
 procedure p_SetImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean );
 procedure p_SetStreamToField ( const astream: TStream; const field : TField ; const ab_ShowError : Boolean );
->>>>>>> other
 procedure p_SetFieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean );
 procedure p_SetFileToStream ( const afile : String; const Stream : TStream ; const ab_ShowError : Boolean );
 procedure p_SetStreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean );
@@ -544,10 +540,7 @@ End ;
 // Image : La destination
 procedure p_SetFieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean );
 var l_c_memory_stream: tMemoryStream;
-<<<<<<< local
     Aimagedata : TImageData;
-=======
->>>>>>> other
 begin
   if not ( field.IsNull ) then
     Begin
@@ -568,22 +561,14 @@ end;
 // Procédure de transfert d'un champ vers une image
 // field : Le champ image
 // Image : La destination
-<<<<<<< local
-procedure p_SetImageFileToField ( const afile: String; const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean );
-=======
 procedure p_SetImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean );
->>>>>>> other
 var l_c_memory_stream: tMemoryStream;
-<<<<<<< local
     Aimagedata : TImageData;
-=======
->>>>>>> other
 begin
   if FileExists ( afile ) then
     Begin
       l_c_memory_stream:= tMemoryStream.Create;
       p_SetFileToStream(afile,l_c_memory_stream, ab_ShowError);
-<<<<<<< local
       try
         ( field as tBlobField ).LoadFromStream ( l_c_memory_stream );
       Except
@@ -591,17 +576,12 @@ begin
          if ab_ShowError Then
             ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FIELD_IMAGE);
       end;
-      p_SetStreamToImage ( l_c_memory_stream, Image, ab_ShowError );
-=======
       p_SetStreamToField ( l_c_memory_stream, field, ab_ShowError );
->>>>>>> other
       l_c_memory_stream.Free;
     End;
 
 end;
 
-<<<<<<< local
-=======
 // Procédure de transfert d'un champ vers une image
 // field : Le champ image
 // Image : La destination
@@ -618,14 +598,8 @@ begin
 
 end;
 
->>>>>>> other
 procedure p_SetStreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean );
-<<<<<<< local
-var l_c_memory_stream: tMemoryStream;
-    Aimagedata : TImageData;
-=======
 var Aimagedata : TImageData;
->>>>>>> other
 begin
   try
     stream.Position := 0;
