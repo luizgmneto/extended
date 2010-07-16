@@ -41,8 +41,8 @@ uses
   Forms, Dialogs,  Db, StdCtrls, fonctions_variant,
   DBCtrls, u_extcomponent ;
 
-{$IFDEF VERSIONS}
   const
+{$IFDEF VERSIONS}
     gVer_TExtNumEdit : T_Version = ( Component : 'Composant TExtNumEdit' ;
                                                FileUnit : 'U_NumEdits' ;
                                                Owner : 'Matthieu Giroux' ;

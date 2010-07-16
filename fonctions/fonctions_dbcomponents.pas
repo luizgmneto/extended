@@ -856,8 +856,8 @@ Begin
 End ;
 
 
-
+{$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gVer_fonctions_db_components );
-finalization
+{$ENDIF}
 end.

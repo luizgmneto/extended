@@ -41,7 +41,8 @@ Begin
     (aobj_Component as TCustomEdit ).SelectAll;
 End;
 
+{$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gVer_fonctions_components );
-finalization
+{$ENDIF}
 end.

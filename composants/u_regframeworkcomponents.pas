@@ -46,6 +46,8 @@ initialization
   {$i U_ExtDBNavigator.lrs}
   {$i U_DBListView.lrs}
   {$i U_OnFormInfoIni.lrs}
+  {$i U_ExtColorCombos.lrs}
+  {$i U_ExtNumEdits.lrs}
 {$ENDIF}
 end.
 

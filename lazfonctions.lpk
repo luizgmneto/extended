@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1"/>
-    <Files Count="16">
+    <Files Count="15">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -59,33 +59,29 @@
         <UnitName Value="fonctions_variant"/>
       </Item9>
       <Item10>
-        <Filename Value="fonctions/fonctions_version.pas"/>
-        <UnitName Value="fonctions_version"/>
-      </Item10>
-      <Item11>
         <Filename Value="fonctions/fonctions_web.pas"/>
         <UnitName Value="fonctions_web"/>
-      </Item11>
-      <Item12>
+      </Item10>
+      <Item11>
         <Filename Value="fonctions/fonctions_array.pas"/>
         <UnitName Value="fonctions_array"/>
-      </Item12>
-      <Item13>
+      </Item11>
+      <Item12>
         <Filename Value="forms/u_zconnection.lfm"/>
         <Type Value="LFM"/>
-      </Item13>
-      <Item14>
+      </Item12>
+      <Item13>
         <Filename Value="forms/u_zconnection.lrs"/>
         <Type Value="LRS"/>
-      </Item14>
-      <Item15>
+      </Item13>
+      <Item14>
         <Filename Value="forms/u_zconnection.pas"/>
         <UnitName Value="u_zconnection"/>
-      </Item15>
-      <Item16>
+      </Item14>
+      <Item15>
         <Filename Value="fonctions/fonctions_dbcomponents.pas"/>
         <UnitName Value="fonctions_dbcomponents"/>
-      </Item16>
+      </Item15>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="7">

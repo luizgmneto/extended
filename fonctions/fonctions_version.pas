@@ -24,8 +24,7 @@ type T_Version = Record
                     Build   : Integer ;
                   End ;
 
-var gstl_Versioning : TStringList = nil ;
-    gt_Versioning   : array of T_Version ;
+var gt_Versioning   : array of T_Version ;
 
 const
     gVer_fonctions_version : T_Version = ( Component : 'Gestion des versions' ;
@@ -63,10 +62,7 @@ End ;
 Procedure p_ConcatVersion ( const aver_Version : T_Version );
 
 Begin
-  gstl_Versioning.Free ;
-  gstl_Versioning := TStringList.Create ;
   setLength ( gt_Versioning, high ( gt_Versioning ) + 2 );
-  gstl_Versioning.Add ( aver_Version.Component + ' : ' + fs_VersionToText ( aver_Version ) + ' ( ' + aver_Version.FileUnit + ' )' );
   gt_Versioning [ high ( gt_Versioning )].Component := aver_Version.Component ;
   gt_Versioning [ high ( gt_Versioning )].FileUnit      := aver_Version.FileUnit ;
   gt_Versioning [ high ( gt_Versioning )].Owner       := aver_Version.Owner ;
@@ -120,6 +116,5 @@ End ;
 initialization
   p_ConcatVersion ( gVer_fonctions_version );
 finalization
-  gstl_Versioning.Free ;
   Finalize ( gt_Versioning );
 end.

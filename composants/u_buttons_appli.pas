@@ -576,8 +576,8 @@ end;
 
 {$ENDIF}
 
-{$IFDEF VERSIONS}
 initialization
+{$IFDEF VERSIONS}
   p_ConcatVersion ( gVer_buttons_appli  );
 {$ENDIF}
 {$IFDEF FPC}
