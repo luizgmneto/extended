@@ -13,8 +13,24 @@ uses Graphics,
 {$ELSE}
      ExtCtrls,
 {$ENDIF}
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
      DB, DBCtrls,
      Classes;
+
+{$IFDEF VERSIONS}
+  const
+    gVer_TExtDBImage : T_Version = ( Component : 'Composant TExtDBImage' ;
+                                               FileUnit : 'U_ExtDBImage' ;
+                                               Owner : 'Matthieu Giroux' ;
+                                               Comment : 'Gestion d''images de tous types dans les données.' ;
+                                               BugsStory : 'Version 0.9.0.1 : En place, tout n''a pas été testé' + #13#10
+                                                   + '0.9.0.0 : Simple affiche de toute image en données';
+                                               UnitType : 3 ;
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 1 );
+
+{$ENDIF}
 
 type TExtDBImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF} )
      private
@@ -149,4 +165,8 @@ begin
   p_SetImage;
 end;
 
+{$IFDEF VERSIONS}
+initialization
+  p_ConcatVersion ( gVer_TExtDBImage );
+{$ENDIF}
 end.
