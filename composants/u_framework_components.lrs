@@ -1,4 +1,4 @@
-LazarusResources.Add('tfwdbdatedit','XPM',[
+LazarusResources.Add('tfwdbdateedit','XPM',[
   '/* XPM */'#10'static char * tfwdbdatedit_xpm[] = {'#10'"24 22 8 1",'#10'" '#9
   +'c None",'#10'".'#9'c #808080",'#10'"+'#9'c #C0C0C0",'#10'"@'#9'c #FFFFFF",'
   +#10'"#'#9'c #000080",'#10'"$'#9'c #0000FF",'#10'"%'#9'c #000000",'#10'"&'#9
