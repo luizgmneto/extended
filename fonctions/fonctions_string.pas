@@ -25,6 +25,7 @@ const
   function fs_Dos2Win( const aText: string): string;
   function fs_Win2Dos( const aText: string): string;
 {$ENDIF}
+  function fs_EraseFirstDirectory ( const as_Path : String ) :String;
   function fs_EraseSpecialChars( const aText: string): string;
   function fs_getSoftDir : String;
   function fs_ArgConnectString ( const as_connectstring, as_arg: string): string;
@@ -81,6 +82,11 @@ uses LCLType, FileUtil ;
 {$ELSE}
 uses JclStrings ;
 {$ENDIF}
+
+function fs_EraseFirstDirectory ( const as_Path : String ) :String;
+Begin
+  Result := copy ( as_Path, pos ( DirectorySeparator, as_Path ) + 1, length ( as_Path ) - pos ( DirectorySeparator, as_Path ));
+end;
 
 ///////////////////////////////////////////////////////////////////////////////
 //  FONCTIONS de conversion de caractères Dos <=> Windows et vice-versa
