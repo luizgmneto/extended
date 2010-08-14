@@ -1,4 +1,4 @@
-unit U_ExtDBImage;
+﻿unit U_ExtDBImage;
 
 interface
 

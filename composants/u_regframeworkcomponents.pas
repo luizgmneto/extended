@@ -19,7 +19,8 @@ procedure Register;
 
 implementation
 
-uses unite_messages, U_DBListView, U_ExtDBNavigator,u_framework_components,
+uses unite_messages, U_DBListView, U_ExtDBNavigator,
+     u_framework_dbcomponents, u_framework_components,
      U_OnFormInfoIni,U_ExtNumEdits,U_ExtColorCombos,
 {$IFDEF FPC}
      ComponentEditors, dbpropedits, PropEdits,
@@ -30,7 +31,11 @@ uses unite_messages, U_DBListView, U_ExtDBNavigator,u_framework_components,
 
 procedure Register;
 begin
-  RegisterComponents(CST_PALETTE_COMPOSANTS, [TDBListView,TOnFormInfoIni,TExtDBNavigator,TExtNumEdit,TExtDBImage,TExtDBNumEdit,TExtColorCombo,TExtDBColorCombo,TFWDBEdit,TFWDBLookupCombo,TFWDBGrid,TFWLabel,TFWDBMemo,TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF}]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS, [TDBListView,TOnFormInfoIni,TExtDBNavigator,
+                                              TExtNumEdit,TExtDBImage,TExtDBNumEdit,
+                                              TExtColorCombo,TExtDBColorCombo,
+                                              TFWDBEdit,TFWDBLookupCombo,TFWDBGrid,TFWLabel,TFWDBMemo,TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF},
+                                              TFWEdit,TFWGrid,TFWMemo,TFWDateTimePicker]);
 {$IFNDEF FPC}
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', TDataFieldProperty);
 {$ENDIF}

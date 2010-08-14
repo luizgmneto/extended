@@ -19,9 +19,14 @@ interface
 
 uses Windows, Messages, SysUtils, Classes, Graphics, Controls,
      JvScrollBox,
-     Forms, fonctions_version ;
+{$IFDEF VERSIONS}
+  // Gestion de version
+     fonctions_version,
+{$ENDIF}
+     Forms ;
 
-  const
+const
+{$IFDEF VERSIONS}
     gVer_TMCScrollBox : T_Version = ( Component : 'Composant TExtSCrollBox' ;
                                                FileUnit : 'U_ExtScrollBox' ;
                                                Owner : 'Matthieu Giroux' ;
@@ -29,6 +34,7 @@ uses Windows, Messages, SysUtils, Classes, Graphics, Controls,
                                                BugsStory : '1.0.0.0 : Gestion en place.';
                                                UnitType : 3 ;
                                                Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+{$ENDIF}
     CST_MC_NEGATIVE = True ;
     CST_MC_POSITIVE = True ;
     CST_MC_BEFORECOMMA = 42 ;
@@ -61,6 +67,9 @@ Begin
   RegisterComponents ( CST_PALETTE_COMPOSANTS , [TExtSCrollBox] );
 End ;
 
+{$IFDEF VERSIONS}
 initialization
+  // Gestion de version
   p_ConcatVersion ( gVer_TMCScrollBox );
+{$ENDIF}
 end.

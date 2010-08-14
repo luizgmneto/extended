@@ -26,8 +26,12 @@ uses
 {$ENDIF}
         Messages, SysUtils, Classes, Controls,   Dialogs,
       Themes,
-      ComCtrls, Graphics, fonctions_version;
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
+      ComCtrls, Graphics;
 
+{$IFDEF VERSIONS}
   const
     gVer_TExtPageControl : T_Version = ( Component : 'Composant TExtPageControl' ;
                                                FileUnit : 'U_ExtPageControl' ;
@@ -37,6 +41,7 @@ uses
                                                          + '1.0.0.0 : PageControl avec gestion de couleurs.'  ;
                                                UnitType : 3 ;
                                                Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
+{$ENDIF}
 
 
 type
@@ -205,7 +210,9 @@ begin
   Message.Result := 1;
 end;
 
+{$IFDEF VERSIONS}
 initialization
   // Gestion de version
   p_ConcatVersion ( gVer_TExtPageControl );
+{$ENDIF}
 end.

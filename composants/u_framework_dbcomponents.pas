@@ -1,4 +1,4 @@
-﻿unit u_framework_components;
+﻿unit u_framework_dbcomponents;
 
 {$I ..\Compilers.inc}
 {$I ..\extends.inc}
@@ -12,46 +12,50 @@ uses
 {$IFDEF FPC}
    LCLIntf, LCLType,
    SQLDB, lmessages,
-   RxGrid,
+   RxDBGrid,
    dbdateedit,
 {$ELSE}
    Windows, Mask, DBTables, ActnMan,
 {$ENDIF}
 {$IFDEF JEDI}
-  JvDateTimePicker,
+  JvDBGrid,JvDBLookup,jvDBUltimGrid, jvDBControls, JvDBDateTimePicker,
 {$ENDIF}
 {$IFDEF RX}
   RxLookup,
+{$ENDIF}
+{$IFDEF EXRX}
+  ExRXDBGrid,
+{$ELSE}
+  DB,
 {$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
   Graphics, Controls, Classes, ExtCtrls, Dialogs, Messages,
   Buttons, Forms, DBCtrls,
-  ComCtrls, StdCtrls, SysUtils,
+  DBGrids, ComCtrls, StdCtrls, SysUtils,
   TypInfo, Variants, u_extcomponent,
 {$IFDEF TNT}
-   TntGrids, TntStdCtrls, 
+   TntDBGrids, TntStdCtrls, TntDBCtrls,
 {$ENDIF}
-  Grids,fonctions_erreurs;
+  fonctions_erreurs, u_framework_components;
 
 {$IFDEF VERSIONS}
 const
-    gVer_framework_components : T_Version = ( Component : 'Composants d''interactivité' ;
-                                               FileUnit : 'u_framework_components' ;
+    gVer_framework_DBcomponents : T_Version = ( Component : 'Composants d''interactivité de données' ;
+                                               FileUnit : 'u_framework_dbcomponents' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Composants d''interactivité de U_CustomFrameWork.' ;
-                                               BugsStory : '0.8.0.0 : Gestion à tester.';
+                                               BugsStory : '0.9.0.0 : Création à partir de u_framework_components.';
                                                UnitType : 3 ;
                                                Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
 type
 
-   TFWLabel = class ;
-{ TFWEdit }
+{ TFWDBEdit }
 
-   TFWEdit = class ( {$IFDEF TNT}TTntEdit{$ELSE}TEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
+   TFWDBEdit = class ( {$IFDEF TNT}TTntDBEdit{$ELSE}TDBEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FLabel : TFWLabel ;
@@ -83,7 +87,7 @@ type
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
      End;
 
-   TFWDateTimePicker = class ( TDateTimePicker, IFWComponent, IFWComponentEdit )
+   TFWDBDateEdit = class ( {$IFDEF FPC}TDBDateEdit{$ELSE}TJvDBDateEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FLabel : TFWLabel ;
@@ -114,32 +118,79 @@ type
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
      End;
+
+{$IFNDEF FPC}
+
+   TFWDBDateTimePicker = class ( TJvDBDateTimePicker, IFWComponent, IFWComponentEdit )
+      private
+       FBeforeEnter, FBeforeExit : TNotifyEvent;
+       FLabel : TFWLabel ;
+       FOldColor ,
+       FColorFocus ,
+       FColorReadOnly,
+       FColorEdit ,
+       FColorLabel : TColor;
+       FAlwaysSame : Boolean;
+       FNotifyOrder : TNotifyEvent;
+       procedure p_setLabel ( const alab_Label : TFWLabel );
+       procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
+      public
+
+       constructor Create ( AOwner : TComponent ); override;
+       procedure DoEnter; override;
+       procedure DoExit; override;
+       procedure Loaded; override;
+       procedure SetOrder ; virtual;
+      published
+       property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
+       property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
+       property ColorLabel : TColor read FColorLabel write FColorLabel default CST_LBL_SELECT ;
+       property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
+       property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
+       property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
+       property MyLabel : TFWLabel read FLabel write p_setLabel;
+       property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
+       property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
+     End;
+
+{$ENDIF}
 
    { TFWLabel }
-
-   TFWLabel = class ( {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF}, IFWComponent )
+   TFWDBLookupCombo = class ( {$IFDEF JEDI}TJvDBLookupCombo{$ELSE}{$IFDEF FPC}TDBLookupComboBox{$ELSE}{$IFDEF RX}TRxDBLookupCombo{$ELSE}TDBLookupComboBox{$ENDIF}{$ENDIF}{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
+       FBeforeEnter, FBeforeExit : TNotifyEvent;
+       FLabel : TFWLabel ;
+       FOldColor ,
+       FColorReadOnly,
        FColorFocus ,
-       FOldColor   : TColor;
+       FColorEdit ,
+       FColorLabel : TColor;
        FAlwaysSame : Boolean;
-       FEditComponent : TControl;
-       procedure CMMouseEnter(var Message: TMessage); message {$IFDEF FPC}LM_MOUSEENTER{$ELSE}CM_MOUSEENTER{$ENDIF};
-       procedure CMMouseLeave(var Message: TMessage); message {$IFDEF FPC}LM_MOUSELEAVE{$ELSE}CM_MOUSELEAVE{$ENDIF};
+       FNotifyOrder : TNotifyEvent;
+       procedure p_setLabel ( const alab_Label : TFWLabel );
+       procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       public
 
-       procedure Loaded; override;
        constructor Create ( AOwner : TComponent ); override;
-       procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,
-         Y: Integer); override;
+       procedure DoEnter; override;
+       procedure DoExit; override;
+       procedure Loaded; override;
+       procedure SetOrder ; virtual;
       published
-       property ColorFocus : TColor read FColorFocus write FColorFocus default CST_LBL_ACTIVE ;
-       property OldColor   : TColor read FOldColor stored False default CST_LBL_STD ;
+       property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
+       property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
+       property ColorLabel : TColor read FColorLabel write FColorLabel default CST_LBL_SELECT ;
+       property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
+       property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
+       property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
+       property MyLabel : TFWLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
-       property MyEdit : TControl read FEditComponent write FEditComponent stored false;
+       property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
      End;
+
    { TFWDBGrid }
 
-   TFWGrid = class ( {$IFDEF TNT}TTntStringGrid{$ELSE}TDBStringGrid{$ENDIF}, IFWComponent )
+   TFWDBGrid = class ( {$IFDEF TNT}TTntDBGrid{$ELSE}{$IFDEF EXRX}TExRxDBGrid{$ELSE}{$IFDEF JEDI}TJvDBUltimGrid{$ELSE}TRXDBGrid{$ENDIF}{$ENDIF}{$ENDIF}, IFWComponent )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FColorEdit     ,
@@ -155,6 +206,12 @@ type
        procedure DoEnter; override;
        procedure DoExit; override;
        procedure Loaded; override;
+       procedure KeyUp(var ach_Key: Word; ashi_Shift: TShiftState); override;
+       {$IFDEF EXRX}
+       procedure TitleClick(Column: TColumn); override;
+       {$ELSE}
+       procedure DoTitleClick(ACol: Longint; AField: TField); override;
+       {$ENDIF}
        property FieldsTags [ Index : Longint ] : Integer read fi_getFieldTags write p_setFieldTags;
       published
        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
@@ -165,7 +222,7 @@ type
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
      End;
 
-   TFWMemo = class ( TMemo, IFWComponent, IFWComponentEdit )
+   TFWDBMemo = class ( TDBMemo, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FLabel : TFWLabel ;
@@ -204,9 +261,9 @@ uses fonctions_db;
 
 
 
-{ TFWEdit }
+{ TFWDBEdit }
 
-procedure TFWEdit.p_setLabel(const alab_Label: TFWLabel);
+procedure TFWDBEdit.p_setLabel(const alab_Label: TFWLabel);
 begin
   if alab_Label <> FLabel Then
     Begin
@@ -215,13 +272,13 @@ begin
     End;
 end;
 
-procedure TFWEdit.SetOrder;
+procedure TFWDBEdit.SetOrder;
 begin
   if assigned ( FNotifyOrder ) then
     FNotifyOrder ( Self );
 end;
 
-constructor TFWEdit.Create(AOwner: TComponent);
+constructor TFWDBEdit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FAlwaysSame := True;
@@ -231,7 +288,7 @@ begin
   FColorReadOnly := CST_EDIT_READ;
 end;
 
-procedure TFWEdit.DoEnter;
+procedure TFWDBEdit.DoEnter;
 begin
   if assigned ( FBeforeEnter ) Then
     FBeforeEnter ( Self );
@@ -243,7 +300,7 @@ begin
   inherited DoEnter;
 end;
 
-procedure TFWEdit.DoExit;
+procedure TFWDBEdit.DoExit;
 begin
   if assigned ( FBeforeExit ) Then
     FBeforeExit ( Self );
@@ -253,7 +310,7 @@ begin
 
 end;
 
-procedure TFWEdit.Loaded;
+procedure TFWDBEdit.Loaded;
 begin
   inherited Loaded;
   FOldColor := Color;
@@ -262,16 +319,16 @@ begin
     Color := gCol_Edit ;
 end;
 
-procedure TFWEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
+procedure TFWDBEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
 Begin
   p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
   inherited;
 End;
 
 {$IFNDEF FPC}
-{ TFWDateTimePicker }
+{ TFWDBDateTimePicker }
 
-procedure TFWDateTimePicker.p_setLabel(const alab_Label: TFWLabel);
+procedure TFWDBDateTimePicker.p_setLabel(const alab_Label: TFWLabel);
 begin
   if alab_Label <> FLabel Then
     Begin
@@ -280,13 +337,13 @@ begin
     End;
 end;
 
-procedure TFWDateTimePicker.SetOrder;
+procedure TFWDBDateTimePicker.SetOrder;
 begin
   if assigned ( FNotifyOrder ) then
     FNotifyOrder ( Self );
 end;
 
-constructor TFWDateTimePicker.Create(AOwner: TComponent);
+constructor TFWDBDateTimePicker.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FAlwaysSame := True;
@@ -296,7 +353,7 @@ begin
   FColorReadOnly := CST_EDIT_READ;
 end;
 
-procedure TFWDateTimePicker.DoEnter;
+procedure TFWDBDateTimePicker.DoEnter;
 begin
   if assigned ( FBeforeEnter ) Then
     FBeforeEnter ( Self );
@@ -308,7 +365,7 @@ begin
   inherited DoEnter;
 end;
 
-procedure TFWDateTimePicker.DoExit;
+procedure TFWDBDateTimePicker.DoExit;
 begin
   if assigned ( FBeforeExit ) Then
     FBeforeExit ( Self );
@@ -318,7 +375,7 @@ begin
 
 end;
 
-procedure TFWDateTimePicker.Loaded;
+procedure TFWDBDateTimePicker.Loaded;
 begin
   inherited Loaded;
   FOldColor := Color;
@@ -327,64 +384,146 @@ begin
     Color := gCol_Edit ;
 end;
 
-procedure TFWDateTimePicker.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
+procedure TFWDBDateTimePicker.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
 Begin
-  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, Enabled );
+  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
   inherited;
 End;
 
 {$ENDIF}
 
+{ TFWDBDateEdit }
 
-{ TFWLabel }
-
-procedure TFWLabel.Loaded;
+procedure TFWDBDateEdit.p_setLabel(const alab_Label: TFWLabel);
 begin
-  inherited Loaded;
-  FOldColor:=Font.Color;
-  if  FAlwaysSame
-   Then
-    Font.Color := gCol_Label ;
+  if alab_Label <> FLabel Then
+    Begin
+      FLabel := alab_Label;
+      FLabel.MyEdit := Self;
+    End;
 end;
 
-constructor TFWLabel.Create(AOwner: TComponent);
+procedure TFWDBDateEdit.SetOrder;
+begin
+  if assigned ( FNotifyOrder ) then
+    FNotifyOrder ( Self );
+end;
+
+constructor TFWDBDateEdit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FAlwaysSame := True;
-  FColorFocus := CST_LBL_SELECT;
+  FColorLabel := CST_LBL_SELECT;
+  FColorEdit  := CST_EDIT_STD;
+  FColorFocus := CST_EDIT_SELECT;
+  FColorReadOnly := CST_EDIT_READ;
 end;
 
-procedure TFWLabel.CMMouseEnter(var Message: TMessage);
+procedure TFWDBDateEdit.DoEnter;
 begin
-  if FAlwaysSame
+  if assigned ( FBeforeEnter ) Then
+    FBeforeEnter ( Self );
+  // Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
+  // avec la souris => cas de tri)
+  p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
+  p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
+  inherited DoEnter;
+end;
+
+procedure TFWDBDateEdit.DoExit;
+begin
+  if assigned ( FBeforeExit ) Then
+    FBeforeExit ( Self );
+  inherited DoExit;
+  p_setLabelColorExit ( FLabel, FAlwaysSame );
+  p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
+
+end;
+
+procedure TFWDBDateEdit.Loaded;
+begin
+  inherited Loaded;
+  FOldColor := Color;
+  if  FAlwaysSame
    Then
-    Font.Color := gCol_LabelActive
-   Else
-    Font.Color := FColorFocus;
-  Cursor := crHandPoint;
-  inherited;
+    Color := gCol_Edit ;
 end;
 
-procedure TFWLabel.CMMouseLeave(var Message: TMessage);
+procedure TFWDBDateEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
+Begin
+  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
+  inherited;
+End;
+
+{ TFWDBLookupCombo }
+
+procedure TFWDBLookupCombo.p_setLabel(const alab_Label: TFWLabel);
 begin
-  Cursor := crDefault;
-  if FAlwaysSame
+  if alab_Label <> FLabel Then
+    Begin
+      FLabel := alab_Label;
+      FLabel.MyEdit := Self;
+    End;
+end;
+
+procedure TFWDBLookupCombo.SetOrder;
+begin
+  if assigned ( FNotifyOrder ) then
+    FNotifyOrder ( Self );
+end;
+
+constructor TFWDBLookupCombo.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FAlwaysSame := True;
+  FColorLabel := CST_LBL_SELECT;
+  FColorEdit  := CST_EDIT_STD;
+  FColorFocus := CST_EDIT_SELECT;
+  FColorReadOnly := CST_EDIT_READ;
+end;
+
+procedure TFWDBLookupCombo.DoEnter;
+begin
+  if assigned ( FBeforeEnter ) Then
+    FBeforeEnter ( Self );
+  // Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
+  // avec la souris => cas de tri)
+  p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
+  p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
+  inherited DoEnter;
+end;
+
+procedure TFWDBLookupCombo.DoExit;
+begin
+  if assigned ( FBeforeExit ) Then
+    FBeforeExit ( Self );
+  inherited DoExit;
+  p_setLabelColorExit ( FLabel, FAlwaysSame );
+  p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
+
+end;
+
+procedure TFWDBLookupCombo.Loaded;
+begin
+  inherited Loaded;
+  FOldColor := Color;
+  if  FAlwaysSame
    Then
-    Font.Color := gCol_Label
-   Else
-    Font.Color := FOldColor;
-  inherited;
+    Color := gCol_Edit ;
 end;
 
-procedure TFWLabel.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  inherited MouseDown(Button, Shift, X, Y);
-end;
+procedure TFWDBLookupCombo.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
+Begin
+  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
+  inherited;
+End;
+
 
 { TFWDBGrid }
 
-constructor TFWGrid.Create(AOwner: TComponent);
+constructor TFWDBGrid.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FAlwaysSame := True;
@@ -392,7 +531,7 @@ begin
   FColorEdit  := CST_GRILLE_STD;
 end;
 
-procedure TFWGrid.Loaded;
+procedure TFWDBGrid.Loaded;
 begin
   inherited Loaded;
   FOldFixedColor := FixedColor;
@@ -401,14 +540,14 @@ begin
     FixedColor := gCol_Grid ;
 End;
 
-procedure TFWGrid.p_setFieldTags( li_i:Longint; const a_value: Integer);
+procedure TFWDBGrid.p_setFieldTags( li_i:Longint; const a_value: Integer);
 begin
   if li_i > high ( FFieldsTags ) then
    Setlength ( FFieldsTags, li_i + 1 );
   FFieldsTags [ li_i ] := a_value;
 end;
 
-function TFWGrid.fi_getFieldTags( li_i: Longint): Integer;
+function TFWDBGrid.fi_getFieldTags( li_i: Longint): Integer;
 begin
   Result := -1 ;
   if li_i < high ( FFieldsTags ) then
@@ -417,7 +556,20 @@ begin
 end;
 
 
-procedure TFWGrid.DoEnter;
+procedure TFWDBGrid.KeyUp(var ach_Key: Word; ashi_Shift: TShiftState);
+begin
+  if  ( ach_Key = VK_DELETE )
+  and ( ashi_Shift = [ssCtrl] )
+  and assigned ( DataSource )
+  and assigned ( Datasource.DataSet ) Then
+    Begin
+      Datasource.DataSet.Delete;
+      ach_Key := 0 ;
+    End;
+  inherited KeyUp(ach_Key, ashi_Shift);
+end;
+
+procedure TFWDBGrid.DoEnter;
 begin
   if assigned ( FBeforeEnter ) Then
     FBeforeEnter ( Self );
@@ -430,7 +582,7 @@ begin
   inherited DoEnter;
 end;
 
-procedure TFWGrid.DoExit;
+procedure TFWDBGrid.DoExit;
 begin
   if assigned ( FBeforeExit ) Then
     FBeforeExit ( Self );
@@ -443,10 +595,32 @@ begin
     FixedColor := FOldFixedColor ;
 end;
 
+ // Gestion du click sur le titre
+{$IFDEF EXRX}
+procedure TFWDBGrid.TitleClick(Column: TColumn);
+{$ELSE}
+procedure TFWDBGrid.DoTitleClick(ACol: Longint; AField: TField);
+{$ENDIF}
 
-{ TFWMemo }
+var li_Tag , li_i : Integer ;
+begin
+  // Phase d'initialisation
+ li_Tag := FieldsTags [ {$IFDEF EXRX} Column.Index {$ELSE}ACol{$ENDIF} ];
+ if li_tag <> -1 then
+   for li_i :=0 to ComponentCount -1 do
+      if  ( li_Tag = Components [ li_i ].Tag )
+      and Supports( Components [ li_i ], IFWComponentEdit )
+      and ( Components [ li_i ] as TWinControl ).Visible  Then
+        Begin
+          ( Components [ li_i ] as IFWComponentEdit).SetOrder;
+        End ;
+  SetFocus;
+end;
 
-procedure TFWMemo.p_setLabel(const alab_Label: TFWLabel);
+
+{ TFWDBMemo }
+
+procedure TFWDBMemo.p_setLabel(const alab_Label: TFWLabel);
 begin
   if alab_Label <> FLabel Then
     Begin
@@ -455,13 +629,13 @@ begin
     End;
 end;
 
-procedure TFWMemo.SetOrder;
+procedure TFWDBMemo.SetOrder;
 begin
   if assigned ( FNotifyOrder ) then
     FNotifyOrder ( Self );
 end;
 
-constructor TFWMemo.Create(AOwner: TComponent);
+constructor TFWDBMemo.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FAlwaysSame := True;
@@ -471,7 +645,7 @@ begin
   FColorReadOnly := CST_EDIT_READ;
 end;
 
-procedure TFWMemo.DoEnter;
+procedure TFWDBMemo.DoEnter;
 begin
   if assigned ( FBeforeEnter ) Then
     FBeforeEnter ( Self );
@@ -483,7 +657,7 @@ begin
   inherited DoEnter;
 end;
 
-procedure TFWMemo.DoExit;
+procedure TFWDBMemo.DoExit;
 begin
   if assigned ( FBeforeExit ) Then
     FBeforeExit ( Self );
@@ -493,7 +667,7 @@ begin
 
 end;
 
-procedure TFWMemo.Loaded;
+procedure TFWDBMemo.Loaded;
 begin
   inherited Loaded;
   FOldColor := Color;
@@ -502,7 +676,7 @@ begin
     Color := gCol_Edit ;
 end;
 
-procedure TFWMemo.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
+procedure TFWDBMemo.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
 Begin
   p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
   inherited;
@@ -512,7 +686,7 @@ End;
 {$IFDEF VERSIONS}
 initialization
   // Gestion de version
-  p_ConcatVersion(gVer_framework_components);
+  p_ConcatVersion(gVer_framework_DBcomponents);
 {$ENDIF}
 end.
 

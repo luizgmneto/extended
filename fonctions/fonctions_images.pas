@@ -540,7 +540,6 @@ End ;
 // Image : La destination
 procedure p_SetFieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean );
 var l_c_memory_stream: tMemoryStream;
-    Aimagedata : TImageData;
 begin
   if not ( field.IsNull ) then
     Begin
@@ -563,7 +562,6 @@ end;
 // Image : La destination
 procedure p_SetImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean );
 var l_c_memory_stream: tMemoryStream;
-    Aimagedata : TImageData;
 begin
   if FileExists ( afile ) then
     Begin
@@ -660,8 +658,8 @@ begin
 end;
 
 
-initialization
 {$IFDEF VERSIONS}
+initialization
   p_ConcatVersion ( gVer_fonctions_images );
 {$ENDIF}
 end.
