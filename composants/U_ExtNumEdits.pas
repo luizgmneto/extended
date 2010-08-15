@@ -71,6 +71,8 @@ type
 
   TExtNumEdit   = class(TCustomMaskEdit, IFWComponent, IFWComponentEdit)
   private
+    FCanvas: TControlCanvas;
+    FFocused: Boolean;
     FAlwaysSame: Boolean;
     FBeforeEnter: TnotifyEvent;
     FBeforeExit: TnotifyEvent;
@@ -85,6 +87,7 @@ type
    procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
   protected
     gre_AValue: Extended ;
+    FAlignment: TAlignment;
     gby_NbAvVirgule ,
     gby_NbApVirgule : Byte ;
     gb_Negatif   ,
@@ -98,6 +101,8 @@ type
     procedure KeyPress(var Key: Char); override;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure p_SetValue ( AValue : Extended ); virtual;
+    procedure SetFocused(AValue: Boolean); virtual;
+    function GetTextMargins: TPoint;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -109,7 +114,8 @@ type
   published
     property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
     property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
-    property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;         property Value : Extended read gre_AValue write p_SetValue stored True ;
+    property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
+    property Value : Extended read gre_AValue write p_SetValue stored True ;
     property NbPositive : Boolean read gb_Positif write gb_Positif stored True default CST_MC_POSITIVE ;
     property NbNegative : Boolean read gb_Negatif write gb_Negatif stored True default CST_MC_NEGATIVE ;
     property NbBeforeComma : Byte read gby_NbAvVirgule write gby_NbAvVirgule stored True default CST_MC_BEFORECOMMA;
@@ -188,20 +194,15 @@ type
 
   TExtDBNumEdit = class(TExtNumEdit, IFWComponent, IFWComponentEdit)
   private
-    FCanvas: TControlCanvas;
-    FAlignment: TAlignment;
-    FFocused: Boolean;
     procedure ActiveChange(Sender: TObject);
     procedure DataChange(Sender: TObject);
     procedure EditingChange(Sender: TObject);
     function GetDataField: string;
     function GetDataSource: TDataSource;
     function GetField: TField;
-    function GetTextMargins: TPoint;
     procedure ResetMaxLength;
     procedure SetDataField(const AValue: string);
     procedure SetDataSource(AValue: TDataSource);
-    procedure SetFocused(AValue: Boolean);
     procedure UpdateData(Sender: TObject);
     procedure WMCut(var Message: TMessage); message {$IFDEF FPC} LM_CUT {$ELSE} WM_CUT {$ENDIF};
     procedure WMPaste(var Message: TMessage); message {$IFDEF FPC} LM_PASTE {$ELSE} WM_PASTE {$ENDIF};
@@ -218,12 +219,12 @@ type
     procedure CMEnter(var Message: TCMEnter); message CM_ENTER;
     procedure CMExit(var Message: TCMExit); message CM_EXIT;
 {$ENDIF}
-    procedure WMPaint(var Message: {$IFDEF FPC} TLMPaint {$ELSE} TWMPaint {$ENDIF}); message {$IFDEF FPC} LM_PAINT {$ELSE} WM_PAINT {$ENDIF};
     procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
    protected
 {$IFDEF FPC}
     procedure SetReadOnly(AValue: Boolean); override;
 {$ENDIF}
+    procedure SetFocused(AValue: Boolean); override;
     procedure p_SetValue ( AValue : Extended ); override ;
     procedure Change; override;
     function EditCanModify: Boolean; override;
@@ -236,7 +237,6 @@ type
    public
     procedure Loaded; override;
     constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
     function ExecuteAction(AAction: TBasicAction): Boolean; override;
     function UpdateAction(AAction: TBasicAction): Boolean; override;
     function UseRightToLeftAlignment: Boolean; override;
@@ -281,11 +281,6 @@ begin
   FDataLink.OnActiveChange := ActiveChange;
 end;
 
-destructor TExtDBNumEdit.Destroy;
-begin
-  FCanvas.Free;
-  inherited Destroy;
-end;
 
 procedure TExtDBNumEdit.Loaded;
 begin
@@ -362,16 +357,6 @@ begin
   SelectAll;
 end;
 
-procedure TExtDBNumEdit.SetFocused(AValue: Boolean);
-begin
-  if FFocused <> AValue then
-  begin
-    FFocused := AValue;
-    if (FAlignment <> taLeftJustify) and not IsMasked then Invalidate;
-    FDataLink.Reset;
-  end;
-end;
-
 procedure TExtDBNumEdit.Change;
 begin
   if assigned ( FDataLink.Field ) Then
@@ -393,6 +378,12 @@ begin
   if not (FDataLink.DataSourceFixed and (csLoading in ComponentState)) then
     FDataLink.DataSource := AValue;
   if AValue <> nil then AValue.FreeNotification(Self);
+end;
+
+procedure TExtDBNumEdit.SetFocused(AValue: Boolean);
+begin
+  inherited SetFocused(AValue);
+  FDataLink.Reset;
 end;
 
 function TExtDBNumEdit.GetDataField: string;
@@ -550,7 +541,198 @@ end;
 
 
 
-procedure TExtDBNumEdit.WMPaint(var Message: {$IFDEF FPC} TLMPaint {$ELSE} TWMPaint {$ENDIF});
+procedure TExtDBNumEdit.CMGetDataLink(var Message: TMessage);
+begin
+  Message.Result := Integer(FDataLink);
+end;
+
+function TExtDBNumEdit.ExecuteAction(AAction: TBasicAction): Boolean;
+begin
+  Result := inherited ExecuteAction(AAction) or (FDataLink <> nil)
+    {$IFDEF DELPHI}
+   and FDataLink.ExecuteAction(AAction)
+    {$ENDIF};
+end;
+
+function TExtDBNumEdit.UpdateAction(AAction: TBasicAction): Boolean;
+begin
+  Result := inherited UpdateAction(AAction) or (FDataLink <> nil)
+    {$IFDEF DELPHI}
+    and FDataLink.UpdateAction(AAction)
+    {$ENDIF};
+end;
+
+procedure TExtDBNumEdit.p_SetValue(AValue: Extended);
+begin
+  if AValue <> gre_AValue Then
+    Begin
+      gre_AValue := AValue ;
+      if assigned ( FDataLink.Field ) Then
+        Begin
+          FDataLink.DataSet.Edit ;
+          FDataLink.Field.Value := gre_AValue ;
+        End
+      Else
+        Text := FloatToStr ( gre_AValue );
+    End ;
+
+end;
+
+
+{ TExtNumEdit }
+
+constructor TExtNumEdit.Create(AOwner: TComponent);
+begin
+  inherited;
+  FAlwaysSame := True;
+  FDataLink := TFieldDataLink.Create;
+  gby_NbAvVirgule := CST_MC_BEFORECOMMA ;
+  gby_NbApVirgule := CST_MC_AFTERCOMMA ;
+  gb_Negatif   := CST_MC_NEGATIVE ;
+  gb_Positif   := CST_MC_POSITIVE ;
+  FColorReadOnly := CST_EDIT_READ;
+  FColorLabel := CST_LBL_SELECT;
+  FColorEdit  := CST_EDIT_STD;
+  FColorFocus := CST_EDIT_SELECT;
+  FMin := 0;
+  FMax := 0;
+  FHasMin := false;
+  FHasMax := false;
+
+end;
+
+function TExtNumEdit.GetTextMargins: TPoint;
+var
+  DC: HDC;
+  SaveFont: HFont;
+  I: Integer;
+  SysMetrics, Metrics: TTextMetric;
+begin
+  if NewStyleControls then
+  begin
+    if BorderStyle = bsNone then I := 0 else
+      {$IFNDEF FPC} if Ctl3D then I := 1 else{$ENDIF} I := 2;
+
+    {$IFDEF DELPHI}
+    Result.X := SendMessage(Handle, EM_GETMARGINS, 0, 0) and $0000FFFF + I;
+    {$ENDIF}
+    Result.Y := I;
+  end else
+  begin
+    if BorderStyle = bsNone then I := 0 else
+    begin
+      DC := GetDC(0);
+      GetTextMetrics(DC, SysMetrics);
+      SaveFont := SelectObject(DC, Font.Handle);
+      GetTextMetrics(DC, Metrics);
+      SelectObject(DC, SaveFont);
+      ReleaseDC(0, DC);
+      I := SysMetrics.tmHeight;
+      if I > Metrics.tmHeight then I := Metrics.tmHeight;
+      I := I div 4;
+    end;
+    Result.X := I;
+    Result.Y := I;
+  end;
+end;
+
+
+destructor TExtNumEdit.Destroy;
+begin
+  FCanvas.Free;
+  FDataLink.Free;
+  FDataLink := nil;
+  inherited;
+end;
+
+procedure TExtNumEdit.DoEnter;
+begin
+  if assigned ( FBeforeEnter ) Then
+    FBeforeEnter ( Self );
+  // Si on arrive sur une zone de saisie, on met en valeur son {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} par une couleur
+  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
+  // avec la souris => cas de tri)
+  p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
+  p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
+  inherited DoEnter;
+end;
+
+procedure TExtNumEdit.SetFocused(AValue: Boolean);
+begin
+  if FFocused <> AValue then
+  begin
+    FFocused := AValue;
+    if (FAlignment <> taLeftJustify) and not IsMasked then Invalidate;
+  end;
+end;
+
+
+procedure TExtNumEdit.DoExit;
+begin
+  if assigned ( FBeforeExit ) Then
+    FBeforeExit ( Self );
+  inherited DoExit;
+  p_setLabelColorExit ( FLabel, FAlwaysSame );
+  p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
+end;
+
+function TExtNumEdit.GetText: TCaption;
+var
+  Len: Integer;
+begin
+  Len := GetTextLen;
+  SetString(Result, PChar(nil), Len);
+  if Len <> 0 then GetTextBuf(Pointer(Result), Len + 1);
+
+end;
+
+procedure TExtNumEdit.KeyPress(var Key: Char);
+begin
+  p_editGridKeyPress ( Self, Key,gby_NbApVirgule, gby_NbAvVirgule, gb_Negatif, SelStart, Text, SelText, FDataLink.Field );
+
+  if  ( FHasMax )
+  and ( Value > FMax )  then
+    Begin
+      Value := FMax ;
+    End;
+
+  if  ( FHasMin )
+  and ( Value < FMin )  then
+    Begin
+      Value := FMin ;
+    End;
+
+  inherited;
+
+end;
+
+procedure TExtNumEdit.KeyUp(var Key: Word; Shift: TShiftState);
+begin
+  p_editKeyUp ( Self, FDataLink.Field, Key,gby_NbApVirgule, gby_NbAvVirgule, gb_Negatif, Text );
+  try
+    if  ( Text <> '' )
+    and ( Text <> '+' )
+    and ( Text <> '-' ) Then
+      gre_AValue := StrToFloat ( fs_remplaceEspace ( Text, '' ))
+    Else
+      gre_AValue := 0 ;
+  Except
+  End ;
+  inherited;
+
+end;
+
+procedure TExtNumEdit.p_SetValue(AValue: Extended);
+begin
+  if AValue <> gre_AValue Then
+    Begin
+      gre_AValue := AValue ;
+      Text := FloatToStr ( gre_AValue );
+    End ;
+
+end;
+
+procedure TExtNumEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
 const
   AlignStyle : array[Boolean, TAlignment] of DWORD =
    ((WS_EX_LEFT, WS_EX_RIGHT, WS_EX_LEFT),
@@ -565,6 +747,7 @@ var
   AAlignment: TAlignment;
   ExStyle: DWORD;
 begin
+  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
   AAlignment := FAlignment;
   if UseRightToLeftAlignment then ChangeBiDiModeAlignment(AAlignment);
   if ((AAlignment = taLeftJustify) or FFocused) and
@@ -635,190 +818,6 @@ begin
     FCanvas.Handle := 0;
     if Message.DC = 0 then EndPaint(Handle, PS);
   end;
-end;
-
-procedure TExtDBNumEdit.CMGetDataLink(var Message: TMessage);
-begin
-  Message.Result := Integer(FDataLink);
-end;
-
-function TExtDBNumEdit.GetTextMargins: TPoint;
-var
-  DC: HDC;
-  SaveFont: HFont;
-  I: Integer;
-  SysMetrics, Metrics: TTextMetric;
-begin
-  if NewStyleControls then
-  begin
-    if BorderStyle = bsNone then I := 0 else
-      {$IFNDEF FPC} if Ctl3D then I := 1 else{$ENDIF} I := 2;
-
-    {$IFDEF DELPHI}
-    Result.X := SendMessage(Handle, EM_GETMARGINS, 0, 0) and $0000FFFF + I;
-    {$ENDIF}
-    Result.Y := I;
-  end else
-  begin
-    if BorderStyle = bsNone then I := 0 else
-    begin
-      DC := GetDC(0);
-      GetTextMetrics(DC, SysMetrics);
-      SaveFont := SelectObject(DC, Font.Handle);
-      GetTextMetrics(DC, Metrics);
-      SelectObject(DC, SaveFont);
-      ReleaseDC(0, DC);
-      I := SysMetrics.tmHeight;
-      if I > Metrics.tmHeight then I := Metrics.tmHeight;
-      I := I div 4;
-    end;
-    Result.X := I;
-    Result.Y := I;
-  end;
-end;
-
-function TExtDBNumEdit.ExecuteAction(AAction: TBasicAction): Boolean;
-begin
-  Result := inherited ExecuteAction(AAction) or (FDataLink <> nil)
-    {$IFDEF DELPHI}
-   and FDataLink.ExecuteAction(AAction)
-    {$ENDIF};
-end;
-
-function TExtDBNumEdit.UpdateAction(AAction: TBasicAction): Boolean;
-begin
-  Result := inherited UpdateAction(AAction) or (FDataLink <> nil)
-    {$IFDEF DELPHI}
-    and FDataLink.UpdateAction(AAction)
-    {$ENDIF};
-end;
-
-procedure TExtDBNumEdit.p_SetValue(AValue: Extended);
-begin
-  if AValue <> gre_AValue Then
-    Begin
-      gre_AValue := AValue ;
-      if assigned ( FDataLink.Field ) Then
-        Begin
-          FDataLink.DataSet.Edit ;
-          FDataLink.Field.Value := gre_AValue ;
-        End
-      Else
-        Text := FloatToStr ( gre_AValue );
-    End ;
-
-end;
-
-
-{ TExtNumEdit }
-
-constructor TExtNumEdit.Create(AOwner: TComponent);
-begin
-  FDataLink := TFieldDataLink.Create;
-  gby_NbAvVirgule := CST_MC_BEFORECOMMA ;
-  gby_NbApVirgule := CST_MC_AFTERCOMMA ;
-  gb_Negatif   := CST_MC_NEGATIVE ;
-  gb_Positif   := CST_MC_POSITIVE ;
-  inherited;
-  FColorReadOnly := CST_EDIT_READ;
-  FColorLabel := CST_LBL_SELECT;
-  FColorEdit  := CST_EDIT_STD;
-  FColorFocus := CST_EDIT_SELECT;
-  FMin := 0;
-  FMax := 0;
-  FHasMin := false;
-  FHasMax := false;
-
-end;
-
-destructor TExtNumEdit.Destroy;
-begin
-  FDataLink.Free;
-  FDataLink := nil;
-  inherited;
-end;
-
-procedure TExtNumEdit.DoEnter;
-begin
-  if assigned ( FBeforeEnter ) Then
-    FBeforeEnter ( Self );
-  // Si on arrive sur une zone de saisie, on met en valeur son {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} par une couleur
-  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
-  // avec la souris => cas de tri)
-  p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
-  p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
-  inherited DoEnter;
-end;
-
-procedure TExtNumEdit.DoExit;
-begin
-  if assigned ( FBeforeExit ) Then
-    FBeforeExit ( Self );
-  inherited DoExit;
-  p_setLabelColorExit ( FLabel, FAlwaysSame );
-  p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
-end;
-
-function TExtNumEdit.GetText: TCaption;
-var
-  Len: Integer;
-begin
-  Len := GetTextLen;
-  SetString(Result, PChar(nil), Len);
-  if Len <> 0 then GetTextBuf(Pointer(Result), Len + 1);
-
-end;
-
-procedure TExtNumEdit.KeyPress(var Key: Char);
-begin
-  p_editGridKeyPress ( Self, Key,gby_NbApVirgule, gby_NbAvVirgule, gb_Negatif, SelStart, Text, SelText, FDataLink.Field );
-
-  if  ( FHasMax )
-  and ( Value > FMax )  then
-    Begin
-      Value := FMax ;
-    End;
-
-  if  ( FHasMin )
-  and ( Value < FMin )  then
-    Begin
-      Value := FMin ;
-    End;
-
-  inherited;
-
-end;
-
-procedure TExtNumEdit.KeyUp(var Key: Word; Shift: TShiftState);
-begin
-  p_editKeyUp ( Self, FDataLink.Field, Key,gby_NbApVirgule, gby_NbAvVirgule, gb_Negatif, Text );
-  try
-    if  ( Text <> '' )
-    and ( Text <> '+' )
-    and ( Text <> '-' ) Then
-      gre_AValue := StrToFloat ( fs_remplaceEspace ( Text, '' ))
-    Else
-      gre_AValue := 0 ;
-  Except
-  End ;
-  inherited;
-
-end;
-
-procedure TExtNumEdit.p_SetValue(AValue: Extended);
-begin
-  if AValue <> gre_AValue Then
-    Begin
-      gre_AValue := AValue ;
-      Text := FloatToStr ( gre_AValue );
-    End ;
-
-end;
-
-procedure TExtNumEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
-Begin
-  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
-  inherited;
 End;
 
 procedure TExtNumEdit.Loaded;
