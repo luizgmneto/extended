@@ -47,18 +47,20 @@ uses
                                                FileUnit : 'U_NumEdits' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Edition de nombres.' ;
-                                               BugsStory : '1.0.0.1 : Bug rafraîchissement de AValue' + #13#10
+                                               BugsStory : '1.0.1.0 : Better ExtNumEdit with good colors' + #13#10
+                                                         + '1.0.0.1 : Bug rafraîchissement de AValue' + #13#10
                                                          + '1.0.0.0 : Gestion en place.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
     gVer_TExtDBNumEdit : T_Version = ( Component : 'Composant TExtDBNumEdit' ;
                                                FileUnit : 'U_NumEdits' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Edition de nombres en données.' ;
-                                               BugsStory : '1.0.1.0 : Améliorations sur la gestion des erreurs' + #13#10
+                                               BugsStory : '1.0.1.1 : Less methods with good colors' + #13#10
+                                                         + '1.0.1.0 : Améliorations sur la gestion des erreurs' + #13#10
                                                          + '1.0.0.0 : Gestion en place.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
 {$ENDIF}
     CST_MC_NEGATIVE = True ;
     CST_MC_POSITIVE = True ;
