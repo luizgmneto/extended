@@ -31,11 +31,14 @@ uses unite_messages, U_DBListView, U_ExtDBNavigator,
 
 procedure Register;
 begin
-  RegisterComponents(CST_PALETTE_COMPOSANTS, [TDBListView,TOnFormInfoIni,TExtDBNavigator,
-                                              TExtNumEdit,TExtDBImage,TExtDBNumEdit,
-                                              TExtColorCombo,TExtDBColorCombo,
-                                              TFWDBEdit,TFWDBLookupCombo,TFWDBGrid,TFWLabel,TFWDBMemo,TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF},
-                                              TFWEdit,TFWGrid,TFWMemo,TFWDateTimePicker]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TDBListView,TExtDBNavigator,
+                                                TExtDBImage,TExtDBNumEdit,
+                                                TExtDBColorCombo,
+                                                TFWDBEdit,TFWDBLookupCombo,TFWDBGrid,TFWDBMemo,TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF}]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TOnFormInfoIni,
+                                                TExtNumEdit,
+                                                TExtColorCombo,
+                                                TFWLabel, TFWEdit,TFWGrid,TFWMemo,TFWDateTimePicker]);
 {$IFNDEF FPC}
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', TDataFieldProperty);
 {$ENDIF}
