@@ -11,9 +11,7 @@ interface
 uses
 {$IFDEF FPC}
    LCLIntf, LCLType,
-   SQLDB, lmessages,
-   RxGrid,
-   dbdateedit,
+   lmessages, EditBtn,
 {$ELSE}
    Windows, Mask, DBTables, ActnMan,
 {$ENDIF}
@@ -41,9 +39,11 @@ const
                                                FileUnit : 'u_framework_components' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Composants d''interactivité de U_CustomFrameWork.' ;
-                                               BugsStory : '0.8.0.0 : Gestion à tester.';
+                                               BugsStory : '0.9.0.1 : Working on Lazarus.'
+                                                         + '0.9.0.0 : Creating u_framework_dbcomponents.'
+                                                         + '0.8.0.0 : Gestion à tester.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
 type
@@ -82,8 +82,8 @@ type
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
      End;
-
-   TFWDateTimePicker = class ( TDateTimePicker, IFWComponent, IFWComponentEdit )
+{$IFDEF FPC}
+   TFWDateEdit = class ( TDateEdit, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FLabel : TFWLabel ;
@@ -115,6 +115,39 @@ type
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
      End;
 
+{$ELSE}
+   TFWDateTimePicker = class ( TDateTimePicker, IFWComponent, IFWComponentEdit )
+      private
+       FBeforeEnter, FBeforeExit : TNotifyEvent;
+       FLabel : TFWLabel ;
+       FOldColor ,
+       FColorFocus ,
+       FColorReadOnly,
+       FColorEdit ,
+       FColorLabel : TColor;
+       FAlwaysSame : Boolean;
+       FNotifyOrder : TNotifyEvent;
+       procedure p_setLabel ( const alab_Label : TFWLabel );
+       procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
+      public
+
+       constructor Create ( AOwner : TComponent ); override;
+       procedure DoEnter; override;
+       procedure DoExit; override;
+       procedure Loaded; override;
+       procedure SetOrder ; virtual;
+      published
+       property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
+       property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
+       property ColorLabel : TColor read FColorLabel write FColorLabel default CST_LBL_SELECT ;
+       property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
+       property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
+       property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
+       property MyLabel : TFWLabel read FLabel write p_setLabel;
+       property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
+       property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
+     End;
+{$ENDIF}
    { TFWLabel }
 
    TFWLabel = class ( {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF}, IFWComponent )
@@ -136,10 +169,12 @@ type
        property OldColor   : TColor read FOldColor stored False default CST_LBL_STD ;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property MyEdit : TControl read FEditComponent write FEditComponent stored false;
+       property Alignment default taRightJustify;
+       property OptimalFill default True ;
      End;
    { TFWDBGrid }
 
-   TFWGrid = class ( {$IFDEF TNT}TTntStringGrid{$ELSE}TDBStringGrid{$ENDIF}, IFWComponent )
+   TFWGrid = class ( {$IFDEF TNT}TTntStringGrid{$ELSE}TStringGrid{$ENDIF}, IFWComponent )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FColorEdit     ,
@@ -268,7 +303,73 @@ Begin
   inherited;
 End;
 
-{$IFNDEF FPC}
+{$IFDEF FPC}
+{ TFWDateEdit }
+
+procedure TFWDateEdit.p_setLabel(const alab_Label: TFWLabel);
+begin
+  if alab_Label <> FLabel Then
+    Begin
+      FLabel := alab_Label;
+      FLabel.MyEdit := Self;
+    End;
+end;
+
+procedure TFWDateEdit.SetOrder;
+begin
+  if assigned ( FNotifyOrder ) then
+    FNotifyOrder ( Self );
+end;
+
+constructor TFWDateEdit.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FAlwaysSame := True;
+  FColorLabel := CST_LBL_SELECT;
+  FColorEdit  := CST_EDIT_STD;
+  FColorFocus := CST_EDIT_SELECT;
+  FColorReadOnly := CST_EDIT_READ;
+end;
+
+procedure TFWDateEdit.DoEnter;
+begin
+  if assigned ( FBeforeEnter ) Then
+    FBeforeEnter ( Self );
+  // Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
+  // avec la souris => cas de tri)
+  p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
+  p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
+  inherited DoEnter;
+end;
+
+procedure TFWDateEdit.DoExit;
+begin
+  if assigned ( FBeforeExit ) Then
+    FBeforeExit ( Self );
+  inherited DoExit;
+  p_setLabelColorExit ( FLabel, FAlwaysSame );
+  p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
+
+end;
+
+procedure TFWDateEdit.Loaded;
+begin
+  inherited Loaded;
+  FOldColor := Color;
+  if  FAlwaysSame
+   Then
+    Color := gCol_Edit ;
+end;
+
+procedure TFWDateEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
+Begin
+  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
+  inherited;
+End;
+
+{$ELSE}
+
 { TFWDateTimePicker }
 
 procedure TFWDateTimePicker.p_setLabel(const alab_Label: TFWLabel);
@@ -352,6 +453,8 @@ begin
   inherited Create(AOwner);
   FAlwaysSame := True;
   FColorFocus := CST_LBL_SELECT;
+  Alignment := taRightJustify;
+  OptimalFill := True ;
 end;
 
 procedure TFWLabel.CMMouseEnter(var Message: TMessage);

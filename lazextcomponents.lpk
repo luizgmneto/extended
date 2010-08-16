@@ -19,8 +19,8 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Minor="9" Build="2"/>
-    <Files Count="24">
+    <Version Minor="9" Build="3"/>
+    <Files Count="25">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.lrs"/>
         <Type Value="LRS"/>
@@ -121,6 +121,10 @@
         <Filename Value="composants/U_ExtDBImage.pas"/>
         <UnitName Value="U_ExtDBImage"/>
       </Item24>
+      <Item25>
+        <Filename Value="composants/u_framework_dbcomponents.pas"/>
+        <UnitName Value="u_framework_dbcomponents"/>
+      </Item25>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="8">

@@ -38,7 +38,7 @@ begin
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TOnFormInfoIni,
                                                 TExtNumEdit,
                                                 TExtColorCombo,
-                                                TFWLabel, TFWEdit,TFWGrid,TFWMemo,TFWDateTimePicker]);
+                                                TFWLabel, TFWEdit,TFWGrid,TFWMemo,{$IFDEF FPC}TFWDateEdit{$ELSE}TFWDateTimePicker{$ENDIF}]);
 {$IFNDEF FPC}
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', TDataFieldProperty);
 {$ENDIF}
