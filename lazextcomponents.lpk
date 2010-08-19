@@ -127,32 +127,35 @@
       </Item25>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="8">
+    <RequiredPkgs Count="9">
       <Item1>
-        <PackageName Value="lazrichview"/>
+        <PackageName Value="ExpertSuperForm"/>
       </Item1>
       <Item2>
-        <PackageName Value="zcomponent"/>
+        <PackageName Value="lazrichview"/>
       </Item2>
       <Item3>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="zcomponent"/>
       </Item3>
       <Item4>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item4>
       <Item5>
-        <PackageName Value="rxnew"/>
+        <PackageName Value="SynEdit"/>
       </Item5>
       <Item6>
-        <PackageName Value="LCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <PackageName Value="rxnew"/>
       </Item6>
       <Item7>
-        <PackageName Value="lazfonctions"/>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item7>
       <Item8>
-        <PackageName Value="IDEIntf"/>
+        <PackageName Value="lazfonctions"/>
       </Item8>
+      <Item9>
+        <PackageName Value="IDEIntf"/>
+      </Item9>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)/"/>

@@ -18,6 +18,9 @@ interface
 {$ENDIF}
 
 uses
+{$IFDEF SFORM}
+  CompSuperForm, StdCtrls,
+{$ENDIF}
 {$IFDEF FPC}
         LCLIntf, LCLType, lmessages, SQLDB,
 {$ELSE}
@@ -37,7 +40,7 @@ uses
   TNTForms,
 {$ENDIF}
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, DB,
-  Dialogs, IniFiles, StrUtils;
+  Dialogs, ExtCtrls, IniFiles, StrUtils;
 
 {$IFDEF VERSIONS}
   const
@@ -112,8 +115,13 @@ type
     property ActiveClass: TPersistentClass read FActiveClass;
   end;
 
-  TF_FormMainIni = class({$IFDEF TNT}TTntForm{$ELSE}TForm{$ENDIF})
+  { TF_FormMainIni }
+
+  TF_FormMainIni = class({$IFDEF SFORM}TSuperForm{$ELSE}{$IFDEF TNT}TTntForm{$ELSE}TForm{$ENDIF}{$ENDIF})
   private
+    {$IFDEF SFORM}
+    FPanelChilds : TPanel;
+    {$ENDIF}
     { Déclarations privées }
     // Gestion du clavier
     gEv_OldActivate    ,
@@ -173,7 +181,7 @@ type
     function ActiveMDIChild : TCustomForm; virtual;
     procedure WindowMinimizeAll(Sender: TObject);
     {$ENDIF}
-    function CloseQuery: Boolean; override ;
+    function CloseQuery: Boolean; override;
     function fb_ReinitWindow ( var afor_Form : TCustomForm ) : Boolean ;
     // Récupère le code déjà tapé d'une toouche à partir du buffer virtuelle et valide ou non la touche
     // Entrée : Numéro de touche
@@ -201,6 +209,8 @@ type
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form
     function ffor_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ): TForm; overload ; virtual;
     function fi_FindForm ( const as_FormNom : string ) : Integer; virtual;
+
+    procedure p_SetChildForm ( const afor_Reference: TCustomForm; const  afs_newFormStyle : TFormStyle ); virtual;
 
     // Procédure appelée quand il n'y a pas de connexion
     procedure p_NoConnexion; virtual;
@@ -251,14 +261,17 @@ type
     // Connecté
     procedure p_Connectee; virtual;
     // Ecriture de l'ini dans le descendant
-    procedure p_WriteDescendantIni(const amif_Init: TMemIniFile); virtual ;
+    procedure p_WriteDescendantIni(const amif_Init: TMemIniFile); virtual;
     // Lecture de l'ini dans le descendant
-    procedure p_ReadDescendantIni(const amif_Init: TMemIniFile); virtual ;
+    procedure p_ReadDescendantIni(const amif_Init: TMemIniFile); virtual;
     // Gestion du clavier
     // Entrée : les trois touches : MAJ NUM SCROLLLOCK
     procedure p_SortieMajNumScroll ( const ab_MajEnfoncee, ab_NumEnfoncee, ab_ScrollEnfoncee : boolean ) ; virtual;
     // Procédure qui initialise la chaine de connexion de FConnexion
   published
+    {$IFDEF SFORM}
+    property PanelChilds : TPanel read FPanelChilds write FPanelChilds stored True ;
+    {$ENDIF}
     {$IFNDEF CSV}
     // Propriété connection ADO
     property Connection : TComponent read p_GetConnection write p_SetConnection stored True ;
@@ -1042,6 +1055,27 @@ begin
 
 end;
 
+
+procedure TF_FormMainIni.p_SetChildForm(const afor_Reference: TCustomForm; const  afs_newFormStyle : TFormStyle );
+begin
+{$IFDEF SFORM}
+  if afor_Reference is TSuperForm Then
+    Begin
+      if not assigned ( FPanelChilds ) Then
+        Begin
+         FPanelChilds := TPanel.Create(Self);
+         FPanelChilds.Parent := Self;
+         FPanelChilds.Align:=alClient;
+        end;
+       ( afor_Reference as TSuperForm ).ShowIncrust ( FPanelChilds );
+       ( afor_Reference as TSuperForm ).Show;
+     end
+   else
+{$ENDIF}
+  p_SetComponentProperty ( afor_Reference, 'FormStyle', afs_newFormStyle );
+  afor_Reference.BringToFront ;
+end;
+
     // Création d'une form MDI renvoie True si la form existe dans les enfants MDI
     // as_FormNom        : nom      de la form
     // afor_FormClasse   : classe   de la form
@@ -1297,10 +1331,7 @@ begin
 
       // Affiche la fiche après les modifs
     if ( afs_FormStyle in [fsMDIChild]) Then
-      Begin
-        p_SetComponentProperty ( afor_Reference, 'FormStyle', afs_FormStyle );
-        afor_Reference.BringToFront ;
-      End
+      p_setChildForm ( afor_Reference, afs_FormStyle )
     Else
       afor_Reference.Show;
   Except
@@ -1339,6 +1370,7 @@ begin
             p_SetComponentProperty ( afor_Reference, 'FormStyle', afs_newFormStyle );
       end;
 
+    {$IFNDEF SFORM}
       // Option ajuster
     if ab_Ajuster
     and Result   then
@@ -1358,13 +1390,11 @@ begin
         // Mise à jour
         afor_Reference.Update ;
       end;
+    {$ENDIF}
 
       // Affiche la fiche après les modifs
     if not gb_ModalStarted and ( afs_newFormStyle in [fsMDIChild]) Then
-      Begin
-        p_SetComponentProperty ( afor_Reference, 'FormStyle', afs_newFormStyle );
-        afor_Reference.BringToFront ;
-      End
+      p_setChildForm ( afor_Reference, afs_newFormStyle )
     Else
       afor_Reference.Show;
   Except
