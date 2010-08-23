@@ -281,7 +281,6 @@ begin
             FileSetAttr ( amem_Inifile.FileName, li_Attr - SysUtils.faReadOnly );
         {$ENDIF}
         amem_Inifile.UpdateFile ;
-        Application.ProcessMessages ;
         Result := True ;
       Except
         on e: Exception do

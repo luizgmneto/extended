@@ -58,6 +58,7 @@ procedure p_SetStreamToField ( const astream: TStream; const field : TField ; co
 procedure p_SetFieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean );
 procedure p_SetFileToStream ( const afile : String; const Stream : TStream ; const ab_ShowError : Boolean );
 procedure p_SetStreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean );
+procedure p_SetFileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean );
 procedure p_SetFileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean );
 
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
@@ -636,8 +637,7 @@ begin
   end;
 end;
 
-
-procedure p_SetFileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean );
+procedure p_SetFileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean );
 var Aimagedata : TImageData;
 begin
   try
@@ -648,13 +648,25 @@ begin
     Aimagedata.Bits    := nil;
     Aimagedata.Palette := nil;
     LoadImageFromFile  ( afile, aimagedata );
-    ConvertDataToBitmap( aimagedata, Image.Bitmap );
-    Image.Bitmap.Canvas.Refresh;
+    abmp_Image.Width  := aimagedata.Width ;
+    abmp_Image.Height := aimagedata.Height ;
+    abmp_Image.Canvas.Brush.Color := clWhite;
+//    abmp_Image.Canvas.Pen   := clWhite;
+    abmp_Image.Canvas.FillRect(0,0,abmp_Image.Width, abmp_Image.Height);
+    ConvertDataToBitmap( aimagedata, abmp_Image );
   Except
     On E:Exception do
       if ab_ShowError Then
         ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
   end;
+end;
+
+
+procedure p_SetFileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean );
+var Aimagedata : TImageData;
+begin
+  p_SetFileToBitmap ( afile, Image.Bitmap, ab_ShowError );
+  Image.Bitmap.Canvas.Refresh;
 end;
 
 

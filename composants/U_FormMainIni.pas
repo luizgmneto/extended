@@ -19,7 +19,7 @@ interface
 
 uses
 {$IFDEF SFORM}
-  CompSuperForm, StdCtrls,
+  CompSuperForm,
 {$ENDIF}
 {$IFDEF FPC}
         LCLIntf, LCLType, lmessages, SQLDB,
@@ -39,8 +39,8 @@ uses
 {$IFDEF TNT}
   TNTForms,
 {$ENDIF}
-  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, DB,
-  Dialogs, ExtCtrls, IniFiles, StrUtils;
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, IniFiles;
 
 {$IFDEF VERSIONS}
   const
@@ -120,7 +120,7 @@ type
   TF_FormMainIni = class({$IFDEF SFORM}TSuperForm{$ELSE}{$IFDEF TNT}TTntForm{$ELSE}TForm{$ENDIF}{$ENDIF})
   private
     {$IFDEF SFORM}
-    FPanelChilds : TPanel;
+    FPanelChilds : TWinControl;
     {$ENDIF}
     { Déclarations privées }
     // Gestion du clavier
@@ -270,7 +270,7 @@ type
     // Procédure qui initialise la chaine de connexion de FConnexion
   published
     {$IFDEF SFORM}
-    property PanelChilds : TPanel read FPanelChilds write FPanelChilds stored True ;
+    property PanelChilds : TWinControl read FPanelChilds write FPanelChilds stored True ;
     {$ENDIF}
     {$IFNDEF CSV}
     // Propriété connection ADO
@@ -838,13 +838,14 @@ Constructor TF_FormMainIni.Create(AOwner:TComponent);
 begin
   FAutoIniDB := True ;
   FAutoIni    := True ;
+  FPanelChilds := nil;
   Inherited create (AOwner);
-
   p_CreeFormMainIni (AOwner);
 end;
 // A appeler si on n'appelle pas le constructeur
 procedure TF_FormMainIni.p_CreeFormMainIni (AOwner:TComponent);
 begin
+  FPanelChilds := nil;
   gb_CloseQuery := False ;
   gb_ModalStarted := False ;
   gh_WindowHandle := 0;
@@ -1063,12 +1064,13 @@ begin
     Begin
       if not assigned ( FPanelChilds ) Then
         Begin
-         FPanelChilds := TPanel.Create(Self);
-         FPanelChilds.Parent := Self;
-         FPanelChilds.Align:=alClient;
+          FPanelChilds := TScrollBox.Create(Self);
+          FPanelChilds.Parent := Self;
+          ( FPanelChilds as TScrollBox ).AutoScroll:=True;
+          FPanelChilds.Align:=alClient;
         end;
        ( afor_Reference as TSuperForm ).ShowIncrust ( FPanelChilds );
-       ( afor_Reference as TSuperForm ).Show;
+//       ( afor_Reference as TSuperForm ).Show;
      end
    else
 {$ENDIF}
