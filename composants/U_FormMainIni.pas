@@ -24,7 +24,7 @@ uses
 {$IFDEF FPC}
         LCLIntf, LCLType, lmessages, SQLDB,
 {$ELSE}
-  Windows, OleDb,
+  Windows, OleDb, Messages,
 {$ENDIF}
 {$IFDEF EADO}
   ADODB,
@@ -838,14 +838,15 @@ Constructor TF_FormMainIni.Create(AOwner:TComponent);
 begin
   FAutoIniDB := True ;
   FAutoIni    := True ;
+  {$IFDEF SFORM}
   FPanelChilds := nil;
+  {$ENDIF}
   Inherited create (AOwner);
   p_CreeFormMainIni (AOwner);
 end;
 // A appeler si on n'appelle pas le constructeur
 procedure TF_FormMainIni.p_CreeFormMainIni (AOwner:TComponent);
 begin
-  FPanelChilds := nil;
   gb_CloseQuery := False ;
   gb_ModalStarted := False ;
   gh_WindowHandle := 0;

@@ -57,7 +57,9 @@ requires
   ZDbc,
   ZPlain,
   ZComponent,
-  VampyreImagingPackage;
+  VampyreImagingPackage,
+  JclVcl,
+  Jcl;
 
 contains
   fonctions_version in 'fonctions\fonctions_version.pas',
@@ -74,6 +76,7 @@ contains
   fonctions_dbcomponents in 'fonctions\fonctions_dbcomponents.pas',
   fonctions_db in 'fonctions\fonctions_db.pas',
   fonctions_web in 'fonctions\fonctions_web.pas',
-  StoHtmlHelp in 'fonctions\StoHtmlHelp.pas';
+  StoHtmlHelp in 'fonctions\StoHtmlHelp.pas',
+  u_zconnection in 'forms\u_zconnection.pas';
 
 end.

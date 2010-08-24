@@ -241,7 +241,7 @@ begin
           aGra_IconAChanger.Transparent := True ;
           aGra_IconAChanger.Modified := True ;
           Result := True ;
-        end ;
+        end;
   finally
   end;
 end ;
@@ -648,11 +648,6 @@ begin
     Aimagedata.Bits    := nil;
     Aimagedata.Palette := nil;
     LoadImageFromFile  ( afile, aimagedata );
-    abmp_Image.Width  := aimagedata.Width ;
-    abmp_Image.Height := aimagedata.Height ;
-    abmp_Image.Canvas.Brush.Color := clWhite;
-//    abmp_Image.Canvas.Pen   := clWhite;
-    abmp_Image.Canvas.FillRect(0,0,abmp_Image.Width, abmp_Image.Height);
     ConvertDataToBitmap( aimagedata, abmp_Image );
   Except
     On E:Exception do

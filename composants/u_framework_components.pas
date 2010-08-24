@@ -170,7 +170,9 @@ type
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property MyEdit : TControl read FEditComponent write FEditComponent stored false;
        property Alignment default taRightJustify;
+       {$IFDEF FPC}
        property OptimalFill default True ;
+       {$ENDIF}
      End;
    { TFWDBGrid }
 
@@ -454,7 +456,9 @@ begin
   FAlwaysSame := True;
   FColorFocus := CST_LBL_SELECT;
   Alignment := taRightJustify;
+  {$IFDEF FPC}
   OptimalFill := True ;
+  {$ENDIF}
 end;
 
 procedure TFWLabel.CMMouseEnter(var Message: TMessage);

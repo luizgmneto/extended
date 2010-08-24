@@ -63,7 +63,7 @@ const
 
 {$ENDIF}
 type
-
+  TSortOrder = (soAscending,soDescending);
   EListScrollEvent = procedure ( const Sender: TObject; const Dataset : TDataset; var LoadList : Boolean ) of object;
   ESortStartEvent = procedure( const Sender: TObject; const Column: Integer; var Enable: Boolean) of object;
 // Première déclaration
@@ -99,6 +99,8 @@ type
     // Tout a été chargé ? : A-t-on atteint la fin du dataset
     ge_BeforeScroll : EListScrollEvent;
     ge_AfterScroll  : TDatasetNotifyEvent;
+    FSortColumn : Integer;
+    FSortOrder  : TSortOrder;
 
     //Mode asynchrone
     gb_fetched : Boolean ;
@@ -180,6 +182,9 @@ type
 //    lb_DevalideInsert,
   // Propriété Couleurs de lignes automatiques
     gb_CouleursLignes: Boolean;
+    procedure p_setSortOrder ( AValue : TSortOrder ); virtual;
+    function fs_SortDataset(const adat_Dataset: TDataSet): String; virtual;
+    procedure p_setSortColumn(AValue: Integer); virtual;
     procedure p_SetClePrimaireListe(const a_Value: {$IFDEF FPC} AnsiString{$ELSE}String{$ENDIF});
     procedure p_CreeListeChampsDisplay ( as_ChampsListe : String ); virtual;
     procedure p_AffecteEvenementsDatasource; virtual;
@@ -206,7 +211,7 @@ type
     procedure p_MajBoutons ( const ai_ItemsAjoutes : Integer ); virtual;
     procedure p_ReinitialisePasTout; dynamic;
     function  fb_PeutTrier  : Boolean ; dynamic;
-    function  fb_PrepareTri ( ) : Boolean;
+    function  fb_PrepareTri ( const ai_column : Integer ) : Boolean;
     function  fb_PeutAjouter  ( const adat_Dataset : TDataset ; const ab_AjouteItemPlus : Boolean)  : Boolean ; virtual;
     function  fb_ChangeEtatItem  ( const adat_Dataset : TDataset  ; const ab_AjouteItemPlus : Boolean )  : Boolean ; virtual;
     function  fb_RemplitEnregistrements ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean; dynamic;
@@ -226,8 +231,6 @@ type
     gbm_DernierEnregistrement : TBookmarkStr ;
     {$IFDEF FPC}
     procedure SelectAll ; dynamic;
-    {$ELSE}
-    function SortColumn : Longint;
     {$ENDIF}
     procedure p_LoadListView ; virtual;
     procedure p_UpdateListView ; virtual;
@@ -247,7 +250,6 @@ type
     property ListLoaded : Boolean read gb_AllLoaded ;
     property AllSelect  : Boolean read gb_AllSelect ;
      {$IFDEF EADO}
-    function fs_SortADODataSet ( const adat_ADODataset : TCustomADODataSet ): String;
     // Mode asynchrone
     property FetchedAll : Boolean read gb_AllFetched ;
     property Fetched    : Boolean read gb_Fetched ;
@@ -273,6 +275,8 @@ type
     property AfterDataScroll  : TDatasetNotifyEvent read ge_AfterScroll  write ge_AfterScroll ;
     // Table du Datasource principal édité
     property DataTableUnit : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_TableSource write gs_TableSource;
+    property SortColumn : Integer read FSortColumn write p_setSortColumn default 0;
+    property SortOrder : TSortOrder read FSortOrder write p_setSortOrder default soAscending;
    end;
 
 
@@ -298,7 +302,8 @@ var gcol_CouleurFocus : TColor = CST_GROUPE_COULEUR_FOCUS ;
 
 implementation
 
-uses TypInfo, fonctions_string, fonctions_proprietes, Variants,  ExtCtrls,  fonctions_erreurs,
+uses TypInfo, fonctions_string, fonctions_proprietes, Variants,  ExtCtrls,
+     fonctions_erreurs, fonctions_dbcomponents, 
      fonctions_db, fonctions_init, unite_messages ;
 
  ///////////////////////////////////////////////////////////////
@@ -374,6 +379,8 @@ constructor TDBListView.create ( acom_owner : Tcomponent );
 begin
   inherited create ( acom_owner );
 
+  FSortOrder := soAscending;
+  FSortColumn := 0 ;
     // Mode asynchrone
   {$IFDEF EADO}
   ge_WaitForFetch := Nil ;
@@ -505,51 +512,44 @@ End ;
 procedure TDBListView.p_SetSortDirectionAsc(const ab_Ascendant : Boolean );
 begin
   // Vérification de la validité du sort
-  if  ( ab_Ascendant )
-   Then
-    Begin
-      // Prépare le tri
-//      gb_TrieAsc := ab_Ascendant ;
-//      if
-//       Then
-        Begin
-          if  not gb_MontreTout
-          and not gb_AllLoaded
-           Then
-            Begin
-              p_ReinitialisePasTout ;
-              {
-              if ab_Ascendant
-               Then SortDirection := sdAscending
-               Else SortDirection := sdDescending ;
-               }
-              p_AjouteEnregistrements ;
-            End;
-            {
-           Else
-            if ab_Ascendant
-             Then SortDirection := sdAscending
-             Else SortDirection := sdDescending ;
-             }
-        End ;
-    End ;
+  if ab_Ascendant
+   Then SortOrder := soAscending
+   Else SortOrder := soDescending ;
 end;
 
+
+procedure TDBListView.p_setSortOrder(AValue: TSortOrder);
+begin
+  if AValue <> FSortOrder then
+    Begin
+      p_ReinitialisePasTout;
+      FSortOrder := AValue ;
+      fb_PrepareTri ( FSortColumn );
+      p_AjouteEnregistrements;
+    End
+end;
+
+procedure TDBListView.p_setSortColumn(AValue: Integer);
+begin
+  if AValue <> FSortColumn then
+    Begin
+      p_ReinitialisePasTout;
+      fb_PrepareTri ( AValue );
+      p_AjouteEnregistrements;
+    End
+end;
 
 // Trier le dataset : Utilisé par le composant MCAdvGroupView
 // Assigner la prorprété sort au bon dataset
 // as_ChampsOrdonner : La valeur à affecter
 procedure TDBListView.p_AssignSort ( const as_ChampsOrdonner : String );
 Begin
-  {$IFDEF EADO}
   // c'est un composant : vérification de l'existance de la propriété
   if  assigned ( gdl_DataLink.DataSet )
   and          ( gdl_DataLink.DataSet.Active )
-  and ( gdl_DataLink.DataSet is TCustomADODataset )
    Then
     // affectation
-    ( gdl_DataLink.DataSet as TCustomADODataset ).Sort := as_ChampsOrdonner ;
-  {$ENDIF}
+    p_SetComponentProperty( gdl_DataLink.DataSet, 'Sort', as_ChampsOrdonner );
 End ;
 
 // évènement de dessin des items
@@ -719,17 +719,6 @@ begin
 
 end;
 
-{$IFNDEF FPC}
-function TDBListView.SortColumn: Longint;
-begin
-  if assigned ( Selected ) Then
-    Begin
-      Result := Selected.Index ;
-      exit;
-    End;
-  Result := 0 ;
- end;
-{$ENDIF}
 // Rafraîchissement de la liste
 procedure TDBListView.Refresh;
 begin
@@ -882,45 +871,6 @@ Begin
       lt_Arg [ 1 ] := Self.Name ;
       ShowMessage ( fs_RemplaceMsg ( GS_ERREUR_OUVERTURE + #13#10 + GS_FORM_ABANDON_OUVERTURE, lt_Arg ));
     End ;
-End ;
-
-// Récupère le sort du dataset ou crée un sort à partir de la colonne en cours
-// adat_ADODataset : le bon dataset : ici il y en a un seul
-function TDBListView.fs_SortADODataset ( const adat_ADODataset : TCustomADODataSet ): String ;
-// Sauvegarde temporaire du champ à trier
-//var ls_TrieGroupe : String ;
-Begin
-{
-  // Avec le dataset
-  with adat_ADODataset do
-    // si le sort n'existe
-    If Trim ( Sort ) = ''
-     Then
-     // Il faut initialiser le sort
-      Begin
-        // Colonne 0
-        If  ( SortColumn >= 0 )
-        and ( SortColumn < Columns.Count )
-          // Alors clé du dataset
-         Then
-         // Sinon c'est une colonne de présentation des données
-          Begin
-            // Si le no de colonne est supérieur alors rien
-             ls_TrieGroupe := fs_stringChamp ( gs_ChampsListe, ';', SortColumn + 1 );
-          End ;
-          // Si il y a quelque chose
-       if ( trim ( ls_TrieGroupe ) <> '' )
-        Then
-        // On trie en ascendant
-          if SortDirection = sdAscending
-           Then Result := ls_TrieGroupe + ' ASC'
-           // Ou en descendant
-           Else Result := ls_TrieGroupe + ' DESC'
-      End
-      // Si il y a quelque chose on garde la valeur
-     Else Result := Sort ;
-           }
-//  ShowMessage ( Result );
 End ;
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -1132,25 +1082,12 @@ End ;
 // alsc_colonne : la colonne à trier
 procedure TDBListView.ColClick( alsc_colonne : TListColumn );
 begin
-// Le AdvListView a des variables privées
-// Donc il faut des variables en double
-{  if gi_ColonneTrie = alsc_colonne.Index
-  // Synchronisation du tri ascendant ou descendant
-   Then gb_TrieAsc := not gb_TrieAsc ;
- }
   //Préparation du tri et tri du bon dataset
-{  if not fb_PrepareTri ( alsc_colonne.Index )
-   Then
-    Begin
-      if gi_ColonneTrie = alsc_colonne.Index
-      // Synchronisation du tri ascendant ou descendant
-       Then gb_TrieAsc := not gb_TrieAsc ;
-      Exit ;
-    End ;
- }
+  SortColumn := alsc_colonne.Index ;
+
   // Tri de la bonne colonne
 //  gi_ColonneTrie := alsc_colonne.Index ;
-  // Si on montre tout
+{  // Si on montre tout
   if gb_MontreTout
   // Ou si tout est chargé
   or ( gb_AllLoaded )
@@ -1164,26 +1101,25 @@ begin
    Then
    // Tri normal
     inherited ColClick ( alsc_colonne )
-   Else
+   Else}
    // Sinon rétablissement des champs triés
-    Begin
+//    Begin
 //      if SortType <> stNone
 //       Then
        // Mise à zéro des items
-       p_ReinitialisePasTout;
        inherited ColClick ( alsc_colonne );
 
        // Mise à jour des neregistrements triés
-       p_AjouteEnregistrements ;
        // Le composant doit quand même trier dans le vide pour la synchronisation
-    End ;
+//    End ;
 end;
 
 // Préparation du tri des items de la liste
 // ai_Index : Le no de colonne à trier
-function TDBListView.fb_PrepareTri ( ) : Boolean;
+function TDBListView.fb_PrepareTri ( const ai_column : Integer ) : Boolean;
 var ls_ChampsOrdonner : String ;
 begin
+  FSortColumn := ai_column ; 
   ls_ChampsOrdonner := fs_PrepareTri ;
     // On ne peut pas trier : quitter
    Result := fb_PeutTrier ;
@@ -1203,7 +1139,6 @@ begin
   // On donne donc la possibilité de trier par défaut
   Result := '' ;
   //  vérification de l'existence de la propriété et du dataset
-  {
   if not assigned ( gdl_DataLink.Datasource )
   or not assigned ( gdl_DataLink.DataSet )
   or  ( SortColumn <  0               )
@@ -1220,11 +1155,11 @@ begin
      Exit ;
      // Si trie ascendant
 
-   if SortDirection = sdAscending
+   if SortOrder = soAscending
      // Alors ajout de ASC
     Then Result := Result + ' ASC'
      // Sinon ajout de DESC
-    Else Result := Result + ' DESC' ;}
+    Else Result := Result + ' DESC' ;
     // On ne peut pas trier : quitter
 //   Showmessage (( gdl_DataLink.DataSet as TCustomADODataSet ).Sort + ' f ' + ls_ChampsOrdonner );
 End ;
@@ -1490,9 +1425,35 @@ begin
 
 end;
 }
+
+// Récupère le sort du dataset ou crée un sort à partir de la colonne en cours
+// adat_ADODataset : le bon dataset : ici il y en a un seul
+function TDBListView.fs_SortDataset ( const adat_Dataset : TDataSet ): String ;
+// Sauvegarde temporaire du champ à trier
+var ls_TrieGroupe, ls_Sort : String ;
+Begin
+  // Avec le dataset
+  with adat_Dataset do
+    // si le sort n'existe
+    ls_Sort := fs_getComponentProperty(adat_Dataset, 'Sort');
+    If Trim ( ls_Sort ) = ''
+     Then
+     // Il faut initialiser le sort
+      Begin
+        // Colonne 0
+        Result := fs_PrepareTri ( );
+      End
+      // Si il y a quelque chose on garde la valeur
+     Else Result := ls_Sort ;
+
+//  ShowMessage ( Result );
+End ;
+
+
 // Insertion des items appelle fb_RemplitEnregistrements : Surchargé pour les autres descendants
 // Résultat   : celui de fb_RemplitEnregistrements : A-t-on changé l'état de certains items ?
 function TDBListView.fb_RemplitListe:Boolean;
+var ls_Sort : String;
 Begin
   Result := False ;
 
@@ -1519,13 +1480,11 @@ Begin
        Else
         Begin
         // Si il n'y aplus de bookmark
-        {$IFDEF EADO}
-          if  ( gdl_DataLink.DataSet is TCustomADODataset )
-          and ( Trim (( gdl_DataLink.DataSet as TCustomADODataset ).Sort ) = '' )
+          ls_Sort := Trim ( fs_getComponentProperty(gdl_DataLink.DataSet, 'Sort' ));
+          if  ( ls_Sort = '' )
            Then
              // On trie
-            ( gdl_DataLink.DataSet as TCustomADODataset ).Sort := fs_SortADODataset ( gdl_DataLink.DataSet as TCustomADODataset );
-        {$ENDIF}
+             p_SetComponentProperty ( gdl_DataLink.DataSet, 'Sort', fs_SortDataset ( gdl_DataLink.DataSet ));
         End ;
     End ;
 //   ShowMessage ( ( gdl_DataLink.DataSet as TCustomADODataset ).Sort );
@@ -1580,7 +1539,7 @@ begin
      // Si elles n'existent pas on quitte
     Exit ;
 
-  fb_PrepareTri ;
+  fb_PrepareTri ( FSortColumn );
   gb_LoadList   := True ;
     // Curseur d'attente SQL
   screen.Cursor := crSQLWait    ;
