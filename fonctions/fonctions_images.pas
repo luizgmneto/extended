@@ -11,7 +11,7 @@ interface
 
 uses Forms,
 {$IFDEF FPC}
-        LCLIntf, MaskEdit,
+        LCLIntf,
 {$ELSE}
   Windows,
 {$ENDIF}
@@ -102,11 +102,11 @@ function fb_FichierIcoBmpVersBitmap ( const as_Fichier : String; const aBmp_Sort
 procedure p_BitmapVersIco ( const aBmp_Bitmap : TBitmap ; const aIco_Destination : TIcon );
 
 implementation
-uses StrUtils, ImagingTypes, ImagingComponents, Imaging,
+uses ImagingTypes, ImagingComponents, Imaging,
 {$IFDEF FPC}
      LCLType,
 {$ELSE}
-     JclGraphics,
+     JclGraphics, StrUtils,
 {$ENDIF}
      SysUtils, unite_messages ;
 
@@ -658,7 +658,6 @@ end;
 
 
 procedure p_SetFileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean );
-var Aimagedata : TImageData;
 begin
   p_SetFileToBitmap ( afile, Image.Bitmap, ab_ShowError );
   Image.Bitmap.Canvas.Refresh;

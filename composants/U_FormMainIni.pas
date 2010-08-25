@@ -126,7 +126,9 @@ type
     // Gestion du clavier
     gEv_OldActivate    ,
     gEv_OldDeActivate  : TNotifyEvent ;
+    {$IFNDEF FPC}
     gt_Buffer : TKeyboardState;
+    {$ENDIF}
     ge_WriteSessionIni,
     ge_ReadSessionIni,
     ge_WriteMainIni,
