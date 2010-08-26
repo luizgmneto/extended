@@ -117,7 +117,7 @@ type
 
   { TF_FormMainIni }
 
-  TF_FormMainIni = class({$IFDEF SFORM}TSuperForm{$ELSE}{$IFDEF TNT}TTntForm{$ELSE}TForm{$ENDIF}{$ENDIF})
+  TF_FormMainIni = class({$IFDEF TNT}TTntForm{$ELSE}TForm{$ENDIF})
   private
     {$IFDEF SFORM}
     FPanelChilds : TWinControl;
@@ -1072,6 +1072,9 @@ begin
           ( FPanelChilds as TScrollBox ).AutoScroll:=True;
           FPanelChilds.Align:=alClient;
         end;
+       afor_Reference.Align := alClient;
+       afor_Reference.AutoSize:=True;
+       ( afor_Reference as TSuperForm ).IncrustMode := aicTopLeft;
        ( afor_Reference as TSuperForm ).ShowIncrust ( FPanelChilds );
 //       ( afor_Reference as TSuperForm ).Show;
      end

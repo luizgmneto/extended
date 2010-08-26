@@ -50,6 +50,7 @@ end;
 initialization
 {$IFDEF FPC}
   {$i u_framework_components.lrs}
+  {$i u_framework_dbcomponents.lrs}
   {$I U_RegImageComponents.lrs}
   {$i U_ExtDBNavigator.lrs}
   {$i U_DBListView.lrs}
