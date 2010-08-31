@@ -1,7 +1,7 @@
 ﻿unit u_buttons_appli;
 
-{$I ..\extends.inc}
 {$I ..\Compilers.inc}
+{$I ..\extends.inc}
 {$IFDEF FPC}
 {$mode Delphi}
 {$ENDIF}
@@ -71,7 +71,7 @@ type
 
 { TFWCancel }
 
-   TFWCancel = class ( TJvXPButton,IFWButton )
+   TFWAbort = class ( TJvXPButton,IFWButton )
       private
       {$IFNDEF FPC}
        ResInstance             : THandle      ;
@@ -228,6 +228,45 @@ type
      End;
 
 { TFWOutAll }
+   TFWBasket = class ( TJvXPButton,IFWButton )
+      private
+      {$IFNDEF FPC}
+       ResInstance             : THandle      ;
+      {$ENDIF}
+      public
+
+       procedure Paint; override;
+      published
+       property Glyph stored False;
+       property Caption stored False;
+     End;
+
+   TFWRecord = class ( TJvXPButton,IFWButton )
+      private
+      {$IFNDEF FPC}
+       ResInstance             : THandle      ;
+      {$ENDIF}
+      public
+
+       procedure Paint; override;
+      published
+       property Glyph stored False;
+       property Caption stored False;
+     End;
+
+   TFWCancel = class ( TJvXPButton,IFWButton )
+      private
+      {$IFNDEF FPC}
+       ResInstance             : THandle      ;
+      {$ENDIF}
+      public
+
+       procedure Paint; override;
+      published
+       property Glyph stored False;
+       property Caption stored False;
+     End;
+
    TFWOutAll = class ( TJvXPButton,IFWButton )
       private
       {$IFNDEF FPC}
@@ -514,6 +553,50 @@ begin
       if ( ResInstance = 0 ) Then
         ResInstance:= FindResourceHInstance(HInstance);
       Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWOUTSELECT);
+    {$ENDIF}
+    End;
+  inherited;
+
+end;
+
+{ TFWBasket }
+procedure TFWBasket.Paint;
+begin
+  Caption := Gs_GROUPVIEW_Basket;
+  inherited;
+
+end;
+
+{ TFWRecord }
+procedure TFWRecord.Paint;
+begin
+  Caption := Gs_GROUPVIEW_Record;
+  if Glyph.Bitmap.Empty then
+    Begin
+    {$IFDEF FPC}
+      Glyph.LoadFromLazarusResource( CST_FWOK);
+    {$ELSE}
+      if ( ResInstance = 0 ) Then
+        ResInstance:= FindResourceHInstance(HInstance);
+      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWOK);
+    {$ENDIF}
+    End;
+  inherited;
+
+end;
+
+{ TFWRecord }
+procedure TFWAbort.Paint;
+begin
+  Caption := Gs_GROUPVIEW_Abort;
+  if Glyph.Bitmap.Empty then
+    Begin
+    {$IFDEF FPC}
+      Glyph.LoadFromLazarusResource( CST_FWCANCEL);
+    {$ELSE}
+      if ( ResInstance = 0 ) Then
+        ResInstance:= FindResourceHInstance(HInstance);
+      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWCANCEL);
     {$ENDIF}
     End;
   inherited;

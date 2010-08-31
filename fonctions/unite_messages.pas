@@ -54,6 +54,10 @@ resourcestring
   GS_ERREUR_OUVERTURE = 'Erreur à l''ouverture @ARG.' ;
   GS_FORM_ABANDON_OUVERTURE = 'Abandon de l''ouverture de la fiche @ARG...' ;
   GS_FirstRecord = 'Premier enregistrement';
+  Gs_GROUPVIEW_Basket = 'Retour origine';
+  Gs_GROUPVIEW_Record = 'Enregistrer';
+  Gs_GROUPVIEW_Abort  = 'Abandonner';
+
   GS_PriorRecord = 'Enregistrement précédent';
   GS_NextRecord = 'Enregistrement suivant';
   GS_LastRecord = 'Dernier enregistrement';
