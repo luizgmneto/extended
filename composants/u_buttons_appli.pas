@@ -309,7 +309,7 @@ type
 
 implementation
 
-uses {$IFDEF FPC}unite_messages,{$ELSE}Consts,{$ENDIF} Forms ;
+uses {$IFNDEF FPC}Consts,{$ENDIF}{$IFDEF GROUPVIEW}unite_messages,{$ENDIF}Forms ;
 
 {$IFDEF DELPHI}
   {$R *.dcr}
