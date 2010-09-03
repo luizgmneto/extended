@@ -81,27 +81,24 @@ type
   protected
     FUpdateAll ,
     FAutoChargeIni: Boolean;
-    FormAOwner:     TForm;
+    FormAOwner:     TCustomForm;
     FormOldDestroy: TNotifyEvent;
     FormOldCreate:  TNotifyEvent;
     FormOldShow:    TNotifyEvent;
-    procedure LaFormDestroy(Sender: TObject);
-    procedure LaFormShow(Sender: TObject);
 //    procedure loaded; override;
-    function ExisteComposantSvgEditSurLaFiche(Fiche:TForm) :Integer;
+    function ExisteComposantSvgEditSurLaFiche(Fiche:TCustomForm) :Integer;
     function GetfeSauveEdit(aSauveObjet:TSauveEditObjets;aObjet :TSauveEditObjet):Boolean ;
     // traitement de la position de la af_Form mise dans le create
-    procedure p_LecturePositionFenetre(aFiche:TForm);
-    procedure p_EcriturePositionFenetre(aFiche:TForm);
+    procedure p_LecturePositionFenetre(aFiche:TCustomForm);
+    procedure p_EcriturePositionFenetre(aFiche:TCustomForm);
 
   public
     Constructor Create(AOwner:TComponent); override;
-    procedure LaFormCreate(Sender: TObject);
     procedure ExecuteLecture(aLocal:Boolean);
-    procedure p_ExecuteLecture(const aF_Form: TForm);
+    procedure p_ExecuteLecture(const aF_Form: TCustomForm);
     procedure ExecuteEcriture(aLocal: Boolean);
-    procedure p_ExecuteEcriture(const aF_Form: TForm);
-    procedure p_LectureColonnes(const aF_Form: TForm);
+    procedure p_ExecuteEcriture(const aF_Form: TCustomForm);
+    procedure p_LectureColonnes(const aF_Form: TCustomForm);
 
   published
     // Propriété qui conserve la position des objets d'une form
@@ -113,6 +110,10 @@ type
     property OnIniLoad  : TEventIni read FOnIniLoad write FOnIniLoad ;
     property OnIniWrite : TEventIni read FOnIniWrite write FOnIniWrite;
     property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate default True;
+  published
+    procedure LaFormDestroy(Sender: TObject);
+    procedure LaFormShow(Sender: TObject);
+    procedure LaFormCreate(Sender: TObject);
   end;
 
 implementation
@@ -196,13 +197,13 @@ begin
     begin
       if AOwner is TForm then
         begin
-          FormAOwner           := TForm(AOwner);        // La forme propriétaire de notre composant
-          FormOldDestroy       := FormAOwner.OnDestroy; // Sauvegarde de l'événement OnDestroy
-          FormAOwner.OnDestroy := LaFormDestroy;        // Idem pour OnDestroy
-          FormOldCreate        := FormAOwner.OnCreate;  // Sauvegarde de l'événement OnClose
-          FormAOwner.OnCreate  := LaFormCreate;         // Idem pour OnClose
-          FormOldShow          := FormAOwner.OnShow;  // Sauvegarde de l'événement OnShow
-          FormAOwner.OnShow    := LaFormShow;           // Idem pour OnShow
+          FormAOwner           := TCustomForm(AOwner);        // La forme propriétaire de notre composant
+          FormOldDestroy       := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnDestroy' )); // Sauvegarde de l'événement OnDestroy
+          p_SetComponentMethodProperty ( FormAOwner, 'OnDestroy', fmet_getComponentMethodProperty ( Self, 'LaFormDestroy' ));        // Idem pour OnDestroy
+          FormOldCreate        := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnCreate' ));  // Sauvegarde de l'événement OnClose
+          p_SetComponentMethodProperty ( FormAOwner, 'OnCreate', fmet_getComponentMethodProperty ( Self, 'LaFormCreate' ));         // Idem pour OnClose
+          FormOldShow          := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnShow' ));  // Sauvegarde de l'événement OnShow
+          p_SetComponentMethodProperty ( FormAOwner, 'OnShow', fmet_getComponentMethodProperty ( Self, 'LaFormShow' ));     // Idem pour OnShow
         end;
     end;
 end;
@@ -252,7 +253,7 @@ begin
           SvgEditDeLaFiche:= TOnFormInfoIni(FormAOwner.Components[Indice]);
 
           // Traitement de la position de la af_Form
-          if (FormAOwner.FormStyle <> fsMDIChild) and (SvgEditDeLaFiche.FSauvePosForm) then
+          if (TFormStyle ( flin_getComponentProperty ( FormAOwner, 'FormStyle' )) <> fsMDIChild) and (SvgEditDeLaFiche.FSauvePosForm) then
             p_LecturePositionFenetre(FormAOwner);
         end;
 
@@ -275,7 +276,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // Fonction qui vérifie si l'objet TOnFormInfoIni existe dans la form et retourne son index
 ////////////////////////////////////////////////////////////////////////////////
-function TOnFormInfoIni.ExisteComposantSvgEditSurLaFiche(Fiche:TForm) :Integer;
+function TOnFormInfoIni.ExisteComposantSvgEditSurLaFiche(Fiche:TCustomForm) :Integer;
 var j: integer;
 begin
   Result:=-1;
@@ -313,7 +314,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // Lecture des données dans le fichier INI
 ////////////////////////////////////////////////////////////////////////////////
-procedure TOnFormInfoIni.p_ExecuteLecture(const aF_Form: TForm);
+procedure TOnFormInfoIni.p_ExecuteLecture(const aF_Form: TCustomForm);
 var
   FIni: TMemIniFile;
   mit: TMenuItem;
@@ -582,7 +583,7 @@ end;
 procedure TOnFormInfoIni.ExecuteEcriture(aLocal:Boolean);
 var i : Integer ;
     ab_continue : Boolean ;
-    FIni : TIniFile;
+    FIni : TMemIniFile;
 begin
 
   if not assigned ( FormAOwner )
@@ -617,7 +618,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // Ecriture des données dans le fichier INI
 ////////////////////////////////////////////////////////////////////////////////
-procedure TOnFormInfoIni.p_ExecuteEcriture ( const af_Form : TForm );
+procedure TOnFormInfoIni.p_ExecuteEcriture ( const af_Form : TCustomForm );
 var
   FIni: TMemIniFile;
   mit: TMenuItem;
@@ -636,7 +637,7 @@ begin
     begin
       SvgEditDeLaFiche:= TOnFormInfoIni(af_Form.Components[Indice]);
       // traitement de la position de la af_Form
-      if (af_Form.FormStyle <> fsMDIChild) and (SvgEditDeLaFiche.FSauvePosForm)  then
+      if (TFormStyle ( flin_getComponentProperty ( FormAOwner, 'FormStyle' )) <> fsMDIChild) and (SvgEditDeLaFiche.FSauvePosForm)  then
         p_EcriturePositionFenetre(af_Form);
 
       // Traitement des composants de la af_Form
@@ -850,7 +851,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 //  Lecture de la position des colonnes des grilles dans le fichier INI
 ////////////////////////////////////////////////////////////////////////////////
-procedure TOnFormInfoIni.p_LectureColonnes(const aF_Form: TForm);
+procedure TOnFormInfoIni.p_LectureColonnes(const aF_Form: TCustomForm);
 
 begin
 end;
@@ -860,7 +861,7 @@ end;
 // Lecture des données dans le fichier INI concernant la fenêtre uniquement
 // traitement de la position de la af_Form mise dans le create
 ////////////////////////////////////////////////////////////////////////////////
-procedure TOnFormInfoIni.p_LecturePositionFenetre(aFiche: TForm);
+procedure TOnFormInfoIni.p_LecturePositionFenetre(aFiche: TCustomForm);
 var li_etat, li_ScreenHeight, li_ScreenWidth: integer;
 begin
   // Résolution de l'écran
@@ -869,17 +870,17 @@ begin
 
   li_etat := f_IniReadSectionInt (aFiche.Name,aFiche.name+'.WindowState',0);
   // positionnement de la fenêtre
-  aFiche.Position := poDesigned ;
+  p_SetComponentProperty ( aFiche, 'Position', poDesigned );
   if li_etat = 0 then
     aFiche.WindowState := wsNormal
   else
     if li_etat = 1 then
     begin
-      aFiche.Position := poDefault;
-      aFiche.WindowState := wsMaximized;
+      p_SetComponentProperty ( aFiche, 'Position', poDefault );
+      p_SetComponentProperty ( aFiche, 'WindowState', wsMaximized );
       end
     else
-      aFiche.WindowState := wsMinimized;
+      p_SetComponentProperty ( aFiche, 'WindowState', wsMinimized );
 
   if li_etat <> 1 then
   begin
@@ -902,7 +903,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // Ecriture des données dans le fichier ini concernant la fenêtre
 ////////////////////////////////////////////////////////////////////////////////
-procedure TOnFormInfoIni.p_EcriturePositionFenetre(aFiche: TForm);
+procedure TOnFormInfoIni.p_EcriturePositionFenetre(aFiche: TCustomForm);
 var li_etat: integer;
 begin
   p_IniWriteSectionInt(aFiche.Name,'Screen.Height',Screen.Height);
