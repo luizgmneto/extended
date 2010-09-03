@@ -73,7 +73,7 @@ type
   TOnFormInfoIni = class(TComponent)
   private
     FSauveEditObjets: TSauveEditObjets;
-    FSauvePosObjet:     Boolean;
+    FSauvePosObjet,
     FAutoUpdate,
     FSauvePosForm:      Boolean;
     FOnIniLoad, FOnIniWrite : TEventIni;
@@ -100,6 +100,7 @@ type
     procedure p_ExecuteEcriture(const aF_Form: TCustomForm);
     procedure p_LectureColonnes(const aF_Form: TCustomForm);
 
+    property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate;
   published
     // Propriété qui conserve la position des objets d'une form
     property SauvePosObjects: Boolean read FSauvePosObjet write FSauvePosObjet default False;
@@ -109,8 +110,6 @@ type
     property SauvePosForm: Boolean read FSauvePosForm  write FSauvePosForm default False;
     property OnIniLoad  : TEventIni read FOnIniLoad write FOnIniLoad ;
     property OnIniWrite : TEventIni read FOnIniWrite write FOnIniWrite;
-    property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate default True;
-  published
     procedure LaFormDestroy(Sender: TObject);
     procedure LaFormShow(Sender: TObject);
     procedure LaFormCreate(Sender: TObject);
@@ -190,22 +189,30 @@ end;
 // Constructeur de l'objet TOnFormInfoIni
 ////////////////////////////////////////////////////////////////////////////////
 Constructor TOnFormInfoIni.Create(AOwner:TComponent);
+var lmet_MethodToAdd  : TMethod;
 begin
   FAutoChargeIni := True;
   Inherited Create(AOwner);
-  if not (csDesigning in ComponentState) then //si on est pas en mode conception
+  FAutoUpdate    := False;
+  FSauvePosObjet := False;
+  FSauvePosForm  := False;
+  FOnIniLoad     := nil;
+  FOnIniWrite    := nil;
+  if not (csDesigning in ComponentState)  //si on est pas en mode conception
+  and ( AOwner is TCustomForm ) then
     begin
-      if AOwner is TForm then
-        begin
-          FormAOwner           := TCustomForm(AOwner);        // La forme propriétaire de notre composant
-          FormOldDestroy       := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnDestroy' )); // Sauvegarde de l'événement OnDestroy
-          p_SetComponentMethodProperty ( FormAOwner, 'OnDestroy', fmet_getComponentMethodProperty ( Self, 'LaFormDestroy' ));        // Idem pour OnDestroy
-          FormOldCreate        := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnCreate' ));  // Sauvegarde de l'événement OnClose
-          p_SetComponentMethodProperty ( FormAOwner, 'OnCreate', fmet_getComponentMethodProperty ( Self, 'LaFormCreate' ));         // Idem pour OnClose
-          FormOldShow          := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnShow' ));  // Sauvegarde de l'événement OnShow
-          p_SetComponentMethodProperty ( FormAOwner, 'OnShow', fmet_getComponentMethodProperty ( Self, 'LaFormShow' ));     // Idem pour OnShow
-        end;
-    end;
+      lmet_MethodToAdd.Data := Self;
+      lmet_MethodToAdd.Code := MethodAddress('LaFormDestroy' );
+      FormAOwner           := TCustomForm(AOwner);        // La forme propriétaire de notre composant
+      FormOldDestroy       := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnDestroy' )); // Sauvegarde de l'événement OnDestroy
+      p_SetComponentMethodProperty ( FormAOwner, 'OnDestroy', lmet_MethodToAdd );        // Idem pour OnDestroy
+      FormOldCreate        := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnCreate' ));  // Sauvegarde de l'événement OnClose
+      lmet_MethodToAdd.Code := MethodAddress('LaFormCreate' );
+      p_SetComponentMethodProperty ( FormAOwner, 'OnCreate', lmet_MethodToAdd );         // Idem pour OnClose
+      FormOldShow          := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnShow' ));  // Sauvegarde de l'événement OnShow
+      lmet_MethodToAdd.Code := MethodAddress('LaFormShow' );
+      p_SetComponentMethodProperty ( FormAOwner, 'OnShow', lmet_MethodToAdd );     // Idem pour OnShow
+    End;
 end;
 
 
@@ -265,7 +272,12 @@ end;
 procedure TOnFormInfoIni.LaFormShow(Sender: TObject);
 
 begin
-  if Assigned(FormOldShow) then FormOldShow(Sender);
+  try
+    if Assigned(FormOldShow)
+     then FormOldShow(Sender);
+  Except
+
+  end;
   if FAutoChargeIni then
     Begin
       p_ExecuteLecture(TForm(Self.Owner));
@@ -598,10 +610,10 @@ begin
     try
       For i:=0 to application.ComponentCount-1 do //pour chaque af_Form de l'application
       begin
-        if ( application.Components[i] is TForm )
+        if ( application.Components[i] is TCustomForm )
         and ((FormAOwner.Name = ( TForm ( application.Components[i] )).Name) and aLocal) or (Not aLocal)
          Then
-          p_ExecuteEcriture ( TForm ( application.Components[i] ));
+          p_ExecuteEcriture ( TCustomForm ( application.Components[i] ));
       end; //fin pour chaque af_Form de l'application
     finally
       FUpdateAll := False ;

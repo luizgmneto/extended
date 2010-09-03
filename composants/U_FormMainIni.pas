@@ -40,7 +40,7 @@ uses
   TNTForms,
 {$ENDIF}
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, IniFiles;
+  Dialogs, ExtCtrls, fonctions_init, IniFiles;
 
 {$IFDEF VERSIONS}
   const
@@ -55,7 +55,6 @@ uses
 
 {$ENDIF}
 type
-  TIniEvent = procedure( const afor_MainObject : TObject ; const aini_iniFile : TCustomInifile ) of object;
 
   { TRegGroup }
 
@@ -200,8 +199,7 @@ type
     et appel de la procédure p_InitialisationParamIni dans la form si AutoReadIni,
     de la procédure p_IniInitialisation s'il n'existe pas de fichier INI}
     function f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TMemIniFile; virtual;
-    function f_IniGetSessionFile : TMemIniFile; virtual;
-    function f_GetIniFile: TMemIniFile; virtual;
+    function f_GetIniFile : TMemIniFile; virtual;
 
     // Création d'une form MDI renvoie la form si existe
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form
@@ -319,7 +317,7 @@ uses fonctions_proprietes, fonctions_erreurs, TypInfo,
 {$IFDEF ZEOS}
      U_Zconnection,
 {$ENDIF}
-     fonctions_init, unite_messages, fonctions_db, fonctions_string;
+     unite_messages, fonctions_db, fonctions_string;
 
 { fonctions }
 
@@ -837,7 +835,7 @@ begin
   {$IFDEF SFORM}
   FPanelChilds := nil;
   {$ENDIF}
-  Inherited create (AOwner);
+  Inherited create  (AOwner);
   p_CreeFormMainIni (AOwner);
 end;
 // A appeler si on n'appelle pas le constructeur
@@ -870,7 +868,7 @@ begin
       f_IniGetConfigFile(FConnector, gs_NomApp);
     End ;
   if FAutoIni Then
-    f_IniGetSessionFile ;
+    f_GetIniFile ;
 End ;
 {Écrit le fichier INI pour le composant form TF_FormMainIni.
 Appel de la procédure p_SauvegardeParamIni dans la form si AutoWriteIni,
@@ -899,10 +897,6 @@ begin
 
       // Mise à jour du fichier INI
       fb_iniWriteFile ( FIniFile, False );
-
-      // Libération du fichier INI
-      FIniFile.Free;
-      FIniFile := nil;
 
       // Appelle la procédure virtuelle
       p_ApresSauvegardeParamIni;
@@ -1302,9 +1296,9 @@ end;
 // Résultat          : Le style a été changé
 function TF_FormMainIni.fb_setNewFormStyle(const afor_Reference: TCustomForm; const afs_FormStyle: TFormStyle ; const ab_Modal : Boolean ; const awst_WindowState : TWindowState ; const apos_Position : TPosition ): Boolean;
 begin
-    Result := False ;
-    if not ( assigned ( afor_Reference )) then
-      Exit ;
+  Result := False ;
+  if not ( assigned ( afor_Reference )) then
+    Exit ;
   try
     // Le style a été changé
     Result := True ;
@@ -1483,43 +1477,15 @@ end;
 // Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)
 // Entrée : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
 // Renvoie un fichier INI (même si c'est pas très utile) !!!
-function TF_FormMainIni.f_IniGetSessionFile: TMemIniFile;
-begin
-  // Puis, initialisation du fichier INI de l'utilisateur
-  Result := f_GetIniFile;
-End ;
-
 // Init. du fichier INI lié à l'utilisateur
 function TF_FormMainIni.f_GetIniFile: TMemIniFile;
 begin
-  if not Assigned(FIniFile) then
-    begin
-
-      if gs_ModeConnexion = CST_MACHINE then
-        FIniFile := TMemIniFile.Create(fs_getSoftDir + CST_INI_USERS  + f_IniFWReadComputerName + CST_EXTENSION_INI )
-      else
-        FIniFile := TMemIniFile.Create(fs_getSoftDir + CST_INI_USERS + f_IniFWReadUtilisateurSession + CST_EXTENSION_INI );
-
-      if not FIniFile.SectionExists(INISEC_PAR) then
-        Begin
-          FIniFile.WriteString(INISEC_PAR, INIPAR_CREATION, 'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time));
-          if assigned ( ge_WriteSessionIni ) Then
-            ge_WriteSessionIni ( Self, gmif_MainFormIniInit );
-        End
-      else
-        if assigned ( ge_ReadSessionIni ) Then
-          ge_ReadSessionIni ( Self, gmif_MainFormIniInit );
-      FIniFile.WriteString(INISEC_PAR, INIPAR_LANCEMENT , 'le '  + DateToStr(Date)  + ' ' + TimeToStr(Time));
-    end
-  else
-    FIniFile.WriteString(INISEC_PAR, INIPAR_LANCEMENT , 'le '  + DateToStr(Date)  + ' ' + TimeToStr(Time));
-
+  Result := f_GetMainMemIniFile(ge_WriteSessionIni, ge_ReadSessionIni, Self);
   // Lit-on le fichier ini par la prcoédure virtuelle ?
   p_TestInitialisationParamIni;
 
   // Sauvegarde du fichier INI
-  fb_iniWriteFile ( FIniFile, False );
-  Result := FIniFile;
+  fb_iniWriteFile ( Result, False );
 end;
 
 // Propriété connection

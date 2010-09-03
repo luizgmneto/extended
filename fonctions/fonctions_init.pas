@@ -28,6 +28,8 @@ uses
 {$ENDIF}
   dialogs, fonctions_version, unite_messages, DBGrids;
 
+type
+  TIniEvent = procedure( const afor_MainObject : TObject ; const aini_iniFile : TCustomInifile ) of object;
 
 const
   gVer_fonctions_init : T_Version = ( Component : 'Gestion du fichier INI' ; FileUnit : 'fonctions_init' ;
@@ -74,6 +76,7 @@ const
 
   // Retourne l'objet FIniFile représentant le fichier INI
   function f_GetMemIniFile(): TMemIniFile;
+  function f_GetMainMemIniFile( ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ): TMemIniFile;
 
   // Lecture du fichier SQL dans FSQLFile avec gestion du fichier SQL
   // et lecture de requête à partir de la section parent et de de la clé requete.
@@ -587,9 +590,35 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // Retourne le nom du fichier ini
 ////////////////////////////////////////////////////////////////////////////////
-function f_GetMemIniFile(): TMemIniFile;
+function f_GetMainMemIniFile( ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ): TMemIniFile;
 begin
+  if not Assigned(FIniFile) then
+    begin
+
+      if gs_ModeConnexion = CST_MACHINE then
+        FIniFile := TMemIniFile.Create(fs_getSoftDir + CST_INI_USERS  + f_IniFWReadComputerName + CST_EXTENSION_INI )
+      else
+        FIniFile := TMemIniFile.Create(fs_getSoftDir + CST_INI_USERS + f_IniFWReadUtilisateurSession + CST_EXTENSION_INI );
+
+      if not FIniFile.SectionExists(INISEC_PAR) then
+        Begin
+          FIniFile.WriteString(INISEC_PAR, INIPAR_CREATION, 'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time));
+          if assigned ( ae_WriteSessionIni ) Then
+            ae_WriteSessionIni ( acom_Owner, FIniFile );
+        End
+      else
+        if assigned ( ae_ReadSessionIni ) Then
+          ae_ReadSessionIni ( acom_Owner, FIniFile );
+      FIniFile.WriteString(INISEC_PAR, INIPAR_LANCEMENT , 'le '  + DateToStr(Date)  + ' ' + TimeToStr(Time));
+    end
+  else
+    if assigned ( acom_Owner ) then
+      FIniFile.WriteString(INISEC_PAR, INIPAR_LANCEMENT , 'le '  + DateToStr(Date)  + ' ' + TimeToStr(Time));
   result := FIniFile;
+end;
+function f_GetMemIniFile( ): TMemIniFile;
+begin
+  Result := f_GetMainMemIniFile ( nil, nil, nil );
 end;
 
 function f_SectionExiste(aSection: string): Boolean;

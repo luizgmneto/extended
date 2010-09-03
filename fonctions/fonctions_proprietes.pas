@@ -164,7 +164,12 @@ function fmet_getComponentMethodProperty ( const aComp_Component : TComponent ; 
 Begin
   if   assigned ( GetPropInfo ( aComp_Component, as_PropertyName ))
   and  PropIsType      ( aComp_Component, as_PropertyName , tkMethod)
-  then Result := GetMethodProp   ( aComp_Component, as_PropertyName );
+  then Result := GetMethodProp   ( aComp_Component, as_PropertyName )
+  Else
+    Begin
+     Result.Data := aComp_Component;
+     Result.Code := nil;
+    End;
 End ;
 
 
