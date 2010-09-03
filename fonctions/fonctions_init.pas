@@ -589,10 +589,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 function f_GetMemIniFile(): TMemIniFile;
 begin
-  if FIniFile = nil then
-    result := nil
-  else
-    result := FIniFile;
+  result := FIniFile;
 end;
 
 function f_SectionExiste(aSection: string): Boolean;

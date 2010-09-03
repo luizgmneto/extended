@@ -139,12 +139,10 @@ type
     gh_WindowHandle : HWND;
     FAutoIniDB ,
     FAutoIni    : Boolean ;
-    {$IFNDEF CSV}
     // Retourne la connection ADO
     function p_GetConnection: TComponent;
     // Retourne la connection ADO
     function p_GetConnector: TComponent;
-    {$ENDIF}
     // Changer la date au moment où on quitte
     procedure p_IniQuitte;
     // Test si on va dans la procédure virtuelle d'initialisation INI
@@ -163,11 +161,9 @@ type
     procedure p_ApplicationActivate(Sender: TObject);
     procedure p_ApplicationDeActivate(Sender: TObject);
     // Applique la connection ADO à la variable de la propriété
-   {$IFNDEF CSV}
     procedure p_SetConnection(const Value: TComponent);
     // Applique la connection ADO à la variable de la propriété
     procedure p_SetConnector(const Value: TComponent);
-   {$ENDIF}
 
     // A appeler si on n'appelle pas le constructeur
     procedure p_CreeFormMainIni (AOwner:TComponent);
@@ -203,7 +199,7 @@ type
     avec connexion d'une base ADO
     et appel de la procédure p_InitialisationParamIni dans la form si AutoReadIni,
     de la procédure p_IniInitialisation s'il n'existe pas de fichier INI}
-    function f_IniGetConfigFile({$IFNDEF CSV}acco_Conn: TComponent;{$ENDIF} as_NomConnexion: string): TMemIniFile; virtual;
+    function f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TMemIniFile; virtual;
     function f_IniGetSessionFile : TMemIniFile; virtual;
     function f_GetIniFile: TMemIniFile; virtual;
 
@@ -274,11 +270,9 @@ type
     {$IFDEF SFORM}
     property PanelChilds : TWinControl read FPanelChilds write FPanelChilds stored True ;
     {$ENDIF}
-    {$IFNDEF CSV}
     // Propriété connection ADO
     property Connection : TComponent read p_GetConnection write p_SetConnection stored True ;
     property Connector  : TComponent read p_GetConnector write p_SetConnector stored True ;
-    {$ENDIF}
     property AutoIniDB : Boolean read FAutoIniDB write FAutoIniDB stored True default True ;
     property AutoIni    : Boolean read FAutoIni write FAutoIni stored True default True ;
     property ReadMainIni : TIniEvent read ge_ReadMainIni write ge_ReadMainIni ;
@@ -869,13 +863,11 @@ begin
   // Lecture des fichiers INI
   if FAutoIniDB Then
     Begin
-      {$IFNDEF CSV}
       if assigned ( FConnection ) Then
         p_setComponentBoolProperty ( FConnection, 'Connected', False );
       if assigned ( FConnector ) Then
         p_setComponentBoolProperty ( FConnector, 'Connected', False );
-      {$ENDIF}
-      f_IniGetConfigFile({$IFNDEF CSV}FConnector, {$ENDIF}gs_NomApp);
+      f_IniGetConfigFile(FConnector, gs_NomApp);
     End ;
   if FAutoIni Then
     f_IniGetSessionFile ;
@@ -925,10 +917,8 @@ begin
   // Si le composant est détruit
   inherited Notification(AComponent, Operation);
 
-  {$IFNDEF CSV}
   if (Assigned(Connection)) and (AComponent.IsImplementorOf(Connection)) then
     Connection := nil;
-  {$ENDIF}
 end;
 
 
@@ -1068,15 +1058,16 @@ begin
       if not assigned ( FPanelChilds ) Then
         Begin
           FPanelChilds := TScrollBox.Create(Self);
-          FPanelChilds.Parent := Self;
-          ( FPanelChilds as TScrollBox ).AutoScroll:=True;
-          FPanelChilds.Align:=alClient;
+          with FPanelChilds as TScrollBox do
+            Begin
+              Parent := Self;
+              AutoScroll:=True;
+              Align:=alClient;
+            end;
         end;
-       afor_Reference.Align := alClient;
-       afor_Reference.AutoSize:=True;
+       afor_Reference.AutoSize := True;
        ( afor_Reference as TSuperForm ).IncrustMode := aicTopLeft;
        ( afor_Reference as TSuperForm ).ShowIncrust ( FPanelChilds );
-//       ( afor_Reference as TSuperForm ).Show;
      end
    else
 {$ENDIF}
@@ -1477,12 +1468,12 @@ End ;
 // Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)
 // Entrée : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
 // Renvoie un fichier INI (même si c'est pas très utile) !!!
-function TF_FormMainIni.f_IniGetConfigFile({$IFNDEF CSV}acco_Conn: TComponent; {$ENDIF} as_NomConnexion: string): TMemIniFile;
+function TF_FormMainIni.f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TMemIniFile;
 begin
   // On considère que par défaut les infos se trouvent dans un fichier INI dont
   // le nom est dérivé du nom de la machine (paramètrable dans l'INI de connexion)
   gs_ModeConnexion := CST_MACHINE;
-  p_IniGetDBConfigFile ( gmif_MainFormIniInit,{$IFNDEF CSV}FConnection,acco_Conn,{$ENDIF} as_NomConnexion);
+  p_IniGetDBConfigFile ( gmif_MainFormIniInit,FConnection,acco_Conn,as_NomConnexion);
   p_WriteDescendantIni ( gmif_MainFormIniInit );
   if assigned ( ge_WriteMainIni ) Then
     ge_WriteMainIni ( Self, gmif_MainFormIniInit );
@@ -1531,7 +1522,6 @@ begin
   Result := FIniFile;
 end;
 
-{$IFNDEF CSV}
 // Propriété connection
 // Lecture de Fconnection
 function TF_FormMainIni.p_GetConnection: TComponent;
@@ -1544,7 +1534,6 @@ function TF_FormMainIni.p_GetConnector: TComponent;
 begin
   Result := FConnector;
 end;
-{$ENDIF}
 // Désactive la connection à l'affectation de la connection en conception
 procedure TF_FormMainIni.p_CheckInactive;
 begin
@@ -1553,7 +1542,6 @@ begin
     p_setComponentBoolProperty ( FConnection, 'Connected', False );
 end;
 
-{$IFNDEF CSV}
 // Affectation de la connection
 // Désactive la connection  en conception
 procedure TF_FormMainIni.p_SetConnection(const Value: TComponent);
@@ -1599,7 +1587,6 @@ begin
   ReferenceInterface ( Connector, opInsert );
 {$ENDIF}
 end;
-{$ENDIF}
 
 // Termine l'appli sans sauver le fichier INi
 procedure TF_FormMainIni.p_TerminateWithoutIni ;

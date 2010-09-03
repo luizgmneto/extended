@@ -65,7 +65,10 @@ type
         {$ENDIF}
   feTDirectoryEdit,feTFileNameEdit,feTGrid,feTListBox, feTListView, feTMemo, feTPageControl, feTPopup, feTRadio, feTRadioGroup, feTRichEdit,feTSpinEdit,
   feTVirtualTrees );
+  TEventIni = procedure ( const AInifile : TCustomInifile ; var Continue : Boolean ) of object;
   TSauveEditObjets = set of TSauveEditObjet;
+
+  { TOnFormInfoIni }
 
   TOnFormInfoIni = class(TComponent)
   private
@@ -73,6 +76,7 @@ type
     FSauvePosObjet:     Boolean;
     FAutoUpdate,
     FSauvePosForm:      Boolean;
+    FOnIniLoad, FOnIniWrite : TEventIni;
 
   protected
     FUpdateAll ,
@@ -99,7 +103,6 @@ type
     procedure p_ExecuteEcriture(const aF_Form: TForm);
     procedure p_LectureColonnes(const aF_Form: TForm);
 
-    property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate ;
   published
     // Propriété qui conserve la position des objets d'une form
     property SauvePosObjects: Boolean read FSauvePosObjet write FSauvePosObjet default False;
@@ -107,6 +110,9 @@ type
     property SauveEditObjets: TSauveEditObjets read FSauveEditObjets write FSauveEditObjets nodefault;
     // Propriété qui conserve la position(index) des objets PageControl (onglets)
     property SauvePosForm: Boolean read FSauvePosForm  write FSauvePosForm default False;
+    property OnIniLoad  : TEventIni read FOnIniLoad write FOnIniLoad ;
+    property OnIniWrite : TEventIni read FOnIniWrite write FOnIniWrite;
+    property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate default True;
   end;
 
 implementation
@@ -260,11 +266,8 @@ procedure TOnFormInfoIni.LaFormShow(Sender: TObject);
 begin
   if Assigned(FormOldShow) then FormOldShow(Sender);
   if FAutoChargeIni then
-    try
-      Self.Updating;
+    Begin
       p_ExecuteLecture(TForm(Self.Owner));
-    finally
-      Self.Updated;
     end;
 end;
 
@@ -317,6 +320,7 @@ var
   j, k, Indice, Rien, valItemIndex, li_Taille : integer;
   SvgEditDeLaFiche: TOnFormInfoIni;
   ls_Temp : String ;
+  ab_continue : Boolean;
 
 begin
   FAutoChargeIni := False;
@@ -329,6 +333,7 @@ begin
         ( Owner as TCustomForm ).BeginUpdateBounds;
       End;
  {$ENDIF}
+  ab_continue := True;
 
   if Assigned(FIni) then
     try
@@ -338,225 +343,230 @@ begin
         begin
           SvgEditDeLaFiche:= TOnFormInfoIni(af_Form.Components[Indice]);
 
+          If Assigned ( FOnIniLoad ) Then
+            FOnIniLoad ( FIni, ab_continue );
+
           // traitement des composants de la af_Form
-          for j := 0 to af_Form.ComponentCount - 1 do
-            begin
-              try
-                if (aF_Form.Components[j] is TDBGrid) and
-                   GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTGrid) then
-                  begin
-                    f_IniReadGridFromIni ( FIni, aF_Form.Name, aF_Form.Components[j] as TDBGrid );
-                  end;
-
-                if (aF_Form.Components[j].ClassNameIs ( 'TBaseVirtualTree' ))
-                 and   GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTVirtualTrees) then
+          if ab_continue Then
+            for j := 0 to af_Form.ComponentCount - 1 do
+              begin
+                try
+                  if (aF_Form.Components[j] is TDBGrid) and
+                     GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTGrid) then
                     begin
-                      {$IFDEF DELPHI}
-                      f_IniReadVirtualTreeFromIni ( FIni, aF_Form.Name, aF_Form.Components[j] as TBaseVirtualTree );
+                      f_IniReadGridFromIni ( FIni, aF_Form.Name, aF_Form.Components[j] as TDBGrid );
+                    end;
+
+                  if (aF_Form.Components[j].ClassNameIs ( 'TBaseVirtualTree' ))
+                   and   GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTVirtualTrees) then
+                      begin
+                        {$IFDEF DELPHI}
+                        f_IniReadVirtualTreeFromIni ( FIni, aF_Form.Name, aF_Form.Components[j] as TBaseVirtualTree );
+                        {$ENDIF}
+                    end;
+
+                  if (aF_Form.Components[j] is TListView)
+                   and   GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTListView) then
+                      begin
+                        f_IniReadListViewFromIni ( FIni, aF_Form.Name, aF_Form.Components[j] as TListView );
+  {                      for k := 0 to lsv_ListView.Columns.Count - 1 do
+                          if FIni.ReadInteger(aF_Form.Name, aF_Form.Components[j].Name + '.' + lsv_ListView.Columns[k].Caption, lsv_ListView.Columns[k].Width) > 0 Then
+                            lsv_ListView.Columns[k].Width := FIni.ReadInteger(aF_Form.Name, aF_Form.Components[j].Name + '.' + lsv_ListView.Columns[k].Caption, lsv_ListView.Columns[k].Width);}
+                    end;
+
+                  // lecture de la position des objets Panels et Rxsplitters
+                  if (   (af_Form.Components[j] Is TPanel )
+                      or (af_Form.Components[j] is TCustomListView )
+                      {$IFDEF VIRTUALTREES}
+                      or (af_Form.Components[j] is TBaseVirtualTree  )
                       {$ENDIF}
-                  end;
-
-                if (aF_Form.Components[j] is TListView)
-                 and   GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTListView) then
+                      or (af_Form.Components[j] is TCustomGrid ))
+                  and SvgEditDeLaFiche.FSauvePosObjet then
                     begin
-                      f_IniReadListViewFromIni ( FIni, aF_Form.Name, aF_Form.Components[j] as TListView );
-{                      for k := 0 to lsv_ListView.Columns.Count - 1 do
-                        if FIni.ReadInteger(aF_Form.Name, aF_Form.Components[j].Name + '.' + lsv_ListView.Columns[k].Caption, lsv_ListView.Columns[k].Width) > 0 Then
-                          lsv_ListView.Columns[k].Width := FIni.ReadInteger(aF_Form.Name, aF_Form.Components[j].Name + '.' + lsv_ListView.Columns[k].Caption, lsv_ListView.Columns[k].Width);}
-                  end;
+                      li_Taille := FIni.ReadInteger (af_Form.Name, af_Form.Components[j].Name +'.Width', TControl (af_Form.Components[j]).Width);
+                      if li_Taille > 0 Then
+                        TControl(af_Form.Components[j]).Width := li_Taille ;
+                      li_Taille := FIni.ReadInteger (af_Form.Name, af_Form.Components[j].Name +'.Height',TControl (af_Form.Components[j]).Height);
+                      if li_Taille > 0 Then
+                        TControl(af_Form.Components[j]).Height:= li_Taille ;
+                      Continue;
+                    end;
 
-                // lecture de la position des objets Panels et Rxsplitters
-                if (   (af_Form.Components[j] Is TPanel )
-                    or (af_Form.Components[j] is TCustomListView )
-                    {$IFDEF VIRTUALTREES}
-                    or (af_Form.Components[j] is TBaseVirtualTree  )
-                    {$ENDIF}
-                    or (af_Form.Components[j] is TCustomGrid ))
-                and SvgEditDeLaFiche.FSauvePosObjet then
-                  begin
-                    li_Taille := FIni.ReadInteger (af_Form.Name, af_Form.Components[j].Name +'.Width', TControl (af_Form.Components[j]).Width);
-                    if li_Taille > 0 Then
-                      TControl(af_Form.Components[j]).Width := li_Taille ;
-                    li_Taille := FIni.ReadInteger (af_Form.Name, af_Form.Components[j].Name +'.Height',TControl (af_Form.Components[j]).Height);
-                    if li_Taille > 0 Then
-                      TControl(af_Form.Components[j]).Height:= li_Taille ;
-                    Continue;
-                  end;
+                  // lecture de la page de contrôle(onglets)
+                  if ((af_Form.Components[j] is TPageControl)) and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTPageControl )   then
+                    begin
+                      TPageControl(af_Form.Components[j]).ActivePageIndex := FIni.ReadInteger (af_Form.Name, af_Form.Components[j].Name , 0);
+                      Continue;
+                    end;
+                  // lecture des CheckBoxes
+                  if (af_Form.Components[j] is TCheckBox) and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTCheck ) then
+                    begin
+                      TCheckBox(af_Form.Components[j]).Checked:= FIni.ReadBool(af_Form.name,af_Form.Components[j].Name,true);
+                      Continue;
+                    end;
+                  if (af_Form.Components[j] is TJvXPCheckBox) and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTCheck ) then
+                    begin
+                      TJvXPCheckBox(af_Form.Components[j]).Checked:= FIni.ReadBool(af_Form.name,af_Form.Components[j].Name,true);
+                      Continue;
+                    end;
+                  // lecture des RadioBoutons
+                  if (af_Form.Components[j] is TRadioButton) and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTRadio ) then
+                    begin
+                      TRadioButton(af_Form.Components[j]).Checked:= FIni.ReadBool(af_Form.name,af_Form.Components[j].Name,true);
+                      Continue;
+                    end;
+                  // lecture des groupes de RadioBoutons
+                  if (af_Form.Components[j] is TRadioGroup)  and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTRadioGroup ) then
+                    begin
+                      TRadioGroup(af_Form.Components[j]).ItemIndex:= FIni.ReadInteger(af_Form.name,af_Form.Components[j].Name,0);
+                      Continue;
+                    end;
+                  // lecture de PopupMenu
+                  if (af_Form.Components[j] is TPopupMenu) and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTPopup )  then
+                    begin
+                      mit := TMenu(af_Form.Components[j]).Items;
+                      for k := 0 to mit.Count-1 do
+                        begin
+                          if mit.Items[k].RadioItem then
+                            mit.Items[k].Checked := FIni.ReadBool (af_Form.Name, af_Form.Components[j].Name+'_'+mit.Items[k].Name,true)
+                          else
+                            mit.Items[k].Checked := FIni.ReadBool (af_Form.Name, af_Form.Components[j].Name+'_'+mit.Items[k].Name,False);
+                        end;
+                    end;
 
-                // lecture de la page de contrôle(onglets)
-                if ((af_Form.Components[j] is TPageControl)) and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTPageControl )   then
-                  begin
-                    TPageControl(af_Form.Components[j]).ActivePageIndex := FIni.ReadInteger (af_Form.Name, af_Form.Components[j].Name , 0);
-                    Continue;
-                  end;
-                // lecture des CheckBoxes
-                if (af_Form.Components[j] is TCheckBox) and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTCheck ) then
-                  begin
-                    TCheckBox(af_Form.Components[j]).Checked:= FIni.ReadBool(af_Form.name,af_Form.Components[j].Name,true);
-                    Continue;
-                  end;
-                if (af_Form.Components[j] is TJvXPCheckBox) and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTCheck ) then
-                  begin
-                    TJvXPCheckBox(af_Form.Components[j]).Checked:= FIni.ReadBool(af_Form.name,af_Form.Components[j].Name,true);
-                    Continue;
-                  end;
-                // lecture des RadioBoutons
-                if (af_Form.Components[j] is TRadioButton) and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTRadio ) then
-                  begin
-                    TRadioButton(af_Form.Components[j]).Checked:= FIni.ReadBool(af_Form.name,af_Form.Components[j].Name,true);
-                    Continue;
-                  end;
-                // lecture des groupes de RadioBoutons
-                if (af_Form.Components[j] is TRadioGroup)  and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTRadioGroup ) then
-                  begin
-                    TRadioGroup(af_Form.Components[j]).ItemIndex:= FIni.ReadInteger(af_Form.name,af_Form.Components[j].Name,0);
-                    Continue;
-                  end;
-                // lecture de PopupMenu
-                if (af_Form.Components[j] is TPopupMenu) and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTPopup )  then
-                  begin
-                    mit := TMenu(af_Form.Components[j]).Items;
-                    for k := 0 to mit.Count-1 do
+                  if (af_Form.Components[j] is TEdit) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTedit) then
+                    begin
+                      ls_Temp := FIni.ReadString(af_Form.name,af_Form.Components[j].Name,'');
+                      if ( ls_Temp <> '' ) Then
+                        TCustomEdit(af_Form.Components[j]).Text := ls_Temp ;
+                      Continue;
+                    end;
+
+                  if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDateEdit) Then
+                    if (af_Form.Components[j] is {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}) then
                       begin
-                        if mit.Items[k].RadioItem then
-                          mit.Items[k].Checked := FIni.ReadBool (af_Form.Name, af_Form.Components[j].Name+'_'+mit.Items[k].Name,true)
-                        else
-                          mit.Items[k].Checked := FIni.ReadBool (af_Form.Name, af_Form.Components[j].Name+'_'+mit.Items[k].Name,False);
-                      end;
-                  end;
-
-                if (af_Form.Components[j] is TEdit) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTedit) then
-                  begin
-                    ls_Temp := FIni.ReadString(af_Form.name,af_Form.Components[j].Name,'');
-                    if ( ls_Temp <> '' ) Then
-                      TCustomEdit(af_Form.Components[j]).Text := ls_Temp ;
-                    Continue;
-                  end;
-
-                if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDateEdit) Then
-                  if (af_Form.Components[j] is {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}) then
-                    begin
-                      {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}(af_Form.Components[j]).Date := StrToDateTime(FIni.ReadString (af_Form.name,af_Form.Components[j].Name,DateToStr(Date)));
-                      Continue;
-                    end;
-
-                if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTFileNameEdit) Then
-                  Begin
-                    {$IFDEF DELPHI}
-                  if (af_Form.Components[j] is  TJvFileNameEdit) then
-                    begin
-                      TJvFileNameEdit (af_Form.Components[j]).Text := FIni.ReadString(af_Form.name, af_Form.Components[j].Name, GetCurrentDir);
-                      Continue;
-                    end;
-                     {$ENDIF}
-                 {$IFDEF RX}
-                  if (af_Form.Components[j] is TFileNameEdit ) then
-                    begin
-                      TFileNameEdit (af_Form.Components[j]).Text := FIni.ReadString(af_Form.name, af_Form.Components[j].Name, GetCurrentDir);
-                      Continue;
-                    end;
-                    {$ENDIF}
-                  End ;
-
-                if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDirectoryEdit) Then
-                  Begin
-                    if (af_Form.Components[j].ClassNameIs('TJvDirectoryEdit')) then
-                      begin
-                        p_SetComponentProperty (af_Form.Components[j], 'Text', FIni.ReadString (af_Form.name,af_Form.Components[j].Name, GetCurrentDir ));
+                        {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}(af_Form.Components[j]).Date := StrToDateTime(FIni.ReadString (af_Form.name,af_Form.Components[j].Name,DateToStr(Date)));
                         Continue;
                       end;
-                    if (af_Form.Components[j].ClassNameIs('TDirectoryEdit')) then
+
+                  if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTFileNameEdit) Then
+                    Begin
+                      {$IFDEF DELPHI}
+                    if (af_Form.Components[j] is  TJvFileNameEdit) then
                       begin
-                        p_SetComponentProperty (af_Form.Components[j], {$IFDEF FPC} 'Text' {$ELSE} 'EditText' {$ENDIF}, FIni.ReadString (af_Form.name,af_Form.Components[j].Name, GetCurrentDir));
+                        TJvFileNameEdit (af_Form.Components[j]).Text := FIni.ReadString(af_Form.name, af_Form.Components[j].Name, GetCurrentDir);
                         Continue;
                       end;
-                  End;
+                       {$ENDIF}
+                   {$IFDEF RX}
+                    if (af_Form.Components[j] is TFileNameEdit ) then
+                      begin
+                        TFileNameEdit (af_Form.Components[j]).Text := FIni.ReadString(af_Form.name, af_Form.Components[j].Name, GetCurrentDir);
+                        Continue;
+                      end;
+                      {$ENDIF}
+                    End ;
+
+                  if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDirectoryEdit) Then
+                    Begin
+                      if (af_Form.Components[j].ClassNameIs('TJvDirectoryEdit')) then
+                        begin
+                          p_SetComponentProperty (af_Form.Components[j], 'Text', FIni.ReadString (af_Form.name,af_Form.Components[j].Name, GetCurrentDir ));
+                          Continue;
+                        end;
+                      if (af_Form.Components[j].ClassNameIs('TDirectoryEdit')) then
+                        begin
+                          p_SetComponentProperty (af_Form.Components[j], {$IFDEF FPC} 'Text' {$ELSE} 'EditText' {$ENDIF}, FIni.ReadString (af_Form.name,af_Form.Components[j].Name, GetCurrentDir));
+                          Continue;
+                        end;
+                    End;
 
 
-                {$IFDEF DELPHI}
-                if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDateTimePicker) Then
-                  if (af_Form.Components[j] is TDateTimePicker) then
+                  {$IFDEF DELPHI}
+                  if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDateTimePicker) Then
+                    if (af_Form.Components[j] is TDateTimePicker) then
+                      begin
+                        if FIni.ReadString(af_Form.name,af_Form.Components[j].Name,'%ù@à*£')<>'%ù@à*£' then TDateTimePicker(af_Form.Components[j]).DateTime:=StrToDateTime( FIni.ReadString(af_Form.name,af_Form.Components[j].Name,''));
+                        Continue;
+                      end;
+                  {$ENDIF}
+                  if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTSpinEdit) Then
+                    if (af_Form.Components[j].ClassNameIs( 'TSpinEdit'))
+                    or (af_Form.Components[j].ClassNameIs( 'TRxSpinEdit'))
+                     then
+                      begin
+                        p_SetComponentProperty(af_Form.Components[j], 'Value', FIni.ReadInteger(af_Form.name,af_Form.Components[j].Name,flin_getComponentProperty(af_Form.Components[j], 'Value')));
+                        Continue;
+                      end;
+                  if (af_Form.Components[j] is TMemo) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTMemo)        then
                     begin
-                      if FIni.ReadString(af_Form.name,af_Form.Components[j].Name,'%ù@à*£')<>'%ù@à*£' then TDateTimePicker(af_Form.Components[j]).DateTime:=StrToDateTime( FIni.ReadString(af_Form.name,af_Form.Components[j].Name,''));
+                      LitTstringsDeIni(FIni, af_Form.name+af_Form.Components[j].Name,TCustomMemo(af_Form.Components[j]).Lines,rien );
                       Continue;
                     end;
-                {$ENDIF}
-                if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTSpinEdit) Then
-                  if (af_Form.Components[j].ClassNameIs( 'TSpinEdit'))
-                  or (af_Form.Components[j].ClassNameIs( 'TRxSpinEdit'))
+                  if (af_Form.Components[j] is {$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTRichEdit)    then
+                    begin
+                      LitTstringsDeIni(FIni, af_Form.name+af_Form.Components[j].Name,{$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}(af_Form.Components[j]).Lines,rien);
+                      Continue;
+                    end;
+                  if (af_Form.Components[j] is TCustomComboBox) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboValue)
+                  and not assigned ( fobj_getComponentObjectProperty(af_Form.Components[j],'Datasource'))
                    then
                     begin
-                      p_SetComponentProperty(af_Form.Components[j], 'Value', FIni.ReadInteger(af_Form.name,af_Form.Components[j].Name,flin_getComponentProperty(af_Form.Components[j], 'Value')));
-                      Continue;
-                    end;
-                if (af_Form.Components[j] is TMemo) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTMemo)        then
-                  begin
-                    LitTstringsDeIni(FIni, af_Form.name+af_Form.Components[j].Name,TCustomMemo(af_Form.Components[j]).Lines,rien );
-                    Continue;
-                  end;
-                if (af_Form.Components[j] is {$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTRichEdit)    then
-                  begin
-                    LitTstringsDeIni(FIni, af_Form.name+af_Form.Components[j].Name,{$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}(af_Form.Components[j]).Lines,rien);
-                    Continue;
-                  end;
-                if (af_Form.Components[j] is TCustomComboBox) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboValue)
-                and not assigned ( fobj_getComponentObjectProperty(af_Form.Components[j],'Datasource'))
-                 then
-                  begin
-                      p_SetComponentProperty(af_Form.Components[j], 'Text', FIni.ReadString (af_Form.name,af_Form.Components[j].Name+'.Text',''));
-                  End;
-                if (af_Form.Components[j].CLassNameIs( 'TExtColorCombo')) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTColorCombo)
-                 then
-                  begin
-                      p_SetComponentProperty(af_Form.Components[j], 'Value', FIni.ReadString (af_Form.name,af_Form.Components[j].Name+'.Value',''));
-                  End;
-{$IFDEF RX}
-                if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboValue)
-                and (af_Form.Components[j] is {$IFDEF FPC}TRxCustomDBLookupCombo{$ELSE}TRxLookupControl{$ENDIF})
-                and not assigned ( fobj_getComponentObjectProperty(af_Form.Components[j],'Datasource'))
-                 Then
-                  begin
-                    {$IFNDEF FPC}
-                    if (af_Form.Components[j] is TRxDBLookupList ) Then
-                      (af_Form.Components[j] as TRxDBLookupList).DisplayValue := FIni.ReadString (af_Form.name,af_Form.Components[j].Name + '.Value', '')
-                     else
-                     {$ENDIF}
-                      if (af_Form.Components[j] is TRxDBLookupCombo ) Then
-                      {$IFDEF FPC}
-                        (af_Form.Components[j] as TRxDBLookupCombo).LookupDisplayIndex := FIni.ReadInteger (af_Form.name,af_Form.Components[j].Name + '.Index', -1);
-                      {$ELSE}
-                       (af_Form.Components[j] as TRxDBLookupCombo).DisplayValue := FIni.ReadString (af_Form.name,af_Form.Components[j].Name + '.Index', '');
-                       {$ENDIF}
-                  End;
-{$ENDIF}
-                if (af_Form.Components[j] is TCustomComboBox) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboBox)    then
-                  begin
-                    LitTstringsDeIni(FIni, af_Form.name+af_Form.Components[j].Name,TCustomComboBox(af_Form.Components[j]).Items,valItemIndex);
-                    if valItemIndex<=TCustomComboBox(af_Form.Components[j]).Items.Count-1 then
-                      TCustomComboBox(af_Form.Components[j]).ItemIndex:=valItemIndex;
-                    Continue;
-                  end;
-                if (af_Form.Components[j] is TListBox) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTListBox)     then
-                  begin
-                    LitTstringsDeIni(FIni, af_Form.name+af_Form.Components[j].Name,TCustomListBox(af_Form.Components[j]).Items,valItemIndex);
-                    if valItemIndex<=TCustomListBox(af_Form.Components[j]).Items.Count-1 then TCustomListBox(af_Form.Components[j]).ItemIndex:=valItemIndex;
-                    Continue;
-                  end;
-                if  GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTCurrencyEdit) Then
-                  if (af_Form.Components[j] is TExtNumEdit) then
+                        p_SetComponentProperty(af_Form.Components[j], 'Text', FIni.ReadString (af_Form.name,af_Form.Components[j].Name+'.Text',''));
+                    End;
+                  if (af_Form.Components[j].CLassNameIs( 'TExtColorCombo')) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTColorCombo)
+                   then
                     begin
-                      TExtNumEdit(af_Form.Components[j]).Text := FIni.ReadString (af_Form.name,af_Form.Components[j].Name,' ');
+                        p_SetComponentProperty(af_Form.Components[j], 'Value', FIni.ReadString (af_Form.name,af_Form.Components[j].Name+'.Value',''));
+                    End;
+  {$IFDEF RX}
+                  if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboValue)
+                  and (af_Form.Components[j] is {$IFDEF FPC}TRxCustomDBLookupCombo{$ELSE}TRxLookupControl{$ENDIF})
+                  and not assigned ( fobj_getComponentObjectProperty(af_Form.Components[j],'Datasource'))
+                   Then
+                    begin
+                      {$IFNDEF FPC}
+                      if (af_Form.Components[j] is TRxDBLookupList ) Then
+                        (af_Form.Components[j] as TRxDBLookupList).DisplayValue := FIni.ReadString (af_Form.name,af_Form.Components[j].Name + '.Value', '')
+                       else
+                       {$ENDIF}
+                        if (af_Form.Components[j] is TRxDBLookupCombo ) Then
+                        {$IFDEF FPC}
+                          (af_Form.Components[j] as TRxDBLookupCombo).LookupDisplayIndex := FIni.ReadInteger (af_Form.name,af_Form.Components[j].Name + '.Index', -1);
+                        {$ELSE}
+                         (af_Form.Components[j] as TRxDBLookupCombo).DisplayValue := FIni.ReadString (af_Form.name,af_Form.Components[j].Name + '.Index', '');
+                         {$ENDIF}
+                    End;
+  {$ENDIF}
+                  if (af_Form.Components[j] is TCustomComboBox) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboBox)    then
+                    begin
+                      LitTstringsDeIni(FIni, af_Form.name+af_Form.Components[j].Name,TCustomComboBox(af_Form.Components[j]).Items,valItemIndex);
+                      if valItemIndex<=TCustomComboBox(af_Form.Components[j]).Items.Count-1 then
+                        TCustomComboBox(af_Form.Components[j]).ItemIndex:=valItemIndex;
                       Continue;
                     end;
-              except
-              end;
-            end; // Fin for composant de la af_Form
+                  if (af_Form.Components[j] is TListBox) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTListBox)     then
+                    begin
+                      LitTstringsDeIni(FIni, af_Form.name+af_Form.Components[j].Name,TCustomListBox(af_Form.Components[j]).Items,valItemIndex);
+                      if valItemIndex<=TCustomListBox(af_Form.Components[j]).Items.Count-1 then TCustomListBox(af_Form.Components[j]).ItemIndex:=valItemIndex;
+                      Continue;
+                    end;
+                  if  GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTCurrencyEdit) Then
+                    if (af_Form.Components[j] is TExtNumEdit) then
+                      begin
+                        TExtNumEdit(af_Form.Components[j]).Text := FIni.ReadString (af_Form.name,af_Form.Components[j].Name,' ');
+                        Continue;
+                      end;
+                except
+                end;
+              end; // Fin for composant de la af_Form
         end;
 
     finally
 
    {$IFDEF FPC}
-      if FSauvePosObjet
+      if ab_continue
+      and FSauvePosObjet
       and ( Owner is TCustomForm ) Then
         Begin
           ( Owner as TCustomForm ).EndUpdateBounds;
@@ -571,28 +581,37 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.ExecuteEcriture(aLocal:Boolean);
 var i : Integer ;
+    ab_continue : Boolean ;
+    FIni : TIniFile;
 begin
 
   if not assigned ( FormAOwner )
    Then
     Exit ;
   FUpdateAll := True ;
-  try
-    For i:=0 to application.ComponentCount-1 do //pour chaque af_Form de l'application
-    begin
-      if ( application.Components[i] is TForm )
-      and ((FormAOwner.Name = ( TForm ( application.Components[i] )).Name) and aLocal) or (Not aLocal)
-       Then
-        p_ExecuteEcriture ( TForm ( application.Components[i] ));
-    end; //fin pour chaque af_Form de l'application
-  finally
-    FUpdateAll := False ;
-    if FAutoUpdate Then
-      Begin
-        fb_iniWriteFile ( f_GetMemIniFile, False );
-        Application.ProcessMessages ;
-      End ;
-  End ;
+  ab_continue := True;
+  FIni := f_GetMemIniFile;
+  If Assigned ( FOnIniWrite ) Then
+    FOnIniWrite ( FIni, ab_continue );
+  if ab_continue Then
+    try
+      For i:=0 to application.ComponentCount-1 do //pour chaque af_Form de l'application
+      begin
+        if ( application.Components[i] is TForm )
+        and ((FormAOwner.Name = ( TForm ( application.Components[i] )).Name) and aLocal) or (Not aLocal)
+         Then
+          p_ExecuteEcriture ( TForm ( application.Components[i] ));
+      end; //fin pour chaque af_Form de l'application
+    finally
+      FUpdateAll := False ;
+
+      if FAutoUpdate Then
+        Begin
+          fb_iniWriteFile ( FIni, False );
+          Application.ProcessMessages ;
+
+        End ;
+    End ;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -612,206 +631,208 @@ begin
   FIni:= f_GetMemIniFile;
   if not Assigned(FIni) then Exit;
 
-  try
-      Indice := ExisteComposantSvgEditSurLaFiche ( af_Form );
-      if Indice <> -1 then
+    Indice := ExisteComposantSvgEditSurLaFiche ( af_Form );
+    if Indice <> -1 then
+    begin
+      SvgEditDeLaFiche:= TOnFormInfoIni(af_Form.Components[Indice]);
+      // traitement de la position de la af_Form
+      if (af_Form.FormStyle <> fsMDIChild) and (SvgEditDeLaFiche.FSauvePosForm)  then
+        p_EcriturePositionFenetre(af_Form);
+
+      // Traitement des composants de la af_Form
+      For j:=0 to af_Form.ComponentCount-1 do
       begin
-        SvgEditDeLaFiche:= TOnFormInfoIni(af_Form.Components[Indice]);
-        // traitement de la position de la af_Form
-        if (af_Form.FormStyle <> fsMDIChild) and (SvgEditDeLaFiche.FSauvePosForm)  then
-          p_EcriturePositionFenetre(af_Form);
-
-        // Traitement des composants de la af_Form
-        For j:=0 to af_Form.ComponentCount-1 do
-        begin
-          Try
-            if (af_Form.Components[j] is TDBGrid) and
-               GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTGrid) then
-              begin
-                p_IniWriteGridToIni ( FIni, af_Form.Name, af_Form.Components[j] as TDBGrid );
-              end;
-
-                if (aF_Form.Components[j].ClassNameIs ( 'TBaseVirtualTree' ))
-                 and   GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTVirtualTrees) then
-                  begin
-                    {$IFDEF DELPHI}
-                    p_IniWriteVirtualTreeToIni ( FIni, af_Form.Name, af_Form.Components[j] as TBaseVirtualTree );
-                    {$ENDIF}
-                  end;
-
-                if (aF_Form.Components[j] is TListView)
-                 and   GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTListView) then
-                    begin
-                      p_IniWriteListViewToIni ( FIni, af_Form.Name, af_Form.Components[j] as TListView );
-                  end;
-
-            // écriture des positions des objets Panels et RxSplitters
-            if SvgEditDeLaFiche.FSauvePosObjet then
+        Try
+          if (af_Form.Components[j] is TDBGrid) and
+             GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTGrid) then
             begin
-             if      (af_Form.Components[j] is TPanel)
-                  or (af_Form.Components[j].ClassNameIs ( 'TBaseVirtualTree' ))
-                  or (af_Form.Components[j] is TCustomGrid)
-                  or (af_Form.Components[j] is TCustomListView) Then
-                   begin
-                    if TControl(af_Form.Components[j]).Width  > 0 Then
-                      FIni.WriteInteger(af_Form.name,af_Form.Components[j].Name+'.Width',TControl(af_Form.Components[j]).Width);
-                    if TControl(af_Form.Components[j]).Height > 0 Then
-                      FIni.WriteInteger(af_Form.name,af_Form.Components[j].Name+'.Height',TControl(af_Form.Components[j]).Height);
-                    Continue;
-                  end;
+              p_IniWriteGridToIni ( FIni, af_Form.Name, af_Form.Components[j] as TDBGrid );
+              Continue;
             end;
 
-            // Écriture de la position des colonnes des grilles
-            // Ecriture de la page de contrôle(onglets)
-            if (af_Form.Components[j] is TPageControl)     and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTPageControl )   then
-              begin
-                FIni.WriteInteger(af_Form.name,af_Form.Components[j].Name,TPageControl(af_Form.Components[j]).ActivePageIndex );
-                Continue;
-              end;
+              if (aF_Form.Components[j].ClassNameIs ( 'TBaseVirtualTree' ))
+               and   GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTVirtualTrees) then
+                begin
+                  {$IFDEF DELPHI}
+                  p_IniWriteVirtualTreeToIni ( FIni, af_Form.Name, af_Form.Components[j] as TBaseVirtualTree );
+                  {$ENDIF}
+                  Continue;
+                end;
 
-            if (af_Form.Components[j] is TCheckBox)       and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTCheck )         then
+              if (aF_Form.Components[j] is TListView)
+               and   GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTListView) then
+                begin
+                  p_IniWriteListViewToIni ( FIni, af_Form.Name, af_Form.Components[j] as TListView );
+                  Continue;
+                end;
+
+          // écriture des positions des objets Panels et RxSplitters
+          if SvgEditDeLaFiche.FSauvePosObjet then
+          begin
+           if      (af_Form.Components[j] is TPanel)
+                or (af_Form.Components[j].ClassNameIs ( 'TBaseVirtualTree' ))
+                or (af_Form.Components[j] is TCustomGrid)
+                or (af_Form.Components[j] is TCustomListView) Then
+                 begin
+                  if TControl(af_Form.Components[j]).Width  > 0 Then
+                    FIni.WriteInteger(af_Form.name,af_Form.Components[j].Name+'.Width',TControl(af_Form.Components[j]).Width);
+                  if TControl(af_Form.Components[j]).Height > 0 Then
+                    FIni.WriteInteger(af_Form.name,af_Form.Components[j].Name+'.Height',TControl(af_Form.Components[j]).Height);
+                  Continue;
+                end;
+          end;
+
+          // Écriture de la position des colonnes des grilles
+          // Ecriture de la page de contrôle(onglets)
+          if (af_Form.Components[j] is TPageControl)     and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTPageControl )   then
             begin
-              FIni.WriteBool(af_Form.name,af_Form.Components[j].Name,TCheckBox(af_Form.Components[j]).Checked);
+              FIni.WriteInteger(af_Form.name,af_Form.Components[j].Name,TPageControl(af_Form.Components[j]).ActivePageIndex );
+              Continue;
+            end;
+
+          if (af_Form.Components[j] is TCheckBox)       and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTCheck )         then
+          begin
+            FIni.WriteBool(af_Form.name,af_Form.Components[j].Name,TCheckBox(af_Form.Components[j]).Checked);
+            Continue;
+            end;
+          if (af_Form.Components[j] is TJvXpCheckBox)       and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTCheck )         then
+          begin
+            FIni.WriteBool(af_Form.name,af_Form.Components[j].Name,TJvXPCheckBox(af_Form.Components[j]).Checked);
+            Continue;
+            end;
+          if (af_Form.Components[j] is TRadioButton)    and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTRadio )      then
+          begin
+            FIni.WriteBool(af_Form.name,af_Form.Components[j].Name,TRadioButton(af_Form.Components[j]).Checked);
+            Continue;
+            end;
+          if (af_Form.Components[j] is TRadioGroup)     and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTRadioGroup )       then
+          begin
+            FIni.WriteInteger(af_Form.name,af_Form.Components[j].Name,TRadioGroup(af_Form.Components[j]).ItemIndex);
+            Continue;
+            end;
+          // Ecriture de PopupMenu
+          if (af_Form.Components[j] is TPopupMenu )     and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTPopup )  then
+            begin
+              mit := TMenu(af_Form.Components[j]).Items;
+              for k := 0 to mit.Count-1 do
+                begin
+                  FIni.WriteBool (af_Form.Name, af_Form.Components[j].Name+'_'+mit.Items[k].Name , mit.Items[k].Checked);
+                end;
+              Continue;
+            end;
+          // écriture des données des objets dans le fichier ini.
+          if SvgEditDeLaFiche.FSauveEditObjets <> [] Then
+          begin
+            if (af_Form.Components[j] is TEdit)           and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTEdit) then
+            begin
+              FIni.WriteString(af_Form.name,af_Form.Components[j].Name,TCustomEdit(af_Form.Components[j]).Text);
               Continue;
               end;
-            if (af_Form.Components[j] is TJvXpCheckBox)       and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTCheck )         then
+            if (af_Form.Components[j] is {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF})       and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDateEdit) then
             begin
-              FIni.WriteBool(af_Form.name,af_Form.Components[j].Name,TJvXPCheckBox(af_Form.Components[j]).Checked);
+              FIni.WriteString(af_Form.name,af_Form.Components[j].Name,DateTimeToStr({$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}(af_Form.Components[j]).Date));
               Continue;
               end;
-            if (af_Form.Components[j] is TRadioButton)    and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTRadio )      then
-            begin
-              FIni.WriteBool(af_Form.name,af_Form.Components[j].Name,TRadioButton(af_Form.Components[j]).Checked);
-              Continue;
-              end;
-            if (af_Form.Components[j] is TRadioGroup)     and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTRadioGroup )       then
-            begin
-              FIni.WriteInteger(af_Form.name,af_Form.Components[j].Name,TRadioGroup(af_Form.Components[j]).ItemIndex);
-              Continue;
-              end;
-            // Ecriture de PopupMenu
-            if (af_Form.Components[j] is TPopupMenu )     and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTPopup )  then
-              begin
-                mit := TMenu(af_Form.Components[j]).Items;
-                for k := 0 to mit.Count-1 do
-                  begin
-                    FIni.WriteBool (af_Form.Name, af_Form.Components[j].Name+'_'+mit.Items[k].Name , mit.Items[k].Checked);
-                  end;
-                Continue;
-              end;
-            // écriture des données des objets dans le fichier ini.
-            if SvgEditDeLaFiche.FSauveEditObjets <> [] Then
-            begin
-              if (af_Form.Components[j] is TEdit)           and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTEdit) then
-              begin
-                FIni.WriteString(af_Form.name,af_Form.Components[j].Name,TCustomEdit(af_Form.Components[j]).Text);
+              if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTFileNameEdit) Then
+                Begin
+                {$IFDEF DELPHI}
+                  If (af_Form.Components[j] is TJvFileNameEdit) then
+                    begin
+                      FIni.WriteString(af_Form.name,af_Form.Components[j].Name,TJvFileNameEdit(af_Form.Components[j]).Text);
+                      Continue;
+                    end;
+                 {$ENDIF}
+                {$IFDEF RX}
+                  If (af_Form.Components[j] is TFileNameEdit) then
+                    begin
+                      FIni.WriteString(af_Form.name,af_Form.Components[j].Name,TFileNameEdit(af_Form.Components[j]).Text);
+                      Continue;
+                    end;
+                 {$ENDIF}
+                End ;
+              if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDirectoryEdit) then
+                begin
+                  if (af_Form.Components[j].ClassNameIs('TJvDirectoryEdit')) then
+                    Begin
+                      FIni.WriteString(af_Form.name,af_Form.Components[j].Name,fs_getComponentProperty(af_Form.Components[j], 'Text'));
+                      Continue;
+                    End;
+                  if (af_Form.Components[j].ClassNameIs('TDirectoryEdit')) then
+                    begin
+                      FIni.WriteString(af_Form.name,af_Form.Components[j].Name,fs_getComponentProperty(af_Form.Components[j], {$IFDEF FPC} 'Text' {$ELSE} 'EditText' {$ENDIF}));
+                      Continue;
+                    end;
+                end;
+              if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTSpinEdit)
+              and  (   (af_Form.Components[j].ClassNameIs( 'TSpinEdit'))
+                    or (af_Form.Components[j].ClassNameIs( 'TRxSpinEdit')))
+               then
+                begin
+                FIni.WriteInteger(af_Form.name,af_Form.Components[j].Name,flin_getComponentProperty(af_Form.Components[j], 'Value' ));
                 Continue;
                 end;
-              if (af_Form.Components[j] is {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF})       and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDateEdit) then
-              begin
-                FIni.WriteString(af_Form.name,af_Form.Components[j].Name,DateTimeToStr({$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}(af_Form.Components[j]).Date));
+              if (af_Form.Components[j] is TMemo)           and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTMemo)            then
+                begin
+                SauveTStringsDansIni(FIni, af_Form.name+af_Form.Components[j].Name,TMemo(af_Form.Components[j]).Lines,0);
+                            Continue;
+                end;
+              if (af_Form.Components[j] is {$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF})       and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTRichEdit)        then
+                begin
+                          SauveTStringsDansIni(FIni, af_Form.name+af_Form.Components[j].Name,{$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}(af_Form.Components[j]).Lines,0);
                 Continue;
                 end;
-    if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTFileNameEdit) Then
-      Begin
-      {$IFDEF DELPHI}
-        If (af_Form.Components[j] is TJvFileNameEdit) then
-          begin
-            FIni.WriteString(af_Form.name,af_Form.Components[j].Name,TJvFileNameEdit(af_Form.Components[j]).Text);
-            Continue;
-          end;
-       {$ENDIF}
-      {$IFDEF RX}
-        If (af_Form.Components[j] is TFileNameEdit) then
-          begin
-            FIni.WriteString(af_Form.name,af_Form.Components[j].Name,TFileNameEdit(af_Form.Components[j]).Text);
-            Continue;
-          end;
-       {$ENDIF}
-      End ;
-    if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDirectoryEdit) then
-      begin
-        if (af_Form.Components[j].ClassNameIs('TJvDirectoryEdit')) then
-          Begin
-            FIni.WriteString(af_Form.name,af_Form.Components[j].Name,fs_getComponentProperty(af_Form.Components[j], 'Text'));
-            Continue;
-          End;
-        if (af_Form.Components[j].ClassNameIs('TDirectoryEdit')) then
-          begin
-            FIni.WriteString(af_Form.name,af_Form.Components[j].Name,fs_getComponentProperty(af_Form.Components[j], {$IFDEF FPC} 'Text' {$ELSE} 'EditText' {$ENDIF}));
-            Continue;
-          end;
-    end;
-  if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTSpinEdit)
-  and  (   (af_Form.Components[j].ClassNameIs( 'TSpinEdit'))
-        or (af_Form.Components[j].ClassNameIs( 'TRxSpinEdit')))
-   then
-    begin
-    FIni.WriteInteger(af_Form.name,af_Form.Components[j].Name,flin_getComponentProperty(af_Form.Components[j], 'Value' ));
-    Continue;
-    end;
-  if (af_Form.Components[j] is TMemo)           and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTMemo)            then
-    begin
-    SauveTStringsDansIni(FIni, af_Form.name+af_Form.Components[j].Name,TMemo(af_Form.Components[j]).Lines,0);
+              if (af_Form.Components[j].CLassNameIs( 'TExtColorCombo')) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTColorCombo)
+               then
+                begin
+                    FIni.WriteInteger(af_Form.name,af_Form.Components[j].Name+ '.Value', Flin_getComponentProperty (af_Form.Components[j], 'Value'));
+                End;
+              if (af_Form.Components[j] is TCustomComboBox) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboValue)
+              and not assigned ( fobj_getComponentObjectProperty(af_Form.Components[j],'Datasource'))
+               Then
+                begin
+                  FIni.WriteString(af_Form.name,af_Form.Components[j].Name+'.Text',fs_getComponentProperty(af_Form.Components[j], 'Text'));
+                End;
+            {$IFDEF RX}
+              if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboValue)
+              and (af_Form.Components[j] is {$IFDEF FPC}TRxCustomDBLookupCombo{$ELSE}TRxLookupControl{$ENDIF})
+              and not assigned ( fobj_getComponentObjectProperty(af_Form.Components[j],'Datasource'))
+               then
+                begin
+                 {$IFNDEF FPC}
+                  if (af_Form.Components[j] is TRxDBLookupList) Then
+                    FIni.WriteString( af_Form.name,af_Form.Components[j].Name + '.Value', (af_Form.Components[j] as TRxDBLookupList).DisplayValue)
+                   else
+                  {$ENDIF}
+                    if (af_Form.Components[j] is TRxDBLookupCombo) Then
+                    {$IFDEF FPC}
+                      FIni.WriteInteger( af_Form.name,af_Form.Components[j].Name + '.Index', (af_Form.Components[j] as TRxDBLookupCombo).LookupDisplayIndex);
+                    {$ELSE}
+                      FIni.WriteString( af_Form.name,af_Form.Components[j].Name + '.Value', (af_Form.Components[j] as TRxDBLookupCombo).DisplayValue);
+                     {$ENDIF}
+                End;
+            {$ENDIF}
+              if (af_Form.Components[j] is TCustomComboBox)       and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboBox)        then
+                begin
+                SauveTStringsDansIni(FIni, af_Form.name+af_Form.Components[j].Name,TCustomComboBox(af_Form.Components[j]).Items,TCustomComboBox(af_Form.Components[j]).ItemIndex);
                 Continue;
-    end;
-  if (af_Form.Components[j] is {$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF})       and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTRichEdit)        then
-    begin
-              SauveTStringsDansIni(FIni, af_Form.name+af_Form.Components[j].Name,{$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}(af_Form.Components[j]).Lines,0);
-    Continue;
-    end;
-  if (af_Form.Components[j].CLassNameIs( 'TExtColorCombo')) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTColorCombo)
-   then
-    begin
-        FIni.WriteInteger(af_Form.name,af_Form.Components[j].Name+ '.Value', Flin_getComponentProperty (af_Form.Components[j], 'Value'));
-    End;
-  if (af_Form.Components[j] is TCustomComboBox) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboValue)
-  and not assigned ( fobj_getComponentObjectProperty(af_Form.Components[j],'Datasource'))
-   Then
-    begin
-      FIni.WriteString(af_Form.name,af_Form.Components[j].Name+'.Text',fs_getComponentProperty(af_Form.Components[j], 'Text'));
-    End;
-{$IFDEF RX}
-  if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboValue)
-  and (af_Form.Components[j] is {$IFDEF FPC}TRxCustomDBLookupCombo{$ELSE}TRxLookupControl{$ENDIF})
-  and not assigned ( fobj_getComponentObjectProperty(af_Form.Components[j],'Datasource'))
-   then
-    begin
-     {$IFNDEF FPC}
-      if (af_Form.Components[j] is TRxDBLookupList) Then
-        FIni.WriteString( af_Form.name,af_Form.Components[j].Name + '.Value', (af_Form.Components[j] as TRxDBLookupList).DisplayValue)
-       else
-      {$ENDIF}
-        if (af_Form.Components[j] is TRxDBLookupCombo) Then
-        {$IFDEF FPC}
-          FIni.WriteInteger( af_Form.name,af_Form.Components[j].Name + '.Index', (af_Form.Components[j] as TRxDBLookupCombo).LookupDisplayIndex);
-        {$ELSE}
-          FIni.WriteString( af_Form.name,af_Form.Components[j].Name + '.Value', (af_Form.Components[j] as TRxDBLookupCombo).DisplayValue);
-         {$ENDIF}
-    End;
-{$ENDIF}
-  if (af_Form.Components[j] is TCustomComboBox)       and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboBox)        then
-    begin
-    SauveTStringsDansIni(FIni, af_Form.name+af_Form.Components[j].Name,TCustomComboBox(af_Form.Components[j]).Items,TCustomComboBox(af_Form.Components[j]).ItemIndex);
-    Continue;
-    end;
-  if (af_Form.Components[j] is TListBox)        and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTListBox)         then
-    begin
-    SauveTStringsDansIni(FIni, af_Form.name+af_Form.Components[j].Name,TCustomListBox(af_Form.Components[j]).Items,TListBox(af_Form.Components[j]).ItemIndex);
+                end;
+              if (af_Form.Components[j] is TListBox)        and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTListBox)         then
+                begin
+                SauveTStringsDansIni(FIni, af_Form.name+af_Form.Components[j].Name,TCustomListBox(af_Form.Components[j]).Items,TListBox(af_Form.Components[j]).ItemIndex);
+                            Continue;
+                end;
+              if (af_Form.Components[j] is TExtNumEdit)   and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTCurrencyEdit) then
+                begin
+                FIni.WriteString(af_Form.name,af_Form.Components[j].Name,TExtNumEdit(af_Form.Components[j]).Text);
                 Continue;
-    end;
-  if (af_Form.Components[j] is TExtNumEdit)   and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTCurrencyEdit) then
-    begin
-    FIni.WriteString(af_Form.name,af_Form.Components[j].Name,TExtNumEdit(af_Form.Components[j]).Text);
-    Continue;
-    end;
-{$IFDEF DELPHI}
-  if (af_Form.Components[j] is TDateTimePicker) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDateTimePicker)  then
-    begin
-    FIni.WriteString(af_Form.name,af_Form.Components[j].Name,DateTimeToStr(TDateTimePicker(af_Form.Components[j]).DateTime));
-    Continue;
-    end;
-{$ENDIF}
+                end;
+            {$IFDEF DELPHI}
+              if (af_Form.Components[j] is TDateTimePicker) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDateTimePicker)  then
+                begin
+                FIni.WriteString(af_Form.name,af_Form.Components[j].Name,DateTimeToStr(TDateTimePicker(af_Form.Components[j]).DateTime));
+                Continue;
+                end;
+            {$ENDIF}
             end;
           Except
           end;
@@ -824,9 +845,6 @@ begin
         Application.ProcessMessages ;
       End;
 
-  finally
-    //Fini.Free;
-  end;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
