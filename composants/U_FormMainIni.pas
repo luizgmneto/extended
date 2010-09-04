@@ -1054,10 +1054,11 @@ begin
 {$IFDEF SFORM}
   if afor_Reference is TSuperForm Then
     Begin
+      Updating;
       if not assigned ( FBoxChilds ) Then
         Begin
           FBoxChilds := TSuperBox.Create(Self);
-          with FBoxChilds as TScrollBox do
+          with FBoxChilds as TSuperBox do
             Begin
               Parent := Self;
               AutoScroll:=True;
@@ -1065,9 +1066,10 @@ begin
             end;
         end;
 //       afor_Reference.AutoSize := True;
-       ( afor_Reference as TSuperForm ).IncrustMode := aicTopLeft;
-       afor_Reference.Align := alClient;
+       ( afor_Reference as TSuperForm ).IncrustMode := aicAllClient;
+//       afor_Reference.Align := alClient;
        ( afor_Reference as TSuperForm ).ShowIncrust ( FBoxChilds );
+       Updated;
      end
    else
 {$ENDIF}
