@@ -1056,7 +1056,7 @@ begin
     Begin
       if not assigned ( FBoxChilds ) Then
         Begin
-          FBoxChilds := TScrollBox.Create(Self);
+          FBoxChilds := TSuperBox.Create(Self);
           with FBoxChilds as TScrollBox do
             Begin
               Parent := Self;
@@ -1064,8 +1064,9 @@ begin
               Align:=alClient;
             end;
         end;
-       afor_Reference.AutoSize := True;
+//       afor_Reference.AutoSize := True;
        ( afor_Reference as TSuperForm ).IncrustMode := aicTopLeft;
+       afor_Reference.Align := alClient;
        ( afor_Reference as TSuperForm ).ShowIncrust ( FBoxChilds );
      end
    else
