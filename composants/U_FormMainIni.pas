@@ -119,7 +119,7 @@ type
   TF_FormMainIni = class({$IFDEF TNT}TTntForm{$ELSE}TForm{$ENDIF})
   private
     {$IFDEF SFORM}
-    FPanelChilds : TWinControl;
+    FBoxChilds : TWinControl;
     {$ENDIF}
     { Déclarations privées }
     // Gestion du clavier
@@ -178,6 +178,7 @@ type
     function ActiveMDIChild : TCustomForm; virtual;
     procedure WindowMinimizeAll(Sender: TObject);
     {$ENDIF}
+    procedure DoClose ( var AAction : TCloseAction ); override;
     function CloseQuery: Boolean; override;
     function fb_ReinitWindow ( var afor_Form : TCustomForm ) : Boolean ;
     // Récupère le code déjà tapé d'une toouche à partir du buffer virtuelle et valide ou non la touche
@@ -266,7 +267,7 @@ type
     // Procédure qui initialise la chaine de connexion de FConnexion
   published
     {$IFDEF SFORM}
-    property PanelChilds : TWinControl read FPanelChilds write FPanelChilds stored True ;
+    property BoxChilds : TWinControl read FBoxChilds write FBoxChilds stored True ;
     {$ENDIF}
     // Propriété connection ADO
     property Connection : TComponent read p_GetConnection write p_SetConnection stored True ;
@@ -833,7 +834,7 @@ begin
   FAutoIniDB := True ;
   FAutoIni    := True ;
   {$IFDEF SFORM}
-  FPanelChilds := nil;
+  FBoxChilds := nil;
   {$ENDIF}
   Inherited create  (AOwner);
   p_CreeFormMainIni (AOwner);
@@ -911,8 +912,12 @@ begin
   // Si le composant est détruit
   inherited Notification(AComponent, Operation);
 
-  if (Assigned(Connection)) and (AComponent.IsImplementorOf(Connection)) then
-    Connection := nil;
+{$IFNDEF FPC}
+  if (Assigned(FConnection)) and (AComponent.IsImplementorOf(Connection)) then
+    FConnection := nil;
+  if (Assigned(FConnector )) and (AComponent.IsImplementorOf(Connector )) then
+    FConnector := nil;
+{$ENDIF}
 end;
 
 
@@ -1049,10 +1054,10 @@ begin
 {$IFDEF SFORM}
   if afor_Reference is TSuperForm Then
     Begin
-      if not assigned ( FPanelChilds ) Then
+      if not assigned ( FBoxChilds ) Then
         Begin
-          FPanelChilds := TScrollBox.Create(Self);
-          with FPanelChilds as TScrollBox do
+          FBoxChilds := TScrollBox.Create(Self);
+          with FBoxChilds as TScrollBox do
             Begin
               Parent := Self;
               AutoScroll:=True;
@@ -1061,7 +1066,7 @@ begin
         end;
        afor_Reference.AutoSize := True;
        ( afor_Reference as TSuperForm ).IncrustMode := aicTopLeft;
-       ( afor_Reference as TSuperForm ).ShowIncrust ( FPanelChilds );
+       ( afor_Reference as TSuperForm ).ShowIncrust ( FBoxChilds );
      end
    else
 {$ENDIF}
@@ -1746,6 +1751,16 @@ Begin
     End ;
 End;
 {$ENDIF}
+
+procedure TF_FormMainIni.DoClose( var AAction: TCloseAction);
+begin
+  inherited DoClose(AAction);
+  try
+    if assigned ( FConnection ) Then p_SetComponentBoolProperty( FConnection, 'Connected', False );
+    if assigned ( FConnector  ) Then p_SetComponentBoolProperty( FConnector , 'Connected', False );
+  finally
+  end;
+end;
 
 
 
