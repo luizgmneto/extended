@@ -232,10 +232,7 @@ end;
 procedure TOnFormInfoIni.LaFormDestroy ( Sender: TObject );
 begin
   if Assigned(FormAOwner)
-{$IFNDEF FPC}
-  and not Application.Terminated
-{$ENDIF}
-  then
+   then
     p_ExecuteEcriture(FormAOwner);
   if Assigned(FormOldDestroy) then FormOldDestroy(Sender);
 end;

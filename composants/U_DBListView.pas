@@ -931,6 +931,12 @@ End ;
 procedure TDBListView.p_Reinitialise ;
 Begin
   gb_LoadList        := False ;
+  gb_AllFetched      := False;
+  if assigned ( gdl_DataLink.DataSet )
+  and gdl_DataLink.DataSet.Active
+  and not gdl_DataLink.DataSet.IsEmpty then
+    gdl_DataLink.DataSet.First;
+
   // Effacement des items
   {$IFDEF DELPHI}Items.{$ENDIF}BeginUpdate ;
   Items.Clear;
@@ -939,7 +945,7 @@ Begin
   // Libération du bookmark en cours : surchargé
   p_LibereBookmark ;
   // A faire à la fin : Mode normal par défaut
-  gb_AllLoaded := gb_AllFetched and ( not assigned ( gdl_DataLink.DataSet ) or not gdl_DataLink.DataSet.Active or gdl_DataLink.DataSet.IsEmpty );
+  gb_AllLoaded := False;
 End ;
 {
 procedure TDBListView.p_MiseAjourScrollBar ;

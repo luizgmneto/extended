@@ -1,14 +1,24 @@
-unit U_Components;
+﻿unit U_Components;
 
-{$mode objfpc}{$H+}
+{$IFDEF FPC}
+{$mode Delphi}
+{$ELSE}
+{$R *.DFM}
+{$ENDIF}
 
 interface
 
 uses
-  Classes, SysUtils, dbf, db, FileUtil, LResources, Forms, Controls, Graphics,
+{$IFDEF FPC}
+  FileUtil, LResources,
+{$ELSE}
+  DBCtrls, TntDBCtrls, ComCtrls,
+  JvExComCtrls, JvListView, TntStdCtrls, Mask,
+{$ENDIF}
+  Classes, SysUtils, db, Forms, Controls, Graphics,
   Dialogs, ExtCtrls, Grids, DBGrids, StdCtrls, U_FormMainIni, U_OnFormInfoIni,
   U_ExtColorCombos, U_ExtNumEdits, u_framework_components, U_ExtDBNavigator,
-  U_DBListView, u_framework_dbcomponents;
+  U_DBListView, u_framework_dbcomponents, dbf ;
 
 const CST_EXTENSION_DBF  = '.dbf' ;
       CST_NOM_FICHIER  = 'fiches' ;
@@ -18,12 +28,10 @@ type
 
   TMyform = class(TF_FormMainIni)
     Datasource: TDatasource;
-    DbfNoms: TDbf;
     DBListView: TDBListView;
     ExtColorCombo: TExtColorCombo;
     ExtDBNavigator1: TExtDBNavigator;
     ExtNumEdit1: TExtNumEdit;
-    FWDateEdit1: TFWDateEdit;
     FWDBEdit: TFWDBEdit;
     FWDBEdit2: TFWDBEdit;
     FWEdit: TFWEdit;
@@ -40,8 +48,11 @@ type
     Panel2: TPanel;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
+    FWDateEdit1: {$IFDEF FPC}TFWDateEdit{$ELSE}TFWDateTimePicker{$ENDIF};
+    DbfNoms: TDbf;
     procedure FormShow(Sender: TObject);
     procedure QuitterClick(Sender: TObject);
+    procedure DbfNomsAfterPost(DataSet: TDataSet);
   private
     { private declarations }
   public
@@ -53,6 +64,11 @@ var
   Myform: TMyform;
 
 implementation
+
+procedure TMyform.DbfNomsAfterPost(DataSet: TDataSet);
+begin
+  DBListView.Refresh;
+end;
 
 procedure TMyForm.FormShow(Sender: TObject);
 begin
@@ -85,8 +101,9 @@ end;
 
 
 
+{$IFDEF FPC}
 initialization
   {$I u_components.lrs}
-
+{$ENDIF}
 end.
 
