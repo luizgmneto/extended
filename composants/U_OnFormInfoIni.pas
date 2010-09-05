@@ -231,8 +231,11 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.LaFormDestroy ( Sender: TObject );
 begin
-  if not Application.Terminated
-  and Assigned(FormAOwner) then
+  if Assigned(FormAOwner)
+{$IFNDEF FPC}
+  and not Application.Terminated
+{$ENDIF}
+  then
     p_ExecuteEcriture(FormAOwner);
   if Assigned(FormOldDestroy) then FormOldDestroy(Sender);
 end;
@@ -457,10 +460,10 @@ begin
 
                   if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTDateEdit) Then
                     if (af_Form.Components[j] is {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}) then
-                      begin
+                      Begin
                         {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}(af_Form.Components[j]).Date := StrToDateTime(FIni.ReadString (af_Form.name,af_Form.Components[j].Name,DateToStr(Date)));
                         Continue;
-                      end;
+                      End;
 
                   if GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTFileNameEdit) Then
                     Begin
