@@ -1052,7 +1052,8 @@ end;
 procedure TF_FormMainIni.p_SetChildForm(const afor_Reference: TCustomForm; const  afs_newFormStyle : TFormStyle );
 begin
 {$IFDEF SFORM}
-  if afor_Reference is TSuperForm Then
+  if ( afor_Reference is TSuperForm )
+  and not ( afs_newFormStyle in [fsStayOnTop]) Then
     Begin
       Updating;
       if not assigned ( FBoxChilds ) Then

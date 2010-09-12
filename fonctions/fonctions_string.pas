@@ -27,6 +27,7 @@ const
 {$ENDIF}
   function fs_EraseFirstDirectory ( const as_Path : String ) :String;
   function fs_EraseSpecialChars( const aText: string): string;
+  function fs_ExtractFileNameOnly ( const as_Path : String ): String;
   function fs_getSoftDir : String;
   function fs_ArgConnectString ( const as_connectstring, as_arg: string): string;
   function fb_stringVide ( const aTexte: string): Boolean;
@@ -734,6 +735,11 @@ Begin
     if  ( aText [ li_i ] in [' '] ) Then
       Result := Result + '_';
 
+End;
+function fs_ExtractFileNameOnly ( const as_Path : String ): String;
+Begin
+  Result := ExtractFileName(as_path);
+  Result :=copy ( Result, 1 , length ( Result ) - length( ExtractFileExt(Result)));
 End;
 
 initialization
