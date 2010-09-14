@@ -322,7 +322,9 @@ type
 
 implementation
 
-uses {$IFDEF FPC}ObjInspStrConsts, {$ELSE}Consts,{$ENDIF}{$IFDEF GROUPVIEW}unite_messages,{$ENDIF}Forms ;
+uses {$IFDEF FPC}ObjInspStrConsts,
+     {$ELSE}Consts, VDBConsts, {$ENDIF}
+     {$IFDEF GROUPVIEW}unite_messages,{$ENDIF}Forms ;
 
 {$IFDEF DELPHI}
   {$R *.dcr}
@@ -367,7 +369,11 @@ end;
 constructor TFWCancel.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  {$IFDEF FPC}
   Caption := oiStdActDataSetCancel1Hint;
+  {$ELSE}
+  Caption := SMsgDlgCancel;
+  {$ENDIF}
 end;
 
 procedure TFWCancel.Paint;
@@ -390,7 +396,11 @@ end;
 constructor TFWOK.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  {$IFDEF FPC}
   Caption := oisOk2;
+  {$ELSE}
+  Caption := SMsgDlgOK;
+  {$ENDIF}
 end;
 
 procedure TFWOK.Paint;
@@ -413,7 +423,11 @@ end;
 constructor TFWInsert.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  {$IFDEF FPC}
   Caption := srVK_INSERT;
+  {$ELSE}
+  Caption := SInsertRecord;
+  {$ENDIF}
 end;
 
 procedure TFWInsert.Paint;
@@ -453,7 +467,9 @@ end;
 constructor TFWSaveAs.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  {$IFDEF FPC}
   caption := oiStdActFileSaveAsHint;
+  {$ENDIF}
 end;
 
 procedure TFWSaveAs.Paint;
@@ -476,7 +492,7 @@ end;
 constructor TFWQuit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  Caption := SCloseButton + ' ' + oisAll;
+  Caption := SCloseButton {$IFDEF FPC}+ ' ' + oisAll{$ENDIF};
 end;
 
 procedure TFWQuit.Paint;
@@ -499,7 +515,11 @@ end;
 constructor TFWErase.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  {$IFDEF FPC}
   Caption := oisDelete;
+  {$ELSE}
+  Caption := SDeleteRecord;
+  {$ENDIF}
 end;
 
 procedure TFWErase.Paint;
@@ -522,7 +542,9 @@ end;
 constructor TFWPrint.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  {$IFDEF FPC}
   Caption := srVK_PRINT;
+  {$ENDIF}
 end;
 
 procedure TFWPrint.Paint;
@@ -580,7 +602,9 @@ end;
 constructor TFWCopy.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  {$IFDEF FPC}
   Caption := oiStdActEditCopyShortHint;
+  {$ENDIF}
 end;
 
 procedure TFWCopy.Paint;
@@ -623,7 +647,9 @@ end;
 constructor TFWBasket.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  {$IFDEF FPC}
   Caption := oisUndo;
+  {$ENDIF}
 end;
 
 { TFWBasket }
@@ -637,7 +663,9 @@ end;
 constructor TFWRecord.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  {$IFDEF FPC}
   Caption := oisRecord;
+  {$ENDIF}
 end;
 
 { TFWRecord }
@@ -661,7 +689,11 @@ end;
 constructor TFWAbort.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  {$IFDEF FPC}
   Caption := oiStdActDataSetCancel1Hint;
+  {$ELSE}
+  Caption := SMsgDlgAbort;
+  {$ENDIF}
 end;
 
 { TFWRecord }
