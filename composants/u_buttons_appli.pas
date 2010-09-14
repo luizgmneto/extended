@@ -71,13 +71,15 @@ type
 
 { TFWCancel }
 
+   { TFWAbort }
+
    TFWAbort = class ( TJvXPButton,IFWButton )
       private
       {$IFNDEF FPC}
        ResInstance             : THandle      ;
       {$ENDIF}
       public
-
+       constructor Create ( AOwner : TComponent ) ; override;
        procedure Paint; override;
       published
        property Glyph stored False;
@@ -90,7 +92,7 @@ type
        ResInstance             : THandle      ;
       {$ENDIF}
       public
-
+       constructor Create ( AOwner : TComponent ) ; override;
        procedure Paint; override;
       published
        property Glyph stored False;
@@ -103,7 +105,7 @@ type
        ResInstance             : THandle      ;
       {$ENDIF}
       public
-
+       constructor Create ( AOwner : TComponent ) ; override;
        procedure Paint; override;
       published
        property Glyph stored False;
@@ -129,7 +131,7 @@ type
        ResInstance             : THandle      ;
       {$ENDIF}
       public
-
+       constructor Create ( AOwner : TComponent ) ; override;
        procedure Paint; override;
       published
        property Glyph stored False;
@@ -142,7 +144,7 @@ type
        ResInstance             : THandle      ;
       {$ENDIF}
       public
-
+       constructor Create ( AOwner : TComponent ) ; override;
        procedure Paint; override;
       published
        property Glyph stored False;
@@ -155,6 +157,7 @@ type
        ResInstance             : THandle      ;
       {$ENDIF}
       public
+       constructor Create ( AOwner : TComponent ) ; override;
 
        procedure Paint; override;
       published
@@ -168,6 +171,7 @@ type
        ResInstance             : THandle      ;
       {$ENDIF}
       public
+       constructor Create ( AOwner : TComponent ) ; override;
 
        procedure Paint; override;
       published
@@ -194,6 +198,7 @@ type
        ResInstance             : THandle      ;
       {$ENDIF}
       public
+       constructor Create ( AOwner : TComponent ) ; override;
 
        procedure Paint; override;
       published
@@ -228,12 +233,16 @@ type
      End;
 
 { TFWOutAll }
+
+   { TFWBasket }
+
    TFWBasket = class ( TJvXPButton,IFWButton )
       private
       {$IFNDEF FPC}
        ResInstance             : THandle      ;
       {$ENDIF}
       public
+       constructor Create ( AOwner : TComponent ) ; override;
 
        procedure Paint; override;
       published
@@ -241,12 +250,15 @@ type
        property Caption stored False;
      End;
 
+   { TFWRecord }
+
    TFWRecord = class ( TJvXPButton,IFWButton )
       private
       {$IFNDEF FPC}
        ResInstance             : THandle      ;
       {$ENDIF}
       public
+       constructor Create ( AOwner : TComponent ) ; override;
 
        procedure Paint; override;
       published
@@ -260,6 +272,7 @@ type
        ResInstance             : THandle      ;
       {$ENDIF}
       public
+       constructor Create ( AOwner : TComponent ) ; override;
 
        procedure Paint; override;
       published
@@ -309,7 +322,7 @@ type
 
 implementation
 
-uses {$IFNDEF FPC}Consts,{$ENDIF}{$IFDEF GROUPVIEW}unite_messages,{$ENDIF}Forms ;
+uses {$IFDEF FPC}ObjInspStrConsts, {$ELSE}Consts,{$ENDIF}{$IFDEF GROUPVIEW}unite_messages,{$ENDIF}Forms ;
 
 {$IFDEF DELPHI}
   {$R *.dcr}
@@ -351,6 +364,12 @@ end;
 
 { TFWCancel }
 
+constructor TFWCancel.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Caption := oiStdActDataSetCancel1Hint;
+end;
+
 procedure TFWCancel.Paint;
 begin
   if Glyph.Bitmap.Empty then
@@ -368,6 +387,12 @@ end;
 
 { TFWOK }
 
+constructor TFWOK.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Caption := oisOk2;
+end;
+
 procedure TFWOK.Paint;
 begin
   if Glyph.Bitmap.Empty then
@@ -384,6 +409,12 @@ begin
 end;
 
 { TFWInsert }
+
+constructor TFWInsert.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Caption := srVK_INSERT;
+end;
 
 procedure TFWInsert.Paint;
 begin
@@ -419,6 +450,12 @@ end;
 
 { TFWSaveAs }
 
+constructor TFWSaveAs.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  caption := oiStdActFileSaveAsHint;
+end;
+
 procedure TFWSaveAs.Paint;
 begin
   if Glyph.Bitmap.Empty then
@@ -435,6 +472,12 @@ begin
 end;
 
 { TFWQuit }
+
+constructor TFWQuit.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Caption := SCloseButton + ' ' + oisAll;
+end;
 
 procedure TFWQuit.Paint;
 begin
@@ -453,6 +496,12 @@ end;
 
 { TFWerase }
 
+constructor TFWErase.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Caption := oisDelete;
+end;
+
 procedure TFWErase.Paint;
 begin
   if Glyph.Bitmap.Empty then
@@ -469,6 +518,12 @@ begin
 end;
 
 { TFWPrint }
+
+constructor TFWPrint.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Caption := srVK_PRINT;
+end;
 
 procedure TFWPrint.Paint;
 begin
@@ -522,6 +577,12 @@ end;
 
 { TFWCopy }
 
+constructor TFWCopy.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Caption := oiStdActEditCopyShortHint;
+end;
+
 procedure TFWCopy.Paint;
 begin
   if Glyph.Bitmap.Empty then
@@ -559,12 +620,24 @@ begin
 
 end;
 
+constructor TFWBasket.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Caption := oisUndo;
+end;
+
 { TFWBasket }
 procedure TFWBasket.Paint;
 begin
   Caption := Gs_GROUPVIEW_Basket;
   inherited;
 
+end;
+
+constructor TFWRecord.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Caption := oisRecord;
 end;
 
 { TFWRecord }
@@ -583,6 +656,12 @@ begin
     End;
   inherited;
 
+end;
+
+constructor TFWAbort.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Caption := oiStdActDataSetCancel1Hint;
 end;
 
 { TFWRecord }
