@@ -37,6 +37,15 @@ const
   CST_ASYNCHRONE_TIMEOUT_DEFAUT = 30 ;
   CST_CONNECTION_TIMEOUT_DEFAUT : Integer = 15 ;
   CST_ASYNCHRONE_NB_ENREGISTREMENTS : Integer = 300 ;
+  CST_CONNECTION_TIMEOUT = 'Connection TimeOut' ;
+ {$IFDEF EADO}
+  CST_Set_KEYSET = 'Set Keyset' ;
+  CST_MODE_ASYNCHRONE = 'Mode Asynchrone' ;
+  CST_ACCES_DIRECT_SERVEUR = 'Accès directs Serveur' ;
+  CST_MODE_CONNEXION_ASYNCHRONE = 'Connection Asynchrone' ;
+  CST_MODE_ASYNCHRONE_NB_ENREGISTREMENTS = 'Mode Asynchrone Enregistrements' ;
+  CST_MODE_ASYNCHRONE_TIMEOUT = 'Mode Asynchrone TimeOut' ;
+{$ENDIF}
 
 
 
@@ -76,32 +85,23 @@ resourcestring
 
   // SGBD
  
-  GS_CONNECTION_TIMEOUT = 'Connection TimeOut' ;
  {$IFDEF FPC}
   SCloseButton = '&Fermer' ;
  {$ENDIF}
- {$IFDEF EADO}
-  GS_Set_KEYSET = 'Set Keyset' ;
-  GS_MODE_ASYNCHRONE = 'Mode Asynchrone' ;
-  GS_ACCES_DIRECT_SERVEUR = 'Accès directs Serveur' ;
-  GS_MODE_CONNEXION_ASYNCHRONE = 'Connection Asynchrone' ;
-  GS_MODE_ASYNCHRONE_NB_ENREGISTREMENTS = 'Mode Asynchrone Enregistrements' ;
-  GS_MODE_ASYNCHRONE_TIMEOUT = 'Mode Asynchrone TimeOut' ;
-{$ENDIF}
 
   // Erreurs
   GS_ERREUR_NOMBRE_GRAND = 'Problème à la validation du nombre :' + #13#10
                    + 'Un nombre saisi est trop grand.' + #13#10
                    + 'Modifier la saisie ou annuler.' ;
-  GS_METTRE_A_JOUR_FICHE = 'L''enregistrement a été effacé ou modifié par un autre utilisateur.' + #13 + #13
+  GS_METTRE_A_JOUR_FICHE = 'L''enregistrement a été effacé ou modifié par un autre utilisateur.' + #13 + #10
                         			+ 'La fiche va être mise à jour.' ;
-  GS_VALEUR_UTILISEE   = 'La valeur @ARG est déjà utilisée.' + #13 + #13
+  GS_VALEUR_UTILISEE   = 'La valeur @ARG est déjà utilisée.' + #13 + #10
                         		+ 'Saisir une valeur différente, annuler ou réeffectuer la validation si une valeur n''est pas modifiable.' ;
-  GS_VALEURS_UTILISEES = 'Les valeurs @ARG sont déjà utilisées.' + #13 + #13
+  GS_VALEURS_UTILISEES = 'Les valeurs @ARG sont déjà utilisées.' + #13 + #10
                         		+ 'Saisir des valeurs différentes, annuler ou réeffectuer la validation si une valeur n''est pas modifiable.' ;
   GS_ERREUR_RESEAU = 'Erreur réseau.' + #13#10
                         + 'Vérifier la connexion réseau.' ;
-  GS_ERREUR_MODIFICATION_MAJ = 'Impossible de supprimer cet enregistrement. ' + #13
+  GS_ERREUR_MODIFICATION_MAJ = 'Impossible de supprimer cet enregistrement.' + #13#10
                + 'Il est utilisé dans une autre fonction.';
   GS_ERREUR_CONNEXION = 'Un problème est survenu pour la connexion aux données.' + #13#10
                         	 + 'Réessayez d''ouvrir la fiche.' ;
@@ -121,8 +121,8 @@ resourcestring
   GS_NAVIGATEUR_VERS_LE_BAS  = 'Déplacer la ligne vers le bas' ;
   GS_NAVIGATEUR_VERS_LE_HAUT = 'Déplacer la ligne vers le haut' ;
 
-  GS_PB_CONNEXION = 'La connexion a échouée' + #13 + #13
-                      + 'Veuillez contacter votre administrateur';
+  GS_PB_CONNEXION = 'La connexion a échouée.' + #13 + #10
+                      + 'Veuillez contacter votre administrateur.';
   GS_DECONNECTER_ANNULE = 'Annulation de la déconnexion';
 var
   gb_MainFormIniOneUserOnServer : Boolean = False ;

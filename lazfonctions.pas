@@ -10,7 +10,7 @@ uses
     unite_messages, fonctions_erreurs, fonctions_db, fonctions_images, 
   fonctions_init, fonctions_numedit, fonctions_proprietes, fonctions_string, 
   fonctions_variant, fonctions_web, fonctions_array, u_zconnection, 
-  fonctions_dbcomponents, fonctions_languages, LazarusPackageIntf;
+  fonctions_dbcomponents, LazarusPackageIntf;
 
 implementation
 
