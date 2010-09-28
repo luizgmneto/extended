@@ -466,7 +466,7 @@ end;
 
 procedure TExtDBNumEdit.EditingChange(Sender: TObject);
 begin
-  inherited ReadOnly := not FDataLink.Editing;
+  ReadOnly := not FDataLink.CanModify;
 end;
 
 procedure TExtDBNumEdit.UpdateData(Sender: TObject);
@@ -505,7 +505,7 @@ begin
   SetFocused(True);
   inherited;
   if SysLocale.FarEast and FDataLink.CanModify then
-    inherited ReadOnly := False;
+    ReadOnly := False;
 end;
 
 {$IFDEF FPC}

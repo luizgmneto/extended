@@ -36,7 +36,7 @@ const
   CST_LBL_ACTIVE    = clBlue;
   CST_EDIT_SELECT   = clSkyBlue;
   CST_EDIT_STD      = clMoneyGreen;
-  CST_EDIT_READ     = clInfoBk ;
+  CST_EDIT_READ     = {$IFDEF FPC}clLime{$ELSE}clInfoBk{$ENDIF} ;
   CST_GRILLE_SELECT = clSkyBlue;
   CST_GRILLE_STD    = clBtnFace;
   CST_TEXT_INACTIF  = clmEDGray;
