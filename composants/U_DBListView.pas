@@ -283,7 +283,11 @@ type
   // Message de confirmation d'enregistrement avant le tri
 const
      // nombre par défaut de pages à charger
+{$IFDEF FPC}
+     CST_GROUPE_PAGES_CHARGER = 1 ;
+{$ELSE}
      CST_GROUPE_PAGES_CHARGER = 3 ;
+{$ENDIF}
      CST_GROUPE_COULEUR_FOCUS = clSkyBlue ;
      CST_GROUPE_TRANS_TOTAL   = 1 ;
      CST_GROUPE_TRANS_SIMPLE  = 0 ;
@@ -1326,9 +1330,9 @@ begin
 							// récupère les paramètres de nombre de pages visibles
 								// A-t-on chargé suffisamment d'enregistrements
 							if (     ( Font.Height = 0 )
-										and ( li_i = ( Self.Height ) * lw_NombrePages ))
+										and ( li_i >= ( Self.Height ) * lw_NombrePages ))
 							or (     ( Font.Height <> 0 )
-									and  ( li_i = ( Self.Height div Font.Height ) * lw_NombrePages + 1 ))
+									and  ( li_i >= ( Self.Height div Font.Height ) * lw_NombrePages + 1 ))
 							 Then
 								Begin
 									// Récupère le bookmark pour un chargement prochain d'enregistrements
