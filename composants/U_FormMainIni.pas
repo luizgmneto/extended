@@ -326,8 +326,6 @@ uses fonctions_proprietes, fonctions_erreurs, TypInfo,
 // Supprime le nom du fichier exe dans le chemin
 function fs_EraseNameSoft ( const as_Path : String ) : String ;
 Begin
-  if gs_NomApp = '' then
-    gs_NomApp := fs_GetNameSoft;
   if pos ( gs_Nomapp, as_Path )> 0 then
     Begin
       Result := copy ( as_Path, pos ( gs_nomapp, as_Path ) + length ( gs_NomApp ) + 1, length ( as_Path ) - length (gs_Nomapp)- pos (gs_NomApp, as_Path ));

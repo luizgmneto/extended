@@ -309,10 +309,10 @@ Begin
   lrec_Rectangle.Right  := ai_Taille ;
   lrec_Rectangle.Bottom := ai_Taille ;
   lbmp_Tempo.Canvas.StretchDraw ( lrec_Rectangle, abmp_BitmapOrigine );
-  lbmp_Tempo.Width   := ai_Taille ;
-  lbmp_Tempo.Height  := ai_Taille ;
   lbmp_Tempo.Transparent := True ;
-  lbmp_Tempo.Modified := True ;
+  abmp_BitmapOrigine.Clear;
+  abmp_BitmapOrigine.Width   := ai_Taille ;
+  abmp_BitmapOrigine.Height  := ai_Taille ;
   // 2004-10-20 : MAJ destruction bitmap
   with abmp_BitmapOrigine do
     if Handle <> 0 Then
@@ -326,7 +326,7 @@ Begin
   abmp_BitmapOrigine.Assign ( lbmp_Tempo );
   try
 {$IFDEF DELPHI}
-                         lbmp_Tempo.Dormant ;
+       lbmp_Tempo.Dormant ;
 {$ENDIF}
        lbmp_Tempo.FreeImage ;
        lbmp_Tempo.Handle := 0 ;
@@ -637,6 +637,13 @@ begin
   end;
 end;
 
+/////////////////////////////////////////////////////////////////////////
+// procedure p_SetFileToBitmap
+// setting some image file to Bitmap object
+// afile : The file image
+// abmp_Image : Bitmap object to set
+// ab_ShowError : Error showing
+/////////////////////////////////////////////////////////////////////////
 procedure p_SetFileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean );
 var Aimagedata : TImageData;
 begin
