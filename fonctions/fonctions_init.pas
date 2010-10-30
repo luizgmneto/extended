@@ -207,7 +207,7 @@ uses TypInfo, fonctions_string,
 {$IFDEF ZEOS}
       U_ZConnection,
 {$ENDIF}
-      fonctions_proprietes ;
+      fonctions_proprietes, fonctions_db ;
 
 {$IFDEF ZEOS}
 function fb_IniSetZConnection ( const asqc_Connection : TZConnection; const IniFile : TMemIniFile ) : Boolean ;

@@ -310,7 +310,9 @@ Begin
   lrec_Rectangle.Bottom := ai_Taille ;
   lbmp_Tempo.Canvas.StretchDraw ( lrec_Rectangle, abmp_BitmapOrigine );
   lbmp_Tempo.Transparent := True ;
+{$IFDEF FPC}
   abmp_BitmapOrigine.Clear;
+{$ENDIF}
   abmp_BitmapOrigine.Width   := ai_Taille ;
   abmp_BitmapOrigine.Height  := ai_Taille ;
   // 2004-10-20 : MAJ destruction bitmap

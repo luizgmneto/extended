@@ -67,7 +67,20 @@ var ge_DataSetErrorEvent : TDataSetErrorEvent = nil;
     ge_NilEvent : TDataSetErrorEvent = nil;
     // Affiche-t-on un message sur erreur ?
     gb_DBMessageOnError : Boolean =  true;
+  GI_GROUPE_HELP_CHANGEMENTS_SAUVER : Integer = 0 ;
+  GB_ASYNCHRONE_PAR_DEFAUT : Boolean = False ;
+  Gi_ASYNCHRONE_NB_ENREGISTREMENTS : Integer = 300 ;
+  Gi_CONNECTION_TIMEOUT_DEFAUT : Integer = 15 ;
 
+resourcestring
+  GS_MODE_ASYNCHRONE = 'Mode Asynchrone' ;
+  GS_ACCES_DIRECT_SERVEUR = 'Accès directs Serveur' ;
+  GS_MODE_CONNEXION_ASYNCHRONE = 'Connection Asynchrone' ;
+  GS_MODE_ASYNCHRONE_NB_ENREGISTREMENTS = 'Mode Asynchrone Enregistrements' ;
+  GS_MODE_ASYNCHRONE_TIMEOUT = 'Mode Asynchrone TimeOut' ;
+  GS_CONNECTION_TIMEOUT = 'Connection TimeOut' ;
+  GS_Set_KEYSET         = 'Set Keyset';
+  
 implementation
 
 uses Variants,  Math, fonctions_erreurs, fonctions_string, unite_messages,
