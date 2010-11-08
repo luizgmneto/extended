@@ -30,16 +30,17 @@ interface
 
 uses
 {$IFDEF FPC}
-  LCLIntf, MaskEdit, lresources,
+  LCLIntf, lresources,
 {$ELSE}
+  RTLConsts,
   Windows, Mask, Consts, ShellAPI, JvToolEdit, U_ExtPageControl,
 {$ENDIF}
 {$IFDEF RX}
   RxLookup,
 {$ENDIF}
-  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   IniFiles, StdCtrls, ComCtrls, ExtCtrls,
-  RTLConsts, Variants, Menus, Buttons,
+  Variants, Menus, Buttons,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
@@ -93,11 +94,11 @@ type
 
   public
     Constructor Create(AOwner:TComponent); override;
-    procedure ExecuteLecture(aLocal:Boolean);
-    procedure p_ExecuteLecture(const aF_Form: TCustomForm);
-    procedure ExecuteEcriture(aLocal: Boolean);
-    procedure p_ExecuteEcriture(const aF_Form: TCustomForm);
-    procedure p_LectureColonnes(const aF_Form: TCustomForm);
+    procedure ExecuteLecture(aLocal:Boolean); virtual;
+    procedure p_ExecuteLecture(const aF_Form: TCustomForm); virtual;
+    procedure ExecuteEcriture(aLocal: Boolean); virtual;
+    procedure p_ExecuteEcriture(const aF_Form: TCustomForm); virtual;
+    procedure p_LectureColonnes(const aF_Form: TCustomForm); virtual;
 
     property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate;
   published
@@ -127,7 +128,7 @@ uses TypInfo, Grids, U_ExtNumEdits,
 {$IFDEF VIRTUALTREES}
      VirtualTrees ,
 {$ENDIF}
-     JvXPCheckCtrls, DB, unite_messages, fonctions_proprietes;
+     unite_messages, fonctions_proprietes;
 
 ////////////////////////////////////////////////////////////////////////////////
 // retourne le nom de la machine
@@ -424,7 +425,8 @@ begin
                     end;
                   // lecture des CheckBoxes
                   if (   (lcom_Component is TCheckBox)
-                      or (lcom_Component is TJvXPCheckBox))
+                      or (lcom_Component.ClassNameIs( 'TJvXPCheckbox' ))
+                      or (lcom_Component.ClassNameIs( 'TPCheck' )))
                    and GetfeSauveEdit ( SvgEditDeLaFiche.FSauveEditObjets, feTCheck ) then
                     begin
                       p_SetComponentBoolProperty(lcom_Component,'Checked', FIni.ReadBool(af_Form.name,lcom_Component.Name,fb_getComponentBoolProperty(lcom_Component, 'Checked')));
@@ -495,9 +497,9 @@ begin
                           p_SetComponentProperty (lcom_Component, 'Text', fs_ReadString(lcom_Component.Name, GetCurrentDir ));
                           Continue;
                         end;
-                      if (lcom_Component.ClassNameIs('TDirectoryEdit')) then
+                      if (lcom_Component is TDirectoryEdit) then
                         begin
-                          p_SetComponentProperty (lcom_Component, {$IFDEF FPC} 'Text' {$ELSE} 'EditText' {$ENDIF}, fs_ReadString(lcom_Component.Name, GetCurrentDir));
+                          p_SetComponentProperty (lcom_Component, {$IFDEF FPC} 'Directory' {$ELSE} 'EditText' {$ENDIF}, fs_ReadString(lcom_Component.Name, GetCurrentDir));
                           Continue;
                         end;
                     End;
@@ -561,8 +563,11 @@ begin
   {$ENDIF}
                   if (lcom_Component is TCustomComboBox) and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets ,feTComboBox)    then
                     begin
+                      valItemIndex := -1 ;
                       LitTstringsDeIni(FIni, af_Form.name+lcom_Component.Name,TCustomComboBox(lcom_Component).Items,valItemIndex);
-                      if valItemIndex<=TCustomComboBox(lcom_Component).Items.Count-1 then
+                      if  ( valItemIndex>=0)
+                      and ( valItemIndex<=TCustomComboBox(lcom_Component).Items.Count-1)
+                       then
                         TCustomComboBox(lcom_Component).ItemIndex:=valItemIndex;
                       Continue;
                     end;
@@ -723,15 +728,14 @@ begin
               Continue;
             end;
 
-          if (lcom_Component is TCheckBox)       and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTCheck )         then
-          begin
-            FIni.WriteBool(af_Form.name,lcom_Component.Name,TCheckBox(lcom_Component).Checked);
-            Continue;
-            end;
-          if (lcom_Component is TJvXpCheckBox)       and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTCheck )         then
-          begin
-            FIni.WriteBool(af_Form.name,lcom_Component.Name,TJvXPCheckBox(lcom_Component).Checked);
-            Continue;
+          if ((lcom_Component is TCheckBox)
+          or (lcom_Component.ClassNameIs( 'TJvXPCheckbox' ))
+          or (lcom_Component.ClassNameIs( 'TPCheck' )))
+          and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTCheck )
+           then
+            begin
+              FIni.WriteBool(af_Form.name,lcom_Component.Name,fb_getComponentBoolProperty ( lcom_Component, 'Checked' ));
+              Continue;
             end;
           if (lcom_Component is TRadioButton)    and GetfeSauveEdit(SvgEditDeLaFiche.FSauveEditObjets, feTRadio )      then
           begin
@@ -790,9 +794,9 @@ begin
                       p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, 'Text'));
                       Continue;
                     End;
-                  if (lcom_Component.ClassNameIs('TDirectoryEdit')) then
+                  if (lcom_Component is TDirectoryEdit) then
                     begin
-                      p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, {$IFDEF FPC} 'Text' {$ELSE} 'EditText' {$ENDIF}));
+                      p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, {$IFDEF FPC} 'Directory' {$ELSE} 'EditText' {$ENDIF}));
                       Continue;
                     end;
                 end;
