@@ -19,7 +19,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Minor="9" Build="5"/>
+    <Version Minor="9" Build="6"/>
     <Files Count="25">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.lrs"/>
@@ -127,7 +127,7 @@
       </Item25>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="10">
+    <RequiredPkgs Count="9">
       <Item1>
         <PackageName Value="lazexttools"/>
       </Item1>
@@ -141,7 +141,7 @@
         <PackageName Value="zcomponent"/>
       </Item4>
       <Item5>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="IDEIntf"/>
       </Item5>
       <Item6>
         <PackageName Value="SynEdit"/>
@@ -156,9 +156,6 @@
       <Item9>
         <PackageName Value="lazfonctions"/>
       </Item9>
-      <Item10>
-        <PackageName Value="IDEIntf"/>
-      </Item10>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)/"/>
