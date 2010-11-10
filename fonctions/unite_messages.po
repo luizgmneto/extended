@@ -127,6 +127,10 @@ msgstr "L'image est trop grande."
 msgid "L'image est trop petite."
 msgstr "L'image est trop petite."
 
+#: unite_messages.gs_inserer_enregistrement
+msgid "Ins#233rer un enregistrement"
+msgstr ""
+
 #: unite_messages.gs_insertrecord
 msgid "Ins#233rer enregistrement"
 msgstr "Ins#233rer enregistrement"
