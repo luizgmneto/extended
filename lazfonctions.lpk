@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Build="2"/>
-    <Files Count="15">
+    <Files Count="16">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -82,34 +82,32 @@
         <Filename Value="fonctions/fonctions_dbcomponents.pas"/>
         <UnitName Value="fonctions_dbcomponents"/>
       </Item15>
+      <Item16>
+        <Filename Value="fonctions/fonctions_version.pas"/>
+        <UnitName Value="fonctions_version"/>
+      </Item16>
     </Files>
     <i18n>
       <OutDir Value="fonctions"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="7">
+    <RequiredPkgs Count="5">
       <Item1>
         <PackageName Value="VampyreImagingPackage"/>
       </Item1>
       <Item2>
-        <PackageName Value="zcomponent"/>
+        <PackageName Value="LCL"/>
       </Item2>
       <Item3>
-        <PackageName Value="zcore"/>
+        <PackageName Value="zcomponent"/>
       </Item3>
       <Item4>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="zcore"/>
       </Item4>
       <Item5>
-        <PackageName Value="rxnew"/>
-      </Item5>
-      <Item6>
-        <PackageName Value="LCL"/>
-      </Item6>
-      <Item7>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item7>
+      </Item5>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)/"/>

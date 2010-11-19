@@ -26,17 +26,18 @@ uses
 {$ENDIF}
   zconnection,
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
-  JvXPButtons, StdCtrls, IniFiles, JvXPCore;
+  StdCtrls, IniFiles;
 
 {$IFDEF VERSIONS}
 const
   gVer_zconnection : T_Version = ( Component : 'Connexion ZEOS' ; FileUnit : 'u_zconnection' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Fenetre de connexion ZEOS si pas dans l''INI.' ;
-                        			                 BugsStory : 'Version 0.0.5.0 : Fenetre avec les drivers et le codepage.' + #13#10
-                                                         + 'Version 0.0.4.0 : Fenetre sans les drivers.';
+                        			                 BugsStory : 'Version 0.0.5.1 : No JvXPButton.' + #13#10
+                                                                    + 'Version 0.0.5.0 : Fenetre avec les drivers et le codepage.' + #13#10
+                                                                    + 'Version 0.0.4.0 : Fenetre sans les drivers.';
                         			                 UnitType : 3 ;
-                        			                 Major : 0 ; Minor : 0 ; Release : 5 ; Build : 0 );
+                        			                 Major : 0 ; Minor : 0 ; Release : 5 ; Build : 1 );
 {$ENDIF}
 
 {$IFNDEF FPC}
@@ -50,10 +51,10 @@ type
   TF_ZConnectionWindow = class(TForm)
     cbx_Protocol: TComboBox;
     Label7: TLabel;
-    quit: TJvXPButton;
-    Save: TJvXPButton;
-    quitall: TJvXPButton;
-    Test: TJvXPButton;
+    quit: TButton;
+    Save: TButton;
+    quitall: TButton;
+    Test: TButton;
     ed_Base: TEdit;
     ed_Host: TEdit;
     ed_Password: TEdit;

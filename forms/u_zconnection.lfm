@@ -10,7 +10,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   Font.Height = -11
   Font.Name = 'Tahoma'
   Position = poMainFormCenter
-  LCLVersion = '0.9.26.2'
+  LCLVersion = '0.9.28.2'
   object Label1: TLabel
     Left = 24
     Height = 14
@@ -125,7 +125,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object ed_Base: TEdit
     Left = 284
-    Height = 21
+    Height = 23
     Top = 112
     Width = 376
     OnEnter = ed_BaseEnter
@@ -133,7 +133,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object ed_Host: TEdit
     Left = 284
-    Height = 21
+    Height = 23
     Top = 88
     Width = 376
     OnEnter = ed_HostEnter
@@ -142,7 +142,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object ed_Password: TEdit
     Left = 284
-    Height = 21
+    Height = 23
     Top = 160
     Width = 376
     OnEnter = ed_PasswordEnter
@@ -150,7 +150,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object ed_Catalog: TEdit
     Left = 284
-    Height = 21
+    Height = 23
     Top = 184
     Width = 376
     OnEnter = ed_CatalogEnter
@@ -158,63 +158,60 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object ed_User: TEdit
     Left = 284
-    Height = 21
+    Height = 23
     Top = 136
     Width = 376
     OnEnter = ed_UserEnter
     TabOrder = 4
   end
-  object Test: TJvXPButton
+  object Test: TButton
     Left = 56
     Height = 32
     Top = 256
     Width = 75
     Caption = 'Tester'
-    TabOrder = 5
     OnClick = TestClick
+    TabOrder = 5
   end
-  object Save: TJvXPButton
+  object Save: TButton
     Left = 181
     Height = 33
     Top = 256
     Width = 139
     Caption = 'Sauver et quitter'
-    TabOrder = 6
     OnClick = SaveClick
+    TabOrder = 6
   end
-  object quitall: TJvXPButton
+  object quitall: TButton
     Left = 501
     Height = 32
     Top = 256
     Width = 107
     Caption = 'Tout quitter'
-    TabOrder = 7
     OnClick = quitallClick
+    TabOrder = 7
   end
-  object quit: TJvXPButton
+  object quit: TButton
     Left = 365
     Height = 33
     Top = 256
     Width = 91
     Caption = 'Quitter'
-    TabOrder = 8
     OnClick = quitClick
+    TabOrder = 8
   end
   object cbx_Protocol: TComboBox
     Left = 284
     Height = 27
     Top = 61
     Width = 376
-    AutoComplete = False
-    Ctl3D = False
     ItemHeight = 0
-    ItemWidth = 0
     MaxLength = 65535
     TabOrder = 9
   end
   object ed_Collation: TEdit
     Left = 284
-    Height = 21
+    Height = 23
     Top = 208
     Width = 376
     OnEnter = ed_CollationEnter
