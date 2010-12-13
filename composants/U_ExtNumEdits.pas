@@ -39,7 +39,7 @@ uses
    TntStdCtrls,
 {$ENDIF}
   Forms, Dialogs,  Db, StdCtrls, fonctions_variant,
-  DBCtrls, u_extcomponent ;
+  DBCtrls, fonctions_numedit, u_extcomponent ;
 
   const
 {$IFDEF VERSIONS}
@@ -47,20 +47,22 @@ uses
                                                FileUnit : 'U_NumEdits' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Edition de nombres.' ;
-                                               BugsStory : '1.0.1.0 : Better ExtNumEdit with good colors' + #13#10
+                                               BugsStory : '1.0.1.1 : NumRounded property not tested' + #13#10
+                                                         + '1.0.1.0 : Better ExtNumEdit with good colors' + #13#10
                                                          + '1.0.0.1 : Bug rafraîchissement de AValue' + #13#10
                                                          + '1.0.0.0 : Gestion en place.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
     gVer_TExtDBNumEdit : T_Version = ( Component : 'Composant TExtDBNumEdit' ;
                                                FileUnit : 'U_NumEdits' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Edition de nombres en données.' ;
-                                               BugsStory : '1.0.1.1 : Less methods with good colors' + #13#10
+                                               BugsStory : '1.0.1.2 : NumRounded property not tested' + #13#10
+                                                         + '1.0.1.1 : Less methods with good colors' + #13#10
                                                          + '1.0.1.0 : Améliorations sur la gestion des erreurs' + #13#10
                                                          + '1.0.0.0 : Gestion en place.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
 {$ENDIF}
     CST_MC_NEGATIVE = True ;
     CST_MC_POSITIVE = True ;
@@ -88,6 +90,7 @@ type
     FNotifyOrder : TNotifyEvent;
    procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
   protected
+    FNumRounded : TNumRounded;
     gre_AValue: Extended ;
     FAlignment: TAlignment;
     gby_NbAvVirgule ,
@@ -133,6 +136,7 @@ type
     property Min : Double read FMin write FMin ;
     property HasMin : Boolean read FHasMin write FHasMin default False;
     property HasMax : Boolean read FHasMax write FHasMax default False;
+    property NumRounded : TNumRounded read FNumRounded write FNumRounded default nrNone;
     property Anchors;
     property AutoSelect;
     property AutoSize;
@@ -255,7 +259,7 @@ uses
 {$IFDEF FPC}
     LCLIntf, tmschema,
 {$ENDIF}
-    fonctions_numedit, fonctions_erreurs, fonctions_string,
+    fonctions_erreurs, fonctions_string,
     fonctions_proprietes ;
 
 { TExtDBNumEdit }
@@ -568,7 +572,7 @@ procedure TExtDBNumEdit.p_SetValue(AValue: Extended);
 begin
   if AValue <> gre_AValue Then
     Begin
-      gre_AValue := AValue ;
+      gre_AValue := fext_CalculateNumber(AValue,FNumRounded, gby_NbApVirgule );
       if assigned ( FDataLink.Field ) Then
         Begin
           FDataLink.DataSet.Edit ;
@@ -600,6 +604,7 @@ begin
   FMax := 0;
   FHasMin := false;
   FHasMax := false;
+  FNumRounded := nrNone;
 
 end;
 
@@ -728,7 +733,7 @@ procedure TExtNumEdit.p_SetValue(AValue: Extended);
 begin
   if AValue <> gre_AValue Then
     Begin
-      gre_AValue := AValue ;
+      gre_AValue:=fext_CalculateNumber(AValue,FNumRounded, gby_NbApVirgule);
       Text := FloatToStr ( gre_AValue );
     End ;
 

@@ -17,23 +17,28 @@ uses
 {$ENDIF}
      SysUtils, DB ;
 
+type
+    TNumRounded = (nrNone,nrErase,nrMiddle);
+
 procedure p_editGridKeyPress ( const aobj_Sender : Tobject ; var ach_Key : Char ; const aby_NbApVirgule , aby_NbAvVirgule : Byte ; const ab_Negatif  : Boolean ; const ai_SelStart : Integer ; const as_Texte , as_SelTexte: String ; const afie_Champ  : TField );
 procedure p_editKeyUp ( const aed_Sender : TCustomMaskEdit ;  const afie_Field : TField ; var ach_Key : Word ; const aby_NbApVirgule , aby_NbAvVirgule : Byte ; const ab_Negatif  : Boolean ; const as_Texte     : String );
+function fext_CalculateNumber ( const AValue : Extended ; const FNumRounded : TNumRounded ; const aby_NbApVirgule : Byte ): Extended;
 
 {$IFDEF VERSIONS}
 const
   gVer_fonctions_numedit : T_Version = ( Component : 'Gestion partagée des nombres' ; FileUnit : 'fonctions_numedit' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Gestion partagée du formatage des nombres' ;
-                        			                 BugsStory : 'Version 1.1.0.0 : Passage en Jedi 3.'
+                        			                 BugsStory : 'Version 1.1.0.1 : TNumRounded type not tested.'
+                        			                	     'Version 1.1.0.0 : Passage en Jedi 3.'
                         			                	         + 'Version 1.0.0.0 : Fonctions partagées.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
+                        			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
 implementation
 
-uses fonctions_string,
+uses fonctions_string, Math,
      DBGrids;
 // A ne pas utiliser
 // Evènement sur touche enlevée d'un dbedit et d'une grille
@@ -131,6 +136,16 @@ Begin
     ach_Key := #0 ;
 End ;
 
+function fext_CalculateNumber ( const AValue : Extended ; const FNumRounded : TNumRounded ; const aby_NbApVirgule : Byte ): Extended;
+Begin
+  if FNumRounded = nrMiddle Then
+    Result := Round ( AValue * Power ( 10, aby_NbApVirgule )) / Power ( 10, aby_NbApVirgule )
+   Else
+    if FNumRounded = nrErase Then
+      Result := Trunc ( AValue * Power ( 10, aby_NbApVirgule )) / Power ( 10, aby_NbApVirgule )
+    Else
+      Result := AValue ;
+End;
 initialization
 {$IFDEF VERSIONS}
   p_ConcatVersion ( gVer_fonctions_numedit );
