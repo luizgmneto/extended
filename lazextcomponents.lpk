@@ -19,7 +19,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Minor="9" Build="7"/>
+    <Version Minor="9" Build="8"/>
     <Files Count="25">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.lrs"/>
@@ -127,12 +127,12 @@
       </Item25>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="10">
+    <RequiredPkgs Count="9">
       <Item1>
         <PackageName Value="JvXPBarLaz"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazexttools"/>
+        <PackageName Value="lazfonctions"/>
       </Item2>
       <Item3>
         <PackageName Value="ExpertSuperForm"/>
@@ -156,9 +156,6 @@
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item9>
-      <Item10>
-        <PackageName Value="lazfonctions"/>
-      </Item10>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)/"/>
