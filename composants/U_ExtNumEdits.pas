@@ -101,7 +101,6 @@ type
     FMax         : Double ;
     FHasMin      ,
     FHasMax      : Boolean ;
-    FFormat : String ;
     function GetText: TCaption;
     procedure KeyPress(var Key: Char); override;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
@@ -111,12 +110,12 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    property EditMask ;
     procedure Loaded; override;
     procedure DoEnter; override;
     procedure DoExit; override;
     procedure SetOrder ; virtual;
   published
+    property EditMask ;
     property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
     property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
     property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
@@ -131,7 +130,6 @@ type
     property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
     property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
     property MyLabel : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} read FLabel write FLabel;
-    property Format : String read FFormat write FFormat ;
     property Max : Double read FMax write FMax ;
     property Min : Double read FMin write FMin ;
     property HasMin : Boolean read FHasMin write FHasMin default False;
@@ -200,6 +198,7 @@ type
 
   TExtDBNumEdit = class(TExtNumEdit, IFWComponent, IFWComponentEdit)
   private
+    FFormat : String ;
     procedure ActiveChange(Sender: TObject);
     procedure DataChange(Sender: TObject);
     procedure EditingChange(Sender: TObject);
@@ -239,7 +238,6 @@ type
     procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
     procedure Reset; override;
-    property EditMask ;
    public
     procedure Loaded; override;
     constructor Create(AOwner: TComponent); override;
@@ -248,6 +246,7 @@ type
     function UseRightToLeftAlignment: Boolean; override;
     property Field: TField read GetField;
    published
+    property EditMask : String read FFormat write FFormat ;
     property Value stored False ;
     property DataField: string read GetDataField write SetDataField;
     property DataSource: TDataSource read GetDataSource write SetDataSource;
@@ -429,7 +428,7 @@ begin
   ResetMaxLength;
   if assigned ( FDataLink.Field ) then
     Begin
-      p_setComponentProperty ( FDataLink.Field, 'EditFormat', FFormat );
+      p_setComponentProperty ( FDataLink.Field, 'DisplayFormat', FFormat );
     End;
 end;
 
