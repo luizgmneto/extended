@@ -494,22 +494,21 @@ begin
                     Begin
                       if (lcom_Component.ClassNameIs('TJvDirectoryEdit')) then
                         begin
-                          try
-                            p_SetComponentProperty (lcom_Component, 'Text', fs_ReadString(lcom_Component.Name, GetCurrentDir ));
-                          Except
+                          ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
+                          If DirectoryExists( ls_Temp ) Then
+                            p_SetComponentProperty (lcom_Component, 'Text', ls_temp )
+                           Else
                             p_SetComponentProperty (lcom_Component, 'Text', GetCurrentDir );
-                          end;
-                          Continue;
                         end;
                       if (lcom_Component is TDirectoryEdit) then
                         begin
-                          try
-                            p_SetComponentProperty (lcom_Component, {$IFDEF FPC} 'Directory' {$ELSE} 'EditText' {$ENDIF}, fs_ReadString(lcom_Component.Name, GetCurrentDir));
-                          Except
+                          ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
+                          If DirectoryExists( ls_Temp ) Then
+                            p_SetComponentProperty (lcom_Component, {$IFDEF FPC} 'Directory' {$ELSE} 'EditText' {$ENDIF}, ls_Temp )
+                           Else
                             p_SetComponentProperty (lcom_Component, {$IFDEF FPC} 'Directory' {$ELSE} 'EditText' {$ENDIF}, GetCurrentDir );
-                          end;
-                          Continue;
                         end;
+                     Continue;
                     End;
 
 
