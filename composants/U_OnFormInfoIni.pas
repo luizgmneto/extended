@@ -53,10 +53,11 @@ uses
                                                FileUnit : 'U_OnFormInfoIni' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Gestion de l''ini à mettre sur une fiche.' ;
-                                               BugsStory : '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
+                                               BugsStory : '1.0.0.1 : Grouping.' +#13#10 +
+                                                           '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
                                                            '1.0.0.0 : Gestion de beaucoup de composants.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
 
 {$ENDIF}
 type
@@ -305,13 +306,14 @@ begin
     end; //fin pour chaque fiche de l'application
 end;
 
+
 ////////////////////////////////////////////////////////////////////////////////
 // Lecture des données dans le fichier INI
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.p_ExecuteLecture(const aF_Form: TCustomForm);
 var
   mit: TMenuItem;
-  j, k, Indice, Rien, valItemIndex, li_Taille : integer;
+  j, Indice, Rien, valItemIndex, li_Taille : integer;
   ls_Temp : String ;
   ab_continue : Boolean;
   lcom_Component : Tcomponent ;
@@ -324,6 +326,273 @@ var
   function fs_ReadString ( const as_ComponentName, as_Default : String ):String;
   Begin
     Result := FInifile.ReadString ( af_Form.Name, as_ComponentName, as_Default );
+  end;
+  function fb_ReadHighComponents: Boolean;
+  Begin
+    Result := False;
+    if (lcom_Component is TDBGrid) and
+       GetfeSauveEdit(FSauveEditObjets, feTGrid) then
+      begin
+        f_IniReadGridFromIni ( FInifile, aF_Form.Name, lcom_Component as TDBGrid );
+        // No continue because other use of grid
+      end;
+
+    if (lcom_Component.ClassNameIs ( 'TBaseVirtualTree' ))
+     and   GetfeSauveEdit(FSauveEditObjets, feTVirtualTrees) then
+        begin
+          {$IFDEF DELPHI}
+          f_IniReadVirtualTreeFromIni ( FInifile, aF_Form.Name, lcom_Component as TBaseVirtualTree );
+          {$ENDIF}
+        // No continue because other use of tree
+      end;
+
+    if (lcom_Component is TCustomListView)
+     and   GetfeSauveEdit(FSauveEditObjets, feTListView) then
+        begin
+          f_IniReadListViewFromIni ( FInifile, aF_Form.Name, lcom_Component as TCustomListView );
+        // No continue because other use of listview
+      end;
+
+    // lecture de la position des objets Panels et Rxsplitters
+    if (   (lcom_Component Is TPanel )
+        or (lcom_Component is TCustomListView )
+        {$IFDEF VIRTUALTREES}
+        or (lcom_Component is TBaseVirtualTree  )
+        {$ENDIF}
+        or (lcom_Component is TCustomGrid ))
+    and FSauvePosObjet then
+      begin
+        li_Taille := fli_ReadInteger ( lcom_Component.Name +'.Width', TControl (lcom_Component).Width);
+        if li_Taille > 0 Then
+          TControl(lcom_Component).Width := li_Taille ;
+        li_Taille := fli_ReadInteger ( lcom_Component.Name +'.Height',TControl (lcom_Component).Height);
+        if li_Taille > 0 Then
+          TControl(lcom_Component).Height:= li_Taille ;
+        Result := True;
+      end;
+  end;
+
+  function fb_ReadOptions: Boolean;
+  Begin
+    Result := False;
+    // lecture des CheckBoxes
+    if (   (lcom_Component is TCheckBox)
+        or (lcom_Component.ClassNameIs( 'TJvXPCheckbox' ))
+        or (lcom_Component.ClassNameIs( 'TPCheck' )))
+     and GetfeSauveEdit ( FSauveEditObjets, feTCheck ) then
+      begin
+        p_SetComponentBoolProperty(lcom_Component,'Checked', FInifile.ReadBool(af_Form.name,lcom_Component.Name,fb_getComponentBoolProperty(lcom_Component, 'Checked')));
+        Result := True;
+      end;
+    // lecture des RadioBoutons
+    if (lcom_Component is TRadioButton) and GetfeSauveEdit ( FSauveEditObjets, feTRadio ) then
+      begin
+        TRadioButton(lcom_Component).Checked:= FInifile.ReadBool(af_Form.name,lcom_Component.Name,true);
+        Result := True;
+      end;
+    // lecture des groupes de RadioBoutons
+    if (lcom_Component is TRadioGroup)  and GetfeSauveEdit ( FSauveEditObjets, feTRadioGroup ) then
+      begin
+        TRadioGroup(lcom_Component).ItemIndex:= fli_ReadInteger (lcom_Component.Name,0);
+        Result := True;
+      end;
+
+  end;
+
+  function fb_ReadEdits: Boolean;
+  Begin
+    Result := False;
+    if (lcom_Component is TEdit) and GetfeSauveEdit(FSauveEditObjets ,feTedit) then
+      begin
+        ls_Temp := fs_ReadString(lcom_Component.Name,'');
+        if ( ls_Temp <> '' ) Then
+          TCustomEdit(lcom_Component).Text := ls_Temp ;
+        Result := True;
+      end;
+
+    if GetfeSauveEdit(FSauveEditObjets ,feTDateEdit) Then
+      if (lcom_Component is {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}) then
+        Begin
+          {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}(lcom_Component).Date := StrToDateTime(fs_ReadString(lcom_Component.Name,DateToStr(Date)));
+          Result := True;
+        End;
+
+    if  GetfeSauveEdit(FSauveEditObjets ,feTEdit) Then
+      if (lcom_Component is TExtNumEdit) then
+        begin
+          TExtNumEdit(lcom_Component).Text := fs_ReadString(lcom_Component.Name,' ');
+          Result := True;
+        end;
+
+  end;
+  function fb_ReadFiles: Boolean;
+  Begin
+    Result := False;
+    if GetfeSauveEdit(FSauveEditObjets ,feTFileNameEdit) Then
+      Begin
+        {$IFDEF DELPHI}
+      if (lcom_Component is  TJvFileNameEdit) then
+        begin
+          TJvFileNameEdit (lcom_Component).Text := fs_ReadString( lcom_Component.Name, GetCurrentDir);
+          Result := True;
+        end;
+         {$ENDIF}
+     {$IFDEF RX}
+      if (lcom_Component is TFileNameEdit ) then
+        begin
+          TFileNameEdit (lcom_Component).Text := fs_ReadString( lcom_Component.Name, GetCurrentDir);
+          Result := True;
+        end;
+        {$ENDIF}
+      End ;
+
+  end;
+
+  function fb_ReadDirectories: Boolean;
+  Begin
+    Result := False;
+    if GetfeSauveEdit(FSauveEditObjets ,feTDirectoryEdit) Then
+      Begin
+        if (lcom_Component.ClassNameIs('TJvDirectoryEdit')) then
+          begin
+            ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
+            If DirectoryExists( ls_Temp ) Then
+              p_SetComponentProperty (lcom_Component, 'Text', ls_temp )
+             Else
+              p_SetComponentProperty (lcom_Component, 'Text', GetCurrentDir );
+            Result := True;
+          end;
+        if (lcom_Component is TDirectoryEdit) then
+          begin
+            ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
+            If DirectoryExists( ls_Temp ) Then
+              p_SetComponentProperty (lcom_Component, {$IFDEF FPC} 'Directory' {$ELSE} 'EditText' {$ENDIF}, ls_Temp )
+             Else
+              p_SetComponentProperty (lcom_Component, {$IFDEF FPC} 'Directory' {$ELSE} 'EditText' {$ENDIF}, GetCurrentDir );
+            Result := True;
+          end;
+      End;
+
+  end;
+
+  function fb_ReadSpecialEdits: Boolean;
+  Begin
+    Result := False;
+    {$IFDEF DELPHI}
+    if GetfeSauveEdit(FSauveEditObjets ,feTDateTimePicker) Then
+      if (lcom_Component is TDateTimePicker) then
+        begin
+          if fs_ReadString(lcom_Component.Name,'%ù@à*£')<>'%ù@à*£' then TDateTimePicker(lcom_Component).DateTime:=StrToDateTime( fs_ReadString(lcom_Component.Name,''));
+          Result := True;
+        end;
+    {$ENDIF}
+    if GetfeSauveEdit(FSauveEditObjets ,feTSpinEdit)
+    and (   (lcom_Component.ClassNameIs( 'TSpinEdit'))
+         or (lcom_Component.ClassNameIs( 'TRxSpinEdit')))
+       then
+        begin
+          p_SetComponentProperty(lcom_Component, 'Value', fli_ReadInteger (lcom_Component.Name,flin_getComponentProperty(lcom_Component, 'Value')));
+          Result := True;
+        end;
+
+  end;
+
+  function fb_ReadMemos: Boolean;
+  Begin
+    Result := False;
+    if (lcom_Component is TMemo) and GetfeSauveEdit(FSauveEditObjets ,feTMemo)        then
+      begin
+        LitTstringsDeIni(FInifile, lcom_Component.Name,TCustomMemo(lcom_Component).Lines,rien );
+        Result := True;
+      end;
+    if (lcom_Component is {$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}) and GetfeSauveEdit(FSauveEditObjets ,feTRichEdit)    then
+      begin
+        LitTstringsDeIni(FInifile, lcom_Component.Name,{$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}(lcom_Component).Lines,rien);
+        Result := True;
+      end;
+  end;
+
+  function fb_ReadCombos: Boolean;
+  Begin
+    Result := False;
+    if (lcom_Component is TCustomComboBox) and GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,'Datasource'))
+     then
+      begin
+          p_SetComponentProperty(lcom_Component, 'Text', fs_ReadString(lcom_Component.Name+'.Text',''));
+      End;
+    if (lcom_Component.CLassNameIs( 'TExtColorCombo')) and GetfeSauveEdit(FSauveEditObjets ,feTColorCombo)
+     then
+      begin
+          p_SetComponentProperty(lcom_Component, 'Value', fs_ReadString(lcom_Component.Name+'.Value',''));
+      End;
+{$IFDEF RX}
+    if GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
+    and (lcom_Component is {$IFDEF FPC}TRxCustomDBLookupCombo{$ELSE}TRxLookupControl{$ENDIF})
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,'Datasource'))
+     Then
+      begin
+        {$IFNDEF FPC}
+        if (lcom_Component is TRxDBLookupList ) Then
+          (lcom_Component as TRxDBLookupList).DisplayValue := fs_ReadString(lcom_Component.Name + '.Value', '')
+         else
+         {$ENDIF}
+          if (lcom_Component is TRxDBLookupCombo ) Then
+          {$IFDEF FPC}
+            (lcom_Component as TRxDBLookupCombo).LookupDisplayIndex := fli_ReadInteger (lcom_Component.Name + '.Index', -1);
+          {$ELSE}
+           (lcom_Component as TRxDBLookupCombo).DisplayValue := fs_ReadString(lcom_Component.Name + '.Index', '');
+           {$ENDIF}
+      End;
+{$ENDIF}
+    if (lcom_Component is TCustomComboBox) and GetfeSauveEdit(FSauveEditObjets ,feTComboBox)    then
+      begin
+        valItemIndex := -1 ;
+        LitTstringsDeIni(FInifile, lcom_Component.Name,TCustomComboBox(lcom_Component).Items,valItemIndex);
+        if  ( valItemIndex>=0)
+        and ( valItemIndex<=TCustomComboBox(lcom_Component).Items.Count-1)
+         then
+          TCustomComboBox(lcom_Component).ItemIndex:=valItemIndex;
+        Result := True;
+      end;
+  end;
+
+  function fb_ReadListBoxes: Boolean;
+  Begin
+    Result := False;
+    if (lcom_Component is TListBox) and GetfeSauveEdit(FSauveEditObjets ,feTListBox)     then
+      begin
+        LitTstringsDeIni(FInifile, lcom_Component.Name,TCustomListBox(lcom_Component).Items,valItemIndex);
+        if valItemIndex<=TCustomListBox(lcom_Component).Items.Count-1 then TCustomListBox(lcom_Component).ItemIndex:=valItemIndex;
+          Result := True;
+      end;
+
+  end;
+
+  function fb_ReadInteractivityComponents: Boolean;
+  var k : Longint;
+  Begin
+    Result := False;
+    // lecture de la page de contrôle(onglets)
+    if ((lcom_Component is TPageControl)) and GetfeSauveEdit ( FSauveEditObjets, feTPageControl )   then
+      begin
+        TPageControl(lcom_Component).ActivePageIndex := fli_ReadInteger ( lcom_Component.Name , 0);
+        Result := True;
+      end;
+    // lecture de PopupMenu
+    if (lcom_Component is TPopupMenu) and GetfeSauveEdit ( FSauveEditObjets, feTPopup )  then
+      begin
+        mit := TMenu(lcom_Component).Items;
+        for k := 0 to mit.Count-1 do
+          begin
+            if mit.Items[k].RadioItem then
+              mit.Items[k].Checked := FInifile.ReadBool (af_Form.Name, lcom_Component.Name+'_'+mit.Items[k].Name,true)
+            else
+              mit.Items[k].Checked := FInifile.ReadBool (af_Form.Name, lcom_Component.Name+'_'+mit.Items[k].Name,False);
+          end;
+        Result := True;
+      end;
+
   end;
 
 begin
@@ -352,222 +621,38 @@ begin
           begin
             try
               lcom_Component := aF_Form.Components[j];
-              if (lcom_Component is TDBGrid) and
-                 GetfeSauveEdit(FSauveEditObjets, feTGrid) then
-                begin
-                  f_IniReadGridFromIni ( FInifile, aF_Form.Name, lcom_Component as TDBGrid );
-                  Continue;
-                end;
 
-              if (lcom_Component.ClassNameIs ( 'TBaseVirtualTree' ))
-               and   GetfeSauveEdit(FSauveEditObjets, feTVirtualTrees) then
-                  begin
-                    {$IFDEF DELPHI}
-                    f_IniReadVirtualTreeFromIni ( FInifile, aF_Form.Name, lcom_Component as TBaseVirtualTree );
-                    {$ENDIF}
-                end;
-
-              if (lcom_Component is TListView)
-               and   GetfeSauveEdit(FSauveEditObjets, feTListView) then
-                  begin
-                    f_IniReadListViewFromIni ( FInifile, aF_Form.Name, lcom_Component as TListView );
-{                      for k := 0 to lsv_ListView.Columns.Count - 1 do
-                      if FInifile.ReadInteger(aF_Form.Name, lcom_Component.Name + '.' + lsv_ListView.Columns[k].Caption, lsv_ListView.Columns[k].Width) > 0 Then
-                        lsv_ListView.Columns[k].Width := FInifile.ReadInteger(aF_Form.Name, lcom_Component.Name + '.' + lsv_ListView.Columns[k].Caption, lsv_ListView.Columns[k].Width);}
-                end;
-
-              // lecture de la position des objets Panels et Rxsplitters
-              if (   (lcom_Component Is TPanel )
-                  or (lcom_Component is TCustomListView )
-                  {$IFDEF VIRTUALTREES}
-                  or (lcom_Component is TBaseVirtualTree  )
-                  {$ENDIF}
-                  or (lcom_Component is TCustomGrid ))
-              and FSauvePosObjet then
-                begin
-                  li_Taille := fli_ReadInteger ( lcom_Component.Name +'.Width', TControl (lcom_Component).Width);
-                  if li_Taille > 0 Then
-                    TControl(lcom_Component).Width := li_Taille ;
-                  li_Taille := fli_ReadInteger ( lcom_Component.Name +'.Height',TControl (lcom_Component).Height);
-                  if li_Taille > 0 Then
-                    TControl(lcom_Component).Height:= li_Taille ;
-                  Continue;
-                end;
-
-              // lecture de la page de contrôle(onglets)
-              if ((lcom_Component is TPageControl)) and GetfeSauveEdit ( FSauveEditObjets, feTPageControl )   then
-                begin
-                  TPageControl(lcom_Component).ActivePageIndex := fli_ReadInteger ( lcom_Component.Name , 0);
-                  Continue;
-                end;
-              // lecture des CheckBoxes
-              if (   (lcom_Component is TCheckBox)
-                  or (lcom_Component.ClassNameIs( 'TJvXPCheckbox' ))
-                  or (lcom_Component.ClassNameIs( 'TPCheck' )))
-               and GetfeSauveEdit ( FSauveEditObjets, feTCheck ) then
-                begin
-                  p_SetComponentBoolProperty(lcom_Component,'Checked', FInifile.ReadBool(af_Form.name,lcom_Component.Name,fb_getComponentBoolProperty(lcom_Component, 'Checked')));
-                  Continue;
-                end;
-              // lecture des RadioBoutons
-              if (lcom_Component is TRadioButton) and GetfeSauveEdit ( FSauveEditObjets, feTRadio ) then
-                begin
-                  TRadioButton(lcom_Component).Checked:= FInifile.ReadBool(af_Form.name,lcom_Component.Name,true);
-                  Continue;
-                end;
-              // lecture des groupes de RadioBoutons
-              if (lcom_Component is TRadioGroup)  and GetfeSauveEdit ( FSauveEditObjets, feTRadioGroup ) then
-                begin
-                  TRadioGroup(lcom_Component).ItemIndex:= fli_ReadInteger (lcom_Component.Name,0);
-                  Continue;
-                end;
-              // lecture de PopupMenu
-              if (lcom_Component is TPopupMenu) and GetfeSauveEdit ( FSauveEditObjets, feTPopup )  then
-                begin
-                  mit := TMenu(lcom_Component).Items;
-                  for k := 0 to mit.Count-1 do
-                    begin
-                      if mit.Items[k].RadioItem then
-                        mit.Items[k].Checked := FInifile.ReadBool (af_Form.Name, lcom_Component.Name+'_'+mit.Items[k].Name,true)
-                      else
-                        mit.Items[k].Checked := FInifile.ReadBool (af_Form.Name, lcom_Component.Name+'_'+mit.Items[k].Name,False);
-                    end;
-                end;
-
-              if (lcom_Component is TEdit) and GetfeSauveEdit(FSauveEditObjets ,feTedit) then
-                begin
-                  ls_Temp := fs_ReadString(lcom_Component.Name,'');
-                  if ( ls_Temp <> '' ) Then
-                    TCustomEdit(lcom_Component).Text := ls_Temp ;
-                  Continue;
-                end;
-
-              if GetfeSauveEdit(FSauveEditObjets ,feTDateEdit) Then
-                if (lcom_Component is {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}) then
-                  Begin
-                    {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}(lcom_Component).Date := StrToDateTime(fs_ReadString(lcom_Component.Name,DateToStr(Date)));
-                    Continue;
-                  End;
-
-              if GetfeSauveEdit(FSauveEditObjets ,feTFileNameEdit) Then
+              if fb_ReadHighComponents Then
+                continue;
+              if FSauveEditObjets <> [] Then
                 Begin
-                  {$IFDEF DELPHI}
-                if (lcom_Component is  TJvFileNameEdit) then
-                  begin
-                    TJvFileNameEdit (lcom_Component).Text := fs_ReadString( lcom_Component.Name, GetCurrentDir);
-                    Continue;
-                  end;
-                   {$ENDIF}
-               {$IFDEF RX}
-                if (lcom_Component is TFileNameEdit ) then
-                  begin
-                    TFileNameEdit (lcom_Component).Text := fs_ReadString( lcom_Component.Name, GetCurrentDir);
-                    Continue;
-                  end;
-                  {$ENDIF}
-                End ;
+                  if fb_ReadOptions  Then
+                    continue;
 
-              if GetfeSauveEdit(FSauveEditObjets ,feTDirectoryEdit) Then
-                Begin
-                  if (lcom_Component.ClassNameIs('TJvDirectoryEdit')) then
-                    begin
-                      ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
-                      If DirectoryExists( ls_Temp ) Then
-                        p_SetComponentProperty (lcom_Component, 'Text', ls_temp )
-                       Else
-                        p_SetComponentProperty (lcom_Component, 'Text', GetCurrentDir );
-                      Continue;
-                    end;
-                  if (lcom_Component is TDirectoryEdit) then
-                    begin
-                      ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
-                      If DirectoryExists( ls_Temp ) Then
-                        p_SetComponentProperty (lcom_Component, {$IFDEF FPC} 'Directory' {$ELSE} 'EditText' {$ENDIF}, ls_Temp )
-                       Else
-                        p_SetComponentProperty (lcom_Component, {$IFDEF FPC} 'Directory' {$ELSE} 'EditText' {$ENDIF}, GetCurrentDir );
-                      Continue;
-                    end;
-                End;
+                  if fb_ReadEdits Then
+                    Continue;
 
+                  if fb_ReadSpecialEdits  Then
+                    Continue;
 
-              {$IFDEF DELPHI}
-              if GetfeSauveEdit(FSauveEditObjets ,feTDateTimePicker) Then
-                if (lcom_Component is TDateTimePicker) then
-                  begin
-                    if fs_ReadString(lcom_Component.Name,'%ù@à*£')<>'%ù@à*£' then TDateTimePicker(lcom_Component).DateTime:=StrToDateTime( fs_ReadString(lcom_Component.Name,''));
+                  if fb_ReadFiles Then
                     Continue;
-                  end;
-              {$ENDIF}
-              if GetfeSauveEdit(FSauveEditObjets ,feTSpinEdit)
-              and (   (lcom_Component.ClassNameIs( 'TSpinEdit'))
-                   or (lcom_Component.ClassNameIs( 'TRxSpinEdit')))
-                 then
-                  begin
-                    p_SetComponentProperty(lcom_Component, 'Value', fli_ReadInteger (lcom_Component.Name,flin_getComponentProperty(lcom_Component, 'Value')));
+
+                  if fb_ReadDirectories  Then
                     Continue;
-                  end;
-              if (lcom_Component is TMemo) and GetfeSauveEdit(FSauveEditObjets ,feTMemo)        then
-                begin
-                  LitTstringsDeIni(FInifile, lcom_Component.Name,TCustomMemo(lcom_Component).Lines,rien );
-                  Continue;
-                end;
-              if (lcom_Component is {$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}) and GetfeSauveEdit(FSauveEditObjets ,feTRichEdit)    then
-                begin
-                  LitTstringsDeIni(FInifile, lcom_Component.Name,{$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}(lcom_Component).Lines,rien);
-                  Continue;
-                end;
-              if (lcom_Component is TCustomComboBox) and GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
-              and not assigned ( fobj_getComponentObjectProperty(lcom_Component,'Datasource'))
-               then
-                begin
-                    p_SetComponentProperty(lcom_Component, 'Text', fs_ReadString(lcom_Component.Name+'.Text',''));
-                End;
-              if (lcom_Component.CLassNameIs( 'TExtColorCombo')) and GetfeSauveEdit(FSauveEditObjets ,feTColorCombo)
-               then
-                begin
-                    p_SetComponentProperty(lcom_Component, 'Value', fs_ReadString(lcom_Component.Name+'.Value',''));
-                End;
-{$IFDEF RX}
-              if GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
-              and (lcom_Component is {$IFDEF FPC}TRxCustomDBLookupCombo{$ELSE}TRxLookupControl{$ENDIF})
-              and not assigned ( fobj_getComponentObjectProperty(lcom_Component,'Datasource'))
-               Then
-                begin
-                  {$IFNDEF FPC}
-                  if (lcom_Component is TRxDBLookupList ) Then
-                    (lcom_Component as TRxDBLookupList).DisplayValue := fs_ReadString(lcom_Component.Name + '.Value', '')
-                   else
-                   {$ENDIF}
-                    if (lcom_Component is TRxDBLookupCombo ) Then
-                    {$IFDEF FPC}
-                      (lcom_Component as TRxDBLookupCombo).LookupDisplayIndex := fli_ReadInteger (lcom_Component.Name + '.Index', -1);
-                    {$ELSE}
-                     (lcom_Component as TRxDBLookupCombo).DisplayValue := fs_ReadString(lcom_Component.Name + '.Index', '');
-                     {$ENDIF}
-                End;
-{$ENDIF}
-              if (lcom_Component is TCustomComboBox) and GetfeSauveEdit(FSauveEditObjets ,feTComboBox)    then
-                begin
-                  valItemIndex := -1 ;
-                  LitTstringsDeIni(FInifile, lcom_Component.Name,TCustomComboBox(lcom_Component).Items,valItemIndex);
-                  if  ( valItemIndex>=0)
-                  and ( valItemIndex<=TCustomComboBox(lcom_Component).Items.Count-1)
-                   then
-                    TCustomComboBox(lcom_Component).ItemIndex:=valItemIndex;
-                  Continue;
-                end;
-              if (lcom_Component is TListBox) and GetfeSauveEdit(FSauveEditObjets ,feTListBox)     then
-                begin
-                  LitTstringsDeIni(FInifile, lcom_Component.Name,TCustomListBox(lcom_Component).Items,valItemIndex);
-                  if valItemIndex<=TCustomListBox(lcom_Component).Items.Count-1 then TCustomListBox(lcom_Component).ItemIndex:=valItemIndex;
-                  Continue;
-                end;
-              if  GetfeSauveEdit(FSauveEditObjets ,feTCurrencyEdit) Then
-                if (lcom_Component is TExtNumEdit) then
-                  begin
-                    TExtNumEdit(lcom_Component).Text := fs_ReadString(lcom_Component.Name,' ');
+
+                  if fb_ReadCombos  Then
                     Continue;
-                  end;
+
+                  if fb_ReadListBoxes Then
+                    Continue;
+
+                  if fb_ReadInteractivityComponents Then
+                    Continue;
+                  if fb_ReadMemos Then
+                    Continue;
+
+                end;
             except
             end;
         end
@@ -635,7 +720,7 @@ end;
 procedure TOnFormInfoIni.p_ExecuteEcriture ( const af_Form : TCustomForm );
 var
   mit: TMenuItem;
-  j, k, Indice: integer;
+  j, Indice: integer;
 //  lvt_EnteteArbre : TVTHeader ;
 //  lgd_grid: TDBGrid;
 //  lsv_ListView : TListView ;
@@ -648,6 +733,246 @@ var
   procedure p_WriteInteger ( const as_ComponentName : String; const ai_Value : Longint );
   Begin
     FInifile.WriteInteger ( af_Form.Name, as_ComponentName, ai_Value );
+  End;
+
+  function fb_WriteHighComponents : Boolean;
+  Begin
+    Result := False;
+    if (lcom_Component is TDBGrid) and
+       GetfeSauveEdit(FSauveEditObjets, feTGrid) then
+      begin
+        p_IniWriteGridToIni ( FInifile, af_Form.Name, lcom_Component as TDBGrid );
+      end;
+
+        if (lcom_Component.ClassNameIs ( 'TBaseVirtualTree' ))
+         and   GetfeSauveEdit(FSauveEditObjets, feTVirtualTrees) then
+          begin
+            {$IFDEF DELPHI}
+            p_IniWriteVirtualTreeToIni ( FInifile, af_Form.Name, lcom_Component as TBaseVirtualTree );
+            {$ENDIF}
+          end;
+
+        if (lcom_Component is TListView)
+         and   GetfeSauveEdit(FSauveEditObjets, feTListView) then
+          begin
+            p_IniWriteListViewToIni ( FInifile, af_Form.Name, lcom_Component as TListView );
+          end;
+
+    // écriture des positions des objets Panels et RxSplitters
+    if FSauvePosObjet then
+    begin
+      if      (lcom_Component is TPanel)
+      or (lcom_Component.ClassNameIs ( 'TBaseVirtualTree' ))
+      or (lcom_Component is TCustomGrid)
+      or (lcom_Component is TCustomListView) Then
+       begin
+        if TControl(lcom_Component).Width  > 0 Then
+          p_WriteInteger(lcom_Component.Name+'.Width',TControl(lcom_Component).Width);
+        if TControl(lcom_Component).Height > 0 Then
+          p_WriteInteger(lcom_Component.Name+'.Height',TControl(lcom_Component).Height);
+        Result := True;
+      end;
+    end;
+  end;
+  function fb_WriteEdits : Boolean;
+  Begin
+    Result := False;
+    if (lcom_Component is TEdit)           and GetfeSauveEdit(FSauveEditObjets ,feTEdit) then
+      begin
+        p_WriteString(lcom_Component.Name,TCustomEdit(lcom_Component).Text);
+        Result := True;
+      end;
+    if (lcom_Component is TExtNumEdit)   and GetfeSauveEdit(FSauveEditObjets ,feTCurrencyEdit) then
+      begin
+        p_WriteString(lcom_Component.Name,TExtNumEdit(lcom_Component).Text);
+        Result := True;
+      end;
+    if (lcom_Component is {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF})       and GetfeSauveEdit(FSauveEditObjets ,feTDateEdit) then
+      begin
+        p_WriteString(lcom_Component.Name,DateTimeToStr({$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}(lcom_Component).Date));
+        Result := True;
+      end;
+  end;
+  function fb_WriteSpecialEdits : Boolean;
+  Begin
+    Result := False;
+    if GetfeSauveEdit(FSauveEditObjets ,feTSpinEdit)
+    and  (   (lcom_Component.ClassNameIs( 'TSpinEdit'))
+          or (lcom_Component.ClassNameIs( 'TRxSpinEdit')))
+     then
+      begin
+        p_WriteInteger(lcom_Component.Name,flin_getComponentProperty(lcom_Component, 'Value' ));
+        Result := True;
+      end;
+
+  end;
+
+  function fb_WriteOptions : Boolean;
+  Begin
+    Result := False;
+    if ((lcom_Component is TCheckBox)
+    or (lcom_Component.ClassNameIs( 'TJvXPCheckbox' ))
+    or (lcom_Component.ClassNameIs( 'TPCheck' )))
+    and GetfeSauveEdit(FSauveEditObjets, feTCheck )
+     then
+      begin
+        FInifile.WriteBool(af_Form.name,lcom_Component.Name,fb_getComponentBoolProperty ( lcom_Component, 'Checked' ));
+        Result := True;
+      end;
+    if (lcom_Component is TRadioButton)    and GetfeSauveEdit(FSauveEditObjets, feTRadio )      then
+      begin
+        FInifile.WriteBool(af_Form.name,lcom_Component.Name,TRadioButton(lcom_Component).Checked);
+        Result := True;
+      end;
+    if (lcom_Component is TRadioGroup)     and GetfeSauveEdit(FSauveEditObjets, feTRadioGroup )       then
+      begin
+        p_WriteInteger(lcom_Component.Name,TRadioGroup(lcom_Component).ItemIndex);
+        Result := True;
+      end;
+
+  end;
+
+  function fb_WriteDirectories : Boolean;
+  Begin
+    Result := False;
+    if GetfeSauveEdit(FSauveEditObjets ,feTDirectoryEdit) then
+      begin
+        if (lcom_Component.ClassNameIs('TJvDirectoryEdit')) then
+          Begin
+            p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, 'Text'));
+            Result := True;
+          End;
+        if (lcom_Component is TDirectoryEdit) then
+          begin
+            p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, {$IFDEF FPC} 'Directory' {$ELSE} 'EditText' {$ENDIF}));
+            Result := True;
+          end;
+      end;
+
+  end;
+
+  function fb_WriteFiles : Boolean;
+  Begin
+    Result := False;
+    if GetfeSauveEdit(FSauveEditObjets ,feTFileNameEdit) Then
+      Begin
+      {$IFDEF DELPHI}
+        If (lcom_Component is TJvFileNameEdit) then
+          begin
+            p_WriteString(lcom_Component.Name,TJvFileNameEdit(lcom_Component).Text);
+            Result := True;
+          end;
+       {$ENDIF}
+      {$IFDEF RX}
+        If (lcom_Component is TFileNameEdit) then
+          begin
+            p_WriteString(lcom_Component.Name,TFileNameEdit(lcom_Component).Text);
+            Result := True;
+          end;
+       {$ENDIF}
+      End ;
+
+  end;
+
+  function fb_WriteMemos : Boolean;
+  Begin
+    Result := False;
+    if (lcom_Component is TMemo)           and GetfeSauveEdit(FSauveEditObjets ,feTMemo)            then
+      begin
+        SauveTStringsDansIni(FInifile, lcom_Component.Name,TMemo(lcom_Component).Lines,0);
+        Result := True;
+      end;
+    if (lcom_Component is {$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF})       and GetfeSauveEdit(FSauveEditObjets ,feTRichEdit)        then
+      begin
+        SauveTStringsDansIni(FInifile, lcom_Component.Name,{$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}(lcom_Component).Lines,0);
+        Result := True;
+      end;
+
+  end;
+
+  function fb_WriteCombos : Boolean;
+  Begin
+    Result := False;
+    if (lcom_Component.CLassNameIs( 'TExtColorCombo')) and GetfeSauveEdit(FSauveEditObjets ,feTColorCombo)
+     then
+      begin
+          p_WriteInteger(lcom_Component.Name+ '.Value', Flin_getComponentProperty (lcom_Component, 'Value'));
+          // No continue : Maybe a customcombo
+      End;
+    if (lcom_Component is TCustomComboBox) and GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,'Datasource'))
+     Then
+      begin
+        p_WriteString(lcom_Component.Name+'.Text',fs_getComponentProperty(lcom_Component, 'Text'));
+          // No continue : Maybe a customcombo
+      End;
+  {$IFDEF RX}
+    if GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
+    and (lcom_Component is {$IFDEF FPC}TRxCustomDBLookupCombo{$ELSE}TRxLookupControl{$ENDIF})
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,'Datasource'))
+     then
+      begin
+       {$IFNDEF FPC}
+        if (lcom_Component is TRxDBLookupList) Then
+          p_WriteString(lcom_Component.Name + '.Value', (lcom_Component as TRxDBLookupList).DisplayValue)
+         else
+        {$ENDIF}
+          if (lcom_Component is TRxDBLookupCombo) Then
+          {$IFDEF FPC}
+            p_WriteInteger(lcom_Component.Name + '.Index', (lcom_Component as TRxDBLookupCombo).LookupDisplayIndex);
+          {$ELSE}
+            p_WriteString(lcom_Component.Name + '.Value', (lcom_Component as TRxDBLookupCombo).DisplayValue);
+           {$ENDIF}
+          // No continue : Maybe a customcombo
+      End;
+  {$ENDIF}
+    if (lcom_Component is TCustomComboBox)       and GetfeSauveEdit(FSauveEditObjets ,feTComboBox)        then
+      begin
+        SauveTStringsDansIni(FInifile, lcom_Component.Name,TCustomComboBox(lcom_Component).Items,TCustomComboBox(lcom_Component).ItemIndex);
+        Result := True;
+      end;
+
+  end;
+
+  function fb_WriteInteractivityComponents : Boolean;
+  var k : Cardinal;
+  Begin
+    Result := False;
+    // Écriture de la position des colonnes des grilles
+    // Ecriture de la page de contrôle(onglets)
+    if (lcom_Component is TPageControl)     and GetfeSauveEdit(FSauveEditObjets, feTPageControl )   then
+      begin
+        p_WriteInteger(lcom_Component.Name,TPageControl(lcom_Component).ActivePageIndex );
+        Result := True;
+      end;
+    // Ecriture de PopupMenu
+    if (lcom_Component is TPopupMenu )     and GetfeSauveEdit(FSauveEditObjets, feTPopup )  then
+      begin
+        mit := TMenu(lcom_Component).Items;
+        for k := 0 to mit.Count-1 do
+          begin
+            FInifile.WriteBool (af_Form.Name, lcom_Component.Name+'_'+mit.Items[k].Name , mit.Items[k].Checked);
+          end;
+        Result := True;
+      end;
+  End;
+
+  function fb_WriteListBoxes : Boolean;
+  Begin
+    Result := False;
+    if (lcom_Component is TListBox)        and GetfeSauveEdit(FSauveEditObjets ,feTListBox)         then
+      begin
+        SauveTStringsDansIni(FInifile, lcom_Component.Name,TCustomListBox(lcom_Component).Items,TListBox(lcom_Component).ItemIndex);
+        Result := True;
+      end;
+  {$IFDEF DELPHI}
+    if (lcom_Component is TDateTimePicker) and GetfeSauveEdit(FSauveEditObjets ,feTDateTimePicker)  then
+      begin
+        p_WriteString(lcom_Component.Name,DateTimeToStr(TDateTimePicker(lcom_Component).DateTime));
+        Result := True;
+      end;
+  {$ENDIF}
+
   End;
 
 begin
@@ -663,196 +988,31 @@ begin
     begin
       lcom_Component := aF_Form.Components[j];
       Try
-        if (lcom_Component is TDBGrid) and
-           GetfeSauveEdit(FSauveEditObjets, feTGrid) then
-          begin
-            p_IniWriteGridToIni ( FInifile, af_Form.Name, lcom_Component as TDBGrid );
-            Continue;
-          end;
-
-            if (lcom_Component.ClassNameIs ( 'TBaseVirtualTree' ))
-             and   GetfeSauveEdit(FSauveEditObjets, feTVirtualTrees) then
-              begin
-                {$IFDEF DELPHI}
-                p_IniWriteVirtualTreeToIni ( FInifile, af_Form.Name, lcom_Component as TBaseVirtualTree );
-                {$ENDIF}
-                Continue;
-              end;
-
-            if (lcom_Component is TListView)
-             and   GetfeSauveEdit(FSauveEditObjets, feTListView) then
-              begin
-                p_IniWriteListViewToIni ( FInifile, af_Form.Name, lcom_Component as TListView );
-                Continue;
-              end;
-
-        // écriture des positions des objets Panels et RxSplitters
-        if FSauvePosObjet then
-        begin
-          if      (lcom_Component is TPanel)
-          or (lcom_Component.ClassNameIs ( 'TBaseVirtualTree' ))
-          or (lcom_Component is TCustomGrid)
-          or (lcom_Component is TCustomListView) Then
-           begin
-            if TControl(lcom_Component).Width  > 0 Then
-              p_WriteInteger(lcom_Component.Name+'.Width',TControl(lcom_Component).Width);
-            if TControl(lcom_Component).Height > 0 Then
-              p_WriteInteger(lcom_Component.Name+'.Height',TControl(lcom_Component).Height);
-            Continue;
-          end;
-        end;
-
-        // Écriture de la position des colonnes des grilles
-        // Ecriture de la page de contrôle(onglets)
-        if (lcom_Component is TPageControl)     and GetfeSauveEdit(FSauveEditObjets, feTPageControl )   then
-          begin
-            p_WriteInteger(lcom_Component.Name,TPageControl(lcom_Component).ActivePageIndex );
-            Continue;
-          end;
-
-        if ((lcom_Component is TCheckBox)
-        or (lcom_Component.ClassNameIs( 'TJvXPCheckbox' ))
-        or (lcom_Component.ClassNameIs( 'TPCheck' )))
-        and GetfeSauveEdit(FSauveEditObjets, feTCheck )
-         then
-          begin
-            FInifile.WriteBool(af_Form.name,lcom_Component.Name,fb_getComponentBoolProperty ( lcom_Component, 'Checked' ));
-            Continue;
-          end;
-        if (lcom_Component is TRadioButton)    and GetfeSauveEdit(FSauveEditObjets, feTRadio )      then
-        begin
-          FInifile.WriteBool(af_Form.name,lcom_Component.Name,TRadioButton(lcom_Component).Checked);
+        if fb_WriteHighComponents Then
           Continue;
-          end;
-        if (lcom_Component is TRadioGroup)     and GetfeSauveEdit(FSauveEditObjets, feTRadioGroup )       then
-        begin
-          p_WriteInteger(lcom_Component.Name,TRadioGroup(lcom_Component).ItemIndex);
-          Continue;
-          end;
-        // Ecriture de PopupMenu
-        if (lcom_Component is TPopupMenu )     and GetfeSauveEdit(FSauveEditObjets, feTPopup )  then
-          begin
-            mit := TMenu(lcom_Component).Items;
-            for k := 0 to mit.Count-1 do
-              begin
-                FInifile.WriteBool (af_Form.Name, lcom_Component.Name+'_'+mit.Items[k].Name , mit.Items[k].Checked);
-              end;
-            Continue;
-          end;
+
         // écriture des données des objets dans le fichier ini.
         if FSauveEditObjets <> [] Then
         begin
-          if (lcom_Component is TEdit)           and GetfeSauveEdit(FSauveEditObjets ,feTEdit) then
-          begin
-            p_WriteString(lcom_Component.Name,TCustomEdit(lcom_Component).Text);
+          if fb_WriteEdits Then
             Continue;
-            end;
-          if (lcom_Component is {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF})       and GetfeSauveEdit(FSauveEditObjets ,feTDateEdit) then
-          begin
-            p_WriteString(lcom_Component.Name,DateTimeToStr({$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}(lcom_Component).Date));
+          if fb_WriteSpecialEdits Then
             Continue;
-            end;
-            if GetfeSauveEdit(FSauveEditObjets ,feTFileNameEdit) Then
-              Begin
-              {$IFDEF DELPHI}
-                If (lcom_Component is TJvFileNameEdit) then
-                  begin
-                    p_WriteString(lcom_Component.Name,TJvFileNameEdit(lcom_Component).Text);
-                    Continue;
-                  end;
-               {$ENDIF}
-              {$IFDEF RX}
-                If (lcom_Component is TFileNameEdit) then
-                  begin
-                    p_WriteString(lcom_Component.Name,TFileNameEdit(lcom_Component).Text);
-                    Continue;
-                  end;
-               {$ENDIF}
-              End ;
-            if GetfeSauveEdit(FSauveEditObjets ,feTDirectoryEdit) then
-              begin
-                if (lcom_Component.ClassNameIs('TJvDirectoryEdit')) then
-                  Begin
-                    p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, 'Text'));
-                    Continue;
-                  End;
-                if (lcom_Component is TDirectoryEdit) then
-                  begin
-                    p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, {$IFDEF FPC} 'Directory' {$ELSE} 'EditText' {$ENDIF}));
-                    Continue;
-                  end;
-              end;
-            if GetfeSauveEdit(FSauveEditObjets ,feTSpinEdit)
-            and  (   (lcom_Component.ClassNameIs( 'TSpinEdit'))
-                  or (lcom_Component.ClassNameIs( 'TRxSpinEdit')))
-             then
-              begin
-                p_WriteInteger(lcom_Component.Name,flin_getComponentProperty(lcom_Component, 'Value' ));
-                Continue;
-              end;
-            if (lcom_Component is TMemo)           and GetfeSauveEdit(FSauveEditObjets ,feTMemo)            then
-              begin
-                SauveTStringsDansIni(FInifile, lcom_Component.Name,TMemo(lcom_Component).Lines,0);
-                Continue;
-              end;
-            if (lcom_Component is {$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF})       and GetfeSauveEdit(FSauveEditObjets ,feTRichEdit)        then
-              begin
-                SauveTStringsDansIni(FInifile, lcom_Component.Name,{$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}(lcom_Component).Lines,0);
-                Continue;
-              end;
-            if (lcom_Component.CLassNameIs( 'TExtColorCombo')) and GetfeSauveEdit(FSauveEditObjets ,feTColorCombo)
-             then
-              begin
-                  p_WriteInteger(lcom_Component.Name+ '.Value', Flin_getComponentProperty (lcom_Component, 'Value'));
-              End;
-            if (lcom_Component is TCustomComboBox) and GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
-            and not assigned ( fobj_getComponentObjectProperty(lcom_Component,'Datasource'))
-             Then
-              begin
-                p_WriteString(lcom_Component.Name+'.Text',fs_getComponentProperty(lcom_Component, 'Text'));
-              End;
-          {$IFDEF RX}
-            if GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
-            and (lcom_Component is {$IFDEF FPC}TRxCustomDBLookupCombo{$ELSE}TRxLookupControl{$ENDIF})
-            and not assigned ( fobj_getComponentObjectProperty(lcom_Component,'Datasource'))
-             then
-              begin
-               {$IFNDEF FPC}
-                if (lcom_Component is TRxDBLookupList) Then
-                  p_WriteString(lcom_Component.Name + '.Value', (lcom_Component as TRxDBLookupList).DisplayValue)
-                 else
-                {$ENDIF}
-                  if (lcom_Component is TRxDBLookupCombo) Then
-                  {$IFDEF FPC}
-                    p_WriteInteger(lcom_Component.Name + '.Index', (lcom_Component as TRxDBLookupCombo).LookupDisplayIndex);
-                  {$ELSE}
-                    p_WriteString(lcom_Component.Name + '.Value', (lcom_Component as TRxDBLookupCombo).DisplayValue);
-                   {$ENDIF}
-              End;
-          {$ENDIF}
-            if (lcom_Component is TCustomComboBox)       and GetfeSauveEdit(FSauveEditObjets ,feTComboBox)        then
-              begin
-              SauveTStringsDansIni(FInifile, lcom_Component.Name,TCustomComboBox(lcom_Component).Items,TCustomComboBox(lcom_Component).ItemIndex);
-              Continue;
-              end;
-            if (lcom_Component is TListBox)        and GetfeSauveEdit(FSauveEditObjets ,feTListBox)         then
-              begin
-              SauveTStringsDansIni(FInifile, lcom_Component.Name,TCustomListBox(lcom_Component).Items,TListBox(lcom_Component).ItemIndex);
-                          Continue;
-              end;
-            if (lcom_Component is TExtNumEdit)   and GetfeSauveEdit(FSauveEditObjets ,feTCurrencyEdit) then
-              begin
-              p_WriteString(lcom_Component.Name,TExtNumEdit(lcom_Component).Text);
-              Continue;
-              end;
-          {$IFDEF DELPHI}
-            if (lcom_Component is TDateTimePicker) and GetfeSauveEdit(FSauveEditObjets ,feTDateTimePicker)  then
-              begin
-              p_WriteString(lcom_Component.Name,DateTimeToStr(TDateTimePicker(lcom_Component).DateTime));
-              Continue;
-              end;
-          {$ENDIF}
-          end;
+          if fb_WriteOptions Then
+            Continue;
+          if fb_WriteDirectories Then
+            Continue;
+          if fb_WriteFiles Then
+            Continue;
+          if fb_WriteMemos Then
+            Continue;
+          if fb_WriteCombos Then
+            continue ;
+          if fb_WriteListBoxes Then
+            Continue;
+          if fb_WriteInteractivityComponents Then
+            Continue;
+        end;
         Except
         end;
       end;

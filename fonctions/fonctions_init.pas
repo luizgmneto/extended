@@ -118,10 +118,10 @@ const
   function f_IniReadVirtualTreeFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const abvt_VirtualTree : TBaseVirtualTree ): Boolean ;
   procedure p_IniWriteVirtualTreeToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const abvt_VirtualTree : TBaseVirtualTree );
 {$ENDIF}
-  function f_IniReadListViewFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TListView ): Boolean ;
+  function f_IniReadListViewFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TCustomListView ): Boolean ;
 
   procedure p_IniWriteGridToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TDBGrid );
-  procedure p_IniWriteListViewToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TListView );
+  procedure p_IniWriteListViewToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TCustomListView );
   // Ecrit une chaîne dans le fichier déclaré dans FINIFile
   // à partir de la section et de la clé ainsi que de la valeur à donner.
   procedure p_IniWriteSectionStr(aSection, aCle: string; aDonnee: string);
@@ -452,6 +452,15 @@ begin
 {$ENDIF}
 End ;
 
+function flsc_GetListColumns ( const alv_ListView : TCustomListView ) : TListColumns ;
+var lobj_Column : Tobject;
+Begin
+  lobj_Column := fobj_getComponentObjectProperty(alv_ListView, 'Columns' );
+  if assigned ( lobj_Column )
+  and ( lobj_Column is TListColumns ) Then
+    Result := lobj_Column as TListColumns;
+End;
+
 /////////////////////////////////////////////////////////////////////////////////
 // Fonction : f_IniReadListViewFromIni
 // Description : Affecte les tailles de colonnes d'une liste à partir de l'ini
@@ -460,19 +469,22 @@ End ;
 //               alv_ListView : La liste
 //               Retour       : Une colonne au moins a été affectée
 /////////////////////////////////////////////////////////////////////////////////
-function f_IniReadListViewFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TListView ): Boolean ;
+function f_IniReadListViewFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TCustomListView ): Boolean ;
 var k, li_Width : Integer ;
+    llsc_Columns : TListColumns;
 begin
   Result := False ;
-  for k := 0 to alv_ListView.Columns.Count - 1 do
-    Begin
-      li_Width := aini_IniFile.ReadInteger ( as_FormName, alv_ListView.Name + '.' + alv_ListView.Columns[k].Caption, alv_ListView.Columns[k].Width);
-      if li_Width > 0 Then
-        Begin
-          Result := True ;
-          alv_ListView.Columns[k].Width := li_Width ;
-        End ;
-    End ;
+  llsc_Columns := flsc_GetListColumns ( alv_ListView );
+  if assigned ( llsc_Columns ) Then
+    for k := 0 to llsc_Columns.Count - 1 do
+      Begin
+        li_Width := aini_IniFile.ReadInteger ( as_FormName, alv_ListView.Name + '.' + llsc_Columns[k].Caption, llsc_Columns[k].Width);
+        if li_Width > 0 Then
+          Begin
+            Result := True ;
+            llsc_Columns[k].Width := li_Width ;
+          End ;
+      End ;
 end;
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -536,11 +548,14 @@ End ;
 //               as_FormName  : Le nom de la fiche section de l'ini
 //               alv_ListView : La liste
 /////////////////////////////////////////////////////////////////////////////////
-procedure p_IniWriteListViewToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TListView );
+procedure p_IniWriteListViewToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TCustomListView );
 var k : Integer ;
+    llsc_Columns : TListColumns;
 begin
-  for k := 0 to alv_ListView.Columns.Count - 1 do
-    aini_IniFile.WriteInteger( as_FormName, alv_ListView.Name + '.' + alv_ListView.Columns[k].Caption, alv_ListView.Columns[k].Width);
+  llsc_Columns := flsc_GetListColumns ( alv_ListView );
+  if assigned ( llsc_Columns ) Then
+    for k := 0 to llsc_Columns.Count - 1 do
+      aini_IniFile.WriteInteger( as_FormName, alv_ListView.Name + '.' + llsc_Columns[k].Caption, llsc_Columns[k].Width);
 End ;
 
 ////////////////////////////////////////////////////////////////////////////////
