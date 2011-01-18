@@ -53,9 +53,10 @@ uses
                                                FileUnit : 'U_OnFormInfoIni' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Gestion de l''ini à mettre sur une fiche.' ;
-                                               BugsStory : '1.0.0.0 : Gestion de beaucoup de composants.';
+                                               BugsStory : '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
+                                                           '1.0.0.0 : Gestion de beaucoup de composants.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
 type
