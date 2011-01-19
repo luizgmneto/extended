@@ -30,7 +30,7 @@ const
                                          FileUnit : 'fonctions_dbcomponents' ;
       			                 Owner : 'Matthieu Giroux' ;
       			                 Comment : 'Fonctions gestion des données avec les composants visuels.' ;
-      			                 BugsStory : 'Version 1.1.0.1 : Simplify function fb_InsereCompteur.' + #13#10
+      			                 BugsStory : 'Version 1.1.0.1 : Simplify function fb_InsereCompteur.' + #13#10 +
                                                      'Version 1.1.0.0 : Ajout de fonctions d''automatisation.' + #13#10
                                        + 'Version 1.0.0.0 : Gestion des données réutilisable.';
       			                 UnitType : 1 ;

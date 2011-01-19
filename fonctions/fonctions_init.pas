@@ -610,14 +610,16 @@ var ls_Dir : String;
 begin
   if not Assigned(FIniFile) then
     begin
+      {$IFDEF FPC}
       ls_Dir := GetUserDir + DirectorySeparator + '.' + ExtractFileName ( Application.ExeName ) + DirectorySeparator ;
       if not DirectoryExists(ls_Dir )
       and not CreateDir ( ls_Dir ) Then
+      {$ENDIF}
         ls_Dir := fs_getSoftDir;
       if gs_ModeConnexion = CST_MACHINE then
-        FIniFile := TMemIniFile.Create(ls_Dir + CST_INI_USERS  + f_IniFWReadComputerName + CST_EXTENSION_INI )
+        FIniFile := TIniFile.Create(ls_Dir + CST_INI_USERS  + f_IniFWReadComputerName + CST_EXTENSION_INI )
       else
-        FIniFile := TMemIniFile.Create(ls_Dir + CST_INI_USERS + f_IniFWReadUtilisateurSession + CST_EXTENSION_INI );
+        FIniFile := TIniFile.Create(ls_Dir + CST_INI_USERS + f_IniFWReadUtilisateurSession + CST_EXTENSION_INI );
       if not FIniFile.SectionExists(INISEC_PAR) then
         Begin
           FIniFile.WriteString(INISEC_PAR, INIPAR_CREATION, 'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time));
@@ -730,7 +732,7 @@ procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ;{$IFNDEF CSV} const ac
 begin
   if not Assigned(amif_Init) then
     begin
-      amif_Init := TMemIniFile.Create(fs_getSoftDir + CST_INI_SOFT + as_NomConnexion + CST_EXTENSION_INI);
+      amif_Init := TIniFile.Create(fs_getSoftDir + CST_INI_SOFT + as_NomConnexion + CST_EXTENSION_INI);
     End;
   // Soit on a une connexion ADO
   if Assigned(acco_Conn) then

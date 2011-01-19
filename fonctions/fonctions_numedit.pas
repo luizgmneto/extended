@@ -30,7 +30,7 @@ const
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Gestion partagée du formatage des nombres' ;
                         			                 BugsStory : 'Version 1.1.0.1 : TNumRounded type not tested.'
-                        			                	     'Version 1.1.0.0 : Passage en Jedi 3.'
+                        			                	         + 'Version 1.1.0.0 : Passage en Jedi 3.' 
                         			                	         + 'Version 1.0.0.0 : Fonctions partagées.';
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build : 1 );
