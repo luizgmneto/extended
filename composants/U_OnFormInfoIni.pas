@@ -151,7 +151,7 @@ end;
 // permet de sauver dans un ini le contenu d'un mémo, d'un Combobox, d'un ListBox, d'un RichEdit
 // et d'un façon générale, le contenu des composants qui le stocke dans des TStrings
 ////////////////////////////////////////////////////////////////////////////////
-procedure SauveTStringsDansIni(FIni:TMemIniFile; SectionIni:string; LeTStrings:TStrings; ItemIndex:integer);
+procedure SauveTStringsDansIni(FIni:TIniFile; SectionIni:string; LeTStrings:TStrings; ItemIndex:integer);
 var i: integer;
 begin
   Fini.EraseSection(SectionIni); // on efface toute la section décrite par SectionIni
@@ -168,7 +168,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // permet de lire le contenu d'un ini qui a été sauvé par SauveTStringsDansIni
 ////////////////////////////////////////////////////////////////////////////////
-procedure LitTstringsDeIni(FIni: TMemIniFile; SectionIni: string; LeTStrings: TStrings; var ItemIndex: integer);
+procedure LitTstringsDeIni(FIni: TIniFile; SectionIni: string; LeTStrings: TStrings; var ItemIndex: integer);
 var i: integer;
 begin
   ItemIndex := -1;
@@ -243,15 +243,14 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.LaFormCreate ( Sender: TObject );
 var
-  FIni:TMemIniFile;
   Indice :integer;
 
 begin
   FUpdateAll := False ;
   FAutoUpdate := True ;
   if Assigned(FormOldCreate) then FormOldCreate(Sender);
-  FIni := f_GetMemIniFile;
-  if Assigned(FIni) then
+  f_GetMemIniFile;
+  if Assigned(FInifile) then
     try
       Self.Updating ;
           // Traitement de la position de la af_Form
@@ -465,6 +464,7 @@ var
         if (lcom_Component is TDirectoryEdit) then
           begin
             ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
+//            Showmessage ( lcom_Component.Name + ' '+ ls_Temp + ' ' +fs_ReadString(lcom_Component.Name, '' ) );
             If DirectoryExists( ls_Temp ) Then
               p_SetComponentProperty (lcom_Component, {$IFDEF FPC} 'Directory' {$ELSE} 'EditText' {$ENDIF}, ls_Temp )
              Else
@@ -681,7 +681,6 @@ end;
 procedure TOnFormInfoIni.ExecuteEcriture(aLocal:Boolean);
 var i : Integer ;
     ab_continue : Boolean ;
-    FInifile : TMemIniFile;
 
 begin
 
@@ -690,7 +689,7 @@ begin
     Exit ;
   FUpdateAll := True ;
   ab_continue := True;
-  FInifile := f_GetMemIniFile;
+  f_GetMemIniFile;
   If Assigned ( FOnIniWrite ) Then
     FOnIniWrite ( FInifile, ab_continue );
   if ab_continue Then

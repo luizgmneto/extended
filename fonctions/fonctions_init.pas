@@ -75,8 +75,8 @@ const
   function Lecture_ini_tache_fonctions(aTache: string; aListe: TStrings): Boolean;
 
   // Retourne l'objet FIniFile représentant le fichier INI
-  function f_GetMemIniFile(): TMemIniFile;
-  function f_GetMainMemIniFile( ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ): TMemIniFile;
+  function f_GetMemIniFile(): TIniFile;
+  function f_GetMainMemIniFile( ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ): TIniFile;
 
   // Lecture du fichier SQL dans FSQLFile avec gestion du fichier SQL
   // et lecture de requête à partir de la section parent et de de la clé requete.
@@ -174,7 +174,7 @@ const
   function fb_iniWriteFile( const amem_Inifile : TCustomInifile ; const ab_Afficheerreur : Boolean ):Boolean;
 
 {$IFDEF ZEOS}
-  function fb_IniSetZConnection ( const asqc_Connection : TZConnection ; const IniFile : TMemIniFile  ) : Boolean ;
+  function fb_IniSetZConnection ( const asqc_Connection : TZConnection ; const IniFile : TIniFile  ) : Boolean ;
 {$ENDIF}
 {$IFDEF EADO}
   function fb_IniSetADOConnection ( const aacx_Connection : TADOConnection ) : Boolean ;
@@ -183,10 +183,10 @@ const
   function fb_IniSetSQLConnection ( const asqc_Connection : TSQLConnection ) : Boolean ;
 {$ENDIF}
 function fs_IniSetConnection ( const accx_Connection : TComponent ) : String ;
-procedure p_IniGetDBConfigFile( var amif_Init : TMemIniFile ; {$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
+procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ; {$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
 
 var
-  FIniFile: TMemIniFile = nil;
+  FIniFile: TIniFile = nil;
   FSQLFile: TIniFile = nil;
 {$IFDEF EADO}
   gb_IniADOSetKeyset : Boolean = False ;
@@ -210,7 +210,7 @@ uses TypInfo, fonctions_string,
       fonctions_proprietes, fonctions_db ;
 
 {$IFDEF ZEOS}
-function fb_IniSetZConnection ( const asqc_Connection : TZConnection; const IniFile : TMemIniFile ) : Boolean ;
+function fb_IniSetZConnection ( const asqc_Connection : TZConnection; const IniFile : TIniFile ) : Boolean ;
 Begin
   Result := False ;
   asqc_Connection.Connected:=False;
@@ -605,16 +605,19 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // Retourne le nom du fichier ini
 ////////////////////////////////////////////////////////////////////////////////
-function f_GetMainMemIniFile( ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ): TMemIniFile;
+function f_GetMainMemIniFile( ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ): TIniFile;
+var ls_Dir : String;
 begin
   if not Assigned(FIniFile) then
     begin
-
+      ls_Dir := GetUserDir + DirectorySeparator + '.' + ExtractFileName ( Application.ExeName ) + DirectorySeparator ;
+      if not DirectoryExists(ls_Dir )
+      and not CreateDir ( ls_Dir ) Then
+        ls_Dir := fs_getSoftDir;
       if gs_ModeConnexion = CST_MACHINE then
-        FIniFile := TMemIniFile.Create(fs_getSoftDir + CST_INI_USERS  + f_IniFWReadComputerName + CST_EXTENSION_INI )
+        FIniFile := TMemIniFile.Create(ls_Dir + CST_INI_USERS  + f_IniFWReadComputerName + CST_EXTENSION_INI )
       else
-        FIniFile := TMemIniFile.Create(fs_getSoftDir + CST_INI_USERS + f_IniFWReadUtilisateurSession + CST_EXTENSION_INI );
-
+        FIniFile := TMemIniFile.Create(ls_Dir + CST_INI_USERS + f_IniFWReadUtilisateurSession + CST_EXTENSION_INI );
       if not FIniFile.SectionExists(INISEC_PAR) then
         Begin
           FIniFile.WriteString(INISEC_PAR, INIPAR_CREATION, 'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time));
@@ -631,7 +634,7 @@ begin
       FIniFile.WriteString(INISEC_PAR, INIPAR_LANCEMENT , 'le '  + DateToStr(Date)  + ' ' + TimeToStr(Time));
   result := FIniFile;
 end;
-function f_GetMemIniFile( ): TMemIniFile;
+function f_GetMemIniFile( ): TIniFile;
 begin
   Result := f_GetMainMemIniFile ( nil, nil, nil );
 end;
@@ -723,7 +726,7 @@ end;
 // Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)
 // Entrée : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
 // Renvoie un fichier INI (même si c'est pas très utile) !!!
-procedure p_IniGetDBConfigFile( var amif_Init : TMemIniFile ;{$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
+procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ;{$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
 begin
   if not Assigned(amif_Init) then
     begin
@@ -790,7 +793,7 @@ begin
         // Mettre à jour le fichier INI
         fb_iniWriteFile ( amif_Init, True );
       end;
-    gs_ModeConnexion := amif_Init.Readstring(INISEC_PAR, INISEC_CON, CST_MACHINE);
+    gs_ModeConnexion := amif_Init.Readstring(INISEC_PAR, INISEC_CON, '');
     gs_aide := amif_Init.Readstring(INISEC_PAR, GS_AIDE, GS_CHEMIN_AIDE);
 {$IFDEF EADO}
     gb_ApplicationAsynchrone := amif_Init.ReadBool(INISEC_PAR, GS_MODE_ASYNCHRONE, GB_ASYNCHRONE_PAR_DEFAUT);

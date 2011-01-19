@@ -199,8 +199,8 @@ type
     avec connexion d'une base ADO
     et appel de la procédure p_InitialisationParamIni dans la form si AutoReadIni,
     de la procédure p_IniInitialisation s'il n'existe pas de fichier INI}
-    function f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TMemIniFile; virtual;
-    function f_GetIniFile : TMemIniFile; virtual;
+    function f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TIniFile; virtual;
+    function f_GetIniFile : TIniFile; virtual;
 
     // Création d'une form MDI renvoie la form si existe
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form
@@ -258,9 +258,9 @@ type
     // Connecté
     procedure p_Connectee; virtual;
     // Ecriture de l'ini dans le descendant
-    procedure p_WriteDescendantIni(const amif_Init: TMemIniFile); virtual;
+    procedure p_WriteDescendantIni(const amif_Init: TIniFile); virtual;
     // Lecture de l'ini dans le descendant
-    procedure p_ReadDescendantIni(const amif_Init: TMemIniFile); virtual;
+    procedure p_ReadDescendantIni(const amif_Init: TIniFile); virtual;
     // Gestion du clavier
     // Entrée : les trois touches : MAJ NUM SCROLLLOCK
     procedure p_SortieMajNumScroll ( const ab_MajEnfoncee, ab_NumEnfoncee, ab_ScrollEnfoncee : boolean ) ; virtual;
@@ -296,7 +296,7 @@ type
 var
   gb_MotPasseEstValide : Boolean ;
   gs_NomApp: string;
-  gmif_MainFormIniInit: TMemIniFile = nil ;
+  gmif_MainFormIniInit: TIniFile = nil ;
 //  gb_FreeAllWindowsClosed : Boolean = False ;
   gReg_MainFormIniClassesLocales : TRegGroups = nil ;
 
@@ -834,8 +834,8 @@ begin
   {$IFDEF SFORM}
   FBoxChilds := nil;
   {$ENDIF}
-  Inherited create  (AOwner);
   p_CreeFormMainIni (AOwner);
+  Inherited create  (AOwner);
 end;
 // A appeler si on n'appelle pas le constructeur
 procedure TF_FormMainIni.p_CreeFormMainIni (AOwner:TComponent);
@@ -1454,7 +1454,7 @@ End ;
 // Procédure virtuelle : p_WriteDescendantIni
 // Description : écriture de l'ini dans le descendant
 //////////////////////////////////////////////////////////////////////////
-procedure TF_FormMainIni.p_WriteDescendantIni ( const amif_Init : TMemIniFile );
+procedure TF_FormMainIni.p_WriteDescendantIni ( const amif_Init : TIniFile );
 begin
 End ;
 
@@ -1462,14 +1462,14 @@ End ;
 // Procédure virtuelle : p_ReadDescendantIni
 // Description : lecture de l'ini dans le descendant
 //////////////////////////////////////////////////////////////////////////
-procedure TF_FormMainIni.p_ReadDescendantIni ( const amif_Init : TMemIniFile );
+procedure TF_FormMainIni.p_ReadDescendantIni ( const amif_Init : TIniFile );
 begin
 End ;
 
 // Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)
 // Entrée : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
 // Renvoie un fichier INI (même si c'est pas très utile) !!!
-function TF_FormMainIni.f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TMemIniFile;
+function TF_FormMainIni.f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TIniFile;
 begin
   // On considère que par défaut les infos se trouvent dans un fichier INI dont
   // le nom est dérivé du nom de la machine (paramètrable dans l'INI de connexion)
@@ -1485,7 +1485,7 @@ end;
 // Entrée : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
 // Renvoie un fichier INI (même si c'est pas très utile) !!!
 // Init. du fichier INI lié à l'utilisateur
-function TF_FormMainIni.f_GetIniFile: TMemIniFile;
+function TF_FormMainIni.f_GetIniFile: TIniFile;
 begin
   Result := f_GetMainMemIniFile(ge_WriteSessionIni, ge_ReadSessionIni, Self);
   // Lit-on le fichier ini par la prcoédure virtuelle ?
