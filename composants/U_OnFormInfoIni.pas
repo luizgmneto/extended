@@ -61,8 +61,7 @@ uses
                                                Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 
 {$ENDIF}
-const CST_INI_DIRECTORYEDIT_DIR_READ  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text' {$ENDIF};
-      CST_INI_DIRECTORYEDIT_DIR_WRITE = {$IFDEF FPC} 'Directory' {$ELSE} 'Text' {$ENDIF};
+const CST_INI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text' {$ENDIF};
 type
   // Liste des objets dont on veut conserver les donner dans le fichier INI
   TSauveEditObjet = (feTEdit, feTCheck, feTComboValue, feTComboBox, feTColorCombo,feTCurrencyEdit,feTDateEdit,
@@ -469,9 +468,9 @@ var
             ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
 //            Showmessage ( lcom_Component.Name + ' '+ ls_Temp + ' ' +fs_ReadString(lcom_Component.Name, '' ) );
             If DirectoryExists( ls_Temp ) Then
-              p_SetComponentProperty (lcom_Component, CST_INI_DIRECTORYEDIT_DIR_READ, ls_Temp )
+              p_SetComponentProperty (lcom_Component, CST_INI_DIRECTORYEDIT_DIR, ls_Temp )
              Else
-              p_SetComponentProperty (lcom_Component, CST_INI_DIRECTORYEDIT_DIR_READ, GetCurrentDir );
+              p_SetComponentProperty (lcom_Component, CST_INI_DIRECTORYEDIT_DIR, GetCurrentDir );
             Result := True;
           end;
       End;
@@ -846,7 +845,7 @@ var
           End;
         if (lcom_Component is TDirectoryEdit) then
           begin
-            p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, CST_INI_DIRECTORYEDIT_DIR_WRITE ));
+            p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, CST_INI_DIRECTORYEDIT_DIR ));
             Result := True;
           end;
       end;
