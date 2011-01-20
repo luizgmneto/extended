@@ -53,14 +53,15 @@ uses
                                                FileUnit : 'U_OnFormInfoIni' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Gestion de l''ini à mettre sur une fiche.' ;
-                                               BugsStory : '1.0.0.1 : Grouping.' +#13#10 +
+                                               BugsStory : '1.0.1.0 : Testing DirectoryEdit, MaskEdit, on WINDOWS.' +#13#10 +
+                                                           '1.0.0.1 : Grouping.' +#13#10 +
                                                            '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
                                                            '1.0.0.0 : Gestion de beaucoup de composants.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 
 {$ENDIF}
-const CST_INI_DIRECTORYEDIT_DIR_READ  = {$IFDEF FPC} 'Directory' {$ELSE} 'InitialDir' {$ENDIF};
+const CST_INI_DIRECTORYEDIT_DIR_READ  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text' {$ENDIF};
       CST_INI_DIRECTORYEDIT_DIR_WRITE = {$IFDEF FPC} 'Directory' {$ELSE} 'Text' {$ENDIF};
 type
   // Liste des objets dont on veut conserver les donner dans le fichier INI
