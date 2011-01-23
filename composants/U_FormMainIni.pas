@@ -864,7 +864,7 @@ begin
         p_setComponentBoolProperty ( FConnection, 'Connected', False );
       if assigned ( FConnector ) Then
         p_setComponentBoolProperty ( FConnector, 'Connected', False );
-      f_IniGetConfigFile(FConnector, gs_NomApp);
+      gmif_MainFormIniInit := f_IniGetConfigFile(FConnector, gs_NomApp);
     End ;
   if FAutoIni Then
     f_GetIniFile ;
