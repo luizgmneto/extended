@@ -7,9 +7,10 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   Caption = 'Se Connecter vers  une base de travail'
   ClientHeight = 337
   ClientWidth = 694
+  DefaultMonitor = dmDesktop
   Font.Height = -11
   Font.Name = 'Tahoma'
-  Position = poMainFormCenter
+  Position = poScreenCenter
   LCLVersion = '0.9.28.2'
   object Label1: TLabel
     Left = 24
