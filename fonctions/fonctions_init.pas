@@ -47,7 +47,9 @@ const
   INISEC_PAR = 'parametres';
   INISEC_CON = 'connexion';
   INISEC_UTI = 'Utilisateur' ;
-
+  {$IFDEF LINUX}
+  INIDIR_CONFIGDIR_NAME = '.config';
+  {$ENDIF}
   // Paramètres du fichier ini
   INIPAR_CREATION  = 'creation ini';
   INIPAR_LANCEMENT = 'lancement';
@@ -613,7 +615,7 @@ begin
   if not Assigned(FIniFile) then
     begin
       {$IFDEF FPC}
-       Result := GetUserDir + DirectorySeparator + {$IFDEF LINUX}'.config' + DirectorySeparator{$ENDIF} + ExtractFileName ( Application.ExeName ) + DirectorySeparator ;
+       Result := GetUserDir + DirectorySeparator + {$IFDEF LINUX}INIDIR_CONFIGDIR_NAME + DirectorySeparator{$ENDIF} + ExtractFileName ( Application.ExeName ) + DirectorySeparator ;
       if not DirectoryExists(  Result )
       and not CreateDir (  Result ) Then
       {$ENDIF}
