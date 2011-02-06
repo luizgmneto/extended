@@ -35,13 +35,14 @@ const
   gVer_fonctions_init : T_Version = ( Component : 'Gestion du fichier INI' ; FileUnit : 'fonctions_init' ;
            Owner : 'Matthieu Giroux' ;
                               Comment : 'Première version de gestion du fichier INI.' + #13#10 + 'Certaines fonctions sont encore utilisées.' ;
-           BugsStory : 'Version 1.0.3.0 : Fonction fb_iniWriteFile' + #13#10 +
-                      'Version 1.0.2.0 : Fonctions ini pour les listview,dbgrid, et virtualtrees' + #13#10 +
+           BugsStory : 'Version 1.0.3.1 : Function fs_GetIniDir' + #13#10 +
+                       'Version 1.0.3.0 : Fonction fb_iniWriteFile' + #13#10 +
+                       'Version 1.0.2.0 : Fonctions ini pour les listview,dbgrid, et virtualtrees' + #13#10 +
              'Version 1.0.1.0 : Paramètre Utilisateur.' + #13#10 +
              'Version 1.0.0.0 : La gestion est en place.' + #13#10 +
                                'On utilise plus cette unité complètement mais Fenêtre principale puis plus tard Mc Form Main INI.';
            UnitType : 1 ;
-           Major : 1 ; Minor : 0 ; Release : 3 ; Build : 0 );
+           Major : 1 ; Minor : 0 ; Release : 3 ; Build : 1 );
   // Constantes des sections du fichier ini
   INISEC_PAR = 'parametres';
   INISEC_CON = 'connexion';
@@ -68,6 +69,7 @@ const
 //  Fonctions à appeler pour la gestion des fichiers INI
 ////////////////////////////////////////////////////////////////////////////////
 
+  function fs_GetIniDir: String;
   // Lit la section des commandes et si elle existe la retourne dans donnees (TStrings)
   function Lecture_ini_sauvegarde_fonctions(sauvegarde: string; donnees: Tstrings): Boolean;
 
@@ -603,23 +605,34 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Retourne le nom du fichier ini
+// Retourne le répertoire du fichier ini
 ////////////////////////////////////////////////////////////////////////////////
-function f_GetMainMemIniFile( ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ): TIniFile;
+function fs_GetIniDir: String;
 var ls_Dir : String;
 begin
   if not Assigned(FIniFile) then
     begin
       {$IFDEF FPC}
-      ls_Dir := GetUserDir + DirectorySeparator + '.' + ExtractFileName ( Application.ExeName ) + DirectorySeparator ;
-      if not DirectoryExists(ls_Dir )
-      and not CreateDir ( ls_Dir ) Then
+       Result := GetUserDir + DirectorySeparator + {$IFDEF LINUX}'.config' + DirectorySeparator{$ENDIF} + ExtractFileName ( Application.ExeName ) + DirectorySeparator ;
+      if not DirectoryExists(  Result )
+      and not CreateDir (  Result ) Then
       {$ENDIF}
-        ls_Dir := fs_getSoftDir;
+        Result := fs_getSoftDir;
+   end;
+
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+// Retourne le nom du fichier ini
+////////////////////////////////////////////////////////////////////////////////
+function f_GetMainMemIniFile( ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ): TIniFile;
+begin
+  if not Assigned(FIniFile) then
+    begin
       if gs_ModeConnexion = CST_MACHINE then
-        FIniFile := TIniFile.Create(ls_Dir + CST_INI_USERS  + f_IniFWReadComputerName + CST_EXTENSION_INI )
+        FIniFile := TIniFile.Create(fs_GetIniDir + CST_INI_USERS  + f_IniFWReadComputerName + CST_EXTENSION_INI )
       else
-        FIniFile := TIniFile.Create(ls_Dir + CST_INI_USERS + f_IniFWReadUtilisateurSession + CST_EXTENSION_INI );
+        FIniFile := TIniFile.Create(fs_GetIniDir + CST_INI_USERS + f_IniFWReadUtilisateurSession + CST_EXTENSION_INI );
       if not FIniFile.SectionExists(INISEC_PAR) then
         Begin
           FIniFile.WriteString(INISEC_PAR, INIPAR_CREATION, 'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time));
@@ -732,7 +745,7 @@ procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ;{$IFNDEF CSV} const ac
 begin
   if not Assigned(amif_Init) then
     begin
-      amif_Init := TIniFile.Create(fs_getSoftDir + CST_INI_SOFT + as_NomConnexion + CST_EXTENSION_INI);
+      amif_Init := TIniFile.Create(fs_GetIniDir + CST_INI_SOFT + as_NomConnexion + CST_EXTENSION_INI);
     End;
   // Soit on a une connexion ADO
   if Assigned(acco_Conn) then
