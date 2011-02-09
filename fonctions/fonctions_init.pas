@@ -26,6 +26,9 @@ uses
 {$IFDEF VIRTUALTREES}
      virtualtrees,
 {$ENDIF}
+{$IFNDEF FPC}
+  SHLObj,
+{$ENDIF}
   dialogs, fonctions_version, unite_messages, DBGrids;
 
 type
@@ -185,6 +188,8 @@ const
 {$ENDIF}
 {$IFDEF FPC}
   function fb_IniSetSQLConnection ( const asqc_Connection : TSQLConnection ) : Boolean ;
+{$ELSE}
+  function GetUserDir: string;
 {$ENDIF}
 function fs_IniSetConnection ( const accx_Connection : TComponent ) : String ;
 procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ; {$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
@@ -212,6 +217,17 @@ uses TypInfo, fonctions_string,
       U_ZConnection,
 {$ENDIF}
       fonctions_proprietes, fonctions_db ;
+
+
+{$IFNDEF FPC}
+function GetUserDir: string;
+ var
+    path: array[0..Max_Path] of Char;
+ begin
+    ShGetSpecialFolderPath(0, path, CSIDL_APPDATA, False) ;
+    Result := Path;
+ end;
+{$ENDIF}
 
 {$IFDEF ZEOS}
 function fb_IniSetZConnection ( const asqc_Connection : TZConnection; const IniFile : TIniFile ) : Boolean ;
@@ -614,11 +630,9 @@ var ls_Dir : String;
 begin
   if not Assigned(FIniFile) then
     begin
-      {$IFDEF FPC}
-       Result := GetUserDir + DirectorySeparator + {$IFDEF LINUX}INIDIR_CONFIGDIR_NAME + DirectorySeparator{$ENDIF} + ExtractFileName ( Application.ExeName ) + DirectorySeparator ;
+       Result := GetUserDir + DirectorySeparator + {$IFDEF LINUX}INIDIR_CONFIGDIR_NAME + DirectorySeparator + {$ENDIF} ExtractFileName ( Application.ExeName ) + DirectorySeparator ;
       if not DirectoryExists(  Result )
       and not CreateDir (  Result ) Then
-      {$ENDIF}
         Result := fs_getSoftDir;
    end;
 

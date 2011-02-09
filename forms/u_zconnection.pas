@@ -26,7 +26,7 @@ uses
 {$ENDIF}
   zconnection,
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, IniFiles;
+  StdCtrls, IniFiles, JvXPCore, JvXPButtons;
 
 {$IFDEF VERSIONS}
 const
@@ -192,7 +192,7 @@ begin
   Close;
 end;
 
-// Procédures and functions
+// ProcÃ©dures and functions
 
 // Open connexion and erros
 function fb_TestZConnection ( const Connexion : TZConnection ; const lb_ShowMessage : Boolean ) : Boolean;

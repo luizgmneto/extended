@@ -1,9 +1,9 @@
 object F_ZConnectionWindow: TF_ZConnectionWindow
   Left = 448
   Top = 218
-  Width = 694
-  Height = 337
   Caption = 'Se Connecter vers'#160' une base de travail'
+  ClientHeight = 301
+  ClientWidth = 678
   Color = clBtnFace
   DefaultMonitor = dmMainForm
   Font.Charset = DEFAULT_CHARSET
@@ -176,7 +176,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
     TabOrder = 4
     OnEnter = ed_UserEnter
   end
-  object Test: TJvXPButton
+  object Test: TButton
     Left = 56
     Top = 256
     Width = 75
@@ -185,7 +185,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
     TabOrder = 5
     OnClick = TestClick
   end
-  object Save: TJvXPButton
+  object Save: TButton
     Left = 181
     Top = 256
     Width = 139
@@ -194,7 +194,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
     TabOrder = 6
     OnClick = SaveClick
   end
-  object quitall: TJvXPButton
+  object quitall: TButton
     Left = 501
     Top = 256
     Width = 107
@@ -203,7 +203,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
     TabOrder = 7
     OnClick = quitallClick
   end
-  object quit: TJvXPButton
+  object quit: TButton
     Left = 365
     Top = 256
     Width = 91
