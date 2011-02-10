@@ -1,4 +1,4 @@
-unit u_zconnection;
+﻿unit u_zconnection;
 
 {$IFDEF FPC}
 {$mode Delphi}
@@ -26,7 +26,7 @@ uses
 {$ENDIF}
   zconnection,
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, IniFiles, JvXPCore, JvXPButtons;
+  StdCtrls, IniFiles;
 
 {$IFDEF VERSIONS}
 const

@@ -93,7 +93,7 @@ type
     function GetfeSauveEdit(aSauveObjet:TSauveEditObjets;aObjet :TSauveEditObjet):Boolean ;
     // traitement de la position de la af_Form mise dans le create
     procedure p_LecturePositionFenetre(aFiche:TCustomForm);
-    procedure p_EcriturePositionFenetre(aFiche:TCustomForm);
+    procedure p_EcriturePositionFenetre(const aFiche:TCustomForm);
 
   public
     Constructor Create(AOwner:TComponent); override;
@@ -666,8 +666,6 @@ begin
    {$IFDEF FPC}
       if ab_continue Then
         Begin
-          FInifile.free ;
-          FInifile := nil ;
           if FSauvePosObjet
           and ( Owner is TCustomForm ) Then
             ( Owner as TCustomForm ).EndUpdateBounds;
@@ -718,7 +716,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // Ecriture des données dans le fichier INI
 ////////////////////////////////////////////////////////////////////////////////
-procedure TOnFormInfoIni.p_ExecuteEcriture ( const af_Form : TCustomForm );
+procedure TOnFormInfoIni.p_ExecuteEcriture ( const af_Form : TCustomForm ) ;
 var
   mit: TMenuItem;
   j, Indice: integer;
@@ -981,13 +979,13 @@ begin
   if not Assigned(FInifile) then Exit;
 
       // traitement de la position de la af_Form
-  if (TFormStyle ( flin_getComponentProperty ( FormAOwner, 'FormStyle' )) <> fsMDIChild) and (FSauvePosForm)  then
+  if (TFormStyle ( flin_getComponentProperty ( af_Form, 'FormStyle' )) <> fsMDIChild) and (FSauvePosForm)  then
     p_EcriturePositionFenetre(af_Form);
 
       // Traitement des composants de la af_Form
   For j:=0 to af_Form.ComponentCount-1 do
     begin
-      lcom_Component := aF_Form.Components[j];
+      lcom_Component := af_Form.Components[j];
       Try
         if fb_WriteHighComponents Then
           Continue;
@@ -1081,7 +1079,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // Ecriture des données dans le fichier ini concernant la fenêtre
 ////////////////////////////////////////////////////////////////////////////////
-procedure TOnFormInfoIni.p_EcriturePositionFenetre(aFiche: TCustomForm);
+procedure TOnFormInfoIni.p_EcriturePositionFenetre ( const aFiche: TCustomForm);
 var li_etat: integer;
 begin
   p_IniWriteSectionInt(aFiche.Name,'Screen.Height',Screen.Height);

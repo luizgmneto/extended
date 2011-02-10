@@ -40,6 +40,7 @@ uses
   TNTForms,
 {$ENDIF}
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  U_OnFormInfoIni,
   Dialogs, ExtCtrls, fonctions_init, IniFiles;
 
 {$IFDEF VERSIONS}
@@ -167,7 +168,6 @@ type
     // A appeler si on n'appelle pas le constructeur
     procedure p_CreeFormMainIni (AOwner:TComponent);
 
-    procedure p_FreeChildForms ;
     procedure p_CloseQueryChildForms ( const ab_Free : Boolean );
 
   public
@@ -178,6 +178,7 @@ type
     function ActiveMDIChild : TCustomForm; virtual;
     procedure WindowMinimizeAll(Sender: TObject);
     {$ENDIF}
+    procedure p_FreeChildForms ;
     procedure DoClose ( var AAction : TCloseAction ); override;
     function CloseQuery: Boolean; override;
     function fb_ReinitWindow ( var afor_Form : TCustomForm ) : Boolean ;
@@ -190,7 +191,7 @@ type
     // Touche enfoncée
     function IsShortCut(var ao_Msg: {$IFDEF FPC} TLMKey {$ELSE} TWMKey {$ENDIF}): Boolean; override;
     // Libère le fichier ini en sauvant
-    procedure p_LibereSauveIni ;
+    procedure p_SauveIni ;
     // Constructeur et destructeur
     Constructor Create ( AOwner : TComponent ); override;
     Destructor Destroy; override;
@@ -864,7 +865,7 @@ begin
         p_setComponentBoolProperty ( FConnection, 'Connected', False );
       if assigned ( FConnector ) Then
         p_setComponentBoolProperty ( FConnector, 'Connected', False );
-      gmif_MainFormIniInit := f_IniGetConfigFile(FConnector, gs_NomApp);
+      f_IniGetConfigFile(FConnector, gs_NomApp);
     End ;
   if FAutoIni Then
     f_GetIniFile ;
@@ -874,17 +875,19 @@ Appel de la procédure p_SauvegardeParamIni dans la form si AutoWriteIni,
 de la procédure Finifile.Free s'il n'existe pas de fichier INI.}
 Destructor TF_FormMainIni.Destroy;
 begin
+
   if not (csDesigning in ComponentState) then // si on est pas en mode conception
     begin
       // Libère et sauve le INI
-      p_LibereSauveIni;
+      p_SauveIni;
     end;
 
   Inherited Destroy;
 end;
 
 // Libère le fichier INI en sauvant
-procedure TF_FormMainIni.p_LibereSauveIni;
+procedure TF_FormMainIni.p_SauveIni;
+var i : Integer;
 begin
   if Assigned(FIniFile) then
     begin
@@ -894,8 +897,24 @@ begin
       // Appelle la procédure virtuelle
       p_SauvegardeParamIni;
 
+     {$IFDEF DhgELPHI}
+      // Executing writing on ini failes without that
+      for I := 0 to ComponentCount - 1 do
+        if Components [ i ] is TOnFormInfoIni then
+          with Components [ i ] as TOnFormInfoIni do
+            Begin
+              p_ExecuteEcriture(Self);
+              Break;
+            End;
+     {$ENDIF}
+
       // Mise à jour du fichier INI
       fb_iniWriteFile ( FIniFile, False );
+     {$IFDEF DhgELPHI}
+      // Executing writing on ini failes without that
+      FIniFile.Free;
+      FIniFile := nil;
+     {$ENDIF}
 
       // Appelle la procédure virtuelle
       p_ApresSauvegardeParamIni;

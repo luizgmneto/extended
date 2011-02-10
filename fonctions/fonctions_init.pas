@@ -14,7 +14,7 @@ uses
 {$IFDEF FPC}
      LCLIntf, SQLDB,
 {$ELSE}
-     Windows, MaskUtils,
+     Windows, MaskUtils, SHLObj,
 {$ENDIF}
 {$IFDEF EADO}
      ADODB, AdoConEd,
@@ -25,9 +25,6 @@ uses
      IniFiles, Forms, sysUtils, classes, DB, ComCtrls,
 {$IFDEF VIRTUALTREES}
      virtualtrees,
-{$ENDIF}
-{$IFNDEF FPC}
-  SHLObj,
 {$ENDIF}
   dialogs, fonctions_version, unite_messages, DBGrids;
 
@@ -630,7 +627,7 @@ var ls_Dir : String;
 begin
   if not Assigned(FIniFile) then
     begin
-       Result := GetUserDir + DirectorySeparator + {$IFDEF LINUX}INIDIR_CONFIGDIR_NAME + DirectorySeparator + {$ENDIF} ExtractFileName ( Application.ExeName ) + DirectorySeparator ;
+      Result := GetUserDir + DirectorySeparator + {$IFDEF LINUX}INIDIR_CONFIGDIR_NAME + DirectorySeparator + {$ENDIF} fs_ExtractFileNameOnly ( Application.ExeName ) + DirectorySeparator ;
       if not DirectoryExists(  Result )
       and not CreateDir (  Result ) Then
         Result := fs_getSoftDir;
