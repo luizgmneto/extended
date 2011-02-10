@@ -103,7 +103,8 @@ type
     procedure p_ExecuteEcriture(const aF_Form: TCustomForm); virtual;
     procedure p_LectureColonnes(const aF_Form: TCustomForm); virtual;
 
-    property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate;
+    property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate default True;
+    property AutoLoad   : Boolean read FAutoChargeIni write FAutoChargeIni default True;
   published
     // Propriété qui conserve la position des objets d'une form
     property SauvePosObjects: Boolean read FSauvePosObjet write FSauvePosObjet default False;
@@ -194,9 +195,9 @@ end;
 Constructor TOnFormInfoIni.Create(AOwner:TComponent);
 var lmet_MethodToAdd  : TMethod;
 begin
-  FAutoChargeIni := True;
   Inherited Create(AOwner);
-  FAutoUpdate    := False;
+  FAutoChargeIni := True;
+  FAutoUpdate    := True;
   FSauvePosObjet := False;
   FSauvePosForm  := False;
   FOnIniLoad     := nil;
@@ -1019,7 +1020,6 @@ begin
   and FAutoUpdate Then
     Begin
       fb_iniWriteFile ( FInifile, False );
-      Application.ProcessMessages ;
     End;
 
 end;
