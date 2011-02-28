@@ -275,9 +275,7 @@ begin
 
   end;
   if FAutoChargeIni then
-    Begin
-      p_ExecuteLecture(TForm(Self.Owner));
-    end;
+    p_ExecuteLecture(TForm(Self.Owner));
 end;
 
 
@@ -298,14 +296,17 @@ end;
 procedure TOnFormInfoIni.ExecuteLecture ( aLocal:Boolean);
 var i: integer;
 begin
-  if not Assigned(FormAOwner) then Exit;
-  for i := 0 to Application.ComponentCount - 1 do //pour chaque fiche de l'application
-    begin
-      if Application.Components[i] is TForm
-         and ((FormAOwner.Name = (TForm(Application.Components[i])).Name)
-              and aLocal) or (not aLocal) then
-        p_ExecuteLecture(TForm(Application.Components[i]));
-    end; //fin pour chaque fiche de l'application
+  // automatisation
+  if Assigned(FormAOwner)
+   then
+    if aLocal Then // Demande si la fiche a été ouverte
+     Begin
+       for i := 0 to Application.ComponentCount - 1 do //pour chaque fiche de l'application
+         if ( Application.Components[i] is TForm )
+         and (FormAOwner.Name = (TForm(Application.Components[i])).Name) then
+           p_ExecuteLecture(TForm(Application.Components[i])); //fin pour chaque fiche de l'application
+     End
+    Else  p_ExecuteLecture(FormAOwner);
 end;
 
 
