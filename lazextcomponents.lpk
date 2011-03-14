@@ -127,7 +127,7 @@
       </Item25>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="9">
+    <RequiredPkgs Count="8">
       <Item1>
         <PackageName Value="JvXPBarLaz"/>
       </Item1>
@@ -138,7 +138,8 @@
         <PackageName Value="ExpertSuperForm"/>
       </Item3>
       <Item4>
-        <PackageName Value="lazrichview"/>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item4>
       <Item5>
         <PackageName Value="zcomponent"/>
@@ -152,10 +153,6 @@
       <Item8>
         <PackageName Value="rxnew"/>
       </Item8>
-      <Item9>
-        <PackageName Value="LCL"/>
-        <MinVersion Major="1" Valid="True"/>
-      </Item9>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)/"/>

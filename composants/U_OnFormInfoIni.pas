@@ -123,7 +123,7 @@ implementation
 
 uses TypInfo, Grids, U_ExtNumEdits,
 {$IFDEF FPC}
-     richview, EditBtn,
+     EditBtn,
 {$ELSE}
 {$IFDEF RX}
      rxToolEdit,
@@ -509,9 +509,12 @@ var
         LitTstringsDeIni(FInifile, lcom_Component.Name,TCustomMemo(lcom_Component).Lines,rien );
         Result := True;
       end;
-    if (lcom_Component is {$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}) and GetfeSauveEdit(FSauveEditObjets ,feTRichEdit)    then
+    if {$IFDEF FPC}(lcom_Component.ClassNameIs('TRichView') or lcom_Component.ClassNameIs('TRichMemo') {$ELSE} (lcom_Component is  TCustomRichEdit {$ENDIF})
+    and GetfeSauveEdit(FSauveEditObjets ,feTRichEdit)
+    and ( fobj_getComponentObjectProperty(lcom_Component, 'Lines' ) <> nil)
+     then
       begin
-        LitTstringsDeIni(FInifile, lcom_Component.Name,{$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}(lcom_Component).Lines,rien);
+        LitTstringsDeIni(FInifile, lcom_Component.Name,fobj_getComponentObjectProperty(lcom_Component, 'Lines' ) as TStrings,rien);
         Result := True;
       end;
   end;
@@ -883,9 +886,12 @@ var
         SauveTStringsDansIni(FInifile, lcom_Component.Name,TMemo(lcom_Component).Lines,0);
         Result := True;
       end;
-    if (lcom_Component is {$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF})       and GetfeSauveEdit(FSauveEditObjets ,feTRichEdit)        then
+    if {$IFDEF FPC}(lcom_Component.ClassNameIs('TRichView') or lcom_Component.ClassNameIs('TRichMemo') {$ELSE} (lcom_Component is  TCustomRichEdit {$ENDIF})
+    and GetfeSauveEdit(FSauveEditObjets ,feTRichEdit)
+    and ( fobj_getComponentObjectProperty(lcom_Component, 'Lines' ) <> nil)
+     then
       begin
-        SauveTStringsDansIni(FInifile, lcom_Component.Name,{$IFDEF FPC} TRichView {$ELSE} TCustomRichEdit {$ENDIF}(lcom_Component).Lines,0);
+        SauveTStringsDansIni(FInifile, lcom_Component.Name,fobj_getComponentObjectProperty(lcom_Component, 'Lines' ) as TStrings,0);
         Result := True;
       end;
 
