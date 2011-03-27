@@ -54,8 +54,8 @@ msgstr ""
 #: unite_messages.gs_erreur_modification_maj
 #, fuzzy
 #| msgid ""
-#| "Un probl#232me est survenu pour la connexion aux donn#233es.\n"
-#| "R#233essayez d'ouvrir la fiche.\n"
+#| "n probl#232me est survenu pour la connexion aux donn#233es.\n"
+#| "#233essayez d'ouvrir la fiche.\n"
 msgctxt "unite_messages.GS_ERREUR_CONNEXION"
 msgid ""
 "Impossible de supprimer cet enregistrement.\n"
@@ -167,9 +167,9 @@ msgstr "Move line to bottom"
 #: unite_messages.gs_navigateur_vers_le_haut
 #, fuzzy
 #| msgid ""
-#| "Probl#232me #224 la validation du nombre :\n"
-#| "Un nombre saisi est trop grand.\n"
-#| "Modifier la saisie ou annuler.\n"
+#| "robl#232me #224 la validation du nombre :\n"
+#| "n nombre saisi est trop grand.\n"
+#| "odifier la saisie ou annuler.\n"
 msgid "D#233placer la ligne vers le haut"
 msgstr ""
 "Probl#232me #224 la validation du nombre :\n"
