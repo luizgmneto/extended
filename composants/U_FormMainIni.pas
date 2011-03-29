@@ -573,7 +573,7 @@ destructor TRegGroups.Destroy;
 var
   I: Integer;
 begin
-{$IFDEF FPC}System.LeaveCriticalSection{$ELSE}DeleteCriticalSection{$ENDIF}(FLock);
+  {$IFDEF FPC}System.LeaveCriticalSection{$ELSE}DeleteCriticalSection{$ENDIF}(FLock);
   for I := 0 to FGroups.Count - 1 do
     TRegGroup(FGroups[I]).Free;
   FGroups.Free;
@@ -783,7 +783,7 @@ begin
   try
     gReg_MainFormIniClassesLocales.RegisterClassAlias(AClass, Alias);
   finally
-		gReg_MainFormIniClassesLocales.Unlock;
+    gReg_MainFormIniClassesLocales.Unlock;
   end;
 end;
 
@@ -792,7 +792,7 @@ begin
   gReg_MainFormIniClassesLocales.Lock;
   try
     gReg_MainFormIniClassesLocales.UnregisterClass(AClass);
-	finally
+  finally
     gReg_MainFormIniClassesLocales.Unlock;
   end;
 end;
@@ -801,13 +801,13 @@ procedure p_UnRegisterClasses(AClasses: array of TPersistentClass);
 var
   I: Integer;
 begin
-	for I := Low(AClasses) to High(AClasses) do UnRegisterClass(AClasses[I]);
+  for I := Low(AClasses) to High(AClasses) do UnRegisterClass(AClasses[I]);
 end;
 
 function fper_GetClass(const AClassName: string): TPersistentClass;
 begin
   gReg_MainFormIniClassesLocales.Lock;
-	try
+  try
     Result := gReg_MainFormIniClassesLocales.GetClass(AClassName);
   finally
     gReg_MainFormIniClassesLocales.Unlock;
@@ -1083,11 +1083,11 @@ begin
               Align:=alClient;
             end;
         end;
+      Updated;
 //       afor_Reference.AutoSize := True;
        ( afor_Reference as TSuperForm ).IncrustMode := aicAllClient;
 //       afor_Reference.Align := alClient;
        ( afor_Reference as TSuperForm ).ShowIncrust ( FBoxChilds );
-       Updated;
      end
    else
 {$ENDIF}

@@ -1,4 +1,4 @@
-object Myform: TMyform
+inherited Myform: TMyform
   Left = 350
   Height = 533
   Top = 200
@@ -7,8 +7,7 @@ object Myform: TMyform
   ClientHeight = 533
   ClientWidth = 738
   OnShow = FormShow
-  LCLVersion = '0.9.28.2'
-  object Panel1: TPanel
+  object Panel1: TPanel[0]
     Left = 0
     Height = 533
     Top = 0
@@ -37,6 +36,7 @@ object Myform: TMyform
       Width = 206
       Align = alClient
       AutoFillColumns = True
+      Color = clWindow
       Columns = <      
         item
           Title.Caption = 'Noms'
@@ -50,7 +50,7 @@ object Myform: TMyform
       TabOrder = 1
     end
   end
-  object Panel2: TPanel
+  object Panel2: TPanel[1]
     Left = 213
     Height = 533
     Top = 0
@@ -67,6 +67,7 @@ object Myform: TMyform
       Width = 65
       AutoSize = False
       Caption = 'Color'
+      Font.Color = clBlack
       Font.Height = 10
       ParentColor = False
       ParentFont = False
@@ -163,7 +164,9 @@ object Myform: TMyform
       MyLabel = FWLabel2
       Max = 0
       Min = 0
+      CharCase = ecNormal
       Color = clMoneyGreen
+      MaxLength = 0
       TabOrder = 3
     end
     object FWDateEdit1: TFWDateEdit
@@ -177,6 +180,7 @@ object Myform: TMyform
       DateOrder = doNone
       ButtonWidth = 23
       Color = clMoneyGreen
+      CharCase = ecNormal
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -214,6 +218,7 @@ object Myform: TMyform
         FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
       }
       NumGlyphs = 0
+      MaxLength = 0
       TabOrder = 4
       ColorReadOnly = clInfoText
       MyLabel = FWLabel3
@@ -244,6 +249,7 @@ object Myform: TMyform
         end      
         item
           Caption = 'Prenom'
+          Width = 385
         end>
       DragMode = dmAutomatic
       MultiSelect = True
@@ -261,7 +267,9 @@ object Myform: TMyform
       Width = 221
       DataField = 'Nom'
       DataSource = Datasource
+      CharCase = ecNormal
       Color = clMoneyGreen
+      MaxLength = 0
       TabOrder = 1
       MyLabel = FWLabel5
       AlwaysSame = False
@@ -273,7 +281,9 @@ object Myform: TMyform
       Width = 221
       DataField = 'Prenom'
       DataSource = Datasource
+      CharCase = ecNormal
       Color = clMoneyGreen
+      MaxLength = 0
       TabOrder = 0
       MyLabel = FWLabel6
       AlwaysSame = False
@@ -289,8 +299,8 @@ object Myform: TMyform
     end
     object FWMemo: TFWMemo
       Left = 371
-      Height = 209
-      Top = 21
+      Height = 214
+      Top = 16
       Width = 136
       Color = clMoneyGreen
       Lines.Strings = (
@@ -299,20 +309,20 @@ object Myform: TMyform
       TabOrder = 8
     end
   end
-  object Splitter1: TSplitter
+  object Splitter1: TSplitter[2]
     Left = 208
     Height = 533
     Top = 0
     Width = 5
   end
-  object OnFormInfoIni: TOnFormInfoIni
+  object OnFormInfoIni: TOnFormInfoIni[3]
     SauvePosObjects = True
     SauveEditObjets = [feTEdit, feTComboValue, feTDateEdit, feTMemo]
     SauvePosForm = True
     left = 80
     top = 176
   end
-  object DbfNoms: TDbf
+  object DbfNoms: TDbf[4]
     Exclusive = True
     IndexDefs = <    
       item
@@ -353,7 +363,7 @@ object Myform: TMyform
     left = 136
     top = 288
   end
-  object Datasource: TDatasource
+  object Datasource: TDatasource[5]
     DataSet = DbfNoms
     left = 56
     top = 288
