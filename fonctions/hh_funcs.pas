@@ -37,8 +37,8 @@ uses Windows,   //This line will not compile under Delphi 1 -- D1 is not support
 const
   gVer_hh_funcs : TMCVersion = ( MCComponent : 'Ancienne gestion de l''aide' ; MCUnit : 'hh_funcs' ;
                         		Owner : 'Helpware Group' ;
-                        			                 Comment : 'Fonctions non utilisées liant à l''aide de l''application.' ;
-                        			                 BugsStory : 'Version non utilisée.';
+                        			                 Comment : 'Fonctions non utilisÃ©es liant Ã  l''aide de l''application.' ;
+                        			                 BugsStory : 'Version non utilisÃ©e.';
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 52 ; Release : 0 ; Build : 0 );
 

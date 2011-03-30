@@ -30,7 +30,7 @@ const
     gVer_TMCScrollBox : T_Version = ( Component : 'Composant TExtSCrollBox' ;
                                                FileUnit : 'U_ExtScrollBox' ;
                                                Owner : 'Matthieu Giroux' ;
-                                               Comment : 'JvScrollBox avec le HotTrack à False qui fonctionne.' ;
+                                               Comment : 'JvScrollBox avec le HotTrack Ã  False qui fonctionne.' ;
                                                BugsStory : '1.0.0.0 : Gestion en place.';
                                                UnitType : 3 ;
                                                Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );

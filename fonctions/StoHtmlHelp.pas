@@ -56,8 +56,8 @@ uses Classes, Windows, HelpIntfs, fonctions_version;
 const
   gver_StoHtmlHelp : T_Version = ( Component : 'Gestion de l''aide' ; FileUnit : 'StoHtmlHelp' ;
                         			      Owner : 'Externe et libre de droits' ;
-                        			      Comment : 'Gestion de l''aide intégrée à Fenêtre principale' ;
-                        			      BugsStory : 'Version 1.2.0.0 : StoHtmlHelp est utilisée par Fenêtre Principale.';
+                        			      Comment : 'Gestion de l''aide intÃ©grÃ©e Ã  FenÃªtre principale' ;
+                        			      BugsStory : 'Version 1.2.0.0 : StoHtmlHelp est utilisÃ©e par FenÃªtre Principale.';
                         			      UnitType : 1 ;
                          			      Major : 1 ; Minor : 2 ; Release : 0 ; Build : 0 );
 type

@@ -34,9 +34,9 @@ uses
     gVer_TExtDBNavigator : T_Version = ( Component : 'Composant TExtDBNavigator' ;
                                                FileUnit : 'U_ExtDBNavigator' ;
                                                Owner : 'Matthieu Giroux' ;
-                                               Comment : 'Navigateur avec boutons de recherche, déplacement, de retour à une marque.' ;
+                                               Comment : 'Navigateur avec boutons de recherche, dÃ©placement, de retour Ã  une marque.' ;
                                                BugsStory : '1.0.0.0 : Mise en place des images et tests.' +#13#10
-                                                         + '0.9.0.0 : En place sans les images à tester.';
+                                                         + '0.9.0.0 : En place sans les images Ã  tester.';
                                                UnitType : 3 ;
                                                Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 {$ENDIF}

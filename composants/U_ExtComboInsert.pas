@@ -4,7 +4,7 @@
 {             TExtDBComboInsert :                               }
 {             Objet issu d'un TCustomComboBox qui associe les         }
 {             avantages de la DBComoBox et de la DBLookUpComboBox     }
-{             Créateur : Matthieu Giroux                          }
+{             CrÃ©ateur : Matthieu Giroux                          }
 {             31 Mars 2005                                            }
 {             Version 1.0                                             }
 {                                                                     }
@@ -28,10 +28,10 @@ uses Variants, Windows, Messages, Controls, Classes,
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Insertion automatique dans une DBComboLookupEdit.' ;
                                                BugsStory : '1.0.1.2 : Bug validation au post.' +#13#10
-                                                         + '1.0.1.1 : Bug rafraîchissement quand pas de focus.' +#13#10
-                                                         + '1.0.1.0 : Propriété Modify.' +#13#10
-                                                         + '1.0.0.0 : Version bêta inadaptée, réutilisation du code de la TJvDBLookupComboEdit.' +#13#10
-                                                         + '0.9.0.0 : En place à tester.';
+                                                         + '1.0.1.1 : Bug rafraÃ®chissement quand pas de focus.' +#13#10
+                                                         + '1.0.1.0 : PropriÃ©tÃ© Modify.' +#13#10
+                                                         + '1.0.0.0 : Version bÃªta inadaptÃ©e, rÃ©utilisation du code de la TJvDBLookupComboEdit.' +#13#10
+                                                         + '0.9.0.0 : En place Ã  tester.';
                                                UnitType : 3 ;
                                                Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
 
@@ -53,17 +53,17 @@ type
 { TExtDBComboInsert }
   TExtDBComboInsert = class(TJvDBLookupEdit)
   private
-    // On est en train d'écrire dans la combo
+    // On est en train d'Ã©crire dans la combo
     FModify : Boolean ;
-    // Valeur affichée
+    // Valeur affichÃ©e
     FDisplayValue : Variant ;
-    // Lien de données
+    // Lien de donnÃ©es
     FDataLink: TFieldDataLink;
     // Canevas de peinture du composant
     FCanvas: TControlCanvas;
     // Focus sur le composant
     FFocused: Boolean;
-    // En train de mettre à jour ou pas
+    // En train de mettre Ã  jour ou pas
     FUpdate ,
     // Beep sur erreur
     FBeepOnError: Boolean;
@@ -177,7 +177,7 @@ uses
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructeur : create
-// description : Création de la liste en popup
+// description : CrÃ©ation de la liste en popup
 ////////////////////////////////////////////////////////////////////////////////
 constructor TPopupDataWindow.Create(AOwner: TComponent);
 begin
@@ -190,7 +190,7 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // procedure : ListLinkActiveChanged
-// description : Ouverture des données : affectation de datafield
+// description : Ouverture des donnÃ©es : affectation de datafield
 ////////////////////////////////////////////////////////////////////////////////
 procedure TPopupDataWindow.ListLinkActiveChanged;
 begin
@@ -225,38 +225,38 @@ end;
 constructor TExtDBComboInsert.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  // Pas de modification ni de mise à jour à la création
+  // Pas de modification ni de mise Ã  jour Ã  la crÃ©ation
   FModify := False ;
   FUpdate := False ;
   // style lookup
   ControlStyle := ControlStyle + [csReplicatable];
-  // Création du canevas
+  // CrÃ©ation du canevas
   FCanvas := TControlCanvas.Create;
   FCanvas.Control := Self;
-  // Création du lien
+  // CrÃ©ation du lien
   FDataLink := TFieldDataLink.Create;
   FDataLink.Control := Self;
-  // Changement dans les données
+  // Changement dans les donnÃ©es
   FDataLink.OnDataChange := DataChange;
-  // Edition des données
+  // Edition des donnÃ©es
   FDataLink.OnEditingChange := EditingChange;
-  // Mise à jour des données
+  // Mise Ã  jour des donnÃ©es
   FDataLink.OnUpdateData := UpdateData;
-  // Activation des données
+  // Activation des donnÃ©es
   FDataLink.OnActiveChange := ActiveChange;
-  // Beep sur erreur par défaut
+  // Beep sur erreur par dÃ©faut
   FBeepOnError := True;
-  // Mode création pour informer la popup
+  // Mode crÃ©ation pour informer la popup
   ControlState := ControlState + [csCreating];
-  // Création popup
+  // CrÃ©ation popup
   try
-    // Une ancienne popup existe déjà
+    // Une ancienne popup existe dÃ©jÃ 
     FPopup.Free ;
-    // Création du descendant de TPopupDataWindow
+    // CrÃ©ation du descendant de TPopupDataWindow
     FPopup := TPopupDataWindow.Create(Self);
-    // evènement d'affectation de donnée
+    // evÃ¨nement d'affectation de donnÃ©e
     TJvPopupDataWindow(FPopup).OnCloseUp := PopupCloseUp;
-    // Glyph de combo par défaut
+    // Glyph de combo par dÃ©faut
     GlyphKind := gkDropDown; { force update }
   finally
     ControlState := ControlState - [csCreating];
@@ -265,11 +265,11 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Destructeur : Destroy
-// description : Destruction des objets créés au create
+// description : Destruction des objets crÃ©Ã©s au create
 ////////////////////////////////////////////////////////////////////////////////
 destructor TExtDBComboInsert.Destroy;
 begin
-  // Lien de données
+  // Lien de donnÃ©es
   FDataLink.Free;
   FDataLink := nil;
   inherited Destroy;
@@ -279,8 +279,8 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : ResetMaxLength
-// description : Vérifications avant affectation de la taille du texte à rien
+// procÃ©dure   : ResetMaxLength
+// description : VÃ©rifications avant affectation de la taille du texte Ã  rien
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.ResetMaxLength;
 var
@@ -295,8 +295,8 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : Loaded
-// description : Initialisations après le chargement des autres composants
+// procÃ©dure   : Loaded
+// description : Initialisations aprÃ¨s le chargement des autres composants
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.Loaded;
 begin
@@ -308,10 +308,10 @@ end;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : Notification
-// description : enlève les liens vers les composants supprimés dans la fiche
-// paramètres  : AComponent : Le composant testé
-//               Operation  : supprimé ou ajouté
+// procÃ©dure   : Notification
+// description : enlÃ¨ve les liens vers les composants supprimÃ©s dans la fiche
+// paramÃ¨tres  : AComponent : Le composant testÃ©
+//               Operation  : supprimÃ© ou ajoutÃ©
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.Notification(AComponent: TComponent;
   Operation: TOperation);
@@ -322,16 +322,16 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : KeyDown
-// description : évènement enfoncement de touche
-// paramètres  : Key : La touche appuyée
-//               Shift : Touche spéciale
+// procÃ©dure   : KeyDown
+// description : Ã©vÃ¨nement enfoncement de touche
+// paramÃ¨tres  : Key : La touche appuyÃ©e
+//               Shift : Touche spÃ©ciale
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   // new order, because result of inherited KeyDown(...) could be = 0
   // so, first set DataSet in Edit-Mode
-  // certaines touches initient l'édition des données
+  // certaines touches initient l'Ã©dition des donnÃ©es
   if Key in [VK_BACK, VK_DELETE, VK_UP, VK_DOWN, 32..255] then // taken from TDBComboBox.KeyDown(...)
     FDataLink.Edit;
   // Auto-insertion dans ce composant
@@ -341,14 +341,14 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : KeyPress
-// description : évènement appuie sur touche
-// paramètre   : Key : La touche appuyée
+// procÃ©dure   : KeyPress
+// description : Ã©vÃ¨nement appuie sur touche
+// paramÃ¨tre   : Key : La touche appuyÃ©e
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.KeyPress(var Key: Char);
 begin
   inherited KeyPress(Key);
-  // vérifications : Tout est-il renseigné correctement ?
+  // vÃ©rifications : Tout est-il renseignÃ© correctement ?
   if (Key in [#32..#255]) and (FDataLink.Field <> nil) Then
     Begin
       FModify := True ;
@@ -361,7 +361,7 @@ begin
         Key := #0;
       end;
     End ;
-    // Mode édition sur certaines touches
+    // Mode Ã©dition sur certaines touches
   case Key of
     CtrlH, CtrlV, CtrlX, #32..#255:
       FDataLink.Edit;
@@ -377,8 +377,8 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction    : EditCanModify
-// description : Edition puis retour du mode édition
-// paramètres  : résultat : en mode édition ou pas
+// description : Edition puis retour du mode Ã©dition
+// paramÃ¨tres  : rÃ©sultat : en mode Ã©dition ou pas
 ////////////////////////////////////////////////////////////////////////////////
 function TExtDBComboInsert.EditCanModify: Boolean;
 begin
@@ -386,8 +386,8 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : Reset
-// description : Remet les données originelles
+// procÃ©dure   : Reset
+// description : Remet les donnÃ©es originelles
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.Reset;
 begin
@@ -396,9 +396,9 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : SetFocused
+// procÃ©dure   : SetFocused
 // description : Attribue la variable focus
-// paramètre   : Value : Focus ou pas focus
+// paramÃ¨tre   : Value : Focus ou pas focus
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.SetFocused(Value: Boolean);
 begin
@@ -411,23 +411,23 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : Change
-// description : Evènement sur changement du datasourc principal
+// procÃ©dure   : Change
+// description : EvÃ¨nement sur changement du datasourc principal
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.Change;
 begin
-  // On avertit le lien de données
+  // On avertit le lien de donnÃ©es
   FDataLink.Modified;
   if assigned ( FDataLink.Dataset )
   and not ( FDataLink.Dataset.State in [dsInsert,dsEdit]) Then
-    // Les données viennent peut-être d'être validées
+    // Les donnÃ©es viennent peut-Ãªtre d'Ãªtre validÃ©es
     FModify := False ;
   inherited Change;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : DoChange
-// description : Evènement sur changement du datasourc principal
+// procÃ©dure   : DoChange
+// description : EvÃ¨nement sur changement du datasourc principal
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.DoChange;
 begin
@@ -437,8 +437,8 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction    : GetDataSource
-// description : Récupère le Datasource principal
-// paramètre   : résultat : le Datasource principal
+// description : RÃ©cupÃ¨re le Datasource principal
+// paramÃ¨tre   : rÃ©sultat : le Datasource principal
 ////////////////////////////////////////////////////////////////////////////////
 function TExtDBComboInsert.GetDataSource: TDataSource;
 begin
@@ -446,9 +446,9 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : SetDataSource
+// procÃ©dure   : SetDataSource
 // description : Attribue le Datasource principal
-// paramètre   : Value : le futur Datasource principal
+// paramÃ¨tre   : Value : le futur Datasource principal
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.SetDataSource(Value: TDataSource);
 begin
@@ -460,8 +460,8 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction    : GetDataField
-// description : Récupère le champ du Datasource principal
-// paramètre   : résultat : le champ du Datasource principal
+// description : RÃ©cupÃ¨re le champ du Datasource principal
+// paramÃ¨tre   : rÃ©sultat : le champ du Datasource principal
 ////////////////////////////////////////////////////////////////////////////////
 function TExtDBComboInsert.GetDataField: string;
 begin
@@ -469,9 +469,9 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : SetDataField
+// procÃ©dure   : SetDataField
 // description : Attribue le champ du Datasource principal
-// paramètre   : Value : le futur champ du Datasource principal
+// paramÃ¨tre   : Value : le futur champ du Datasource principal
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.SetDataField(const Value: string);
 begin
@@ -482,8 +482,8 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction    : GetReadOnly
-// description : Récupère la lecture seule
-// paramètre   : résultat : lecture seule ou pas
+// description : RÃ©cupÃ¨re la lecture seule
+// paramÃ¨tre   : rÃ©sultat : lecture seule ou pas
 ////////////////////////////////////////////////////////////////////////////////
 function TExtDBComboInsert.GetReadOnly: Boolean;
 begin
@@ -491,9 +491,9 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : SetReadOnly
+// procÃ©dure   : SetReadOnly
 // description : Attribue la lecture seule
-// paramètre   : Value : lecture seule ou pas
+// paramÃ¨tre   : Value : lecture seule ou pas
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.SetReadOnly(Value: Boolean);
 begin
@@ -503,8 +503,8 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction    : GetCanvas
-// description : Récupère le canevas de peinture du composant
-// paramètre   : résultat : le canevas
+// description : RÃ©cupÃ¨re le canevas de peinture du composant
+// paramÃ¨tre   : rÃ©sultat : le canevas
 ////////////////////////////////////////////////////////////////////////////////
 function TExtDBComboInsert.GetCanvas: TCanvas;
 begin
@@ -513,8 +513,8 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction    : GetField
-// description : Récupère le champ principal
-// paramètre   : résultat : le champ
+// description : RÃ©cupÃ¨re le champ principal
+// paramÃ¨tre   : rÃ©sultat : le champ
 ////////////////////////////////////////////////////////////////////////////////
 function TExtDBComboInsert.GetField: TField;
 begin
@@ -522,9 +522,9 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Evènement   : ActiveChange
+// EvÃ¨nement   : ActiveChange
 // description : Initialisation de la taille du texte
-// paramètre   : Sender : pour l'évènement
+// paramÃ¨tre   : Sender : pour l'Ã©vÃ¨nement
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.ActiveChange(Sender: TObject);
 begin
@@ -533,8 +533,8 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction    : GetDisplayValue
-// description : Récupère la valeur affichée
-// paramètre   : résultat : la valeur affichée
+// description : RÃ©cupÃ¨re la valeur affichÃ©e
+// paramÃ¨tre   : rÃ©sultat : la valeur affichÃ©e
 ////////////////////////////////////////////////////////////////////////////////
 function  TExtDBComboInsert.GetDisplayValue : String ;
 Begin
@@ -548,21 +548,21 @@ Begin
   and assigned ( LookupSource.DataSet.FindField ( LookupField   )) Then
     Begin
       if ( FPopup as TJvPopupDataWindow ).Locate ( LookupSource.DataSet.FindField ( LookupField   ), FDataLink.Field.AsString, True ) Then
-        // récupération à partir de la listes
+        // rÃ©cupÃ©ration Ã  partir de la listes
         Result := LookupSource.DataSet.FindField ( LookupDisplay ).AsString ;
     End ;
 End ;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Evènement   : DataChange
-// description : Changement dans les données
-// paramètre   : Sender : pour l'évènement
+// EvÃ¨nement   : DataChange
+// description : Changement dans les donnÃ©es
+// paramÃ¨tre   : Sender : pour l'Ã©vÃ¨nement
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.DataChange(Sender: TObject);
 begin
   if FDataLink.Field <> nil then
   begin
-    // récupération du masque de saisie
+    // rÃ©cupÃ©ration du masque de saisie
     EditMask := FDataLink.Field.EditMask;
     if not (csDesigning in ComponentState) then
       if (FDataLink.Field.DataType in [ftString, ftWideString]) and (MaxLength = 0) then
@@ -570,7 +570,7 @@ begin
         MaxLength := FDataLink.Field.Size;
     if FFocused and FDataLink.CanModify then
       Begin
-        // récupération des données de la liste en mode lecture
+        // rÃ©cupÃ©ration des donnÃ©es de la liste en mode lecture
         if  ( not ( FDataLink.DataSet.State in [dsEdit, dsInsert]) or FUpdate) Then
           Begin
             Text := GetDisplayValue ;
@@ -578,9 +578,9 @@ begin
       End
     else
     begin
-      // affectation du texte à partir de la liste quand on n'est pas sur la combo
+      // affectation du texte Ã  partir de la liste quand on n'est pas sur la combo
       EditText := GetDisplayValue ;// FDataLink.Field.DisplayText
-      // Vérification de l'édition du champ ailleurs
+      // VÃ©rification de l'Ã©dition du champ ailleurs
       if FDataLink.Editing then //and FDataLink.FModify || FModified is private in parent of fdatalink
         Modified := True;
     end;
@@ -589,7 +589,7 @@ begin
   begin
     EditMask := '';
     if csDesigning in ComponentState then
-      // Pas de donnée : on montre le nom de la combo
+      // Pas de donnÃ©e : on montre le nom de la combo
       EditText := Name
     else
       EditText := '' ;
@@ -597,9 +597,9 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Evènement   : EditingChange
-// description : Changement dans l'édition des données
-// paramètre   : Sender : pour l'évènement
+// EvÃ¨nement   : EditingChange
+// description : Changement dans l'Ã©dition des donnÃ©es
+// paramÃ¨tre   : Sender : pour l'Ã©vÃ¨nement
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.EditingChange(Sender: TObject);
 begin
@@ -607,24 +607,24 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Evènement   : UpdateData
-// description : Mise à jour après l'édition des données
-// paramètre   : Sender : pour l'évènement
+// EvÃ¨nement   : UpdateData
+// description : Mise Ã  jour aprÃ¨s l'Ã©dition des donnÃ©es
+// paramÃ¨tre   : Sender : pour l'Ã©vÃ¨nement
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.UpdateData(Sender: TObject);
 begin
-  // auto-insertion spécifique de ce composant
+  // auto-insertion spÃ©cifique de ce composant
   InsertLookup ( False );
-  // Validation de l'édition
+  // Validation de l'Ã©dition
   ValidateEdit;
   // affectation
   FDataLink.Field.Value := LookupValue;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Evènement message  : WMUndo
+// EvÃ¨nement message  : WMUndo
 // description : Annulation
-// paramètre   : Msg : données du message
+// paramÃ¨tre   : Msg : donnÃ©es du message
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.WMUndo(var Msg: TMessage);
 begin
@@ -633,9 +633,9 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Evènement message  : WMPaste
+// EvÃ¨nement message  : WMPaste
 // description : Coller
-// paramètre   : Msg : données du message
+// paramÃ¨tre   : Msg : donnÃ©es du message
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.WMPaste(var Msg: TMessage);
 begin
@@ -644,9 +644,9 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Evènement message  : WMCut
+// EvÃ¨nement message  : WMCut
 // description : Couper
-// paramètre   : Msg : données du message
+// paramÃ¨tre   : Msg : donnÃ©es du message
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.WMCut(var Msg: TMessage);
 begin
@@ -655,15 +655,15 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : DoEnter
+// procÃ©dure   : DoEnter
 // description : Attribue le focus au composant
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.DoEnter;
 begin
-  // Affecte la propriété focused
+  // Affecte la propriÃ©tÃ© focused
   SetFocused(True);
   inherited DoEnter;
-  // Sélectionne le texte
+  // SÃ©lectionne le texte
   SelectAll ;
   // pas de lecture seule ?
   if SysLocale.FarEast and FDataLink.CanModify then
@@ -671,15 +671,15 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : InsertLookup
+// procÃ©dure   : InsertLookup
 // description : Insertion automatique
-// paramètre   : Update : validation du champ si pas en train de valider
+// paramÃ¨tre   : Update : validation du champ si pas en train de valider
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.InsertLookup ( const Update : Boolean );
 begin
   if ( csDesigning in ComponentState ) Then
     Exit ;
-    // vérifications
+    // vÃ©rifications
   if  assigned ( FDataLink.Dataset )
   and assigned ( LookupSource )
   and assigned ( LookupSource.DataSet )
@@ -687,7 +687,7 @@ begin
   and ( FDataLink.Dataset.State in [ dsEdit,dsInsert ]) Then
     try
       if ( Text <> '' ) Then
-        // Si du texte est présent
+        // Si du texte est prÃ©sent
         Begin
           if not LookupSource.DataSet.Locate ( LookupDisplay, Text, [loCaseInsensitive] ) Then
             // Autoinsertion si pas dans la liste
@@ -723,23 +723,23 @@ begin
 End ;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure   : DoExit
-// description : Défocus du composant
+// procÃ©dure   : DoExit
+// description : DÃ©focus du composant
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.DoExit;
 begin
   // Auto-insertion
   InsertLookup ( True );
-  // Focused à False
+  // Focused Ã  False
   SetFocused(False);
   CheckCursor;
   inherited DoExit;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Evènement message  : WMPaint
+// EvÃ¨nement message  : WMPaint
 // description : Peinture de la combo
-// paramètre   : Msg : données du message
+// paramÃ¨tre   : Msg : donnÃ©es du message
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.WMPaint(var Msg: TWMPaint);
 const
@@ -808,11 +808,11 @@ begin
       // Couleur de pinceau
       Brush.Color := Color;
       if not Enabled then
-        // désactivation
+        // dÃ©sactivation
         Font.Color := clGrayText;
       if (csPaintCopy in ControlState) and (FDataLink.Field <> nil) then
       begin
-        //récupération du texte du champ
+        //rÃ©cupÃ©ration du texte du champ
         S := FDataLink.Field.DisplayText;
         case CharCase of
           ecUpperCase:
@@ -822,7 +822,7 @@ begin
         end;
       end
       else
-        //récupération du texte d'édition
+        //rÃ©cupÃ©ration du texte d'Ã©dition
         S := EditText;
         // mode mot de passe
       if PasswordChar <> #0 then
@@ -843,7 +843,7 @@ begin
       TextRect(R, Left, Margins.Y, S);
     end;
   finally
-    // libération du canevas
+    // libÃ©ration du canevas
     FCanvas.Handle := 0;
     if Msg.DC = 0 then
       EndPaint(Handle, PS);
@@ -851,9 +851,9 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Evènement message  : CMGetDataLink
-// description : Récupération du handle du datalink
-// paramètre   : Msg : données du message
+// EvÃ¨nement message  : CMGetDataLink
+// description : RÃ©cupÃ©ration du handle du datalink
+// paramÃ¨tre   : Msg : donnÃ©es du message
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.CMGetDataLink(var Msg: TMessage);
 begin
@@ -862,8 +862,8 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction    : GetTextMargins
-// description : Récupère les marges sur le texte
-// paramètre   : résultat : les marges du haut et du bas
+// description : RÃ©cupÃ¨re les marges sur le texte
+// paramÃ¨tre   : rÃ©sultat : les marges du haut et du bas
 ////////////////////////////////////////////////////////////////////////////////
 function TExtDBComboInsert.GetTextMargins: TPoint;
 var
@@ -878,7 +878,7 @@ begin
     if BorderStyle = bsNone then
       I := 0
     else
-      // mode enfoncement et superposé
+      // mode enfoncement et superposÃ©
     if Ctl3D then
       I := 1
     else
@@ -889,7 +889,7 @@ begin
   end
   else
   begin
-    // Aucune marge prédéfinie sinon
+    // Aucune marge prÃ©dÃ©finie sinon
     if BorderStyle = bsNone then
       I := 0
     else
@@ -913,9 +913,9 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction    : ExecuteAction
-// description : Exécute une classe d'action
-// paramètre   : Action   : L'action répertoriée
-//              résultat : Action exécutée ou pas
+// description : ExÃ©cute une classe d'action
+// paramÃ¨tre   : Action   : L'action rÃ©pertoriÃ©e
+//              rÃ©sultat : Action exÃ©cutÃ©e ou pas
 ////////////////////////////////////////////////////////////////////////////////
 function TExtDBComboInsert.ExecuteAction(Action: TBasicAction): Boolean;
 begin
@@ -925,9 +925,9 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction    : UpdateAction
-// description : Exécute une classe d'action de mise à jour
-// paramètre   : Action   : L'action répertoriée
-//              résultat : Action exécutée ou pas
+// description : ExÃ©cute une classe d'action de mise Ã  jour
+// paramÃ¨tre   : Action   : L'action rÃ©pertoriÃ©e
+//              rÃ©sultat : Action exÃ©cutÃ©e ou pas
 ////////////////////////////////////////////////////////////////////////////////
 function TExtDBComboInsert.UpdateAction(Action: TBasicAction): Boolean;
 begin
@@ -936,15 +936,15 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// procédure Evènement : PopupCloseUp
-// description : Affectation évenutelle à la fermeture de la liste
-// Paramètres  : Sender : La liste
+// procÃ©dure EvÃ¨nement : PopupCloseUp
+// description : Affectation Ã©venutelle Ã  la fermeture de la liste
+// ParamÃ¨tres  : Sender : La liste
 //               Accept : affectation ou pas
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.PopupCloseUp(Sender: TObject;
   Accept: Boolean);
 begin
-  // vérfications pour affectation
+  // vÃ©rfications pour affectation
   if Accept
   and  assigned ( LookupSource )
   and assigned ( LookupSource.DataSet )

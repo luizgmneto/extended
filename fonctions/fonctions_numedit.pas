@@ -26,12 +26,12 @@ function fext_CalculateNumber ( const AValue : Extended ; const FNumRounded : TN
 
 {$IFDEF VERSIONS}
 const
-  gVer_fonctions_numedit : T_Version = ( Component : 'Gestion partagée des nombres' ; FileUnit : 'fonctions_numedit' ;
+  gVer_fonctions_numedit : T_Version = ( Component : 'Gestion partagÃ©e des nombres' ; FileUnit : 'fonctions_numedit' ;
                         			                 Owner : 'Matthieu Giroux' ;
-                        			                 Comment : 'Gestion partagée du formatage des nombres' ;
+                        			                 Comment : 'Gestion partagÃ©e du formatage des nombres' ;
                         			                 BugsStory : 'Version 1.1.0.1 : TNumRounded type not tested.'
                         			                	         + 'Version 1.1.0.0 : Passage en Jedi 3.' 
-                        			                	         + 'Version 1.0.0.0 : Fonctions partagées.';
+                        			                	         + 'Version 1.0.0.0 : Fonctions partagÃ©es.';
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build : 1 );
 
@@ -41,13 +41,13 @@ implementation
 uses fonctions_string, Math,
      DBGrids;
 // A ne pas utiliser
-// Evènement sur touche enlevée d'un dbedit et d'une grille
-// Paramètres : pour créer l'évènement
+// EvÃ¨nement sur touche enlevÃ©e d'un dbedit et d'une grille
+// ParamÃ¨tres : pour crÃ©er l'Ã©vÃ¨nement
 procedure p_editKeyUp ( const aed_Sender : TCustomMaskEdit ; const afie_Field : TField ; var ach_Key : Word ; const aby_NbApVirgule , aby_NbAvVirgule : Byte ; const ab_Negatif  : Boolean ; const as_Texte     : String );
 var lli_Position : Longint ;
     lb_Reformate : Boolean ;
 Begin
-  // Zone d'éditon :
+  // Zone d'Ã©diton :
   // Rien alors on met un 0
   if assigned ( afie_Field )
   and not ( afie_Field.DataSet.State in [ dsInsert, dsEdit ]) Then
@@ -60,8 +60,8 @@ Begin
       aed_Sender.Text := copy ( aed_Sender.Text, 1, AnsiPos ( DecimalSeparator, as_Texte ) + aby_NbApVirgule );
       lb_Reformate := True ;
     End ;
-  // si il y a un séparateur de milliers et le texte est reformaté automatiquement
-  // La saisie est alors différente
+  // si il y a un sÃ©parateur de milliers et le texte est reformatÃ© automatiquement
+  // La saisie est alors diffÃ©rente
   if  assigned ( afie_Field )
   and ( AnsiPos ( ThousandSeparator, aed_Sender.Text ) > 0 )
   or lb_Reformate  Then
@@ -73,10 +73,10 @@ Begin
         aed_Sender.SelStart := lli_Position ;
     End ;
 End ;
-// A ne utiliser si on surcharge l'évènement onkeydown d'une grille
-// action sur touche enlevée d'une grille
-// Dévalide la suppression et l'insertion
-// Paramètres : pour créer l'évènement
+// A ne utiliser si on surcharge l'Ã©vÃ¨nement onkeydown d'une grille
+// action sur touche enlevÃ©e d'une grille
+// DÃ©valide la suppression et l'insertion
+// ParamÃ¨tres : pour crÃ©er l'Ã©vÃ¨nement
 procedure p_editGridKeyPress ( const aobj_Sender : Tobject ; var ach_Key : Char ; const aby_NbApVirgule , aby_NbAvVirgule : Byte ; const ab_Negatif  : Boolean; const ai_SelStart : Integer ; const as_Texte , as_SelTexte : String ; const afie_Champ  : TField );
 var lby_Signe   : Byte ;
 Begin
@@ -98,7 +98,7 @@ Begin
           ach_key := #0;
         End ;
     End ;
-  // gestion de la bonne virgule à afficher
+  // gestion de la bonne virgule Ã  afficher
   if ( ach_Key in ['.',',']) Then
     ach_Key := DecimalSeparator ;
   // Touches valides : il n'y en a pas d'autres
@@ -110,7 +110,7 @@ Begin
     // On veut taper un nombre
     if not ( ach_Key in [#8, #13,DecimalSeparator,'-','+'] )
     and ( length ( as_SelTexte ) <= 0 ) Then
-      // Gestion du nombre de chiffres après la virgule
+      // Gestion du nombre de chiffres aprÃ¨s la virgule
       if  ( AnsiPos ( DecimalSeparator, as_Texte ) > 0 )
       and ( length ( as_Texte ) >= AnsiPos ( DecimalSeparator, as_Texte ) + aby_NbApVirgule)
       and ( ai_SelStart = length ( as_Texte ))

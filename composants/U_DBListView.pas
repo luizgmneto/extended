@@ -3,8 +3,8 @@
 {                                                                     }
 {             Matthieu Giroux                                         }
 {             TDBListView  :                                          }
-{             Composant liste avec chargements itératifs des données  }
-{             22 Décembre 2006                                        }
+{             Composant liste avec chargements itÃ©ratifs des donnÃ©es  }
+{             22 DÃ©cembre 2006                                        }
 {                                                                     }
 {                                                                     }
 {*********************************************************************}
@@ -21,10 +21,10 @@ unit U_DBListView;
 {$ENDIF}
 
 interface
-// Datasource : Le Datasource à afficher dans la liste avec un paramètre dans le query
-// créé par Matthieu Giroux en Mars 2004
+// Datasource : Le Datasource Ã  afficher dans la liste avec un paramÃ¨tre dans le query
+// crÃ©Ã© par Matthieu Giroux en Mars 2004
 
-// 29-9-2004 : abandon complété dans la gestion panier
+// 29-9-2004 : abandon complÃ©tÃ© dans la gestion panier
 
 
 uses
@@ -55,7 +55,7 @@ const
     gVer_TDBListView : T_Version = ( Component : 'Composant TDBListView' ;
                                                FileUnit : 'U_GroupView' ;
                                                Owner : 'Matthieu Giroux' ;
-                                               Comment : 'Liste chargeable au fur et à mesure.' ;
+                                               Comment : 'Liste chargeable au fur et Ã  mesure.' ;
                                                BugsStory : '1.0.0.0 : Chargement automatique OK.';
                                                UnitType : 3 ;
                                                Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
@@ -66,13 +66,13 @@ type
   TSortOrder = (soAscending,soDescending);
   EListScrollEvent = procedure ( const Sender: TObject; const Dataset : TDataset; var LoadList : Boolean ) of object;
   ESortStartEvent = procedure( const Sender: TObject; const Column: Integer; var Enable: Boolean) of object;
-// Première déclaration
+// PremiÃ¨re dÃ©claration
   TDBListView = class ;
 
-  // Lien de données et gestion des évènements de mise à jour
+  // Lien de donnÃ©es et gestion des Ã©vÃ¨nements de mise Ã  jour
   TUltimListViewDatalink = Class(TDataLink)
    Private
-    // Parent propriétaire des évènements liés au lien de données
+    // Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
     glst_View: TDBListView;
    Public
     Constructor Create( alsv_List : TDBListView); Virtual;
@@ -85,7 +85,7 @@ type
     property DBListView : TDBListView read glst_View ;
    End;
 
-   // Gestion de dblist à chargements intermédiaires
+   // Gestion de dblist Ã  chargements intermÃ©diaires
 
   { TDBListView }
 
@@ -96,7 +96,7 @@ type
     ge_WaitForFetch : TEvent ;
     ge_OldFetchProgress : TfetchProgressEvent ;
     {$ENDIF}
-    // Tout a été chargé ? : A-t-on atteint la fin du dataset
+    // Tout a Ã©tÃ© chargÃ© ? : A-t-on atteint la fin du dataset
     ge_BeforeScroll : EListScrollEvent;
     ge_AfterScroll  : TDatasetNotifyEvent;
     FSortColumn : Integer;
@@ -110,26 +110,26 @@ type
     {$IFNDEF FPC}
     ResInstance : THandle;
     {$ENDIF}
-    // Première fois que l'on ouvre le TDBListView
+    // PremiÃ¨re fois que l'on ouvre le TDBListView
     gb_HasLoaded  : Boolean;
-    // Récupère le datasource lié
+    // RÃ©cupÃ¨re le datasource liÃ©
     function fds_GetDatasource : TdataSource;
-    // Gestion automatique du scrolling quand la liste n'est pas chargée
+    // Gestion automatique du scrolling quand la liste n'est pas chargÃ©e
     procedure p_scrolling ;
     // Gestion automatique du scrolling
-    // Message : informations sur le déplacement en cours
+    // Message : informations sur le dÃ©placement en cours
     procedure WMVScroll(var Message: TWMVScroll); message WM_VSCROLL;
     // Gestion automatique du scrolling
-    // Message : informations sur le déplacement en cours
+    // Message : informations sur le dÃ©placement en cours
     procedure WMMouseWheel(var Message: {$IFDEF FPC}TLMMouseEvent{$ELSE}TWMMouseWheel{$ENDIF}); message {$IFDEF FPC}LM_MOUSEWHEEL{$ELSE}WM_MOUSEWHEEL{$ENDIF};
 
-    // Surcharge de l'évènement OnCustomDrawItem
-    // évènement de dessin des items
-    // Peint les couleurs de lignes vers l'unité mc_fonctions_groupes
-    // aclv_Liste : La liste de l'évènement
-    // alit_Item  : L'item à peindre
-    // acds_Etat  : Obligtoire pour l'évènement
-    // ab_Defaut  : Obligtoire pour l'évènement
+    // Surcharge de l'Ã©vÃ¨nement OnCustomDrawItem
+    // Ã©vÃ¨nement de dessin des items
+    // Peint les couleurs de lignes vers l'unitÃ© mc_fonctions_groupes
+    // aclv_Liste : La liste de l'Ã©vÃ¨nement
+    // alit_Item  : L'item Ã  peindre
+    // acds_Etat  : Obligtoire pour l'Ã©vÃ¨nement
+    // ab_Defaut  : Obligtoire pour l'Ã©vÃ¨nement
     procedure p_PaintFondItem ( aclv_Liste : TCustomListView ; alit_Item : TListItem ; acds_Etat : TCustomDrawState ; var ab_Defaut : Boolean );
     //function fb_ParentVisible(const awco_Control: TWinControl): Boolean;
     procedure p_LibereCleDatasource;
@@ -138,49 +138,49 @@ type
     procedure p_SetChampsListe ( const Value: String );
     //    procedure p_DatasourceOnOpen(Dataset: Tdataset);
    protected
-    // On a transféré tous les items
+    // On a transfÃ©rÃ© tous les items
     gsts_ChampsListe : TStringList ;
     gb_AllLoaded ,
     gb_AllFetched : Boolean ;
     gb_CaseInSensitive,
     gb_LoadList   ,
-    // Mode tout sélectionné
+    // Mode tout sÃ©lectionnÃ©
     gb_AllSelect    : Boolean ;
-    // Le numéro de la colonne de la clé dans la liste
+    // Le numÃ©ro de la colonne de la clÃ© dans la liste
     gt_ColonneCle    : Array of Integer ;
-    // Surcharge de l'évènement OnCustomDrawItem
+    // Surcharge de l'Ã©vÃ¨nement OnCustomDrawItem
     gdip_OldOnDrawItemProp : TLVCustomDrawItemEvent ;
    ///////////
-  // Clés  //
+  // ClÃ©s  //
    ///////////
-  // Clé primaire du datasource
+  // ClÃ© primaire du datasource
     gstl_CleDataSource : TStringlist ;
-  // Panier : Liste des clés où on a mis des unités dans le panier
+  // Panier : Liste des clÃ©s oÃ¹ on a mis des unitÃ©s dans le panier
 //    lstl_KeysListOut      ,
 //    lt_CleOrigine2        ,
     gt_CleOrigine         : tt_TableauVarOption ;
-    // Pour plus tard : à laisser
+    // Pour plus tard : Ã  laisser
     gvar_CleOrigineEnCours,
     //
     gvar_CleDestination : Variant ;
-    // Lien de données avec mise à jour automatique
+    // Lien de donnÃ©es avec mise Ã  jour automatique
     gdl_DataLink : TUltimListViewDatalink ;
     // Item en cours
     gVG_ListItem       ,
-    // Items sélectionnés
+    // Items sÃ©lectionnÃ©s
     gVG_items_selected : TListItem ;
     // Sauvegarde de l'ancienne couleur
     gcol_AncienneCouleur   : TColor ;
-    // Clé primaire de la table des unités
+    // ClÃ© primaire de la table des unitÃ©s
     gs_CleUnite     ,
-    // Champs des sous-éléments ( colonne 1 à N )
-    // Table de datasource pour la mise à jour
+    // Champs des sous-Ã©lÃ©ments ( colonne 1 Ã  N )
+    // Table de datasource pour la mise Ã  jour
     gs_TableSource   : {$IFDEF FPC} AnsiString{$ELSE}String{$ENDIF};
     gs_ChampsListe : String;
-    // Propriété Montre Tous les enregistrements : Annule l'utilité du composant
+    // PropriÃ©tÃ© Montre Tous les enregistrements : Annule l'utilitÃ© du composant
     gb_MontreTout    ,
 //    lb_DevalideInsert,
-  // Propriété Couleurs de lignes automatiques
+  // PropriÃ©tÃ© Couleurs de lignes automatiques
     gb_CouleursLignes: Boolean;
     procedure p_setSortOrder ( AValue : TSortOrder ); virtual;
     function fs_SortDataset(const adat_Dataset: TDataSet): String; virtual;
@@ -189,9 +189,9 @@ type
     procedure p_CreeListeChampsDisplay ( as_ChampsListe : String ); virtual;
     procedure p_AffecteEvenementsDatasource; virtual;
     procedure EditingChanged; virtual;
-    // Affectation du composant dans la propriété DataSource
+    // Affectation du composant dans la propriÃ©tÃ© DataSource
     // test si n'existe pas
-    // Mise à jour du nom de table
+    // Mise Ã  jour du nom de table
     // a_Value : Le datasource
     function GetNextItem(const StartItem: TListItem; const States: {$IFDEF FPC}TListItemStates{$ELSE} TItemStates{$ENDIF}): TListItem; virtual;
     procedure p_SetDataSourceGroup ( const a_Value: TDataSource ); virtual;
@@ -227,7 +227,7 @@ type
     procedure p_AssignSort ( const as_ChampsOrdonner : String ) ; virtual;
     property HasLoad:Boolean read gb_HasLoaded ;
    public
-    // Bookmark pour le chargement intermédiaire
+    // Bookmark pour le chargement intermÃ©diaire
     gbm_DernierEnregistrement : TBookmarkStr ;
     {$IFDEF FPC}
     procedure SelectAll ; dynamic;
@@ -235,7 +235,7 @@ type
     procedure p_LoadListView ; virtual;
     procedure p_UpdateListView ; virtual;
     procedure p_LibereBookmark ; virtual;
-    // Met à jour le composant
+    // Met Ã  jour le composant
     procedure p_MetAjour; virtual;
     Function  fb_FetchIsLoaded : Boolean ; virtual;
     procedure p_SetSortDirectionAsc(const ab_Ascendant: Boolean);
@@ -258,22 +258,22 @@ type
     property FetchEvent : TEvent  read ge_WaitForFetch ;
     {$ENDIF}
    published
-    // Datasource principal édité
+    // Datasource principal Ã©ditÃ©
     property Datasource : TDataSource read fds_GetDatasource write p_SetDataSourceGroup;
-    // clé du query
-    // du Datasource des groupes édités
+    // clÃ© du query
+    // du Datasource des groupes Ã©ditÃ©s
     property DataKeyUnit : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_CleUnite write p_SetClePrimaireListe;
-    // Champs supplémentaires affichés
+    // Champs supplÃ©mentaires affichÃ©s
     property DataFieldsDisplay : String read gs_ChampsListe write p_SetChampsListe;
     // la liste utilise-t-elle les couleurs de lecture ?
     property DataRowColors : Boolean read gb_CouleursLignes write gb_CouleursLignes default True;
-    // La liste est-elle chargée en entier
+    // La liste est-elle chargÃ©e en entier
     property DataShowAll : Boolean read gb_MontreTout write gb_MontreTout default False;
-    // Nombre de pages à charger
+    // Nombre de pages Ã  charger
     //    property DataLoadPages : Word read lw_NombrePages write p_SetNombrePages stored False ;
     property BeforeDataScroll : EListScrollEvent  read ge_BeforeScroll write ge_BeforeScroll ;
     property AfterDataScroll  : TDatasetNotifyEvent read ge_AfterScroll  write ge_AfterScroll ;
-    // Table du Datasource principal édité
+    // Table du Datasource principal Ã©ditÃ©
     property DataTableUnit : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_TableSource write gs_TableSource;
     property SortColumn : Integer read FSortColumn write p_setSortColumn default 0;
     property SortOrder : TSortOrder read FSortOrder write p_setSortOrder default soAscending;
@@ -282,7 +282,7 @@ type
 
   // Message de confirmation d'enregistrement avant le tri
 const
-     // nombre par défaut de pages à charger
+     // nombre par dÃ©faut de pages Ã  charger
 {$IFDEF FPC}
      CST_GROUPE_PAGES_CHARGER = 1 ;
 {$ELSE}
@@ -299,7 +299,7 @@ const
 var gcol_CouleurFocus : TColor = CST_GROUPE_COULEUR_FOCUS ;
     gcol_CouleurLignePaire   : Tcolor = clInfoBk ;
     gcol_CouleurLigneImpaire : Tcolor = clWhite  ;
-    // Evènement centralisé de syncho du mode asynchrone
+    // EvÃ¨nement centralisÃ© de syncho du mode asynchrone
 {$IFDEF EADO}
     ge_GroupFetchLoading : TEvent = Nil ;
 {$ENDIF}
@@ -314,15 +314,15 @@ uses TypInfo, fonctions_string, fonctions_proprietes, Variants,  ExtCtrls,
 // TUltimListViewDatalink                                     //
 //////////////////////////////////////////////////////////////
 
-// Création à partir du listview
-// alsv_List : La liste associée
+// CrÃ©ation Ã  partir du listview
+// alsv_List : La liste associÃ©e
 Constructor TUltimListViewDatalink.Create( alsv_List : TDBListView);
 Begin
   Inherited Create;
   glst_View := alsv_List ;
 End;
 
-// Utilisé : le dataset est ouvert ou non
+// UtilisÃ© : le dataset est ouvert ou non
 Procedure TUltimListViewDatalink.ActiveChanged;
 Begin
   inherited ;
@@ -333,20 +333,20 @@ Begin
   glst_View.p_LoadListView ;
 End;
 
-// Mise à jour du composant
+// Mise Ã  jour du composant
 procedure TDBListView.p_MetAjour ;
 
 Begin
   p_Reinitialise ;
   p_AjouteEnregistrements;
 End ;
-// non Utilisé : On change de groupe dans DataSetChanged
+// non UtilisÃ© : On change de groupe dans DataSetChanged
 {Procedure TUltimListViewDatalink.DataSetScrolled(Distance: Integer);
 Begin
   inherited ;
 End;
  }
-// Utilisé : On a supprimé un groupe
+// UtilisÃ© : On a supprimÃ© un groupe
 Procedure TUltimListViewDatalink.DataSetChanged;
 Begin
   inherited ;
@@ -357,15 +357,15 @@ Begin
 End;
 
 
-// Procédure : p_SetListNil
-// Désactiver le lien à la destruction
+// ProcÃ©dure : p_SetListNil
+// DÃ©sactiver le lien Ã  la destruction
 procedure TUltimListViewDatalink.p_SetListNil ;
 Begin
   glst_View := Nil ;
 End ;
 
-// Utilisé : On a changé d'état
-// Gestion des mises à jour de la clé primaire des groupes
+// UtilisÃ© : On a changÃ© d'Ã©tat
+// Gestion des mises Ã  jour de la clÃ© primaire des groupes
 Procedure TUltimListViewDatalink.EditingChanged;
 Begin
   inherited ;
@@ -377,8 +377,8 @@ End;
  ///////////////////////////////////////////////////////////////
 // TDBListView                                            //
 //////////////////////////////////////////////////////////////
-// Création du composant : première intialisation
-// acom_owner : Le composant propriétaire
+// CrÃ©ation du composant : premiÃ¨re intialisation
+// acom_owner : Le composant propriÃ©taire
 constructor TDBListView.create ( acom_owner : Tcomponent );
 begin
   inherited create ( acom_owner );
@@ -396,39 +396,39 @@ begin
   gi_Fetch := 0 ;
   gb_fetched := False ;
   gi_FetchTotal := 0 ;
-  // Prmière fois que le composant s'initialise
+  // PrmiÃ¨re fois que le composant s'initialise
   gb_HasLoaded := False ;
 
   gb_LoadList       := False ;
   gb_AllSelect      := False ;
   gb_MontreTout     := False ;
   gb_CouleursLignes := True ;
-  // Le lien de donnée doit être initialisé avant : c'est un lien vers une propriété
+  // Le lien de donnÃ©e doit Ãªtre initialisÃ© avant : c'est un lien vers une propriÃ©tÃ©
   gdl_DataLink := TUltimListViewDatalink.Create ( Self );
-  // Initialisation avant la création : plus sûr
+  // Initialisation avant la crÃ©ation : plus sÃ»r
   gbm_DernierEnregistrement := '' ;
 //  gb_TrieAsc                := True ;
-  // Création
+  // CrÃ©ation
   {$IFDEF DELPHI}
   ResInstance:= FindResourceHInstance(HInstance);
   {$ENDIF}
-  // Couleurs de lignes par défaut
+  // Couleurs de lignes par dÃ©faut
   DataRowColors := True ;
-  // On utilise le composant en montrant partiellement le données
+  // On utilise le composant en montrant partiellement le donnÃ©es
   DataShowAll   := False ;
-  // Sélection d'une ligne entière
+  // SÃ©lection d'une ligne entiÃ¨re
   RowSelect := True;
   // Gestion du drag and drop
   DragMode := dmAutomatic ;
   gb_AllLoaded := gb_AllFetched and ( not assigned ( gdl_DataLink.DataSet ) or not gdl_DataLink.DataSet.Active or gdl_DataLink.DataSet.IsEmpty );
-  // On peut sélectionner plusieurs unités
+  // On peut sÃ©lectionner plusieurs unitÃ©s
   MultiSelect := True ;
 end;
 
 // destruction du composant : destruction des objets
 destructor TDBListView.destroy;
 begin
-  // Libération du bookmark si il existe
+  // LibÃ©ration du bookmark si il existe
   p_LibereBookmark ;
   inherited;
   {$IFDEF EADO}
@@ -439,22 +439,22 @@ begin
 //      ( gdl_DataLink.DataSet as TCustomADODataset ).AfterOpen       := ge_AfterOpen ;
     End ;
   {$ENDIF}
-  // Libération du lien de données de la liste
+  // LibÃ©ration du lien de donnÃ©es de la liste
   gdl_DataLink.Datasource := Nil ;
   gdl_DataLink.Free ;
   gdl_DataLink := nil ;
 
-  // Libération des listes de champs
+  // LibÃ©ration des listes de champs
   p_LibereChampsListe;
   p_LibereCleDatasource;
   Finalize ( gt_CleOrigine     );
-    // Lien datasource à libérer ensuite : lien vers une propriété
+    // Lien datasource Ã  libÃ©rer ensuite : lien vers une propriÃ©tÃ©
 end;
 
 // destruction du composant : destruction des objets
 procedure TDBListView.p_LibereCleDatasource;
 begin
-  // Libération du stringlist si il existe
+  // LibÃ©ration du stringlist si il existe
   gstl_CleDataSource.Free ;
   gstl_CleDataSource := nil ;
 end;
@@ -462,7 +462,7 @@ end;
 // destruction du composant : destruction des objets
 procedure TDBListView.p_LibereChampsListe;
 begin
-  // Libération du stringlist si il existe
+  // LibÃ©ration du stringlist si il existe
   if assigned ( gsts_ChampsListe   ) Then  gsts_ChampsListe  .Free ;
   gsts_ChampsListe   := nil ;
 end;
@@ -474,7 +474,7 @@ end;
 {$IFDEF EADO}
 // Fonction : fb_WaitForLoadingFirstFetch
 // Mode asynchrone : Attente d'un chargement d'items dans la liste
-// A appeler avant de créer l'évènement ge_GroupFetchLoading et après tout ça mettre p_AjouteEnregistrementsSynchrones
+// A appeler avant de crÃ©er l'Ã©vÃ¨nement ge_GroupFetchLoading et aprÃ¨s tout Ã§a mettre p_AjouteEnregistrementsSynchrones
 // Retour : Dataset actif ou pas
 Function  fb_WaitForLoadingFirstFetch : Boolean ;
 Begin
@@ -486,10 +486,10 @@ Begin
   Result := True ;
 End ;
 {$ENDIF}
-// Mode asynchrone : A-t-on chargé suffisamment d'items dans la liste
+// Mode asynchrone : A-t-on chargÃ© suffisamment d'items dans la liste
 Function  TDBListView.fb_FetchIsLoaded : Boolean ;
 Begin
-  // On prend en considération la taile écran et non la taille du composant qui varie en fonction de la fiche
+  // On prend en considÃ©ration la taile Ã©cran et non la taille du composant qui varie en fonction de la fiche
   Result := ( Items.Count > 0 ) and (( Font.Height <= 0 ) and ( gi_Fetch - 1 > Screen.Height )) or (( Font.Height > 0 ) and ( gi_Fetch - 1 > Screen.Height div ( Font.Height - 1 )));
   gb_Fetched := Result ;
 End ;
@@ -498,10 +498,10 @@ procedure TDBListView.p_MajBoutons(const ai_ItemsAjoutes: Integer);
 begin
 End ;
 
-// Réinitialisation : Appelée pour recharger au tri
+// RÃ©initialisation : AppelÃ©e pour recharger au tri
 procedure TDBListView.p_ReinitialisePasTout ;
 Begin
-  // héritage de la réinitilisation
+  // hÃ©ritage de la rÃ©initilisation
 
   Items.Clear;
   Invalidate ;
@@ -511,11 +511,11 @@ End ;
 
 
 
-// Affectation de SORTDirection : il faut utiliser cette procédure pour synchroniser TDBListView
+// Affectation de SORTDirection : il faut utiliser cette procÃ©dure pour synchroniser TDBListView
 // ab_Ascendant    : Le tri est ascendant ou non
 procedure TDBListView.p_SetSortDirectionAsc(const ab_Ascendant : Boolean );
 begin
-  // Vérification de la validité du sort
+  // VÃ©rification de la validitÃ© du sort
   if ab_Ascendant
    Then SortOrder := soAscending
    Else SortOrder := soDescending ;
@@ -543,12 +543,12 @@ begin
     End
 end;
 
-// Trier le dataset : Utilisé par le composant MCAdvGroupView
-// Assigner la prorprété sort au bon dataset
-// as_ChampsOrdonner : La valeur à affecter
+// Trier le dataset : UtilisÃ© par le composant MCAdvGroupView
+// Assigner la prorprÃ©tÃ© sort au bon dataset
+// as_ChampsOrdonner : La valeur Ã  affecter
 procedure TDBListView.p_AssignSort ( const as_ChampsOrdonner : String );
 Begin
-  // c'est un composant : vérification de l'existance de la propriété
+  // c'est un composant : vÃ©rification de l'existance de la propriÃ©tÃ©
   if  assigned ( gdl_DataLink.DataSet )
   and          ( gdl_DataLink.DataSet.Active )
    Then
@@ -556,60 +556,60 @@ Begin
     p_SetComponentProperty( gdl_DataLink.DataSet, 'Sort', as_ChampsOrdonner );
 End ;
 
-// évènement de dessin des items
-// Peint les couleurs de lignes vers l'unité mc_fonctions_groupes
-// aclv_Liste : La liste de l'évènement
-// alit_Item  : L'item à peindre
-// acds_Etat  : Obligtoire pour l'évènement
-// ab_Defaut  : Obligtoire pour l'évènement
+// Ã©vÃ¨nement de dessin des items
+// Peint les couleurs de lignes vers l'unitÃ© mc_fonctions_groupes
+// aclv_Liste : La liste de l'Ã©vÃ¨nement
+// alit_Item  : L'item Ã  peindre
+// acds_Etat  : Obligtoire pour l'Ã©vÃ¨nement
+// ab_Defaut  : Obligtoire pour l'Ã©vÃ¨nement
 procedure TDBListView.p_PaintFondItem ( aclv_Liste : TCustomListView ; alit_Item : TListItem ; acds_Etat : TCustomDrawState ; var ab_Defaut : Boolean );
 begin
-  if gb_CouleursLignes // Si propriété DataRowColors à true
+  if gb_CouleursLignes // Si propriÃ©tÃ© DataRowColors Ã  true
    Then
   If ( alit_Item.Index div 2 = alit_Item.Index / 2 )
    Then  aclv_Liste.Canvas.Brush.Color := gcol_CouleurLignePaire
    Else  aclv_Liste.Canvas.Brush.Color := gcol_CouleurLigneImpaire  ;
 //    p_groupeCustomDrawItem( aclv_Liste, alit_Item ); /// Peinture des coulerus de lignes
-  if assigned ( gdip_OldOnDrawItemProp ) // Ancien évènement
+  if assigned ( gdip_OldOnDrawItemProp ) // Ancien Ã©vÃ¨nement
    Then
     gdip_OldOnDrawItemProp ( aclv_Liste, alit_Item, acds_Etat, ab_Defaut );
 end;
-// Evènement sur focus : Changement de couleur
+// EvÃ¨nement sur focus : Changement de couleur
 procedure TDBListView.DoEnter;
 begin
-  // Changement de la couleur d'entête sur focus
+  // Changement de la couleur d'entÃªte sur focus
   Color := gcol_CouleurFocus ;
-  // Procédure surchargée
+  // ProcÃ©dure surchargÃ©e
   inherited;
 end;
 
-// Evènement défocus : rétablissement de la couleur
+// EvÃ¨nement dÃ©focus : rÃ©tablissement de la couleur
 procedure TDBListView.DoExit;
 begin
-   // Rétablissement de la couleur d'entête
+   // RÃ©tablissement de la couleur d'entÃªte
   Color := gcol_AncienneCouleur ;
-  // Procédure surchargée
+  // ProcÃ©dure surchargÃ©e
   inherited;
 end;
 
 
-// Affectation de la propriété Nombre de pages
-// a_Value : valeur à tester : test si égale à zéro
+// Affectation de la propriÃ©tÃ© Nombre de pages
+// a_Value : valeur Ã  tester : test si Ã©gale Ã  zÃ©ro
 {procedure TDBListView.p_SetNombrePages(const a_Value: Word);
 begin
   lw_NombrePages := a_Value ;
-  if lw_NombrePages = 0 // Il ne faut pas que ça soit égal à zéro
-   Then lw_NombrePages := GS_PAGES_CHARGER ; // Alors on met la constante par défaut
+  if lw_NombrePages = 0 // Il ne faut pas que Ã§a soit Ã©gal Ã  zÃ©ro
+   Then lw_NombrePages := GS_PAGES_CHARGER ; // Alors on met la constante par dÃ©faut
 end;}
-// Cherche un item : Utiliser plutôt le locate du dataset
-// as_TexteItem : Item principal ou clé à trouver
-// Résultat : numéro de l'item ou -1
+// Cherche un item : Utiliser plutÃ´t le locate du dataset
+// as_TexteItem : Item principal ou clÃ© Ã  trouver
+// RÃ©sultat : numÃ©ro de l'item ou -1
 function TDBListView.fi_FindItem ( const avar_TexteItem : Variant ) : Integer ;
 // Compteur
 var li_i , li_j : Integer ;
     lb_Trouve : Boolean ;
 Begin
-// Rien n'est encore trouvé
+// Rien n'est encore trouvÃ©
   Result := -1 ;
   // Parcourt des items principaux
   for li_i := 0 to Items.Count - 1 do
@@ -635,8 +635,8 @@ Begin
     End ;
 End ;
 
-// Gestion du scroll quand la liste n'est pas chargée
-// Message : informations sur le déplacement en cours
+// Gestion du scroll quand la liste n'est pas chargÃ©e
+// Message : informations sur le dÃ©placement en cours
 procedure TDBListView.WMMouseWheel(var Message: {$IFDEF FPC}TLMMouseEvent{$ELSE}TWMMouseWheel{$ENDIF});
 begin
   inherited ;
@@ -644,8 +644,8 @@ begin
     p_scrolling ;
 End ;
 
-// Gestion du scroll quand la liste n'est pas chargée
-// Message : informations sur le déplacement en cours
+// Gestion du scroll quand la liste n'est pas chargÃ©e
+// Message : informations sur le dÃ©placement en cours
 procedure TDBListView.WMVScroll(var Message: TWMVScroll);
 //  lw_PagesACharger : Word        ; // Variable temporaire de test de page
 begin
@@ -656,19 +656,19 @@ end;
 
 /////////////////////////////////////////////////////////////////////////////
 // Fonction : ScrollBarVisible
-// En entrée : la scrollbar en code windows
+// En entrÃ©e : la scrollbar en code windows
 // En sortie : Scrollbar visible ou pas
 /////////////////////////////////////////////////////////////////////////////
 function TDBListView.fb_ScrollBarVisible(Code: Word): Boolean;
 var
-  lSI_infos        : TScrollInfo ; // Infos supplémentaires de scroll
+  lSI_infos        : TScrollInfo ; // Infos supplÃ©mentaires de scroll
   lw_NPage         : Cardinal ;
 //  lw_PagesACharger : Word        ; // Variable temporaire de test de page
 begin
-  // Paramètres de récupération
+  // ParamÃ¨tres de rÃ©cupÃ©ration
   lSI_infos.cbSize := sizeof(lSI_infos);
   lSI_infos.fMask := SIF_ALL;
-  //Récupère les infos
+  //RÃ©cupÃ¨re les infos
   GetScrollInfo(Self.Handle, SB_VERT, lSI_infos);
   lw_NPage := lSI_infos.nPage ;
   Result := ( lw_NPage > 0 ) and ( lSI_infos.nMin >= 0 ) and ( lSI_infos.nMax > 0 ) and ( lSI_infos.nMin < lSI_infos.nMax ) and ( lSI_infos.nMax div lw_NPage > 0 );
@@ -687,7 +687,7 @@ begin
      Then
        DataLinkActiveChanged
       Else
-       // Alors on met à jour la liste
+       // Alors on met Ã  jour la liste
        Begin
          gb_AllLoaded := True ;
          {$IFDEF EADO}
@@ -698,24 +698,24 @@ end;
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Procédure surchargée : Resize
+// ProcÃ©dure surchargÃ©e : Resize
 // Description : Refresh possible au redimensionnement
 /////////////////////////////////////////////////////////////////////////////
 procedure TDBListView.Resize;
 begin
   inherited ;
-    // Tout n'est pas chargé
+    // Tout n'est pas chargÃ©
   if  gb_LoadList
   and not gb_AllLoaded
   and not gb_MontreTout
-  // Il y a peut-être retaillage à la destruction
+  // Il y a peut-Ãªtre retaillage Ã  la destruction
   and ( ComponentState * [csLoading,csDestroying,csDesigning] = [] )
-  // Les items ne sont peut-être pas montrables
+  // Les items ne sont peut-Ãªtre pas montrables
   and ( Self.Height > Font.Height - 1 )
-  // On annule pour le mode asynchrone car déjà en cours de chargement
+  // On annule pour le mode asynchrone car dÃ©jÃ  en cours de chargement
   and not  fb_ScrollBarVisible ( SB_VERT ) Then
-  // Tout n'est pas montré et scrollvert non visible
-  // Donc il n'y a pas assez des données présentes
+  // Tout n'est pas montrÃ© et scrollvert non visible
+  // Donc il n'y a pas assez des donnÃ©es prÃ©sentes
     Begin
       // On rafraichit
       p_AjouteEnregistrements ;
@@ -723,17 +723,17 @@ begin
 
 end;
 
-// Rafraîchissement de la liste
+// RafraÃ®chissement de la liste
 procedure TDBListView.Refresh;
 begin
   P_Reinitialise ;
   p_AjouteEnregistrements ;
 End;
 
-// Gestion automatique du scrolling quand la liste n'est pas chargée
+// Gestion automatique du scrolling quand la liste n'est pas chargÃ©e
 procedure TDBListView.p_scrolling ;
 var
-  lSI_infos        : TScrollInfo ; // Infos supplémentaires de scroll
+  lSI_infos        : TScrollInfo ; // Infos supplÃ©mentaires de scroll
   li_NPage         : Cardinal ;
 //  lw_PagesACharger : Word        ; // Variable temporaire de test de page
 begin
@@ -741,34 +741,34 @@ begin
   if not Visible
   or (not ( Owner is TControl ) or not ( Owner as TControl ).Visible ) Then
     Exit;
-  // Tout n'est pas chargé
+  // Tout n'est pas chargÃ©
   if not gb_AllLoaded
    Then
     Begin
-      // Paramètres de récupération
+      // ParamÃ¨tres de rÃ©cupÃ©ration
       lSI_infos.cbSize := sizeof(lSI_infos);
       lSI_infos.fMask := SIF_ALL;
-      //Récupère les infos
+      //RÃ©cupÃ¨re les infos
       GetScrollInfo(Self.Handle, SB_VERT, lSI_infos);
 
       li_NPage := lSI_infos.nPage ;
-      // récupère les paramètres de nombre de pages visibles
+      // rÃ©cupÃ¨re les paramÃ¨tres de nombre de pages visibles
       if ( lSI_infos.nMax < lSI_infos.nPos + li_NPage * CST_GROUPE_PAGES_CHARGER )
 //      if  ( lSI_infos.nPos > ( lSI_infos.nMax - lSI_infos.nPage ) div 2  )
        Then
-        // Alors ajoute des données
+        // Alors ajoute des donnÃ©es
         p_AjouteEnregistrements ;
 //      p_MiseAjourScrollBar ;
     End ;
 end;
 
 //////////////////////////////////////////////////////////////////////////////////
-// Evènement : p_FetchProgressLoaded
-// Description : Evènement qui se produit en mode assynchrone quand des enregistrements ont été chargés
-// Paramètres  : DataSet     : La Dataset ADO du mode assynchrone
-//               ProGress    : Progression, nombre d'enregistrements chargés
+// EvÃ¨nement : p_FetchProgressLoaded
+// Description : EvÃ¨nement qui se produit en mode assynchrone quand des enregistrements ont Ã©tÃ© chargÃ©s
+// ParamÃ¨tres  : DataSet     : La Dataset ADO du mode assynchrone
+//               ProGress    : Progression, nombre d'enregistrements chargÃ©s
 //               MaxProgress : Total voulu
-//               EventStatus : Evènements de la command SQL
+//               EventStatus : EvÃ¨nements de la command SQL
 //////////////////////////////////////////////////////////////////////////////////
 {$IFDEF EADO}
 procedure TDBListView.p_FetchProgressLoaded(DataSet: TCustomADODataSet; ProGress, MaxProgress : Integer; var EventStatus: TEventStatus);
@@ -790,7 +790,7 @@ Begin
       f_GereException ( e, Dataset );
   End ;
 
-  // On indique que tout n'est plus complètement chargé
+  // On indique que tout n'est plus complÃ¨tement chargÃ©
   gb_AllLoaded := False ;
 
   // On ne charge que quelques items lors d'un fetch ( on est en mode asynchrone )
@@ -800,20 +800,20 @@ Begin
       try
         // Gestion du fetch en mode asynchrone
         // Boucle d'attente de fetch
-        // Elle doit attendre un éventuel autre Fetch en cours
+        // Elle doit attendre un Ã©ventuel autre Fetch en cours
         // Sinon le programme et windows se perdent
-        // On n'est pas en multi-tâches sur un ordinateur avec un windows !
+        // On n'est pas en multi-tÃ¢ches sur un ordinateur avec un windows !
         fb_WaitForLoadingFirstFetch ;
 
-       // Cet évènement est créé avant p_AjouteEnregistrementsSynchrones : Il y a deux failles dans le passage du multi-tâche au mono-tâche : La procédure utilisée dans le multi-tâche et l'évènement multi-tâches
+       // Cet Ã©vÃ¨nement est crÃ©Ã© avant p_AjouteEnregistrementsSynchrones : Il y a deux failles dans le passage du multi-tÃ¢che au mono-tÃ¢che : La procÃ©dure utilisÃ©e dans le multi-tÃ¢che et l'Ã©vÃ¨nement multi-tÃ¢ches
        try
           ge_GroupFetchLoading := TEvent.Create ( nil, True, True, '' );
           ge_WaitForFetch.Free ;
           ge_WaitForFetch := Nil ;
 
-        // On ne peut appeler p_AjouteEnregistrementsSynchrones que si on a appelé fb_WaitForLoadingFirstFetch et créé ge_GroupFetchLoading
+        // On ne peut appeler p_AjouteEnregistrementsSynchrones que si on a appelÃ© fb_WaitForLoadingFirstFetch et crÃ©Ã© ge_GroupFetchLoading
           p_AjouteEnregistrementsSynchrones;
-          // L'évènement est mult-tâche et seul p_AjouteEnregistrementsSynchrones était mono-tâche : Libération de l'évènement de synchro
+          // L'Ã©vÃ¨nement est mult-tÃ¢che et seul p_AjouteEnregistrementsSynchrones Ã©tait mono-tÃ¢che : LibÃ©ration de l'Ã©vÃ¨nement de synchro
         finally
           ge_GroupFetchLoading.Free ;
           ge_GroupFetchLoading := Nil ;
@@ -828,16 +828,16 @@ Begin
   gi_Fetch := ProGress ;
 
   // On ne charge que quelques items
-  // Mise à jour de gb_fetched en conséquence
+  // Mise Ã  jour de gb_fetched en consÃ©quence
   fb_FetchIsLoaded ;
 End ;
 
 //////////////////////////////////////////////////////////////////////////////////
-// Evènement : p_RefreshLoaded
-// Description : Evènement qui se produit en mode assynchrone quand tous les enregistrements ont été chargés
-// Paramètres  : DataSet     : La Dataset ADO du mode assynchrone
-//               Error       : Erreur si EventStatus est à esErrorsOccured
-//               EventStatus : Evènements de la command SQL
+// EvÃ¨nement : p_RefreshLoaded
+// Description : EvÃ¨nement qui se produit en mode assynchrone quand tous les enregistrements ont Ã©tÃ© chargÃ©s
+// ParamÃ¨tres  : DataSet     : La Dataset ADO du mode assynchrone
+//               Error       : Erreur si EventStatus est Ã  esErrorsOccured
+//               EventStatus : EvÃ¨nements de la command SQL
 //////////////////////////////////////////////////////////////////////////////////
 procedure TDBListView.p_RefreshLoaded(DataSet: TCustomADODataSet;
   const Error: Error; var EventStatus: TEventStatus);
@@ -858,7 +858,7 @@ Begin
       f_GereException ( e, Dataset );
   End ;
 
-  // Plus de fetch sur ce composant : Les données sont chargées
+  // Plus de fetch sur ce composant : Les donnÃ©es sont chargÃ©es
   gb_AllFetched := True ;
 {
   if not assigned ( Owner )
@@ -868,7 +868,7 @@ Begin
       Exit ;
     End ;
  }
-  // Erreurs éventuelles
+  // Erreurs Ã©ventuelles
   if EventStatus = esErrorsOccured  Then
     Begin
       lt_Arg [ 0 ] := 'du Dataset ' + gdl_DataLink.Dataset.Name ;
@@ -878,8 +878,8 @@ Begin
 End ;
 
 ////////////////////////////////////////////////////////////////////////////////////
-// Méthode     : p_SetFetchLoaded
-// Description : Gestion du mode asynchrone : Rien n'est chargé à l'ouverture
+// MÃ©thode     : p_SetFetchLoaded
+// Description : Gestion du mode asynchrone : Rien n'est chargÃ© Ã  l'ouverture
 ////////////////////////////////////////////////////////////////////////////////////
 
 procedure TDBListView.p_SetFetchLoaded;
@@ -891,8 +891,8 @@ Begin
       Begin
           // Ovuerture du dataset asynchrone
         gb_AllFetched := False ;
-        // Mise en place d' l'évènement de synchro du mode asynchrone
-        // Attention ! L'évènement ne doit pas exister
+        // Mise en place d' l'Ã©vÃ¨nement de synchro du mode asynchrone
+        // Attention ! L'Ã©vÃ¨nement ne doit pas exister
 //        if not assigned ( ge_GroupFetchOpening ) Then
         ge_WaitForFetch :=  TEvent.Create ( nil, True, True, '' );
 
@@ -900,8 +900,8 @@ Begin
 End ;
 
 ////////////////////////////////////////////////////////////////////////////////////
-// Méthode     : p_SetUnFetch
-// Description : Gestion du mode asynchrone : Réinitialisation à la fermeture
+// MÃ©thode     : p_SetUnFetch
+// Description : Gestion du mode asynchrone : RÃ©initialisation Ã  la fermeture
 ////////////////////////////////////////////////////////////////////////////////////
 
 procedure TDBListView.p_SetUnFetch;
@@ -913,25 +913,25 @@ Begin
   ge_WaitForFetch := nil ;
 End ;
 {$ENDIF}
-// Libère le bookmark en cours : Surchargé pour les autres descendants
+// LibÃ¨re le bookmark en cours : SurchargÃ© pour les autres descendants
 procedure TDBListView.p_LibereBookmark ;
 Begin
   // si le bookmark existe
 {  if  assigned ( gbm_DernierEnregistrement )
-  // et son dataset associé existe aussi
+  // et son dataset associÃ© existe aussi
   and assigned ( gdl_DataLink.Datasource         )
   and assigned ( gdl_DataLink.DataSet )
    Then
-   // Libération du bookmark
+   // LibÃ©ration du bookmark
     try
       gdl_DataLink.DataSet.FreeBookmark ( gbm_DernierEnregistrement );
     except
     End ;}
-  // Mise à nil du bookmark
+  // Mise Ã  nil du bookmark
   gbm_DernierEnregistrement := '' ;
 End ;
 
-// Réinitialise le composant : utilisé aussi lorsqu'on recharge le composant
+// RÃ©initialise le composant : utilisÃ© aussi lorsqu'on recharge le composant
 procedure TDBListView.p_Reinitialise ;
 Begin
   gb_LoadList        := False ;
@@ -946,9 +946,9 @@ Begin
   Items.Clear;
   {$IFDEF DELPHI}Items.{$ENDIF}EndUpdate ;
   Invalidate ;
-  // Libération du bookmark en cours : surchargé
+  // LibÃ©ration du bookmark en cours : surchargÃ©
   p_LibereBookmark ;
-  // A faire à la fin : Mode normal par défaut
+  // A faire Ã  la fin : Mode normal par dÃ©faut
   gb_AllLoaded := False;
 End ;
 {
@@ -994,13 +994,13 @@ begin
   inherited Loaded;
   // Affectation des bonnes valeurs
 //  gb_TrieAsc := Sortdirection = sdAscending ;
-  // a l'exécution
+  // a l'exÃ©cution
   if not ( csDesigning in ComponentState )
-  // Si c'est la première fois
+  // Si c'est la premiÃ¨re fois
   and not gb_HasLoaded
    Then
     Begin
-      // Plus de première fois
+      // Plus de premiÃ¨re fois
       gb_HasLoaded := True ;
 
       p_CreeListeChampsDisplay ( gs_champsListe );
@@ -1024,7 +1024,7 @@ begin
       and SortDownGlyph.Empty
        Then
         Begin
-        // Création des images de recherche et d'ordonancement
+        // CrÃ©ation des images de recherche et d'ordonancement
           im_FlecheHaute := TBitmap.Create ;
           im_FlecheBasse := TBitmap.Create ;
 
@@ -1047,10 +1047,10 @@ begin
       {$ENDIF}
       p_AssignColonnesSubitems;
       p_AffecteEvenementsDatasource ;
-      // Affectation des évènements
+      // Affectation des Ã©vÃ¨nements
       gdip_OldOnDrawItemProp   := OnCustomdrawItem ;
       OnCustomdrawItem         := p_PaintFondItem ;
-      // Et de la valeur temporaire de couleur d'entête
+      // Et de la valeur temporaire de couleur d'entÃªte
       gcol_AncienneCouleur := Color ;
     End ;
 end;
@@ -1059,8 +1059,8 @@ procedure TDBListView.p_AffecteEvenementsDatasource ;
 Begin
 End;
 
-// Evènement click colonne pour le tri
-// alsc_colonne : la colonne à trier
+// EvÃ¨nement click colonne pour le tri
+// alsc_colonne : la colonne Ã  trier
 procedure TDBListView.p_AssignColonnesSubitems;
 var
    li_i, li_j : Integer;
@@ -1088,20 +1088,20 @@ begin
             End ;
       End ;
 End ;
-// Evènement click colonne pour le tri
-// alsc_colonne : la colonne à trier
+// EvÃ¨nement click colonne pour le tri
+// alsc_colonne : la colonne Ã  trier
 procedure TDBListView.ColClick( alsc_colonne : TListColumn );
 begin
-  //Préparation du tri et tri du bon dataset
+  //PrÃ©paration du tri et tri du bon dataset
   SortColumn := alsc_colonne.Index ;
 
   // Tri de la bonne colonne
 //  gi_ColonneTrie := alsc_colonne.Index ;
 {  // Si on montre tout
   if gb_MontreTout
-  // Ou si tout est chargé
+  // Ou si tout est chargÃ©
   or ( gb_AllLoaded )
-  //Ou pas de bonne propriétés
+  //Ou pas de bonne propriÃ©tÃ©s
   or not assigned ( gdl_DataLink.Datasource )
   or not assigned ( gdl_DataLink.DataSet )
   // ou lien non actif
@@ -1112,20 +1112,20 @@ begin
    // Tri normal
     inherited ColClick ( alsc_colonne )
    Else}
-   // Sinon rétablissement des champs triés
+   // Sinon rÃ©tablissement des champs triÃ©s
 //    Begin
 //      if SortType <> stNone
 //       Then
-       // Mise à zéro des items
+       // Mise Ã  zÃ©ro des items
        inherited ColClick ( alsc_colonne );
 
-       // Mise à jour des neregistrements triés
-       // Le composant doit quand même trier dans le vide pour la synchronisation
+       // Mise Ã  jour des neregistrements triÃ©s
+       // Le composant doit quand mÃªme trier dans le vide pour la synchronisation
 //    End ;
 end;
 
-// Préparation du tri des items de la liste
-// ai_Index : Le no de colonne à trier
+// PrÃ©paration du tri des items de la liste
+// ai_Index : Le no de colonne Ã  trier
 function TDBListView.fb_PrepareTri ( const ai_column : Integer ) : Boolean;
 var ls_ChampsOrdonner : String ;
 begin
@@ -1133,7 +1133,7 @@ begin
   ls_ChampsOrdonner := fs_PrepareTri ;
     // On ne peut pas trier : quitter
    Result := fb_PeutTrier ;
-  // Le sort va de toute façon se faire dans le AdvListView
+  // Le sort va de toute faÃ§on se faire dans le AdvListView
    if Result
     Then
      // Assignation du sort dans le bon dataset
@@ -1141,23 +1141,23 @@ begin
 //   Showmessage (( gdl_DataLink.DataSet as TCustomADODataSet ).Sort + ' f ' + ls_ChampsOrdonner );
 End ;
 
-// Préparation du tri des items de la liste
-// ai_Index : Le no de colonne à trier
+// PrÃ©paration du tri des items de la liste
+// ai_Index : Le no de colonne Ã  trier
 function TDBListView.fs_PrepareTri ( ) : String;
 begin
-  // Le sort va de toute façon se faire dans le AdvListView
-  // On donne donc la possibilité de trier par défaut
+  // Le sort va de toute faÃ§on se faire dans le AdvListView
+  // On donne donc la possibilitÃ© de trier par dÃ©faut
   Result := '' ;
-  //  vérification de l'existence de la propriété et du dataset
+  //  vÃ©rification de l'existence de la propriÃ©tÃ© et du dataset
   if not assigned ( gdl_DataLink.Datasource )
   or not assigned ( gdl_DataLink.DataSet )
   or  ( SortColumn <  0               )
   or  ( SortColumn >= Columns.Count   )
    Then
     Exit ;
-    // SI on cache la clé dans la liste
-      // On récupère directement la colonne de DataFieldDiplay
-    // On récupère le bon champ
+    // SI on cache la clÃ© dans la liste
+      // On rÃ©cupÃ¨re directement la colonne de DataFieldDiplay
+    // On rÃ©cupÃ¨re le bon champ
    Result := fs_stringChamp ( gs_ChampsListe, ';', SortColumn + 1 );
     // Rien : on quitte
    if Result = ''
@@ -1174,44 +1174,44 @@ begin
 //   Showmessage (( gdl_DataLink.DataSet as TCustomADODataSet ).Sort + ' f ' + ls_ChampsOrdonner );
 End ;
 
-// Peut-on trier ? : méthode surchargée dans le descendant
-// Résultat : vrai
+// Peut-on trier ? : mÃ©thode surchargÃ©e dans le descendant
+// RÃ©sultat : vrai
 function TDBListView.fb_PeutTrier  : Boolean ;
 Begin
   Result := True ;
 End ;
 
-// Peut-on ajouter des items ? Utilisé par le composant MCAdvGroupView
-// adat_Dataset : Le dataset à ajouter dans la liste
-// Résultat : Vrai
+// Peut-on ajouter des items ? UtilisÃ© par le composant MCAdvGroupView
+// adat_Dataset : Le dataset Ã  ajouter dans la liste
+// RÃ©sultat : Vrai
 function TDBListView.fb_PeutAjouter ( const adat_Dataset : TDataset ; const ab_AjouteItemPlus : Boolean)  : Boolean ;
 Begin
   Result := True ;
 End ;
 
-// Mettre à jour l'état de l'item : Utilisé par le composant MCAdvGroupView pour tout mettre dans le listview
-// adat_Dataset : Le dataset à ajouter dans la liste
-// Résultat : Vrai
+// Mettre Ã  jour l'Ã©tat de l'item : UtilisÃ© par le composant MCAdvGroupView pour tout mettre dans le listview
+// adat_Dataset : Le dataset Ã  ajouter dans la liste
+// RÃ©sultat : Vrai
 function TDBListView.fb_ChangeEtatItem  ( const adat_Dataset : TDataset  ; const ab_AjouteItemPlus : Boolean ) : Boolean ;
 Begin
   Result := True ;
 End ;
 
-// Ajoute les enregistrements : Surchargé pour les autres descendants
-// adat_Dataset : Le dataset à ajouter dans la liste
-// Résultat     : A-t-on changé l'état de certains items ?
+// Ajoute les enregistrements : SurchargÃ© pour les autres descendants
+// adat_Dataset : Le dataset Ã  ajouter dans la liste
+// RÃ©sultat     : A-t-on changÃ© l'Ã©tat de certains items ?
 function TDBListView.fb_RemplitEnregistrements ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean;
 // Compteurs
 var li_i   , li_j : Integer ;
-//  Valeurs des champs supplémentaires à afficher
+//  Valeurs des champs supplÃ©mentaires Ã  afficher
     lvar_AAfficher   : Variant ;
-    // Propriété Nombre de pages d'items visibles à charger
+    // PropriÃ©tÃ© Nombre de pages d'items visibles Ã  charger
     lw_NombrePages   : Word ;
 begin
   // intialisation
   Result := False ;
 
-  // Pas de champ clé : quitte
+  // Pas de champ clÃ© : quitte
   if assigned ( gstl_CleDataSource )
   and ( gstl_CleDataSource.Count = 0 )
 //  or not assigned ( DataOtherList )
@@ -1233,7 +1233,7 @@ begin
     Items.BeginUpdate ;
 {$ENDIF}
 
-		// Tant qu'on n'est pas à la fin du dataset
+		// Tant qu'on n'est pas Ã  la fin du dataset
 			while not eof do
 				begin
 					// si on ne peut pas ajouter le champ en cours on passe au suivant
@@ -1243,15 +1243,15 @@ begin
 							 Next;
 							 Continue ;
 						 End ;
-						 // Incrément du compteur
+						 // IncrÃ©ment du compteur
 					inc ( li_i );
 						// Ajout d'un item
 					gVG_ListItem         := Items.Add ;
-					 // Affectation de la clé si on la montre
+					 // Affectation de la clÃ© si on la montre
 					if ( gs_ChampsListe <> '' )
 					 Then
 						Begin
-							// Récupération des champs
+							// RÃ©cupÃ©ration des champs
 							lvar_AAfficher  := FieldValues [ gs_ChampsListe ];
 							// C'est plusieurs champs
 							if VarIsArray ( lvar_AAfficher )
@@ -1259,9 +1259,9 @@ begin
 								Begin
 									// Ajout des champs
 									For li_j := VarArrayLowBound ( lvar_AAfficher, 1 ) to  VarArrayHighBound ( lvar_AAfficher, 1 ) do
-										// Pas de clé montrée et premier champ
+										// Pas de clÃ© montrÃ©e et premier champ
 										if  ( li_j = VarArrayLowBound ( lvar_AAfficher, 1 ))
-											// Alors affectation à l'item ( première colonne )
+											// Alors affectation Ã  l'item ( premiÃ¨re colonne )
 										 Then gVG_ListItem.Caption := lvar_AAfficher [ li_j ]
 										 // Sinon ajout dans les autres colonnes
 										 Else if lvar_AAfficher [ li_j ] <> Null Then
@@ -1282,7 +1282,7 @@ begin
 								Begin
 									// Ajout des champs
 									For li_j := VarArrayLowBound ( lvar_AAfficher, 1 ) to  VarArrayHighBound ( lvar_AAfficher, 1 ) do
-										 // ajout à la fin des autres colonnes
+										 // ajout Ã  la fin des autres colonnes
 										 if lvar_AAfficher [ li_j ] <> Null Then
 											 gVG_ListItem.SubItems.Add ( lvar_AAfficher [ li_j ] )
 										 Else
@@ -1308,7 +1308,7 @@ begin
 					if Eof
 					 Then
 						Begin
-							// On indique que tout est chargé
+							// On indique que tout est chargÃ©
  							gb_AllLoaded := True ;
 							// L'ajout est fini
 							Break ;
@@ -1321,21 +1321,21 @@ begin
 								Begin
 									lw_NombrePages := 1 ;
 									try
-										// Toujours libérer le bookmark
+										// Toujours libÃ©rer le bookmark
 										gbm_DernierEnregistrement := '' ;
 									except
 									End;
 								End
 						 Else lw_NombrePages := CST_GROUPE_PAGES_CHARGER ;
-							// récupère les paramètres de nombre de pages visibles
-								// A-t-on chargé suffisamment d'enregistrements
+							// rÃ©cupÃ¨re les paramÃ¨tres de nombre de pages visibles
+								// A-t-on chargÃ© suffisamment d'enregistrements
 							if (     ( Font.Height = 0 )
 										and ( li_i >= ( Self.Height ) * lw_NombrePages ))
 							or (     ( Font.Height <> 0 )
 									and  ( li_i >= ( Self.Height div Font.Height ) * lw_NombrePages + 1 ))
 							 Then
 								Begin
-									// Récupère le bookmark pour un chargement prochain d'enregistrements
+									// RÃ©cupÃ¨re le bookmark pour un chargement prochain d'enregistrements
 									gbm_DernierEnregistrement := Bookmark ;
 									// Fin de cette MAJ
 									Break ;
@@ -1344,7 +1344,7 @@ begin
 				end;
 			if Eof
 			 Then
-					// On indique que tout est chargé
+					// On indique que tout est chargÃ©
 					gb_AllLoaded := True ;
 		Except
 			// gestion des erreurs
@@ -1366,9 +1366,9 @@ begin
   End ;
 End ;
 {$IFDEF DELPHI}
-// Suppression des composants détruits
-// AComponent : Le composant à détruire
-// Operation  : Opération à effectuer : Suppression ou ajout
+// Suppression des composants dÃ©truits
+// AComponent : Le composant Ã  dÃ©truire
+// Operation  : OpÃ©ration Ã  effectuer : Suppression ou ajout
 procedure TDBListView.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -1381,13 +1381,13 @@ begin
 end;
 {$ENDIF}
 
-/// Le datasource a été activé : on met à jour le composant : Procédure surchargée
+/// Le datasource a Ã©tÃ© activÃ© : on met Ã  jour le composant : ProcÃ©dure surchargÃ©e
 procedure TDBListView.DataLinkActiveChanged;
 begin
   {$IFDEF EADO}
   p_SetFetchLoaded;
   {$ENDIF}
-  // A l'exécution
+  // A l'exÃ©cution
   If  ( ComponentState * [csLoading,csDestroying,csDesigning] = [] )
   and ( Owner is TWinControl ) Then
 //  and fb_ParentVisible ( Self ) Then
@@ -1401,7 +1401,7 @@ begin
 end;
 
 {
-/// Le datasource a été activé : on met à jour le composant : Procédure surchargée
+/// Le datasource a Ã©tÃ© activÃ© : on met Ã  jour le composant : ProcÃ©dure surchargÃ©e
 function TDBListView.fb_ParentVisible ( const awco_Control : TWinControl ): Boolean;
 var lwco_Parent : TWinControl ;
 begin
@@ -1413,7 +1413,7 @@ begin
       Exit ;
     End ;
   lwco_Parent := awco_Control.Parent ;
-  // A l'exécution
+  // A l'exÃ©cution
   while assigned ( lwco_Parent ) do
 //  and not ( lwco_Parent is TCustomForm ) do
     Begin
@@ -1436,10 +1436,10 @@ begin
 end;
 }
 
-// Récupère le sort du dataset ou crée un sort à partir de la colonne en cours
+// RÃ©cupÃ¨re le sort du dataset ou crÃ©e un sort Ã  partir de la colonne en cours
 // adat_ADODataset : le bon dataset : ici il y en a un seul
 function TDBListView.fs_SortDataset ( const adat_Dataset : TDataSet ): String ;
-// Sauvegarde temporaire du champ à trier
+// Sauvegarde temporaire du champ Ã  trier
 var ls_TrieGroupe, ls_Sort : String ;
 Begin
   // Avec le dataset
@@ -1460,30 +1460,30 @@ Begin
 End ;
 
 
-// Insertion des items appelle fb_RemplitEnregistrements : Surchargé pour les autres descendants
-// Résultat   : celui de fb_RemplitEnregistrements : A-t-on changé l'état de certains items ?
+// Insertion des items appelle fb_RemplitEnregistrements : SurchargÃ© pour les autres descendants
+// RÃ©sultat   : celui de fb_RemplitEnregistrements : A-t-on changÃ© l'Ã©tat de certains items ?
 function TDBListView.fb_RemplitListe:Boolean;
 var ls_Sort : String;
 Begin
   Result := False ;
 
 
-  // Le composant ne doit pas être en train de se charger
+  // Le composant ne doit pas Ãªtre en train de se charger
   if csLoading in ComponentState then Exit;
 
   Screen.Cursor := crSQLWait ;
-  // Si tout n'est pas chargé
+  // Si tout n'est pas chargÃ©
   if not gb_AllLoaded
    Then
     Begin
-    // On va là où on s'était arrêté
+    // On va lÃ  oÃ¹ on s'Ã©tait arrÃªtÃ©
       if ( gbm_DernierEnregistrement <> '' )
        Then
         Begin
           try
             if not gb_AllSelect Then
               gdl_DataLink.DataSet.Bookmark := gbm_DernierEnregistrement ;
-            // Toujours libérer le bookmark
+            // Toujours libÃ©rer le bookmark
           except
           End;
         End
@@ -1498,7 +1498,7 @@ Begin
         End ;
     End ;
 //   ShowMessage ( ( gdl_DataLink.DataSet as TCustomADODataset ).Sort );
-// Insère les enregistrements dans la liste
+// InsÃ¨re les enregistrements dans la liste
   Result := fb_RemplitEnregistrements ( gdl_DataLink.DataSet, False );
   Screen.Cursor := crDefault ;
 End ;
@@ -1506,29 +1506,29 @@ End ;
 // Appelle fb_insere
 procedure TDBListView.p_AjouteEnregistrements;
 begin
-  // La liste n'est pas encore complètement chargée pour pouvoir insérer les enregistrements
+  // La liste n'est pas encore complÃ¨tement chargÃ©e pour pouvoir insÃ©rer les enregistrements
   if not gb_HasLoaded
   or (not ( Owner is TControl ) or not ( Owner as TControl ).Visible ) Then
     Exit;
 
   // Gestion du fetch en mode asynchrone
   // Boucle d'attente habituelle synchrone
-  // Elle doit attendre un éventuel Fetch en cours
+  // Elle doit attendre un Ã©ventuel Fetch en cours
   // Sinon le programme et windows se perdent
   try
   /// Mode asynchorne sur l'application
     {$IFDEF FORMMAININI}
     {$IFDEF EADO}
     if gb_ApplicationAsynchrone Then
-  // Même si on n'utilise pas le mode asynchrone sur cette instance une autre instance peut démarrer le mode asynchrone
-  // Cet évènement est aussi créé dans le fetch : Il y a deux failles dans le passage du multi-tâche au mono-tâche : La procédure utilisée dans le multi-tâche et l'évènement multi-tâches
+  // MÃªme si on n'utilise pas le mode asynchrone sur cette instance une autre instance peut dÃ©marrer le mode asynchrone
+  // Cet Ã©vÃ¨nement est aussi crÃ©Ã© dans le fetch : Il y a deux failles dans le passage du multi-tÃ¢che au mono-tÃ¢che : La procÃ©dure utilisÃ©e dans le multi-tÃ¢che et l'Ã©vÃ¨nement multi-tÃ¢ches
       ge_GroupFetchLoading := TEvent.Create ( nil, True, True, '' );
     {$ENDIF}
     {$ENDIF}
-  // On ne peut appeler Synchrones que si on a appelé fb_WaitForLoadingFirstFetch et créé ge_GroupFetchLoading
+  // On ne peut appeler Synchrones que si on a appelÃ© fb_WaitForLoadingFirstFetch et crÃ©Ã© ge_GroupFetchLoading
     p_AjouteEnregistrementsSynchrones;
 
-  // Libération : Permet de faire un fetch
+  // LibÃ©ration : Permet de faire un fetch
   finally
     {$IFDEF EADO}
     ge_GroupFetchLoading.Free ;
@@ -1541,7 +1541,7 @@ End ;
 procedure TDBListView.p_AjouteEnregistrementsSynchrones;
 begin
 
-  // Vérification de l'existence des propriétés
+  // VÃ©rification de l'existence des propriÃ©tÃ©s
   if  not assigned ( gdl_DataLink.DataSet )
   and not gb_AllSelect
 //  or not ( ds_Groupes.DataSet is TCustomADODataset )
@@ -1553,30 +1553,30 @@ begin
   gb_LoadList   := True ;
     // Curseur d'attente SQL
   screen.Cursor := crSQLWait    ;
-  // Cette instruction optimise la rapidité d'ajouts
+  // Cette instruction optimise la rapiditÃ© d'ajouts
   try
     // Insertion des enreigstrements dans la liste
     fb_RemplitListe;
-    // Un endupdate suit toujours un beginupdate : Mise à jour du composant
+    // Un endupdate suit toujours un beginupdate : Mise Ã  jour du composant
   finally
     Invalidate ;
   End ;
-    // Rétablissement du curseur
+    // RÃ©tablissement du curseur
 //  p_MiseAjourScrollBar ;
   screen.Cursor := crDefault ;
 end;
 
-// Récupère le datasource lié
+// RÃ©cupÃ¨re le datasource liÃ©
 function TDBListView.fds_GetDatasource : TdataSource;
 begin
-  if assigned ( gdl_DataLink ) // Test nécessaire : le datalink n'est peut être pas créé
+  if assigned ( gdl_DataLink ) // Test nÃ©cessaire : le datalink n'est peut Ãªtre pas crÃ©Ã©
    Then Result := gdl_DataLink.DataSource
    Else Result := nil ;
 end;
 
-// Affectation du composant dans la propriété DataSource
+// Affectation du composant dans la propriÃ©tÃ© DataSource
 // test si n'existe pas
-// Mise à jour du nom de table
+// Mise Ã  jour du nom de table
 // a_Value : Le datasource
 procedure TDBListView.p_SetDataSourceGroup ( const a_Value: TDataSource );
 var ls_Table : String;
@@ -1591,7 +1591,7 @@ begin
 {$IFDEF DELPHI}
   ReferenceInterface ( DataSource, opInsert ); //Gestion de la destruction
 {$ENDIF}
-   // Récupération de la table
+   // RÃ©cupÃ©ration de la table
   // Y-a-t-il un dataset
   if assigned ( gdl_DataLink.DataSet ) Then
     Begin
@@ -1606,9 +1606,9 @@ begin
 
 end;
 
-// Procédure p_SetChampsListe
+// ProcÃ©dure p_SetChampsListe
 // Affectation de DataFieldsDisplay
-// chaîne a_Value : La valeur à affecter
+// chaÃ®ne a_Value : La valeur Ã  affecter
 procedure TDBListView.p_SetChampsListe(const Value: String);
 begin
   if ( gs_ChampsListe <> Value ) Then
@@ -1617,13 +1617,13 @@ begin
 
     End ;
 end;
-// Procédure p_SetChampsListe
+// ProcÃ©dure p_SetChampsListe
 // Affectation de DataFieldsDisplay
-// chaîne a_Value : La valeur à affecter
+// chaÃ®ne a_Value : La valeur Ã  affecter
 procedure TDBListView.p_CreeListeChampsDisplay ( as_ChampsListe : String );
 begin
   p_LibereChampsListe;
-  // Séparation des champs
+  // SÃ©paration des champs
   if ( as_ChampsListe <> '' ) Then
     p_ChampsVersListe ( gsts_ChampsListe, as_ChampsListe, ';' )
    Else
@@ -1659,15 +1659,15 @@ begin
   end;
 end;
 
-// Affectation de la propriété DataKeyUnit
-// a_Value : valeur à tester : test si égale à zéro
+// Affectation de la propriÃ©tÃ© DataKeyUnit
+// a_Value : valeur Ã  tester : test si Ã©gale Ã  zÃ©ro
 procedure TDBListView.p_SetClePrimaireListe(const a_Value: {$IFDEF FPC} AnsiString{$ELSE}String{$ENDIF} );
 begin
   if ( gs_CleUnite <> a_Value ) Then
     Begin
       gs_CleUnite := Trim ( a_Value );
       p_LibereCleDatasource;
-      if ( trim (gs_CleUnite) <> '' ) // Il ne faut pas que ça soit égal '' pour la création cde la liste
+      if ( trim (gs_CleUnite) <> '' ) // Il ne faut pas que Ã§a soit Ã©gal '' pour la crÃ©ation cde la liste
        Then
          Begin
            p_ChampsVersListe ( gstl_CleDataSource, trim(gs_CleUnite), ';' );

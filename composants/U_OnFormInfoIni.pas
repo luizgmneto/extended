@@ -4,7 +4,7 @@
 {             Matthieu Giroux                                         }
 {             TOnFormInfoIni :                                       }
 {             Objet de sauvegarde d'informations de Forms             }
-{             20 Février 2003                                         }
+{             20 FÃ©vrier 2003                                         }
 {                                                                     }
 {                                                                     }
 {*********************************************************************}
@@ -18,12 +18,12 @@ unit U_OnFormInfoIni;
 
 
 interface
-// Listes des informations sauvegardées dans le fichier ini de l'application :
-// Les données objets Edit
+// Listes des informations sauvegardÃ©es dans le fichier ini de l'application :
+// Les donnÃ©es objets Edit
 // La position des Objets (avec l'utilisation des Panels et des RxSplitters et RbSplitter)
 // L'index de la pageactive des PageControls (onglets)
 // L'index des objets CheckBoxex, RadioBoutons, RadioGroups ,PopupMenus
-// les positions de la fenêtre
+// les positions de la fenÃªtre
 
 {$I ..\Compilers.inc}
 {$I ..\extends.inc}
@@ -52,7 +52,7 @@ uses
     gVer_TSvgFormInfoIni : T_Version = ( Component : 'Composant TOnFormInfoIni' ;
                                                FileUnit : 'U_OnFormInfoIni' ;
                                                Owner : 'Matthieu Giroux' ;
-                                               Comment : 'Gestion de l''ini à mettre sur une fiche.' ;
+                                               Comment : 'Gestion de l''ini Ã  mettre sur une fiche.' ;
                                                BugsStory : '1.0.1.0 : Testing DirectoryEdit, MaskEdit, on WINDOWS.' +#13#10 +
                                                            '1.0.0.1 : Grouping.' +#13#10 +
                                                            '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
@@ -106,11 +106,11 @@ type
     property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate default True;
     property AutoLoad   : Boolean read FAutoChargeIni write FAutoChargeIni default True;
   published
-    // Propriété qui conserve la position des objets d'une form
+    // PropriÃ©tÃ© qui conserve la position des objets d'une form
     property SauvePosObjects: Boolean read FSauvePosObjet write FSauvePosObjet default False;
-    // Propriété qui conserve les données des objets d'une form
+    // PropriÃ©tÃ© qui conserve les donnÃ©es des objets d'une form
     property SauveEditObjets: TSauveEditObjets read FSauveEditObjets write FSauveEditObjets nodefault;
-    // Propriété qui conserve la position(index) des objets PageControl (onglets)
+    // PropriÃ©tÃ© qui conserve la position(index) des objets PageControl (onglets)
     property SauvePosForm: Boolean read FSauvePosForm  write FSauvePosForm default False;
     property OnIniLoad  : TEventIni read FOnIniLoad write FOnIniLoad ;
     property OnIniWrite : TEventIni read FOnIniWrite write FOnIniWrite;
@@ -151,25 +151,25 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// permet de sauver dans un ini le contenu d'un mémo, d'un Combobox, d'un ListBox, d'un RichEdit
-// et d'un façon générale, le contenu des composants qui le stocke dans des TStrings
+// permet de sauver dans un ini le contenu d'un mÃ©mo, d'un Combobox, d'un ListBox, d'un RichEdit
+// et d'un faÃ§on gÃ©nÃ©rale, le contenu des composants qui le stocke dans des TStrings
 ////////////////////////////////////////////////////////////////////////////////
 procedure SauveTStringsDansIni(FIni:TIniFile; SectionIni:string; LeTStrings:TStrings; ItemIndex:integer);
 var i: integer;
 begin
-  Fini.EraseSection(SectionIni); // on efface toute la section décrite par SectionIni
+  Fini.EraseSection(SectionIni); // on efface toute la section dÃ©crite par SectionIni
   for i := 0 to LeTStrings.Count - 1 do // pour chaque ligne du Tstrings
   begin
-    // on aura ainsi dans le fichier ini et dans la section considéré :
-    // L0= suivi du contenu de la première ligne du TStrings. puis L1= etc..
-    FIni.WriteString(SectionIni, 'L' + IntToStr(i), LeTStrings[i]);// écrit dans le fichier ini
+    // on aura ainsi dans le fichier ini et dans la section considÃ©rÃ© :
+    // L0= suivi du contenu de la premiÃ¨re ligne du TStrings. puis L1= etc..
+    FIni.WriteString(SectionIni, 'L' + IntToStr(i), LeTStrings[i]);// Ã©crit dans le fichier ini
   end;
   FIni.WriteInteger(SectionIni, 'ItemIndex', ItemIndex);
 end;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// permet de lire le contenu d'un ini qui a été sauvé par SauveTStringsDansIni
+// permet de lire le contenu d'un ini qui a Ã©tÃ© sauvÃ© par SauveTStringsDansIni
 ////////////////////////////////////////////////////////////////////////////////
 procedure LitTstringsDeIni(FIni: TIniFile; SectionIni: string; LeTStrings: TStrings; var ItemIndex: integer);
 var i: integer;
@@ -207,13 +207,13 @@ begin
     begin
       lmet_MethodToAdd.Data := Self;
       lmet_MethodToAdd.Code := MethodAddress('LaFormDestroy' );
-      FormAOwner           := TCustomForm(AOwner);        // La forme propriétaire de notre composant
-      FormOldDestroy       := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnDestroy' )); // Sauvegarde de l'événement OnDestroy
+      FormAOwner           := TCustomForm(AOwner);        // La forme propriÃ©taire de notre composant
+      FormOldDestroy       := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnDestroy' )); // Sauvegarde de l'Ã©vÃ©nement OnDestroy
       p_SetComponentMethodProperty ( FormAOwner, 'OnDestroy', lmet_MethodToAdd );        // Idem pour OnDestroy
-      FormOldCreate        := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnCreate' ));  // Sauvegarde de l'événement OnClose
+      FormOldCreate        := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnCreate' ));  // Sauvegarde de l'Ã©vÃ©nement OnClose
       lmet_MethodToAdd.Code := MethodAddress('LaFormCreate' );
       p_SetComponentMethodProperty ( FormAOwner, 'OnCreate', lmet_MethodToAdd );         // Idem pour OnClose
-      FormOldShow          := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnShow' ));  // Sauvegarde de l'événement OnShow
+      FormOldShow          := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnShow' ));  // Sauvegarde de l'Ã©vÃ©nement OnShow
       lmet_MethodToAdd.Code := MethodAddress('LaFormShow' );
       p_SetComponentMethodProperty ( FormAOwner, 'OnShow', lmet_MethodToAdd );     // Idem pour OnShow
     End;
@@ -221,7 +221,7 @@ end;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Au chargement de l'objet TOnFormInfoIni, on lit les données dans le fichier ini
+// Au chargement de l'objet TOnFormInfoIni, on lit les donnÃ©es dans le fichier ini
 ////////////////////////////////////////////////////////////////////////////////
 {procedure TOnFormInfoIni.loaded;
 begin
@@ -231,7 +231,7 @@ begin
 end;
 }
 ////////////////////////////////////////////////////////////////////////////////
-// À la fermeture de la form, on écrit les données dans le fichier ini
+// Ã€ la fermeture de la form, on Ã©crit les donnÃ©es dans le fichier ini
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.LaFormDestroy ( Sender: TObject );
 begin
@@ -242,7 +242,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// À la fermeture de la form, on écrit les données dans le fichier ini
+// Ã€ la fermeture de la form, on Ã©crit les donnÃ©es dans le fichier ini
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.LaFormCreate ( Sender: TObject );
 var
@@ -280,7 +280,7 @@ end;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Fonction qui regarde dans la propriété TSauveEditObjets de TOnFormInfoIni
+// Fonction qui regarde dans la propriÃ©tÃ© TSauveEditObjets de TOnFormInfoIni
 // et renvoie la valeur de sauvegarde d'un objet de la form
 ////////////////////////////////////////////////////////////////////////////////
 function TOnFormInfoIni.GetfeSauveEdit(aSauveObjet:TSauveEditObjets;aObjet :TSauveEditObjet):Boolean;
@@ -291,7 +291,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lecture des données dans le fichier ini
+// Lecture des donnÃ©es dans le fichier ini
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.ExecuteLecture ( aLocal:Boolean);
 var i: integer;
@@ -299,7 +299,7 @@ begin
   // automatisation
   if Assigned(FormAOwner)
    then
-    if aLocal Then // Demande si la fiche a été ouverte
+    if aLocal Then // Demande si la fiche a Ã©tÃ© ouverte
      Begin
        for i := 0 to Application.ComponentCount - 1 do //pour chaque fiche de l'application
          if ( Application.Components[i] is TForm )
@@ -311,7 +311,7 @@ end;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lecture des données dans le fichier INI
+// Lecture des donnÃ©es dans le fichier INI
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.p_ExecuteLecture(const aF_Form: TCustomForm);
 var
@@ -486,7 +486,7 @@ var
     if GetfeSauveEdit(FSauveEditObjets ,feTDateTimePicker) Then
       if (lcom_Component is TDateTimePicker) then
         begin
-          if fs_ReadString(lcom_Component.Name,'%ù@à*£')<>'%ù@à*£' then TDateTimePicker(lcom_Component).DateTime:=StrToDateTime( fs_ReadString(lcom_Component.Name,''));
+          if fs_ReadString(lcom_Component.Name,'%Ã¹@Ã *Â£')<>'%Ã¹@Ã *Â£' then TDateTimePicker(lcom_Component).DateTime:=StrToDateTime( fs_ReadString(lcom_Component.Name,''));
           Result := True;
         end;
     {$ENDIF}
@@ -580,7 +580,7 @@ var
   var k : Longint;
   Begin
     Result := False;
-    // lecture de la page de contrôle(onglets)
+    // lecture de la page de contrÃ´le(onglets)
     if ((lcom_Component is TPageControl)) and GetfeSauveEdit ( FSauveEditObjets, feTPageControl )   then
       begin
         TPageControl(lcom_Component).ActivePageIndex := fli_ReadInteger ( lcom_Component.Name , 0);
@@ -681,7 +681,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Ecriture des données dans le fichier ini
+// Ecriture des donnÃ©es dans le fichier ini
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.ExecuteEcriture(aLocal:Boolean);
 var i : Integer ;
@@ -719,7 +719,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Ecriture des données dans le fichier INI
+// Ecriture des donnÃ©es dans le fichier INI
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.p_ExecuteEcriture ( const af_Form : TCustomForm ) ;
 var
@@ -762,7 +762,7 @@ var
             p_IniWriteListViewToIni ( FInifile, af_Form.Name, lcom_Component as TListView );
           end;
 
-    // écriture des positions des objets Panels et RxSplitters
+    // Ã©criture des positions des objets Panels et RxSplitters
     if FSauvePosObjet then
     begin
       if      (lcom_Component is TPanel)
@@ -945,8 +945,8 @@ var
   var k : Cardinal;
   Begin
     Result := False;
-    // Écriture de la position des colonnes des grilles
-    // Ecriture de la page de contrôle(onglets)
+    // Ã‰criture de la position des colonnes des grilles
+    // Ecriture de la page de contrÃ´le(onglets)
     if (lcom_Component is TPageControl)     and GetfeSauveEdit(FSauveEditObjets, feTPageControl )   then
       begin
         p_WriteInteger(lcom_Component.Name,TPageControl(lcom_Component).ActivePageIndex );
@@ -998,7 +998,7 @@ begin
         if fb_WriteHighComponents Then
           Continue;
 
-        // écriture des données des objets dans le fichier ini.
+        // Ã©criture des donnÃ©es des objets dans le fichier ini.
         if FSauveEditObjets <> [] Then
         begin
           if fb_WriteEdits Then
@@ -1041,18 +1041,18 @@ end;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lecture des données dans le fichier INI concernant la fenêtre uniquement
+// Lecture des donnÃ©es dans le fichier INI concernant la fenÃªtre uniquement
 // traitement de la position de la af_Form mise dans le create
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.p_LecturePositionFenetre(aFiche: TCustomForm);
 var li_etat, li_ScreenHeight, li_ScreenWidth: integer;
 begin
-  // Résolution de l'écran
+  // RÃ©solution de l'Ã©cran
   li_ScreenHeight := f_IniReadSectionInt (aFiche.Name,'Screen.Height',Screen.Height);
   li_ScreenWidth := f_IniReadSectionInt (aFiche.Name,'Screen.Width',Screen.Width);
 
   li_etat := f_IniReadSectionInt (aFiche.Name,aFiche.name+'.WindowState',0);
-  // positionnement de la fenêtre
+  // positionnement de la fenÃªtre
   p_SetComponentProperty ( aFiche, 'Position', poDesigned );
   if li_etat = 0 then
     aFiche.WindowState := wsNormal
@@ -1084,7 +1084,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Ecriture des données dans le fichier ini concernant la fenêtre
+// Ecriture des donnÃ©es dans le fichier ini concernant la fenÃªtre
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.p_EcriturePositionFenetre ( const aFiche: TCustomForm);
 var li_etat: integer;
@@ -1092,7 +1092,7 @@ begin
   p_IniWriteSectionInt(aFiche.Name,'Screen.Height',Screen.Height);
   p_IniWriteSectionInt(aFiche.Name,'Screen.Width',Screen.Width);
 
-  // Etat de la fenêtre
+  // Etat de la fenÃªtre
   if aFiche.WindowState = wsNormal then
     li_etat := 0
   else
@@ -1100,10 +1100,10 @@ begin
       li_etat := 1
     else
       li_etat := 2;
-  // sauvegarde de son état
+  // sauvegarde de son Ã©tat
   p_IniWriteSectionInt(aFiche.Name,aFiche.name+'.WindowState',li_etat);
 
-  // sauvegarde de sa position si la fenêtre n'est pas au Maximun
+  // sauvegarde de sa position si la fenÃªtre n'est pas au Maximun
   if li_etat <> 1 then
     begin
       p_IniWriteSectionInt (aFiche.Name,aFiche.name+'.Width',aFiche.Width);

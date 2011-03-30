@@ -5,7 +5,7 @@ unit fonctions_proprietes;
 interface
 {
 2004-08-27
-Création de l'unité par Matthieu Giroux
+CrÃ©ation de l'unitÃ© par Matthieu Giroux
 }
 uses Variants, TypInfo, Classes,
 {$IFDEF DELPHI_9_UP}
@@ -14,11 +14,11 @@ uses Variants, TypInfo, Classes,
      fonctions_version, Graphics ;
 
 const
-    gVer_mc_fonction_proprietes : T_Version = ( Component : 'Gestion des propriétés de zones' ;
+    gVer_mc_fonction_proprietes : T_Version = ( Component : 'Gestion des propriÃ©tÃ©s de zones' ;
                                                FileUnit : 'fonctions_proprietes' ;
              Owner : 'Matthieu Giroux' ;
-                                      Comment : 'Fonctions de récupération de propriétés publiées.' ;
-                                      BugsStory :  'Version 1.0.0.1 : Test de l''existence de la propiété pour fs_getComponentProperty' +
+                                      Comment : 'Fonctions de rÃ©cupÃ©ration de propriÃ©tÃ©s publiÃ©es.' ;
+                                      BugsStory :  'Version 1.0.0.1 : Test de l''existence de la propiÃ©tÃ© pour fs_getComponentProperty' +
                                                             'Version 1.0.0.0 : Toutes les fonctions sont OK.';
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
@@ -26,7 +26,7 @@ const
 
 type
   // On utilise les tableaux de variant pour plus tard :
-  // gestion des clés à champs multiples
+  // gestion des clÃ©s Ã  champs multiples
   tt_TableauVarOption = Array of Record
         var_Cle : Variant ;
         i_Option : Byte ;
@@ -74,30 +74,30 @@ Begin
  if   assigned ( GetPropInfo ( aComp_ComponentToSet, as_PropertyName ))
  then SetPropValue    ( aComp_ComponentToSet, as_PropertyName , a_ValueToSet);
 End ;
-// Affecte une propriété avec un certain type
+// Affecte une propriÃ©tÃ© avec un certain type
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
-// a_ValueToSet         : Valeur à affecter
+// as_PropertyName      : PropriÃ©tÃ© cible
+// a_ValueToSet         : Valeur Ã  affecter
 procedure p_SetComponentProperty ( const aComp_ComponentToSet : TComponent ; const as_PropertyName : String ; const a_ValueToSet : Variant ); overload;
 Begin
  if   assigned ( GetPropInfo ( aComp_ComponentToSet, as_PropertyName ))
  then SetPropValue    ( aComp_ComponentToSet, as_PropertyName , a_ValueToSet);
 End ;
-// Affecte une propriété avec un certain type
+// Affecte une propriÃ©tÃ© avec un certain type
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
-// aTyp_PropertyType    : Type de propriété
-// a_ValueToSet         : Valeur à affecter
+// as_PropertyName      : PropriÃ©tÃ© cible
+// aTyp_PropertyType    : Type de propriÃ©tÃ©
+// a_ValueToSet         : Valeur Ã  affecter
 procedure p_SetComponentProperty ( const aComp_ComponentToSet : TComponent ; const as_PropertyName : String ; const aTyp_PropertyType : TTypeKind ; const a_ValueToSet : Variant ); overload;
 Begin
  if   assigned ( GetPropInfo ( aComp_ComponentToSet, as_PropertyName ))
  and  PropIsType      ( aComp_ComponentToSet, as_PropertyName , aTyp_PropertyType)
  then SetPropValue    ( aComp_ComponentToSet, as_PropertyName , a_ValueToSet);
 End ;
-// récupère une propriété avec un certain type
+// rÃ©cupÃ¨re une propriÃ©tÃ© avec un certain type
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
-// aTyp_PropertyType    : Type de propriété
+// as_PropertyName      : PropriÃ©tÃ© cible
+// aTyp_PropertyType    : Type de propriÃ©tÃ©
 function fvar_getComponentProperty ( const aComp_ComponentToSet : TComponent ; const as_PropertyName : String ; const aTyp_PropertyType : TTypeKind ) : Variant ;
 Begin
   Result := Null ;
@@ -105,37 +105,37 @@ Begin
   and  PropIsType      ( aComp_ComponentToSet, as_PropertyName , aTyp_PropertyType)
   Then Result := getPropValue    ( aComp_ComponentToSet, as_PropertyName );
 End ;
-// récupère une propriété avec un certain type
+// rÃ©cupÃ¨re une propriÃ©tÃ© avec un certain type
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
+// as_PropertyName      : PropriÃ©tÃ© cible
 function fvar_getComponentProperty ( const aComp_ComponentToSet : TComponent ; const as_PropertyName : String ) : Variant ;
 Begin
   Result := Null ;
   if   assigned ( GetPropInfo ( aComp_ComponentToSet, as_PropertyName ))
   Then Result := getPropValue    ( aComp_ComponentToSet, as_PropertyName );
 End ;
-// récupère une propriété avec un certain type
+// rÃ©cupÃ¨re une propriÃ©tÃ© avec un certain type
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
+// as_PropertyName      : PropriÃ©tÃ© cible
 function flin_getComponentProperty ( const aComp_ComponentToSet : TComponent ; const as_PropertyName : String ) : LongInt ;
 Begin
   Result := -1 ;
   if   assigned ( GetPropInfo ( aComp_ComponentToSet, as_PropertyName ))
   Then Result := getPropValue    ( aComp_ComponentToSet, as_PropertyName, False );
 End ;
-// récupère une propriété avec un certain type
+// rÃ©cupÃ¨re une propriÃ©tÃ© avec un certain type
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
+// as_PropertyName      : PropriÃ©tÃ© cible
 function fs_getComponentProperty ( const aComp_ComponentToSet : TComponent ; const as_PropertyName : String ) : String ;
 Begin
   Result := '' ;
   if   IsPublishedProp ( aComp_ComponentToSet, as_PropertyName )
     Then Result := getStrProp    ( aComp_ComponentToSet, as_PropertyName );
 End ;
-// Affecte une propriété d'objet
+// Affecte une propriÃ©tÃ© d'objet
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
-// a_ValueToSet         : Valeur à affecter
+// as_PropertyName      : PropriÃ©tÃ© cible
+// a_ValueToSet         : Valeur Ã  affecter
 procedure p_SetComponentObjectProperty ( const aComp_ComponentToSet : TComponent ; const as_PropertyName : String ; const a_ValueToSet : TObject );
 Begin
   if   IsPublishedProp ( aComp_ComponentToSet, as_PropertyName )
@@ -143,10 +143,10 @@ Begin
   then SetObjectProp   ( aComp_ComponentToSet, as_PropertyName , a_ValueToSet);
 End ;
 
-// récupère une propriété d'objet
+// rÃ©cupÃ¨re une propriÃ©tÃ© d'objet
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
-// a_ValueToSet         : Valeur à affecter
+// as_PropertyName      : PropriÃ©tÃ© cible
+// a_ValueToSet         : Valeur Ã  affecter
 function fcla_getComponentClassProperty ( const aComp_Component : TComponent ; const as_PropertyName : String ) : TClass ;
 Begin
   Result := nil ;
@@ -156,10 +156,10 @@ Begin
 End ;
 
 
-// récupère une propriété d'objet
+// rÃ©cupÃ¨re une propriÃ©tÃ© d'objet
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
-// a_ValueToSet         : Valeur à affecter
+// as_PropertyName      : PropriÃ©tÃ© cible
+// a_ValueToSet         : Valeur Ã  affecter
 function fmet_getComponentMethodProperty ( const aComp_Component : TComponent ; const as_PropertyName : String ) : TMethod ;
 Begin
   if   assigned ( GetPropInfo ( aComp_Component, as_PropertyName ))
@@ -173,10 +173,10 @@ Begin
 End ;
 
 
-// Affecte une propriété d'objet
+// Affecte une propriÃ©tÃ© d'objet
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
-// a_ValueToSet         : Valeur à affecter
+// as_PropertyName      : PropriÃ©tÃ© cible
+// a_ValueToSet         : Valeur Ã  affecter
 procedure p_SetComponentMethodProperty ( const aComp_ComponentToSet : TComponent ; const as_PropertyName : String ; const a_ValueToSet : TMethod );
 Begin
   if   IsPublishedProp ( aComp_ComponentToSet, as_PropertyName )
@@ -192,10 +192,10 @@ Begin
   lmet_MethodeDistribuee .Code := aobj_ComponentMethod.MethodAddress(a_MethodToSet);
   p_SetComponentMethodProperty ( aComp_ComponentToSet, as_PropertyName, lmet_MethodeDistribuee );
 End ;
-// récupère une propriété d'objet
+// rÃ©cupÃ¨re une propriÃ©tÃ© d'objet
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
-// a_ValueToSet         : Valeur à affecter
+// as_PropertyName      : PropriÃ©tÃ© cible
+// a_ValueToSet         : Valeur Ã  affecter
 function fobj_getComponentObjectProperty ( const aComp_Component : TComponent ; const as_PropertyName : String ) : TObject ;
 Begin
   Result := nil ;
@@ -205,10 +205,10 @@ Begin
 End ;
 
 
-// récupère une propriété d'objet
+// rÃ©cupÃ¨re une propriÃ©tÃ© d'objet
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
-// a_ValueToSet         : Valeur à affecter
+// as_PropertyName      : PropriÃ©tÃ© cible
+// a_ValueToSet         : Valeur Ã  affecter
 function fobj_getComponentStringsProperty ( const aComp_Component : TComponent ; const as_PropertyName : String ) : TStrings ;
 var fobj_Objet : TObject ;
 Begin
@@ -218,10 +218,10 @@ Begin
     Result := fobj_Objet as TStrings ;               
 End ;
 
-// récupère une propriété d'objet
+// rÃ©cupÃ¨re une propriÃ©tÃ© d'objet
 // aComp_ComponentToSet : Composant cible
-// as_PropertyName      : Propriété cible
-// a_ValueToSet         : Valeur à affecter
+// as_PropertyName      : PropriÃ©tÃ© cible
+// a_ValueToSet         : Valeur Ã  affecter
 {$IFDEF DELPHI_9_UP}
 
 function fobj_getComponentWideStringsProperty ( const aComp_Component : TComponent ; const as_PropertyName : String ) : TWideStrings ;
@@ -234,9 +234,9 @@ Begin
 End ;
 {$ENDIF}
 
-// assigne une couleur à un tcomponent ayant la propriété font
+// assigne une couleur Ã  un tcomponent ayant la propriÃ©tÃ© font
 // acom_component   : le composant
-// acol_couleur     : la couleur à affecter
+// acol_couleur     : la couleur Ã  affecter
 procedure p_SetFontColor ( const acom_component : TComponent ; const acol_couleur : TColor );
 var
   lfon_font : TObject ;

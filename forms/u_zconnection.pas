@@ -2,6 +2,9 @@
 
 {$IFDEF FPC}
 {$mode Delphi}
+{$R *.lfm}
+{$ELSE}
+{$R *.dfm}
 {$ENDIF}
 
 
@@ -16,9 +19,7 @@
 interface
 
 uses
-{$IFDEF FPC}
-  LResources,
-{$ELSE}
+{$IFNDEF FPC}
   JvExControls,
 {$ENDIF}
 {$IFDEF VERSIONS}
@@ -40,9 +41,6 @@ const
                         			                 Major : 0 ; Minor : 0 ; Release : 5 ; Build : 1 );
 {$ENDIF}
 
-{$IFNDEF FPC}
-{$R *.DFM}
-{$ENDIF}
 
 type
 
@@ -323,9 +321,6 @@ begin
 end;
 
 initialization
-{$IFDEF FPC}
-  {$I u_zconnection.lrs}
-{$ENDIF}
 {$IFDEF VERSIONS}
   p_ConcatVersion ( gVer_zconnection );
 {$ENDIF}

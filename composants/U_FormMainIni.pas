@@ -1,12 +1,12 @@
 unit U_FormMainIni;
-// Unité de la Version 2 du projet FormMain
-// La version 1 TFormMain n'est pas sa fenêtre parente
+// UnitÃ© de la Version 2 du projet FormMain
+// La version 1 TFormMain n'est pas sa fenÃªtre parente
 
-// Le module crée des propriété servant à la gestion du fichier INI
-// Il gère la déconnexion
-// Il gère la gestion des touches majuscules et numlock
-// Il gère les forms enfants
-// créé par Matthieu Giroux en décembre 2007
+// Le module crÃ©e des propriÃ©tÃ© servant Ã  la gestion du fichier INI
+// Il gÃ¨re la dÃ©connexion
+// Il gÃ¨re la gestion des touches majuscules et numlock
+// Il gÃ¨re les forms enfants
+// crÃ©Ã© par Matthieu Giroux en dÃ©cembre 2007
 
 {$I ..\Compilers.inc}
 {$I ..\extends.inc}
@@ -45,11 +45,11 @@ uses
 
 {$IFDEF VERSIONS}
   const
-    gVer_TFormMainIni : T_Version = ( Component : 'Composant Fenêtre principale' ;
+    gVer_TFormMainIni : T_Version = ( Component : 'Composant FenÃªtre principale' ;
                                                FileUnit : 'U_FormMainIni' ;
                                                Owner : 'Matthieu Giroux' ;
-                                               Comment : 'Fiche principale deuxième version.' ;
-                                               BugsStory : 'Version 1.1.0.0 : Passage en générique' + #13#10
+                                               Comment : 'Fiche principale deuxiÃ¨me version.' ;
+                                               BugsStory : 'Version 1.1.0.0 : Passage en gÃ©nÃ©rique' + #13#10
                                                    + '1.0.0.0 : Gestion INI, de fiches et du clavier.';
                                                UnitType : 3 ;
                                                Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
@@ -122,7 +122,7 @@ type
     {$IFDEF SFORM}
     FBoxChilds : TWinControl;
     {$ENDIF}
-    { Déclarations privées }
+    { DÃ©clarations privÃ©es }
     // Gestion du clavier
     gEv_OldActivate    ,
     gEv_OldDeActivate  : TNotifyEvent ;
@@ -143,26 +143,26 @@ type
     function p_GetConnection: TComponent;
     // Retourne la connection ADO
     function p_GetConnector: TComponent;
-    // Changer la date au moment où on quitte
+    // Changer la date au moment oÃ¹ on quitte
     procedure p_IniQuitte;
-    // Test si on va dans la procédure virtuelle d'initialisation INI
+    // Test si on va dans la procÃ©dure virtuelle d'initialisation INI
     procedure p_TestInitialisationParamIni;
-    // Désactive la connection pour édition
+    // DÃ©sactive la connection pour Ã©dition
     procedure p_CheckInactive;
 
     procedure p_modalStart ( Aobj_Objet : Tobject );
     procedure p_modalEnded ( Aobj_Objet : Tobject );
   protected
-    // Vérification du fait que des propriétés ne sont pas à nil et n'existent pas
+    // VÃ©rification du fait que des propriÃ©tÃ©s ne sont pas Ã  nil et n'existent pas
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     // Termine l'appli sans sauver le fichier IN
     procedure p_TerminateWithoutIni ;
-    // Gestion du clavier à la reprise
+    // Gestion du clavier Ã  la reprise
     procedure p_ApplicationActivate(Sender: TObject);
     procedure p_ApplicationDeActivate(Sender: TObject);
-    // Applique la connection ADO à la variable de la propriété
+    // Applique la connection ADO Ã  la variable de la propriÃ©tÃ©
     procedure p_SetConnection(const Value: TComponent);
-    // Applique la connection ADO à la variable de la propriété
+    // Applique la connection ADO Ã  la variable de la propriÃ©tÃ©
     procedure p_SetConnector(const Value: TComponent);
 
     // A appeler si on n'appelle pas le constructeur
@@ -171,7 +171,7 @@ type
     procedure p_CloseQueryChildForms ( const ab_Free : Boolean );
 
   public
-    { Déclarations publiques }
+    { DÃ©clarations publiques }
     gb_ModalStarted ,
     gb_CloseQuery : Boolean ;
     {$IFDEF FPC}
@@ -182,15 +182,15 @@ type
     procedure DoClose ( var AAction : TCloseAction ); override;
     function CloseQuery: Boolean; override;
     function fb_ReinitWindow ( var afor_Form : TCustomForm ) : Boolean ;
-    // Récupère le code déjà tapé d'une toouche à partir du buffer virtuelle et valide ou non la touche
-    // Entrée : Numéro de touche
+    // RÃ©cupÃ¨re le code dÃ©jÃ  tapÃ© d'une toouche Ã  partir du buffer virtuelle et valide ou non la touche
+    // EntrÃ©e : NumÃ©ro de touche
     function fb_GetKeyState(aby_Key: Integer): Boolean;
     // Modifie la touche
-    // Entrée : Numéro de touche
+    // EntrÃ©e : NumÃ©ro de touche
     procedure p_SetKeyState(aby_Key: Integer; ab_TurnOn: Boolean);
-    // Touche enfoncée
+    // Touche enfoncÃ©e
     function IsShortCut(var ao_Msg: {$IFDEF FPC} TLMKey {$ELSE} TWMKey {$ENDIF}): Boolean; override;
-    // Libère le fichier ini en sauvant
+    // LibÃ¨re le fichier ini en sauvant
     procedure p_SauveIni ;
     // Constructeur et destructeur
     Constructor Create ( AOwner : TComponent ); override;
@@ -198,26 +198,26 @@ type
     {Lit le fichier ini
     pour le composant form TF_FormMainIni
     avec connexion d'une base ADO
-    et appel de la procédure p_InitialisationParamIni dans la form si AutoReadIni,
-    de la procédure p_IniInitialisation s'il n'existe pas de fichier INI}
+    et appel de la procÃ©dure p_InitialisationParamIni dans la form si AutoReadIni,
+    de la procÃ©dure p_IniInitialisation s'il n'existe pas de fichier INI}
     function f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TIniFile; virtual;
     function f_GetIniFile : TIniFile; virtual;
 
-    // Création d'une form MDI renvoie la form si existe
+    // CrÃ©ation d'une form MDI renvoie la form si existe
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form
     function ffor_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ): TForm; overload ; virtual;
     function fi_FindForm ( const as_FormNom : string ) : Integer; virtual;
 
     procedure p_SetChildForm ( const afor_Reference: TCustomForm; const  afs_newFormStyle : TFormStyle ); virtual;
 
-    // Procédure appelée quand il n'y a pas de connexion
+    // ProcÃ©dure appelÃ©e quand il n'y a pas de connexion
     procedure p_NoConnexion; virtual;
 
-    // Création d'une form MDI renvoie True si la form existe
+    // CrÃ©ation d'une form MDI renvoie True si la form existe
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
     function fb_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ; var afor_Reference; const ab_Ajuster : Boolean ): Boolean; overload ; virtual;
 
-    // Création d'une form MDI renvoie True si la form existe
+    // CrÃ©ation d'une form MDI renvoie True si la form existe
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
     function fb_CreateChild ( const as_FormNom, as_FormClasse : string ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean ; const aico_Icon : TIcon ): Boolean; overload ; virtual;
 
@@ -225,52 +225,52 @@ type
 
     function ffor_getForm   ( afor_FormClasse : TFormClass ): TForm; overload ; virtual;
 
-    // Création d'une form MDI avec changement du style Form
+    // CrÃ©ation d'une form MDI avec changement du style Form
     // renvoie True si la form existe
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
     function fb_CreateChild ( afor_FormClasse : TFormClass; var afor_Reference : TCustomForm ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean ; const aico_Icon : TIcon ) : Boolean ; overload ; virtual;
 
-    // Création d'une form modal
+    // CrÃ©ation d'une form modal
     // renvoie True si la form existe
     // afor_FormClasse : Classe de la form ;
     // var afor_Reference : Variable de la form
     // ab_Ajuster : Ajuster automatiquement
-    // aact_Action : Action à la Fermeture
+    // aact_Action : Action Ã  la Fermeture
     function fb_CreateModal ( afor_FormClasse : TFormClass ; var afor_Reference : TForm ; const ab_Ajuster : Boolean  ; const aact_Action : TCloseAction ) : Boolean ; virtual;
 
     // changement du style d'une form
     // afor_Reference    : variable de la form
-    // newFormStyle      : style    de la form à mettre
+    // newFormStyle      : style    de la form Ã  mettre
     function fb_setNewFormStyle ( const afor_Reference : TCustomForm; const afs_newFormStyle : TFormStyle; const ab_Ajuster : Boolean  ): Boolean ; overload ; virtual;
     function fb_setNewFormStyle ( const afor_Reference : TCustomForm; const afs_FormStyle: TFormStyle ; const ab_Modal : Boolean ; const awst_WindowState : TWindowState ; const apos_Position : TPosition ): Boolean; overload ; virtual;
 
-    // Procédure mettant à jour la procédure virtuelle p_setMajNumResult
+    // ProcÃ©dure mettant Ã  jour la procÃ©dure virtuelle p_setMajNumResult
     procedure p_MiseAJourMajNumScroll; virtual;
 
-    // Procédures qui sont appelées automatiquement pour l'initialisation et la sauvegarde
+    // ProcÃ©dures qui sont appelÃ©es automatiquement pour l'initialisation et la sauvegarde
     // Initialisation du fichier INI
     procedure p_InitialisationParamIni; virtual;
     // Sauvegarde du fichier INI
     procedure p_SauvegardeParamIni; virtual;
-    // Après la Sauvegarde du fichier INI
+    // AprÃ¨s la Sauvegarde du fichier INI
     procedure p_ApresSauvegardeParamIni; virtual;
-    // Non connecté
+    // Non connectÃ©
     procedure p_PbConnexion; virtual;
-    // Connecté
+    // ConnectÃ©
     procedure p_Connectee; virtual;
     // Ecriture de l'ini dans le descendant
     procedure p_WriteDescendantIni(const amif_Init: TIniFile); virtual;
     // Lecture de l'ini dans le descendant
     procedure p_ReadDescendantIni(const amif_Init: TIniFile); virtual;
     // Gestion du clavier
-    // Entrée : les trois touches : MAJ NUM SCROLLLOCK
+    // EntrÃ©e : les trois touches : MAJ NUM SCROLLLOCK
     procedure p_SortieMajNumScroll ( const ab_MajEnfoncee, ab_NumEnfoncee, ab_ScrollEnfoncee : boolean ) ; virtual;
-    // Procédure qui initialise la chaine de connexion de FConnexion
+    // ProcÃ©dure qui initialise la chaine de connexion de FConnexion
   published
     {$IFDEF SFORM}
     property BoxChilds : TWinControl read FBoxChilds write FBoxChilds stored True ;
     {$ENDIF}
-    // Propriété connection ADO
+    // PropriÃ©tÃ© connection ADO
     property Connection : TComponent read p_GetConnection write p_SetConnection stored True ;
     property Connector  : TComponent read p_GetConnector write p_SetConnector stored True ;
     property AutoIniDB : Boolean read FAutoIniDB write FAutoIniDB stored True default True ;
@@ -282,7 +282,7 @@ type
 
   end;
 
-  // Procédure d'enregistrement des forms propres à l'application
+  // ProcÃ©dure d'enregistrement des forms propres Ã  l'application
   procedure p_RegisterClass(AClass: TPersistentClass);
   procedure p_RegisterClasses(AClasses: array of TPersistentClass);
   procedure p_UnRegisterClass(AClass: TPersistentClass);
@@ -341,7 +341,7 @@ End;
 
 
 ///////////////////////////////////////////////////////////////////////////////////
-// Procédure : p_AsyncDataSet
+// ProcÃ©dure : p_AsyncDataSet
 // Description : Mise en mode asynchrone du Dataset
 ///////////////////////////////////////////////////////////////////////////////////
 procedure p_AsynchronousDataSet(adat_DataSet: TCustomADODataset);
@@ -753,7 +753,7 @@ begin
 end;
 {$ENDIF}
 
-  // Procédure d'enregistrement d'une forms propre à l'application
+  // ProcÃ©dure d'enregistrement d'une forms propre Ã  l'application
   procedure p_RegisterClass(AClass: TPersistentClass);
 begin
   gReg_MainFormIniClassesLocales.Lock;
@@ -769,7 +769,7 @@ begin
   end;
 end;
 
-	// Procédure d'enregistrement des forms propres à l'application
+	// ProcÃ©dure d'enregistrement des forms propres Ã  l'application
 procedure p_RegisterClasses(AClasses: array of TPersistentClass);
 var
   I: Integer;
@@ -870,22 +870,22 @@ begin
   if FAutoIni Then
     f_GetIniFile ;
 End ;
-{Écrit le fichier INI pour le composant form TF_FormMainIni.
-Appel de la procédure p_SauvegardeParamIni dans la form si AutoWriteIni,
-de la procédure Finifile.Free s'il n'existe pas de fichier INI.}
+{Ã‰crit le fichier INI pour le composant form TF_FormMainIni.
+Appel de la procÃ©dure p_SauvegardeParamIni dans la form si AutoWriteIni,
+de la procÃ©dure Finifile.Free s'il n'existe pas de fichier INI.}
 Destructor TF_FormMainIni.Destroy;
 begin
 
   if not (csDesigning in ComponentState) then // si on est pas en mode conception
     begin
-      // Libère et sauve le INI
+      // LibÃ¨re et sauve le INI
       p_SauveIni;
     end;
 
   Inherited Destroy;
 end;
 
-// Libère le fichier INI en sauvant
+// LibÃ¨re le fichier INI en sauvant
 procedure TF_FormMainIni.p_SauveIni;
 var i : Integer;
 begin
@@ -894,7 +894,7 @@ begin
       // Enregistre la valeur quitte dans le fichier INI
       p_IniQuitte;
 
-      // Appelle la procédure virtuelle
+      // Appelle la procÃ©dure virtuelle
       p_SauvegardeParamIni;
 
      {$IFDEF DhgELPHI}
@@ -908,7 +908,7 @@ begin
             End;
      {$ENDIF}
 
-      // Mise à jour du fichier INI
+      // Mise Ã  jour du fichier INI
       fb_iniWriteFile ( FIniFile, False );
      {$IFDEF DhgELPHI}
       // Executing writing on ini failes without that
@@ -916,17 +916,17 @@ begin
       FIniFile := nil;
      {$ENDIF}
 
-      // Appelle la procédure virtuelle
+      // Appelle la procÃ©dure virtuelle
       p_ApresSauvegardeParamIni;
 
       Application.ProcessMessages;
     end;
 end;
 
-// Vérification du fait que des propriétés ne sont pas à nil et n'existent pas
+// VÃ©rification du fait que des propriÃ©tÃ©s ne sont pas Ã  nil et n'existent pas
 procedure TF_FormMainIni.Notification(AComponent: TComponent; Operation: TOperation);
 begin
-  // Si le composant est détruit
+  // Si le composant est dÃ©truit
   inherited Notification(AComponent, Operation);
 
 {$IFNDEF FPC}
@@ -939,17 +939,17 @@ end;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  Evènements de l'application
+//  EvÃ¨nements de l'application
 ////////////////////////////////////////////////////////////////////////////////
 
-//  Désactivation de l'application
+//  DÃ©sactivation de l'application
 // Sender : obligatoire ( l'application )
 procedure TF_FormMainIni.p_ApplicationActivate(Sender: TObject);
 begin
   p_MiseAJourMajNumScroll;
 end;
 
-//  DésActivation de l'application
+//  DÃ©sActivation de l'application
 // Sender : obligatoire ( l'application )
 procedure TF_FormMainIni.p_ApplicationDeActivate(Sender: TObject);
 begin
@@ -960,7 +960,7 @@ begin
 end;
 
 // Modifie la touche
-// Entrée : Numéro de touche
+// EntrÃ©e : NumÃ©ro de touche
 procedure TF_FormMainIni.p_SetKeyState(aby_Key: Integer; ab_TurnOn: Boolean);
 begin
   // Si windows non nt
@@ -971,7 +971,7 @@ begin
       SetKeyboardState(gt_Buffer);
     end
   // Si windows nt
-  else if (fb_GetKeyState(aby_Key) <> ab_TurnOn) then // Procédure spécialisée
+  else if (fb_GetKeyState(aby_Key) <> ab_TurnOn) then // ProcÃ©dure spÃ©cialisÃ©e
     begin
       keybd_event(aby_Key, $45, KEYEVENTF_EXTENDEDKEY, 0); // simulate aby_Key press
       keybd_event(aby_Key, $45, KEYEVENTF_EXTENDEDKEY or KEYEVENTF_KEYUP, 0); // simulate aby_Key release
@@ -979,8 +979,8 @@ begin
   {$ENDIF}
 end;
 
-// Récupère le code déjà tapé d'une toouche à partir du buffer virtuelle et valide ou non la touche
-// Entrée : Numéro de touche
+// RÃ©cupÃ¨re le code dÃ©jÃ  tapÃ© d'une toouche Ã  partir du buffer virtuelle et valide ou non la touche
+// EntrÃ©e : NumÃ©ro de touche
 function TF_FormMainIni.fb_GetKeyState(aby_Key: Integer): Boolean;
 {$IFDEF DELPHI}
 var lt_TempBuffer: TKeyboardState;
@@ -991,42 +991,42 @@ begin
   if Win32Platform = VER_PLATFORM_WIN32_WINDOWS then // Win95/98/ME
     begin
       GetKeyboardState ( lt_TempBuffer );
-      // Le buffer stocke 2 valeurs dans un mot(entier), on récupère la bonne valeur
+      // Le buffer stocke 2 valeurs dans un mot(entier), on rÃ©cupÃ¨re la bonne valeur
       Result := lt_TempBuffer [ aby_Key ] and 1 <> 0;
     end
   // Si Windows NT
   else
-    // Le buffer ne fonctionne pas bien avec NT la propriété GetGeyState stocke
-    // 2 valeurs dans un mot(entier), on récupère la bonne valeur
+    // Le buffer ne fonctionne pas bien avec NT la propriÃ©tÃ© GetGeyState stocke
+    // 2 valeurs dans un mot(entier), on rÃ©cupÃ¨re la bonne valeur
     Result := GetKeyState(aby_Key) and 1 <> 0;
   {$ELSE}
    Result := False;
   {$ENDIF}
 end;
 
-// Met à jour la procédure virtuelle
+// Met Ã  jour la procÃ©dure virtuelle
 procedure TF_FormMainIni.p_MiseAJourMajNumScroll;
 Begin
-  // Procédure virtuelle appelée
+  // ProcÃ©dure virtuelle appelÃ©e
   p_SortieMajNumScroll(fb_GetKeyState(VK_CAPITAL),
                        fb_GetKeyState(VK_NUMLOCK),
                        fb_GetKeyState(VK_SCROLL));
 End ;
 
-// Procédure qui sera déclenchée lorsqu'une touche sera tapée dans l'application
-// En entrée : le message créé quelconque
+// ProcÃ©dure qui sera dÃ©clenchÃ©e lorsqu'une touche sera tapÃ©e dans l'application
+// En entrÃ©e : le message crÃ©Ã© quelconque
 function TF_FormMainIni.IsShortCut ( var ao_Msg: {$IFDEF FPC} TLMKey {$ELSE} TWMKey {$ENDIF} ) : Boolean;
 
 begin
   Result := inherited IsShortCut ( ao_Msg );
-  // Mise à jour des touches spéciales
+  // Mise Ã  jour des touches spÃ©ciales
   p_MiseAJourMajNumScroll ;
 end;
 {------------------------------------------------------------------------------
  ---------------------- Fin Hook clavier pour le maj et le num ----------------
  ------------------------------------------------------------------------------}
 
-    // Création d'une form MDI renvoie  la form qui existe
+    // CrÃ©ation d'une form MDI renvoie  la form qui existe
 function TF_FormMainIni.ffor_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ) : TForm;
 var
  li_existe : integer;
@@ -1052,7 +1052,7 @@ begin
     end;
 end;
 
-    // Création d'une form MDI renvoie  la form qui existe
+    // CrÃ©ation d'une form MDI renvoie  la form qui existe
 function TF_FormMainIni.fi_FindForm ( const as_FormNom : string ) : Integer;
 var
 i : integer;
@@ -1095,11 +1095,11 @@ begin
   afor_Reference.BringToFront ;
 end;
 
-    // Création d'une form MDI renvoie True si la form existe dans les enfants MDI
+    // CrÃ©ation d'une form MDI renvoie True si la form existe dans les enfants MDI
     // as_FormNom        : nom      de la form
     // afor_FormClasse   : classe   de la form
     // afor_Reference    : variable de la form
-    // newFormStyle      : style    de la form à mettre
+    // newFormStyle      : style    de la form Ã  mettre
 function TF_FormMainIni.fb_CreateChild ( afor_FormClasse : TFormClass; var afor_Reference : TCustomForm ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean; const aico_Icon : TIcon  ) : Boolean ;
 var
   li_i : integer;
@@ -1107,7 +1107,7 @@ var
 begin
   Result := false ;
   afor_Reference := nil ;
-    // Recherche sûre de fiches quelconques
+    // Recherche sÃ»re de fiches quelconques
   For li_i := Application.ComponentCount - 1 downto 0
    do if (  Application.Components [ li_i ] is TCustomForm )
      and (( Application.Components [ li_i ] as TCustomForm ).ClassType = afor_FormClasse )
@@ -1117,7 +1117,7 @@ begin
         Result := True ;
       End ;
 
-      //Création si nil
+      //CrÃ©ation si nil
   if ( afor_Reference = nil )
     Then
      Begin
@@ -1147,25 +1147,25 @@ begin
 
         End;
     End ;
-    // Mise à jour de la form
+    // Mise Ã  jour de la form
   if Assigned(afor_Reference)
   and ab_Ajuster
   and ( afor_Reference is TCustomForm ) then
     fb_setNewFormStyle ( afor_Reference as TCustomForm , newFormStyle, ab_Ajuster );
 end;
 
-// Création d'une form modal
+// CrÃ©ation d'une form modal
 // renvoie True si la form existe
 // afor_FormClasse : Classe de la form ;
 // var afor_Reference : Variable de la form
 // ab_Ajuster : Ajuster automatiquement
-// aact_Action : Action à la Fermeture
+// aact_Action : Action Ã  la Fermeture
 function TF_FormMainIni.fb_CreateModal ( afor_FormClasse : TFormClass ; var afor_Reference : TForm ; const ab_Ajuster : Boolean  ; const aact_Action : TCloseAction ) : Boolean ;
 begin
   Result := false ;
   afor_Reference := ffor_getForm ( afor_FormClasse );
 
-      //Création si nil
+      //CrÃ©ation si nil
  if ( afor_Reference = nil )
    Then
     Begin
@@ -1173,7 +1173,7 @@ begin
     End
    Else
     Result := True ;
-    // Mise à jour de la form
+    // Mise Ã  jour de la form
 
   afor_Reference.FormStyle := fsNormal ;
 
@@ -1187,7 +1187,7 @@ begin
     End ;
   afor_Reference.Update ;
   afor_Reference.ShowModal;
-  // On peut effectuer une action de fermeture après avoir montré une fiche modale
+  // On peut effectuer une action de fermeture aprÃ¨s avoir montrÃ© une fiche modale
   if aact_Action = caFree
    then
     afor_Reference.Free
@@ -1199,7 +1199,7 @@ begin
       afor_Reference.WindowState := wsMiniMized ;
 end;
 
-// Récupération d'une form renvoie la form si existe dans les enfants
+// RÃ©cupÃ©ration d'une form renvoie la form si existe dans les enfants
 // as_FormNom        : nom      de la form
 // as_FormClasse   : classe   de la form
 function TF_FormMainIni.ffor_getForm ( const as_FormNom, as_FormClasse: string ): TForm ;
@@ -1220,7 +1220,7 @@ begin
       end;
 End ;
 
-// Récupération d'une form renvoie la form si existe dans les enfants
+// RÃ©cupÃ©ration d'une form renvoie la form si existe dans les enfants
 // as_FormNom        : nom      de la form
 // as_FormClasse   : classe   de la form
 function TF_FormMainIni.ffor_getForm ( afor_FormClasse : TFormClass ): TForm;
@@ -1229,7 +1229,7 @@ var
 
 begin
   Result := nil ;
-    // Recherche sûre de fiches quelconques
+    // Recherche sÃ»re de fiches quelconques
   For li_i := Application.ComponentCount - 1 downto 0
    do if (  Application.Components [ li_i ] is TForm )
      and (( Application.Components [ li_i ] as TForm ).ClassType = afor_FormClasse )
@@ -1238,10 +1238,10 @@ begin
         Result := TForm ( Application.Components [ li_i ] );
       End ;
 End ;
-// Création d'une form MDI renvoie True si la form existe dans les enfants MDI
+// CrÃ©ation d'une form MDI renvoie True si la form existe dans les enfants MDI
 // as_FormNom        : nom      de la form
 // afor_FormClasse   : classe   de la form
-// newFormStyle      : style    de la form à mettre
+// newFormStyle      : style    de la form Ã  mettre
 function TF_FormMainIni.fb_CreateChild(const as_FormNom, as_FormClasse: string; const newFormStyle: TFormStyle; const ab_Ajuster: Boolean; const aico_Icon : TIcon): Boolean;
 var
   lp_Reference: Pointer;
@@ -1254,14 +1254,14 @@ begin
   // Recherche la form
   lp_Reference    := ffor_getForm ( as_FormNom, as_FormClasse );
 
-  // Form non trouvée : on crée
+  // Form non trouvÃ©e : on crÃ©e
   if not Assigned(lp_Reference) then
     Begin
-        // Recherche la classe de la form dans cette unité
+        // Recherche la classe de la form dans cette unitÃ©
         lper_ClasseForm := TComponentClass ( fper_FindClass ( as_FormClasse ));
 
         if Assigned(lper_ClasseForm)
-        // Rapide : on a trouvé la form dans cette unité
+        // Rapide : on a trouvÃ© la form dans cette unitÃ©
          Then Application.CreateForm ( lper_ClasseForm              , lp_Reference )
          Else
            Begin
@@ -1270,12 +1270,12 @@ begin
                lper_ClasseForm := TComponentClass ( FindClass ( as_FormClasse ));
              except
              End ;
-             // Lent form trouvée dans delphi
+             // Lent form trouvÃ©e dans delphi
              if Assigned(lper_ClasseForm)
               Then
                Application.CreateForm ( lper_ClasseForm, lp_Reference );
            End ;
-    // Assigne l'icône si existe
+    // Assigne l'icÃ´ne si existe
       If assigned ( aico_Icon    )
       and Assigned( lp_Reference )
        Then
@@ -1298,13 +1298,13 @@ begin
 
         End ;
 
-//      ShowMessage('Fiche ' + afor_FormClasse + ' non enregistrée ( Utiliser RegisterClasses dans la création du projet )');
+//      ShowMessage('Fiche ' + afor_FormClasse + ' non enregistrÃ©e ( Utiliser RegisterClasses dans la crÃ©ation du projet )');
     end
   else
-    // On a trouvé la form sans créer
+    // On a trouvÃ© la form sans crÃ©er
     Result := True ;
 
-    // Paramètre d'affichage
+    // ParamÃ¨tre d'affichage
   if Assigned(lp_Reference)
   and ab_Ajuster then
     Begin
@@ -1318,15 +1318,15 @@ end;
 
 // Changement du style d'une form
 // afor_Reference    : variable de la form
-// newFormStyle      : style    de la form à mettre
-// Résultat          : Le style a été changé
+// newFormStyle      : style    de la form Ã  mettre
+// RÃ©sultat          : Le style a Ã©tÃ© changÃ©
 function TF_FormMainIni.fb_setNewFormStyle(const afor_Reference: TCustomForm; const afs_FormStyle: TFormStyle ; const ab_Modal : Boolean ; const awst_WindowState : TWindowState ; const apos_Position : TPosition ): Boolean;
 begin
   Result := False ;
   if not ( assigned ( afor_Reference )) then
     Exit ;
   try
-    // Le style a été changé
+    // Le style a Ã©tÃ© changÃ©
     Result := True ;
 
     if TPosition ( flin_getComponentProperty ( afor_Reference, 'Position' )) <> apos_Position Then
@@ -1337,7 +1337,7 @@ begin
     if not ( afs_FormStyle in [ fsMDIChild ]) Then
       p_SetComponentProperty ( afor_Reference, 'FormStyle', afs_FormStyle );
 
-    // Mise à jour
+    // Mise Ã  jour
     afor_Reference.Update ;
 
     // Affectation
@@ -1348,7 +1348,7 @@ begin
         Exit ;
       end ;
 
-      // Affiche la fiche après les modifs
+      // Affiche la fiche aprÃ¨s les modifs
     if ( afs_FormStyle in [fsMDIChild]) Then
       p_setChildForm ( afor_Reference, afs_FormStyle )
     Else
@@ -1359,18 +1359,18 @@ End ;
 
 // Changement du style d'une form
 // afor_Reference    : variable de la form
-// newFormStyle      : style    de la form à mettre
-// Résultat          : Le style a été changé
+// newFormStyle      : style    de la form Ã  mettre
+// RÃ©sultat          : Le style a Ã©tÃ© changÃ©
 function TF_FormMainIni.fb_setNewFormStyle(const afor_Reference: TCustomForm; const afs_newFormStyle: TFormStyle; const ab_Ajuster: Boolean): Boolean;
 //var acla_ClasseForm : TClass ;
 begin
   Result := False;
   try
   //  acla_ClasseForm := afor_Reference.ClassType ;
-    // Style différent
+    // Style diffÃ©rent
     if (afs_newFormStyle <> TFormStyle ( flin_getComponentProperty ( afor_Reference, 'FormStyle' ))) then
       begin
-        // Le style a été changé
+        // Le style a Ã©tÃ© changÃ©
         Result := True ;
 
         // Affectation
@@ -1403,15 +1403,15 @@ begin
             p_SetComponentProperty ( afor_Reference, 'WindowState', wsNormal );
           end;
 
-          // MDI enfant donc maximizée
+          // MDI enfant donc maximizÃ©e
         if  not gb_ModalStarted and ( afs_newFormStyle = fsMDIChild) then
           p_SetComponentProperty ( afor_Reference, 'WindowState', wsMaximized );
-        // Mise à jour
+        // Mise Ã  jour
         afor_Reference.Update ;
       end;
     {$ENDIF}
 
-      // Affiche la fiche après les modifs
+      // Affiche la fiche aprÃ¨s les modifs
     if not gb_ModalStarted and ( afs_newFormStyle in [fsMDIChild]) Then
       p_setChildForm ( afor_Reference, afs_newFormStyle )
     Else
@@ -1420,7 +1420,7 @@ begin
   End ;
 end;
 
-// Création d'une form MDI renvoie la form si existe
+// CrÃ©ation d'une form MDI renvoie la form si existe
 // as_FormNom        : nom      de la form
 // afor_FormClasse   : classe   de la form
 // afor_Reference    : variable de la form
@@ -1434,7 +1434,7 @@ begin
   if (FormStyle <> fsMDIForm) then Exit;
 
   li_existe := fi_FindForm ( as_FormNom );
-    // form pas trouvée
+    // form pas trouvÃ©e
   if (li_existe = - 1) then
     begin
       if not Assigned(TForm(afor_Reference)) then
@@ -1442,7 +1442,7 @@ begin
       Result := False;
     end
   else
-  // Si trouvée affiche
+  // Si trouvÃ©e affiche
     begin
       (TCustomForm ( Application.Components[li_existe])).BringToFront;
       Result := True;
@@ -1450,18 +1450,18 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-//  En cas de problème sur la base de données
+//  En cas de problÃ¨me sur la base de donnÃ©es
 ////////////////////////////////////////////////////////////////////////////////
 procedure TF_FormMainIni.p_NoConnexion;
 begin
   MessageDlg(GS_PB_CONNEXION, mtWarning, [mbOk], 0);
-  // Méthode virtuelle
+  // MÃ©thode virtuelle
   p_PbConnexion;
 end;
 
 //////////////////////////////////////////////////////////////////////////
-// Procédure : p_FreeConfigFile
-// Description : Libération de l'ini
+// ProcÃ©dure : p_FreeConfigFile
+// Description : LibÃ©ration de l'ini
 //////////////////////////////////////////////////////////////////////////
 procedure p_FreeConfigFile;
 begin
@@ -1470,15 +1470,15 @@ begin
 End ;
 
 //////////////////////////////////////////////////////////////////////////
-// Procédure virtuelle : p_WriteDescendantIni
-// Description : écriture de l'ini dans le descendant
+// ProcÃ©dure virtuelle : p_WriteDescendantIni
+// Description : Ã©criture de l'ini dans le descendant
 //////////////////////////////////////////////////////////////////////////
 procedure TF_FormMainIni.p_WriteDescendantIni ( const amif_Init : TIniFile );
 begin
 End ;
 
 //////////////////////////////////////////////////////////////////////////
-// Procédure virtuelle : p_ReadDescendantIni
+// ProcÃ©dure virtuelle : p_ReadDescendantIni
 // Description : lecture de l'ini dans le descendant
 //////////////////////////////////////////////////////////////////////////
 procedure TF_FormMainIni.p_ReadDescendantIni ( const amif_Init : TIniFile );
@@ -1486,12 +1486,12 @@ begin
 End ;
 
 // Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)
-// Entrée : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
-// Renvoie un fichier INI (même si c'est pas très utile) !!!
+// EntrÃ©e : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
+// Renvoie un fichier INI (mÃªme si c'est pas trÃ¨s utile) !!!
 function TF_FormMainIni.f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TIniFile;
 begin
-  // On considère que par défaut les infos se trouvent dans un fichier INI dont
-  // le nom est dérivé du nom de la machine (paramètrable dans l'INI de connexion)
+  // On considÃ¨re que par dÃ©faut les infos se trouvent dans un fichier INI dont
+  // le nom est dÃ©rivÃ© du nom de la machine (paramÃ¨trable dans l'INI de connexion)
   gs_ModeConnexion := CST_MACHINE;
   p_IniGetDBConfigFile ( gmif_MainFormIniInit,FConnection,acco_Conn,as_NomConnexion);
   p_WriteDescendantIni ( gmif_MainFormIniInit );
@@ -1501,80 +1501,80 @@ begin
 end;
 
 // Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)
-// Entrée : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
-// Renvoie un fichier INI (même si c'est pas très utile) !!!
-// Init. du fichier INI lié à l'utilisateur
+// EntrÃ©e : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
+// Renvoie un fichier INI (mÃªme si c'est pas trÃ¨s utile) !!!
+// Init. du fichier INI liÃ© Ã  l'utilisateur
 function TF_FormMainIni.f_GetIniFile: TIniFile;
 begin
   Result := f_GetMainMemIniFile(ge_WriteSessionIni, ge_ReadSessionIni, Self);
-  // Lit-on le fichier ini par la prcoédure virtuelle ?
+  // Lit-on le fichier ini par la prcoÃ©dure virtuelle ?
   p_TestInitialisationParamIni;
 
   // Sauvegarde du fichier INI
   fb_iniWriteFile ( Result, False );
 end;
 
-// Propriété connection
+// PropriÃ©tÃ© connection
 // Lecture de Fconnection
 function TF_FormMainIni.p_GetConnection: TComponent;
 begin
   Result := FConnection;
 end;
-// Propriété connector
+// PropriÃ©tÃ© connector
 // Lecture de Fconnection
 function TF_FormMainIni.p_GetConnector: TComponent;
 begin
   Result := FConnector;
 end;
-// Désactive la connection à l'affectation de la connection en conception
+// DÃ©sactive la connection Ã  l'affectation de la connection en conception
 procedure TF_FormMainIni.p_CheckInactive;
 begin
-  // Désactive la connection à l'affectation de la connection en conception
+  // DÃ©sactive la connection Ã  l'affectation de la connection en conception
   if ( assigned ( FConnection )) and fb_getComponentBoolProperty ( FConnection, 'Connected' ) and (csDesigning in ComponentState) then
     p_setComponentBoolProperty ( FConnection, 'Connected', False );
 end;
 
 // Affectation de la connection
-// Désactive la connection  en conception
+// DÃ©sactive la connection  en conception
 procedure TF_FormMainIni.p_SetConnection(const Value: TComponent);
 begin
-  // Gestion de l'objet détruit
+  // Gestion de l'objet dÃ©truit
 {$IFDEF DELPHI}
   ReferenceInterface ( Connection, opRemove );
 {$ENDIF}
 
   if Connection <> Value then
     begin
-      // En mode conception le dataset doit être fermé
+      // En mode conception le dataset doit Ãªtre fermÃ©
       if (csDesigning in ComponentState) then p_CheckInactive;
-        // Valeur affectée
+        // Valeur affectÃ©e
         FConnection := Value;
     end;
 
-  // Gestion de l'objet détruit
+  // Gestion de l'objet dÃ©truit
 {$IFDEF DELPHI}
   ReferenceInterface ( Connection, opInsert );
 {$ENDIF}
 end;
 
 // Affectation de la connection
-// Désactive la connection  en conception
+// DÃ©sactive la connection  en conception
 procedure TF_FormMainIni.p_SetConnector(const Value: TComponent);
 begin
-  // Gestion de l'objet détruit
+  // Gestion de l'objet dÃ©truit
 {$IFDEF DELPHI}
   ReferenceInterface ( Connector, opRemove );
 {$ENDIF}
 
   if Connector <> Value then
     begin
-      // En mode conception le dataset doit être fermé
+      // En mode conception le dataset doit Ãªtre fermÃ©
       if (csDesigning in ComponentState) then p_CheckInactive;
-        // Valeur affectée
+        // Valeur affectÃ©e
         FConnector := Value;
     end;
 
-  // Gestion de l'objet détruit
+  // Gestion de l'objet dÃ©truit
 {$IFDEF DELPHI}
   ReferenceInterface ( Connector, opInsert );
 {$ENDIF}
@@ -1589,14 +1589,14 @@ Begin
 End ;
 
 ///////////////////////////////////////////////////////////////////////////////
-// Test Initialisation du fichier ini dans la prcoédure virtuelle
+// Test Initialisation du fichier ini dans la prcoÃ©dure virtuelle
 ///////////////////////////////////////////////////////////////////////////////
 procedure TF_FormMainIni.p_TestInitialisationParamIni;
 begin
   p_InitialisationParamIni;
 end;
 
-// Change la date au moment où on quitte
+// Change la date au moment oÃ¹ on quitte
 procedure TF_FormMainIni.p_IniQuitte;
 begin
   p_IniWriteSectionStr(INISEC_PAR, INIPAR_QUITTE ,'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time) );
@@ -1605,38 +1605,38 @@ end;
 // Initialisation du fichier ini
 procedure TF_FormMainIni.p_InitialisationParamIni;
 begin
-// procédure réécrite dans le fils
+// procÃ©dure rÃ©Ã©crite dans le fils
 end;
 
 // Sauvegarde ini
 procedure TF_FormMainIni.p_SauvegardeParamIni;
 begin
-// procédure réécrite dans le fils
+// procÃ©dure rÃ©Ã©crite dans le fils
 end;
 
-// Après la sauvegarde ini
+// AprÃ¨s la sauvegarde ini
 procedure TF_FormMainIni.p_ApresSauvegardeParamIni;
 begin
-// procédure réécrite dans le fils
+// procÃ©dure rÃ©Ã©crite dans le fils
 end;
 
-// Non connecté
+// Non connectÃ©
 procedure TF_FormMainIni.p_PbConnexion;
 begin
-// procédure réécrite dans le fils
+// procÃ©dure rÃ©Ã©crite dans le fils
 end;
 
-// Connecté
+// ConnectÃ©
 procedure TF_FormMainIni.p_Connectee;
 begin
-// procédure réécrite dans le fils
+// procÃ©dure rÃ©Ã©crite dans le fils
 end;
 
  // Gestion du clavier
- // Entrée : les trois touches : MAJ NUM SCROLLLOCK
+ // EntrÃ©e : les trois touches : MAJ NUM SCROLLLOCK
 procedure TF_FormMainIni.p_SortieMajNumScroll ( const ab_MajEnfoncee, ab_NumEnfoncee, ab_ScrollEnfoncee : boolean ) ;
 begin
-// procédure réécrite dans le fils
+// procÃ©dure rÃ©Ã©crite dans le fils
 end;
 
 function TF_FormMainIni.CloseQuery: Boolean;

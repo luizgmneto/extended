@@ -17,9 +17,9 @@ const
                         			                	         + 'Version 1.0.3.2 : Modifs GS_MC_VALEUR_UTILISEE et GS_MC_VALEURS_UTILISEES, ajout de GS_MC_DETAILS_TECHNIQUES.' + #13#10
                         			                	         + 'Version 1.0.3.1 : Constante message Form Dico.' + #13#10
                         			                	         + 'Version 1.0.3.0 : Constantes INI.' + #13#10
-                        			                	         + 'Version 1.0.2.0 : Plus de messages dans l''unité.' + #13#10
-                        			                	         + 'Version 1.0.1.0 : Plus de messages dans l''unité.' + #13#10
-                        			                	         + 'Version 1.0.0.0 : Gestion des messages des fenêtres.';
+                        			                	         + 'Version 1.0.2.0 : Plus de messages dans l''unitÃ©.' + #13#10
+                        			                	         + 'Version 1.0.1.0 : Plus de messages dans l''unitÃ©.' + #13#10
+                        			                	         + 'Version 1.0.0.0 : Gestion des messages des fenÃªtres.';
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 0 ; Release : 4 ; Build : 0 );
 
@@ -41,7 +41,7 @@ const
  {$IFDEF EADO}
   CST_Set_KEYSET = 'Set Keyset' ;
   CST_MODE_ASYNCHRONE = 'Mode Asynchrone' ;
-  CST_ACCES_DIRECT_SERVEUR = 'Accès directs Serveur' ;
+  CST_ACCES_DIRECT_SERVEUR = 'AccÃ¨s directs Serveur' ;
   CST_MODE_CONNEXION_ASYNCHRONE = 'Connection Asynchrone' ;
   CST_MODE_ASYNCHRONE_NB_ENREGISTREMENTS = 'Mode Asynchrone Enregistrements' ;
   CST_MODE_ASYNCHRONE_TIMEOUT = 'Mode Asynchrone TimeOut' ;
@@ -51,8 +51,8 @@ const
 
 resourcestring
   // Paquet Fonctions
-  GS_ECRITURE_IMPOSSIBLE = 'Impossible d''écrire sur le fichier @ARG avec l''attribut de fichier @ARG.' ;
-  GS_DETAILS_TECHNIQUES = 'Détails techniques : ' ;
+  GS_ECRITURE_IMPOSSIBLE = 'Impossible d''Ã©crire sur le fichier @ARG avec l''attribut de fichier @ARG.' ;
+  GS_DETAILS_TECHNIQUES = 'DÃ©tails techniques : ' ;
 
  // Composants
   GS_SUPPRIMER_QUESTION = 'Confirmez-vous l''effacement de l''enregistrement ?' ;
@@ -60,28 +60,28 @@ resourcestring
   GS_CHARGEMENT_IMPOSSIBLE_STREAM_IMAGE = 'Il est impossible de charger le flux image.' ;
   GS_CHARGEMENT_IMPOSSIBLE_STREAM_FIELD = 'Il est impossible de charger le flux image dans le champ.' ;
   GS_CHARGEMENT_IMPOSSIBLE_FILE_IMAGE   = 'Il est impossible de charger le fichier image.' ;
-  GS_ERREUR_OUVERTURE = 'Erreur à l''ouverture @ARG.' ;
+  GS_ERREUR_OUVERTURE = 'Erreur Ã  l''ouverture @ARG.' ;
   GS_FORM_ABANDON_OUVERTURE = 'Abandon de l''ouverture de la fiche @ARG...' ;
   GS_FirstRecord = 'Premier enregistrement';
   Gs_GROUPVIEW_Basket = 'Retour origine';
   Gs_GROUPVIEW_Record = 'Enregistrer';
   Gs_GROUPVIEW_Abort  = 'Abandonner';
 
-  GS_PriorRecord = 'Enregistrement précédent';
+  GS_PriorRecord = 'Enregistrement prÃ©cÃ©dent';
   GS_NextRecord = 'Enregistrement suivant';
   GS_LastRecord = 'Dernier enregistrement';
-  GS_InsertRecord = 'Insérer enregistrement';
+  GS_InsertRecord = 'InsÃ©rer enregistrement';
   GS_DeleteRecord = 'Supprimer l''enregistrement';
   GS_EditRecord = 'Modifier l''enregistrement';
   GS_PostEdit = 'Valider modifications';
   GS_CancelEdit = 'Annuler les modifications';
   GS_ConfirmCaption = 'Confirmation';
-  GS_RefreshRecord = 'Rafraîchir les données';
+  GS_RefreshRecord = 'RafraÃ®chir les donnÃ©es';
   GS_SearchRecord = 'Rechercher' ;
-  GS_MoveNextRecord = 'Déplacer l''enregistrement au suivant' ;
-  GS_MovePreviousRecord = 'Déplacer l''enregistrement au précédent' ;
+  GS_MoveNextRecord = 'DÃ©placer l''enregistrement au suivant' ;
+  GS_MovePreviousRecord = 'DÃ©placer l''enregistrement au prÃ©cÃ©dent' ;
   GS_SetBookmarkRecord = 'Marquer L''enregistrement' ;
-  GS_GotoBookmarkRecord = 'Aller à l''enregistrement Marqué' ;
+  GS_GotoBookmarkRecord = 'Aller Ã  l''enregistrement MarquÃ©' ;
 
   // SGBD
  
@@ -90,40 +90,40 @@ resourcestring
  {$ENDIF}
 
   // Erreurs
-  GS_ERREUR_NOMBRE_GRAND = 'Problème à la validation du nombre :' + #13#10
+  GS_ERREUR_NOMBRE_GRAND = 'ProblÃ¨me Ã  la validation du nombre :' + #13#10
                    + 'Un nombre saisi est trop grand.' + #13#10
                    + 'Modifier la saisie ou annuler.' ;
-  GS_METTRE_A_JOUR_FICHE = 'L''enregistrement a été effacé ou modifié par un autre utilisateur.' + #13 + #10
-                        			+ 'La fiche va être mise à jour.' ;
-  GS_VALEUR_UTILISEE   = 'La valeur @ARG est déjà utilisée.' + #13 + #10
-                        		+ 'Saisir une valeur différente, annuler ou réeffectuer la validation si une valeur n''est pas modifiable.' ;
-  GS_VALEURS_UTILISEES = 'Les valeurs @ARG sont déjà utilisées.' + #13 + #10
-                        		+ 'Saisir des valeurs différentes, annuler ou réeffectuer la validation si une valeur n''est pas modifiable.' ;
-  GS_ERREUR_RESEAU = 'Erreur réseau.' + #13#10
-                        + 'Vérifier la connexion réseau.' ;
+  GS_METTRE_A_JOUR_FICHE = 'L''enregistrement a Ã©tÃ© effacÃ© ou modifiÃ© par un autre utilisateur.' + #13 + #10
+                        			+ 'La fiche va Ãªtre mise Ã  jour.' ;
+  GS_VALEUR_UTILISEE   = 'La valeur @ARG est dÃ©jÃ  utilisÃ©e.' + #13 + #10
+                        		+ 'Saisir une valeur diffÃ©rente, annuler ou rÃ©effectuer la validation si une valeur n''est pas modifiable.' ;
+  GS_VALEURS_UTILISEES = 'Les valeurs @ARG sont dÃ©jÃ  utilisÃ©es.' + #13 + #10
+                        		+ 'Saisir des valeurs diffÃ©rentes, annuler ou rÃ©effectuer la validation si une valeur n''est pas modifiable.' ;
+  GS_ERREUR_RESEAU = 'Erreur rÃ©seau.' + #13#10
+                        + 'VÃ©rifier la connexion rÃ©seau.' ;
   GS_ERREUR_MODIFICATION_MAJ = 'Impossible de supprimer cet enregistrement.' + #13#10
-               + 'Il est utilisé dans une autre fonction.';
-  GS_ERREUR_CONNEXION = 'Un problème est survenu pour la connexion aux données.' + #13#10
-                        	 + 'Réessayez d''ouvrir la fiche.' ;
-                        //GS_CHANGEMENTS_SAUVER = 'Des changements ont été effectués.' + #13#10 +' Le trie nécessite alors une sauvegarde.'  + #13#10 + 'Voulez-vous enregistrer les changements effectués ?' ;
+               + 'Il est utilisÃ© dans une autre fonction.';
+  GS_ERREUR_CONNEXION = 'Un problÃ¨me est survenu pour la connexion aux donnÃ©es.' + #13#10
+                        	 + 'RÃ©essayez d''ouvrir la fiche.' ;
+                        //GS_CHANGEMENTS_SAUVER = 'Des changements ont Ã©tÃ© effectuÃ©s.' + #13#10 +' Le trie nÃ©cessite alors une sauvegarde.'  + #13#10 + 'Voulez-vous enregistrer les changements effectuÃ©s ?' ;
 
  // Messages pour les images
   GS_IMAGE_MULTIPLE_5 = 'L''image doit avoir une largeur multiple de ' ;
-  GS_IMAGE_DOIT_ETRE = 'La taille de l''image doit être de ' ;
+  GS_IMAGE_DOIT_ETRE = 'La taille de l''image doit Ãªtre de ' ;
   GS_IMAGE_HAUTEUR = 'L''image doit avoir une hauteur de ' ;
   GS_IMAGE_TROP_PETITE = 'L''image est trop petite.' ;
   GS_IMAGE_TROP_GRANDE = 'L''image est trop grande.' ;
 
  // Messages pour le navigateur
-  GS_INSERER_ENREGISTREMENT = 'Insérer un enregistrement' ;
+  GS_INSERER_ENREGISTREMENT = 'InsÃ©rer un enregistrement' ;
   GS_VALIDER_MODIFICATIONS  = 'Valider les modifications' ;
 
-  GS_NAVIGATEUR_VERS_LE_BAS  = 'Déplacer la ligne vers le bas' ;
-  GS_NAVIGATEUR_VERS_LE_HAUT = 'Déplacer la ligne vers le haut' ;
+  GS_NAVIGATEUR_VERS_LE_BAS  = 'DÃ©placer la ligne vers le bas' ;
+  GS_NAVIGATEUR_VERS_LE_HAUT = 'DÃ©placer la ligne vers le haut' ;
 
-  GS_PB_CONNEXION = 'La connexion a échouée.' + #13 + #10
+  GS_PB_CONNEXION = 'La connexion a Ã©chouÃ©e.' + #13 + #10
                       + 'Veuillez contacter votre administrateur.';
-  GS_DECONNECTER_ANNULE = 'Annulation de la déconnexion';
+  GS_DECONNECTER_ANNULE = 'Annulation de la dÃ©connexion';
 var
   gb_MainFormIniOneUserOnServer : Boolean = False ;
 {$IFDEF EADO}

@@ -6,7 +6,7 @@ interface
 
 {
 2004-08-27
-Création de l'unité par Matthieu Giroux
+CrÃ©ation de l'unitÃ© par Matthieu Giroux
 }
 uses Variants, Classes, ComCtrls, fonctions_version ;
 
@@ -14,7 +14,7 @@ const
     gVer_fonctions_variant : T_Version = ( Component : 'Gestion des variants' ; FileUnit : 'fonctions_variant' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Fonctions de traduction et de formatage des tableaux de variants ( Variables pouvant changer de type ).' ;
-                        			                 BugsStory : 'Version 1.0.2.0 : Fonctions fi_CountArrayVariant et fi_CountArrayVarOption (non testée).' + #13#10
+                        			                 BugsStory : 'Version 1.0.2.0 : Fonctions fi_CountArrayVariant et fi_CountArrayVarOption (non testÃ©e).' + #13#10
                         			                	        	+'Version 1.0.1.0 : Fonctions avec valeurs de retour correctes.' + #13#10
                         			                	        	+ 'Version 1.0.0.0 : Toutes les fonctions sont OK.';
                         			                 UnitType : 1 ;
@@ -23,7 +23,7 @@ const
 
 type
   // On utilise les tableaux de variant pour plus tard :
-  // gestion des clés à champs multiples
+  // gestion des clÃ©s Ã  champs multiples
   tt_TableauVarOption = Array of Record
                         			  var_Cle : Variant ;
                         			  i_Option : Byte ;
@@ -36,7 +36,7 @@ function fb_VariantsEqual ( const avar_Compare1, avar_Compare2 : Variant ): Bool
 // Cherche avar_ATrouver dans la liste alst_liste
 // alst_liste   : la liste de recherche
 // ab_VarIsNull : Cherche une valeur null
-// avar_ATrouver: la variable à trouver ( peut être une chaîne )
+// avar_ATrouver: la variable Ã  trouver ( peut Ãªtre une chaÃ®ne )
 function fi_findInList(const alst_liste: tt_TableauVariant;
   const avar_ATrouver: Variant ; const ab_VarIsNull : Boolean ): Integer;
 
@@ -46,65 +46,65 @@ function fi_CountArrayVarOption (const at_Array: tt_TableauVarOption; const ab_T
 // Cherche avar_ATrouver dans la liste alst_liste
 // alst_liste   : la liste de recherche
 // ab_VarIsNull : Cherche une valeur null
-// avar_ATrouver: la variable à trouver ( peut être une chaîne )
+// avar_ATrouver: la variable Ã  trouver ( peut Ãªtre une chaÃ®ne )
 function fi_findInListVarBool(const alst_liste: tt_TableauVarOption;
   const avar_ATrouver: Variant ; const ab_VarIsNull, ab_TestOption : Boolean; const ai_ValTest : tset_OctetOptions  ): Integer;
 
-// Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
+// Traduit un tableau de clÃ©s de variants en rÃ©sultat SQL
+// as_TexteAjoute  : Le rÃ©sultat sQL
+// at_Liste        : la liste Ã  traduire en SQL
+// alst_Cle        : le champ clÃ© correspondant Ã  la liste de clÃ©s
 function fb_TableauVersSQL ( var as_TexteAjoute : WideString ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ) : Boolean ; overload ;
 
-// Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
+// Traduit un tableau de clÃ©s de variants en rÃ©sultat SQL
+// as_TexteAjoute  : Le rÃ©sultat sQL
+// at_Liste        : la liste Ã  traduire en SQL
+// alst_Cle        : le champ clÃ© correspondant Ã  la liste de clÃ©s
 function fb_TableauVersSQL ( var as_TexteAjoute : WideString ; const at_Liste : tt_TableauVarOption ; const ab_TestOption : Boolean ; const aset_Options : tset_OctetOptions ) : Boolean ; overload ;
 
-// Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
+// Traduit un tableau de clÃ©s de variants en rÃ©sultat SQL
+// as_TexteAjoute  : Le rÃ©sultat sQL
+// at_Liste        : la liste Ã  traduire en SQL
+// alst_Cle        : le champ clÃ© correspondant Ã  la liste de clÃ©s
 // avar_option     : Rectification sur le champ
 function fb_TableauVersSQL ( var as_TexteAjoute : WideString ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ; const avar_Option : Variant ) : Boolean ; overload ;
 
-// Ne pas utiliser Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
+// Ne pas utiliser Traduit un tableau de clÃ©s de variants en rÃ©sultat SQL
+// as_TexteAjoute  : Le rÃ©sultat sQL
+// at_Liste        : la liste Ã  traduire en SQL
+// alst_Cle        : le champ clÃ© correspondant Ã  la liste de clÃ©s
 function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ) : Boolean ; overload ;
 
-// Ne pas utiliser Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
+// Ne pas utiliser Traduit un tableau de clÃ©s de variants en rÃ©sultat SQL
+// as_TexteAjoute  : Le rÃ©sultat sQL
+// at_Liste        : la liste Ã  traduire en SQL
+// alst_Cle        : le champ clÃ© correspondant Ã  la liste de clÃ©s
 // avar_option     : Rectification sur le champ
 function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ; const avar_Option : Variant ) : Boolean ; overload ;
 
-// Ajoute un variant à un tableau de variants
+// Ajoute un variant Ã  un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
 procedure p_AjouteListe ( var at_Liste : tt_TableauVariant ; const as_Valeur : String ); overload ;
 
-// Ajoute un variant à un tableau de variants
+// Ajoute un variant Ã  un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
 procedure p_AjouteListe ( var at_Liste : tt_TableauVariant ; const avar_Valeur : Variant ); overload ;
 
-// Ajoute un variant à un tableau de variants
+// Ajoute un variant Ã  un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
 function fi_AjouteListe ( var at_Liste : tt_TableauVariant ; const as_Valeur : String ; const ab_VerifExiste : Boolean ): Integer ; overload ;
 
-// Ajoute un variant à un tableau de variants
+// Ajoute un variant Ã  un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
 function fi_AjouteListe ( var at_Liste : tt_TableauVariant ; const avar_Valeur : Variant ; const ab_VerifExiste : Boolean): Integer ; overload ;
 
 function fi_AjouteListe ( var at_Liste : tt_TableauVarOption ; const avar_Valeur : Variant ; const ab_VerifExiste : Boolean ):Integer;overload;
 
-// Ajoute un variant à un tableau de variants
+// Ajoute un variant Ã  un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
 function fi_EffaceListe ( var at_Liste : tt_TableauVariant ; const avar_Valeur : Variant ) : Integer  ;
@@ -112,7 +112,7 @@ function fb_EffaceListe ( var at_Liste : tt_TableauVariant ; const avar_Valeur :
 
 // La liste de variants contient-elle des valeurs
 // at_Liste : le tableau de variants
-// résultat : True si valeurs non null
+// rÃ©sultat : True si valeurs non null
 function fb_ListeAffectee ( const at_Liste : tt_TableauVariant ) : Boolean ;
 
 // Supprime un item d'un tableau
@@ -126,7 +126,7 @@ uses fonctions_string, SysUtils ;
 // Cherche avar_ATrouver dans la liste alst_liste
 // alst_liste   : la liste de recherche
 // ab_VarIsNull : Cherche une valeur null
-// avar_ATrouver: la variable à trouver ( peut être une chaîne )
+// avar_ATrouver: la variable Ã  trouver ( peut Ãªtre une chaÃ®ne )
 function fi_findInList(const alst_liste: tt_TableauVariant;
   const avar_ATrouver: Variant ; const ab_VarIsNull : Boolean ): Integer;
  var li_i : Integer ;
@@ -138,7 +138,7 @@ Begin
     Exit ;
     // Scrute la liste
   for li_i := 0 to high ( alst_liste ) do
-  // c'est un tableau qu'on a affecté ( pas encore mise en place )
+  // c'est un tableau qu'on a affectÃ© ( pas encore mise en place )
    if fb_VariantsEqual ( avar_ATrouver, alst_liste [ li_i ]) Then
      Begin
        Result := li_i ;
@@ -149,7 +149,7 @@ End ;
 // Cherche avar_ATrouver dans la liste alst_liste
 // alst_liste   : la liste de recherche
 // ab_VarIsNull : Cherche une valeur null
-// avar_ATrouver: la variable à trouver ( peut être une chaîne )
+// avar_ATrouver: la variable Ã  trouver ( peut Ãªtre une chaÃ®ne )
 function fi_findInListVarBool(const alst_liste: tt_TableauVarOption;
   const avar_ATrouver: Variant ; const ab_VarIsNull, ab_TestOption : Boolean; const ai_ValTest : tset_OctetOptions ): Integer;
  var li_i : Integer ;
@@ -159,9 +159,10 @@ Begin
   for li_i := 0 to high ( alst_liste ) do
     if ( ab_TestOption and ( alst_liste [ li_i ].i_Option in ai_ValTest ))
     or not ab_TestOption Then
-    // c'est un tableau qu'on a affecté ( pas encore mise en place )
+    // c'est un tableau qu'on a affectÃ© ( pas encore mise en place )
      if (( avar_ATrouver = Null ) and not ab_VarIsNull ) or fb_VariantsEqual ( avar_ATrouver, alst_liste [ li_i ].var_Cle ) Then
        Begin
+
          Result := li_i ;
          Break ;
        End ;
@@ -171,7 +172,7 @@ function fb_VariantsEqual ( const avar_Compare1, avar_Compare2 : Variant ): Bool
 var li_j : Integer ;
     ls_Compare1, ls_Compare2 : String ;
 Begin
-// c'est un tableau qu'on a affecté ( pas encore mise en place )
+// c'est un tableau qu'on a affectÃ© ( pas encore mise en place )
  Result := False ;
  if VarIsArray ( avar_Compare1 )
   Then
@@ -197,12 +198,12 @@ Begin
        if avar_Compare1 = avar_Compare2
         Then
          Begin
-           // Variable null trouvée
+           // Variable null trouvÃ©e
            Result := True ;
          End ;
      End
     Else
-     // Sinon on compare des valeurs qui ne doivent pas être null
+     // Sinon on compare des valeurs qui ne doivent pas Ãªtre null
      if avar_Compare2 <> Null
       Then
        Begin
@@ -212,15 +213,15 @@ Begin
          if ls_Compare2 = ls_Compare1
           Then
            Begin
-             // On a trouvé la valeur
+             // On a trouvÃ© la valeur
              Result := True ;
            End ;
        End ;
 End ;
-// Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
+// Traduit un tableau de clÃ©s de variants en rÃ©sultat SQL
+// as_TexteAjoute  : Le rÃ©sultat sQL
+// at_Liste        : la liste Ã  traduire en SQL
+// alst_Cle        : le champ clÃ© correspondant Ã  la liste de clÃ©s
 function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ) : Boolean ; overload ;
 var ls_Texte : WideString ;
 Begin
@@ -228,10 +229,10 @@ Begin
   Result := fb_TableauVersSQL ( ls_Texte, at_Liste, alst_Cle );
   as_TexteAjoute := ls_Texte ;
 End ;
-// Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
+// Traduit un tableau de clÃ©s de variants en rÃ©sultat SQL
+// as_TexteAjoute  : Le rÃ©sultat sQL
+// at_Liste        : la liste Ã  traduire en SQL
+// alst_Cle        : le champ clÃ© correspondant Ã  la liste de clÃ©s
 function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ; const avar_Option : Variant ) : Boolean ;
 var ls_Texte : WideString ;
 Begin
@@ -261,18 +262,18 @@ Begin
         or ( ab_TestOption and not ( at_Liste [ li_i ].i_Option in aset_Options ))
          Then
           Continue ;
-          // on a une clé
+          // on a une clÃ©
         Result := True ;
         // Ajoute
-        if lb_PremiereFois // Première ligne
+        if lb_PremiereFois // PremiÃ¨re ligne
          Then
            Begin
-             if VarIsStr ( at_Liste [ li_i ].var_Cle ) // Chaîne
+             if VarIsStr ( at_Liste [ li_i ].var_Cle ) // ChaÃ®ne
                Then as_TexteAjoute := '''' + fs_StringDBQuote ( at_Liste [ li_i ].var_Cle) + ''''
                Else as_TexteAjoute :=  VarToStr ( at_Liste [ li_i ].var_Cle) ; // AUTRE
            End
          Else
-         if VarIsStr ( at_Liste [ li_i ].var_Cle ) // Chaîne
+         if VarIsStr ( at_Liste [ li_i ].var_Cle ) // ChaÃ®ne
            Then as_TexteAjoute := as_TexteAjoute + ',''' + fs_StringDBQuote ( at_Liste [ li_i ].var_Cle) + ''''
            Else as_TexteAjoute := as_TexteAjoute + ','   +         VarToStr ( at_Liste [ li_i ].var_Cle) ; // AUTRE
         lb_PremiereFois := False ;
@@ -300,15 +301,15 @@ Begin
         if at_Liste [ li_i ] = Null
          Then
           Continue ;
-          // on a une clé
+          // on a une clÃ©
         Result := True ;
         // Ajoute
-        if lb_PremiereFois // Première ligne
+        if lb_PremiereFois // PremiÃ¨re ligne
          Then
            Begin
              if VarIsNumeric ( avar_Option ) and VarIsStr ( at_Liste [ li_i ] ) Then
                as_TexteAjoute :=  VarToStr ( StrToInt64 ( at_Liste [ li_i ] ) -  avar_Option )// option
-             Else if VarIsStr ( at_Liste [ li_i ] ) // Chaîne
+             Else if VarIsStr ( at_Liste [ li_i ] ) // ChaÃ®ne
                Then as_TexteAjoute := '''' + fs_StringDBQuote ( at_Liste [ li_i ]) + ''''
                Else if VarIsNumeric ( avar_Option ) and VarIsNumeric ( at_Liste [ li_i ] ) Then
                  as_TexteAjoute :=  VarToStr ( at_Liste [ li_i ] -  avar_Option )// option
@@ -318,7 +319,7 @@ Begin
          Else
          if VarIsNumeric ( avar_Option ) and VarIsStr ( at_Liste [ li_i ] ) Then
            as_TexteAjoute := as_TexteAjoute + ','   +         VarToStr ( StrToInt64 ( at_Liste [ li_i ] ) -  avar_Option )// option
-         Else if VarIsStr ( at_Liste [ li_i ] ) // Chaîne
+         Else if VarIsStr ( at_Liste [ li_i ] ) // ChaÃ®ne
            Then as_TexteAjoute := as_TexteAjoute + ',''' + fs_StringDBQuote ( at_Liste [ li_i ]) + ''''
            Else if VarIsNumeric ( avar_Option ) and VarIsNumeric ( at_Liste [ li_i ] ) Then
              as_TexteAjoute := as_TexteAjoute + ','   +         VarToStr ( at_Liste [ li_i ] -  avar_Option )// option
@@ -328,22 +329,22 @@ Begin
       End ;
 End ;
 
-// Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
+// Traduit un tableau de clÃ©s de variants en rÃ©sultat SQL
+// as_TexteAjoute  : Le rÃ©sultat sQL
+// at_Liste        : la liste Ã  traduire en SQL
+// alst_Cle        : le champ clÃ© correspondant Ã  la liste de clÃ©s
 function fb_TableauVersSQL ( var as_TexteAjoute : WideString ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ) : Boolean ;
 Begin
   Result := fb_TableauVersSQL ( as_TexteAjoute, at_Liste, alst_Cle, Null );
 End ;
-// Ajoute un variant à un tableau de variants
+// Ajoute un variant Ã  un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
 procedure p_AjouteListe ( var at_Liste : tt_TableauVariant ; const as_Valeur : String );
 begin
   fi_AjouteListe ( at_Liste, as_Valeur, True );
 End ;
-// Ajoute un variant à un tableau de variants
+// Ajoute un variant Ã  un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
 function fi_AjouteListe ( var at_Liste : tt_TableauVariant ; const as_Valeur : String ; const ab_VerifExiste : Boolean ):Integer;
@@ -357,7 +358,7 @@ Begin
    If Result = -1
     Then
      Begin
-      // On ajoute dans les clés d'exclusion
+      // On ajoute dans les clÃ©s d'exclusion
       SetLength ( at_Liste, high ( at_Liste ) + 2 );
 
 
@@ -369,14 +370,14 @@ Begin
 
 End ;
 
-// Ajoute un variant à un tableau de variants
+// Ajoute un variant Ã  un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
 procedure p_AjouteListe ( var at_Liste : tt_TableauVariant ; const avar_Valeur : Variant );
 begin
   fi_AjouteListe ( at_Liste, avar_Valeur, True );
 End ;
-// Ajoute un variant à un tableau de variants
+// Ajoute un variant Ã  un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
 function fi_AjouteListe ( var at_Liste : tt_TableauVariant ; const avar_Valeur : Variant ; const ab_VerifExiste : Boolean ):Integer;
@@ -396,7 +397,7 @@ Begin
      If Result = -1
       Then
        Begin
-        // On ajoute dans les clés d'exclusion
+        // On ajoute dans les clÃ©s d'exclusion
         SetLength ( at_Liste, high ( at_Liste ) + 2 );
 
 
@@ -408,7 +409,7 @@ Begin
 
 End ;
 
-// Ajoute un variant à un tableau de variants
+// Ajoute un variant Ã  un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
 function fi_AjouteListe ( var at_Liste : tt_TableauVarOption ; const avar_Valeur : Variant ; const ab_VerifExiste : Boolean ):Integer;
@@ -428,7 +429,7 @@ Begin
      If Result = -1
       Then
        Begin
-        // On ajoute dans les clés d'exclusion
+        // On ajoute dans les clÃ©s d'exclusion
         SetLength ( at_Liste, high ( at_Liste ) + 2 );
 
 
@@ -457,14 +458,14 @@ End ;
 
 // La liste de variants contient-elle des valeurs
 // at_Liste : le tableau de variants
-// résultat : True si valeurs non null
+// rÃ©sultat : True si valeurs non null
 function fb_ListeAffectee ( const at_Liste : tt_TableauVariant ) : Boolean ;
 var li_i : integer ;
 Begin
  Result := False ;
-  // Il peut y avoir des clés à null
+  // Il peut y avoir des clÃ©s Ã  null
   for li_i := 0 to  high ( at_Liste ) do
-   // La liste a-t-elle une clé affectée
+   // La liste a-t-elle une clÃ© affectÃ©e
    if at_Liste [ li_i ] <> Null Then
      Begin
        Result := True ;
@@ -474,14 +475,14 @@ End ;
 
 // La liste de variants contient-elle des valeurs
 // at_Liste : le tableau de variants
-// résultat : True si valeurs non null
+// rÃ©sultat : True si valeurs non null
 function fb_ListeOrigineAffectee ( const at_Liste : tt_TableauVarOption ; const ab_TestBool : Boolean ; const ai_OptionLimitDown : Integer ) : Boolean ;
 var li_i : integer ;
 Begin
  Result := False ;
-  // Il peut y avoir des clés à null
+  // Il peut y avoir des clÃ©s Ã  null
   for li_i := 0 to  high ( at_Liste ) do
-   // La liste a-t-elle une clé affectée
+   // La liste a-t-elle une clÃ© affectÃ©e
    if (not ab_TestBool and ( at_Liste [ li_i ].var_Cle <> Null ))
    or ( ab_TestBool and ( at_Liste [ li_i ].i_Option >= ai_OptionLimitDown ) and ( at_Liste [ li_i ].var_Cle <> Null )) Then
      Begin
@@ -492,7 +493,7 @@ End ;
 
 // Compte les variants non null dans La liste de variants
 // at_Array : le tableau de variants
-// résultat : Nombre de variants non null
+// rÃ©sultat : Nombre de variants non null
 function fi_CountArrayVariant (const at_Array: tt_TableauVariant) : integer ;
 var li_i : integer ;
 Begin
@@ -504,9 +505,9 @@ End ;
 
 // Compte les variants non null dans La liste de variants
 // at_Array : le tableau de variants
-// ab_TestBool : Test supplémentaire
-// ai_Options  : Options valide à tester
-// résultat : Nombre de variants non null
+// ab_TestBool : Test supplÃ©mentaire
+// ai_Options  : Options valide Ã  tester
+// rÃ©sultat : Nombre de variants non null
 function fi_CountArrayVarOption (const at_Array: tt_TableauVarOption; const ab_TestBool : Boolean ; const ai_Options : tset_OctetOptions ) : integer ;
 var li_i : integer ;
 Begin

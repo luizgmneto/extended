@@ -20,31 +20,31 @@ uses Forms,
 {$ENDIF}
   DB, Graphics, Classes, Controls, Dialogs ;
 
-const CST_IMAGE_MAUVAISE_TAILLE = 'La taille de l''image doit être au moins de 32 sur 32.' ;
-      CST_IMAGE_DEFORMATION = 'L''image sera déformée, continuer ?' ;
+const CST_IMAGE_MAUVAISE_TAILLE = 'La taille de l''image doit Ãªtre au moins de 32 sur 32.' ;
+      CST_IMAGE_DEFORMATION = 'L''image sera dÃ©formÃ©e, continuer ?' ;
       CST_IMAGE_MAUVAISE_IMAGE = 'Mauvais format d''image.' ;
 {$IFDEF VERSIONS}
   gVer_fonctions_images : T_Version = ( Component : 'Gestion des images' ; FileUnit : 'fonctions_images' ;
                         			             Owner : 'Matthieu Giroux' ;
-                        			              Comment : 'Chargement des icônes et bitmap ( vérifier des erreurs éventuelles avec Memproof ).' + #13#10 + 'Gestion des images.' ;
+                        			              Comment : 'Chargement des icÃ´nes et bitmap ( vÃ©rifier des erreurs Ã©ventuelles avec Memproof ).' + #13#10 + 'Gestion des images.' ;
                         			              BugsStory : 'Version 1.0.0.4 : Bug couleur transparente en noir dans les imagelist.' + #13#10 +
-                        			                	        'Version 1.0.0.3 : Handle à 0 après FreeImage et create des TBitmap.' + #13#10 +
-                        			                	        'Version 1.0.0.2 : Suppression du RealeaseHanlde après FreeImage.' + #13#10 +
-                        			                	        'Version 1.0.0.1 : Meilleure gestion des images, problèmes de rafraichissement.' + #13#10 +
-                        			                	        'Version 1.0.0.0 : La gestion est en place.' + #13#10 + 'Il faut utiliser les fonctions et vérifier les erreurs éventuellement produites avec Memproof.';
+                        			                	        'Version 1.0.0.3 : Handle Ã  0 aprÃ¨s FreeImage et create des TBitmap.' + #13#10 +
+                        			                	        'Version 1.0.0.2 : Suppression du RealeaseHanlde aprÃ¨s FreeImage.' + #13#10 +
+                        			                	        'Version 1.0.0.1 : Meilleure gestion des images, problÃ¨mes de rafraichissement.' + #13#10 +
+                        			                	        'Version 1.0.0.0 : La gestion est en place.' + #13#10 + 'Il faut utiliser les fonctions et vÃ©rifier les erreurs Ã©ventuellement produites avec Memproof.';
                         			              UnitType : 1 ;
                         			              Major : 1 ; Minor : 0 ; Release : 0 ; Build : 4 );
 
 
 {$ENDIF}
 
-// Charge un icône ou un bitmap dans un champ bitmap si le bitmap est assez grand par rapport à ai_Taille
+// Charge un icÃ´ne ou un bitmap dans un champ bitmap si le bitmap est assez grand par rapport Ã  ai_Taille
 // aod_ChargerImage : Chargement du fichier image
-// aF_FieldImage    : Champ image à enregistrer
-// ai_Taille        : La taille à modifier : -1 pour ne pas modifier
+// aF_FieldImage    : Champ image Ã  enregistrer
+// ai_Taille        : La taille Ã  modifier : -1 pour ne pas modifier
 // ab_MontreMessage : Interaction avec l'utilisateur
 // adxb_Image       : Bitmap de visualisation
-// Sortie           : Enregistré ou non
+// Sortie           : EnregistrÃ© ou non
 
 function fb_ChargeIcoBmp ( const aod_ChargerImage : TOpenDialog ;
                            const adat_DataSet     : TDataSet    ;
@@ -69,26 +69,26 @@ function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
 // Ajoute une image bmp dans une imagelist et efface le handle
 //  aBmp_Picture : L'image
 // ab_AjouteBitmap : Ajoute l'image
-// ab_ImageDefaut  : Ajoute l'image par défaut
+// ab_ImageDefaut  : Ajoute l'image par dÃ©faut
 // aIma_ImagesMenus : Liste d'iamges
-// ai_CompteurImageDef : Compteur d'image par défaut
+// ai_CompteurImageDef : Compteur d'image par dÃ©faut
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
                                   const aIma_ImagesMenus     : TImageList  ) : Integer ; overload ;
 // Transforme un bitmap en tout petit bitmap
-// Entrée : Le Bitmap source
+// EntrÃ©e : Le Bitmap source
 // Sortie : Le petit bitmap
 procedure p_RecuperePetitBitmap ( const abmp_BitmapOrigine : TBitmap );
 
 // Transforme un bitmap en tout petit bitmap
-// Entrée : Le Bitmap source
+// EntrÃ©e : Le Bitmap source
 // Sortie : Le petit bitmap
 procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TBitmap; const ai_Taille : Integer );
 
 // Transformation d'un champ image en TPersistent ( Faire un assign sur TIcon ensuite )
 // aFie_FieldImage     : Champ image
-// aGra_IconAChanger   : Image à changer
+// aGra_IconAChanger   : Image Ã  changer
 // aGra_DefaultPicture : Image si rien
-// Sortie : A-t-on affecté ?
+// Sortie : A-t-on affectÃ© ?
 
 function fb_AssignDBImage ( const aFie_FieldImage     : TField   ;
                         		const aGra_IconAChanger   : TGraphic ;
@@ -123,7 +123,7 @@ var
   lpi_IconInfo : PIconInfo;
 {$ENDIF}
 begin
-// Le bitmap doit être transparent
+// Le bitmap doit Ãªtre transparent
   aBmp_Bitmap.Transparent := True ;
   aIco_Destination.Modified := False ;
   with aIco_Destination do
@@ -132,20 +132,20 @@ begin
         ReleaseHandle ;
         Handle := 0 ;
       End ;
- {Crée un icon}
-  lii_IconInfo.fIcon := true; // C'est un icône
-  lii_IconInfo.xHotspot := 0; // Valeurs par défaut : connaîs pas
+ {CrÃ©e un icon}
+  lii_IconInfo.fIcon := true; // C'est un icÃ´ne
+  lii_IconInfo.xHotspot := 0; // Valeurs par dÃ©faut : connaÃ®s pas
   lii_IconInfo.yHotspot := 0;
   lii_IconInfo.hbmMask := aBmp_Bitmap.MaskHandle; // Masque de transparence
   lii_IconInfo.hbmColor := aBmp_Bitmap.Handle; // Bitmap
 {$IFDEF FPC}
   lpi_IconInfo := @lii_IconInfo ;
-  aIco_Destination.Handle := CreateIconIndirect(lpi_IconInfo); /// Création de l'icône
+  aIco_Destination.Handle := CreateIconIndirect(lpi_IconInfo); /// CrÃ©ation de l'icÃ´ne
 {$ELSE}
-  aIco_Destination.Handle := CreateIconIndirect(lii_IconInfo); /// Création de l'icône
+  aIco_Destination.Handle := CreateIconIndirect(lii_IconInfo); /// CrÃ©ation de l'icÃ´ne
 {$ENDIF}
-  aIco_Destination.Palette := aBmp_Bitmap.Palette ; // récupère la Palette
-// l'icône est transparent
+  aIco_Destination.Palette := aBmp_Bitmap.Palette ; // rÃ©cupÃ¨re la Palette
+// l'icÃ´ne est transparent
   aIco_Destination.Transparent := True ;
   // Midifications faites
   aIco_Destination.PaletteModified := True ;
@@ -155,9 +155,9 @@ end;
 
 // Transformation d'un champ image en TPersistent ( Faire un assign sur TIcon ensuite )
 // aFie_FieldImage     : Champ image
-// aGra_IconAChanger   : Image à changer
+// aGra_IconAChanger   : Image Ã  changer
 // aGra_DefaultPicture : Image si rien
-// Sortie : A-t-on affecté ?
+// Sortie : A-t-on affectÃ© ?
 
 function fb_AssignDBImage ( const aFie_FieldImage     : TField   ;
                         		const  aGra_IconAChanger    : TGraphic ;
@@ -232,9 +232,9 @@ begin
         aGra_IconAChanger.Modified := True ;
       End
     else
-      if assigned ( aGra_DefaultPicture ) // Image par défaut
+      if assigned ( aGra_DefaultPicture ) // Image par dÃ©faut
       and aGra_IconAChanger.Empty
-      and ( aGra_IconAChanger.ClassType = aGra_DefaultPicture.ClassType ) // Image par défaut
+      and ( aGra_IconAChanger.ClassType = aGra_DefaultPicture.ClassType ) // Image par dÃ©faut
        Then
         begin
           aGra_IconAChanger.Assign ( aGra_DefaultPicture );
@@ -257,9 +257,9 @@ end ;
   end;
   // Transformation d'un champ image en TPersistent ( Faire un assign sur TIcon ensuite )
 // aFie_FieldImage     : Champ image
-// aIco_IconAChanger   : Image à changer
+// aIco_IconAChanger   : Image Ã  changer
 // aIco_DefaultPicture : Image si rien
-// Sortie : A-t-on affecté ?
+// Sortie : A-t-on affectÃ© ?
 
 function fb_FichierIcoBmpVersBitmap ( const as_Fichier : String; const aBmp_Sortie : TBitmap ) : Boolean;
 var lIco_Icon : TIcon ;
@@ -292,7 +292,7 @@ begin
 end ;
 
 // Transforme un bitmap en tout petit bitmap
-// Entrée : Le Bitmap source
+// EntrÃ©e : Le Bitmap source
 // Sortie : Le petit bitmap
 procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TBitmap; const ai_Taille : Integer );
 
@@ -300,7 +300,7 @@ var
   lrec_Rectangle      : TRect ;  // Nouvelle taille
   lbmp_Tempo          : TBitmap ;
 Begin
-  lbmp_Tempo := TBitmap.Create ; // Création petit bitmap
+  lbmp_Tempo := TBitmap.Create ; // CrÃ©ation petit bitmap
   lbmp_Tempo.Handle := 0 ;
   lbmp_Tempo.Width   := ai_Taille ;
   lbmp_Tempo.Height  := ai_Taille ;
@@ -344,9 +344,9 @@ end ;
 // Ajoute une image bmp dans une imagelist et efface le handle
 //  aBmp_Picture : L'image
 // ab_AjouteBitmap : Ajoute l'image
-// ab_ImageDefaut  : Ajoute l'image par défaut
+// ab_ImageDefaut  : Ajoute l'image par dÃ©faut
 // aIma_ImagesMenus : Liste d'iamges
-// ai_CompteurImageDef : Compteur d'image par défaut
+// ai_CompteurImageDef : Compteur d'image par dÃ©faut
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
                                   const ab_AjouteBitmap      ,
                                         ab_ImageDefaut       : Boolean     ;
@@ -358,22 +358,22 @@ Begin
   if ab_AjouteBitmap
    Then
     Begin
-      // Récupère le bitmap en petit
+      // RÃ©cupÃ¨re le bitmap en petit
       p_RecuperePetitBitmap ( aBmp_Picture );
-      // La couleur de transparence doit être celle du bitmap
+      // La couleur de transparence doit Ãªtre celle du bitmap
       aIma_ImagesMenus.BkColor := aBmp_Picture.TransparentColor ;
       // Ajoute dans l'image liste
       aIma_ImagesMenus.AddMasked ( aBmp_Picture, aBmp_Picture.TransparentColor );
-      // Libère l'image temporaire
+      // LibÃ¨re l'image temporaire
 {$IFDEF DELPHI}
       aBmp_Picture.Dormant ;
 {$ENDIF}
       aBmp_Picture.FreeImage ;
       aBmp_Picture.Handle := 0 ;
-      // Numero de l'image ajoutée
+      // Numero de l'image ajoutÃ©e
       Result := aIma_ImagesMenus.Count - 1 ;
     End
-    // Sinon image par défaut de l'image liste
+    // Sinon image par dÃ©faut de l'image liste
    Else
     if ab_ImageDefaut
      Then
@@ -383,9 +383,9 @@ End ;
 // Ajoute une image bmp dans une imagelist et efface le handle
 //  aBmp_Picture : L'image
 // ab_AjouteBitmap : Ajoute l'image
-// ab_ImageDefaut  : Ajoute l'image par défaut
+// ab_ImageDefaut  : Ajoute l'image par dÃ©faut
 // aIma_ImagesMenus : Liste d'iamges
-// ai_CompteurImageDef : Compteur d'image par défaut
+// ai_CompteurImageDef : Compteur d'image par dÃ©faut
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
                                   const aIma_ImagesMenus     : TImageList  ) : Integer ;
 
@@ -396,32 +396,32 @@ Begin
   if aBmp_Picture.Handle <> 0
    Then
     Begin
-      // Récupère le bitmap en petit
+      // RÃ©cupÃ¨re le bitmap en petit
       p_RecuperePetitBitmap ( aBmp_Picture );
-      // La couleur de transparence doit être celle du bitmap
+      // La couleur de transparence doit Ãªtre celle du bitmap
       aIma_ImagesMenus.BkColor := aBmp_Picture.TransparentColor ;
       // Ajoute dans l'image liste
       aIma_ImagesMenus.AddMasked ( aBmp_Picture , aBmp_Picture.TransparentColor );
-      // Libère l'image temporaire
+      // LibÃ¨re l'image temporaire
 {$IFDEF DELPHI}
       aBmp_Picture.Dormant ;
 {$ENDIF}
       aBmp_Picture.FreeImage ;
       aBmp_Picture.Handle := 0 ;
-      // Spécififique àl'xpbar
+      // SpÃ©cififique Ã l'xpbar
       aIma_ImagesMenus.BkColor := clBackground ;
-      // Numero de l'image ajoutée
+      // Numero de l'image ajoutÃ©e
       Result := aIma_ImagesMenus.Count - 1 ;
     End ;
 End ;
 
-// Charge un icône ou un bitmap dans un champ bitmap si le bitmap est assez grand par rapport à ai_Taille
+// Charge un icÃ´ne ou un bitmap dans un champ bitmap si le bitmap est assez grand par rapport Ã  ai_Taille
 // aod_ChargerImage : Chargement du fichier image
-// aF_FieldImage    : Champ image à enregistrer
-// ai_Taille        : La taille à modifier : -1 pour ne pas modifier
+// aF_FieldImage    : Champ image Ã  enregistrer
+// ai_Taille        : La taille Ã  modifier : -1 pour ne pas modifier
 // ab_MontreMessage : Interaction avec l'utilisateur
 // adxb_Image       : Bitmap de visualisation
-// Sortie           : Enregistré ou non
+// Sortie           : EnregistrÃ© ou non
 
 function fb_ChargeIcoBmp ( const aod_ChargerImage : TOpenDialog ;
                            const adat_DataSet     : TDataSet    ;
@@ -442,7 +442,7 @@ begin
       LBmp_Tempo := TBitmap.Create ;
       LBmp_Tempo.Handle := 0 ;
       fb_FichierIcoBmpVersBitmap ( aod_ChargerImage.FileName, LBmp_Tempo );
-      // L'image n'est pas à la bonne taille
+      // L'image n'est pas Ã  la bonne taille
       if  ( ai_Taille         >  0  )
       and (    ( LBmp_Tempo.Width  <> ai_Taille )
            or  ( LBmp_Tempo.Height <> ai_Taille ))
@@ -460,11 +460,11 @@ begin
             End
            Else
             if  (    ( LBmp_Tempo.Width  = LBmp_Tempo.Height )
-      // L'image va être déformée alors avertissement
+      // L'image va Ãªtre dÃ©formÃ©e alors avertissement
                  or  ( ab_MontreMessage and ( MessageDlg ( CST_IMAGE_DEFORMATION, mtWarning, [mbOk,mbCancel], 0) = mrOK )))
              Then
               Begin
-              // Création du bitmap de conversion
+              // CrÃ©ation du bitmap de conversion
 								LBmp_Tempo2 := TBitmap.Create ;
 								LBmp_Tempo2.Handle := 0 ;
                 LBmp_Tempo2.Assign ( LBmp_Tempo );
@@ -489,7 +489,7 @@ begin
 								LBmp_Tempo.Transparent := True ;
 								Result := True ;
 
-								// Libération du bitmap de conversion
+								// LibÃ©ration du bitmap de conversion
 {$IFNDEF FPC}
 								LBmp_Tempo2.Dormant ;
 {$ENDIF}
@@ -538,7 +538,7 @@ begin
 End ;
 
 
-// Procédure de transfert d'un champ vers une image
+// ProcÃ©dure de transfert d'un champ vers une image
 // field : Le champ image
 // Image : La destination
 procedure p_SetFieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean );
@@ -560,7 +560,7 @@ begin
 
 end;
 
-// Procédure de transfert d'un champ vers une image
+// ProcÃ©dure de transfert d'un champ vers une image
 // field : Le champ image
 // Image : La destination
 procedure p_SetImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean );
@@ -583,7 +583,7 @@ begin
 
 end;
 
-// Procédure de transfert d'un champ vers une image
+// ProcÃ©dure de transfert d'un champ vers une image
 // field : Le champ image
 // Image : La destination
 procedure p_SetStreamToField ( const astream: TStream; const field : TField ; const ab_ShowError : Boolean );

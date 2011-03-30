@@ -43,8 +43,8 @@ uses
 const
   gVer_hh : TMCVersion = ( MCComponent : 'Ancienne gestion de l''aide' ; MCUnit : 'hh' ;
                         		Owner : 'Helpware Group' ;
-                        			                 Comment : 'Fonctions non utilisées liant à l''aide de l''application.' ;
-                        			                 BugsStory : 'Version non utilisée.';
+                        			                 Comment : 'Fonctions non utilisÃ©es liant Ã  l''aide de l''application.' ;
+                        			                 BugsStory : 'Version non utilisÃ©e.';
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 6 ; Release : 0 ; Build : 0 );
 { >> Create conditional symbols.

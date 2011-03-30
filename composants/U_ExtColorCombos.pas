@@ -4,7 +4,7 @@
 {             Matthieu Giroux                                         }
 {             TExtColorCombo :                                        }
 {             Objet de choix de couleur                               }
-{             qui permet de personnalisé la couleur du titre          }
+{             qui permet de personnalisÃ© la couleur du titre          }
 {             de l'onglet actif                                       }
 {             10 Mars 2006                                            }
 {                                                                     }
@@ -45,16 +45,16 @@ const
                                                FileUnit : 'U_ExtColorCombo' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Choisir une couleur dans une liste ou avec la palette de couleurs.' ;
-                                               BugsStory : '1.0.1.0 : Bug du re-focus enlevé, propriétés Combo.' + #13#10 +
+                                               BugsStory : '1.0.1.0 : Bug du re-focus enlevÃ©, propriÃ©tÃ©s Combo.' + #13#10 +
                                                            '1.0.0.0 : OK.';
                                                UnitType : 3 ;
                                                Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
     gVer_TDBColorCombo : T_Version = ( Component : 'Composant TExtDBColorCombo' ;
                                                FileUnit : 'U_ExtColorCombo' ;
                                                Owner : 'Matthieu Giroux' ;
-                                               Comment : 'Choisir une couleur dans une liste ou avec la palette de couleurs.' + #13#10 + 'Descendant de TExtColorCombo avec lien aux données.' ;
-                                               BugsStory : '1.0.1.0 : Améliorations sur la gestion des erreurs' + #13#10
-                                                         + '1.0.0.1 : Bug ''pas en mode édition'' enlevé.' + #13#10
+                                               Comment : 'Choisir une couleur dans une liste ou avec la palette de couleurs.' + #13#10 + 'Descendant de TExtColorCombo avec lien aux donnÃ©es.' ;
+                                               BugsStory : '1.0.1.0 : AmÃ©liorations sur la gestion des erreurs' + #13#10
+                                                         + '1.0.0.1 : Bug ''pas en mode Ã©dition'' enlevÃ©.' + #13#10
                                                          + '1.0.0.0 : OK.';
                                                UnitType : 3 ;
                                                Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
@@ -128,7 +128,7 @@ type
       property MyLabel : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} read FLabel write p_setLabel;
       property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
       property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
-    // Propriétés gardées
+    // PropriÃ©tÃ©s gardÃ©es
       property AutoComplete;
       property AutoDropDown;
 {$IFDEF DELPHI}
@@ -245,11 +245,11 @@ const
   'Black','Maroon','Green','Money green', 'Olive', 'Navy', 'Purple', 'Teal', 'Gray',
   'Silver', 'Red', 'Lime', 'Yellow', 'Pale yellow', 'Blue', 'Sky blue', 'Fuchsia', 'Aqua', 'White', 'None'),
   (
-  'Preto','Marron','Verde', 'Dinheiro verde', 'Oliva', 'Azul Escuro', 'Roxo', 'Azul-petróleo', 'Cinza',
-  'Prata', 'Vermelho', 'Limão', 'Amarelo', 'Empalideça amarelo', 'Azul', 'Azul celeste', 'Rosa', 'Turquesa', 'Branco', 'Nada'),
+  'Preto','Marron','Verde', 'Dinheiro verde', 'Oliva', 'Azul Escuro', 'Roxo', 'Azul-petrÃ³leo', 'Cinza',
+  'Prata', 'Vermelho', 'LimÃ£o', 'Amarelo', 'EmpalideÃ§a amarelo', 'Azul', 'Azul celeste', 'Rosa', 'Turquesa', 'Branco', 'Nada'),
   (
   'Noir','Marron','Vert','Vert argent', 'Olivier', 'Bleu marine', 'Pourpre', 'Bleu nuit', 'Gris',
-  'Argent', 'Rouge', 'Citron', 'Jaune', 'Jaune pâle', 'Bleu', 'Bleu ciel', 'Fuchsia', 'Eau', 'Blanc', 'Indéfini'));
+  'Argent', 'Rouge', 'Citron', 'Jaune', 'Jaune pÃ¢le', 'Bleu', 'Bleu ciel', 'Fuchsia', 'Eau', 'Blanc', 'IndÃ©fini'));
 
 
 { TExtColorCombo }
@@ -301,7 +301,7 @@ begin
   if assigned ( FBeforeEnter ) Then
     FBeforeEnter ( Self );
   // Si on arrive sur une zone de saisie, on met en valeur son {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} par une couleur
-  // de fond bleu et son libellÃ© en marron (sauf si le libellÃ© est sÃ©lectionnÃ©
+  // de fond bleu et son libellÃƒÂ© en marron (sauf si le libellÃƒÂ© est sÃƒÂ©lectionnÃƒÂ©
   // avec la souris => cas de tri)
   p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
   p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
@@ -428,14 +428,14 @@ begin
       Rectangle(Novorect.Left, Novorect.Top, Novorect.Right, Novorect.Bottom);
       novoRect := rect(ARect.Left + 30, arect.top, arect.right - 5, arect.bottom);
 
-      // Couleur personnalisée
+      // Couleur personnalisÃ©e
       if  ( FColorValue > -1 )
       and ( Index = CST_COLOR_COMBO_LastDefinedColor )
        Then
         Begin
           StrPCopy(Texto, FHTMLColor)
         End
-        // Couleur non personnalisée ou indéfnie
+        // Couleur non personnalisÃ©e ou indÃ©fnie
        else
         StrPCopy(Texto, CST_COLOR_COMBO_Colors[Flanguage,Index]);
       format := DT_SINGLELINE or DT_NOPREFIX;

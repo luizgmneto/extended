@@ -49,17 +49,17 @@ uses
                                                Comment : 'Edition de nombres.' ;
                                                BugsStory : '1.0.1.1 : NumRounded property not tested' + #13#10
                                                          + '1.0.1.0 : Better ExtNumEdit with good colors' + #13#10
-                                                         + '1.0.0.1 : Bug rafraîchissement de AValue' + #13#10
+                                                         + '1.0.0.1 : Bug rafraÃ®chissement de AValue' + #13#10
                                                          + '1.0.0.0 : Gestion en place.';
                                                UnitType : 3 ;
                                                Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
     gVer_TExtDBNumEdit : T_Version = ( Component : 'Composant TExtDBNumEdit' ;
                                                FileUnit : 'U_NumEdits' ;
                                                Owner : 'Matthieu Giroux' ;
-                                               Comment : 'Edition de nombres en données.' ;
+                                               Comment : 'Edition de nombres en donnÃ©es.' ;
                                                BugsStory : '1.0.1.2 : NumRounded property not tested' + #13#10
                                                          + '1.0.1.1 : Less methods with good colors' + #13#10
-                                                         + '1.0.1.0 : Améliorations sur la gestion des erreurs' + #13#10
+                                                         + '1.0.1.0 : AmÃ©liorations sur la gestion des erreurs' + #13#10
                                                          + '1.0.0.0 : Gestion en place.';
                                                UnitType : 3 ;
                                                Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
@@ -656,7 +656,7 @@ begin
   if assigned ( FBeforeEnter ) Then
     FBeforeEnter ( Self );
   // Si on arrive sur une zone de saisie, on met en valeur son {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} par une couleur
-  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
+  // de fond bleu et son libellÃ© en marron (sauf si le libellÃ© est sÃ©lectionnÃ©
   // avec la souris => cas de tri)
   p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
   p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );

@@ -25,16 +25,16 @@ type
 const
   gVer_fonctions_erreurs : T_Version = ( Component : 'Gestion des erreurs' ; FileUnit : 'fonctions_erreurs' ;
                         			                 Owner : 'Matthieu Giroux' ;
-                        			                 Comment : 'Fonctions de gestion des erreurs appelées dans un try except ou par la fenêtre principale.' ;
-                        			                 BugsStory :  'Version 1.1.3.1 : Mise à jour sur la déconnexion OLE.' + #13#10 +
-                        			                	        		'Version 1.1.3.0 : Fonction f_GereException avec 2 paramètres.' + #13#10 +
+                        			                 Comment : 'Fonctions de gestion des erreurs appelÃ©es dans un try except ou par la fenÃªtre principale.' ;
+                        			                 BugsStory :  'Version 1.1.3.1 : Mise Ã  jour sur la dÃ©connexion OLE.' + #13#10 +
+                        			                	        		'Version 1.1.3.0 : Fonction f_GereException avec 2 paramÃ¨tres.' + #13#10 +
                         			                	        		'Version 1.1.2.0 : Gestion sans Dataset.' + #13#10 +
-                        			                	        		'Version 1.1.1.1 : Moins de code compilé.' + #13#10 +
-                        			                	        		'Version 1.1.1.0 : Gestion des erreurs, second dataset de mise à jour.' + #13#10 +
+                        			                	        		'Version 1.1.1.1 : Moins de code compilÃ©.' + #13#10 +
+                        			                	        		'Version 1.1.1.0 : Gestion des erreurs, second dataset de mise Ã  jour.' + #13#10 +
                         			                	        		'Version 1.1.0.0 : Gestion des erreurs Form Dico.' + #13#10 +
-                        			                	        		'Version 1.0.2.0 : Gestion des erreurs de rafraîchissement.' + #13#10 +
+                        			                	        		'Version 1.0.2.0 : Gestion des erreurs de rafraÃ®chissement.' + #13#10 +
                         			                	        		'Version 1.0.1.0 : Erreurs de MAJ dans la gestion des erreurs.' + #13#10 +
-                        			                	        		'Version 1.0.0.0 : La gestion est en place, ne gérant pas tout.';
+                        			                	        		'Version 1.0.0.0 : La gestion est en place, ne gÃ©rant pas tout.';
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 1 ; Release : 3 ; Build : 1 );
 function f_GereExceptionEvent ( const aexc_exception : Exception  ; const adat_Dataset : TDataset ; const ae_Evenement : TDataSetErrorEvent ; const ab_PasseErreur : Boolean ) : TClass;
@@ -60,7 +60,7 @@ var gstl_CleEnDoubleErreurs : TStringlist = nil ;
 {$IFDEF EADO}
     gdat_DatasetRefreshOnError : TCustomADODataset = nil ;
 {$ENDIF}
-//const GS_MC_CONTACT = #13#10 + #13#10 + 'Contacter votre administrateur pour une vérification ou un retour de ce message.' ;
+//const GS_MC_CONTACT = #13#10 + #13#10 + 'Contacter votre administrateur pour une vÃ©rification ou un retour de ce message.' ;
 
 implementation
 
@@ -127,23 +127,23 @@ var ls_Message : String ;
 Begin
   Result := aexc_exception.ClassType ;
   Icone := mtError ;
-  // L'annulation est une erreur à ne pas traiter
+  // L'annulation est une erreur Ã  ne pas traiter
   if ab_PasseErreur
   or ( aexc_exception is EAbort ) Then
    Exit ;
 //  ShowMessage ( aexc_exception.ClassName );
-   // Texte EConvertError pas compréhensible et message
+   // Texte EConvertError pas comprÃ©hensible et message
   if ( aexc_exception is EConvertError )
   or ( pos ( 'valeur en virgule flottante correcte pour', aexc_exception.Message ) > 0 )  Then
     Begin
       ls_Message := aexc_exception.Message ;
-      // texte à remplacer
+      // texte Ã  remplacer
       li_i := pos ( 'e valeur en virgule flottante correcte', ls_Message );
       if li_i > 0 Then
         // Remplacement
         ls_Message := copy ( ls_Message, 1, li_i - 1 ) + ' nombre correct' +  copy ( ls_Message, li_i + 38, length ( ls_Message ) - li_i - 37 );
       // Message Warning
-      MessageDlg ( 'Problème de conversion :' + #13#10 + #13#10
+      MessageDlg ( 'ProblÃ¨me de conversion :' + #13#10 + #13#10
                  +  ls_Message
                  , mtWarning, [mbOK], aexc_exception.HelpContext);
       Exit ;
@@ -183,13 +183,13 @@ var li_i, li_k : Integer ;
     lt_Arg       : Array [ 0..0] of string ;
     ls_Message   : String ;
 Begin
-  Result := 'Erreur dans les données : ' + #13#10+ #13#10 ;
+  Result := 'Erreur dans les donnÃ©es : ' + #13#10+ #13#10 ;
   aaco_connecteur.Errors.Refresh ;
   for li_i := 0 to aaco_connecteur.Errors.Count - 1 do
     Begin
 //      ShowMessage ( IntToStr ( aaco_connecteur.Errors [ li_i ].Number ) + ' ' + IntToStr ( aaco_connecteur.Errors [ li_i ].HelpContext ) + ' ' +  IntToStr ( aaco_connecteur.Errors [ li_i ].NativeError ) );
       if ( aaco_connecteur.Errors [ li_i ].NativeError = 32 )
-      // Ligne non trouvée pour la mise à jour
+      // Ligne non trouvÃ©e pour la mise Ã  jour
       and assigned ( adat_Dataset )
       and adat_Dataset.Active Then
         Begin
@@ -272,32 +272,32 @@ Begin
           Result := GS_ERREUR_NOMBRE_GRAND + #13#10 ;
         End ;
       if aaco_connecteur.Errors [ li_i ].NativeError = 11 Then
-      // Déconnexion réseau
+      // DÃ©connexion rÃ©seau
         Begin
           Result := GS_ERREUR_RESEAU + #13#10 ;
           aaco_connecteur.Close ;
         End ;
       if aaco_connecteur.Errors [ li_i ].NativeError = 547 Then
-       // Impossible de supprimer l'enregistrement utilisé
+       // Impossible de supprimer l'enregistrement utilisÃ©
         Begin
           amdt_Icone := mtWarning ;
           Result := GS_ERREUR_MODIFICATION_MAJ + #13#10 + #13#10 ;
           Exit ;
         End ;
       if aaco_connecteur.Errors [ li_i ].NativeError = 3641 Then
-        // arrêt de l'exécution
+        // arrÃªt de l'exÃ©cution
         Begin
-          Result := Result + 'Arrêt...' + #13#10 ;
+          Result := Result + 'ArrÃªt...' + #13#10 ;
         End ;
 
         /// ERREURS OLE
       if  ( aexc_Exception is EOLEException ) Then
         Begin
-          // Erreur sur le lien aux données
+          // Erreur sur le lien aux donnÃ©es
           if  ( aaco_connecteur.Errors [ li_i ].SQLState = '08S01' )
-          // Il n'y a pas de numéro d'erreur native
+          // Il n'y a pas de numÃ©ro d'erreur native
           and ( aaco_connecteur.Errors [ li_i ].NativeError = 0 ) Then
-          // Déconnexion réseau
+          // DÃ©connexion rÃ©seau
             Begin
               Result := GS_ERREUR_CONNEXION + #13#10 ;
               aaco_connecteur.Close ;

@@ -1,4 +1,4 @@
-// unité contenant des fonctions de traitements de chaine
+// unitÃ© contenant des fonctions de traitements de chaine
 unit fonctions_string;
 
 interface
@@ -60,14 +60,14 @@ const
                          const ali_TailleLettrage : Longint ): String ;
   function fs_GetNameSoft : {$IFDEF FPC}AnsiString{$ELSE}String{$ENDIF};
 const
-    gVer_fonction_string : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
+    gVer_fonction_string : T_Version = ( Component : 'Gestion des chaÃ®nes' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
-                        			                 Comment : 'Fonctions de traduction et de formatage des chaînes.' ;
+                        			                 Comment : 'Fonctions de traduction et de formatage des chaÃ®nes.' ;
                         			                 BugsStory : 'Version 1.0.2.0 : Fonction fs_GetBinOfString.' + #13#10 + #13#10 +
-                        			                	        	 'Version 1.0.1.1 : Paramètres constantes plus rapides.' + #13#10 + #13#10 +
+                        			                	        	 'Version 1.0.1.1 : ParamÃ¨tres constantes plus rapides.' + #13#10 + #13#10 +
                         			                	        	 'Version 1.0.1.0 : Fonction fs_stringDbQuoteFilter qui ne fonctionne pas mais ne provoque pas d''erreur.' + #13#10 + #13#10 +
                         			                	        	 'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
-                        			                	        	 'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
+                        			                	        	 'Version 1.0.0.0 : Certaines fonctions non utilisÃ©es sont Ã  tester.';
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
     CST_ORD_GUILLEMENT = ord ( '''' );
@@ -90,13 +90,13 @@ Begin
 end;
 
 ///////////////////////////////////////////////////////////////////////////////
-//  FONCTIONS de conversion de caractères Dos <=> Windows et vice-versa
+//  FONCTIONS de conversion de caractÃ¨res Dos <=> Windows et vice-versa
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // fonction : fs_Dos2Win
 // Description : Convertit un texte OEM en ANSI
 // aText : Le texte OEM
-// Résultat : Le texte transformé en ANSI
+// RÃ©sultat : Le texte transformÃ© en ANSI
 ///////////////////////////////////////////////////////////////////////////////
 {$IFDEF DELPHI}
 function fs_Dos2Win( const aText: string): string;
@@ -110,7 +110,7 @@ end;
 // fonction : fs_Win2Dos
 // Description : Convertit un texte ANSI en OEM
 // aText : Le texte ANSI
-// Résultat : Le texte transformé en OEM
+// RÃ©sultat : Le texte transformÃ© en OEM
 ///////////////////////////////////////////////////////////////////////////////
 function fs_Win2Dos( const aText: string): string;
 begin
@@ -121,10 +121,10 @@ end;
 {$ENDIF}
 ///////////////////////////////////////////////////////////////////////////////
 // fonction : fs_ArgConnectString
-// Description :  Renvoie les données d'un argument d'une chaîne de connexion
-// as_connectstring : La chaîne de connexion
-// as_arg : Le nom de l'argument à récupérer
-// Résultat : Les données de l'argument paramètres
+// Description :  Renvoie les donnÃ©es d'un argument d'une chaÃ®ne de connexion
+// as_connectstring : La chaÃ®ne de connexion
+// as_arg : Le nom de l'argument Ã  rÃ©cupÃ©rer
+// RÃ©sultat : Les donnÃ©es de l'argument paramÃ¨tres
 ///////////////////////////////////////////////////////////////////////////////
 function fs_ArgConnectString ( const as_connectstring, as_arg: string): string;
 var
@@ -145,8 +145,8 @@ end;
 ///////////////////////////////////////////////////////////////////////////////
 // fonction : fb_stringVide
 // Description :  Renvoie True si le texte est blanc(s) ou NULL
-// aTexte : La chaîne à tester
-// Résultat : Renvoie True si le texte est blanc(s) ou NULL
+// aTexte : La chaÃ®ne Ã  tester
+// RÃ©sultat : Renvoie True si le texte est blanc(s) ou NULL
 ///////////////////////////////////////////////////////////////////////////////
 function fb_stringVide( const aTexte: string): Boolean;
 begin
@@ -155,9 +155,9 @@ end;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Fonction : fs_stringDbQuote
-// Description : Cette fonction permet de faire le doublement des ' dans une chaîne de caractères
-// as_Texte : Le texte avec des ' éventuels
-// Résultat : Le texte avec des '' à la place de '
+// Description : Cette fonction permet de faire le doublement des ' dans une chaÃ®ne de caractÃ¨res
+// as_Texte : Le texte avec des ' Ã©ventuels
+// RÃ©sultat : Le texte avec des '' Ã  la place de '
 ///////////////////////////////////////////////////////////////////////////////
 function fs_stringDbQuote ( const as_Texte: string): string;
 begin
@@ -166,10 +166,10 @@ end;
 
 ///////////////////////////////////////////////////////////////////////////////
 // fonction : fs_stringDbQuoteFilterLike
-// Description : création d'un filtrage ADO en fonction de caractères spéciaux
-//  Cette fonction permet de faire le doublement des ' dans une chaîne de caractères
+// Description : crÃ©ation d'un filtrage ADO en fonction de caractÃ¨res spÃ©ciaux
+//  Cette fonction permet de faire le doublement des ' dans une chaÃ®ne de caractÃ¨res
 // as_Texte : Le texte qui va devenir filtre
-// Résultat : Le filtre du texte
+// RÃ©sultat : Le filtre du texte
 ///////////////////////////////////////////////////////////////////////////////
 function fs_stringDbQuoteFilterLike ( const as_Texte: string): string;
 //var li_i : Integer ;
@@ -222,7 +222,7 @@ begin
 end;
 
 ///////////////////////////////////////////////////////////////////////////////
-//  Cette fonction renvoie la date ou l'heure sous un format précis en string
+//  Cette fonction renvoie la date ou l'heure sous un format prÃ©cis en string
 ///////////////////////////////////////////////////////////////////////////////
 function fs_stringDateTime( const aDateTime: TDateTime; const aFormat: string): Ansistring;
 begin
@@ -230,7 +230,7 @@ begin
 end;
 
 ///////////////////////////////////////////////////////////////////////////////
-//  Fonction pour crypter une chaîne
+//  Fonction pour crypter une chaÃ®ne
 ///////////////////////////////////////////////////////////////////////////////
 function fs_stringCrypte( const as_Text: string): string;
 var
@@ -246,7 +246,7 @@ begin
 end;
 
 ///////////////////////////////////////////////////////////////////////////////
-//  Fonction pour décrypter une chaîne
+//  Fonction pour dÃ©crypter une chaÃ®ne
 ///////////////////////////////////////////////////////////////////////////////
 function fs_stringDecrypte( const as_Text: string): string;
 var
@@ -262,18 +262,18 @@ begin
 end;
 
 ///////////////////////////////////////////////////////////////////////////////
-//Fonction qui découpe la chaine suivant le séparateur et renvoie la première partie.
+//Fonction qui dÃ©coupe la chaine suivant le sÃ©parateur et renvoie la premiÃ¨re partie.
 ///////////////////////////////////////////////////////////////////////////////
 function fs_stringDecoupe( const aTexte: TStrings; const aSep: string): string;
-// Cherche la première occurence du séparateur dans la chaine,
-// découpe le morceau placé avant et le renvoie.
-// La chaine passée en référence ne contient plus que le reste.
+// Cherche la premiÃ¨re occurence du sÃ©parateur dans la chaine,
+// dÃ©coupe le morceau placÃ© avant et le renvoie.
+// La chaine passÃ©e en rÃ©fÃ©rence ne contient plus que le reste.
 var
   i_p: integer;
   s_ret: string;
 
 begin
-  // position du séparateur
+  // position du sÃ©parateur
   i_p := Pos(aSep, aTexte.GetText );
 
   if i_p = 0 then
@@ -290,7 +290,7 @@ begin
 end;
 
 ///////////////////////////////////////////////////////////////////////////////
-//Fonction ramenant une liste de string en supprimant le séparateur
+//Fonction ramenant une liste de string en supprimant le sÃ©parateur
 ///////////////////////////////////////////////////////////////////////////////
 function ft_stringConstruitListe( const aTexte, aSep: string): TStrings;
 var t_liste, t_chaine:TStrings;
@@ -313,7 +313,7 @@ begin
 end;
 
 ///////////////////////////////////////////////////////////////////////////////
-//Fonction ramenant le Nieme champ d'une chaîne avec séparateur.
+//Fonction ramenant le Nieme champ d'une chaÃ®ne avec sÃ©parateur.
 ///////////////////////////////////////////////////////////////////////////////
   // Exemple:
   // Si aString = "aaa;bbbb;cc;ddddd;eeee"
@@ -328,31 +328,31 @@ begin
   li_compteur := 0;
   i_pos1 := 1;
   if aNum < 1 then
-    Exit; // Si on cherche à 0 : on quitte
+    Exit; // Si on cherche Ã  0 : on quitte
 
-  // Tant qu'on n'est pas rendu à anum et qu'il y a des champs
+  // Tant qu'on n'est pas rendu Ã  anum et qu'il y a des champs
   while (li_compteur < aNum) and (i_pos1 <> 0) do
     begin
-      // Incrémentation
+      // IncrÃ©mentation
       inc(li_compteur);
-      // Si toujours inférieur au suivant
+      // Si toujours infÃ©rieur au suivant
       if li_compteur < aNum then
         begin
-          // Incrémente la position au suivant
+          // IncrÃ©mente la position au suivant
           i_pos1 := posEx(aSep, aString, i_pos1) + 1;
           // Passe au suivant
           Continue;
         end;
-      // Sinon récupération de la position de fin
+      // Sinon rÃ©cupÃ©ration de la position de fin
       i_pos2 := posEx(aSep, aString, i_pos1);
       if i_pos2 = 0 then i_pos2 := Length(aString) + 1;
-      // Et de la chaîne incluse
+      // Et de la chaÃ®ne incluse
       Result := MidStr(aString, i_pos1, i_pos2 - i_pos1);
     end;
 end;
 
 ///////////////////////////////////////////////////////////////////////////////
-//Fonction de convertion d'une Position degré décimale en degré minutes secondes.
+//Fonction de convertion d'une Position degrÃ© dÃ©cimale en degrÃ© minutes secondes.
 ///////////////////////////////////////////////////////////////////////////////
 function fs_convertionCoordLambertDMS( const aPosition: string; aLongitude: Boolean): string;
 var
@@ -362,8 +362,8 @@ var
 begin
   // Exemple:
   // aPosition = "48.98166666667"
-  // aLongitude = true ;dans le cas où il s'agit d'une longitude ou une latitude
-  // retourne String = "E 48°58'54''"
+  // aLongitude = true ;dans le cas oÃ¹ il s'agit d'une longitude ou une latitude
+  // retourne String = "E 48Â°58'54''"
   ls_value := StrToFloat (aPosition);
   if aLongitude then
     if ls_value > 0 then
@@ -380,7 +380,7 @@ begin
 
   ls_Result := ls_coord+' ';
 
-  ls_mesure := '°';
+  ls_mesure := 'Â°';
   ls_Result := ls_Result + FormatFloat ('00',int(ls_value))+ls_mesure;
 
   ls_mesure := '''';
@@ -395,7 +395,7 @@ begin
 end;
 
 ///////////////////////////////////////////////////////////////////////////////
-//  Fonction de convertion d'une Position degré minutes secondes en degré décimale
+//  Fonction de convertion d'une Position degrÃ© minutes secondes en degrÃ© dÃ©cimale
 ///////////////////////////////////////////////////////////////////////////////
 function fe_convertionCoordLambertDD( const aPosition: string): Extended;
 var
@@ -404,7 +404,7 @@ var
 
 begin
   // Exemple:
-  // aPosition = "E 48°58'54''"
+  // aPosition = "E 48Â°58'54''"
   // retourne String = "48.98166666667"
   li_signe :=1;
   ls_string := aPosition;
@@ -412,7 +412,7 @@ begin
   ls_axe := MidStr(ls_string,0,1);
   if (ls_axe = 'O') or (ls_axe = 'S') then li_signe := -1;
 
-  li_pos_deg := Pos('°',ls_string);
+  li_pos_deg := Pos('Â°',ls_string);
   li_pos_min := Pos('''',ls_string);
   li_pos_sec := Pos('''''',ls_string);
 
@@ -425,8 +425,8 @@ end;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Fonction qui calcul la distance entre deux points =  Orthodromie
-// Une route orthodromique entre deux points de la surface terrestre est représentée
-// par le trajet réél le plus court possible entre ces deux points.
+// Une route orthodromique entre deux points de la surface terrestre est reprÃ©sentÃ©e
+// par le trajet rÃ©Ã©l le plus court possible entre ces deux points.
 ///////////////////////////////////////////////////////////////////////////////
 function fe_distanceEntrePointsCoordLambert( const aLatitudeDep, aLongitudeDep, aLatitudeArr, aLongitudeArr: string): Extended;
 var le_latitudedep, le_latitudearr, le_longitudedep, le_longitudearr: Extended;
@@ -447,13 +447,13 @@ end;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Fonction : fb_controleDistanceCoordLambert
-// description : permet de vérifier qu'un point d'arrivée
-// se trouve dans le périmètre du cercle dont le centre est le point de départ
+// description : permet de vÃ©rifier qu'un point d'arrivÃ©e
+// se trouve dans le pÃ©rimÃ¨tre du cercle dont le centre est le point de dÃ©part
 // avec un rayon de aDistance KM
-// aLatitudeDep : Lattitude de départ
-// aLongitudeDep : Longitude de départ
-// aLatitudeArr : Lattitude d'arrivée
-// aLongitudeArr : Longitude d'arrivée
+// aLatitudeDep : Lattitude de dÃ©part
+// aLongitudeDep : Longitude de dÃ©part
+// aLatitudeArr : Lattitude d'arrivÃ©e
+// aLongitudeArr : Longitude d'arrivÃ©e
 // aDistance     : Distance minimale reliant les deux points
 ///////////////////////////////////////////////////////////////////////////////
 function fb_controleDistanceCoordLambert( const aLatitudeDep, aLongitudeDep, aLatitudeArr, aLongitudeArr: string; const aDistance: Extended): Boolean;
@@ -462,7 +462,7 @@ begin
   // distance entre les deux points
   le_result := fe_distanceEntrePointsCoordLambert(aLatitudeDep,aLongitudeDep,aLatitudeArr,aLongitudeArr);
 
-  // vérifie si la distance est inférieure ou supérieure au rayon
+  // vÃ©rifie si la distance est infÃ©rieure ou supÃ©rieure au rayon
   if le_result > aDistance then
     result := False
   else
@@ -470,16 +470,16 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Procédure   : p_ChampsVersListe
-// Description : Création d'une liste à partir d'une chaîne avec des séparateurs
-// as_ChampsClePrimaire : Les champs listés en sortie
-// as_ClePrimaire       : Les champs en entrée
-// as_Separateur        : Le séparateur
+// ProcÃ©dure   : p_ChampsVersListe
+// Description : CrÃ©ation d'une liste Ã  partir d'une chaÃ®ne avec des sÃ©parateurs
+// as_ChampsClePrimaire : Les champs listÃ©s en sortie
+// as_ClePrimaire       : Les champs en entrÃ©e
+// as_Separateur        : Le sÃ©parateur
 ////////////////////////////////////////////////////////////////////////////////
 procedure p_ChampsVersListe(var as_ChampsClePrimaire: TStringList; const aws_ClePrimaire : String ; ach_Separateur : Char );
 var ls_TempoCles: String;
 begin
-  // Création des champs
+  // CrÃ©ation des champs
   if assigned ( as_ChampsClePrimaire ) Then
     Begin
       as_ChampsClePrimaire.Free;
@@ -509,9 +509,9 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // fonction : fb_ListeVersSQL
 // Description : Fonction de transformation d'une string liste en SQL
-// as_TexteAjoute : Le texte de la liste séparé par des virgules
+// as_TexteAjoute : Le texte de la liste sÃ©parÃ© par des virgules
 // astl_Liste     : La liste
-// ab_EstChaine   : La liste de retour sera une liste de chaînes
+// ab_EstChaine   : La liste de retour sera une liste de chaÃ®nes
 ////////////////////////////////////////////////////////////////////////////////
 function fb_ListeVersSQL(var as_TexteAjoute: String; const astl_Liste: TStringList; const ab_EstChaine: Boolean): Boolean;
 var li_i: Integer;
@@ -524,8 +524,8 @@ begin
     begin
       // On a quelque chose
       Result := True;
-      if li_i = 0 then // Première ligne
-        if ab_EstChaine then // Chaîne
+      if li_i = 0 then // PremiÃ¨re ligne
+        if ab_EstChaine then // ChaÃ®ne
           as_TexteAjoute := '''' + fs_StringDBQuote(astl_Liste[li_i]) + ''''
         else
           as_TexteAjoute := astl_Liste[li_i] // Autre
@@ -541,8 +541,8 @@ end;
 // Fonction : fs_RemplaceMsg
 // Description : remplace dans un text @ARG par un tableau d'arguments
 // as_Texte : Texte source
-// aTs_arg  : Chaînes à mettre à la place de @ARG
-// Résultat : la chaîne avec les arguments
+// aTs_arg  : ChaÃ®nes Ã  mettre Ã  la place de @ARG
+// RÃ©sultat : la chaÃ®ne avec les arguments
 ////////////////////////////////////////////////////////////////////////////////
 function fs_RemplaceMsg(const as_Texte: String; const aTs_arg: Array of String): String;
 var
@@ -568,37 +568,37 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Fonction : fs_RemplaceEspace
-// Description : remplace les espaces et le caractère 160 par une chaîne
+// Description : remplace les espaces et le caractÃ¨re 160 par une chaÃ®ne
 // as_Texte : Texte source
-// as_Remplace : chaîne remplaçant l'espace ou le cractère 160
-// Résultat : la chaîne sans les espaces
+// as_Remplace : chaÃ®ne remplaÃ§ant l'espace ou le cractÃ¨re 160
+// RÃ©sultat : la chaÃ®ne sans les espaces
 ////////////////////////////////////////////////////////////////////////////////
 function fs_RemplaceEspace ( const as_Texte : String ; const as_Remplace : String ): String ;
 var lli_i : LongInt ;
 Begin
 
   Result := '' ;
-  // scrute la chaîne
+  // scrute la chaÃ®ne
   for lli_i := 1 to length ( as_Texte ) do
     Begin
       if  ( as_Texte [ lli_i ] <> ' ' )
       and ( as_Texte [ lli_i ] <> ThousandSeparator {160} ) Then
         Begin
-          // la chaîne est retournée comme à l'origine
+          // la chaÃ®ne est retournÃ©e comme Ã  l'origine
           Result := Result + as_Texte [ lli_i ];
         End
       Else
-        // Le caractère espace est remplacé
+        // Le caractÃ¨re espace est remplacÃ©
         Result := Result + as_Remplace ;
     End ;
 End ;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction : fs_RepeteChar
-// Description : Répète un carctère n fois
-// ach_Caractere  : Le caractère à répéter
-// ali_Repete     : Le nombre de répétitions du caractère
-// Résultat       : la chaîne avec le caractère répété
+// Description : RÃ©pÃ¨te un carctÃ¨re n fois
+// ach_Caractere  : Le caractÃ¨re Ã  rÃ©pÃ©ter
+// ali_Repete     : Le nombre de rÃ©pÃ©titions du caractÃ¨re
+// RÃ©sultat       : la chaÃ®ne avec le caractÃ¨re rÃ©pÃ©tÃ©
 ////////////////////////////////////////////////////////////////////////////////
 function fs_RepeteChar     ( ach_Caractere : Char ; const ali_Repete : Longint ):String ;
 var lli_i : Longint ;
@@ -610,11 +610,11 @@ End ;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction : fs_RemplaceChar
-// Description : Remplace un caractère par un autre dans une chaîne
-// as_Texte       : Le texte à modifier
-// ach_Origine    : Le caractère à remplacer
-// ach_Voulu      : Le caractère de remplacement
-// Résultat       : la chaîne avec le caractère de remplacement
+// Description : Remplace un caractÃ¨re par un autre dans une chaÃ®ne
+// as_Texte       : Le texte Ã  modifier
+// ach_Origine    : Le caractÃ¨re Ã  remplacer
+// ach_Voulu      : Le caractÃ¨re de remplacement
+// RÃ©sultat       : la chaÃ®ne avec le caractÃ¨re de remplacement
 ////////////////////////////////////////////////////////////////////////////////
 function fs_RemplaceChar   ( const as_Texte : String ; ach_Origine, ach_Voulu : Char ) : String ;
 var li_i : Longint ;
@@ -630,11 +630,11 @@ End ;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction : fs_ReplaceChaine
-// Description : Remplace un caractère par un autre dans une chaîne
-// as_Texte       : Le texte à modifier
-// as_Origine    : La chaîne à remplacer
-// as_Voulu      : La chaîne de remplacement
-// Résultat       : la chaîne modifiée
+// Description : Remplace un caractÃ¨re par un autre dans une chaÃ®ne
+// as_Texte       : Le texte Ã  modifier
+// as_Origine    : La chaÃ®ne Ã  remplacer
+// as_Voulu      : La chaÃ®ne de remplacement
+// RÃ©sultat       : la chaÃ®ne modifiÃ©e
 ////////////////////////////////////////////////////////////////////////////////
 function fs_ReplaceChaine( as_Texte : String ; const as_Origine, as_Voulu : string):string;
 var li_pos1:integer;
@@ -653,10 +653,10 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Procédure : p_AddBinToString
-// Description : Renvoie la version hexadécimale d'une chaine non ansi
-// ast8_Abin   : Chaine qui doit être non ansi
-// Résultat    : Résultat en hexa
+// ProcÃ©dure : p_AddBinToString
+// Description : Renvoie la version hexadÃ©cimale d'une chaine non ansi
+// ast8_Abin   : Chaine qui doit Ãªtre non ansi
+// RÃ©sultat    : RÃ©sultat en hexa
 ////////////////////////////////////////////////////////////////////////////////
 
 function fs_GetBinOfString ( const astr_Source: AnsiString ): String;
@@ -678,8 +678,8 @@ end;
 
 /////////////////////////////////////////////////////////////////////////////////
 // Fonction : fs_Lettrage
-// Description : crée un lettrage si le champ compteur est une chaîne
-// Paramètres : ach_Lettrage : La lettre du compteur
+// Description : crÃ©e un lettrage si le champ compteur est une chaÃ®ne
+// ParamÃ¨tres : ach_Lettrage : La lettre du compteur
 //              ai64_Compteur : Le nombre du lettrage
 //              ali_TailleLettrage : La longueur du champ lettrage
 /////////////////////////////////////////////////////////////////////////////////

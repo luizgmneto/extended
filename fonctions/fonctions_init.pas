@@ -1,5 +1,5 @@
-// Unité de gestion du fichier INI dépendant de l'unité FormMainIni
-// intégrant une form de gestion de fichier INI
+// UnitÃ© de gestion du fichier INI dÃ©pendant de l'unitÃ© FormMainIni
+// intÃ©grant une form de gestion de fichier INI
 unit fonctions_init;
 
 {$IFDEF FPC}
@@ -34,13 +34,13 @@ type
 const
   gVer_fonctions_init : T_Version = ( Component : 'Gestion du fichier INI' ; FileUnit : 'fonctions_init' ;
            Owner : 'Matthieu Giroux' ;
-                              Comment : 'Première version de gestion du fichier INI.' + #13#10 + 'Certaines fonctions sont encore utilisées.' ;
+                              Comment : 'PremiÃ¨re version de gestion du fichier INI.' + #13#10 + 'Certaines fonctions sont encore utilisÃ©es.' ;
            BugsStory : 'Version 1.0.3.1 : Function fs_GetIniDir' + #13#10 +
                        'Version 1.0.3.0 : Fonction fb_iniWriteFile' + #13#10 +
                        'Version 1.0.2.0 : Fonctions ini pour les listview,dbgrid, et virtualtrees' + #13#10 +
-             'Version 1.0.1.0 : Paramètre Utilisateur.' + #13#10 +
+             'Version 1.0.1.0 : ParamÃ¨tre Utilisateur.' + #13#10 +
              'Version 1.0.0.0 : La gestion est en place.' + #13#10 +
-                               'On utilise plus cette unité complètement mais Fenêtre principale puis plus tard Mc Form Main INI.';
+                               'On utilise plus cette unitÃ© complÃ¨tement mais FenÃªtre principale puis plus tard Mc Form Main INI.';
            UnitType : 1 ;
            Major : 1 ; Minor : 0 ; Release : 3 ; Build : 1 );
   // Constantes des sections du fichier ini
@@ -50,7 +50,7 @@ const
   {$IFDEF LINUX}
   INIDIR_CONFIGDIR_NAME = '.config';
   {$ENDIF}
-  // Paramètres du fichier ini
+  // ParamÃ¨tres du fichier ini
   INIPAR_CREATION  = 'creation ini';
   INIPAR_LANCEMENT = 'lancement';
   INIPAR_QUITTE    = 'quitte';
@@ -68,7 +68,7 @@ const
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  Fonctions à appeler pour la gestion des fichiers INI
+//  Fonctions Ã  appeler pour la gestion des fichiers INI
 ////////////////////////////////////////////////////////////////////////////////
 
   function fs_GetIniDir: String;
@@ -78,17 +78,17 @@ const
   // Construit dans aListe (TStrings) la liste de toutes les valeurs de la section aTache du fichier INI
   function Lecture_ini_tache_fonctions(aTache: string; aListe: TStrings): Boolean;
 
-  // Retourne l'objet FIniFile représentant le fichier INI
+  // Retourne l'objet FIniFile reprÃ©sentant le fichier INI
   function f_GetMemIniFile(): TIniFile;
   function f_GetMainMemIniFile( ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ): TIniFile;
 
   // Lecture du fichier SQL dans FSQLFile avec gestion du fichier SQL
-  // et lecture de requête à partir de la section parent et de de la clé requete.
+  // et lecture de requÃªte Ã  partir de la section parent et de de la clÃ© requete.
   function f_LectureSQLFile(parent, requete: string): string;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  Fonctions appelées ( Utiliser plutôt les fonctions qui les appellent)
+//  Fonctions appelÃ©es ( Utiliser plutÃ´t les fonctions qui les appellent)
 ////////////////////////////////////////////////////////////////////////////////
   // Retourne le nom d'utilisateur (string) de la session WINDOWS
   function f_IniFWReadUtilisateurSession: string;
@@ -96,26 +96,26 @@ const
   // Retourne le nom d'ordinateur (string)
   function f_IniFWReadComputerName: string;
 
-  // Initialisation de paramètres du fichier INI
-  // (appelée quand il n'existe pas de fichier INI ou pas d'ADO)
+  // Initialisation de paramÃ¨tres du fichier INI
+  // (appelÃ©e quand il n'existe pas de fichier INI ou pas d'ADO)
   procedure p_IniInitialisation;
 
-  // Mise à jour de la date de lancement du fichier ini
+  // Mise Ã  jour de la date de lancement du fichier ini
   procedure p_IniMAJ;
 
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Fonctions standard de gestion de valeur
 ////////////////////////////////////////////////////////////////////////////////
-  // Retourne un entier à partir de la section et de la clé ainsi que de la valeur par défaut
+  // Retourne un entier Ã  partir de la section et de la clÃ© ainsi que de la valeur par dÃ©faut
   function f_IniReadSectionInt(aSection: string; aCle: string; aDefaut: integer): integer;
 
-  // Retourne un booléen à partir de la section et de la clé ainsi que de la valeur par défaut
+  // Retourne un boolÃ©en Ã  partir de la section et de la clÃ© ainsi que de la valeur par dÃ©faut
   function f_IniReadSectionBol(aSection: string; aCle: string; aDefaut: Boolean): Boolean;
 
-  // Retourne une chaîne à partir de la section et de la clé ainsi que de la valeur par défaut
+  // Retourne une chaÃ®ne Ã  partir de la section et de la clÃ© ainsi que de la valeur par dÃ©faut
   function f_IniReadSectionStr(aSection: string; aCle: string; aDefaut: string): string;
-  // Retourne une chaîne à partir de la section et de la clé ainsi que de la valeur par défaut
+  // Retourne une chaÃ®ne Ã  partir de la section et de la clÃ© ainsi que de la valeur par dÃ©faut
   function f_IniReadSection(aSection: string): string;
   function f_IniReadGridFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TDBGrid ): Boolean ;
 {$IFDEF VIRTUALTREES}
@@ -126,38 +126,38 @@ const
 
   procedure p_IniWriteGridToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TDBGrid );
   procedure p_IniWriteListViewToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TCustomListView );
-  // Ecrit une chaîne dans le fichier déclaré dans FINIFile
-  // à partir de la section et de la clé ainsi que de la valeur à donner.
+  // Ecrit une chaÃ®ne dans le fichier dÃ©clarÃ© dans FINIFile
+  // Ã  partir de la section et de la clÃ© ainsi que de la valeur Ã  donner.
   procedure p_IniWriteSectionStr(aSection, aCle: string; aDonnee: string);
 
-  // Ecrit un booléen dans le fichier déclaré dans FINIFile
-  // à partir de la section et de la clé ainsi que de la valeur à donner.
+  // Ecrit un boolÃ©en dans le fichier dÃ©clarÃ© dans FINIFile
+  // Ã  partir de la section et de la clÃ© ainsi que de la valeur Ã  donner.
   procedure p_IniWriteSectionBol(aSection, aCle: string; aDonnee: Boolean);
 
-  // Ecrit un entier dans le fichier déclaré dans FINIFile
-  // à partir de la section et de la clé ainsi que de la valeur à donner.
+  // Ecrit un entier dans le fichier dÃ©clarÃ© dans FINIFile
+  // Ã  partir de la section et de la clÃ© ainsi que de la valeur Ã  donner.
   procedure p_IniWriteSectionInt(aSection, aCle: string; aDonnee: integer);
 
-  // Ecrit une chaîne dans le fichier déclaré dans FSQLFile
-  // à partir de la section et de la clé ainsi que de la valeur à donner.
+  // Ecrit une chaÃ®ne dans le fichier dÃ©clarÃ© dans FSQLFile
+  // Ã  partir de la section et de la clÃ© ainsi que de la valeur Ã  donner.
   procedure p_SQLWriteSectionStr(aSection, aCle: string; aDonnee: string);
 
-  // Ecrit un booléen dans le fichier déclaré dans FSQLFile
-  // à partir de la section et de la clé ainsi que de la valeur à donner.
+  // Ecrit un boolÃ©en dans le fichier dÃ©clarÃ© dans FSQLFile
+  // Ã  partir de la section et de la clÃ© ainsi que de la valeur Ã  donner.
   procedure p_SQLWriteSectionBol(aSection, aCle: string; aDonnee: Boolean);
 
-  // Ecrit un entier dans le fichier déclaré dans FSQLFile
-  // à partir de la section et de la clé ainsi que de la valeur à donner.
+  // Ecrit un entier dans le fichier dÃ©clarÃ© dans FSQLFile
+  // Ã  partir de la section et de la clÃ© ainsi que de la valeur Ã  donner.
   procedure p_SQLWriteSectionInt(aSection, aCle: string; aDonnee: integer);
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  Fonctions standard de gestion de Clé
+//  Fonctions standard de gestion de ClÃ©
 ////////////////////////////////////////////////////////////////////////////////
-  // Efface une clé à partir du nom de la section et du nom de la clé.
+  // Efface une clÃ© Ã  partir du nom de la section et du nom de la clÃ©.
   procedure p_IniDeleteKey(aSection, aCle: string);
 
-  // Retourne true si la clé aCle de la section aSection existe
+  // Retourne true si la clÃ© aCle de la section aSection existe
   function f_CleExiste(aSection, aCle: string): Boolean;
 
 
@@ -170,7 +170,7 @@ const
   // Lit une section et la retourne dans le TStrings.
   procedure p_IniReadSection(aSection: string; aStrings: TStrings);
 
-  // Efface une section à partir du nom de la section
+  // Efface une section Ã  partir du nom de la section
   procedure p_IniDeleteSection(aSection: string);
 
   // Retourne true si la section aSection existe.
@@ -240,7 +240,7 @@ Begin
   Result := False ;
   aacx_Connection.Connected:=False;
   aacx_Connection.ConnectionString := f_IniReadSectionStr( 'parametres' ,'String d''acces', '' );
-  // Ouverture de la fenêtre de dialogue de connexion
+  // Ouverture de la fenÃªtre de dialogue de connexion
   if ( aacx_Connection.ConnectionString = '' ) Then
     EdiTConnectionString(aacx_Connection) ;
   Result := aacx_Connection.ConnectionString <> '';
@@ -283,7 +283,7 @@ Begin
 End;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lit le nom de toutes les sections d'un fichier INI dans une liste de chaînes
+// Lit le nom de toutes les sections d'un fichier INI dans une liste de chaÃ®nes
 ////////////////////////////////////////////////////////////////////////////////
 function fb_iniWriteFile( const amem_Inifile : TCustomInifile ; const ab_Afficheerreur : Boolean ):Boolean;
 var
@@ -316,7 +316,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lit le nom de toutes les sections d'un fichier INI dans une liste de chaînes
+// Lit le nom de toutes les sections d'un fichier INI dans une liste de chaÃ®nes
 ////////////////////////////////////////////////////////////////////////////////
 procedure p_iniReadSections(aStrings: TStrings);
 begin
@@ -325,7 +325,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lit tous les noms de clés d'une section donnée d'un fichier INI dans une liste de chaîne
+// Lit tous les noms de clÃ©s d'une section donnÃ©e d'un fichier INI dans une liste de chaÃ®ne
 ////////////////////////////////////////////////////////////////////////////////
 procedure p_iniReadSection(aSection: string; aStrings: TStrings);
 begin
@@ -334,7 +334,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Efface une clé d'une section dans un fichier INI
+// Efface une clÃ© d'une section dans un fichier INI
 ////////////////////////////////////////////////////////////////////////////////
 procedure p_IniDeleteKey(aSection, aCle: string);
 begin
@@ -343,7 +343,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Efface une section et toutes ses clés dans un fichier INI
+// Efface une section et toutes ses clÃ©s dans un fichier INI
 ////////////////////////////////////////////////////////////////////////////////
 procedure p_IniDeleteSection(aSection: string);
 begin
@@ -352,14 +352,14 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lit un entier dans paramètre du fichier INI
+// Lit un entier dans paramÃ¨tre du fichier INI
 ////////////////////////////////////////////////////////////////////////////////
 function f_IniReadSectionInt(aSection: string; aCle: string; aDefaut: integer): integer;
 begin
   result := FIniFile.ReadInteger(aSection, aCle, aDefaut);
 end;
 ////////////////////////////////////////////////////////////////////////////////
-// Lit une valeur string dans paramètre du fichier INI
+// Lit une valeur string dans paramÃ¨tre du fichier INI
 ////////////////////////////////////////////////////////////////////////////////
 function f_IniReadSectionStr(aSection :string; aCle :string; aDefaut :string) : string;
 begin
@@ -367,7 +367,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lit une valeur string dans paramètre du fichier INI
+// Lit une valeur string dans paramÃ¨tre du fichier INI
 ////////////////////////////////////////////////////////////////////////////////
 function f_IniReadSection(aSection :string) : string;
 var lstr_strings : TStringList ;
@@ -378,7 +378,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lit une valeur booléenne dans paramètre du fichier INI
+// Lit une valeur boolÃ©enne dans paramÃ¨tre du fichier INI
 ////////////////////////////////////////////////////////////////////////////////
 function f_IniReadSectionBol(aSection: string; aCle: string; aDefaut: Boolean): Boolean;
 begin
@@ -396,7 +396,7 @@ Begin
 {$ELSE}
 var
   Buffer: array[0..255] of char;    // tableau de 255 caracteres
-  BufferSize: DWORD;                // nombre 16 bits non signé  VL_B_Resultat : Boolean;
+  BufferSize: DWORD;                // nombre 16 bits non signÃ©  VL_B_Resultat : Boolean;
 begin
   BufferSize := sizeOf(Buffer); // (= 256)
   if GetUserName(@buffer, BufferSize) then ; // (lpBuffer: PChar; var nSize: DWORD)
@@ -415,7 +415,7 @@ Begin
 {$ELSE}
 var
   Buffer: array[0..255] of char;    // tableau de 255 caracteres
-  BufferSize: DWORD;                // nombre 16 bits non signé  VL_B_Resultat : Boolean;
+  BufferSize: DWORD;                // nombre 16 bits non signÃ©  VL_B_Resultat : Boolean;
 begin
   BufferSize := sizeOf(Buffer); // (= 256)
   if GetComputerName(@buffer, BufferSize) then ; // (lpBuffer: PChar; var nSize: DWORD)
@@ -425,11 +425,11 @@ end;
 
 /////////////////////////////////////////////////////////////////////////////////
 // Fonction : f_IniReadGridFromIni
-// Description : Affecte les tailles de colonnes d'une grille à partir de l'ini
-// Paramètres  : aini_IniFile : L'ini
+// Description : Affecte les tailles de colonnes d'une grille Ã  partir de l'ini
+// ParamÃ¨tres  : aini_IniFile : L'ini
 //               as_FormName  : Le nom de la fiche section de l'ini
 //               agd_grid     : La grille
-//               Retour       : Une colonne au moins a été affectée
+//               Retour       : Une colonne au moins a Ã©tÃ© affectÃ©e
 /////////////////////////////////////////////////////////////////////////////////
 
 function f_IniReadGridFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TDBGrid ): Boolean ;
@@ -454,7 +454,7 @@ end;
 /////////////////////////////////////////////////////////////////////////////////
 // Fonction : p_IniWriteGridToIni
 // Description : Affecte les tailles de colonnes d'une grille vers l'ini
-// Paramètres  : aini_IniFile : L'ini
+// ParamÃ¨tres  : aini_IniFile : L'ini
 //               as_FormName  : Le nom de la fiche section de l'ini
 //               agd_grid     : La grille
 /////////////////////////////////////////////////////////////////////////////////
@@ -480,11 +480,11 @@ End;
 
 /////////////////////////////////////////////////////////////////////////////////
 // Fonction : f_IniReadListViewFromIni
-// Description : Affecte les tailles de colonnes d'une liste à partir de l'ini
-// Paramètres  : aini_IniFile : L'ini
+// Description : Affecte les tailles de colonnes d'une liste Ã  partir de l'ini
+// ParamÃ¨tres  : aini_IniFile : L'ini
 //               as_FormName  : Le nom de la fiche section de l'ini
 //               alv_ListView : La liste
-//               Retour       : Une colonne au moins a été affectée
+//               Retour       : Une colonne au moins a Ã©tÃ© affectÃ©e
 /////////////////////////////////////////////////////////////////////////////////
 function f_IniReadListViewFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TCustomListView ): Boolean ;
 var k, li_Width : Integer ;
@@ -506,11 +506,11 @@ end;
 
 /////////////////////////////////////////////////////////////////////////////////
 // Fonction : f_IniReadVirtualTreeFromIni
-// Description : Affecte les tailles de colonnes d'un arbre à partir de l'ini
-// Paramètres  : aini_IniFile : L'ini
+// Description : Affecte les tailles de colonnes d'un arbre Ã  partir de l'ini
+// ParamÃ¨tres  : aini_IniFile : L'ini
 //               as_FormName  : Le nom de la fiche section de l'ini
 //               abvt_VirtualTree : L'arbre
-//               Retour       : Une colonne au moins a été affectée
+//               Retour       : Une colonne au moins a Ã©tÃ© affectÃ©e
 /////////////////////////////////////////////////////////////////////////////////
 
 {$IFDEF VIRTUALTREES}
@@ -539,7 +539,7 @@ end;
 /////////////////////////////////////////////////////////////////////////////////
 // Fonction : p_IniWriteVirtualTreeToIni
 // Description : Affecte les tailles de colonnes d'un arbre vers l'ini
-// Paramètres  : aini_IniFile : L'ini
+// ParamÃ¨tres  : aini_IniFile : L'ini
 //               as_FormName  : Le nom de la fiche section de l'ini
 //               abvt_VirtualTree : L'arbre
 /////////////////////////////////////////////////////////////////////////////////
@@ -561,7 +561,7 @@ End ;
 /////////////////////////////////////////////////////////////////////////////////
 // Fonction : p_IniWriteListViewToIni
 // Description : Affecte les tailles de colonnes d'une liste vers l'ini
-// Paramètres  : aini_IniFile : L'ini
+// ParamÃ¨tres  : aini_IniFile : L'ini
 //               as_FormName  : Le nom de la fiche section de l'ini
 //               alv_ListView : La liste
 /////////////////////////////////////////////////////////////////////////////////
@@ -576,7 +576,7 @@ begin
 End ;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Ecrit une valeur chaîne dans un fichier INI
+// Ecrit une valeur chaÃ®ne dans un fichier INI
 ////////////////////////////////////////////////////////////////////////////////
 procedure p_IniWriteSectionStr(aSection, aCle, aDonnee: string);
 begin
@@ -585,7 +585,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Ecrit une valeur booléenne dans un fichier INI
+// Ecrit une valeur boolÃ©enne dans un fichier INI
 ////////////////////////////////////////////////////////////////////////////////
 procedure p_iniWriteSectionBol(aSection, aCle: string; aDonnee: Boolean);
 begin
@@ -612,7 +612,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Mise à jour de la date de lancement du fichier INI
+// Mise Ã  jour de la date de lancement du fichier INI
 ////////////////////////////////////////////////////////////////////////////////
 procedure p_IniMAJ;
 begin
@@ -620,7 +620,7 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Retourne le répertoire du fichier ini
+// Retourne le rÃ©pertoire du fichier ini
 ////////////////////////////////////////////////////////////////////////////////
 function fs_GetIniDir: String;
 var ls_Dir : String;
@@ -698,7 +698,7 @@ function f_LectureSQLFile(parent, requete: string): string;
 begin
   if FSQLFile = nil then
     FSQLFile := TIniFile.Create(fs_getSoftDir + CST_INI_SQL + 'SQLFILE.INI');
-  result := FSQLFile.ReadString(parent, requete, 'fichier non trouvé');
+  result := FSQLFile.ReadString(parent, requete, 'fichier non trouvÃ©');
 end;
 
 function Lecture_ini_sauvegarde_fonctions(sauvegarde: string; donnees: Tstrings): Boolean;
@@ -752,8 +752,8 @@ begin
 end;
 
 // Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)
-// Entrée : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
-// Renvoie un fichier INI (même si c'est pas très utile) !!!
+// EntrÃ©e : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
+// Renvoie un fichier INI (mÃªme si c'est pas trÃ¨s utile) !!!
 procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ;{$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
 begin
   if not Assigned(amif_Init) then
@@ -763,7 +763,7 @@ begin
   // Soit on a une connexion ADO
   if Assigned(acco_Conn) then
     begin
-      // Connexion à la base d'accès
+      // Connexion Ã  la base d'accÃ¨s
       p_SetComponentBoolProperty ( acco_Conn, 'Connected', False );
 
 {$IFDEF ZEOS}
@@ -777,7 +777,7 @@ begin
       if not amif_Init.SectionExists(INISEC_PAR) then
         begin
           p_SetComponentProperty ( acco_Conn, 'ConnectionString', '' );
-          // Mise à jour des paramètre
+          // Mise Ã  jour des paramÃ¨tre
           amif_Init.WriteString (INISEC_PAR, INISEC_CON, CST_MACHINE);
           amif_Init.WriteString (INISEC_PAR, GS_AIDE, GS_CHEMIN_AIDE);
 
@@ -788,7 +788,7 @@ begin
           amif_Init.WriteBool   (INISEC_PAR, GS_MODE_CONNEXION_ASYNCHRONE, GB_ASYNCHRONE_PAR_DEFAUT);
           amif_Init.WriteBool   (INISEC_PAR, GS_MODE_ASYNCHRONE, GB_ASYNCHRONE_PAR_DEFAUT);
           amif_Init.WriteInteger(INISEC_PAR, GS_MODE_ASYNCHRONE_TIMEOUT, CST_ASYNCHRONE_TIMEOUT_DEFAUT);
-          // Ouverture de la fenêtre de dialogue de connexion
+          // Ouverture de la fenÃªtre de dialogue de connexion
           if ( acco_Conn is TADOConnection ) Then
             Begin
               EditConnectionString(acco_Conn);
@@ -818,7 +818,7 @@ begin
           End ;
 {$ENDIF}
         gs_aide := GS_CHEMIN_AIDE;
-        // Mettre à jour le fichier INI
+        // Mettre Ã  jour le fichier INI
         fb_iniWriteFile ( amif_Init, True );
       end;
     gs_ModeConnexion := amif_Init.Readstring(INISEC_PAR, INISEC_CON, '');

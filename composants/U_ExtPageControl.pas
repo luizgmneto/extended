@@ -4,7 +4,7 @@
 {             Matthieu Giroux                                         }
 {             TExtPageControl :                                       }
 {             Objet issu d'un TPageControl                            }
-{             qui permet de personnalisé la couleur du titre          }
+{             qui permet de personnalisÃ© la couleur du titre          }
 {             de l'onglet actif                                       }
 {             10 Mars 2007                                            }
 {                                                             }
@@ -37,7 +37,7 @@ uses
                                                FileUnit : 'U_ExtPageControl' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'PageControl avec gestion de couleurs et du retaillage.' ;
-                                               BugsStory : '1.0.1.0 : Gestion du thème xp et du retaillage, composant Jedi.' + #13#10
+                                               BugsStory : '1.0.1.0 : Gestion du thÃ¨me xp et du retaillage, composant Jedi.' + #13#10
                                                          + '1.0.0.0 : PageControl avec gestion de couleurs.'  ;
                                                UnitType : 3 ;
                                                Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
@@ -46,29 +46,29 @@ uses
 
 type
   TExtPageControl = class(TPageControl,IJvExControl)
-    { Déclarations privées }
+    { DÃ©clarations privÃ©es }
   private
 
     gcol_Activefont    : TColor;
     gcol_ActiveColor        : TColor;
   protected
-    { Déclarations protégées }
+    { DÃ©clarations protÃ©gÃ©es }
     procedure DrawTab(TabIndex: Integer; const Rect: TRect;
       Active: Boolean); override;
     procedure WMSize (var Message: TWMSize ); message WM_SIZE;
     procedure WMEraseBkgnd(var Message: TWmEraseBkgnd); message WM_ERASEBKGND;
 
    public
-    { Déclarations publiques }
+    { DÃ©clarations publiques }
     constructor Create(AOwner: TComponent); override;
     procedure SetTabIndex(Value: Integer); override;
 
   published
-    { Déclarations publiées }
-    // Propriété qui conserve détermine la couleur du titre de l'onglet actif
+    { DÃ©clarations publiÃ©es }
+    // PropriÃ©tÃ© qui conserve dÃ©termine la couleur du titre de l'onglet actif
     property ActiveFont : TColor read gcol_Activefont write gcol_Activefont default clMaroon ;
     property ActiveColor: TColor read gcol_ActiveColor write gcol_ActiveColor default clMoneyGreen ;
-    //    Afficher la propriété ParentBackground
+    //    Afficher la propriÃ©tÃ© ParentBackground
     property ParentBackground default False ;
 
   end;
@@ -84,7 +84,7 @@ const
     gt_RetournePage : array [1..CST_TAILLE_RETROURNE_PAGE] of TPoint = ((X:10;Y:0),(X:2;Y:5),(X:2;Y:0),(X:10;Y:0));
 
 /////////////////////////////////////////////////////////////////////////////////
-// Procédure : Register
+// ProcÃ©dure : Register
 // Description : Enregistrement du composant
 /////////////////////////////////////////////////////////////////////////////////
 procedure Register;
@@ -95,7 +95,7 @@ end;
 /////////////////////////////////////////////////////////////////////////////////
 // Constructeur : Create
 // Description : Initialisation du PageControl
-// Paramètres : AOwner : La fiche propriétaire
+// ParamÃ¨tres : AOwner : La fiche propriÃ©taire
 /////////////////////////////////////////////////////////////////////////////////
 constructor TExtPageControl.Create(AOwner: TComponent);
 begin
@@ -103,14 +103,14 @@ begin
   gcol_ActiveColor := clMoneyGreen ;
   gcol_Activefont  := clMaroon ;
   ControlStyle := ControlStyle - [csParentBackground] ;
-  // A enlever : le composant possède aussi des propriétés en mode them xp
+  // A enlever : le composant possÃ¨de aussi des propriÃ©tÃ©s en mode them xp
 //  OwnerDraw := True;
 end;
 
 /////////////////////////////////////////////////////////////////////////////////
-// Procédure : DrawTab
+// ProcÃ©dure : DrawTab
 // Description : redessine une page TTabSheet de l'objet TPageControl
-// Paramètres : TabIndex : Le numéro de l'onglet
+// ParamÃ¨tres : TabIndex : Le numÃ©ro de l'onglet
 //              Rect     : Le rectangle du dessin
 //              Active   : Onglet actif ou pas
 /////////////////////////////////////////////////////////////////////////////////
@@ -164,9 +164,9 @@ begin
 end;
 
 /////////////////////////////////////////////////////////////////////////////////
-// Procédure Message : SetTabIndex
+// ProcÃ©dure Message : SetTabIndex
 // Description : Mois de retaillage au changement d'onglet
-// Paramètre : Value : Les paramètres de retaillage
+// ParamÃ¨tre : Value : Les paramÃ¨tres de retaillage
 /////////////////////////////////////////////////////////////////////////////////
 procedure TExtPageControl.SetTabIndex(Value: Integer);
 begin
@@ -176,9 +176,9 @@ begin
 end;
 
 /////////////////////////////////////////////////////////////////////////////////
-// Procédure Message : WMSize
+// ProcÃ©dure Message : WMSize
 // Description : Mois de retaillage au retaillage
-// Paramètre : Message : Les paramètres de retaillage
+// ParamÃ¨tre : Message : Les paramÃ¨tres de retaillage
 /////////////////////////////////////////////////////////////////////////////////
 procedure TExtPageControl.WMSize(var Message: TWMSize);
 begin
@@ -187,9 +187,9 @@ begin
   EnableAlign ;
 end;
 /////////////////////////////////////////////////////////////////////////////////
-// Procédure Message : WMEraseBkgnd
-// Description : récupération des propriétés de theme du TWinControl
-// Paramètre : Message : Les paramètres d'effacement du fond
+// ProcÃ©dure Message : WMEraseBkgnd
+// Description : rÃ©cupÃ©ration des propriÃ©tÃ©s de theme du TWinControl
+// ParamÃ¨tre : Message : Les paramÃ¨tres d'effacement du fond
 /////////////////////////////////////////////////////////////////////////////////
 procedure TExtPageControl.WMEraseBkgnd(var Message: TWMEraseBkgnd);
 begin

@@ -26,22 +26,22 @@ const
   CST_SQL_DESC = ' DESC' ;
   CST_SQL_ORDER_INTERLEAVING = 1 ;
   CST_DELPHI_FIELD_STRING = [ftString, ftFmtMemo, ftMemo, ftFixedChar, ftWideString];
-  gVer_fonctions_db : T_Version = ( Component : 'Gestion des données' ; FileUnit : 'fonctions_db' ;
+  gVer_fonctions_db : T_Version = ( Component : 'Gestion des donnÃ©es' ; FileUnit : 'fonctions_db' ;
                         			                 Owner : 'Matthieu Giroux' ;
-                        			                 Comment : 'Fonctions gestion des données partagées.' ;
-                        			                 BugsStory : 'Version 1.2.0.0 : Fonctions sur les composants de données dans fonctions_dbcomponents.' + #13#10 +
-                        			                	        	 'Version 1.1.0.1 : Changement de nom de procédures non utilisées, bug mode synchrone lent.' + #13#10 +
+                        			                 Comment : 'Fonctions gestion des donnÃ©es partagÃ©es.' ;
+                        			                 BugsStory : 'Version 1.2.0.0 : Fonctions sur les composants de donnÃ©es dans fonctions_dbcomponents.' + #13#10 +
+                        			                	        	 'Version 1.1.0.1 : Changement de nom de procÃ©dures non utilisÃ©es, bug mode synchrone lent.' + #13#10 +
                         			                	        	 'Version 1.1.0.0 : Mode asynchrone.' + #13#10 +
                         			                	        	 'Version 1.0.8.0 : Fonction fb_RefreshDatasetIfEmpty.' + #13#10 +
-                        			                	        	 'Version 1.0.7.0 : Toutes les fonctions de déplacement.' + #13#10 +
-                        			                	        	 'Version 1.0.6.0 : Procédure p_InitNavigateurBoutonsDeplacement.' + #13#10 +
+                        			                	        	 'Version 1.0.7.0 : Toutes les fonctions de dÃ©placement.' + #13#10 +
+                        			                	        	 'Version 1.0.6.0 : ProcÃ©dure p_InitNavigateurBoutonsDeplacement.' + #13#10 +
                         			                	        	 'Version 1.0.5.0 : Fonction fb_MAJTableNumOrdre.' + #13#10 +
                         			                	        	 'Version 1.0.4.0 : Fonction fb_RefreshADODataset correcte et fonction fb_RefreshADORecord.' + #13#10 +
-                        			                	        	 'Version 1.0.3.0 : Fonction fb_DatasetFilterLikeRecord pour évènement OnFilterRecord.' + #13#10 +
+                        			                	        	 'Version 1.0.3.0 : Fonction fb_DatasetFilterLikeRecord pour Ã©vÃ¨nement OnFilterRecord.' + #13#10 +
                         			                	        	 'Version 1.0.2.0 : Fonction fb_RefreshADODataset.' + #13#10 +
-                        			                	        	 'Version 1.0.1.1 : Bug texte de recherche à rien.' + #13#10 +
-                        			                	        	 'Version 1.0.1.0 : Deuxième fonction fb_Locate.' + #13#10 +
-                        			                	        	 'Version 1.0.0.0 : La fonction fb_Locate a des limites sur plusieurs champs recherchés.';
+                        			                	        	 'Version 1.0.1.1 : Bug texte de recherche Ã  rien.' + #13#10 +
+                        			                	        	 'Version 1.0.1.0 : DeuxiÃ¨me fonction fb_Locate.' + #13#10 +
+                        			                	        	 'Version 1.0.0.0 : La fonction fb_Locate a des limites sur plusieurs champs recherchÃ©s.';
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 2 ; Release : 0 ; Build : 0 );
 
@@ -74,7 +74,7 @@ var ge_DataSetErrorEvent : TDataSetErrorEvent = nil;
 
 resourcestring
   GS_MODE_ASYNCHRONE = 'Mode Asynchrone' ;
-  GS_ACCES_DIRECT_SERVEUR = 'Accès directs Serveur' ;
+  GS_ACCES_DIRECT_SERVEUR = 'AccÃ¨s directs Serveur' ;
   GS_MODE_CONNEXION_ASYNCHRONE = 'Connection Asynchrone' ;
   GS_MODE_ASYNCHRONE_NB_ENREGISTREMENTS = 'Mode Asynchrone Enregistrements' ;
   GS_MODE_ASYNCHRONE_TIMEOUT = 'Mode Asynchrone TimeOut' ;
@@ -189,9 +189,9 @@ begin
   End ;
 end;
 
-// Mise à jour du numéro d'ordre ( position  dans une table )
-// aDat_Dataset : Dataset à changer
-// ai_NumOrdre : Nouveau numéro d'ordre de la table
+// Mise Ã  jour du numÃ©ro d'ordre ( position  dans une table )
+// aDat_Dataset : Dataset Ã  changer
+// ai_NumOrdre : Nouveau numÃ©ro d'ordre de la table
 // as_NomOrdre : Champ d'ordonnancement
 // Retour   : Y a - t-il eu une erreur
 function  fb_MAJTableNumOrdre ( const aDat_Dataset : TDataset ; const avar_Numordre : Variant ; const as_NomOrdre : String ): Boolean;
@@ -209,8 +209,8 @@ Begin
 End ;
 
 
-// Mise à jour du numéro d'ordre ( position  dans une table )
-// aDat_Dataset : Dataset à changer
+// Mise Ã  jour du numÃ©ro d'ordre ( position  dans une table )
+// aDat_Dataset : Dataset Ã  changer
 // as_NomOrdre : Champ d'ordonnancement
 // ab_erreur   : Y a - t-il eu une erreur
 function fb_MAJTableNumsOrdre ( const aDat_Dataset : TDataset ; const as_NomOrdre : String ; const ai_Intervalle : Longint ; const ab_DisableControls : Boolean ): Boolean ;
@@ -222,12 +222,12 @@ begin
   try
     aDat_Dataset.First ;
     li_Numordre1 := 1 ;
-    // Début des numéros d'ordonancement
-    // Affectation des nouveaux numéros d'ordre
+    // DÃ©but des numÃ©ros d'ordonancement
+    // Affectation des nouveaux numÃ©ros d'ordre
     while li_Numordre1 <= 1 + aDat_Dataset.RecordCount * ai_Intervalle  do
       Begin
         if not fb_MAJTableNumOrdre ( aDat_Dataset, li_Numordre1, as_NomOrdre ) Then
-          // Pa smis à jour
+          // Pa smis Ã  jour
           Result := False ;
         aDat_Dataset.Next;
         if aDat_Dataset.Eof Then
@@ -247,8 +247,8 @@ begin
 End;
 
 // Intervertit deux enregistrement dans le positionement
-// aDat_GroupeFonctions : La dataset associé
-// ab_Precedent         : Précédent ou non alors suivant
+// aDat_GroupeFonctions : La dataset associÃ©
+// ab_Precedent         : PrÃ©cÃ©dent ou non alors suivant
 function fb_IntervertitPositions2Champs   ( const aDat_Dataset : TDataset ; const as_NomOrdre : String ; const ab_Precedent, ab_SortAsc, ab_DisableControls : Boolean ): Boolean;
 var lvar_Numordre1      ,
     lvar_Numordre2      : Variant ;
@@ -271,7 +271,7 @@ begin
   and aDat_Dataset.Eof
    Then
     Exit ;
-// Bookmark pour revenir à l'enregistrement sélectionné
+// Bookmark pour revenir Ã  l'enregistrement sÃ©lectionnÃ©
   lbkm_GardeEnr := aDat_Dataset.Bookmark ;
   if ab_DisableControls Then
     aDat_Dataset.DisableControls ;
@@ -285,7 +285,7 @@ begin
     if ab_Precedent
      Then
       Begin
-      // Enregistement précédent
+      // Enregistement prÃ©cÃ©dent
         aDat_Dataset.Prior ;
         if not aDat_Dataset.Bof
          Then
@@ -315,7 +315,7 @@ begin
       End
      Else
       Begin
-      // Enregistement précédent
+      // Enregistement prÃ©cÃ©dent
         aDat_Dataset.Next ;
         if not aDat_Dataset.Eof
          Then
@@ -343,7 +343,7 @@ begin
               End ;
            End;
       End ;
-     // Mise à jour de la table liée
+     // Mise Ã  jour de la table liÃ©e
   //  aDat_Dataset.Refresh ;
   {  if (aDat_Dataset is TADOTable) then
       TADOTable(aDat_Dataset).Sort   := ls_NomOrdre + CST_SQL_ASC
@@ -503,16 +503,16 @@ End ;
 
 
 // Teste si on change d'enregistrement
-// Compare Un enregistrement ( variant ) et l'affecte à nouveau avec l'enregistrement de la clé en renvoyant true
-// avar_EnregistrementCle : un vairant à mette dans la form propriétaire et à ne toucher qu'avec cette fonction
-// adat_Dataset           : Le dataset de la clé
-// as_Cle                 : LA clé
+// Compare Un enregistrement ( variant ) et l'affecte Ã  nouveau avec l'enregistrement de la clÃ© en renvoyant true
+// avar_EnregistrementCle : un vairant Ã  mette dans la form propriÃ©taire et Ã  ne toucher qu'avec cette fonction
+// adat_Dataset           : Le dataset de la clÃ©
+// as_Cle                 : LA clÃ©
 function fb_ChangeEnregistrement(var avar_EnregistrementCle : Variant ; const adat_Dataset : TDataset ;
   const as_Cle: String; const ab_Sort:Boolean): Boolean;
 var lvar_NouveauEnregistrementCle : Variant ;
     li_i : Integer ;
 begin
-  // On n'a pas changé d'enregistrement par défaut
+  // On n'a pas changÃ© d'enregistrement par dÃ©faut
   Result := False ;
   if ab_Sort Then
     Exit ;
@@ -542,7 +542,7 @@ begin
                 and ( VarCompareValue ( avar_EnregistrementCle [ li_i ], lvar_NouveauEnregistrementCle [ li_i ] ) <> vrEqual )) Then
                   Begin
                     avar_EnregistrementCle        [ li_i ] := lvar_NouveauEnregistrementCle [ li_i ];
-                    // Une valeur est différente alors on a changé d'enregistrement
+                    // Une valeur est diffÃ©rente alors on a changÃ© d'enregistrement
                     Result := True ;
                   End
                 Else
@@ -557,18 +557,18 @@ begin
             Begin
               if ( VarCompareValue ( avar_EnregistrementCle, lvar_NouveauEnregistrementCle ) <> vrEqual ) Then
                 Begin
-                  // et l'affecte à nouveau avec l'enregistrement de la clé en renvoyant true
+                  // et l'affecte Ã  nouveau avec l'enregistrement de la clÃ© en renvoyant true
                   avar_EnregistrementCle := lvar_NouveauEnregistrementCle ;
-                  // La valeur est différente alors on a changé d'enregistrement
+                  // La valeur est diffÃ©rente alors on a changÃ© d'enregistrement
                   Result := True ;
                 End ;
             End
           Else
             if  ( lvar_NouveauEnregistrementCle <> Null ) Then
               Begin
-                // et l'affecte à nouveau avec l'enregistrement de la clé en renvoyant true
+                // et l'affecte Ã  nouveau avec l'enregistrement de la clÃ© en renvoyant true
                 avar_EnregistrementCle := lvar_NouveauEnregistrementCle ;
-                // La valeur est différente alors on a changé d'enregistrement
+                // La valeur est diffÃ©rente alors on a changÃ© d'enregistrement
                 Result := True ;
               End
 
@@ -583,9 +583,9 @@ begin
      avar_EnregistrementCle := Null ;
 end;
 
-// Mise à jour de la propriété sort
+// Mise Ã  jour de la propriÃ©tÃ© sort
 // aDat_Dataset : Le dataset
-// as_NomChamp : Le champ à trier
+// as_NomChamp : Le champ Ã  trier
 // ab_Desc  : Descendant ou Montant
 function  fb_SortADataset ( const aDat_Dataset : TDataset; const as_NomChamp : String ; const ab_Desc : Boolean ) : Boolean;
 {$IFDEF EADO}
@@ -623,9 +623,9 @@ Begin
 End ;
 
 
-// récupère la propriété sort
+// rÃ©cupÃ¨re la propriÃ©tÃ© sort
 // aDat_Dataset : Le dataset
-// Sortie : La propriété sort
+// Sortie : La propriÃ©tÃ© sort
 {function TF_CustomFrameWork.fs_GetSort ( const aDat_Dataset : TDataset ) : String ;
 Begin
   Result := '' ;

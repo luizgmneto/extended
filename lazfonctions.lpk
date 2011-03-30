@@ -21,8 +21,8 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Release="1" Build="2"/>
-    <Files Count="16">
+    <Version Major="1" Release="1" Build="3"/>
+    <Files Count="15">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -72,21 +72,17 @@
         <Type Value="LFM"/>
       </Item12>
       <Item13>
-        <Filename Value="forms/u_zconnection.lrs"/>
-        <Type Value="LRS"/>
-      </Item13>
-      <Item14>
         <Filename Value="forms/u_zconnection.pas"/>
         <UnitName Value="u_zconnection"/>
-      </Item14>
-      <Item15>
+      </Item13>
+      <Item14>
         <Filename Value="fonctions/fonctions_dbcomponents.pas"/>
         <UnitName Value="fonctions_dbcomponents"/>
-      </Item15>
-      <Item16>
+      </Item14>
+      <Item15>
         <Filename Value="fonctions/fonctions_version.pas"/>
         <UnitName Value="fonctions_version"/>
-      </Item16>
+      </Item15>
     </Files>
     <i18n>
       <OutDir Value="fonctions"/>

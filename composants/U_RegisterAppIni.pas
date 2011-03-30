@@ -1,10 +1,10 @@
 unit U_RegisterAppIni;
 
-// Procédure d'enregistrement de l'application form ini dans les projets
+// ProcÃ©dure d'enregistrement de l'application form ini dans les projets
 // Classes :
-// TAppExpertIni         Module qui permet de créer le projet dans les projets
-// Objet : Créer un projet dans les projets
-// Créé par Matthieu Giroux le 3/12/2003
+// TAppExpertIni         Module qui permet de crÃ©er le projet dans les projets
+// Objet : CrÃ©er un projet dans les projets
+// CrÃ©Ã© par Matthieu Giroux le 3/12/2003
 
 interface
 
@@ -29,24 +29,24 @@ resourcestring
 
 type
   { TAppExpertIni
-   Module qui permet de créer le projet dans les projets}
+   Module qui permet de crÃ©er le projet dans les projets}
   TAppExpertIni = class(TNouvelleApplication)
   private
   public
-  // retourne le nom affiché dans les projets
+  // retourne le nom affichÃ© dans les projets
   // Sortie : Le nom du projet dans les projets
     function GetName: string; override;
-  // retourne le commentaire affiché dans les projets
+  // retourne le commentaire affichÃ© dans les projets
   // Sortie : Le commentaire du projet dans les projets
     function GetComment: string; override;
-  // retourne l'icône affiché dans les projets
-  // Sortie : l'icône du projet dans les projets
+  // retourne l'icÃ´ne affichÃ© dans les projets
+  // Sortie : l'icÃ´ne du projet dans les projets
     function GetGlyph: HICON; override;
   // retourne le style du projet
   // Sortie : le style du projet : projet expert
     function GetStyle: TExpertStyle; override;
-  // retourne l'état du projet
-  // Sortie : l'état du projet : csEnabled ou csChecked
+  // retourne l'Ã©tat du projet
+  // Sortie : l'Ã©tat du projet : csEnabled ou csChecked
     function GetState: TExpertState; override;
   // retourne l'identifiant du projet
   // Sortie : l'identifiant du projet
@@ -60,31 +60,31 @@ type
   // retourne le texte du menu
   // Sortie : le texte du menu
     function GetMenuText: string; override;
-  // exécution du projet
+  // exÃ©cution du projet
     procedure Execute; override;
   end;
 
-  // Module géré automatiquement
-  // qui permet de gérer la création du projet
+  // Module gÃ©rÃ© automatiquement
+  // qui permet de gÃ©rer la crÃ©ation du projet
   { TProjetAppliIni }
   TProjetAppliIni = class(TIProjectCreatorEx)
   public
-  // Ne sait pas à quoi ça sert
+  // Ne sait pas Ã  quoi Ã§a sert
     function Existing: Boolean; override;
-  // Retourne le nom d'unité du projet
+  // Retourne le nom d'unitÃ© du projet
     function GetFileName: string; override;
-  // Ne sait pas à quoi ça sert
+  // Ne sait pas Ã  quoi Ã§a sert
     function GetFileSystem: string; override;
     // Retourne
-    // la source du projet formattée
+    // la source du projet formattÃ©e
     function NewProjectSource(const ProjectName: string): string; override;
-    // Création des modules supplémentaires
+    // CrÃ©ation des modules supplÃ©mentaires
     procedure NewDefaultModule; override;
-    // Crée un fichier Resource
+    // CrÃ©e un fichier Resource
     procedure NewProjectResource(Module: TIModuleInterface); override;
-  // Ne sait pas à quoi ça sert
+  // Ne sait pas Ã  quoi Ã§a sert
     function GetOptionName: string; override;
-  // Ne sait pas à quoi ça sert
+  // Ne sait pas Ã  quoi Ã§a sert
     function NewOptionSource(const ProjectName: string): string; override;
   end;
 
@@ -106,25 +106,25 @@ end;
 
 { TProjetAppliIni }
 
-  // Ne sait pas à quoi ça sert
+  // Ne sait pas Ã  quoi Ã§a sert
 function TProjetAppliIni.Existing: Boolean;
 begin
   Result:= False;
 end;
 
-  // Retourne le nom d'unité du projet
+  // Retourne le nom d'unitÃ© du projet
 function TProjetAppliIni.GetFileName: string;
 begin
   Result:= '';
 end;
 
-  // Ne sait pas à quoi ça sert
+  // Ne sait pas Ã  quoi Ã§a sert
 function TProjetAppliIni.GetFileSystem: string;
 begin
   Result:= '';
 end;
 
-  // Ne sait pas à quoi ça sert
+  // Ne sait pas Ã  quoi Ã§a sert
 function TProjetAppliIni.GetOptionName: string;
 begin
    Result:= '';
@@ -136,19 +136,19 @@ begin
     cmShowForm, cmUnNamed, cmNewFile]);
 end;
  }
-  // Ne sait pas à quoi ça sert
+  // Ne sait pas Ã  quoi Ã§a sert
 function TProjetAppliIni.NewOptionSource(const ProjectName: string): string;
 begin
   Result:= '';
 end;
 
-    // Crée un fichier Resource
+    // CrÃ©e un fichier Resource
 procedure TProjetAppliIni.NewProjectResource(Module: TIModuleInterface);
 begin
   { Do nothing }
 end;
 
-    // Retourne la source du projet formattée
+    // Retourne la source du projet formattÃ©e
 function TProjetAppliIni.NewProjectSource(const ProjectName: string): string;
 begin
   Result:= Format(sBasicAppliSource,
@@ -159,10 +159,10 @@ end;
 { TAppExpertIni }
 
 
-  // exécution du projet
+  // exÃ©cution du projet
 procedure TAppExpertIni.Execute;
 begin
-// Mettre ici les paramètres de la création du nouveau projet
+// Mettre ici les paramÃ¨tres de la crÃ©ation du nouveau projet
   ToolServices.ProjectCreate(AppProjetIni, [cpApplication]);
 end;
 
@@ -173,15 +173,15 @@ begin
   Result:= CST_AUTEUR;
 end;
 
-  // retourne le commentaire affiché dans les projets
+  // retourne le commentaire affichÃ© dans les projets
   // Sortie : Le commentaire du projet dans les projets
 function TAppExpertIni.GetComment: string;
 begin
   Result:= CST_COMMENTAIRE;
 end;
 
-  // retourne l'icône affiché dans les projets
-  // Sortie : l'icône du projet dans les projets
+  // retourne l'icÃ´ne affichÃ© dans les projets
+  // Sortie : l'icÃ´ne du projet dans les projets
 function TAppExpertIni.GetGlyph: HICON;
 begin
   result := LoadIcon ( 0, idi_Application );
@@ -201,7 +201,7 @@ begin
   Result:= '';
 end;
 
-  // retourne le nom affiché dans les projets
+  // retourne le nom affichÃ© dans les projets
   // Sortie : Le nom du projet dans les projets
 function TAppExpertIni.GetName: string;
 begin
@@ -215,8 +215,8 @@ begin
   Result:= CST_NOUVEAUMENU ;
 end;
 
-  // retourne l'état du projet
-  // Sortie : l'état du projet : csEnabled ou csChecked
+  // retourne l'Ã©tat du projet
+  // Sortie : l'Ã©tat du projet : csEnabled ou csChecked
 function TAppExpertIni.GetState: TExpertState;
 begin
   Result:= [esEnabled, esChecked];
@@ -232,7 +232,7 @@ end;
 procedure Register ;
 begin // Enregistre le nouvel expert de projet
   AppExpertIni := TAppExpertIni.Create ;
-  // Un register libère automatiquement la variable à la suppression
+  // Un register libÃ¨re automatiquement la variable Ã  la suppression
   RegisterLibraryExpert( AppExpertIni );
   AppProjetIni:= TProjetAppliIni.Create;
   NouveauModule:= TF_McFormMainIniModule.Create;
@@ -240,8 +240,8 @@ begin // Enregistre le nouvel expert de projet
 end;
 initialization
 finalization
-// Un register libère automatiquement la variable
-// Mais ces variables n'ont pas été enregistrées
+// Un register libÃ¨re automatiquement la variable
+// Mais ces variables n'ont pas Ã©tÃ© enregistrÃ©es
   NouveauDataModule.Free ;
   NouveauModule.Free;
   AppProjetIni.Free;

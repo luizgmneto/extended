@@ -2,7 +2,7 @@ unit PDBCheck;
 
 // TPDBCheck version 1.50
 // Freeware Component for for D3,D4,D5,D6
-// Copyright © 2000-2001 by Peric
+// Copyright Â© 2000-2001 by Peric
 // Birthday of Component 28.08.2001
 // E-mail: pericddn@ptt.yu
 // http://www.ptt.yu/korisnici/p/e/pericddn/
@@ -169,7 +169,7 @@ begin
   FDataLink.OnDataChange := @DataChange;
   FDataLink.OnUpdateData := @UpdateData;
   FReadOnly:=False;
-  FVersion:='Version 1.50, Copyright © 2000-2001 by Peric, E-mail: pericddn@ptt.yu';
+  FVersion:='Version 1.50, Copyright Â© 2000-2001 by Peric, E-mail: pericddn@ptt.yu';
 end;
 
 destructor TPCustomDBCheck.Destroy;

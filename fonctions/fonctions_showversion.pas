@@ -9,7 +9,7 @@ interface
 {$I ..\Compilers.inc}
 {$I ..\extends.inc}
 
-uses Classes, SysUtils ;
+uses Classes, SysUtils, fonctions_version ;
 
 type T_Version = Record
                     Component ,
