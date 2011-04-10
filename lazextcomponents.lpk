@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="2" Build="3"/>
-    <Files Count="23">
+    <Files Count="24">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.lrs"/>
         <Type Value="LRS"/>
@@ -118,6 +118,10 @@
         <Filename Value="composants/u_framework_dbcomponents.pas"/>
         <UnitName Value="u_framework_dbcomponents"/>
       </Item23>
+      <Item24>
+        <Filename Value="composants/u_extsearchedit.pas"/>
+        <UnitName Value="u_extsearchedit"/>
+      </Item24>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="8">

@@ -1,7 +1,7 @@
 inherited Myform: TMyform
-  Left = 350
+  Left = 927
   Height = 533
-  Top = 200
+  Top = 263
   Width = 738
   Caption = 'Myform'
   ClientHeight = 533
@@ -237,8 +237,8 @@ inherited Myform: TMyform
     end
     object DBListView: TDBListView
       Left = 1
-      Height = 284
-      Top = 248
+      Height = 239
+      Top = 293
       Width = 523
       Align = alBottom
       Columns = <      
@@ -292,7 +292,7 @@ inherited Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 5
-      Top = 243
+      Top = 288
       Width = 523
       Align = alBottom
       ResizeAnchor = akBottom
@@ -307,6 +307,34 @@ inherited Myform: TMyform
         'FWMemo'
       )
       TabOrder = 8
+    end
+    object ExtSearchDBEdit1: TExtSearchDBEdit
+      Left = 118
+      Height = 27
+      Top = 236
+      Width = 224
+      DataField = 'PRENOM'
+      DataSource = Datasource
+      CharCase = ecNormal
+      Color = clMoneyGreen
+      MaxLength = 0
+      TabOrder = 9
+      SearchDisplay = 'PRENOM'
+      SearchSource = Datasource2
+      MyLabel = Search
+    end
+    object Search: TFWLabel
+      Left = 21
+      Height = 17
+      Top = 240
+      Width = 65
+      AutoSize = False
+      Caption = 'Search Name'
+      Font.Color = clBlack
+      Font.Height = 10
+      ParentColor = False
+      ParentFont = False
+      ColorFocus = clMaroon
     end
   end
   object Splitter1: TSplitter[2]
@@ -367,5 +395,51 @@ inherited Myform: TMyform
     DataSet = DbfNoms
     left = 56
     top = 288
+  end
+  object Datasource2: TDatasource[6]
+    DataSet = DbfNoms2
+    left = 48
+    top = 360
+  end
+  object DbfNoms2: TDbf[7]
+    Exclusive = True
+    IndexDefs = <    
+      item
+        IndexFile = 'FICHECLE'
+        SortField = 'CLE'
+        Options = [ixPrimary, ixUnique]
+      end    
+      item
+        IndexFile = 'NOMS'
+        SortField = 'NOM'
+        Options = [ixCaseInsensitive]
+      end>
+    OpenMode = omAutoCreate
+    StoreDefs = True
+    TableName = 'fiche'
+    TableLevel = 7
+    FieldDefs = <    
+      item
+        Name = 'Cle'
+        Attributes = [faRequired, faLink]
+        DataType = ftAutoInc
+        Precision = 0
+        Size = 0
+      end    
+      item
+        Name = 'Nom'
+        DataType = ftString
+        Precision = 0
+        Size = 100
+      end    
+      item
+        Name = 'Prenom'
+        DataType = ftString
+        Precision = 0
+        Size = 100
+      end>
+    FilterOptions = []
+    left = 128
+    top = 360
   end
 end

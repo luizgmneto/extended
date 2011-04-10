@@ -18,7 +18,7 @@ uses
   Classes, SysUtils, db, Forms, Controls, Graphics,
   Dialogs, ExtCtrls, Grids, DBGrids, StdCtrls, U_FormMainIni, U_OnFormInfoIni,
   U_ExtColorCombos, U_ExtNumEdits, u_framework_components, U_ExtDBNavigator,
-  U_DBListView, u_framework_dbcomponents, dbf ;
+  U_DBListView, u_framework_dbcomponents, u_extsearchedit, dbf ;
 
 const CST_EXTENSION_DBF  = '.dbf' ;
       CST_NOM_FICHIER  = 'fiches' ;
@@ -28,10 +28,13 @@ type
 
   TMyform = class(TF_FormMainIni)
     Datasource: TDatasource;
+    Datasource2: TDatasource;
+    DbfNoms2: TDbf;
     DBListView: TDBListView;
     ExtColorCombo: TExtColorCombo;
     ExtDBNavigator1: TExtDBNavigator;
     ExtNumEdit1: TExtNumEdit;
+    ExtSearchDBEdit1: TExtSearchDBEdit;
     FWDBEdit: TFWDBEdit;
     FWDBEdit2: TFWDBEdit;
     FWEdit: TFWEdit;
@@ -41,6 +44,7 @@ type
     FWLabel4: TFWLabel;
     FWLabel5: TFWLabel;
     FWLabel6: TFWLabel;
+    Search: TFWLabel;
     FWMemo: TFWMemo;
     Noms: TDBGrid;
     OnFormInfoIni: TOnFormInfoIni;
