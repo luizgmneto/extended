@@ -22,7 +22,7 @@ implementation
 uses unite_messages, U_DBListView, U_ExtDBNavigator,
      u_framework_dbcomponents, u_framework_components,
      U_OnFormInfoIni,U_ExtNumEdits,U_ExtColorCombos,
-     u_extsearchedit,
+     u_extsearchedit, U_ExtComboInsert,
 {$IFDEF FPC}
      ComponentEditors, dbpropedits, PropEdits,
 {$ELSE}
@@ -33,7 +33,7 @@ uses unite_messages, U_DBListView, U_ExtDBNavigator,
 procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TDBListView,TExtDBNavigator,
-                                                TExtDBImage,TExtDBNumEdit,
+                                                TExtDBImage,TExtDBNumEdit, TExtDBComboInsert,
                                                 TExtDBColorCombo, TExtSearchDBEdit,
                                                 TFWDBEdit,TFWDBLookupCombo,TFWDBGrid,TFWDBMemo,TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF}]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TOnFormInfoIni,
@@ -56,6 +56,7 @@ initialization
   {$i U_DBListView.lrs}
   {$i U_OnFormInfoIni.lrs}
   {$i u_extsearchedit.lrs}
+  {$i U_ExtComboInsert.lrs}
   {$i U_ExtColorCombos.lrs}
   {$i U_ExtNumEdits.lrs}
 {$ENDIF}

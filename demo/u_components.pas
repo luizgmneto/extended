@@ -15,10 +15,10 @@ uses
   DBCtrls, TntDBCtrls, ComCtrls,
   JvExComCtrls, JvListView, TntStdCtrls, Mask,
 {$ENDIF}
-  Classes, SysUtils, db, Forms, Controls, Graphics,
-  Dialogs, ExtCtrls, Grids, DBGrids, StdCtrls, U_FormMainIni, U_OnFormInfoIni,
-  U_ExtColorCombos, U_ExtNumEdits, u_framework_components, U_ExtDBNavigator,
-  U_DBListView, u_framework_dbcomponents, u_extsearchedit, dbf ;
+  Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
+  DBGrids, StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos,
+  U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
+  u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection, dbf ;
 
 const CST_EXTENSION_DBF  = '.dbf' ;
       CST_NOM_FICHIER  = 'fiches' ;
@@ -29,12 +29,15 @@ type
   TMyform = class(TF_FormMainIni)
     Datasource: TDatasource;
     Datasource2: TDatasource;
-    DbfNoms2: TDbf;
+    ExtDBComboInsert2: TExtDBComboInsert;
+    ExtSearchDBEdit2: TExtSearchDBEdit;
+    Search: TFWLabel;
+    Search2: TFWLabel;
+    Villes: TDbf;
     DBListView: TDBListView;
     ExtColorCombo: TExtColorCombo;
     ExtDBNavigator1: TExtDBNavigator;
     ExtNumEdit1: TExtNumEdit;
-    ExtSearchDBEdit1: TExtSearchDBEdit;
     FWDBEdit: TFWDBEdit;
     FWDBEdit2: TFWDBEdit;
     FWEdit: TFWEdit;
@@ -44,7 +47,6 @@ type
     FWLabel4: TFWLabel;
     FWLabel5: TFWLabel;
     FWLabel6: TFWLabel;
-    Search: TFWLabel;
     FWMemo: TFWMemo;
     Noms: TDBGrid;
     OnFormInfoIni: TOnFormInfoIni;
@@ -57,6 +59,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure QuitterClick(Sender: TObject);
     procedure DbfNomsAfterPost(DataSet: TDataSet);
+    procedure SearchClick(Sender: TObject);
   private
     { private declarations }
   public
@@ -74,14 +77,25 @@ begin
   DBListView.Refresh;
 end;
 
+procedure TMyform.SearchClick(Sender: TObject);
+begin
+
+end;
+
 procedure TMyForm.FormShow(Sender: TObject);
 begin
   // On cherche ou crée le fichier CSV
   DbfNoms.FilePathFull := ExtractFileDir ( Application.ExeName );
+  Villes .FilePathFull := ExtractFileDir ( Application.ExeName );
   DbfNoms.TableName:=CST_NOM_FICHIER+CST_EXTENSION_DBF;
+  if not FileExists(DbfNoms.FilePathFull+DbfNoms.TableName) then
+    DbfNoms.CreateTable;
   try
     // Un Dataset s'ouvre pour lire et écrire les données
     DbfNoms.Open;
+    DbfNoms.PackTable;
+    DbfNoms.RegenerateIndexes;
+    Villes.Open;
   Except
     // Il s'agit d'une entrée/sortie donc on gère les exceptions
     on e:Exception do

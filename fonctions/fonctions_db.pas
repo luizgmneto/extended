@@ -89,9 +89,6 @@ uses Variants,  Math, fonctions_erreurs, fonctions_string, unite_messages,
 {$ELSE}
      DBTables,
 {$ENDIF}
-{$IFDEF ZEOS}
-   ZDataset, ZAbstractRODataset,
- {$ENDIF}
    fonctions_proprietes, TypInfo, ExtCtrls;
 
 
@@ -153,36 +150,34 @@ begin
     Except
     End ;
   try
-{$IFDEF EADO}
     if ab_Trie
-    and assigned ( adat_Dataset.FindField ( as_Champ ))
-    and ( adat_Dataset is TCustomADODataset ) Then
-      ( adat_Dataset as TCustomADODataset ).Sort := as_Champ + CST_SQL_ASC ;
-{$ENDIF}
+    and assigned ( adat_Dataset.FindField ( as_Champ )) then
+      p_SetComponentProperty(adat_Dataset, 'Sort', as_Champ + CST_SQL_ASC  );
+
     if assigned ( adat_Dataset.FindField ( as_Champ ))
-    and not adat_Dataset.IsEmpty
-    and ( adat_Dataset.FieldByName ( as_Champ ) is TNumericField )
-    and lb_Continue Then
-      with adat_Dataset do
-        Begin
-          First ;
-          while not eof do
-            Begin
-              lExt_Tempo := adat_Dataset.FieldByName ( as_Champ ).AsFloat ;
-              if  ( CompareValue ( lext_Tempo, lext_Recherche, 0 ) = 0 )  Then
-                Begin
-                  Result := True ;
-                  Exit ;
-                End ;
-              if  ( CompareValue ( lext_Tempo, lext_Recherche, 0 ) = 1 )  Then
-                Begin
-                  Exit ;
-                End ;
-              adat_Dataset.Next ;
-            End ;
-        End
-    Else
-      Result := adat_Dataset.Locate ( as_Champ, avar_Recherche, alo_Options );
+      and not adat_Dataset.IsEmpty
+      and ( adat_Dataset.FieldByName ( as_Champ ) is TNumericField )
+      and lb_Continue Then
+        with adat_Dataset do
+          Begin
+            First ;
+            while not eof do
+              Begin
+                lExt_Tempo := adat_Dataset.FieldByName ( as_Champ ).AsFloat ;
+                if  ( CompareValue ( lext_Tempo, lext_Recherche, 0 ) = 0 )  Then
+                  Begin
+                    Result := True ;
+                    Exit ;
+                  End ;
+                if  ( CompareValue ( lext_Tempo, lext_Recherche, 0 ) = 1 )  Then
+                  Begin
+                    Exit ;
+                  End ;
+                adat_Dataset.Next ;
+              End ;
+          End
+        Else
+          Result := adat_Dataset.Locate ( as_Champ, avar_Recherche, alo_Options );
   Except
     on e: Exception do
       f_GereExceptionEvent ( E, adat_Dataset, ge_DataSetErrorEvent, False );
@@ -638,4 +633,4 @@ End ;}
 initialization
   p_ConcatVersion ( gVer_fonctions_db );
 finalization
-end.
+end.

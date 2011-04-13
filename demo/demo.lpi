@@ -28,24 +28,28 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="4">
+    <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="FCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <PackageName Value="zcomponent"/>
+        <MinVersion Major="6" Minor="6" Release="6" Valid="True"/>
       </Item1>
       <Item2>
-        <PackageName Value="DBFLaz"/>
-        <MinVersion Minor="1" Release="1" Valid="True"/>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item2>
       <Item3>
-        <PackageName Value="lazextcomponents"/>
-        <MinVersion Minor="9" Build="4" Valid="True"/>
+        <PackageName Value="DBFLaz"/>
+        <MinVersion Minor="1" Release="1" Valid="True"/>
       </Item3>
       <Item4>
-        <PackageName Value="LCL"/>
+        <PackageName Value="lazextcomponents"/>
+        <MinVersion Minor="9" Build="4" Valid="True"/>
       </Item4>
+      <Item5>
+        <PackageName Value="LCL"/>
+      </Item5>
     </RequiredPackages>
-    <Units Count="17">
+    <Units Count="20">
       <Unit0>
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -53,8 +57,8 @@
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="56" Y="7"/>
-        <UsageCount Value="26"/>
+        <CursorPos X="43" Y="9"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit0>
@@ -64,11 +68,12 @@
         <ComponentName Value="Myform"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
-        <EditorIndex Value="3"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="78"/>
-        <CursorPos X="1" Y="12"/>
-        <UsageCount Value="26"/>
+        <TopLine Value="80"/>
+        <CursorPos X="11" Y="99"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -99,9 +104,9 @@
         <UnitName Value="U_ExtNumEdits"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="78"/>
+        <TopLine Value="607"/>
         <CursorPos X="13" Y="642"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -118,7 +123,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="215"/>
         <CursorPos X="1" Y="238"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
@@ -172,7 +177,7 @@
         <UnitName Value="u_regframeworkcomponents"/>
         <WindowIndex Value="0"/>
         <TopLine Value="27"/>
-        <CursorPos X="18" Y="58"/>
+        <CursorPos X="38" Y="37"/>
         <UsageCount Value="10"/>
       </Unit12>
       <Unit13>
@@ -194,144 +199,171 @@
       <Unit15>
         <Filename Value="../composants/u_extsearchedit.pas"/>
         <UnitName Value="u_extsearchedit"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="28"/>
-        <CursorPos X="1" Y="43"/>
-        <UsageCount Value="11"/>
+        <TopLine Value="132"/>
+        <CursorPos X="12" Y="155"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit15>
       <Unit16>
         <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/wincontrol.inc"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="5506"/>
-        <CursorPos X="1" Y="5524"/>
+        <CursorPos X="48" Y="5515"/>
+        <UsageCount Value="12"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="../fonctions/fonctions_db.pas"/>
+        <UnitName Value="fonctions_db"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="109"/>
+        <CursorPos X="66" Y="116"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="../fonctions/fonctions_proprietes.pas"/>
+        <UnitName Value="fonctions_proprietes"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="21"/>
+        <CursorPos X="126" Y="39"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
-      </Unit16>
+      </Unit18>
+      <Unit19>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/maskedit.pp"/>
+        <UnitName Value="MaskEdit"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1175"/>
+        <CursorPos X="1" Y="1193"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit19>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="172" Column="73" TopLine="138"/>
+        <Caret Line="148" Column="1" TopLine="132"/>
       </Position1>
       <Position2>
         <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="153" Column="1" TopLine="138"/>
+        <Caret Line="149" Column="1" TopLine="132"/>
       </Position2>
       <Position3>
         <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="163" Column="1" TopLine="138"/>
+        <Caret Line="152" Column="1" TopLine="132"/>
       </Position3>
       <Position4>
-        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/wincontrol.inc"/>
-        <Caret Line="5524" Column="1" TopLine="5506"/>
+        <Filename Value="../composants/u_extsearchedit.pas"/>
+        <Caret Line="153" Column="1" TopLine="132"/>
       </Position4>
       <Position5>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="148" Column="2" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="87" Column="1" TopLine="79"/>
       </Position5>
       <Position6>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="153" Column="1" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="86" Column="1" TopLine="78"/>
       </Position6>
       <Position7>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="163" Column="1" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="87" Column="1" TopLine="79"/>
       </Position7>
       <Position8>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="152" Column="1" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="88" Column="1" TopLine="80"/>
       </Position8>
       <Position9>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="155" Column="1" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="89" Column="1" TopLine="81"/>
       </Position9>
       <Position10>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="153" Column="1" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="88" Column="1" TopLine="80"/>
       </Position10>
       <Position11>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="163" Column="1" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="89" Column="1" TopLine="81"/>
       </Position11>
       <Position12>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="155" Column="83" TopLine="137"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="88" Column="1" TopLine="80"/>
       </Position12>
       <Position13>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="150" Column="55" TopLine="137"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="89" Column="1" TopLine="81"/>
       </Position13>
       <Position14>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="160" Column="78" TopLine="137"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="90" Column="1" TopLine="82"/>
       </Position14>
       <Position15>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="154" Column="68" TopLine="137"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="91" Column="1" TopLine="83"/>
       </Position15>
       <Position16>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="157" Column="110" TopLine="137"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="92" Column="1" TopLine="84"/>
       </Position16>
       <Position17>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="156" Column="57" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="91" Column="1" TopLine="83"/>
       </Position17>
       <Position18>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="154" Column="58" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="90" Column="1" TopLine="82"/>
       </Position18>
       <Position19>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="156" Column="1" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="89" Column="1" TopLine="81"/>
       </Position19>
       <Position20>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="152" Column="57" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="90" Column="10" TopLine="87"/>
       </Position20>
       <Position21>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="144" Column="25" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="98" Column="18" TopLine="80"/>
       </Position21>
       <Position22>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="149" Column="30" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="88" Column="1" TopLine="80"/>
       </Position22>
       <Position23>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="146" Column="57" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="89" Column="1" TopLine="80"/>
       </Position23>
       <Position24>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="84" Column="18" TopLine="73"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="90" Column="1" TopLine="80"/>
       </Position24>
       <Position25>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="156" Column="1" TopLine="137"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="91" Column="1" TopLine="80"/>
       </Position25>
       <Position26>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="167" Column="1" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="93" Column="1" TopLine="80"/>
       </Position26>
       <Position27>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="158" Column="53" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="95" Column="1" TopLine="80"/>
       </Position27>
       <Position28>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="156" Column="1" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="96" Column="1" TopLine="80"/>
       </Position28>
       <Position29>
-        <Filename Value="../composants/u_extsearchedit.pas"/>
-        <Caret Line="167" Column="1" TopLine="138"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="97" Column="1" TopLine="80"/>
       </Position29>
       <Position30>
-        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/wincontrol.inc"/>
-        <Caret Line="5524" Column="1" TopLine="5506"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="98" Column="1" TopLine="80"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>

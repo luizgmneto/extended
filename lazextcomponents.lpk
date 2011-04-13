@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="2" Build="3"/>
-    <Files Count="24">
+    <Files Count="25">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.lrs"/>
         <Type Value="LRS"/>
@@ -122,6 +122,10 @@
         <Filename Value="composants/u_extsearchedit.pas"/>
         <UnitName Value="u_extsearchedit"/>
       </Item24>
+      <Item25>
+        <Filename Value="composants/U_ExtComboInsert.pas"/>
+        <UnitName Value="U_ExtComboInsert"/>
+      </Item25>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="8">

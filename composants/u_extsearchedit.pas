@@ -95,7 +95,7 @@ type
 
 implementation
 
-uses Dialogs;
+uses Dialogs, fonctions_db;
 { TExtSearchDBEdit }
 
 procedure TExtSearchDBEdit.p_setSearchDisplay(AValue: String);
@@ -142,15 +142,15 @@ begin
       Flocated:=False;
       Exit;
     end;
-  if ( Key in [ VK_RETURN, VK_TAB, VK_DELETE, VK_BACK ]) Then
-    Exit ;
-  with FSearchSource.DataSet do
-    if length ( Text ) > 0
-     Then
+  if not ( Key in [ VK_RETURN, VK_TAB, VK_DELETE, VK_BACK ])
+  and ( Text    <> '' )
+  and ( SelText =  '' )
+   Then
+    with FSearchSource.DataSet do
       Begin
         Open ;
         if not assigned ( FindField ( FSearchSource.FieldName )) Then Exit;
-        if FSearchSource.DataSet.Locate ( FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey] )
+        if fb_Locate ( FSearchSource.DataSet, FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey], True )
          Then
           Begin
             Flocated  := True;
