@@ -855,8 +855,14 @@ begin
     end;
 
   end;
+  {$IFDEF FPC}
+  BeginUpdateBounds;
+  {$ENDIF}
   Width := X ;
   Height := Y ;
+  {$IFDEF FPC}
+  EndUpdateBounds;
+  {$ENDIF}
 end;
 
 
@@ -1432,4 +1438,4 @@ initialization
 
   p_ConcatVersion ( gVer_TExtDBNavigator );
 {$ENDIF}
-end.
+end.
