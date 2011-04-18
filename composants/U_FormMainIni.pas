@@ -293,6 +293,7 @@ type
   function fper_FindClass(const ClassName: string): TPersistentClass;
   function fper_GetClass(const AClassName: string): TPersistentClass;
   function fs_EraseNameSoft ( const as_Path : String ) : String ;
+  procedure p_InitRegisterForms;
 
 var
   gb_MotPasseEstValide : Boolean ;
@@ -323,6 +324,10 @@ uses fonctions_proprietes, fonctions_erreurs, TypInfo,
 
 { fonctions }
 
+procedure p_InitRegisterForms;
+Begin
+  gReg_MainFormIniClassesLocales := TRegGroups.Create ;
+end;
 
 // Supprime le nom du fichier exe dans le chemin
 function fs_EraseNameSoft ( const as_Path : String ) : String ;
@@ -1789,7 +1794,6 @@ initialization
 {$IFDEF VERSIONS}
   p_ConcatVersion ( gVer_TFormMainIni );
 {$ENDIF}
-  gReg_MainFormIniClassesLocales := TRegGroups.Create ;
 finalization
   gReg_MainFormIniClassesLocales.Free ;
   gReg_MainFormIniClassesLocales := Nil ;
