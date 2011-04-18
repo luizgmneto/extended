@@ -1,4 +1,4 @@
-{*********************************************************************}
+﻿{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             TExtSearchEdit :                               }
@@ -127,7 +127,7 @@ begin
     End;
 end;
 
-procedure TExtSearchDBEdit.WMPaint(var Message: TLMPaint);
+procedure TExtSearchDBEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
 begin
   p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
   inherited;

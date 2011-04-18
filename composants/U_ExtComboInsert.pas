@@ -1,4 +1,4 @@
-{*********************************************************************}
+﻿{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             TExtDBComboInsert :                               }
@@ -90,7 +90,7 @@ type
     function GetDisplayValue: String;
   protected
     OldText : String ;
-    procedure UpdateText; override;
+    procedure {$IFDEF FPC}UpdateText{$ELSE}KeyValueChanged{$ENDIF}; override;
     procedure ActiveChange(Sender: TObject); virtual ;
     procedure DataChange(Sender: TObject); virtual ;
     procedure EditingChange(Sender: TObject); virtual ;
@@ -122,56 +122,10 @@ type
     property Canvas: TCanvas read GetCanvas;
     property DisplayValue : Variant read FDisplayValue write FDisplayValue;
   published
-    property Anchors;
-    property AutoSelect;
-    property AutoSize;
     property BeepOnError: Boolean read FBeepOnError write FBeepOnError default True;
-    property BiDiMode;
-    property BorderStyle;
-    property CharCase;
-    property Color;
-    property Constraints;
     property DataField: string read GetDataField write SetDataField;
     property DataSource: TDataSource read GetDataSource write SetDataSource;
-    property DragCursor;
-    property DragKind;
-    property DragMode;
-    property Enabled;
-    property Font;
-    {$IFNDEF FPC}
-    property ImeMode;
-    property ImeName;
-    property PasswordChar;
-    {$ENDIF}
-    property MaxLength;
-    property ParentBiDiMode;
-    property ParentColor;
-    property ParentFont;
-    property ParentShowHint;
-    property PopupMenu;
     property ReadOnly: Boolean read GetReadOnly write SetReadOnly default False;
-    property ShowHint;
-    property TabOrder;
-    property TabStop;
-    property Visible;
-    property OnChange;
-    property OnClick;
-    property OnContextPopup;
-    property OnDblClick;
-    property OnDragDrop;
-    property OnDragOver;
-    property OnEndDock;
-    property OnEndDrag;
-    property OnEnter;
-    property OnExit;
-    property OnKeyDown;
-    property OnKeyPress;
-    property OnKeyUp;
-    property OnMouseDown;
-    property OnMouseMove;
-    property OnMouseUp;
-    property OnStartDock;
-    property OnStartDrag;
   end;
 
 implementation
@@ -277,12 +231,14 @@ procedure TExtDBComboInsert.ResetMaxLength;
 var
   F: TField;
 begin
+{$IFDEF FPC}
   if (MaxLength > 0) and Assigned(DataSource) and Assigned(DataSource.DataSet) then
   begin
     F := DataSource.DataSet.FindField(DataField);
     if Assigned(F) and (F.DataType in [ftString, ftWideString]) and (F.Size = MaxLength) then
       MaxLength := 0;
   end;
+{$ENDIF}
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -341,7 +297,9 @@ begin
     // annulation
       begin
         FDataLink.Reset;
+        {$IFDEF FPC}
         SelectAll;
+        {$ENDIF}
   //        Key := #0;
       end;
     end;
@@ -359,9 +317,9 @@ begin
   if (Key in [#32..#255]) and (FDataLink.Field <> nil) Then
     Begin
       FModify := True ;
-       if  ( (( ListField = '' ) and not FDataLink.Field.IsValidChar(Key))
-       or  ( ( ListField <> '' ) and
-       ( not assigned ( ListSource ) or not assigned ( ListSource.DataSet ) or not assigned ( ListSource.DataSet.FindField ( ListField ) ) or not ListSource.DataSet.FindField ( ListField ).IsValidChar(Key)))) then
+       if  ( (( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} = '' ) and not FDataLink.Field.IsValidChar(Key))
+       or  ( ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} <> '' ) and
+       ( not assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} ) or not assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet ) or not assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ) ) or not {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).IsValidChar(Key)))) then
       begin
         if BeepOnError then
           SysUtils.Beep;
@@ -387,7 +345,9 @@ end;
 procedure TExtDBComboInsert.Reset;
 begin
   FDataLink.Reset;
+  {$IFDEF FPC}
   SelectAll;
+  {$ENDIF}
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -507,14 +467,14 @@ Begin
     // Tests
   If  assigned ( FDataLink.Field )
   and not FDataLink.Field.IsNull
-  and assigned ( ListSource )
-  and assigned ( ListSource.DataSet )
-  and assigned ( ListSource.DataSet.FindField ( ListField ))
-  and assigned ( ListSource.DataSet.FindField ( KeyField   )) Then
+  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} )
+  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
+  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ))
+  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF}   )) Then
     Begin
-      if ListSource.DataSet.Locate ( KeyField, FDataLink.Field.AsString, [] ) Then
+      if {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Locate ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF}, FDataLink.Field.AsString, [] ) Then
         // récupération à partir de la listes
-        Result := ListSource.DataSet.FindField ( ListField ).AsString ;
+        Result := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString ;
     End ;
 End ;
 
@@ -529,22 +489,24 @@ begin
   begin
     // récupération du masque de saisie
 //    EditMask := FDataLink.Field.EditMask;
+    {$IFDEF FPC}
     if not (csDesigning in ComponentState) then
       if (FDataLink.Field.DataType in [ftString, ftWideString]) and (MaxLength = 0) then
         // Taille maxi
         MaxLength := FDataLink.Field.Size;
+    {$ENDIF}
     if FFocused and FDataLink.CanModify then
       Begin
         // récupération des données de la liste en mode lecture
         if  ( not ( FDataLink.DataSet.State in [dsEdit, dsInsert]) or FUpdate) Then
           Begin
-            Text := GetDisplayValue ;
+            {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := GetDisplayValue ;
           End ;
       End
     else
     begin
       // affectation du texte à partir de la liste quand on n'est pas sur la combo
-      Text := GetDisplayValue ;// FDataLink.Field.DisplayText
+      {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := GetDisplayValue ;// FDataLink.Field.DisplayText
       // Vérification de l'édition du champ ailleurs
       if FDataLink.Editing then //and FDataLink.FModify || FModified is private in parent of fdatalink
         FModify:= True;
@@ -555,9 +517,9 @@ begin
 //    EditMask := '';
     if csDesigning in ComponentState then
       // Pas de donnée : on montre le nom de la combo
-      Text := Name
+      {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := Name
     else
-      Text := '' ;
+      {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := '' ;
   end;
 end;
 
@@ -583,7 +545,7 @@ begin
   // Validation de l'édition
 //  ValidateEdit;
   // affectation
-  FDataLink.Field.Value := ListSource.Dataset.FindField ( KeyField ).Value;
+  FDataLink.Field.Value := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.Dataset.FindField ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ).Value;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -631,7 +593,9 @@ begin
   SetFocused(True);
   inherited DoEnter;
   // Sélectionne le texte
+  {$IFDEF FPC}
   SelectAll ;
+  {$ENDIF}
   // pas de lecture seule ?
   if SysLocale.FarEast and FDataLink.CanModify then
     inherited ReadOnly := False;
@@ -648,21 +612,21 @@ begin
     Exit ;
     // vérifications
   if  assigned ( FDataLink.Dataset )
-  and assigned ( ListSource )
-  and assigned ( ListSource.DataSet )
+  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} )
+  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
   and assigned ( FDataLink.Field )
   and ( FDataLink.Dataset.State in [ dsEdit,dsInsert ]) Then
     try
       if ( Text <> '' ) Then
         // Si du texte est présent
         Begin
-          if not ListSource.DataSet.Locate ( ListField, Text, [loCaseInsensitive] ) Then
+          if not {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Locate ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive] ) Then
             // Autoinsertion si pas dans la liste
             Begin
-              ListSource.DataSet.Insert ;
-              ListSource.DataSet.FieldByName ( ListField ).Value := Text ;
-              ListSource.DataSet.Post ;
-              KeyValue := ListSource.DataSet.FieldByName ( KeyField ).Value ;
+              {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Insert ;
+              {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FieldByName ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value := Text ;
+              {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Post ;
+              KeyValue := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FieldByName ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
               FUpdate := True ;
               if AUpdate Then
                 FDataLink.UpdateRecord;
@@ -682,7 +646,9 @@ begin
         KeyValue := OldText ;
       FModify := False ;
     except
+      {$IFDEF FPC}
       SelectAll;
+      {$ENDIF}
       SetFocus;
       raise;
     end;
@@ -727,11 +693,7 @@ begin
   if csDestroying in ComponentState then
     Exit;
   // alignement horizontal en cours
-  {$IFDEF FPC}
   AAlignment := taLeftJustify; //FAlignment;
-  {$ELSE}
-  AAlignment := Alignment; //FAlignment;
-  {$ENDIF}
   if UseRightToLeftAlignment then
     ChangeBiDiModeAlignment(AAlignment);
   if ((AAlignment = taLeftJustify) or FFocused) and
@@ -769,7 +731,7 @@ begin
     with FCanvas do
     begin
       R := ClientRect;
-      if not (NewStyleControls {$IFNDEF FPC}and Ctl3D{$ENDIF}) and (BorderStyle = bsSingle) then
+      if not (NewStyleControls {$IFNDEF FPC}and Ctl3D{$ENDIF}) {$IFDEF FPC} and (BorderStyle = bsSingle) {$ENDIF} then
       // Mode simple
       begin
         Brush.Color := clWindowFrame;
@@ -785,12 +747,14 @@ begin
       begin
         //récupération du texte du champ
         S := FDataLink.Field.DisplayText;
+        {$IFDEF FPC}
         case CharCase of
           ecUpperCase:
             S := AnsiUpperCase(S);
           ecLowerCase:
             S := AnsiLowerCase(S);
         end;
+        {$ENDIF}
       end
       else
         //récupération du texte d'édition
@@ -846,16 +810,22 @@ begin
   // mode style 3D ou pas
   if NewStyleControls then
   begin
-    if BorderStyle = bsNone then
-      I := 0
-    else
-      // mode enfoncement et superposé
-    {$IFNDEF FPC}
+  {$IFNDEF FPC}
     if Ctl3D then
       I := 1
     else
-    {$ENDIF}
+  {$ENDIF}
+{$IFDEF FPC}
+    if BorderStyle = bsNone then
+{$ENDIF}
+      I := 0
+{$IFDEF FPC}
+    else
+      // mode enfoncement et superposé
       I := 2;
+{$ELSE}
+;
+{$ENDIF}
       // Nouvelles marges : avertir windows
     {$IFDEF FPC}
     Result.X := I;
@@ -867,8 +837,11 @@ begin
   else
   begin
     // Aucune marge prédéfinie sinon
+{$IFDEF FPC}
     if BorderStyle = bsNone then
+{$ENDIF}
       I := 0
+{$IFDEF FPC}
     else
     begin
       // calculs des marges autour du texte
@@ -882,7 +855,8 @@ begin
       if I > Metrics.tmHeight then
         I := Metrics.tmHeight;
       I := I div 4;
-    end;
+    end
+{$ENDIF};
     Result.X := I;
     Result.Y := I;
   end;
@@ -918,17 +892,17 @@ end;
 // Paramètres  : Sender : La liste
 //               Accept : affectation ou pas
 ////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.UpdateText;
+procedure TExtDBComboInsert.{$IFDEF FPC}UpdateText{$ELSE}KeyValueChanged{$ENDIF};
 begin
   // vérfications pour affectation
-  if  assigned ( ListSource )
-  and assigned ( ListSource.DataSet )
-  and assigned ( ListSource.DataSet.FindField ( KeyField ))
+  if  assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} )
+  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
+  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ))
   and assigned ( FDataLink.Field ) Then
     try
       // affectation
       FDataLink.Dataset.edit ;
-      FDataLink.Field.Value := ListSource.DataSet.FindField ( KeyField ).Value ;
+      FDataLink.Field.Value := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
     finally
     End ;
 
