@@ -13,7 +13,7 @@ uses
    LCLIntf, LCLType,
    SQLDB, lmessages,
    RxDBGrid,
-   dbdateedit, Grids,
+   dbdateedit,
 {$ELSE}
    Windows, Mask, DBTables, ActnMan,
 {$ENDIF}
@@ -32,7 +32,7 @@ uses
   fonctions_version,
 {$ENDIF}
   Graphics, Controls, Classes, ExtCtrls, Dialogs, Messages,
-  Buttons, Forms, DBCtrls,
+  Buttons, Forms, DBCtrls, Grids,
   DBGrids, ComCtrls, StdCtrls, SysUtils,
   TypInfo, Variants, u_extcomponent,
 {$IFDEF TNT}
@@ -190,7 +190,7 @@ type
 
    { TFWGridColumn }
 
-   TFWGridColumn = class(TRxColumn)
+   TFWGridColumn = class({$IFDEF TNT}TTntColumn{$ELSE}TRxColumn{$ENDIF})
    private
      FControl : TControl ;
      FFieldTag : Integer ;
@@ -200,13 +200,13 @@ type
    public
      constructor Create(ACollection: TCollection); override;
    published
-     property Control : TControl read FControl write SetControl;
+     property SomeEdit : TControl read FControl write SetControl;
      property FieldTag : Integer read fi_getFieldTag write p_setFieldTag;
    end;
 
    { TFWDbGridColumns }
 
-   TFWDbGridColumns = class(TRxDbGridColumns)
+   TFWDbGridColumns = class({$IFDEF TNT}TTntDBGridColumns{$ELSE}TRxDbGridColumns{$ENDIF})
    private
      function GetColumn(Index: Integer): TFWGridColumn;
      procedure SetColumn(Index: Integer; Value: TFWGridColumn);
@@ -229,7 +229,7 @@ type
        procedure SetColumns(const AValue: TFWDbGridColumns);
       protected
        function IsColumnsStored: boolean; virtual;
-       procedure DrawCell(aCol,aRow: Integer; aRect: TRect; aState:TGridDrawState); override;
+       procedure DrawCell(aCol,aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect; aState:TGridDrawState); override;
       public
 
        constructor Create ( AOwner : TComponent ); override;
@@ -237,7 +237,7 @@ type
        procedure DoExit; override;
        procedure Loaded; override;
        procedure KeyUp(var ach_Key: Word; ashi_Shift: TShiftState); override;
-       function  CreateColumns: TGridColumns; override;
+       function  CreateColumns: {$IFDEF FPC}TGridColumns{$ELSE}TDBGridColumns{$ENDIF}; override;
        {$IFDEF EXRX}
        procedure TitleClick(Column: TColumn); override;
        {$ELSE}
@@ -563,8 +563,9 @@ begin
      FControl.Create ( Grid );
      FControl.Parent := Grid;
      FControl.Visible := True;
-     p_SetComponentObjectProperty ( FControl, 'Datasource', (TDBGrid (Grid)).DataSource );
      p_SetComponentProperty ( FControl, 'DataField', FieldName );
+     p_SetComponentBoolProperty ( FControl, 'ReadOnly', fb_getComponentBoolProperty ( AValue, 'ReadOnly' ));
+     p_SetComponentObjectProperty ( FControl, 'Datasource', (TDBGrid (Grid)).DataSource );
      p_SetComponentObjectProperty ( FControl, 'LookupSource', fobj_getComponentObjectProperty(AValue, 'LookupSource') );
      p_SetComponentObjectProperty ( FControl, 'ListSource', fobj_getComponentObjectProperty(AValue, 'ListSource') );
      p_SetComponentProperty ( FControl, 'KeyField', fs_getComponentProperty(AValue, 'KeyField') );
@@ -634,25 +635,34 @@ End;
 
 function TFWDBGrid.GetColumns: TFWDbGridColumns;
 begin
+  {$IFDEF FPC}
   Result := TFWDbGridColumns(TCustomDrawGrid(Self).Columns);
+  {$ELSE}
+  Result := inherited Columns as TFWDBGridColumns;
+  {$ENDIF}
 end;
 
 procedure TFWDBGrid.SetColumns(const AValue: TFWDbGridColumns);
 begin
+  {$IFDEF FPC}
   TFWDbGridColumns(TCustomDrawGrid(Self).Columns).Assign(Avalue);
+  {$ELSE}
+  inherited Columns := AValue;
+  {$ENDIF}
 end;
 
-procedure TFWDBGrid.DrawCell(aCol, aRow: Integer; aRect: TRect;
+procedure TFWDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect;
   aState: TGridDrawState);
 begin
-  if ( ACol > 0 )
-  and assigned (( TFWGridColumn ( Columns [ ACol - 1 ])).Control ) Then
-   with ( TFWGridColumn ( Columns [ ACol - 1 ])).Control do
+  if  ( ACol > 0 )
+  and ( ARow > 0 )
+  and assigned (( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit ) Then
+   with ( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit do
      Begin
-       Width  := aRect.Right;
+       Width  := Columns [ ACol - 1 ].Width;
        Left   := aRect.Left;
        Top    := aRect.Top;
-       Height := aRect.Bottom;
+       Height := RowHeights [ ACol - 1 ];
      end
     Else
       inherited DrawCell(aCol, aRow, aRect, aState);
@@ -677,7 +687,7 @@ begin
   inherited KeyUp(ach_Key, ashi_Shift);
 end;
 
-function TFWDBGrid.CreateColumns: TGridColumns;
+function TFWDBGrid.CreateColumns: {$IFDEF FPC}TGridColumns{$ELSE}TDBGridColumns{$ENDIF};
 begin
   Result := TFWDbGridColumns.Create(Self, TFWGridColumn);
 end;

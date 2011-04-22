@@ -17,9 +17,10 @@ uses
   JvExComCtrls, JvListView, TntStdCtrls, Mask,
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
-  StdCtrls, rxdbgrid, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos,
+  StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos,
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
-  u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection, dbf ;
+  u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection, dbf,
+  DBGrids, JvExControls, JvDBLookup, TntDBGrids ;
 
 const CST_EXTENSION_DBF  = '.dbf' ;
       CST_NOM_FICHIER  = 'fiches' ;
@@ -55,12 +56,10 @@ type
     Panel2: TPanel;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
-    FWDateEdit1: {$IFDEF FPC}TFWDateEdit{$ELSE}TFWDateTimePicker{$ENDIF};
     DbfNoms: TDbf;
     procedure FormShow(Sender: TObject);
     procedure QuitterClick(Sender: TObject);
     procedure DbfNomsAfterPost(DataSet: TDataSet);
-    procedure SearchClick(Sender: TObject);
   private
     { private declarations }
   public
@@ -78,15 +77,10 @@ begin
   DBListView.Refresh;
 end;
 
-procedure TMyform.SearchClick(Sender: TObject);
-begin
-
-end;
-
 procedure TMyForm.FormShow(Sender: TObject);
 begin
-  Noms.Columns [ 0 ].Control := Nom;
-  Noms.Columns [ 1 ].Control := Prenom;
+  Noms.Columns [ 0 ].SomeEdit := Nom;
+  Noms.Columns [ 1 ].SomeEdit := Prenom;
   // On cherche ou crée le fichier CSV
   DbfNoms.FilePathFull := ExtractFileDir ( Application.ExeName );
   Villes .FilePathFull := ExtractFileDir ( Application.ExeName );

@@ -78,7 +78,8 @@ requires
   ZDbc,
   ZPlain,
   dcldklang10,
-  TntUnicodeVCL_R90;
+  TntUnicodeVCL_R90,
+  VampyreImagingPackage;
 
 contains
   U_ExtComboInsert in 'composants\U_ExtComboInsert.pas',
@@ -97,6 +98,7 @@ contains
   u_framework_components in 'composants\u_framework_components.pas',
   U_FormMainIni in 'composants\U_FormMainIni.pas',
   U_ExtDBImage in 'composants\U_ExtDBImage.pas',
-  u_framework_dbcomponents in 'composants\u_framework_dbcomponents.pas';
+  u_framework_dbcomponents in 'composants\u_framework_dbcomponents.pas',
+  u_extsearchedit in 'composants\u_extsearchedit.pas';
 
 end.

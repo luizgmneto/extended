@@ -1,6 +1,7 @@
 object Myform: TMyform
-  Left = 350
-  Top = 200
+  Left = 550
+  Top = 312
+  ActiveControl = Panel1
   Caption = 'Myform'
   ClientHeight = 533
   ClientWidth = 738
@@ -40,12 +41,31 @@ object Myform: TMyform
       Orientation = noHorizontal
       GlyphSize = gsSmall
     end
-    object Noms: TDBGrid
+    object Noms: TFWDBGrid
       Left = 1
       Top = 21
       Width = 206
       Height = 511
       Align = alClient
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'NOM'
+          Title.Alignment = taCenter
+          Title.Caption = 'Noms'
+          Width = 88
+          Visible = True
+          FieldTag = 0
+        end
+        item
+          Expanded = False
+          FieldName = 'PRENOM'
+          Title.Alignment = taCenter
+          Title.Caption = 'Pr'#195#169'noms'
+          Width = 88
+          Visible = True
+          FieldTag = 0
+        end>
       DataSource = Datasource
       TabOrder = 1
       TitleFont.Charset = DEFAULT_CHARSET
@@ -56,15 +76,21 @@ object Myform: TMyform
       Columns = <
         item
           Expanded = False
+          FieldName = 'NOM'
+          Title.Alignment = taCenter
           Title.Caption = 'Noms'
           Width = 88
           Visible = True
+          FieldTag = 0
         end
         item
           Expanded = False
-          Title.Caption = 'Pr'#233'noms'
+          FieldName = 'PRENOM'
+          Title.Alignment = taCenter
+          Title.Caption = 'Pr'#195#169'noms'
           Width = 88
           Visible = True
+          FieldTag = 0
         end>
     end
   end
@@ -74,7 +100,6 @@ object Myform: TMyform
     Width = 525
     Height = 533
     Align = alClient
-    Caption = 'Panel2'
     TabOrder = 1
     object FWLabel1: TFWLabel
       Left = 19
@@ -180,11 +205,45 @@ object Myform: TMyform
     end
     object Splitter2: TSplitter
       Left = 1
-      Top = 243
+      Top = 312
       Width = 523
       Height = 5
       Cursor = crVSplit
       Align = alBottom
+    end
+    object Search2: TFWLabel
+      Left = 21
+      Top = 280
+      Width = 65
+      Height = 15
+      AutoSize = False
+      Caption = 'City'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = 12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      ColorFocus = clMaroon
+    end
+    object Search: TFWLabel
+      Left = 19
+      Top = 243
+      Width = 65
+      Height = 15
+      AutoSize = False
+      Caption = 'Postal Code'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = 12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      ColorFocus = clMaroon
     end
     object ExtColorCombo: TExtColorCombo
       Left = 118
@@ -215,7 +274,7 @@ object Myform: TMyform
     object FWEdit: TFWEdit
       Left = 118
       Top = 201
-      Width = 224
+      Width = 221
       Height = 21
       Color = clMoneyGreen
       TabOrder = 4
@@ -225,9 +284,9 @@ object Myform: TMyform
     end
     object DBListView: TDBListView
       Left = 1
-      Top = 248
+      Top = 317
       Width = 523
-      Height = 284
+      Height = 215
       Align = alBottom
       Columns = <
         item
@@ -237,13 +296,13 @@ object Myform: TMyform
         end
         item
           Caption = 'Prenom'
+          Width = 385
         end>
       DragMode = dmAutomatic
-      GridLines = True
       MultiSelect = True
       RowSelect = True
-      TabOrder = 6
-      ColumnsOrder = '0=120,1=50'
+      TabOrder = 5
+      ColumnsOrder = '0=120,1=385'
       Groups = <>
       ExtendedColumns = <
         item
@@ -253,9 +312,9 @@ object Myform: TMyform
       Datasource = Datasource
       DataKeyUnit = 'Cle'
       DataFieldsDisplay = 'Nom;Prenom'
-      DataTableUnit = 'fiche'
+      DataTableUnit = 'fiches.dbf'
     end
-    object FWDBEdit: TFWDBEdit
+    object Nom: TFWDBEdit
       Left = 118
       Top = 56
       Width = 221
@@ -263,11 +322,12 @@ object Myform: TMyform
       Color = clMoneyGreen
       DataField = 'Nom'
       DataSource = Datasource
+      MaxLength = 100
       TabOrder = 1
       MyLabel = FWLabel5
       AlwaysSame = False
     end
-    object FWDBEdit2: TFWDBEdit
+    object Prenom: TFWDBEdit
       Left = 118
       Top = 16
       Width = 221
@@ -275,29 +335,45 @@ object Myform: TMyform
       Color = clMoneyGreen
       DataField = 'Prenom'
       DataSource = Datasource
+      MaxLength = 100
       TabOrder = 0
       MyLabel = FWLabel6
       AlwaysSame = False
     end
     object FWMemo: TFWMemo
       Left = 371
-      Top = 21
+      Top = 16
       Width = 136
-      Height = 209
+      Height = 214
       Color = clMoneyGreen
       Lines.Strings = (
         'FWMemo')
-      TabOrder = 5
+      TabOrder = 8
     end
-    object FWDateEdit1: TFWDateTimePicker
-      Left = 118
-      Top = 167
-      Width = 219
+    object ExtDBComboInsert2: TExtDBComboInsert
+      Left = 120
+      Top = 272
+      Width = 221
+      Height = 29
+      Color = clMoneyGreen
+      DataField = 'VILLE'
+      DataSource = Datasource
+      TabOrder = 6
+      MyLabel = Search2
+    end
+    object ExtSearchDBEdit2: TExtSearchDBEdit
+      Left = 120
+      Top = 236
+      Width = 221
       Height = 21
-      Date = 40426.720261122680000000
-      Time = 40426.720261122680000000
-      Color = clInfoBk
+      Color = clMoneyGreen
+      DataField = 'POSTAL'
+      DataSource = Datasource
+      MaxLength = 100
       TabOrder = 7
+      SearchDisplay = 'CODEPOSTAL'
+      SearchSource = Datasource2
+      MyLabel = Search
     end
   end
   object OnFormInfoIni: TOnFormInfoIni
@@ -307,16 +383,43 @@ object Myform: TMyform
     Left = 80
     Top = 176
   end
-  object Datasource: TDataSource
-    DataSet = DbfNoms
-    Left = 56
+  object DbfNoms: TDbf
+    Exclusive = True
+    FilePath = 
+      '/home/matthieu/Bureau/Matthieu/Programmation/Lazarus Delphi/Exte' +
+      'nded/demo/\'
+    IndexDefs = <
+      item
+        IndexFile = 'NOMS'
+        SortField = 'NOM'
+        Options = [ixCaseInsensitive]
+      end>
+    StoreDefs = True
+    TableName = 'fiches.dbf'
+    TableLevel = 4
+    FilterOptions = [foCaseInsensitive, foNoPartialCompare]
+    Left = 136
     Top = 288
   end
-  object DbfNoms: TDbf
-    IndexDefs = <>
-    TableLevel = 4
-    AfterPost = DbfNomsAfterPost
-    Left = 112
+  object Datasource: TDataSource
+    DataSet = DbfNoms
+    Left = 48
     Top = 288
+  end
+  object Datasource2: TDataSource
+    DataSet = Villes
+    Left = 48
+    Top = 360
+  end
+  object Villes: TDbf
+    FilePath = 
+      '/home/matthieu/Bureau/Matthieu/Programmation/Lazarus Delphi/Exte' +
+      'nded/demo/\'
+    IndexDefs = <>
+    ReadOnly = True
+    TableName = 'cp.dbf'
+    TableLevel = 25
+    Left = 139
+    Top = 360
   end
 end
