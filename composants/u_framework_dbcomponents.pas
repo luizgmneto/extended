@@ -643,6 +643,7 @@ procedure TFWDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDI
   aState: TGridDrawState);
 var OldActive : Integer;
 begin
+  {$IFNDEF FPC}
   if  ( ACol > {$IFDEF FPC}0{$ELSE}- 1{$ENDIF}  )
   and ( ARow > {$IFDEF FPC}0{$ELSE}IndicatorOffset{$ENDIF} )
   and assigned (( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit ) Then
@@ -662,6 +663,7 @@ begin
        Datalink.ActiveRecord := OldActive;
      end
     Else
+  {$ENDIF}
       inherited DrawCell(aCol, aRow, aRect, aState);
 end;
 
