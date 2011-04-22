@@ -25,8 +25,6 @@ uses
 {$ENDIF}
 {$IFDEF EXRX}
   ExRXDBGrid,
-{$ELSE}
-  DB,
 {$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,
@@ -645,16 +643,22 @@ procedure TFWDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDI
   aState: TGridDrawState);
 var OldActive : Integer;
 begin
-  if  ( ACol > IndicatorOffset - 1 )
-  and ( ARow > 0 )
+  if  ( ACol > {$IFDEF FPC}0{$ELSE}- 1{$ENDIF}  )
+  and ( ARow > {$IFDEF FPC}0{$ELSE}IndicatorOffset{$ENDIF} )
   and assigned (( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit ) Then
    with ( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit do
      Begin
        OldActive := Datalink.ActiveRecord;
-       Datalink.ActiveRecord := ARow - IndicatorOffset;
-       Width  := aRect.Right{$IFNDEF FPC}- aRect.Left{$ENDIF};
-       Height := ARect.Bottom{$IFNDEF FPC}- aRect.Top{$ENDIF};
-       PaintTo(GetDC(Self.Handle),aRect.Left,aRect.Top);
+       Datalink.ActiveRecord := ARow {$IFDEF FPC}-1{$ELSE}- IndicatorOffset{$ENDIF};
+       {$IFDEF FPC}
+       Left := 0;
+       Top  := 0 ;
+       {$ENDIF}
+       Width  := aRect.Right - aRect.Left;
+       Height := ARect.Bottom - aRect.Top;
+       ControlState := ControlState + [csPaintCopy];
+       PaintTo({$IFNDEF FPC}Self.Canvas.Handle{$ELSE}GetDC(Self.Handle){$ENDIF},aRect.Left,aRect.Top);
+       ControlState := ControlState - [csPaintCopy];
        Datalink.ActiveRecord := OldActive;
      end
     Else
