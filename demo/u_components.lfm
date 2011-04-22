@@ -30,24 +30,43 @@ inherited Myform: TMyform
       Orientation = noHorizontal
       GlyphSize = gsSmall
     end
-    object Noms: TDBGrid
+    object Noms: TFWDBGrid
       Left = 1
       Height = 511
       Top = 21
       Width = 206
+      TitleButtons = False
+      AutoSort = False
+      Columns = <      
+        item
+          Title.Alignment = taCenter
+          Title.Caption = 'Noms'
+          Title.Orientation = toHorizontal
+          Width = 88
+          Filter.DropDownRows = 0
+          Filter.ItemIndex = -1
+          FieldTag = 0
+        end      
+        item
+          Title.Alignment = taCenter
+          Title.Caption = 'Prénoms'
+          Title.Orientation = toHorizontal
+          Width = 88
+          Filter.DropDownRows = 0
+          Filter.ItemIndex = -1
+          FieldTag = 0
+        end>
+      OptionsRx = []
       Align = alClient
       AutoFillColumns = True
       Color = clWindow
-      Columns = <      
-        item
-          Title.Caption = 'Noms'
-          Width = 96
-        end      
-        item
-          Title.Caption = 'Prénoms'
-          Width = 96
-        end>
+      FocusColor = clRed
+      SelectedColor = clHighlight
+      GridLineStyle = psSolid
       DataSource = Datasource
+      Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete]
+      ParentColor = False
+      Scrollbars = ssBoth
       TabOrder = 1
     end
   end
@@ -260,7 +279,7 @@ inherited Myform: TMyform
       DataFieldsDisplay = 'Nom;Prenom'
       DataTableUnit = 'fiches.dbf'
     end
-    object FWDBEdit: TFWDBEdit
+    object Nom: TFWDBEdit
       Left = 118
       Height = 27
       Top = 56
@@ -274,7 +293,7 @@ inherited Myform: TMyform
       MyLabel = FWLabel5
       AlwaysSame = False
     end
-    object FWDBEdit2: TFWDBEdit
+    object Prenom: TFWDBEdit
       Left = 118
       Height = 27
       Top = 16

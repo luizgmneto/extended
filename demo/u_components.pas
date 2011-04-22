@@ -2,6 +2,7 @@
 
 {$IFDEF FPC}
 {$mode Delphi}
+{$R *.lfm}
 {$ELSE}
 {$R *.DFM}
 {$ENDIF}
@@ -16,7 +17,7 @@ uses
   JvExComCtrls, JvListView, TntStdCtrls, Mask,
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
-  DBGrids, StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos,
+  StdCtrls, rxdbgrid, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos,
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
   u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection, dbf ;
 
@@ -38,8 +39,8 @@ type
     ExtColorCombo: TExtColorCombo;
     ExtDBNavigator1: TExtDBNavigator;
     ExtNumEdit1: TExtNumEdit;
-    FWDBEdit: TFWDBEdit;
-    FWDBEdit2: TFWDBEdit;
+    Nom: TFWDBEdit;
+    Prenom: TFWDBEdit;
     FWEdit: TFWEdit;
     FWLabel1: TFWLabel;
     FWLabel2: TFWLabel;
@@ -48,7 +49,7 @@ type
     FWLabel5: TFWLabel;
     FWLabel6: TFWLabel;
     FWMemo: TFWMemo;
-    Noms: TDBGrid;
+    Noms: TFWDBGrid;
     OnFormInfoIni: TOnFormInfoIni;
     Panel1: TPanel;
     Panel2: TPanel;
@@ -84,6 +85,8 @@ end;
 
 procedure TMyForm.FormShow(Sender: TObject);
 begin
+  Noms.Columns [ 0 ].Control := Nom;
+  Noms.Columns [ 1 ].Control := Prenom;
   // On cherche ou crée le fichier CSV
   DbfNoms.FilePathFull := ExtractFileDir ( Application.ExeName );
   Villes .FilePathFull := ExtractFileDir ( Application.ExeName );
@@ -117,11 +120,5 @@ begin
   inherited Create(AOwner);
 end;
 
-
-
-{$IFDEF FPC}
-initialization
-  {$I u_components.lrs}
-{$ENDIF}
 end.
 

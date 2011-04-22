@@ -15,8 +15,8 @@ LazarusResources.Add('TMyform','FORMDATA',[
   +'Top'#8'TabOrder'#2#0#11'Orientation'#7#12'noHorizontal'#9'GlyphSize'#7#7'gs'
   +'Small'#0#0#7'TDBGrid'#4'Noms'#4'Left'#2#1#6'Height'#3#255#1#3'Top'#2#21#5'W'
   +'idth'#3#206#0#5'Align'#7#8'alClient'#15'AutoFillColumns'#9#5'Color'#7#8'clW'
-  +'indow'#7'Columns'#14#1#13'Title.Caption'#6#4'Noms'#5'Width'#2'`'#0#1#13'Tit'
-  +'le.Caption'#6#8'Pr'#195#169'noms'#5'Width'#2'`'#0#0#10'DataSource'#7#10'Dat'
+  +'indow'#7'Columns'#14#1#13'Title.Caption'#6#4'Noms'#5'Width'#2'X'#0#1#13'Tit'
+  +'le.Caption'#6#8'Pr'#195#169'noms'#5'Width'#2'X'#0#0#10'DataSource'#7#10'Dat'
   +'asource'#8'TabOrder'#2#1#0#0#0#242#2#1#6'TPanel'#6'Panel2'#4'Left'#3#213#0#6
   +'Height'#3#21#2#3'Top'#2#0#5'Width'#3#13#2#5'Align'#7#8'alClient'#12'ClientH'
   +'eight'#3#21#2#11'ClientWidth'#3#13#2#8'TabOrder'#2#1#0#8'TFWLabel'#8'FWLabe'

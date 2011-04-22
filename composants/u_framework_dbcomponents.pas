@@ -13,7 +13,7 @@ uses
    LCLIntf, LCLType,
    SQLDB, lmessages,
    RxDBGrid,
-   dbdateedit,
+   dbdateedit, Grids,
 {$ELSE}
    Windows, Mask, DBTables, ActnMan,
 {$ENDIF}
@@ -188,6 +188,34 @@ type
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
      End;
 
+   { TFWGridColumn }
+
+   TFWGridColumn = class(TRxColumn)
+   private
+     FControl : TControl ;
+     FFieldTag : Integer ;
+     procedure SetControl ( AValue : TControl );
+     function  fi_getFieldTag:Integer;
+     procedure p_setFieldTag ( const avalue : Integer );
+   public
+     constructor Create(ACollection: TCollection); override;
+   published
+     property Control : TControl read FControl write SetControl;
+     property FieldTag : Integer read fi_getFieldTag write p_setFieldTag;
+   end;
+
+   { TFWDbGridColumns }
+
+   TFWDbGridColumns = class(TRxDbGridColumns)
+   private
+     function GetColumn(Index: Integer): TFWGridColumn;
+     procedure SetColumn(Index: Integer; Value: TFWGridColumn);
+   public
+     function Add: TFWGridColumn;
+   public
+     property Items[Index: Integer]: TFWGridColumn read GetColumn write SetColumn; default;
+   end;
+
    { TFWDBGrid }
 
    TFWDBGrid = class ( {$IFDEF TNT}TTntDBGrid{$ELSE}{$IFDEF EXRX}TExRxDBGrid{$ELSE}{$IFDEF JEDI}TJvDBUltimGrid{$ELSE}TRXDBGrid{$ENDIF}{$ENDIF}{$ENDIF}, IFWComponent )
@@ -197,9 +225,11 @@ type
        FColorFocus    ,
        FOldFixedColor : TColor;
        FAlwaysSame : Boolean;
-       FFieldsTags : Array of Integer ;
-       function  fi_getFieldTags ( li_i : LongInt ):Integer;
-       procedure p_setFieldTags ( li_i : LongInt ; const a_value : Integer );
+       function GetColumns: TFWDbGridColumns;
+       procedure SetColumns(const AValue: TFWDbGridColumns);
+      protected
+       function IsColumnsStored: boolean; virtual;
+       procedure DrawCell(aCol,aRow: Integer; aRect: TRect; aState:TGridDrawState); override;
       public
 
        constructor Create ( AOwner : TComponent ); override;
@@ -207,13 +237,14 @@ type
        procedure DoExit; override;
        procedure Loaded; override;
        procedure KeyUp(var ach_Key: Word; ashi_Shift: TShiftState); override;
+       function  CreateColumns: TGridColumns; override;
        {$IFDEF EXRX}
        procedure TitleClick(Column: TColumn); override;
        {$ELSE}
        procedure DoTitleClick(ACol: Longint; AField: TField); override;
        {$ENDIF}
-       property FieldsTags [ Index : Longint ] : Integer read fi_getFieldTags write p_setFieldTags;
       published
+       property Columns: TFWDbGridColumns read GetColumns write SetColumns stored IsColumnsStored;
        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
        property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_GRILLE_STD ;
@@ -257,7 +288,7 @@ type
 
 implementation
 
-uses fonctions_db;
+uses fonctions_db, fonctions_proprietes;
 
 
 
@@ -520,15 +551,76 @@ Begin
   inherited;
 End;
 
+{ TFWGridColumn }
+
+procedure TFWGridColumn.SetControl(AValue: TControl);
+begin
+  If AValue <> FControl Then
+   Begin
+     if assigned ( FControl ) Then
+       FControl.Free;
+     FControl := TControl ( AValue.NewInstance );
+     FControl.Create ( Grid );
+     FControl.Parent := Grid;
+     FControl.Visible := True;
+     p_SetComponentObjectProperty ( FControl, 'Datasource', (TDBGrid (Grid)).DataSource );
+     p_SetComponentProperty ( FControl, 'DataField', FieldName );
+     p_SetComponentObjectProperty ( FControl, 'LookupSource', fobj_getComponentObjectProperty(AValue, 'LookupSource') );
+     p_SetComponentObjectProperty ( FControl, 'ListSource', fobj_getComponentObjectProperty(AValue, 'ListSource') );
+     p_SetComponentProperty ( FControl, 'KeyField', fs_getComponentProperty(AValue, 'KeyField') );
+     p_SetComponentProperty ( FControl, 'ListField', fs_getComponentProperty(AValue, 'ListField') );
+     p_SetComponentProperty ( FControl, 'LookupDisplay', fs_getComponentProperty(AValue, 'LookupDisplay') );
+     p_SetComponentProperty ( FControl, 'LookupField', fs_getComponentProperty(AValue, 'LookupField') );
+   end;
+end;
+
+function TFWGridColumn.fi_getFieldTag: Integer;
+begin
+  Result := FFieldTag;
+end;
+
+procedure TFWGridColumn.p_setFieldTag( const avalue : Integer );
+begin
+  FFieldTag := avalue;
+end;
+
+constructor TFWGridColumn.Create(ACollection: TCollection);
+begin
+  inherited Create(ACollection);
+  FControl := nil;
+  FFieldTag := 0 ;
+end;
+
+
+{ TFWDbGridColumns }
+
+function TFWDbGridColumns.GetColumn(Index: Integer): TFWGridColumn;
+begin
+  result := TFWGridColumn( inherited Items[Index] );
+end;
+
+procedure TFWDbGridColumns.SetColumn(Index: Integer; Value: TFWGridColumn);
+begin
+  Items[Index].Assign( Value );
+end;
+
+function TFWDbGridColumns.Add: TFWGridColumn;
+begin
+  result := TFWGridColumn (inherited Add);
+end;
+
 
 { TFWDBGrid }
 
-constructor TFWDBGrid.Create(AOwner: TComponent);
+constructor TFWDBGrid.Create( AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FAlwaysSame := True;
   FColorFocus := CST_GRILLE_SELECT;
   FColorEdit  := CST_GRILLE_STD;
+  FixedColor  := CST_GRILLE_STD;
+  FWBeforeEnter:=nil;
+  FWBeforeExit :=nil;
 end;
 
 procedure TFWDBGrid.Loaded;
@@ -540,19 +632,35 @@ begin
     FixedColor := gCol_Grid ;
 End;
 
-procedure TFWDBGrid.p_setFieldTags( li_i:Longint; const a_value: Integer);
+function TFWDBGrid.GetColumns: TFWDbGridColumns;
 begin
-  if li_i > high ( FFieldsTags ) then
-   Setlength ( FFieldsTags, li_i + 1 );
-  FFieldsTags [ li_i ] := a_value;
+  Result := TFWDbGridColumns(TCustomDrawGrid(Self).Columns);
 end;
 
-function TFWDBGrid.fi_getFieldTags( li_i: Longint): Integer;
+procedure TFWDBGrid.SetColumns(const AValue: TFWDbGridColumns);
 begin
-  Result := -1 ;
-  if li_i < high ( FFieldsTags ) then
-    Result := FFieldsTags [ li_i ];
+  TFWDbGridColumns(TCustomDrawGrid(Self).Columns).Assign(Avalue);
+end;
 
+procedure TFWDBGrid.DrawCell(aCol, aRow: Integer; aRect: TRect;
+  aState: TGridDrawState);
+begin
+  if ( ACol > 0 )
+  and assigned (( TFWGridColumn ( Columns [ ACol - 1 ])).Control ) Then
+   with ( TFWGridColumn ( Columns [ ACol - 1 ])).Control do
+     Begin
+       Width  := aRect.Right;
+       Left   := aRect.Left;
+       Top    := aRect.Top;
+       Height := aRect.Bottom;
+     end
+    Else
+      inherited DrawCell(aCol, aRow, aRect, aState);
+end;
+
+function TFWDBGrid.IsColumnsStored: boolean;
+begin
+  result := True;
 end;
 
 
@@ -567,6 +675,11 @@ begin
       ach_Key := 0 ;
     End;
   inherited KeyUp(ach_Key, ashi_Shift);
+end;
+
+function TFWDBGrid.CreateColumns: TGridColumns;
+begin
+  Result := TFWDbGridColumns.Create(Self, TFWGridColumn);
 end;
 
 procedure TFWDBGrid.DoEnter;
@@ -605,8 +718,8 @@ procedure TFWDBGrid.DoTitleClick(ACol: Longint; AField: TField);
 var li_Tag , li_i : Integer ;
 begin
   // Phase d'initialisation
- li_Tag := FieldsTags [ {$IFDEF EXRX} Column.Index {$ELSE}ACol{$ENDIF} ];
- if li_tag <> -1 then
+ li_Tag :=(TFWGridColumn ( {$IFDEF EXRX} Column {$ELSE} Columns [ ACol ]{$ENDIF})).FieldTag ;
+ if li_tag > 0 then
    for li_i :=0 to ComponentCount -1 do
       if  ( li_Tag = Components [ li_i ].Tag )
       and Supports( Components [ li_i ], IFWComponentEdit )
@@ -689,4 +802,4 @@ initialization
   p_ConcatVersion(gVer_framework_DBcomponents);
 {$ENDIF}
 end.
-
+
