@@ -41,8 +41,6 @@ type
     ExtDBNavigator1: TExtDBNavigator;
     ExtNumEdit1: TExtNumEdit;
     FWDateEdit1 : TFWDateEdit;
-    Nom: TFWDBEdit;
-    Prenom: TFWDBEdit;
     FWEdit: TFWEdit;
     FWLabel1: TFWLabel;
     FWLabel2: TFWLabel;
@@ -58,6 +56,10 @@ type
     Splitter1: TSplitter;
     Splitter2: TSplitter;
     DbfNoms: TDbf;
+    FWDBEdit1: TFWDBEdit;
+    FWDBEdit2: TFWDBEdit;
+    Prenom: TFWDBEdit;
+    Nom: TFWDBEdit;
     procedure FormShow(Sender: TObject);
     procedure QuitterClick(Sender: TObject);
     procedure DbfNomsAfterPost(DataSet: TDataSet);

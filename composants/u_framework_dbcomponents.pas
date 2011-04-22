@@ -32,7 +32,7 @@ uses
   fonctions_version,
 {$ENDIF}
   Graphics, Controls, Classes, ExtCtrls, Dialogs, Messages,
-  Buttons, Forms, DBCtrls, Grids,
+  Buttons, Forms, DBCtrls, Grids, DB,
   DBGrids, ComCtrls, StdCtrls, SysUtils,
   TypInfo, Variants, u_extcomponent,
 {$IFDEF TNT}
@@ -46,7 +46,7 @@ const
                                                FileUnit : 'u_framework_dbcomponents' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Composants d''interactivité de U_CustomFrameWork.' ;
-                                               BugsStory : '0.9.0.1 : FWDBGrid tested on Delphi, with Controls on Columns.';
+                                               BugsStory : '0.9.0.1 : FWDBGrid tested on Delphi, with Controls on Columns.'
                                                          + '0.9.0.0 : Création à partir de u_framework_components.';
                                                UnitType : 3 ;
                                                Major : 0 ; Minor : 9 ; Release : 0 ; Build : 1 );
@@ -193,15 +193,15 @@ type
 
    TFWGridColumn = class({$IFDEF TNT}TTntColumn{$ELSE}TRxColumn{$ENDIF})
    private
-     FControl : TControl ;
+     FControl : TWinControl ;
      FFieldTag : Integer ;
-     procedure SetControl ( AValue : TControl );
+     procedure SetControl ( AValue : TWinControl );
      function  fi_getFieldTag:Integer;
      procedure p_setFieldTag ( const avalue : Integer );
    public
      constructor Create(ACollection: TCollection); override;
    published
-     property SomeEdit : TControl read FControl write SetControl;
+     property SomeEdit : TWinControl read FControl write SetControl;
      property FieldTag : Integer read fi_getFieldTag write p_setFieldTag;
    end;
 
@@ -232,7 +232,6 @@ type
        function IsColumnsStored: boolean; virtual;
        procedure DrawCell(aCol,aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect; aState:TGridDrawState); override;
       public
-
        constructor Create ( AOwner : TComponent ); override;
        procedure DoEnter; override;
        procedure DoExit; override;
@@ -554,25 +553,15 @@ End;
 
 { TFWGridColumn }
 
-procedure TFWGridColumn.SetControl(AValue: TControl);
+procedure TFWGridColumn.SetControl(AValue: TWinControl);
 begin
   If AValue <> FControl Then
    Begin
-     if assigned ( FControl ) Then
-       FControl.Free;
-     FControl := TControl ( AValue.NewInstance );
-     FControl.Create ( Grid );
+     FControl := AValue;
      FControl.Parent := Grid;
-     FControl.Visible := True;
+     FControl.Visible := False;
      p_SetComponentProperty ( FControl, 'DataField', FieldName );
-     p_SetComponentBoolProperty ( FControl, 'ReadOnly', fb_getComponentBoolProperty ( AValue, 'ReadOnly' ));
      p_SetComponentObjectProperty ( FControl, 'Datasource', (TDBGrid (Grid)).DataSource );
-     p_SetComponentObjectProperty ( FControl, 'LookupSource', fobj_getComponentObjectProperty(AValue, 'LookupSource') );
-     p_SetComponentObjectProperty ( FControl, 'ListSource', fobj_getComponentObjectProperty(AValue, 'ListSource') );
-     p_SetComponentProperty ( FControl, 'KeyField', fs_getComponentProperty(AValue, 'KeyField') );
-     p_SetComponentProperty ( FControl, 'ListField', fs_getComponentProperty(AValue, 'ListField') );
-     p_SetComponentProperty ( FControl, 'LookupDisplay', fs_getComponentProperty(AValue, 'LookupDisplay') );
-     p_SetComponentProperty ( FControl, 'LookupField', fs_getComponentProperty(AValue, 'LookupField') );
    end;
 end;
 
@@ -654,16 +643,19 @@ end;
 
 procedure TFWDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect;
   aState: TGridDrawState);
+var OldActive : Integer;
 begin
-  if  ( ACol > 0 )
+  if  ( ACol > IndicatorOffset - 1 )
   and ( ARow > 0 )
   and assigned (( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit ) Then
    with ( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit do
      Begin
-       Width  := Columns [ ACol - 1 ].Width;
-       Left   := aRect.Left;
-       Top    := aRect.Top;
-       Height := RowHeights [ ACol - 1 ];
+       OldActive := Datalink.ActiveRecord;
+       Datalink.ActiveRecord := ARow - IndicatorOffset;
+       Width  := aRect.Right{$IFNDEF FPC}- aRect.Left{$ENDIF};
+       Height := ARect.Bottom{$IFNDEF FPC}- aRect.Top{$ENDIF};
+       PaintTo(GetDC(Self.Handle),aRect.Left,aRect.Top);
+       Datalink.ActiveRecord := OldActive;
      end
     Else
       inherited DrawCell(aCol, aRow, aRect, aState);

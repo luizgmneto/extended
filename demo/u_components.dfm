@@ -61,7 +61,7 @@ object Myform: TMyform
           Expanded = False
           FieldName = 'PRENOM'
           Title.Alignment = taCenter
-          Title.Caption = 'Pr'#195#169'noms'
+          Title.Caption = 'Pr'#233'noms'
           Width = 88
           Visible = True
           FieldTag = 0
@@ -87,11 +87,37 @@ object Myform: TMyform
           Expanded = False
           FieldName = 'PRENOM'
           Title.Alignment = taCenter
-          Title.Caption = 'Pr'#195#169'noms'
+          Title.Caption = 'Pr'#233'noms'
           Width = 88
           Visible = True
           FieldTag = 0
         end>
+    end
+    object Prenom: TFWDBEdit
+      Left = 7
+      Top = 81
+      Width = 221
+      Height = 21
+      Color = clMoneyGreen
+      DataField = 'Prenom'
+      DataSource = Datasource
+      MaxLength = 100
+      TabOrder = 2
+      MyLabel = FWLabel6
+      AlwaysSame = False
+    end
+    object Nom: TFWDBEdit
+      Left = 7
+      Top = 121
+      Width = 221
+      Height = 21
+      Color = clMoneyGreen
+      DataField = 'Nom'
+      DataSource = Datasource
+      MaxLength = 100
+      TabOrder = 3
+      MyLabel = FWLabel5
+      AlwaysSame = False
     end
   end
   object Panel2: TPanel
@@ -257,7 +283,7 @@ object Myform: TMyform
       AlwaysSame = False
       Color = clMoneyGreen
       ItemHeight = 16
-      TabOrder = 2
+      TabOrder = 0
     end
     object ExtNumEdit1: TExtNumEdit
       Left = 118
@@ -269,7 +295,20 @@ object Myform: TMyform
       ColorReadOnly = clInfoText
       MyLabel = FWLabel2
       Color = clMoneyGreen
-      TabOrder = 3
+      TabOrder = 1
+    end
+    object FWDateEdit1: TFWDateEdit
+      Left = 118
+      Top = 166
+      Width = 221
+      Height = 27
+      Date = 40655.608620648150000000
+      Time = 40655.608620648150000000
+      Color = clMoneyGreen
+      TabOrder = 2
+      ColorReadOnly = clInfoText
+      MyLabel = FWLabel3
+      AlwaysSame = False
     end
     object FWEdit: TFWEdit
       Left = 118
@@ -277,7 +316,7 @@ object Myform: TMyform
       Width = 221
       Height = 21
       Color = clMoneyGreen
-      TabOrder = 4
+      TabOrder = 3
       Text = 'FWEdit'
       MyLabel = FWLabel4
       AlwaysSame = False
@@ -301,7 +340,7 @@ object Myform: TMyform
       DragMode = dmAutomatic
       MultiSelect = True
       RowSelect = True
-      TabOrder = 5
+      TabOrder = 4
       ColumnsOrder = '0=120,1=385'
       Groups = <>
       ExtendedColumns = <
@@ -314,32 +353,6 @@ object Myform: TMyform
       DataFieldsDisplay = 'Nom;Prenom'
       DataTableUnit = 'fiches.dbf'
     end
-    object Nom: TFWDBEdit
-      Left = 118
-      Top = 56
-      Width = 221
-      Height = 21
-      Color = clMoneyGreen
-      DataField = 'Nom'
-      DataSource = Datasource
-      MaxLength = 100
-      TabOrder = 1
-      MyLabel = FWLabel5
-      AlwaysSame = False
-    end
-    object Prenom: TFWDBEdit
-      Left = 118
-      Top = 16
-      Width = 221
-      Height = 21
-      Color = clMoneyGreen
-      DataField = 'Prenom'
-      DataSource = Datasource
-      MaxLength = 100
-      TabOrder = 0
-      MyLabel = FWLabel6
-      AlwaysSame = False
-    end
     object FWMemo: TFWMemo
       Left = 371
       Top = 16
@@ -348,7 +361,7 @@ object Myform: TMyform
       Color = clMoneyGreen
       Lines.Strings = (
         'FWMemo')
-      TabOrder = 8
+      TabOrder = 5
     end
     object ExtDBComboInsert2: TExtDBComboInsert
       Left = 120
@@ -358,11 +371,11 @@ object Myform: TMyform
       Color = clMoneyGreen
       DataField = 'VILLE'
       DataSource = Datasource
-      TabOrder = 6
+      TabOrder = 7
       MyLabel = Search2
     end
     object ExtSearchDBEdit2: TExtSearchDBEdit
-      Left = 120
+      Left = 118
       Top = 236
       Width = 221
       Height = 21
@@ -370,11 +383,37 @@ object Myform: TMyform
       DataField = 'POSTAL'
       DataSource = Datasource
       MaxLength = 100
-      TabOrder = 7
+      TabOrder = 6
       SearchDisplay = 'CODEPOSTAL'
       SearchSource = Datasource2
       MyLabel = Search
     end
+  end
+  object FWDBEdit1: TFWDBEdit
+    Left = 333
+    Top = 56
+    Width = 221
+    Height = 21
+    Color = clMoneyGreen
+    DataField = 'Nom'
+    DataSource = Datasource
+    MaxLength = 100
+    TabOrder = 2
+    MyLabel = FWLabel5
+    AlwaysSame = False
+  end
+  object FWDBEdit2: TFWDBEdit
+    Left = 333
+    Top = 16
+    Width = 221
+    Height = 21
+    Color = clMoneyGreen
+    DataField = 'Prenom'
+    DataSource = Datasource
+    MaxLength = 100
+    TabOrder = 3
+    MyLabel = FWLabel6
+    AlwaysSame = False
   end
   object OnFormInfoIni: TOnFormInfoIni
     SauvePosObjects = True
@@ -397,6 +436,30 @@ object Myform: TMyform
     StoreDefs = True
     TableName = 'fiches.dbf'
     TableLevel = 4
+    FieldDefs = <
+      item
+        Name = 'NOM'
+        DataType = ftString
+        Precision = -1
+        Size = 100
+      end
+      item
+        Name = 'PRENOM'
+        DataType = ftString
+        Precision = -1
+        Size = 100
+      end
+      item
+        Name = 'POSTAL'
+        DataType = ftInteger
+        Precision = -1
+      end
+      item
+        Name = 'VILLE'
+        DataType = ftString
+        Precision = -1
+        Size = 100
+      end>
     FilterOptions = [foCaseInsensitive, foNoPartialCompare]
     Left = 136
     Top = 288

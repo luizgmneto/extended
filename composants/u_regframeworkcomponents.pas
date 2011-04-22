@@ -39,7 +39,7 @@ begin
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TOnFormInfoIni,
                                                 TExtNumEdit,
                                                 TExtColorCombo,
-                                                TFWLabel, TFWEdit,TFWGrid,TFWMemo,{$IFDEF FPC}TFWDateEdit{$ELSE}TFWDateTimePicker{$ENDIF}]);
+                                                TFWLabel, TFWEdit,TFWGrid,TFWMemo,TFWDateEdit]);
   RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataKeyUnit'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataSort'      , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo(string), TDBListView, 'DataFieldsDisplay'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});

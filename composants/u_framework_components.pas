@@ -82,8 +82,8 @@ type
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
      End;
-{$IFDEF FPC}
-   TFWDateEdit = class ( TDateEdit, IFWComponent, IFWComponentEdit )
+
+   TFWDateEdit = class ( {$IFDEF FPC}TDateEdit{$ELSE}TDateTimePicker{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FLabel : TFWLabel ;
@@ -115,39 +115,6 @@ type
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
      End;
 
-{$ELSE}
-   TFWDateTimePicker = class ( TDateTimePicker, IFWComponent, IFWComponentEdit )
-      private
-       FBeforeEnter, FBeforeExit : TNotifyEvent;
-       FLabel : TFWLabel ;
-       FOldColor ,
-       FColorFocus ,
-       FColorReadOnly,
-       FColorEdit ,
-       FColorLabel : TColor;
-       FAlwaysSame : Boolean;
-       FNotifyOrder : TNotifyEvent;
-       procedure p_setLabel ( const alab_Label : TFWLabel );
-       procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
-      public
-
-       constructor Create ( AOwner : TComponent ); override;
-       procedure DoEnter; override;
-       procedure DoExit; override;
-       procedure Loaded; override;
-       procedure SetOrder ; virtual;
-      published
-       property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
-       property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
-       property ColorLabel : TColor read FColorLabel write FColorLabel default CST_LBL_SELECT ;
-       property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
-       property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
-       property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
-       property MyLabel : TFWLabel read FLabel write p_setLabel;
-       property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
-       property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
-     End;
-{$ENDIF}
    { TFWLabel }
 
    TFWLabel = class ( {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF}, IFWComponent )
@@ -305,7 +272,6 @@ Begin
   inherited;
 End;
 
-{$IFDEF FPC}
 { TFWDateEdit }
 
 procedure TFWDateEdit.p_setLabel(const alab_Label: TFWLabel);
@@ -366,77 +332,10 @@ end;
 
 procedure TFWDateEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
 Begin
-  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
+  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, {$IFDEF FPC}ReadOnly{$ELSE}False{$ENDIF});
   inherited;
 End;
 
-{$ELSE}
-
-{ TFWDateTimePicker }
-
-procedure TFWDateTimePicker.p_setLabel(const alab_Label: TFWLabel);
-begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      FLabel.MyEdit := Self;
-    End;
-end;
-
-procedure TFWDateTimePicker.SetOrder;
-begin
-  if assigned ( FNotifyOrder ) then
-    FNotifyOrder ( Self );
-end;
-
-constructor TFWDateTimePicker.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  FAlwaysSame := True;
-  FColorLabel := CST_LBL_SELECT;
-  FColorEdit  := CST_EDIT_STD;
-  FColorFocus := CST_EDIT_SELECT;
-  FColorReadOnly := CST_EDIT_READ;
-end;
-
-procedure TFWDateTimePicker.DoEnter;
-begin
-  if assigned ( FBeforeEnter ) Then
-    FBeforeEnter ( Self );
-  // Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
-  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
-  // avec la souris => cas de tri)
-  p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
-  p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
-  inherited DoEnter;
-end;
-
-procedure TFWDateTimePicker.DoExit;
-begin
-  if assigned ( FBeforeExit ) Then
-    FBeforeExit ( Self );
-  inherited DoExit;
-  p_setLabelColorExit ( FLabel, FAlwaysSame );
-  p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
-
-end;
-
-procedure TFWDateTimePicker.Loaded;
-begin
-  inherited Loaded;
-  FOldColor := Color;
-  if  FAlwaysSame
-   Then
-    Color := gCol_Edit ;
-end;
-
-procedure TFWDateTimePicker.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
-Begin
-  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, Enabled );
-  inherited;
-End;
-
-{$ENDIF}
 
 
 { TFWLabel }
