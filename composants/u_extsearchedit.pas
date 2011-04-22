@@ -33,9 +33,10 @@ uses Variants, Controls, Classes,
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '0.9.0.0 : In place not tested.';
+                                          BugsStory : '0.9.0.1 : Not tested, comiling on DELPHI.'
+                                                    + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                          Major : 0 ; Minor : 9 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
 type

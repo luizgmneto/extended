@@ -46,9 +46,10 @@ const
                                                FileUnit : 'u_framework_dbcomponents' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Composants d''interactivité de U_CustomFrameWork.' ;
-                                               BugsStory : '0.9.0.0 : Création à partir de u_framework_components.';
+                                               BugsStory : '0.9.0.1 : FWDBGrid tested on Delphi, with Controls on Columns.';
+                                                         + '0.9.0.0 : Création à partir de u_framework_components.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
 type

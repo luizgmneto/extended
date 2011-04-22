@@ -35,13 +35,14 @@ uses Variants, Controls, Classes,
                                                FileUnit : 'U_DBComboBoxInsert' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Insertion automatique dans une DBComboLookupEdit.' ;
-                                               BugsStory : '1.0.1.2 : Bug validation au post.' +#13#10
+                                               BugsStory : '1.0.1.3 : Compiling on lazarus.' +#13#10
+                                                         + '1.0.1.2 : Bug validation au post.' +#13#10
                                                          + '1.0.1.1 : Bug rafraîchissement quand pas de focus.' +#13#10
                                                          + '1.0.1.0 : Propriété Modify.' +#13#10
                                                          + '1.0.0.0 : Version bêta inadaptée, réutilisation du code de la TJvDBLookupComboEdit.' +#13#10
                                                          + '0.9.0.0 : En place à tester.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 3 );
 
 {$ENDIF}
 type
