@@ -43,6 +43,7 @@ inherited Myform: TMyform
           Title.Caption = 'Noms'
           Title.Orientation = toHorizontal
           Width = 88
+          FieldName = 'NOM'
           Filter.DropDownRows = 0
           Filter.ItemIndex = -1
           FieldTag = 0
@@ -52,6 +53,7 @@ inherited Myform: TMyform
           Title.Caption = 'Prénoms'
           Title.Orientation = toHorizontal
           Width = 88
+          FieldName = 'PRENOM'
           Filter.DropDownRows = 0
           Filter.ItemIndex = -1
           FieldTag = 0
@@ -381,7 +383,6 @@ inherited Myform: TMyform
       Font.Height = 12
       ParentColor = False
       ParentFont = False
-      OnClick = SearchClick
       ColorFocus = clMaroon
     end
   end

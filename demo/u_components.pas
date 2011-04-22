@@ -13,14 +13,14 @@ uses
 {$IFDEF FPC}
   FileUtil, LResources,
 {$ELSE}
-  DBCtrls, TntDBCtrls, ComCtrls,
+  DBCtrls, TntDBCtrls, ComCtrls, JvExControls, JvDBLookup, TntDBGrids,
   JvExComCtrls, JvListView, TntStdCtrls, Mask,
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
   StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos,
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
   u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection, dbf,
-  DBGrids, JvExControls, JvDBLookup, TntDBGrids ;
+  DBGrids ;
 
 const CST_EXTENSION_DBF  = '.dbf' ;
       CST_NOM_FICHIER  = 'fiches' ;
@@ -40,6 +40,7 @@ type
     ExtColorCombo: TExtColorCombo;
     ExtDBNavigator1: TExtDBNavigator;
     ExtNumEdit1: TExtNumEdit;
+    FWDateEdit1 : TFWDateEdit;
     Nom: TFWDBEdit;
     Prenom: TFWDBEdit;
     FWEdit: TFWEdit;
