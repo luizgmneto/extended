@@ -758,7 +758,7 @@ procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ;{$IFNDEF CSV} const ac
 begin
   if not Assigned(amif_Init) then
     begin
-      amif_Init := TIniFile.Create(fs_GetIniDir + CST_INI_SOFT + as_NomConnexion + CST_EXTENSION_INI);
+      amif_Init := TIniFile.Create(fs_getSoftDir + CST_INI_SOFT + as_NomConnexion + CST_EXTENSION_INI);
     End;
   // Soit on a une connexion ADO
   if Assigned(acco_Conn) then
