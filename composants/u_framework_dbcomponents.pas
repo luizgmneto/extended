@@ -226,9 +226,13 @@ type
        FAlwaysSame : Boolean;
        function GetColumns: TFWDbGridColumns;
        procedure SetColumns(const AValue: TFWDbGridColumns);
+       procedure WMSetFocus(var Msg: TWMSetFocus); message WM_SETFOCUS;
+    procedure GridRectToScreenRect(GridRect: TGridRect; var ScreenRect: TRect;
+      IncludeLine: Boolean);
       protected
        function IsColumnsStored: boolean; virtual;
        procedure DrawCell(aCol,aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect; aState:TGridDrawState); override;
+       function CanEditShow: Boolean; override;
       public
        constructor Create ( AOwner : TComponent ); override;
        procedure DoEnter; override;
@@ -599,7 +603,191 @@ begin
 end;
 
 
+
 { TFWDBGrid }
+
+procedure TFWDBGrid.GridRectToScreenRect(GridRect: TGridRect;
+  var ScreenRect: TRect; IncludeLine: Boolean);
+
+  function LinePos(const AxisInfo: TGridAxisDrawInfo; Line: Integer): Integer;
+  var
+    Start, I: Longint;
+  begin
+    with AxisInfo do
+    begin
+      Result := 0;
+      if Line < FixedCellCount then
+        Start := 0
+      else
+      begin
+        if Line >= FirstGridCell then
+          Result := FixedBoundary;
+        Start := FirstGridCell;
+      end;
+      for I := Start to Line - 1 do
+      begin
+        Inc(Result, GetExtent(I) + EffectiveLineWidth);
+        if Result > GridExtent then
+        begin
+          Result := 0;
+          Exit;
+        end;
+      end;
+    end;
+  end;
+
+  function CalcAxis(const AxisInfo: TGridAxisDrawInfo;
+    GridRectMin, GridRectMax: Integer;
+    var ScreenRectMin, ScreenRectMax: Integer): Boolean;
+  begin
+    Result := False;
+    with AxisInfo do
+    begin
+      if (GridRectMin >= FixedCellCount) and (GridRectMin < FirstGridCell) then
+        if GridRectMax < FirstGridCell then
+        begin
+          FillChar(ScreenRect, SizeOf(ScreenRect), 0); { erase partial results }
+          Exit;
+        end
+        else
+          GridRectMin := FirstGridCell;
+      if GridRectMax > LastFullVisibleCell then
+      begin
+        GridRectMax := LastFullVisibleCell;
+        if GridRectMax < GridCellCount - 1 then Inc(GridRectMax);
+        if LinePos(AxisInfo, GridRectMax) = 0 then
+          Dec(GridRectMax);
+      end;
+
+      ScreenRectMin := LinePos(AxisInfo, GridRectMin);
+      ScreenRectMax := LinePos(AxisInfo, GridRectMax);
+      if ScreenRectMax = 0 then
+        ScreenRectMax := ScreenRectMin + GetExtent(GridRectMin)
+      else
+        Inc(ScreenRectMax, GetExtent(GridRectMax));
+      if ScreenRectMax > GridExtent then
+        ScreenRectMax := GridExtent;
+      if IncludeLine then Inc(ScreenRectMax, EffectiveLineWidth);
+    end;
+    Result := True;
+  end;
+
+var
+  DrawInfo: TGridDrawInfo;
+  Hold: Integer;
+begin
+  FillChar(ScreenRect, SizeOf(ScreenRect), 0);
+  if (GridRect.Left > GridRect.Right) or (GridRect.Top > GridRect.Bottom) then
+    Exit;
+  CalcDrawInfo(DrawInfo);
+  with DrawInfo do
+  begin
+    if GridRect.Left > Horz.LastFullVisibleCell + 1 then Exit;
+    if GridRect.Top > Vert.LastFullVisibleCell + 1 then Exit;
+
+    if CalcAxis(Horz, GridRect.Left, GridRect.Right, ScreenRect.Left,
+      ScreenRect.Right) then
+    begin
+      CalcAxis(Vert, GridRect.Top, GridRect.Bottom, ScreenRect.Top,
+        ScreenRect.Bottom);
+    end;
+  end;
+  if UseRightToLeftAlignment and (Canvas.CanvasOrientation = coLeftToRight) then
+  begin
+    Hold := ScreenRect.Left;
+    ScreenRect.Left := ClientWidth - ScreenRect.Right;
+    ScreenRect.Right := ClientWidth - Hold;
+  end;
+end;
+
+
+
+procedure TFWDBGrid.WMSetFocus(var Msg: TWMSetFocus);
+var Weight, i : Integer ;
+    DrawInfo: TGridDrawInfo;
+    InvalidRect: TRect;
+begin
+  SetIme;
+  InvalidateDockHostSite(False);
+  if not HandleAllocated then Exit;
+  GridRectToScreenRect(Selection, InvalidRect, True);
+  Windows.InvalidateRect(Handle, @InvalidRect, False);
+  CalcDrawInfo(DrawInfo);
+  with DrawInfo do
+    if  ( Row > 0 )
+    and ( Col > 0 )
+    and ( Columns [ Col - FixedCols + Vert.FirstGridCell ].SomeEdit <> nil )  Then
+      with Columns [ Col - FixedCols + Vert.FirstGridCell ].SomeEdit do
+       if ( Msg.FocusedWnd = Columns [ Col - FixedCols + Vert.FirstGridCell ].SomeEdit.Handle ) then
+         Begin
+          for i := 0 to ColCount - FixedCols - 1 do
+            if Columns [ i ].SomeEdit.Visible then
+              with Columns [ i ].SomeEdit do
+               Begin
+                 Update;
+                 if i <> col - FixedCols + Vert.FirstGridCell then
+                   Visible := False;
+                 Exit;
+               End
+         End
+       Else
+        Begin
+          Visible := True;
+          Weight := Vert.FixedBoundary;
+          for i := 0 to FixedCols - 1 do
+            inc ( Weight , ColWidths  [ i ]);
+          for i := Vert.FirstGridCell + FixedCols to Col -1 do
+            inc ( Weight , ColWidths  [ i ]);
+          Left := Weight;
+          Weight := Horz.FixedBoundary;
+          for i := 0 to FixedRows - 1 do
+            inc ( Weight , RowHeights  [ i ]);
+          for i := Horz.FirstGridCell + FixedRows to Row - 1 do
+            inc ( Weight , RowHeights  [ i ]);
+          Top  := Weight;
+          SetFocus;
+        End
+
+end;
+
+function TFWDBGrid.CanEditShow: Boolean;
+var Weight, i : Integer ;
+    DrawInfo: TGridDrawInfo;
+begin
+  Result := False;
+  Exit;
+  if  ( Col >= FixedCols )
+  and ( Columns [ Col - FixedCols ].SomeEdit <> nil ) then
+  with Columns [ Col - FixedCols ].SomeEdit do
+    Begin
+      for i := 0 to ColCount - FixedCols - 1 do
+        if Columns [ i ].SomeEdit.Visible then
+          with Columns [ i ].SomeEdit do
+           Begin
+             Update;
+             Visible := False;
+             Exit;
+           End ;
+      Result := False;
+      Visible := True;
+      Weight := Self.Left;
+      for i := 0 to FixedCols - 1 do
+        inc ( Weight , ColWidths  [ i ]);
+      for i := ColCount - VisibleColCount + FixedCols to Col -1 do
+        inc ( Weight , ColWidths  [ i ]);
+      Left := Weight;
+      Weight := Self.Top;
+      for i := 0 to FixedRows - 1 do
+        inc ( Weight , RowHeights  [ i ]);
+      for i := DataLink.ActiveRecord + FixedRows to Row - 2 do
+        inc ( Weight , RowHeights  [ i ]);
+      Top  := Weight;
+      SetFocus;
+    End
+  Else
+   Result := inherited CanEditShow;
+
+end;
 
 constructor TFWDBGrid.Create( AOwner: TComponent);
 begin
@@ -639,16 +827,18 @@ begin
   {$ENDIF}
 end;
 
+
 procedure TFWDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect;
   aState: TGridDrawState);
 var OldActive : Integer;
     FBackground: TColor;
 begin
   if  ( ACol > 0  )
-  and ( ARow > {$IFDEF FPC}0{$ELSE}IndicatorOffset{$ENDIF} )
+  and ( ARow >= {$IFDEF FPC}1{$ELSE}IndicatorOffset{$ENDIF} )
   and assigned (( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit ) Then
    with ( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit do
      Begin
+       {$IFDEF FPC}
        PrepareCanvas(aCol, aRow, aState);
        if Assigned(OnGetCellProps) and not (gdSelected in aState) then
        begin
@@ -656,9 +846,12 @@ begin
          OnGetCellProps(Self, GetFieldFromGridColumn(aCol), Canvas.Font, FBackground);
          Canvas.Brush.Color:=FBackground;
        end;
+       {$ELSE}
+       Canvas.Brush.Color := Color;
+       {$ENDIF}
        Self.Canvas.FillRect(aRect);
        OldActive := Datalink.ActiveRecord;
-       Datalink.ActiveRecord := ARow {$IFDEF FPC}-1{$ELSE}- IndicatorOffset{$ENDIF};
+       Datalink.ActiveRecord := ARow {$IFDEF FPC}-1{$ELSE}-IndicatorOffset{$ENDIF};
        Width  := aRect.Right - aRect.Left;
        Height := ARect.Bottom - aRect.Top;
        ControlState := ControlState + [csPaintCopy];

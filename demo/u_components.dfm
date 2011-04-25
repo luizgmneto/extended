@@ -43,10 +43,10 @@ object Myform: TMyform
     end
     object Noms: TFWDBGrid
       Left = 1
-      Top = 21
+      Top = 56
       Width = 206
-      Height = 511
-      Align = alClient
+      Height = 476
+      Align = alBottom
       Columns = <
         item
           Expanded = False
