@@ -642,28 +642,31 @@ end;
 procedure TFWDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect;
   aState: TGridDrawState);
 var OldActive : Integer;
+    FBackground: TColor;
 begin
-  {$IFNDEF FPC}
-  if  ( ACol > {$IFDEF FPC}0{$ELSE}- 1{$ENDIF}  )
+  if  ( ACol > 0  )
   and ( ARow > {$IFDEF FPC}0{$ELSE}IndicatorOffset{$ENDIF} )
   and assigned (( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit ) Then
    with ( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit do
      Begin
+       PrepareCanvas(aCol, aRow, aState);
+       if Assigned(OnGetCellProps) and not (gdSelected in aState) then
+       begin
+         FBackground:=Canvas.Brush.Color;
+         OnGetCellProps(Self, GetFieldFromGridColumn(aCol), Canvas.Font, FBackground);
+         Canvas.Brush.Color:=FBackground;
+       end;
+       Self.Canvas.FillRect(aRect);
        OldActive := Datalink.ActiveRecord;
        Datalink.ActiveRecord := ARow {$IFDEF FPC}-1{$ELSE}- IndicatorOffset{$ENDIF};
-       {$IFDEF FPC}
-       Left := 0;
-       Top  := 0 ;
-       {$ENDIF}
        Width  := aRect.Right - aRect.Left;
        Height := ARect.Bottom - aRect.Top;
        ControlState := ControlState + [csPaintCopy];
-       PaintTo({$IFNDEF FPC}Self.Canvas.Handle{$ELSE}GetDC(Self.Handle){$ENDIF},aRect.Left,aRect.Top);
+       PaintTo(Self.Canvas.Handle,aRect.Left,aRect.Top);
        ControlState := ControlState - [csPaintCopy];
        Datalink.ActiveRecord := OldActive;
      end
     Else
-  {$ENDIF}
       inherited DrawCell(aCol, aRow, aRect, aState);
 end;
 
