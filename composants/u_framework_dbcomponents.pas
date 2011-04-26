@@ -195,8 +195,6 @@ type
      FAfterControlKeyUp , FAfterControlKeyDown : TKeyEvent;
      FOldControlKeyPress   ,
      FAfterControlKeyPress : TKeyPressEvent;
-     FOldControlEnter, FOldControlExit,
-     FAfterControlEnter, FAfterControlExit : TNotifyEvent;
      FControl : TWinControl ;
      FFieldTag : Integer ;
    protected
@@ -206,15 +204,11 @@ type
    public
      constructor Create(ACollection: TCollection); override;
    published
-     procedure ControlEnter  ( ASender : TObject ); virtual;
-     procedure ControlExit   ( ASender : TObject ); virtual;
      procedure ControlKeyUp  ( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
      procedure ControlKeyDown( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
      procedure ControlKeyPress( ASender : TObject ; var Key: Char ); virtual;
      property SomeEdit : TWinControl read FControl write SetControl;
      property FieldTag : Integer read fi_getFieldTag write p_setFieldTag;
-     property AfterControlEnter : TNotifyEvent read FAfterControlEnter write FAfterControlEnter;
-     property AfterControlExit : TNotifyEvent read FAfterControlExit write FAfterControlExit;
      property AfterControlKeyUp : TKeyEvent read FAfterControlKeyUp write FAfterControlKeyUp;
      property AfterControlKeyDown : TKeyEvent read FAfterControlKeyDown write FAfterControlKeyDown;
      property AfterControlKeyPress : TKeyPressEvent read FAfterControlKeyPress write FAfterControlKeyPress;
@@ -246,8 +240,6 @@ type
        procedure WMSetFocus(var Msg: TWMSetFocus); message WM_SETFOCUS;
        procedure WMVScroll(var Message: TWMVScroll); message WM_VSCROLL;
        procedure WMHScroll(var Msg: TWMHScroll); message WM_HSCROLL;
-       procedure CNCommand(var Message: TWMCommand); message CN_COMMAND;
-       procedure CMTextChanged(var Message: TMessage); message CM_TEXTCHANGED;
        procedure HideColumnControl;
        procedure ShowControlColumn;
       protected
@@ -587,19 +579,15 @@ begin
    Begin
      if FControl <> nil then
        Begin
-         p_SetComponentMethodProperty( FControl, 'OnEnter'   , TMethod ( FOldControlEnter ));
-         p_SetComponentMethodProperty( FControl, 'OnExit'    , TMethod ( FOldControlExit  ));
          p_SetComponentMethodProperty( FControl, 'OnKeyUp'   , TMethod ( FOldControlKeyUp ));
          p_SetComponentMethodProperty( FControl, 'OnKeyDown' , TMethod ( FOldControlKeyDown ));
          p_SetComponentMethodProperty( FControl, 'OnKeyPress', TMethod ( FOldControlKeyPress ));
        End;
      FControl := AValue;
-     FControl.Parent := Grid.Parent	;
+     FControl.Parent := Grid.Parent;
      FControl.Visible := False;
      p_SetComponentProperty ( FControl, 'DataField', FieldName );
      p_SetComponentObjectProperty ( FControl, 'Datasource', (TDBGrid (Grid)).DataSource );
-     FOldControlEnter     := TNotifyEvent   ( fmet_getComponentMethodProperty ( FControl, 'OnEnter' ));
-     FOldControlExit      := TNotifyEvent   ( fmet_getComponentMethodProperty ( FControl, 'OnExit'  ));
      FOldControlKeyUp     := TKeyEvent      ( fmet_getComponentMethodProperty ( FControl, 'OnKeyUp'  ));
      FOldControlKeyDown   := TKeyEvent      ( fmet_getComponentMethodProperty ( FControl, 'OnKeyDown'));
      FOldControlKeyPress  := TKeyPressEvent ( fmet_getComponentMethodProperty ( FControl, 'OnKeyPress'));
@@ -627,20 +615,6 @@ begin
   FFieldTag := avalue;
 end;
 
-procedure TFWGridColumn.ControlEnter(ASender: TObject);
-begin
-
-end;
-
-procedure TFWGridColumn.ControlExit(ASender: TObject);
-begin
-  if  assigned ( Grid.Datasource )
-  and ( Grid.Datasource.Dataset.State in [dsInsert,dsEdit] ) then
-    Begin
-      Grid.Datasource.Dataset.Post;
-    End;
-end;
-
 procedure TFWGridColumn.ControlKeyDown(ASender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -663,10 +637,12 @@ end;
 constructor TFWGridColumn.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
-  FAfterControlEnter := nil;
-  FAfterControlExit  := nil;
-  FOldControlExit    := nil;
-  FOldControlEnter   := nil;
+  FAfterControlKeyDown  := nil;
+  FAfterControlKeyUp    := nil;
+  FAfterControlKeyPress := nil;
+  FOldControlKeyDown    := nil;
+  FOldControlKeyPress   := nil;
+  FOldControlKeyUp      := nil;
   FControl := nil;
   FFieldTag := 0 ;
 end;
@@ -698,12 +674,12 @@ procedure TFWDBGrid.HideColumnControl;
 var i : Integer ;
 Begin
   for i := 0 to Columns.Count - 1 do
-    if Columns [ i ].SomeEdit.Visible then
+    if  assigned ( Columns [ i ].SomeEdit )
+    and Columns [ i ].SomeEdit.Visible then
       with Columns [ i ].SomeEdit do
        Begin
          Update;
-//         if i <> SelectedIndex then
-           Visible := False;
+         Visible := False;
        End
 
 End;
@@ -723,7 +699,8 @@ end;
 // Procedure ShowControlColumn
 // Shows the control of column if exists
 procedure TFWDBGrid.ShowControlColumn;
-var Weight, Coord : Integer ;
+var Weight, Coord, WidthHeight : Integer ;
+{$IFNDEF FPC}
     DrawInfo: TGridDrawInfo;
  function LinePos(const AxisInfo: TGridAxisDrawInfo; Line: Integer): Integer;
   var
@@ -766,9 +743,12 @@ var Weight, Coord : Integer ;
     end;
     Result := True;
   end;
+{$ENDIF}
 begin
+  {$IFNDEF FPC}
   CalcDrawInfo(DrawInfo);
   with DrawInfo do
+  {$ENDIF}
     if  ( Row > 0 )
     and ( Col > 0 )
     and ( Columns [ SelectedIndex ].SomeEdit <> nil )  Then
@@ -776,14 +756,26 @@ begin
         Begin
           Visible := True;
           Weight := 0 ;
+          {$IFNDEF FPC}
           if Self.Ctl3D then
             inc ( Weight, 1 );
+          {$ENDIF}
           if Self.BorderStyle <> bsNone then
             inc ( Weight, 1 );
+          {$IFDEF FPC}
+          ColRowToOffset ( True, True, Col, Coord, WidthHeight);
+          {$ELSE}
           CalcAxis(Horz,Selection.Left, Coord);
+          {$ENDIF}
           Left := Coord + Self.ClientRect.Left + Self.Left + Weight ;
+          Width := ColWidths [ Col ];
+          {$IFDEF FPC}
+          ColRowToOffset ( False, True, Row, Coord, WidthHeight);
+          {$ELSE}
           CalcAxis(Vert,Selection.Bottom, Coord);
+          {$ENDIF}
           Top  := Coord  + Self.ClientRect.Top  + Self.Top  + Weight;
+          Height := RowHeights[Row];
           SetFocus;
         End ;
 //  with DrawInfo do
@@ -798,8 +790,6 @@ begin
 end;
 
 function TFWDBGrid.CanEditShow: Boolean;
-var Weight, i : Integer ;
-    DrawInfo: TGridDrawInfo;
 begin
   if  ( SelectedIndex >= 0 )
   and assigned ( Columns [ SelectedIndex ].SomeEdit )
@@ -810,22 +800,6 @@ begin
   Else
    Result := inherited CanEditShow;
 
-end;
-
-procedure TFWDBGrid.CMTextChanged(var Message: TMessage);
-var i : Integer;
-begin
-  inherited;
-  for i := 0 to Columns.Count - 1 do
-    if assigned ( Columns [ i ].SomeEdit )
-    and ( Columns [ i ].SomeEdit.Visible ) then
-      Columns [ i ].SomeEdit.Perform ( CM_TextChanged, 0, 0 );
-
-end;
-
-procedure TFWDBGrid.CNCommand(var Message: TWMCommand);
-begin
-  inherited;
 end;
 
 constructor TFWDBGrid.Create( AOwner: TComponent);
@@ -879,6 +853,7 @@ procedure TFWDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDI
 var OldActive : Integer;
     FBackground: TColor;
 begin
+  {$IFNDEF FPC}
   if  ( ACol > 0  )
   and ( ARow >= {$IFDEF FPC}1{$ELSE}IndicatorOffset{$ENDIF} )
   and assigned (( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit ) Then
@@ -905,7 +880,7 @@ begin
        ControlState := ControlState - [csPaintCopy];
        Datalink.ActiveRecord := OldActive;
      end
-    Else
+    Else    {$ENDIF}
       inherited DrawCell(aCol, aRow, aRect, aState);
 end;
 
