@@ -191,8 +191,10 @@ type
 
    TFWGridColumn = class({$IFDEF TNT}TTntColumn{$ELSE}TRxColumn{$ENDIF})
    private
-     FOldControlKeyUp   ,
-     FAfterControlKeyUp : TKeyEvent;
+     FOldControlKeyUp   , FOldControlKeyDown,
+     FAfterControlKeyUp , FAfterControlKeyDown : TKeyEvent;
+     FOldControlKeyPress   ,
+     FAfterControlKeyPress : TKeyPressEvent;
      FOldControlEnter, FOldControlExit,
      FAfterControlEnter, FAfterControlExit : TNotifyEvent;
      FControl : TWinControl ;
@@ -204,14 +206,18 @@ type
    public
      constructor Create(ACollection: TCollection); override;
    published
-     procedure ControlEnter ( ASender : TObject ); virtual;
-     procedure ControlExit  ( ASender : TObject ); virtual;
+     procedure ControlEnter  ( ASender : TObject ); virtual;
+     procedure ControlExit   ( ASender : TObject ); virtual;
      procedure ControlKeyUp  ( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
+     procedure ControlKeyDown( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
+     procedure ControlKeyPress( ASender : TObject ; var Key: Char ); virtual;
      property SomeEdit : TWinControl read FControl write SetControl;
      property FieldTag : Integer read fi_getFieldTag write p_setFieldTag;
      property AfterControlEnter : TNotifyEvent read FAfterControlEnter write FAfterControlEnter;
      property AfterControlExit : TNotifyEvent read FAfterControlExit write FAfterControlExit;
      property AfterControlKeyUp : TKeyEvent read FAfterControlKeyUp write FAfterControlKeyUp;
+     property AfterControlKeyDown : TKeyEvent read FAfterControlKeyDown write FAfterControlKeyDown;
+     property AfterControlKeyPress : TKeyPressEvent read FAfterControlKeyPress write FAfterControlKeyPress;
    end;
 
    { TFWDbGridColumns }
@@ -229,7 +235,7 @@ type
    { TFWDBGrid }
 
    TFWDBGrid = class ( {$IFDEF TNT}TTntDBGrid{$ELSE}{$IFDEF EXRX}TExRxDBGrid{$ELSE}{$IFDEF JEDI}TJvDBUltimGrid{$ELSE}TRXDBGrid{$ENDIF}{$ENDIF}{$ENDIF}, IFWComponent )
-      private
+     private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FColorEdit     ,
        FColorFocus    ,
@@ -242,23 +248,21 @@ type
        procedure WMHScroll(var Msg: TWMHScroll); message WM_HSCROLL;
        procedure CNCommand(var Message: TWMCommand); message CN_COMMAND;
        procedure CMTextChanged(var Message: TMessage); message CM_TEXTCHANGED;
-    procedure GridRectToScreenRect(GridRect: TGridRect; var ScreenRect: TRect;
-      IncludeLine: Boolean);
-    procedure HideColumnControl;
-    procedure ShowControlColumn;
+       procedure HideColumnControl;
+       procedure ShowControlColumn;
       protected
-       procedure KeyDown(var Key: Word; Shift: TShiftState); override;
        procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
           X, Y: Integer); override;
        function IsColumnsStored: boolean; virtual;
        procedure DrawCell(aCol,aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect; aState:TGridDrawState); override;
        function CanEditShow: Boolean; override;
+       procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+       procedure KeyUp(var ach_Key: Word; ashi_Shift: TShiftState); override;
       public
        constructor Create ( AOwner : TComponent ); override;
        procedure DoEnter; override;
        procedure DoExit; override;
        procedure Loaded; override;
-       procedure KeyUp(var ach_Key: Word; ashi_Shift: TShiftState); override;
        function  CreateColumns: {$IFDEF FPC}TGridColumns{$ELSE}TDBGridColumns{$ENDIF}; override;
        {$IFDEF EXRX}
        procedure TitleClick(Column: TColumn); override;
@@ -585,16 +589,20 @@ begin
        Begin
          p_SetComponentMethodProperty( FControl, 'OnEnter'   , TMethod ( FOldControlEnter ));
          p_SetComponentMethodProperty( FControl, 'OnExit'    , TMethod ( FOldControlExit  ));
-         p_SetComponentMethodProperty( FControl, 'OnKeyUp', TMethod ( FOldControlKeyUp ));
+         p_SetComponentMethodProperty( FControl, 'OnKeyUp'   , TMethod ( FOldControlKeyUp ));
+         p_SetComponentMethodProperty( FControl, 'OnKeyDown' , TMethod ( FOldControlKeyDown ));
+         p_SetComponentMethodProperty( FControl, 'OnKeyPress', TMethod ( FOldControlKeyPress ));
        End;
      FControl := AValue;
-     FControl.Parent := Grid;
+     FControl.Parent := Grid.Parent	;
      FControl.Visible := False;
      p_SetComponentProperty ( FControl, 'DataField', FieldName );
      p_SetComponentObjectProperty ( FControl, 'Datasource', (TDBGrid (Grid)).DataSource );
      FOldControlEnter     := TNotifyEvent   ( fmet_getComponentMethodProperty ( FControl, 'OnEnter' ));
      FOldControlExit      := TNotifyEvent   ( fmet_getComponentMethodProperty ( FControl, 'OnExit'  ));
-     FOldControlKeyUp  := TKeyEvent ( fmet_getComponentMethodProperty ( FControl, 'OnKeyUp'  ));
+     FOldControlKeyUp     := TKeyEvent      ( fmet_getComponentMethodProperty ( FControl, 'OnKeyUp'  ));
+     FOldControlKeyDown   := TKeyEvent      ( fmet_getComponentMethodProperty ( FControl, 'OnKeyDown'));
+     FOldControlKeyPress  := TKeyPressEvent ( fmet_getComponentMethodProperty ( FControl, 'OnKeyPress'));
      lmet_MethodeDistribuee.Data := Self;
      lmet_MethodeDistribuee.Code := MethodAddress('ControlEnter');
      p_SetComponentMethodProperty( FControl, 'OnEnter', lmet_MethodeDistribuee);
@@ -602,6 +610,10 @@ begin
      p_SetComponentMethodProperty( FControl, 'OnExit' , lmet_MethodeDistribuee );
      lmet_MethodeDistribuee.Code := MethodAddress('ControlKeyUp');
      p_SetComponentMethodProperty( FControl, 'OnKeyUp' , lmet_MethodeDistribuee );
+     lmet_MethodeDistribuee.Code := MethodAddress('ControlKeyDown');
+     p_SetComponentMethodProperty( FControl, 'OnKeyDown' , lmet_MethodeDistribuee );
+     lmet_MethodeDistribuee.Code := MethodAddress('ControlKeyPress');
+     p_SetComponentMethodProperty( FControl, 'OnKeyPress' , lmet_MethodeDistribuee );
    end;
 end;
 
@@ -629,11 +641,23 @@ begin
     End;
 end;
 
+procedure TFWGridColumn.ControlKeyDown(ASender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  ( Grid as TFWDBgrid ).KeyDown( Key, Shift );
+
+end;
+
+procedure TFWGridColumn.ControlKeyPress(ASender: TObject; var Key: Char);
+begin
+  ( Grid as TFWDBgrid ).KeyPress( Key );
+
+end;
+
 procedure TFWGridColumn.ControlKeyUp(ASender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if ( ASender is TCustomEdit) Then
-    ( ASender as TCustomEdit).Modified := True;
+  ( Grid as TFWDBgrid ).KeyUp( Key, Shift );
 end;
 
 constructor TFWGridColumn.Create(ACollection: TCollection);
@@ -669,99 +693,6 @@ end;
 
 { TFWDBGrid }
 
-procedure TFWDBGrid.GridRectToScreenRect(GridRect: TGridRect;
-  var ScreenRect: TRect; IncludeLine: Boolean);
-
-  function LinePos(const AxisInfo: TGridAxisDrawInfo; Line: Integer): Integer;
-  var
-    Start, I: Longint;
-  begin
-    with AxisInfo do
-    begin
-      Result := 0;
-      if Line < FixedCellCount then
-        Start := 0
-      else
-      begin
-        if Line >= FirstGridCell then
-          Result := FixedBoundary;
-        Start := FirstGridCell;
-      end;
-      for I := Start to Line - 1 do
-      begin
-        Inc(Result, GetExtent(I) + EffectiveLineWidth);
-        if Result > GridExtent then
-        begin
-          Result := 0;
-          Exit;
-        end;
-      end;
-    end;
-  end;
-
-  function CalcAxis(const AxisInfo: TGridAxisDrawInfo;
-    GridRectMin, GridRectMax: Integer;
-    var ScreenRectMin, ScreenRectMax: Integer): Boolean;
-  begin
-    Result := False;
-    with AxisInfo do
-    begin
-      if (GridRectMin >= FixedCellCount) and (GridRectMin < FirstGridCell) then
-        if GridRectMax < FirstGridCell then
-        begin
-          FillChar(ScreenRect, SizeOf(ScreenRect), 0); { erase partial results }
-          Exit;
-        end
-        else
-          GridRectMin := FirstGridCell;
-      if GridRectMax > LastFullVisibleCell then
-      begin
-        GridRectMax := LastFullVisibleCell;
-        if GridRectMax < GridCellCount - 1 then Inc(GridRectMax);
-        if LinePos(AxisInfo, GridRectMax) = 0 then
-          Dec(GridRectMax);
-      end;
-
-      ScreenRectMin := LinePos(AxisInfo, GridRectMin);
-      ScreenRectMax := LinePos(AxisInfo, GridRectMax);
-      if ScreenRectMax = 0 then
-        ScreenRectMax := ScreenRectMin + GetExtent(GridRectMin)
-      else
-        Inc(ScreenRectMax, GetExtent(GridRectMax));
-      if ScreenRectMax > GridExtent then
-        ScreenRectMax := GridExtent;
-      if IncludeLine then Inc(ScreenRectMax, EffectiveLineWidth);
-    end;
-    Result := True;
-  end;
-
-var
-  DrawInfo: TGridDrawInfo;
-  Hold: Integer;
-begin
-  FillChar(ScreenRect, SizeOf(ScreenRect), 0);
-  if (GridRect.Left > GridRect.Right) or (GridRect.Top > GridRect.Bottom) then
-    Exit;
-  CalcDrawInfo(DrawInfo);
-  with DrawInfo do
-  begin
-    if GridRect.Left > Horz.LastFullVisibleCell + 1 then Exit;
-    if GridRect.Top > Vert.LastFullVisibleCell + 1 then Exit;
-
-    if CalcAxis(Horz, GridRect.Left, GridRect.Right, ScreenRect.Left,
-      ScreenRect.Right) then
-    begin
-      CalcAxis(Vert, GridRect.Top, GridRect.Bottom, ScreenRect.Top,
-        ScreenRect.Bottom);
-    end;
-  end;
-  if UseRightToLeftAlignment and (Canvas.CanvasOrientation = coLeftToRight) then
-  begin
-    Hold := ScreenRect.Left;
-    ScreenRect.Left := ClientWidth - ScreenRect.Right;
-    ScreenRect.Right := ClientWidth - Hold;
-  end;
-end;
 
 procedure TFWDBGrid.HideColumnControl;
 var i : Integer ;
@@ -789,13 +720,53 @@ begin
   HideColumnControl;
 end;
 
+// Procedure ShowControlColumn
+// Shows the control of column if exists
 procedure TFWDBGrid.ShowControlColumn;
-var Weight, i : Integer ;
+var Weight, Coord : Integer ;
     DrawInfo: TGridDrawInfo;
-    InvalidRect: TRect;
+ function LinePos(const AxisInfo: TGridAxisDrawInfo; Line: Integer): Integer;
+  var
+    Start, I: Longint;
+  begin
+    with AxisInfo do
+    begin
+      Result := 0;
+      if Line < FixedCellCount then
+        Start := 0
+      else
+      begin
+        if Line >= FirstGridCell then
+          Result := FixedBoundary;
+        Start := FirstGridCell;
+      end;
+      for I := Start to Line - 1 do
+      begin
+        Inc(Result, GetExtent(I) + EffectiveLineWidth);
+        if Result > GridExtent then
+        begin
+          Result := 0;
+          Exit;
+        end;
+      end;
+    end;
+  end;
+
+  function CalcAxis(const AxisInfo: TGridAxisDrawInfo;
+    GridRectMin: Integer;
+    var ScreenRectMin: Integer): Boolean;
+  begin
+    Result := False;
+    with AxisInfo do
+    begin
+      if (GridRectMin >= FixedCellCount) and (GridRectMin < FirstGridCell) then
+          GridRectMin := FirstGridCell;
+
+      ScreenRectMin := LinePos(AxisInfo, GridRectMin);
+    end;
+    Result := True;
+  end;
 begin
-  GridRectToScreenRect(Selection, InvalidRect, True);
-  Windows.InvalidateRect(Handle, @InvalidRect, False);
   CalcDrawInfo(DrawInfo);
   with DrawInfo do
     if  ( Row > 0 )
@@ -804,18 +775,15 @@ begin
       with Columns [ SelectedIndex ].SomeEdit do
         Begin
           Visible := True;
-{          Weight := Vert.FixedBoundary;
-          for i := 0 to FixedCols - 1 do
-            inc ( Weight , ColWidths  [ i ]);
-          for i := Vert.FirstGridCell + FixedCols to Col -1 do
-            inc ( Weight , ColWidths  [ i ]);
-          Weight := Horz.FixedBoundary;
-          for i := 0 to FixedRows - 1 do
-            inc ( Weight , RowHeights  [ i ]);
-          for i := Horz.FirstGridCell + FixedRows to Row - 1 do
-            inc ( Weight , RowHeights  [ i ]);}
-          Left := InvalidRect.Left;
-          Top  := InvalidRect.Top;
+          Weight := 0 ;
+          if Self.Ctl3D then
+            inc ( Weight, 1 );
+          if Self.BorderStyle <> bsNone then
+            inc ( Weight, 1 );
+          CalcAxis(Horz,Selection.Left, Coord);
+          Left := Coord + Self.ClientRect.Left + Self.Left + Weight ;
+          CalcAxis(Vert,Selection.Bottom, Coord);
+          Top  := Coord  + Self.ClientRect.Top  + Self.Top  + Weight;
           SetFocus;
         End ;
 //  with DrawInfo do
@@ -833,35 +801,11 @@ function TFWDBGrid.CanEditShow: Boolean;
 var Weight, i : Integer ;
     DrawInfo: TGridDrawInfo;
 begin
-  Result := False;
-  Exit;
-  if  ( Col >= FixedCols )
-  and ( Columns [ Col - FixedCols ].SomeEdit <> nil ) then
-  with Columns [ Col - FixedCols ].SomeEdit do
+  if  ( SelectedIndex >= 0 )
+  and assigned ( Columns [ SelectedIndex ].SomeEdit )
+  and ( Columns [ SelectedIndex ].SomeEdit.Visible ) then
     Begin
-      for i := 0 to ColCount - FixedCols - 1 do
-        if Columns [ i ].SomeEdit.Visible then
-          with Columns [ i ].SomeEdit do
-           Begin
-             Update;
-             Visible := False;
-             Exit;
-           End ;
-      Result := False;
-      Visible := True;
-      Weight := Self.Left;
-      for i := 0 to FixedCols - 1 do
-        inc ( Weight , ColWidths  [ i ]);
-      for i := ColCount - VisibleColCount + FixedCols to Col -1 do
-        inc ( Weight , ColWidths  [ i ]);
-      Left := Weight;
-      Weight := Self.Top;
-      for i := 0 to FixedRows - 1 do
-        inc ( Weight , RowHeights  [ i ]);
-      for i := DataLink.ActiveRecord + FixedRows to Row - 2 do
-        inc ( Weight , RowHeights  [ i ]);
-      Top  := Weight;
-      SetFocus;
+     Result := False;
     End
   Else
    Result := inherited CanEditShow;

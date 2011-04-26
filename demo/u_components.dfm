@@ -43,10 +43,10 @@ object Myform: TMyform
     end
     object Noms: TFWDBGrid
       Left = 1
-      Top = 56
+      Top = 21
       Width = 206
-      Height = 476
-      Align = alBottom
+      Height = 511
+      Align = alClient
       Columns = <
         item
           Expanded = False
@@ -399,7 +399,6 @@ object Myform: TMyform
     DataSource = Datasource
     MaxLength = 100
     TabOrder = 2
-    Visible = False
     MyLabel = FWLabel5
     AlwaysSame = False
   end
