@@ -399,6 +399,7 @@ object Myform: TMyform
     DataSource = Datasource
     MaxLength = 100
     TabOrder = 2
+    Visible = False
     MyLabel = FWLabel5
     AlwaysSame = False
   end

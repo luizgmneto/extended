@@ -191,16 +191,27 @@ type
 
    TFWGridColumn = class({$IFDEF TNT}TTntColumn{$ELSE}TRxColumn{$ENDIF})
    private
+     FOldControlKeyUp   ,
+     FAfterControlKeyUp : TKeyEvent;
+     FOldControlEnter, FOldControlExit,
+     FAfterControlEnter, FAfterControlExit : TNotifyEvent;
      FControl : TWinControl ;
      FFieldTag : Integer ;
-     procedure SetControl ( AValue : TWinControl );
-     function  fi_getFieldTag:Integer;
-     procedure p_setFieldTag ( const avalue : Integer );
+   protected
+     procedure SetControl ( AValue : TWinControl ); virtual;
+     function  fi_getFieldTag:Integer; virtual;
+     procedure p_setFieldTag ( const avalue : Integer ); virtual;
    public
      constructor Create(ACollection: TCollection); override;
    published
+     procedure ControlEnter ( ASender : TObject ); virtual;
+     procedure ControlExit  ( ASender : TObject ); virtual;
+     procedure ControlKeyUp  ( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
      property SomeEdit : TWinControl read FControl write SetControl;
      property FieldTag : Integer read fi_getFieldTag write p_setFieldTag;
+     property AfterControlEnter : TNotifyEvent read FAfterControlEnter write FAfterControlEnter;
+     property AfterControlExit : TNotifyEvent read FAfterControlExit write FAfterControlExit;
+     property AfterControlKeyUp : TKeyEvent read FAfterControlKeyUp write FAfterControlKeyUp;
    end;
 
    { TFWDbGridColumns }
@@ -227,9 +238,18 @@ type
        function GetColumns: TFWDbGridColumns;
        procedure SetColumns(const AValue: TFWDbGridColumns);
        procedure WMSetFocus(var Msg: TWMSetFocus); message WM_SETFOCUS;
+       procedure WMVScroll(var Message: TWMVScroll); message WM_VSCROLL;
+       procedure WMHScroll(var Msg: TWMHScroll); message WM_HSCROLL;
+       procedure CNCommand(var Message: TWMCommand); message CN_COMMAND;
+       procedure CMTextChanged(var Message: TMessage); message CM_TEXTCHANGED;
     procedure GridRectToScreenRect(GridRect: TGridRect; var ScreenRect: TRect;
       IncludeLine: Boolean);
+    procedure HideColumnControl;
+    procedure ShowControlColumn;
       protected
+       procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+       procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
+          X, Y: Integer); override;
        function IsColumnsStored: boolean; virtual;
        procedure DrawCell(aCol,aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect; aState:TGridDrawState); override;
        function CanEditShow: Boolean; override;
@@ -556,14 +576,32 @@ End;
 { TFWGridColumn }
 
 procedure TFWGridColumn.SetControl(AValue: TWinControl);
+var lmet_MethodeDistribuee: TMethod;
+
 begin
   If AValue <> FControl Then
    Begin
+     if FControl <> nil then
+       Begin
+         p_SetComponentMethodProperty( FControl, 'OnEnter'   , TMethod ( FOldControlEnter ));
+         p_SetComponentMethodProperty( FControl, 'OnExit'    , TMethod ( FOldControlExit  ));
+         p_SetComponentMethodProperty( FControl, 'OnKeyUp', TMethod ( FOldControlKeyUp ));
+       End;
      FControl := AValue;
      FControl.Parent := Grid;
      FControl.Visible := False;
      p_SetComponentProperty ( FControl, 'DataField', FieldName );
      p_SetComponentObjectProperty ( FControl, 'Datasource', (TDBGrid (Grid)).DataSource );
+     FOldControlEnter     := TNotifyEvent   ( fmet_getComponentMethodProperty ( FControl, 'OnEnter' ));
+     FOldControlExit      := TNotifyEvent   ( fmet_getComponentMethodProperty ( FControl, 'OnExit'  ));
+     FOldControlKeyUp  := TKeyEvent ( fmet_getComponentMethodProperty ( FControl, 'OnKeyUp'  ));
+     lmet_MethodeDistribuee.Data := Self;
+     lmet_MethodeDistribuee.Code := MethodAddress('ControlEnter');
+     p_SetComponentMethodProperty( FControl, 'OnEnter', lmet_MethodeDistribuee);
+     lmet_MethodeDistribuee.Code := MethodAddress('ControlExit');
+     p_SetComponentMethodProperty( FControl, 'OnExit' , lmet_MethodeDistribuee );
+     lmet_MethodeDistribuee.Code := MethodAddress('ControlKeyUp');
+     p_SetComponentMethodProperty( FControl, 'OnKeyUp' , lmet_MethodeDistribuee );
    end;
 end;
 
@@ -577,9 +615,34 @@ begin
   FFieldTag := avalue;
 end;
 
+procedure TFWGridColumn.ControlEnter(ASender: TObject);
+begin
+
+end;
+
+procedure TFWGridColumn.ControlExit(ASender: TObject);
+begin
+  if  assigned ( Grid.Datasource )
+  and ( Grid.Datasource.Dataset.State in [dsInsert,dsEdit] ) then
+    Begin
+      Grid.Datasource.Dataset.Post;
+    End;
+end;
+
+procedure TFWGridColumn.ControlKeyUp(ASender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if ( ASender is TCustomEdit) Then
+    ( ASender as TCustomEdit).Modified := True;
+end;
+
 constructor TFWGridColumn.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
+  FAfterControlEnter := nil;
+  FAfterControlExit  := nil;
+  FOldControlExit    := nil;
+  FOldControlEnter   := nil;
   FControl := nil;
   FFieldTag := 0 ;
 end;
@@ -700,54 +763,70 @@ begin
   end;
 end;
 
+procedure TFWDBGrid.HideColumnControl;
+var i : Integer ;
+Begin
+  for i := 0 to Columns.Count - 1 do
+    if Columns [ i ].SomeEdit.Visible then
+      with Columns [ i ].SomeEdit do
+       Begin
+         Update;
+//         if i <> SelectedIndex then
+           Visible := False;
+       End
+
+End;
 
 
+procedure TFWDBGrid.WMHScroll(var Msg: TWMHScroll);
+begin
+  inherited;
+  HideColumnControl;
+end;
 procedure TFWDBGrid.WMSetFocus(var Msg: TWMSetFocus);
+begin
+  Inherited;
+  HideColumnControl;
+end;
+
+procedure TFWDBGrid.ShowControlColumn;
 var Weight, i : Integer ;
     DrawInfo: TGridDrawInfo;
     InvalidRect: TRect;
 begin
-  SetIme;
-  InvalidateDockHostSite(False);
-  if not HandleAllocated then Exit;
   GridRectToScreenRect(Selection, InvalidRect, True);
   Windows.InvalidateRect(Handle, @InvalidRect, False);
   CalcDrawInfo(DrawInfo);
   with DrawInfo do
     if  ( Row > 0 )
     and ( Col > 0 )
-    and ( Columns [ Col - FixedCols + Vert.FirstGridCell ].SomeEdit <> nil )  Then
-      with Columns [ Col - FixedCols + Vert.FirstGridCell ].SomeEdit do
-       if ( Msg.FocusedWnd = Columns [ Col - FixedCols + Vert.FirstGridCell ].SomeEdit.Handle ) then
-         Begin
-          for i := 0 to ColCount - FixedCols - 1 do
-            if Columns [ i ].SomeEdit.Visible then
-              with Columns [ i ].SomeEdit do
-               Begin
-                 Update;
-                 if i <> col - FixedCols + Vert.FirstGridCell then
-                   Visible := False;
-                 Exit;
-               End
-         End
-       Else
+    and ( Columns [ SelectedIndex ].SomeEdit <> nil )  Then
+      with Columns [ SelectedIndex ].SomeEdit do
         Begin
           Visible := True;
-          Weight := Vert.FixedBoundary;
+{          Weight := Vert.FixedBoundary;
           for i := 0 to FixedCols - 1 do
             inc ( Weight , ColWidths  [ i ]);
           for i := Vert.FirstGridCell + FixedCols to Col -1 do
             inc ( Weight , ColWidths  [ i ]);
-          Left := Weight;
           Weight := Horz.FixedBoundary;
           for i := 0 to FixedRows - 1 do
             inc ( Weight , RowHeights  [ i ]);
           for i := Horz.FirstGridCell + FixedRows to Row - 1 do
-            inc ( Weight , RowHeights  [ i ]);
-          Top  := Weight;
+            inc ( Weight , RowHeights  [ i ]);}
+          Left := InvalidRect.Left;
+          Top  := InvalidRect.Top;
           SetFocus;
-        End
+        End ;
+//  with DrawInfo do
+//     ShowMessage(IntToStr(InvalidRect.Left)+' '+IntToStr(InvalidRect.Top)+' '+IntToStr(Vert.FirstGridCell)+' '+IntToStr(Horz.FirstGridCell) + ' ' + Inttostr ( SelectedIndex )  + ' ' +Inttostr(Selection.Left) + ' ' +Inttostr(Selection.Top));
 
+end;
+
+procedure TFWDBGrid.WMVScroll(var Message: TWMVScroll);
+begin
+  inherited;
+  HideColumnControl;
 end;
 
 function TFWDBGrid.CanEditShow: Boolean;
@@ -789,6 +868,22 @@ begin
 
 end;
 
+procedure TFWDBGrid.CMTextChanged(var Message: TMessage);
+var i : Integer;
+begin
+  inherited;
+  for i := 0 to Columns.Count - 1 do
+    if assigned ( Columns [ i ].SomeEdit )
+    and ( Columns [ i ].SomeEdit.Visible ) then
+      Columns [ i ].SomeEdit.Perform ( CM_TextChanged, 0, 0 );
+
+end;
+
+procedure TFWDBGrid.CNCommand(var Message: TWMCommand);
+begin
+  inherited;
+end;
+
 constructor TFWDBGrid.Create( AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -808,6 +903,13 @@ begin
    Then
     FixedColor := gCol_Grid ;
 End;
+
+procedure TFWDBGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  inherited;
+  ShowControlColumn;
+end;
 
 function TFWDBGrid.GetColumns: TFWDbGridColumns;
 begin
@@ -868,6 +970,12 @@ begin
   result := True;
 end;
 
+
+procedure TFWDBGrid.KeyDown(var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  ShowControlColumn;
+end;
 
 procedure TFWDBGrid.KeyUp(var ach_Key: Word; ashi_Shift: TShiftState);
 begin
