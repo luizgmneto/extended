@@ -204,13 +204,13 @@ type
    public
      constructor Create(ACollection: TCollection); override;
    published
-     procedure ControlKeyUp  ( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
-     procedure ControlKeyDown( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
+     procedure ControlKeyUp   ( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
+     procedure ControlKeyDown ( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
      procedure ControlKeyPress( ASender : TObject ; var Key: Char ); virtual;
-     property SomeEdit : TWinControl read FControl write SetControl;
-     property FieldTag : Integer read fi_getFieldTag write p_setFieldTag;
-     property AfterControlKeyUp : TKeyEvent read FAfterControlKeyUp write FAfterControlKeyUp;
-     property AfterControlKeyDown : TKeyEvent read FAfterControlKeyDown write FAfterControlKeyDown;
+     property SomeEdit : TWinControl read FControl       write SetControl;
+     property FieldTag : Integer     read fi_getFieldTag write p_setFieldTag;
+     property AfterControlKeyUp    : TKeyEvent      read FAfterControlKeyUp    write FAfterControlKeyUp;
+     property AfterControlKeyDown  : TKeyEvent      read FAfterControlKeyDown  write FAfterControlKeyDown;
      property AfterControlKeyPress : TKeyPressEvent read FAfterControlKeyPress write FAfterControlKeyPress;
    end;
 
@@ -248,9 +248,9 @@ type
        function IsColumnsStored: boolean; virtual;
        procedure DrawCell(aCol,aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect; aState:TGridDrawState); override;
        function CanEditShow: Boolean; override;
+      public
        procedure KeyDown(var Key: Word; Shift: TShiftState); override;
        procedure KeyUp(var ach_Key: Word; ashi_Shift: TShiftState); override;
-      public
        constructor Create ( AOwner : TComponent ); override;
        procedure DoEnter; override;
        procedure DoExit; override;
@@ -618,20 +618,32 @@ end;
 procedure TFWGridColumn.ControlKeyDown(ASender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
+  if assigned ( FOldControlKeyDown ) Then
+     FOldControlKeyDown ( ASender, Key, Shift );
   ( Grid as TFWDBgrid ).KeyDown( Key, Shift );
+  if assigned ( FAfterControlKeyDown ) Then
+     FAfterControlKeyDown ( ASender, Key, Shift );
 
 end;
 
 procedure TFWGridColumn.ControlKeyPress(ASender: TObject; var Key: Char);
 begin
+  if assigned ( FOldControlKeyPress ) Then
+     FOldControlKeyPress ( ASender, Key );
   ( Grid as TFWDBgrid ).KeyPress( Key );
+  if assigned ( FAfterControlKeyPress ) Then
+     FAfterControlKeyPress ( ASender, Key );
 
 end;
 
 procedure TFWGridColumn.ControlKeyUp(ASender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
+  if assigned ( FOldControlKeyUp ) Then
+     FOldControlKeyUp ( ASender, Key, Shift );
   ( Grid as TFWDBgrid ).KeyUp( Key, Shift );
+  if assigned ( FAfterControlKeyUp ) Then
+     FAfterControlKeyUp ( ASender, Key, Shift );
 end;
 
 constructor TFWGridColumn.Create(ACollection: TCollection);
@@ -755,13 +767,14 @@ begin
       with Columns [ SelectedIndex ].SomeEdit do
         Begin
           Visible := True;
+          Coord  := 0 ;
           Weight := 0 ;
           {$IFNDEF FPC}
           if Self.Ctl3D then
             inc ( Weight, 1 );
-          {$ENDIF}
           if Self.BorderStyle <> bsNone then
             inc ( Weight, 1 );
+          {$ENDIF}
           {$IFDEF FPC}
           ColRowToOffset ( True, True, Col, Coord, WidthHeight);
           {$ELSE}
@@ -841,7 +854,7 @@ end;
 procedure TFWDBGrid.SetColumns(const AValue: TFWDbGridColumns);
 begin
   {$IFDEF FPC}
-  TFWDbGridColumns(TCustomDrawGrid(Self).Columns).Assign(Avalue);
+  TFWDbGridColumns(Self.Columns).Assign(Avalue);
   {$ELSE}
   inherited Columns := AValue;
   {$ENDIF}
