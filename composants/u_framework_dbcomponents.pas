@@ -571,45 +571,63 @@ End;
 
 { TFWGridColumn }
 
+// Procedure SetControl
+// Setting control of column
+// Parameter : AValue the control of property
+
 procedure TFWGridColumn.SetControl(AValue: TWinControl);
 var lmet_MethodeDistribuee: TMethod;
 
 begin
   If AValue <> FControl Then
    Begin
-     if FControl <> nil then
+     if ( FControl <> nil )
+     and not ( csDesigning in Grid.ComponentState ) then
        Begin
          p_SetComponentMethodProperty( FControl, 'OnKeyUp'   , TMethod ( FOldControlKeyUp ));
          p_SetComponentMethodProperty( FControl, 'OnKeyDown' , TMethod ( FOldControlKeyDown ));
          p_SetComponentMethodProperty( FControl, 'OnKeyPress', TMethod ( FOldControlKeyPress ));
+         FOldControlKeyPress := nil;
+         FOldControlKeyDown  := nil;
+         FOldControlKeyUp    := nil;
        End;
      FControl := AValue;
+     if ( FControl = nil ) Then
+       Exit;
      FControl.Parent := Grid.Parent;
      FControl.Visible := False;
-     p_SetComponentProperty ( FControl, 'DataField', FieldName );
      p_SetComponentObjectProperty ( FControl, 'Datasource', (TDBGrid (Grid)).DataSource );
-     FOldControlKeyUp     := TKeyEvent      ( fmet_getComponentMethodProperty ( FControl, 'OnKeyUp'  ));
-     FOldControlKeyDown   := TKeyEvent      ( fmet_getComponentMethodProperty ( FControl, 'OnKeyDown'));
-     FOldControlKeyPress  := TKeyPressEvent ( fmet_getComponentMethodProperty ( FControl, 'OnKeyPress'));
-     lmet_MethodeDistribuee.Data := Self;
-     lmet_MethodeDistribuee.Code := MethodAddress('ControlEnter');
-     p_SetComponentMethodProperty( FControl, 'OnEnter', lmet_MethodeDistribuee);
-     lmet_MethodeDistribuee.Code := MethodAddress('ControlExit');
-     p_SetComponentMethodProperty( FControl, 'OnExit' , lmet_MethodeDistribuee );
-     lmet_MethodeDistribuee.Code := MethodAddress('ControlKeyUp');
-     p_SetComponentMethodProperty( FControl, 'OnKeyUp' , lmet_MethodeDistribuee );
-     lmet_MethodeDistribuee.Code := MethodAddress('ControlKeyDown');
-     p_SetComponentMethodProperty( FControl, 'OnKeyDown' , lmet_MethodeDistribuee );
-     lmet_MethodeDistribuee.Code := MethodAddress('ControlKeyPress');
-     p_SetComponentMethodProperty( FControl, 'OnKeyPress' , lmet_MethodeDistribuee );
+     if not ( csDesigning in Grid.ComponentState ) then
+      Begin
+       FOldControlKeyUp     := TKeyEvent      ( fmet_getComponentMethodProperty ( FControl, 'OnKeyUp'  ));
+       FOldControlKeyDown   := TKeyEvent      ( fmet_getComponentMethodProperty ( FControl, 'OnKeyDown'));
+       FOldControlKeyPress  := TKeyPressEvent ( fmet_getComponentMethodProperty ( FControl, 'OnKeyPress'));
+       lmet_MethodeDistribuee.Data := Self;
+       lmet_MethodeDistribuee.Code := MethodAddress('ControlEnter');
+       p_SetComponentMethodProperty( FControl, 'OnEnter', lmet_MethodeDistribuee);
+       lmet_MethodeDistribuee.Code := MethodAddress('ControlExit');
+       p_SetComponentMethodProperty( FControl, 'OnExit' , lmet_MethodeDistribuee );
+       lmet_MethodeDistribuee.Code := MethodAddress('ControlKeyUp');
+       p_SetComponentMethodProperty( FControl, 'OnKeyUp' , lmet_MethodeDistribuee );
+       lmet_MethodeDistribuee.Code := MethodAddress('ControlKeyDown');
+       p_SetComponentMethodProperty( FControl, 'OnKeyDown' , lmet_MethodeDistribuee );
+       lmet_MethodeDistribuee.Code := MethodAddress('ControlKeyPress');
+       p_SetComponentMethodProperty( FControl, 'OnKeyPress' , lmet_MethodeDistribuee );
+      end;
    end;
 end;
 
+// function fi_getFieldTag
+// Getting the FieldTag Property
+// Returns Tag Property
 function TFWGridColumn.fi_getFieldTag: Integer;
 begin
   Result := FFieldTag;
 end;
 
+// procedure p_setFieldTag
+// Setting the FieldTag Property
+// Parameter : The FieldTag to set
 procedure TFWGridColumn.p_setFieldTag( const avalue : Integer );
 begin
   FFieldTag := avalue;
