@@ -283,11 +283,8 @@ type
   // Message de confirmation d'enregistrement avant le tri
 const
      // nombre par défaut de pages à charger
-{$IFDEF FPC}
-     CST_GROUPE_PAGES_CHARGER = 1 ;
-{$ELSE}
+
      CST_GROUPE_PAGES_CHARGER = 3 ;
-{$ENDIF}
      CST_GROUPE_COULEUR_FOCUS = clSkyBlue ;
      CST_GROUPE_TRANS_TOTAL   = 1 ;
      CST_GROUPE_TRANS_SIMPLE  = 0 ;
@@ -753,7 +750,7 @@ begin
 
       li_NPage := lSI_infos.nPage ;
       // récupère les paramètres de nombre de pages visibles
-      if ( lSI_infos.nMax < lSI_infos.nPos + li_NPage * CST_GROUPE_PAGES_CHARGER )
+      if ( lSI_infos.nMax < lSI_infos.nPos + {$IFDEF FPC}Font.Height{$ELSE}li_NPage{$ENDIF} * CST_GROUPE_PAGES_CHARGER )
 //      if  ( lSI_infos.nPos > ( lSI_infos.nMax - lSI_infos.nPage ) div 2  )
        Then
         // Alors ajoute des données
@@ -992,6 +989,12 @@ procedure TDBListView.Loaded;
    im_FlecheBasse : TBitmap ;}
 begin
   inherited Loaded;
+  {$IFDEF FPC}
+  if Font.Height = 0 Then
+    Begin
+      Font.PixelsPerInch:=Screen.PixelsPerInch;
+    end;
+  {$ENDIF}
   // Affectation des bonnes valeurs
 //  gb_TrieAsc := Sortdirection = sdAscending ;
   // a l'exécution
@@ -1233,124 +1236,122 @@ begin
     Items.BeginUpdate ;
 {$ENDIF}
 
-		// Tant qu'on n'est pas à la fin du dataset
-			while not eof do
-				begin
-					// si on ne peut pas ajouter le champ en cours on passe au suivant
-					 if not fb_PeutAjouter  ( adat_Dataset, ab_InsereCles )
-						Then
-						 Begin
-							 Next;
-							 Continue ;
-						 End ;
-						 // Incrément du compteur
-					inc ( li_i );
-						// Ajout d'un item
-					gVG_ListItem         := Items.Add ;
-					 // Affectation de la clé si on la montre
-					if ( gs_ChampsListe <> '' )
-					 Then
-						Begin
-							// Récupération des champs
-							lvar_AAfficher  := FieldValues [ gs_ChampsListe ];
-							// C'est plusieurs champs
-							if VarIsArray ( lvar_AAfficher )
-							 Then
-								Begin
-									// Ajout des champs
-									For li_j := VarArrayLowBound ( lvar_AAfficher, 1 ) to  VarArrayHighBound ( lvar_AAfficher, 1 ) do
-										// Pas de clé montrée et premier champ
-										if  ( li_j = VarArrayLowBound ( lvar_AAfficher, 1 ))
-											// Alors affectation à l'item ( première colonne )
-										 Then gVG_ListItem.Caption := lvar_AAfficher [ li_j ]
-										 // Sinon ajout dans les autres colonnes
-										 Else if lvar_AAfficher [ li_j ] <> Null Then
-											 gVG_ListItem.SubItems.Add ( lvar_AAfficher [ li_j ] )
-										 Else
-											 gVG_ListItem.SubItems.Add ( '' );
-									End
-							 // Il n' a qu'un champ
-								Else gVG_ListItem.Caption := lvar_AAfficher ;
-						End ;
-					if ( gs_CleUnite <> '' )
-          and ( FindField ( gs_CleUnite ) <> nil )
-					 Then
-						Begin
-							lvar_AAfficher  := FieldValues [ gs_CleUnite ];
-							if VarIsArray ( lvar_AAfficher )
-							 Then
-								Begin
-									// Ajout des champs
-									For li_j := VarArrayLowBound ( lvar_AAfficher, 1 ) to  VarArrayHighBound ( lvar_AAfficher, 1 ) do
-										 // ajout à la fin des autres colonnes
-										 if lvar_AAfficher [ li_j ] <> Null Then
-											 gVG_ListItem.SubItems.Add ( lvar_AAfficher [ li_j ] )
-										 Else
-											 gVG_ListItem.SubItems.Add ( '' );
-								End
-							 // Il n' a qu'un champ
-								Else
-								 if  assigned ( gVG_ListItem.SubItems )
-                 and ( gt_ColonneCle [ 0 ] >= gVG_ListItem.SubItems.Count -1 )
-									Then
-										if lvar_AAfficher <> Null Then
-										 gVG_ListItem.SubItems.Add ( lvar_AAfficher )
-										Else
-										 gVG_ListItem.SubItems.Add ( '' );
-						End;
-					Result := fb_ChangeEtatItem ( adat_Dataset, ab_InsereCles or gb_AllSelect ) ;
-					Next;
+    // Tant qu'on n'est pas à la fin du dataset
+    while not eof do
+      begin
+	// si on ne peut pas ajouter le champ en cours on passe au suivant
+	 if not fb_PeutAjouter  ( adat_Dataset, ab_InsereCles )
+	    Then
+	     Begin
+	       Next;
+	       Continue ;
+	     End ;
+	     // Incrément du compteur
+	inc ( li_i );
+		// Ajout d'un item
+	gVG_ListItem         := Items.Add ;
+	 // Affectation de la clé si on la montre
+	if ( gs_ChampsListe <> '' )
+	 Then
+	    Begin
+	      // Récupération des champs
+	      lvar_AAfficher  := FieldValues [ gs_ChampsListe ];
+	      // C'est plusieurs champs
+	      if VarIsArray ( lvar_AAfficher )
+	       Then
+		Begin
+		  // Ajout des champs
+		  For li_j := VarArrayLowBound ( lvar_AAfficher, 1 ) to  VarArrayHighBound ( lvar_AAfficher, 1 ) do
+		    // Pas de clé montrée et premier champ
+		    if  ( li_j = VarArrayLowBound ( lvar_AAfficher, 1 ))
+			    // Alors affectation à l'item ( première colonne )
+		     Then gVG_ListItem.Caption := lvar_AAfficher [ li_j ]
+		     // Sinon ajout dans les autres colonnes
+		     Else if lvar_AAfficher [ li_j ] <> Null Then
+			     gVG_ListItem.SubItems.Add ( lvar_AAfficher [ li_j ] )
+		     Else
+			     gVG_ListItem.SubItems.Add ( '' );
+		  End
+	 // Il n' a qu'un champ
+		Else gVG_ListItem.Caption := lvar_AAfficher ;
+	    End ;
+	if ( gs_CleUnite <> '' )  and ( FindField ( gs_CleUnite ) <> nil )
+	 Then
+	    Begin
+	      lvar_AAfficher  := FieldValues [ gs_CleUnite ];
+	      if VarIsArray ( lvar_AAfficher )
+	       Then
+		  Begin
+		    // Ajout des champs
+		    For li_j := VarArrayLowBound ( lvar_AAfficher, 1 ) to  VarArrayHighBound ( lvar_AAfficher, 1 ) do
+		     // ajout à la fin des autres colonnes
+		     if lvar_AAfficher [ li_j ] <> Null Then
+			     gVG_ListItem.SubItems.Add ( lvar_AAfficher [ li_j ] )
+		     Else
+			     gVG_ListItem.SubItems.Add ( '' );
+		  End
+	       // Il n' a qu'un champ
+		  Else
+		   if  assigned ( gVG_ListItem.SubItems )  and ( gt_ColonneCle [ 0 ] >= gVG_ListItem.SubItems.Count -1 )
+		    Then
+		      if lvar_AAfficher <> Null Then
+		       gVG_ListItem.SubItems.Add ( lvar_AAfficher )
+		      Else
+		       gVG_ListItem.SubItems.Add ( '' );
+	    End;
+	Result := fb_ChangeEtatItem ( adat_Dataset, ab_InsereCles or gb_AllSelect ) ;
+	Next;
 
-					if ab_InsereCles
-					 Then
-						Continue ;
+	if ab_InsereCles
+	 Then
+	   Continue ;
 
-					if Eof
-					 Then
-						Begin
-							// On indique que tout est chargé
- 							gb_AllLoaded := True ;
-							// L'ajout est fini
-							Break ;
-						End ;
-					if  ( not gb_MontreTout )
-					 Then
-						Begin
-							if ( gbm_DernierEnregistrement <> '' )
-							 Then
-								Begin
-									lw_NombrePages := 1 ;
-									try
-										// Toujours libérer le bookmark
-										gbm_DernierEnregistrement := '' ;
-									except
-									End;
-								End
-						 Else lw_NombrePages := CST_GROUPE_PAGES_CHARGER ;
-							// récupère les paramètres de nombre de pages visibles
-								// A-t-on chargé suffisamment d'enregistrements
-							if (     ( Font.Height = 0 )
-										and ( li_i >= ( Self.Height ) * lw_NombrePages ))
-							or (     ( Font.Height <> 0 )
-									and  ( li_i >= ( Self.Height div Font.Height ) * lw_NombrePages + 1 ))
-							 Then
-								Begin
-									// Récupère le bookmark pour un chargement prochain d'enregistrements
-									gbm_DernierEnregistrement := Bookmark ;
-									// Fin de cette MAJ
-									Break ;
-								End ;
-						End ;
-				end;
-			if Eof
-			 Then
-					// On indique que tout est chargé
-					gb_AllLoaded := True ;
-		Except
-			// gestion des erreurs
-			on e: Exception do
-				f_GereException ( e, adat_Dataset );
-		End ;
+	if Eof
+	 Then
+	    Begin
+	      // On indique que tout est chargé
+ 	      gb_AllLoaded := True ;
+	      // L'ajout est fini
+	      Break ;
+	    End ;
+	if  ( not gb_MontreTout )
+	 Then
+	    Begin
+	      if ( gbm_DernierEnregistrement <> '' )
+	       Then
+		  Begin
+		    lw_NombrePages := 1 ;
+		    try
+		      // Toujours libérer le bookmark
+  		      gbm_DernierEnregistrement := '' ;
+		    except
+		    End;
+		  End
+	     Else lw_NombrePages := CST_GROUPE_PAGES_CHARGER ;
+             // récupère les paramètres de nombre de pages visibles
+	     // A-t-on chargé suffisamment d'enregistrements
+	      if (     ( Font.Height = 0 )
+	      and ( li_i >= Self.Height * lw_NombrePages ))
+	      or (     ( Font.Height <> 0 )
+              and  ( li_i >= ( Self.Height div Abs( Font.Height )) * lw_NombrePages + 1 ))
+	       Then
+		  Begin
+		    // Récupère le bookmark pour un chargement prochain d'enregistrements
+		    gbm_DernierEnregistrement := Bookmark ;
+		    // Fin de cette MAJ
+		    Break ;
+		  End ;
+	    End ;
+	  end;
+      if Eof
+       Then
+      // On indique que tout est chargé
+         gb_AllLoaded := True ;
+    Except
+      // gestion des erreurs
+      on e: Exception do
+       f_GereException ( e, adat_Dataset );
+    End ;
 {$IFDEF FPC}
   EndUpdate ;
 {$ELSE}
