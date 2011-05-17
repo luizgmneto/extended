@@ -56,9 +56,10 @@ const
                                                FileUnit : 'U_GroupView' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Liste chargeable au fur et à mesure.' ;
-                                               BugsStory : '1.0.0.0 : Chargement automatique OK.';
+                                               BugsStory : '1.0.0.1 : DBListView working better on LAZARUS.' + #13#10 +
+                                                           '1.0.0.0 : Chargement automatique OK.' ;
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
 
 
 {$ENDIF}
@@ -749,8 +750,11 @@ begin
       GetScrollInfo(Self.Handle, SB_VERT, lSI_infos);
 
       li_NPage := lSI_infos.nPage ;
+      {$IFDEF FPC}
+      if li_NPage = 0 Then li_NPage := Abs(Font.Height);
+      {$ENDIF}
       // récupère les paramètres de nombre de pages visibles
-      if ( lSI_infos.nMax < lSI_infos.nPos + {$IFDEF FPC}Font.Height{$ELSE}li_NPage{$ENDIF} * CST_GROUPE_PAGES_CHARGER )
+      if ( lSI_infos.nMax < lSI_infos.nPos + li_NPage * CST_GROUPE_PAGES_CHARGER )
 //      if  ( lSI_infos.nPos > ( lSI_infos.nMax - lSI_infos.nPage ) div 2  )
        Then
         // Alors ajoute des données
