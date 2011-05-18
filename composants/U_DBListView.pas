@@ -34,7 +34,7 @@ uses
   Windows, DBTables, JvListView,
 {$ENDIF}
    Messages, SysUtils, Classes, Graphics, Controls,
-   Forms, Dialogs, Db, StdCtrls,
+   Forms, Dialogs, Db,
 {$IFDEF EADO}
    ADODB,
 {$ENDIF}
@@ -47,7 +47,6 @@ uses
 {$IFDEF VERSIONS}
    fonctions_version,
 {$ENDIF}
-   SyncObjs,
    ComCtrls, fonctions_variant;
 
 {$IFDEF VERSIONS}
@@ -56,10 +55,11 @@ const
                                                FileUnit : 'U_GroupView' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Liste chargeable au fur et à mesure.' ;
-                                               BugsStory : '1.0.0.1 : DBListView working better on LAZARUS.' + #13#10 +
+                                               BugsStory : '1.0.0.2 : DBListView with better scrolling on LAZARUS.' + #13#10 +
+                                                           '1.0.0.1 : DBListView working better on LAZARUS.' + #13#10 +
                                                            '1.0.0.0 : Chargement automatique OK.' ;
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
 
 
 {$ENDIF}
@@ -115,8 +115,6 @@ type
     gb_HasLoaded  : Boolean;
     // Récupère le datasource lié
     function fds_GetDatasource : TdataSource;
-    // Gestion automatique du scrolling quand la liste n'est pas chargée
-    procedure p_scrolling ;
     // Gestion automatique du scrolling
     // Message : informations sur le déplacement en cours
     procedure WMVScroll(var Message: TWMVScroll); message WM_VSCROLL;
@@ -183,6 +181,8 @@ type
 //    lb_DevalideInsert,
   // Propriété Couleurs de lignes automatiques
     gb_CouleursLignes: Boolean;
+    function fb_CanAddRecords: Integer; virtual;
+    procedure p_scrolling ; virtual;
     procedure p_setSortOrder ( AValue : TSortOrder ); virtual;
     function fs_SortDataset(const adat_Dataset: TDataSet): String; virtual;
     procedure p_setSortColumn(AValue: Integer); virtual;
@@ -305,7 +305,7 @@ var gcol_CouleurFocus : TColor = CST_GROUPE_COULEUR_FOCUS ;
 implementation
 
 uses TypInfo, fonctions_string, fonctions_proprietes, Variants,  ExtCtrls,
-     fonctions_erreurs, fonctions_dbcomponents, 
+     fonctions_erreurs,
      fonctions_db, fonctions_init, unite_messages ;
 
  ///////////////////////////////////////////////////////////////
@@ -729,13 +729,13 @@ begin
 End;
 
 // Gestion automatique du scrolling quand la liste n'est pas chargée
-procedure TDBListView.p_scrolling ;
+function TDBListView.fb_CanAddRecords : Integer ;
 var
   lSI_infos        : TScrollInfo ; // Infos supplémentaires de scroll
   li_NPage         : Cardinal ;
 //  lw_PagesACharger : Word        ; // Variable temporaire de test de page
 begin
-  inherited ;
+  Result := 0;
   if not Visible
   or (not ( Owner is TControl ) or not ( Owner as TControl ).Visible ) Then
     Exit;
@@ -755,12 +755,16 @@ begin
       {$ENDIF}
       // récupère les paramètres de nombre de pages visibles
       if ( lSI_infos.nMax < lSI_infos.nPos + li_NPage * CST_GROUPE_PAGES_CHARGER )
-//      if  ( lSI_infos.nPos > ( lSI_infos.nMax - lSI_infos.nPage ) div 2  )
        Then
         // Alors ajoute des données
-        p_AjouteEnregistrements ;
-//      p_MiseAjourScrollBar ;
+        Result := lSI_infos.nPos + li_NPage * CST_GROUPE_PAGES_CHARGER - lSI_infos.nMax ;
     End ;
+end;
+
+procedure TDBListView.p_scrolling;
+begin
+  if fb_CanAddRecords > 0 Then
+    p_AjouteEnregistrements;
 end;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -1209,11 +1213,9 @@ End ;
 // Résultat     : A-t-on changé l'état de certains items ?
 function TDBListView.fb_RemplitEnregistrements ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean;
 // Compteurs
-var li_i   , li_j : Integer ;
+var li_i   , li_j, li_RecordsToAdd : Integer ;
 //  Valeurs des champs supplémentaires à afficher
     lvar_AAfficher   : Variant ;
-    // Propriété Nombre de pages d'items visibles à charger
-    lw_NombrePages   : Word ;
 begin
   // intialisation
   Result := False ;
@@ -1239,7 +1241,7 @@ begin
 {$ELSE}
     Items.BeginUpdate ;
 {$ENDIF}
-
+    li_RecordsToAdd:=0;
     // Tant qu'on n'est pas à la fin du dataset
     while not eof do
       begin
@@ -1321,30 +1323,21 @@ begin
 	if  ( not gb_MontreTout )
 	 Then
 	    Begin
-	      if ( gbm_DernierEnregistrement <> '' )
-	       Then
-		  Begin
-		    lw_NombrePages := 1 ;
-		    try
-		      // Toujours libérer le bookmark
-  		      gbm_DernierEnregistrement := '' ;
-		    except
-		    End;
-		  End
-	     Else lw_NombrePages := CST_GROUPE_PAGES_CHARGER ;
              // récupère les paramètres de nombre de pages visibles
 	     // A-t-on chargé suffisamment d'enregistrements
-	      if (     ( Font.Height = 0 )
-	      and ( li_i >= Self.Height * lw_NombrePages ))
-	      or (     ( Font.Height <> 0 )
-              and  ( li_i >= ( Self.Height div Abs( Font.Height )) * lw_NombrePages + 1 ))
+             if li_RecordsToAdd <= 0 Then
+               li_RecordsToAdd:=fb_CanAddRecords;
+             if ( li_RecordsToAdd <= 0 )
+             and not Eof
 	       Then
 		  Begin
 		    // Récupère le bookmark pour un chargement prochain d'enregistrements
 		    gbm_DernierEnregistrement := Bookmark ;
 		    // Fin de cette MAJ
 		    Break ;
-		  End ;
+		  End
+                else
+                 dec ( li_RecordsToAdd );
 	    End ;
 	  end;
       if Eof
@@ -1361,7 +1354,6 @@ begin
 {$ELSE}
   Items.EndUpdate ;
 {$ENDIF}
-//  EndUpdate ;
 
   try
     Screen.Cursor := crDefault ;
@@ -1445,7 +1437,7 @@ end;
 // adat_ADODataset : le bon dataset : ici il y en a un seul
 function TDBListView.fs_SortDataset ( const adat_Dataset : TDataSet ): String ;
 // Sauvegarde temporaire du champ à trier
-var ls_TrieGroupe, ls_Sort : String ;
+var ls_Sort : String ;
 Begin
   // Avec le dataset
   with adat_Dataset do
@@ -1610,6 +1602,7 @@ procedure TDBListView.p_DataSetChanged;
 begin
 
 end;
+
 
 // Procédure p_SetChampsListe
 // Affectation de DataFieldsDisplay

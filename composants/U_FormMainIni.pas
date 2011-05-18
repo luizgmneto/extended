@@ -40,19 +40,18 @@ uses
   TNTForms,
 {$ENDIF}
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  U_OnFormInfoIni,
   Dialogs, ExtCtrls, fonctions_init, IniFiles;
 
 {$IFDEF VERSIONS}
   const
-    gVer_TFormMainIni : T_Version = ( Component : 'Composant Fenêtre principale' ;
-                                               FileUnit : 'U_FormMainIni' ;
-                                               Owner : 'Matthieu Giroux' ;
-                                               Comment : 'Fiche principale deuxième version.' ;
-                                               BugsStory : 'Version 1.1.0.0 : Passage en générique' + #13#10
-                                                   + '1.0.0.0 : Gestion INI, de fiches et du clavier.';
-                                               UnitType : 3 ;
-                                               Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
+    gVer_TFormMainIni : T_Version = (  Component : 'Composant Fenêtre principale' ;
+                                       FileUnit : 'U_FormMainIni' ;
+                                       Owner : 'Matthieu Giroux' ;
+                                       Comment : 'Fiche principale deuxième version.' ;
+                                       BugsStory : '1.1.0.0 : Passage en générique.' + #13#10
+                                                 + '1.0.0.0 : Gestion INI, de fiches et du clavier.';
+                                       UnitType : 3 ;
+                                       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
 type

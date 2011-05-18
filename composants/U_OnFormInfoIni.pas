@@ -44,7 +44,6 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  ExtDlgs,
   fonctions_init, DBGrids;
 
 {$IFDEF VERSIONS}
@@ -53,12 +52,13 @@ uses
                                                FileUnit : 'U_OnFormInfoIni' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Gestion de l''ini à mettre sur une fiche.' ;
-                                               BugsStory : '1.0.1.0 : Testing DirectoryEdit, MaskEdit, on WINDOWS.' +#13#10 +
+                                               BugsStory : '1.0.1.1 : Testing ColorCombo.' +#13#10 +
+                                                           '1.0.1.0 : Testing DirectoryEdit, MaskEdit, on WINDOWS.' +#13#10 +
                                                            '1.0.0.1 : Grouping.' +#13#10 +
                                                            '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
                                                            '1.0.0.0 : Gestion de beaucoup de composants.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
 
 {$ENDIF}
 const CST_INI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text' {$ENDIF};
@@ -86,9 +86,9 @@ type
     FUpdateAll ,
     FAutoChargeIni: Boolean;
     FormAOwner:     TCustomForm;
-    FormOldDestroy: TNotifyEvent;
-    FormOldCreate:  TNotifyEvent;
-    FormOldShow:    TNotifyEvent;
+    FormOldDestroy  ,
+    FormOldCreate   ,
+    FormOldShow     : TNotifyEvent;
 //    procedure loaded; override;
     function GetfeSauveEdit(aSauveObjet:TSauveEditObjets;aObjet :TSauveEditObjet):Boolean ;
     // traitement de la position de la af_Form mise dans le create
@@ -520,6 +520,7 @@ var
   end;
 
   function fb_ReadCombos: Boolean;
+  var ls_Temp : String;
   Begin
     Result := False;
     if (lcom_Component is TCustomComboBox) and GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
@@ -531,7 +532,9 @@ var
     if (lcom_Component.CLassNameIs( 'TExtColorCombo')) and GetfeSauveEdit(FSauveEditObjets ,feTColorCombo)
      then
       begin
-          p_SetComponentProperty(lcom_Component, 'Value', fs_ReadString(lcom_Component.Name+'.Value',''));
+         ls_Temp := fs_ReadString(lcom_Component.Name+'.Value','');
+         if ls_Temp <> '' Then
+          p_SetComponentProperty(lcom_Component, 'Value', ls_Temp );
       End;
 {$IFDEF RX}
     if GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
