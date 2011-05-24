@@ -49,7 +49,7 @@
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="36">
+    <Units Count="41">
       <Unit0>
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -57,8 +57,8 @@
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="30" Y="18"/>
-        <UsageCount Value="49"/>
+        <CursorPos X="77" Y="21"/>
+        <UsageCount Value="52"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit0>
@@ -83,11 +83,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="u_customframework"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="763"/>
-        <CursorPos X="67" Y="799"/>
-        <UsageCount Value="14"/>
+        <TopLine Value="61"/>
+        <CursorPos X="108" Y="82"/>
+        <UsageCount Value="15"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -95,51 +95,43 @@
       <Unit4>
         <Filename Value="../composants/u_framework_dbcomponents.pas"/>
         <UnitName Value="u_framework_dbcomponents"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="27"/>
         <CursorPos X="60" Y="47"/>
         <UsageCount Value="13"/>
-        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="/usr/lib/lazarus/0.9.30/lcl/dbgrids.pas"/>
         <UnitName Value="DBGrids"/>
-        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1220"/>
         <CursorPos X="1" Y="1242"/>
-        <UsageCount Value="13"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="14"/>
       </Unit5>
       <Unit6>
         <Filename Value="/usr/lib/lazarus/0.9.30/lcl/grids.pas"/>
         <UnitName Value="Grids"/>
-        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="4257"/>
         <CursorPos X="1" Y="4279"/>
-        <UsageCount Value="13"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="14"/>
       </Unit6>
       <Unit7>
         <Filename Value="../../../Lazarus/composants/rxfpc/rxdbgrid.pas"/>
         <UnitName Value="rxdbgrid"/>
-        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1036"/>
         <CursorPos X="1" Y="1059"/>
-        <UsageCount Value="13"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="14"/>
       </Unit7>
       <Unit8>
         <Filename Value="../../XMLFrames/composants/u_xmlform.pas"/>
         <UnitName Value="u_xmlform"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="100"/>
-        <CursorPos X="77" Y="119"/>
-        <UsageCount Value="14"/>
+        <CursorPos X="109" Y="115"/>
+        <UsageCount Value="15"/>
         <Loaded Value="True"/>
       </Unit8>
       <Unit9>
@@ -152,7 +144,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="127" Y="13"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit9>
@@ -197,7 +189,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="20"/>
         <CursorPos X="84" Y="51"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit14>
       <Unit15>
@@ -240,12 +232,10 @@
       <Unit20>
         <Filename Value="/usr/lib/lazarus/0.9.30/lcl/controls.pp"/>
         <UnitName Value="Controls"/>
-        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1947"/>
         <CursorPos X="15" Y="1969"/>
-        <UsageCount Value="13"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="14"/>
       </Unit20>
       <Unit21>
         <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/canvas.inc"/>
@@ -349,146 +339,164 @@
       <Unit34>
         <Filename Value="../composants/U_DBListView.pas"/>
         <UnitName Value="U_DBListView"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1316"/>
         <CursorPos X="25" Y="1331"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit34>
       <Unit35>
         <Filename Value="../composants/U_OnFormInfoIni.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
-        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="24"/>
         <CursorPos X="1" Y="47"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit35>
+      <Unit36>
+        <Filename Value="../composants/u_manbase.pas"/>
+        <UnitName Value="u_manbase"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="148" Y="12"/>
+        <UsageCount Value="11"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="../../ManFrames/composants/u_propform.pas"/>
+        <UnitName Value="u_propform"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="7"/>
+        <CursorPos X="49" Y="34"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="../fonctions/u_manbase.pas"/>
+        <UnitName Value="u_manbase"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="61" Y="15"/>
+        <UsageCount Value="10"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="../fonctions/fonctions_init.pas"/>
+        <UnitName Value="fonctions_init"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="366"/>
+        <CursorPos X="18" Y="389"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="../../ManFrames/fonctions/fonctions_manbase.pas"/>
+        <UnitName Value="fonctions_manbase"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="128" Y="10"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit40>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="23" HistoryIndex="22">
       <Position1>
         <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="711" Column="34" TopLine="673"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position1>
       <Position2>
         <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="993" Column="17" TopLine="955"/>
+        <Caret Line="662" Column="11" TopLine="650"/>
       </Position2>
       <Position3>
         <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="1333" Column="1" TopLine="1308"/>
+        <Caret Line="670" Column="30" TopLine="650"/>
       </Position3>
       <Position4>
         <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="1335" Column="1" TopLine="1308"/>
+        <Caret Line="671" Column="158" TopLine="650"/>
       </Position4>
       <Position5>
         <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="1336" Column="1" TopLine="1308"/>
+        <Caret Line="754" Column="23" TopLine="723"/>
       </Position5>
       <Position6>
         <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="1243" Column="1" TopLine="1220"/>
+        <Caret Line="185" Column="37" TopLine="148"/>
       </Position6>
       <Position7>
         <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="1323" Column="14" TopLine="1310"/>
+        <Caret Line="743" Column="18" TopLine="732"/>
       </Position7>
       <Position8>
         <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="736" Column="33" TopLine="731"/>
       </Position8>
       <Position9>
         <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="490" Column="173" TopLine="452"/>
+        <Caret Line="754" Column="55" TopLine="731"/>
       </Position9>
       <Position10>
         <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="711" Column="34" TopLine="673"/>
+        <Caret Line="1001" Column="17" TopLine="963"/>
       </Position10>
       <Position11>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="993" Column="17" TopLine="955"/>
-      </Position11>
-      <Position12>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="1333" Column="30" TopLine="1295"/>
-      </Position12>
-      <Position13>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="1335" Column="30" TopLine="1297"/>
-      </Position13>
-      <Position14>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="1316" Column="30" TopLine="1298"/>
-      </Position14>
-      <Position15>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position15>
-      <Position16>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="662" Column="11" TopLine="650"/>
-      </Position16>
-      <Position17>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="670" Column="30" TopLine="650"/>
-      </Position17>
-      <Position18>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="671" Column="158" TopLine="650"/>
-      </Position18>
-      <Position19>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="754" Column="23" TopLine="723"/>
-      </Position19>
-      <Position20>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="185" Column="37" TopLine="148"/>
-      </Position20>
-      <Position21>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="743" Column="18" TopLine="732"/>
-      </Position21>
-      <Position22>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="736" Column="33" TopLine="731"/>
-      </Position22>
-      <Position23>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="754" Column="55" TopLine="731"/>
-      </Position23>
-      <Position24>
-        <Filename Value="../composants/U_DBListView.pas"/>
-        <Caret Line="1001" Column="17" TopLine="963"/>
-      </Position24>
-      <Position25>
-        <Filename Value="../composants/u_framework_dbcomponents.pas"/>
-        <Caret Line="894" Column="36" TopLine="886"/>
-      </Position25>
-      <Position26>
-        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
-        <Caret Line="136" Column="26" TopLine="118"/>
-      </Position26>
-      <Position27>
-        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
-        <Caret Line="506" Column="61" TopLine="493"/>
-      </Position27>
-      <Position28>
-        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
-        <Caret Line="62" Column="95" TopLine="24"/>
-      </Position28>
-      <Position29>
         <Filename Value="../composants/U_FormMainIni.pas"/>
         <Caret Line="217" Column="75" TopLine="194"/>
-      </Position29>
-      <Position30>
-        <Filename Value="../composants/u_framework_dbcomponents.pas"/>
-        <Caret Line="586" Column="41" TopLine="578"/>
-      </Position30>
+      </Position11>
+      <Position12>
+        <Filename Value="../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="101" Column="44" TopLine="85"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="239" Column="20" TopLine="201"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="251" Column="58" TopLine="213"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="1378" Column="1" TopLine="1373"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="178" Column="25" TopLine="157"/>
+      </Position16>
+      <Position17>
+        <Filename Value="../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="65" Column="45" TopLine="24"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="100" Column="38" TopLine="78"/>
+      </Position18>
+      <Position19>
+        <Filename Value="../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="2254" Column="71" TopLine="2239"/>
+      </Position19>
+      <Position20>
+        <Filename Value="../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="111" Column="45" TopLine="99"/>
+      </Position20>
+      <Position21>
+        <Filename Value="../../ManFrames/composants/u_propform.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position21>
+      <Position22>
+        <Filename Value="../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="3375" Column="74" TopLine="3311"/>
+      </Position22>
+      <Position23>
+        <Filename Value="../fonctions/fonctions_init.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position23>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

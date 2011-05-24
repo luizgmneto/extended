@@ -1667,8 +1667,9 @@ begin
   gb_CloseQuery := True ;
   for lw_i := Application.ComponentCount - 1 downto 0 do
     begin
-      if (Application.Components[lw_i] is TForm) and
-         (Application.Components[lw_i] <> Self) then
+      if  (Application.Components[lw_i] is TForm)
+      and not (Application.Components[lw_i] is TF_FormMainIni)
+      and (Application.Components[lw_i] <> Self) then
         Begin
           (Application.Components[lw_i] as TForm).Free;
           Application.ProcessMessages ;
