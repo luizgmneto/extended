@@ -1,4 +1,4 @@
-{*********************************************************************}
+﻿{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             Matthieu Giroux                                         }
@@ -31,7 +31,7 @@ uses
 {$IFDEF FPC}
    LCLIntf, LCLType, lmessages, SQLDB, RxLookup, lresources,
 {$ELSE}
-  Windows, DBTables, JvListView,
+  Windows, DBTables, JvListView, SyncObjs,
 {$ENDIF}
    Messages, SysUtils, Classes, Graphics, Controls,
    Forms, Dialogs, Db,
