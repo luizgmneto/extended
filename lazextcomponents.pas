@@ -10,8 +10,7 @@ uses
     U_OnFormInfoIni, PDBCheck, PCheck, U_ExtColorCombos, u_regfwbuttons, 
   u_buttons_appli, u_extcomponent, u_framework_components, U_DBListView, 
   U_ExtNumEdits, u_regframeworkcomponents, U_ExtDBNavigator, U_FormMainIni, 
-  U_ExtDBImage, u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, 
-  LazarusPackageIntf;
+  U_ExtDBImage, u_framework_dbcomponents, LazarusPackageIntf;
 
 implementation
 
