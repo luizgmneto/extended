@@ -198,7 +198,7 @@ type
      FControl : TWinControl ;
      FFieldTag : Integer ;
    protected
-     procedure SetControl ( AValue : TWinControl ); virtual;
+     procedure SetControl ( const AValue : TWinControl ); virtual;
      function  fi_getFieldTag:Integer; virtual;
      procedure p_setFieldTag ( const avalue : Integer ); virtual;
    public
@@ -218,12 +218,16 @@ type
 
    TFWDbGridColumns = class({$IFDEF TNT}TTntDBGridColumns{$ELSE}TRxDbGridColumns{$ENDIF})
    private
-     function GetColumn(Index: Integer): TFWGridColumn;
-     procedure SetColumn(Index: Integer; Value: TFWGridColumn);
+     FPaintEdits : Boolean;
+     function GetColumn(const Index: Integer): TFWGridColumn;
+     procedure SetColumn( const Index: Integer; const Value: TFWGridColumn);
+     procedure p_SetPaintEdits ( const AValue : Boolean );
    public
      function Add: TFWGridColumn;
-   public
+     constructor Create(AGrid: TCustomGrid; aItemClass: TCollectionItemClass);
+   published
      property Items[Index: Integer]: TFWGridColumn read GetColumn write SetColumn; default;
+     property PaintEdits : Boolean read FPaintEdits write p_SetPaintEdits default true;
    end;
 
    { TFWDBGrid }
@@ -575,7 +579,7 @@ End;
 // Setting control of column
 // Parameter : AValue the control of property
 
-procedure TFWGridColumn.SetControl(AValue: TWinControl);
+procedure TFWGridColumn.SetControl(const AValue: TWinControl);
 var lmet_MethodeDistribuee: TMethod;
 
 begin
@@ -680,19 +684,35 @@ end;
 
 { TFWDbGridColumns }
 
-function TFWDbGridColumns.GetColumn(Index: Integer): TFWGridColumn;
+function TFWDbGridColumns.GetColumn(const Index: Integer): TFWGridColumn;
 begin
   result := TFWGridColumn( inherited Items[Index] );
 end;
 
-procedure TFWDbGridColumns.SetColumn(Index: Integer; Value: TFWGridColumn);
+procedure TFWDbGridColumns.SetColumn(const Index: Integer; const Value: TFWGridColumn);
 begin
   Items[Index].Assign( Value );
+end;
+
+procedure TFWDbGridColumns.p_SetPaintEdits(const AValue: Boolean);
+begin
+  if AValue <> FPaintEdits Then
+    Begin
+     FPaintEdits:= AValue;
+     if not ( csCreating in ( Owner as TControl ).ControlState ) Then
+       ( Owner as TControl ).Invalidate;
+    end;
 end;
 
 function TFWDbGridColumns.Add: TFWGridColumn;
 begin
   result := TFWGridColumn (inherited Add);
+end;
+
+constructor TFWDbGridColumns.Create(AGrid: TCustomGrid; aItemClass: TCollectionItemClass);
+begin
+  inherited Create(AGrid,aItemClass);
+  FPaintEdits:=True;
 end;
 
 
@@ -885,7 +905,8 @@ var OldActive : Integer;
     FBackground: TColor;
 begin
   {$IFNDEF FPC}
-  if  ( ACol > 0  )
+  if  ( Columns as TFWDbGridColumns ).PaintEdits
+  and ( ACol > 0  )
   and ( ARow >= {$IFDEF FPC}1{$ELSE}IndicatorOffset{$ENDIF} )
   and assigned (( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit ) Then
    with ( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit do
