@@ -709,8 +709,8 @@ begin
   if AValue <> FPaintEdits Then
     Begin
      FPaintEdits:= AValue;
-     if not ( csCreating in ( Owner as TControl ).ControlState ) Then
-       ( Owner as TControl ).Invalidate;
+     if not ( csCreating in ControlState ) Then
+       Invalidate;
     end;
 end;
 
