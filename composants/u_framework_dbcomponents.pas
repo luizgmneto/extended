@@ -44,10 +44,11 @@ const
                                                FileUnit : 'u_framework_dbcomponents' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Composants d''interactivité de U_CustomFrameWork.' ;
-                                               BugsStory : '0.9.0.1 : FWDBGrid tested on Delphi, with Controls on Columns.'
+                                               BugsStory : '0.9.0.2 : Paint Edits or not on FWDBGrid.'
+                                                         + '0.9.0.1 : FWDBGrid tested on Delphi, with Controls on Columns.'
                                                          + '0.9.0.0 : Création à partir de u_framework_components.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 1 );
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 2 );
 
 {$ENDIF}
 type
@@ -218,22 +219,19 @@ type
 
    TFWDbGridColumns = class({$IFDEF TNT}TTntDBGridColumns{$ELSE}TRxDbGridColumns{$ENDIF})
    private
-     FPaintEdits : Boolean;
      function GetColumn(const Index: Integer): TFWGridColumn;
      procedure SetColumn( const Index: Integer; const Value: TFWGridColumn);
-     procedure p_SetPaintEdits ( const AValue : Boolean );
    public
      function Add: TFWGridColumn;
-     constructor Create(AGrid: TCustomGrid; aItemClass: TCollectionItemClass);
    published
      property Items[Index: Integer]: TFWGridColumn read GetColumn write SetColumn; default;
-     property PaintEdits : Boolean read FPaintEdits write p_SetPaintEdits default true;
    end;
 
    { TFWDBGrid }
 
    TFWDBGrid = class ( {$IFDEF TNT}TTntDBGrid{$ELSE}{$IFDEF EXRX}TExRxDBGrid{$ELSE}{$IFDEF JEDI}TJvDBUltimGrid{$ELSE}TRXDBGrid{$ENDIF}{$ENDIF}{$ENDIF}, IFWComponent )
      private
+       FPaintEdits : Boolean;
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FColorEdit     ,
        FColorFocus    ,
@@ -246,6 +244,7 @@ type
        procedure WMHScroll(var Msg: TWMHScroll); message WM_HSCROLL;
        procedure HideColumnControl;
        procedure ShowControlColumn;
+       procedure p_SetPaintEdits ( const AValue : Boolean );
       protected
        procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
           X, Y: Integer); override;
@@ -273,6 +272,7 @@ type
        property FixedColor default CST_GRILLE_STD ;
        property ColorFocus : TColor read FColorFocus write FColorFocus default CST_GRILLE_SELECT ;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
+       property PaintEdits : Boolean read FPaintEdits write p_SetPaintEdits default true;
      End;
 
    TFWDBMemo = class ( TDBMemo, IFWComponent, IFWComponentEdit )
@@ -694,7 +694,17 @@ begin
   Items[Index].Assign( Value );
 end;
 
-procedure TFWDbGridColumns.p_SetPaintEdits(const AValue: Boolean);
+function TFWDbGridColumns.Add: TFWGridColumn;
+begin
+  result := TFWGridColumn (inherited Add);
+end;
+
+{ TFWDBGrid }
+
+// Procedure  p_SetPaintEdits
+// Setting PaintEdits property to paint edits in grid
+
+procedure TFWDBGrid.p_SetPaintEdits(const AValue: Boolean);
 begin
   if AValue <> FPaintEdits Then
     Begin
@@ -703,21 +713,6 @@ begin
        ( Owner as TControl ).Invalidate;
     end;
 end;
-
-function TFWDbGridColumns.Add: TFWGridColumn;
-begin
-  result := TFWGridColumn (inherited Add);
-end;
-
-constructor TFWDbGridColumns.Create(AGrid: TCustomGrid; aItemClass: TCollectionItemClass);
-begin
-  inherited Create(AGrid,aItemClass);
-  FPaintEdits:=True;
-end;
-
-
-
-{ TFWDBGrid }
 
 
 procedure TFWDBGrid.HideColumnControl;
@@ -856,6 +851,7 @@ end;
 constructor TFWDBGrid.Create( AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FPaintEdits:=True;
   FAlwaysSame := True;
   FColorFocus := CST_GRILLE_SELECT;
   FColorEdit  := CST_GRILLE_STD;
@@ -905,7 +901,7 @@ var OldActive : Integer;
     FBackground: TColor;
 begin
   {$IFNDEF FPC}
-  if  ( Columns as TFWDbGridColumns ).PaintEdits
+  if  FPaintEdits
   and ( ACol > 0  )
   and ( ARow >= {$IFDEF FPC}1{$ELSE}IndicatorOffset{$ENDIF} )
   and assigned (( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit ) Then
