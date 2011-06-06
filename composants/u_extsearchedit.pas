@@ -51,12 +51,14 @@ type
     FSearchKey : String;
     FOnLocate : TNotifyEvent ;
     Flocated : Boolean ;
+    procedure p_SetField;
     procedure p_setSearchDisplay ( AValue : String );
     function fs_getSearchDisplay : String ;
     procedure p_setSearchSource ( AValue : TDataSource );
     function fs_getSearchSource : TDataSource ;
    private
-    FBeforeEnter, FBeforeExit : TNotifyEvent;
+    FBeforeEnter, FAfterExit : TNotifyEvent;
+    FOnSet : TDatasetNotifyEvent;
     FLabel : TFWLabel ;
     FOldColor ,
     FColorFocus ,
@@ -84,7 +86,7 @@ type
     property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
     property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
-    property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
+    property FWAfterExit  : TnotifyEvent read FAfterExit  write FAfterExit stored False ;
     property ColorLabel : TColor read FColorLabel write FColorLabel default CST_LBL_SELECT ;
     property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
     property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
@@ -92,6 +94,7 @@ type
     property MyLabel : TFWLabel read FLabel write p_setLabel;
     property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
     property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
+    property OnSet : TDatasetNotifyEvent read FOnSet write FOnSet;
   end;
 
 implementation
@@ -160,8 +163,31 @@ begin
                          length ( FindField ( FieldName ).AsString ) - length ( Text ));
             SelStart  := li_pos ;
             SelLength := length ( Text ) - li_pos ;
+            if ( SelText = '' )
+            and assigned ( FOnSet ) Then
+              FOnSet ( Datasource.DataSet );
           End ;
-      end;
+      end
+   Else if ( Key in [ VK_RETURN ])
+    Then
+      p_SetField;
+
+end;
+
+procedure TExtSearchDBEdit.p_SetField;
+Begin
+  if fb_Locate ( FSearchSource.DataSet, FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey], True )
+   Then
+     with FSearchSource.DataSet do
+      Begin
+        Flocated  := True;
+        Text := FindField ( FieldName ).AsString;
+        if assigned ( FOnSet ) Then
+          if assigned ( Datasource ) Then
+            FOnSet ( Datasource.DataSet )
+           Else
+            FOnSet ( FSearchSource.DataSet );
+      End ;
 end;
 
 procedure TExtSearchDBEdit.DoEnter;
@@ -178,12 +204,13 @@ end;
 
 procedure TExtSearchDBEdit.DoExit;
 begin
-  if assigned ( FBeforeExit ) Then
-    FBeforeExit ( Self );
   inherited DoExit;
   p_setLabelColorExit ( FLabel, FAlwaysSame );
   p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
   ValidateSearch;
+  p_SetField;
+  if assigned ( FAfterExit ) Then
+    FAfterExit ( Self );
 end;
 
 procedure TExtSearchDBEdit.Loaded;
