@@ -33,10 +33,11 @@ uses Variants, Controls, Classes,
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '0.9.0.1 : Not tested, comiling on DELPHI.'
+                                          BugsStory : '0.9.0.2 : Not tested, upgrading.'
+                                                    + '0.9.0.1 : Not tested, compiling on DELPHI.'
                                                     + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 0 ; Minor : 9 ; Release : 0 ; Build : 1 );
+                                          Major : 0 ; Minor : 9 ; Release : 0 ; Build : 2 );
 
 {$ENDIF}
 type
@@ -51,12 +52,6 @@ type
     FSearchKey : String;
     FOnLocate : TNotifyEvent ;
     Flocated : Boolean ;
-    procedure p_SetField;
-    procedure p_setSearchDisplay ( AValue : String );
-    function fs_getSearchDisplay : String ;
-    procedure p_setSearchSource ( AValue : TDataSource );
-    function fs_getSearchSource : TDataSource ;
-   private
     FBeforeEnter, FAfterExit : TNotifyEvent;
     FOnSet : TDatasetNotifyEvent;
     FLabel : TFWLabel ;
@@ -65,8 +60,13 @@ type
     FColorReadOnly,
     FColorEdit ,
     FColorLabel : TColor;
+    FSet,
     FAlwaysSame : Boolean;
     FNotifyOrder : TNotifyEvent;
+    procedure p_setSearchDisplay ( AValue : String );
+    function fs_getSearchDisplay : String ;
+    procedure p_setSearchSource ( AValue : TDataSource );
+    function fs_getSearchSource : TDataSource ;
     procedure p_setLabel ( const alab_Label : TFWLabel );
     procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
   protected
@@ -79,6 +79,7 @@ type
   public
     constructor Create ( Aowner : TComponent ); override;
     destructor Destroy ; override;
+    property Located : Boolean read Flocated;
   published
     property SearchDisplay : String read fs_getSearchDisplay write p_setSearchDisplay ;
     property SearchKey : String read FSearchKey write FSearchKey ;
@@ -144,6 +145,7 @@ begin
   if Key in [ VK_ESCAPE ] Then
     Begin
       Flocated:=False;
+      FSet := False;
       Exit;
     end;
   if not ( Key in [ VK_RETURN, VK_TAB, VK_DELETE, VK_BACK ])
@@ -153,6 +155,7 @@ begin
     with FSearchSource.DataSet do
       Begin
         Open ;
+        FSet := False;
         if not assigned ( FindField ( FSearchSource.FieldName )) Then Exit;
         if fb_Locate ( FSearchSource.DataSet, FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey], True )
          Then
@@ -163,24 +166,30 @@ begin
                          length ( FindField ( FieldName ).AsString ) - length ( Text ));
             SelStart  := li_pos ;
             SelLength := length ( Text ) - li_pos ;
-            if ( SelText = '' )
-            and assigned ( FOnSet ) Then
-              FOnSet ( Datasource.DataSet );
+            if ( SelText = '' )  Then
+                ValidateSearch
+             else
+                if assigned ( Datasource ) Then
+                  FOnLocate ( Datasource.DataSet )
+                 Else
+                  FOnLocate ( nil );
           End ;
       end
    Else if ( Key in [ VK_RETURN ])
     Then
-      p_SetField;
+      ValidateSearch;
 
 end;
 
-procedure TExtSearchDBEdit.p_SetField;
+procedure TExtSearchDBEdit.ValidateSearch;
 Begin
-  if fb_Locate ( FSearchSource.DataSet, FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey], True )
+  if not FSet
+  and fb_Locate ( FSearchSource.DataSet, FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey], True )
    Then
      with FSearchSource.DataSet do
       Begin
         Flocated  := True;
+        FSet := True;
         Text := FindField ( FieldName ).AsString;
         if assigned ( FOnSet ) Then
           if assigned ( Datasource ) Then
@@ -208,7 +217,6 @@ begin
   p_setLabelColorExit ( FLabel, FAlwaysSame );
   p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
   ValidateSearch;
-  p_SetField;
   if assigned ( FAfterExit ) Then
     FAfterExit ( Self );
 end;
@@ -226,24 +234,6 @@ procedure TExtSearchDBEdit.SetOrder;
 begin
   if assigned ( FNotifyOrder ) then
     FNotifyOrder ( Self );
-end;
-
-procedure TExtSearchDBEdit.ValidateSearch;
-begin
-  if Flocated
-  and assigned ( DataSource ) Then
-    with DataSource.DataSet do
-      Begin
-        if  assigned ( FindField ( FFieldKey ))
-        and assigned ( FSearchSource.DataSet.FindField ( FSearchKey )) Then
-          Begin
-            FieldByName ( FFieldKey ).Value := FSearchSource.DataSet.FindField ( FSearchKey ).Value;
-          end;
-        FieldByName ( FieldName ).Value := Text;
-        If assigned ( FOnLocate ) Then
-          FOnLocate ( Self );
-        Flocated:=False;
-      end;
 end;
 
 constructor TExtSearchDBEdit.Create(Aowner: TComponent);
