@@ -142,13 +142,19 @@ procedure TExtSearchDBEdit.KeyUp(var Key: Word; Shift: TShiftState);
 var li_pos : Integer;
 begin
   inherited KeyUp(Key, Shift);
-  if Key in [ VK_ESCAPE ] Then
+  if Key in [ VK_ESCAPE, VK_DELETE ] Then
     Begin
       Flocated:=False;
       FSet := False;
       Exit;
     end;
-  if not ( Key in [ VK_RETURN, VK_TAB, VK_DELETE, VK_BACK ])
+  Else if ( Key in [ VK_RETURN ])
+   Then
+     Begin
+       ValidateSearch;
+       Exit;
+     End;
+  if not ( Key in [ VK_TAB, VK_BACK ])
   and ( Text    <> '' )
   and ( SelText =  '' )
    Then
@@ -175,15 +181,13 @@ begin
                   FOnLocate ( nil );
           End ;
       end
-   Else if ( Key in [ VK_RETURN ])
-    Then
-      ValidateSearch;
 
 end;
 
 procedure TExtSearchDBEdit.ValidateSearch;
 Begin
   if not FSet
+  and Flocated
   and fb_Locate ( FSearchSource.DataSet, FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey], True )
    Then
      with FSearchSource.DataSet do
