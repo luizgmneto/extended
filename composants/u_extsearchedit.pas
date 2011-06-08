@@ -146,6 +146,7 @@ begin
     Begin
       Flocated:=False;
       FSet := False;
+      SelText:='';
       Exit;
     end;
   Else if ( Key in [ VK_RETURN ])
