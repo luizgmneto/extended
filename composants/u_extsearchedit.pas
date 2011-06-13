@@ -5,8 +5,7 @@
 {             Objet issu d'un TDBedit qui associe les         }
 {             avantages de la DBEdit avec une recherche     }
 {             Créateur : Matthieu Giroux                          }
-{             31 Mars 2005                                            }
-{             Version 1.0                                             }
+{             31 Mars 2011                                            }
 {                                                                     }
 {                                                                     }
 {*********************************************************************}

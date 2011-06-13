@@ -1,5 +1,15 @@
 unit u_extdbgrid;
 
+{*********************************************************************}
+{                                                                     }
+{             TExtDBGrid :                                            }
+{             Grille avec couleurs de focus, d'édition,               }
+{             permettant d'être éditée avec des composants de données }
+{             Créateur : Matthieu Giroux                              }
+{             13 Juin 2011                                            }
+{                                                                     }
+{*********************************************************************}
+
 {$I ..\Compilers.inc}
 {$I ..\extends.inc}
 {$IFDEF FPC}
@@ -15,6 +25,9 @@ uses
 {$ELSE}
    Windows,
 {$ENDIF}
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
   Classes, SysUtils, Grids,
   u_extcomponent, Graphics,
   Messages, DB,
@@ -23,11 +36,22 @@ uses
 {$ENDIF}
   DBGrids, Controls;
 
+{$IFDEF VERSIONS}
+const
+    gVer_ExtDBGrid : T_Version = ( Component : 'Grille de données étendue' ;
+                                               FileUnit : 'U_ExtDBGrid' ;
+                                               Owner : 'Matthieu Giroux' ;
+                                               Comment : 'Grille avec fonctions étendues.' ;
+                                               BugsStory : '0.9.0.0 : Création à partir de u_framework_dbcomponents.';
+                                               UnitType : 3 ;
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+
+{$ENDIF}
 
 
-   { TFWGridColumn }
+   { TExtGridColumn }
 type
-   TFWGridColumn = class({$IFDEF TNT}TTntColumn{$ELSE}TRxColumn{$ENDIF})
+   TExtGridColumn = class({$IFDEF TNT}TTntColumn{$ELSE}TRxColumn{$ENDIF})
    private
      FOldControlKeyUp   , FOldControlKeyDown,
      FAfterControlKeyUp , FAfterControlKeyDown : TKeyEvent;
@@ -52,16 +76,16 @@ type
      property AfterControlKeyPress : TKeyPressEvent read FAfterControlKeyPress write FAfterControlKeyPress;
    end;
 
-   { TFWDbGridColumns }
+   { TExtDbGridColumns }
 
-   TFWDbGridColumns = class({$IFDEF TNT}TTntDBGridColumns{$ELSE}TRxDbGridColumns{$ENDIF})
+   TExtDbGridColumns = class({$IFDEF TNT}TTntDBGridColumns{$ELSE}TRxDbGridColumns{$ENDIF})
    private
-     function GetColumn(const Index: Integer): TFWGridColumn;
-     procedure SetColumn( const Index: Integer; const Value: TFWGridColumn);
+     function GetColumn(const Index: Integer): TExtGridColumn;
+     procedure SetColumn( const Index: Integer; const Value: TExtGridColumn);
    public
-     function Add: TFWGridColumn;
+     function Add: TExtGridColumn;
    published
-     property Items[Index: Integer]: TFWGridColumn read GetColumn write SetColumn; default;
+     property Items[Index: Integer]: TExtGridColumn read GetColumn write SetColumn; default;
    end;
 
    { TExtDBGrid }
@@ -74,8 +98,8 @@ type
        FColorFocus    ,
        FOldFixedColor : TColor;
        FAlwaysSame : Boolean;
-       function GetColumns: TFWDbGridColumns;
-       procedure SetColumns(const AValue: TFWDbGridColumns);
+       function GetColumns: TExtDbGridColumns;
+       procedure SetColumns(const AValue: TExtDbGridColumns);
        procedure WMSetFocus(var Msg: TWMSetFocus); message WM_SETFOCUS;
        procedure WMVScroll(var Message: TWMVScroll); message WM_VSCROLL;
        procedure WMHScroll(var Msg: TWMHScroll); message WM_HSCROLL;
@@ -102,7 +126,7 @@ type
        procedure DoTitleClick(ACol: Longint; AField: TField); override;
        {$ENDIF}
       published
-       property Columns: TFWDbGridColumns read GetColumns write SetColumns stored IsColumnsStored;
+       property Columns: TExtDbGridColumns read GetColumns write SetColumns stored IsColumnsStored;
        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
        property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_GRILLE_STD ;
@@ -117,13 +141,13 @@ implementation
 
 uses fonctions_proprietes;
 
-{ TFWGridColumn }
+{ TExtGridColumn }
 
 // Procedure SetControl
 // Setting control of column
 // Parameter : AValue the control of property
 
-procedure TFWGridColumn.SetControl(const AValue: TWinControl);
+procedure TExtGridColumn.SetControl(const AValue: TWinControl);
 var lmet_MethodeDistribuee: TMethod;
 
 begin
@@ -168,7 +192,7 @@ end;
 // function fi_getFieldTag
 // Getting the FieldTag Property
 // Returns Tag Property
-function TFWGridColumn.fi_getFieldTag: Integer;
+function TExtGridColumn.fi_getFieldTag: Integer;
 begin
   Result := FFieldTag;
 end;
@@ -176,12 +200,12 @@ end;
 // procedure p_setFieldTag
 // Setting the FieldTag Property
 // Parameter : The FieldTag to set
-procedure TFWGridColumn.p_setFieldTag( const avalue : Integer );
+procedure TExtGridColumn.p_setFieldTag( const avalue : Integer );
 begin
   FFieldTag := avalue;
 end;
 
-procedure TFWGridColumn.ControlKeyDown(ASender: TObject; var Key: Word;
+procedure TExtGridColumn.ControlKeyDown(ASender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if assigned ( FOldControlKeyDown ) Then
@@ -192,7 +216,7 @@ begin
 
 end;
 
-procedure TFWGridColumn.ControlKeyPress(ASender: TObject; var Key: Char);
+procedure TExtGridColumn.ControlKeyPress(ASender: TObject; var Key: Char);
 begin
   if assigned ( FOldControlKeyPress ) Then
      FOldControlKeyPress ( ASender, Key );
@@ -202,7 +226,7 @@ begin
 
 end;
 
-procedure TFWGridColumn.ControlKeyUp(ASender: TObject; var Key: Word;
+procedure TExtGridColumn.ControlKeyUp(ASender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if assigned ( FOldControlKeyUp ) Then
@@ -212,7 +236,7 @@ begin
      FAfterControlKeyUp ( ASender, Key, Shift );
 end;
 
-constructor TFWGridColumn.Create(ACollection: TCollection);
+constructor TExtGridColumn.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
   FAfterControlKeyDown  := nil;
@@ -226,21 +250,21 @@ begin
 end;
 
 
-{ TFWDbGridColumns }
+{ TExtDbGridColumns }
 
-function TFWDbGridColumns.GetColumn(const Index: Integer): TFWGridColumn;
+function TExtDbGridColumns.GetColumn(const Index: Integer): TExtGridColumn;
 begin
-  result := TFWGridColumn( inherited Items[Index] );
+  result := TExtGridColumn( inherited Items[Index] );
 end;
 
-procedure TFWDbGridColumns.SetColumn(const Index: Integer; const Value: TFWGridColumn);
+procedure TExtDbGridColumns.SetColumn(const Index: Integer; const Value: TExtGridColumn);
 begin
   Items[Index].Assign( Value );
 end;
 
-function TFWDbGridColumns.Add: TFWGridColumn;
+function TExtDbGridColumns.Add: TExtGridColumn;
 begin
-  result := TFWGridColumn (inherited Add);
+  result := TExtGridColumn (inherited Add);
 end;
 
 { TExtDBGrid }
@@ -346,6 +370,7 @@ begin
           Visible := True;
           Coord  := 0 ;
           Weight := 0 ;
+          WidthHeight := 0 ;
           {$IFNDEF FPC}
           if Self.Ctl3D then
             inc ( Weight, 1 );
@@ -420,19 +445,19 @@ begin
   ShowControlColumn;
 end;
 
-function TExtDBGrid.GetColumns: TFWDbGridColumns;
+function TExtDBGrid.GetColumns: TExtDbGridColumns;
 begin
   {$IFDEF FPC}
-  Result := TFWDbGridColumns(Self.Columns);
+  Result := TExtDbGridColumns(Self.Columns);
   {$ELSE}
   Result := inherited Columns as TFWDBGridColumns;
   {$ENDIF}
 end;
 
-procedure TExtDBGrid.SetColumns(const AValue: TFWDbGridColumns);
+procedure TExtDBGrid.SetColumns(const AValue: TExtDbGridColumns);
 begin
   {$IFDEF FPC}
-  TFWDbGridColumns(Self.Columns).Assign(Avalue);
+  TExtDbGridColumns(Self.Columns).Assign(Avalue);
   {$ELSE}
   inherited Columns := AValue;
   {$ENDIF}
@@ -441,8 +466,10 @@ end;
 
 procedure TExtDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect;
   aState: TGridDrawState);
+{$IFNDEF FPC}
 var OldActive : Integer;
     FBackground: TColor;
+{$ENDIF}
 begin
   {$IFNDEF FPC}
   if  FPaintEdits
@@ -503,7 +530,7 @@ end;
 
 function TExtDBGrid.CreateColumns: {$IFDEF FPC}TGridColumns{$ELSE}TDBGridColumns{$ENDIF};
 begin
-  Result := TFWDbGridColumns.Create(Self, TFWGridColumn);
+  Result := TExtDbGridColumns.Create(Self, TExtGridColumn);
 end;
 
 procedure TExtDBGrid.DoEnter;
@@ -542,7 +569,7 @@ procedure TExtDBGrid.DoTitleClick(ACol: Longint; AField: TField);
 var li_Tag , li_i : Integer ;
 begin
   // Phase d'initialisation
- li_Tag :=(TFWGridColumn ( {$IFDEF EXRX} Column {$ELSE} Columns [ ACol ]{$ENDIF})).FieldTag ;
+ li_Tag :=(TExtGridColumn ( {$IFDEF EXRX} Column {$ELSE} Columns [ ACol ]{$ENDIF})).FieldTag ;
  if li_tag > 0 then
    for li_i :=0 to ComponentCount -1 do
       if  ( li_Tag = Components [ li_i ].Tag )
@@ -554,5 +581,10 @@ begin
   SetFocus;
 end;
 
+{$IFDEF VERSIONS}
+initialization
+  // Gestion de version
+  p_ConcatVersion(gVer_ExtDBGrid);
+{$ENDIF}
 end.
 

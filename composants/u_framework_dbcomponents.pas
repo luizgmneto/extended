@@ -1,10 +1,27 @@
 ﻿unit u_framework_dbcomponents;
 
+{*********************************************************************}
+{                                                                     }
+{                                                                     }
+{             TFWDBEdit, TFWDBDateEdit, TFWDBLookupCombo,             }
+{             TFWDBDateTimePicker, TFWDBMemo :                        }
+{             Composants avec couleurs de focus, d'édition            }
+{             Créateur : Matthieu Giroux                              }
+{             31 Mars 2011                                            }
+{                                                                     }
+{                                                                     }
+{*********************************************************************}
+
+
 {$I ..\Compilers.inc}
 {$I ..\extends.inc}
 {$IFDEF FPC}
 {$mode Delphi}
 {$ENDIF}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
 
 interface
 
