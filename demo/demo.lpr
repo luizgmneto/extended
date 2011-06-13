@@ -7,8 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, U_Components, LResources, DBFLaz, lazextcomponents, zcomponent
-  { you can add units after this };
+  Forms, U_Components, LResources, DBFLaz, lazextcomponents, ibexpress;
 
 {$IFDEF WINDOWS}{$R demo.rc}{$ENDIF}
 

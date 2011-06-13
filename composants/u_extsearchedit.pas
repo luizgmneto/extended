@@ -32,11 +32,12 @@ uses Variants, Controls, Classes,
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '0.9.0.2 : Not tested, upgrading.'
+                                          BugsStory : '0.9.0.3 : Tested.'
+                                                    + '0.9.0.2 : Not tested, upgrading.'
                                                     + '0.9.0.1 : Not tested, compiling on DELPHI.'
                                                     + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 0 ; Minor : 9 ; Release : 0 ; Build : 2 );
+                                          Major : 0 ; Minor : 9 ; Release : 0 ; Build : 3 );
 
 {$ENDIF}
 type
@@ -49,16 +50,16 @@ type
     FSearchSource: TFieldDataLink;
     FFieldKey ,
     FSearchKey : String;
-    FOnLocate : TNotifyEvent ;
-    Flocated : Boolean ;
+    FOnLocate ,
+    FOnSet ,
     FBeforeEnter, FAfterExit : TNotifyEvent;
-    FOnSet : TDatasetNotifyEvent;
     FLabel : TFWLabel ;
     FOldColor ,
     FColorFocus ,
     FColorReadOnly,
     FColorEdit ,
     FColorLabel : TColor;
+    Flocated,
     FSet,
     FAlwaysSame : Boolean;
     FNotifyOrder : TNotifyEvent;
@@ -94,7 +95,7 @@ type
     property MyLabel : TFWLabel read FLabel write p_setLabel;
     property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
     property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
-    property OnSet : TDatasetNotifyEvent read FOnSet write FOnSet;
+    property OnSet : TNotifyEvent read FOnSet write FOnSet;
   end;
 
 implementation
@@ -139,6 +140,7 @@ end;
 
 procedure TExtSearchDBEdit.KeyUp(var Key: Word; Shift: TShiftState);
 var li_pos : Integer;
+    ls_temp : String;
 begin
   inherited KeyUp(Key, Shift);
   if Key in [ VK_ESCAPE, VK_DELETE ] Then
@@ -168,17 +170,16 @@ begin
           Begin
             Flocated  := True;
             li_pos    := SelStart ;
-            SelText   := Copy   ( FindField ( FieldName ).AsString, SelStart + 1,
-                         length ( FindField ( FieldName ).AsString ) - length ( Text ));
+            ls_temp   := FindField ( FSearchSource.FieldName ).AsString;
+            SelText   := Copy   ( ls_temp, SelStart + 1,
+                         length ( ls_temp ) - length ( Text ));
             SelStart  := li_pos ;
             SelLength := length ( Text ) - li_pos ;
             if ( SelText = '' )  Then
                 ValidateSearch
              else
-                if assigned ( Datasource ) Then
-                  FOnLocate ( Datasource.DataSet )
-                 Else
-                  FOnLocate ( nil );
+                if assigned ( FOnLocate ) Then
+                  FOnLocate ( Self );
           End ;
       end
 
@@ -194,12 +195,9 @@ Begin
       Begin
         Flocated  := True;
         FSet := True;
-        Text := FindField ( FieldName ).AsString;
+        Text := FindField ( FSearchSource.FieldName  ).AsString;
         if assigned ( FOnSet ) Then
-          if assigned ( Datasource ) Then
-            FOnSet ( Datasource.DataSet )
-           Else
-            FOnSet ( FSearchSource.DataSet );
+          FOnSet ( Self )
       End ;
 end;
 

@@ -17,14 +17,11 @@ uses
   JvExComCtrls, JvListView, TntStdCtrls, Mask,
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
-  StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos,
-  u_extdbgrid,
+  StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
-  u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection, dbf,
-  DBGrids ;
+  u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection,
+  DBGrids, IBDatabase, IBCustomDataSet ;
 
-const CST_EXTENSION_DBF  = '.dbf' ;
-      CST_NOM_FICHIER  = 'fiches' ;
 type
 
   { TMyform }
@@ -32,11 +29,16 @@ type
   TMyform = class(TF_FormMainIni)
     Datasource: TDatasource;
     Datasource2: TDatasource;
+    Datasource3: TDatasource;
     ExtDBComboInsert2: TExtDBComboInsert;
     ExtSearchDBEdit2: TExtSearchDBEdit;
+    IBDatabase: TIBDatabase;
+    IBDepartement: TIBDataSet;
+    IBDepSearch: TIBDataSet;
+    IBTransaction: TIBTransaction;
+    IBUtilisateur: TIBDataSet;
     Search: TFWLabel;
     Search2: TFWLabel;
-    Villes: TDbf;
     DBListView: TDBListView;
     ExtColorCombo: TExtColorCombo;
     ExtDBNavigator1: TExtDBNavigator;
@@ -56,7 +58,6 @@ type
     Panel2: TPanel;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
-    DbfNoms: TDbf;
     FWDBEdit1: TFWDBEdit;
     FWDBEdit2: TFWDBEdit;
     Prenom: TFWDBEdit;
@@ -85,18 +86,12 @@ procedure TMyForm.FormShow(Sender: TObject);
 begin
   Noms.Columns [ 0 ].SomeEdit := Nom;
   Noms.Columns [ 1 ].SomeEdit := Prenom;
-  // On cherche ou crée le fichier CSV
-  DbfNoms.FilePathFull := ExtractFileDir ( Application.ExeName );
-  Villes .FilePathFull := ExtractFileDir ( Application.ExeName );
-  DbfNoms.TableName:=CST_NOM_FICHIER+CST_EXTENSION_DBF;
-  if not FileExists(DbfNoms.FilePathFull+DbfNoms.TableName) then
-    DbfNoms.CreateTable;
   try
-    // Un Dataset s'ouvre pour lire et écrire les données
-    DbfNoms.Open;
-    DbfNoms.PackTable;
-    DbfNoms.RegenerateIndexes;
-    Villes.Open;
+  IBDatabase.Connected := True;
+  IBTransaction.Active := True;
+  // On cherche ou crée le fichier CSV
+  IBUtilisateur.Open;
+  IBDepartement.Open;
   Except
     // Il s'agit d'une entrée/sortie donc on gère les exceptions
     on e:Exception do
@@ -119,4 +114,3 @@ begin
 end;
 
 end.
-
