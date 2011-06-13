@@ -448,17 +448,13 @@ end;
 function TExtDBGrid.GetColumns: TExtDbGridColumns;
 begin
   {$IFDEF FPC}
-  Result := TExtDbGridColumns(Self.Columns);
-  {$ELSE}
-  Result := inherited Columns as TFWDBGridColumns;
+  Result := inherited Columns as TExtDBGridColumns;
   {$ENDIF}
 end;
 
 procedure TExtDBGrid.SetColumns(const AValue: TExtDbGridColumns);
 begin
   {$IFDEF FPC}
-  TExtDbGridColumns(Self.Columns).Assign(Avalue);
-  {$ELSE}
   inherited Columns := AValue;
   {$ENDIF}
 end;

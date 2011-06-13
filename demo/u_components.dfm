@@ -41,7 +41,7 @@ object Myform: TMyform
       Orientation = noHorizontal
       GlyphSize = gsSmall
     end
-    object Noms: TFWDBGrid
+    object Noms: TExtDBGrid
       Left = 1
       Top = 21
       Width = 206
@@ -485,4 +485,4 @@ object Myform: TMyform
     Left = 139
     Top = 360
   end
-end
+end

@@ -18,6 +18,7 @@ uses
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
   StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos,
+  u_extdbgrid,
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
   u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection, dbf,
   DBGrids ;
@@ -49,7 +50,7 @@ type
     FWLabel5: TFWLabel;
     FWLabel6: TFWLabel;
     FWMemo: TFWMemo;
-    Noms: TFWDBGrid;
+    Noms: TExtDBGrid;
     OnFormInfoIni: TOnFormInfoIni;
     Panel1: TPanel;
     Panel2: TPanel;
