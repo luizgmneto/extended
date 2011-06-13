@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="2" Build="8"/>
-    <Files Count="25">
+    <Files Count="26">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.lrs"/>
         <Type Value="LRS"/>
@@ -126,6 +126,10 @@
         <Filename Value="composants/U_ExtComboInsert.pas"/>
         <UnitName Value="U_ExtComboInsert"/>
       </Item25>
+      <Item26>
+        <Filename Value="composants/u_extdbgrid.pas"/>
+        <UnitName Value="u_extdbgrid"/>
+      </Item26>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="8">

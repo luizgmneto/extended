@@ -28,14 +28,14 @@ uses unite_messages, U_DBListView, U_ExtDBNavigator,
 {$ELSE}
      DBReg, Designintf,
 {$ENDIF}
-     U_ExtDBImage;
+     U_ExtDBImage, u_extdbgrid;
 
 procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TDBListView,TExtDBNavigator,
                                                 TExtDBImage,TExtDBNumEdit, TExtDBComboInsert,
                                                 TExtDBColorCombo, TExtSearchDBEdit,
-                                                TFWDBEdit,TFWDBLookupCombo,TFWDBGrid,TFWDBMemo,TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF}]);
+                                                TFWDBEdit,TFWDBLookupCombo,TExtDBGrid,TFWDBMemo,TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF}]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TOnFormInfoIni,
                                                 TExtNumEdit,
                                                 TExtColorCombo,

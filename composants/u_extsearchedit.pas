@@ -149,7 +149,7 @@ begin
       SelText:='';
       Exit;
     end;
-  Else if ( Key in [ VK_RETURN ])
+  if ( Key in [ VK_RETURN ])
    Then
      Begin
        ValidateSearch;
