@@ -91,7 +91,7 @@
       <Unit4>
         <Filename Value="../composants/u_framework_dbcomponents.pas"/>
         <UnitName Value="u_framework_dbcomponents"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="163"/>
         <CursorPos X="88" Y="173"/>
@@ -144,6 +144,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
@@ -184,7 +185,7 @@
       <Unit14>
         <Filename Value="/usr/lib/lazarus/0.9.30/lcl/dbctrls.pp"/>
         <UnitName Value="DbCtrls"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="657"/>
         <CursorPos X="15" Y="680"/>
@@ -224,8 +225,7 @@
       <Unit19>
         <Filename Value="../composants/U_ExtComboInsert.pas"/>
         <UnitName Value="U_ExtComboInsert"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="282"/>
         <CursorPos X="77" Y="292"/>
@@ -302,7 +302,7 @@
       <Unit29>
         <Filename Value="/usr/lib/lazarus/0.9.30/lcl/controls.pp"/>
         <UnitName Value="Controls"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1808"/>
         <CursorPos X="15" Y="1831"/>
@@ -341,10 +341,12 @@
       <Unit34>
         <Filename Value="../../ibx/runtime/IBCustomDataSet.pas"/>
         <UnitName Value="IBCustomDataSet"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1240"/>
-        <CursorPos X="49" Y="1259"/>
+        <CursorPos X="37" Y="1250"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit34>
       <Unit35>
         <Filename Value="../../ibx/runtime/IBSQL.pas"/>
@@ -394,7 +396,7 @@
         <UsageCount Value="10"/>
       </Unit40>
     </Units>
-    <JumpHistory Count="21" HistoryIndex="20">
+    <JumpHistory Count="23" HistoryIndex="22">
       <Position1>
         <Filename Value="../composants/U_ExtComboInsert.pas"/>
         <Caret Line="373" Column="1" TopLine="348"/>
@@ -479,6 +481,14 @@
         <Filename Value="../composants/U_ExtComboInsert.pas"/>
         <Caret Line="342" Column="41" TopLine="342"/>
       </Position21>
+      <Position22>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="13" Column="33" TopLine="1"/>
+      </Position22>
+      <Position23>
+        <Filename Value="../../ibx/runtime/IBCustomDataSet.pas"/>
+        <Caret Line="1251" Column="33" TopLine="1240"/>
+      </Position23>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
