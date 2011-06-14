@@ -81,7 +81,7 @@ type
 
    { TExtDbGridColumns }
 
-   TExtDbGridColumns = class({$IFDEF TNT}TDBGridColumns{$ELSE}TRxDbGridColumns{$ENDIF})
+   TExtDbGridColumns = class({$IFDEF TNT}TTntDBGridColumns{$ELSE}TRxDbGridColumns{$ENDIF})
    private
      function GetColumn ( Index: Integer): TExtGridColumn;
      procedure SetColumn( Index: Integer; const Value: TExtGridColumn);
@@ -376,7 +376,6 @@ begin
           Visible := True;
           Coord  := 0 ;
           Weight := 0 ;
-          WidthHeight := 0 ;
           {$IFNDEF FPC}
           if Self.Ctl3D then
             inc ( Weight, 1 );
@@ -384,6 +383,7 @@ begin
             inc ( Weight, 1 );
           {$ENDIF}
           {$IFDEF FPC}
+          WidthHeight := 0 ;
           ColRowToOffset ( True, True, Col, Coord, WidthHeight);
           {$ELSE}
           CalcAxis(Horz,Selection.Left, Coord);
@@ -413,6 +413,7 @@ end;
 function TExtDBGrid.CanEditShow: Boolean;
 begin
   if  ( SelectedIndex >= 0 )
+  and ( SelectedIndex < Columns.Count )
   and assigned ( Columns [ SelectedIndex ].SomeEdit )
   and ( Columns [ SelectedIndex ].SomeEdit.Visible ) then
     Begin
@@ -453,16 +454,12 @@ end;
 
 function TExtDBGrid.GetColumns: TExtDbGridColumns;
 begin
-  {$IFDEF FPC}
   Result := inherited Columns as TExtDBGridColumns;
-  {$ENDIF}
 end;
 
 procedure TExtDBGrid.SetColumns(const AValue: TExtDbGridColumns);
 begin
-  {$IFDEF FPC}
   inherited Columns := AValue;
-  {$ENDIF}
 end;
 
 

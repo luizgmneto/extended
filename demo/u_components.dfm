@@ -1,10 +1,10 @@
 object Myform: TMyform
-  Left = 550
-  Top = 312
+  Left = 404
+  Top = 213
   ActiveControl = Panel1
   Caption = 'Myform'
-  ClientHeight = 533
-  ClientWidth = 738
+  ClientHeight = 560
+  ClientWidth = 751
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,13 +19,13 @@ object Myform: TMyform
     Left = 208
     Top = 0
     Width = 5
-    Height = 533
+    Height = 560
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 208
-    Height = 533
+    Height = 560
     Align = alLeft
     Caption = 'Panel1'
     TabOrder = 0
@@ -45,14 +45,13 @@ object Myform: TMyform
       Left = 1
       Top = 21
       Width = 206
-      Height = 511
+      Height = 538
       Align = alClient
       Columns = <
         item
           Expanded = False
           FieldName = 'NOM'
-          Title.Alignment = taCenter
-          Title.Caption = 'Noms'
+          Title.Caption = 'Name'
           Width = 88
           Visible = True
           FieldTag = 0
@@ -61,7 +60,7 @@ object Myform: TMyform
           Expanded = False
           FieldName = 'PRENOM'
           Title.Alignment = taCenter
-          Title.Caption = 'Pr'#233'noms'
+          Title.Caption = 'Surname'
           Width = 88
           Visible = True
           FieldTag = 0
@@ -77,8 +76,7 @@ object Myform: TMyform
         item
           Expanded = False
           FieldName = 'NOM'
-          Title.Alignment = taCenter
-          Title.Caption = 'Noms'
+          Title.Caption = 'Name'
           Width = 88
           Visible = True
           FieldTag = 0
@@ -87,7 +85,7 @@ object Myform: TMyform
           Expanded = False
           FieldName = 'PRENOM'
           Title.Alignment = taCenter
-          Title.Caption = 'Pr'#233'noms'
+          Title.Caption = 'Surname'
           Width = 88
           Visible = True
           FieldTag = 0
@@ -99,7 +97,7 @@ object Myform: TMyform
       Width = 221
       Height = 21
       Color = clMoneyGreen
-      DataField = 'Prenom'
+      DataField = 'PRENOM'
       DataSource = Datasource
       MaxLength = 100
       TabOrder = 2
@@ -112,7 +110,7 @@ object Myform: TMyform
       Width = 221
       Height = 21
       Color = clMoneyGreen
-      DataField = 'Nom'
+      DataField = 'NOM'
       DataSource = Datasource
       MaxLength = 100
       TabOrder = 3
@@ -123,10 +121,10 @@ object Myform: TMyform
   object Panel2: TPanel
     Left = 213
     Top = 0
-    Width = 525
-    Height = 533
+    Width = 538
+    Height = 560
     Align = alClient
-    TabOrder = 1
+    TabOrder = 3
     object FWLabel1: TFWLabel
       Left = 19
       Top = 108
@@ -142,6 +140,7 @@ object Myform: TMyform
       Font.Style = []
       ParentColor = False
       ParentFont = False
+      Transparent = False
       ColorFocus = clMaroon
     end
     object FWLabel2: TFWLabel
@@ -159,6 +158,7 @@ object Myform: TMyform
       Font.Style = []
       ParentColor = False
       ParentFont = False
+      Transparent = False
       ColorFocus = clMaroon
     end
     object FWLabel3: TFWLabel
@@ -176,6 +176,7 @@ object Myform: TMyform
       Font.Style = []
       ParentColor = False
       ParentFont = False
+      Transparent = False
       ColorFocus = clMaroon
     end
     object FWLabel4: TFWLabel
@@ -193,6 +194,7 @@ object Myform: TMyform
       Font.Style = []
       ParentColor = False
       ParentFont = False
+      Transparent = False
       ColorFocus = clMaroon
     end
     object FWLabel5: TFWLabel
@@ -201,15 +203,16 @@ object Myform: TMyform
       Width = 65
       Height = 17
       AutoSize = False
-      Caption = 'Nom'
+      Caption = 'Name'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = 10
+      Font.Height = 14
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentColor = False
       ParentFont = False
+      Transparent = False
       ColorFocus = clMaroon
     end
     object FWLabel6: TFWLabel
@@ -218,22 +221,23 @@ object Myform: TMyform
       Width = 65
       Height = 17
       AutoSize = False
-      Caption = 'Prenom'
+      Caption = 'Surname'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = 10
+      Font.Height = 14
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentColor = False
       ParentFont = False
+      Transparent = False
       ColorFocus = clMaroon
     end
     object Splitter2: TSplitter
       Left = 1
-      Top = 312
-      Width = 523
-      Height = 5
+      Top = 320
+      Width = 536
+      Height = 3
       Cursor = crVSplit
       Align = alBottom
     end
@@ -252,6 +256,7 @@ object Myform: TMyform
       Font.Style = []
       ParentColor = False
       ParentFont = False
+      Transparent = False
       ColorFocus = clMaroon
     end
     object Search: TFWLabel
@@ -260,19 +265,20 @@ object Myform: TMyform
       Width = 65
       Height = 15
       AutoSize = False
-      Caption = 'Postal Code'
+      Caption = 'Department'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = 12
+      Font.Height = 10
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentColor = False
       ParentFont = False
+      Transparent = False
       ColorFocus = clMaroon
     end
     object ExtColorCombo: TExtColorCombo
-      Left = 118
+      Left = 120
       Top = 96
       Width = 221
       Height = 22
@@ -294,18 +300,19 @@ object Myform: TMyform
       ColorLabel = clMaroon
       ColorReadOnly = clInfoText
       MyLabel = FWLabel2
-      Color = clMoneyGreen
-      TabOrder = 1
+      Color = clInfoText
+      ReadOnly = True
+      TabOrder = 2
     end
     object FWDateEdit1: TFWDateEdit
       Left = 118
       Top = 166
       Width = 221
-      Height = 27
-      Date = 40655.608620648150000000
-      Time = 40655.608620648150000000
+      Height = 24
+      Date = 40708.540152222220000000
+      Time = 40708.540152222220000000
       Color = clMoneyGreen
-      TabOrder = 2
+      TabOrder = 3
       ColorReadOnly = clInfoText
       MyLabel = FWLabel3
       AlwaysSame = False
@@ -316,16 +323,16 @@ object Myform: TMyform
       Width = 221
       Height = 21
       Color = clMoneyGreen
-      TabOrder = 3
+      TabOrder = 4
       Text = 'FWEdit'
       MyLabel = FWLabel4
       AlwaysSame = False
     end
     object DBListView: TDBListView
       Left = 1
-      Top = 317
-      Width = 523
-      Height = 215
+      Top = 323
+      Width = 536
+      Height = 236
       Align = alBottom
       Columns = <
         item
@@ -335,23 +342,23 @@ object Myform: TMyform
         end
         item
           Caption = 'Prenom'
-          Width = 385
+          Width = 414
         end>
       DragMode = dmAutomatic
       MultiSelect = True
       RowSelect = True
-      TabOrder = 4
-      ColumnsOrder = '0=120,1=385'
+      TabOrder = 1
+      ColumnsOrder = '0=120,1=414'
       Groups = <>
       ExtendedColumns = <
         item
         end
         item
         end>
-      Datasource = Datasource
-      DataKeyUnit = 'Cle'
-      DataFieldsDisplay = 'Nom;Prenom'
-      DataTableUnit = 'fiches.dbf'
+      Datasource = Datasource2
+      DataKeyUnit = 'Clep'
+      DataFieldsDisplay = 'Nom'
+      DataTableUnit = 'UTILISATEUR'
     end
     object FWMemo: TFWMemo
       Left = 371
@@ -364,15 +371,17 @@ object Myform: TMyform
       TabOrder = 5
     end
     object ExtDBComboInsert2: TExtDBComboInsert
-      Left = 120
-      Top = 272
+      Left = 118
+      Top = 268
       Width = 221
-      Height = 29
+      Height = 27
       Color = clMoneyGreen
-      DataField = 'VILLE'
+      DataField = 'IDDEPARTEMENT'
       DataSource = Datasource
+      ReadOnly = True
       TabOrder = 7
       MyLabel = Search2
+      SearchSource = Datasource3
     end
     object ExtSearchDBEdit2: TExtSearchDBEdit
       Left = 118
@@ -380,12 +389,13 @@ object Myform: TMyform
       Width = 221
       Height = 21
       Color = clMoneyGreen
-      DataField = 'POSTAL'
+      DataField = 'NOM'
       DataSource = Datasource
       MaxLength = 100
       TabOrder = 6
-      SearchDisplay = 'CODEPOSTAL'
-      SearchSource = Datasource2
+      SearchDisplay = 'NOM'
+      SearchKey = 'CLEP'
+      SearchSource = Datasource3
       MyLabel = Search
     end
   end
@@ -411,78 +421,118 @@ object Myform: TMyform
     DataField = 'Prenom'
     DataSource = Datasource
     MaxLength = 100
-    TabOrder = 3
+    TabOrder = 1
+    ColorReadOnly = clWhite
     MyLabel = FWLabel6
     AlwaysSame = False
   end
   object OnFormInfoIni: TOnFormInfoIni
     SauvePosObjects = True
-    SauveEditObjets = [feTEdit, feTComboValue, feTDateEdit, feTMemo]
+    SauveEditObjets = [feTEdit, feTComboValue, feTColorCombo, feTDateEdit, feTMemo]
     SauvePosForm = True
     Left = 80
-    Top = 176
-  end
-  object DbfNoms: TDbf
-    Exclusive = True
-    FilePath = 
-      '/home/matthieu/Bureau/Matthieu/Programmation/Lazarus Delphi/Exte' +
-      'nded/demo/\'
-    IndexDefs = <
-      item
-        IndexFile = 'NOMS'
-        SortField = 'NOM'
-        Options = [ixCaseInsensitive]
-      end>
-    StoreDefs = True
-    TableName = 'fiches.dbf'
-    TableLevel = 4
-    FieldDefs = <
-      item
-        Name = 'NOM'
-        DataType = ftString
-        Precision = -1
-        Size = 100
-      end
-      item
-        Name = 'PRENOM'
-        DataType = ftString
-        Precision = -1
-        Size = 100
-      end
-      item
-        Name = 'POSTAL'
-        DataType = ftInteger
-        Precision = -1
-      end
-      item
-        Name = 'VILLE'
-        DataType = ftString
-        Precision = -1
-        Size = 100
-      end>
-    FilterOptions = [foCaseInsensitive, foNoPartialCompare]
-    Left = 136
-    Top = 288
+    Top = 152
   end
   object Datasource: TDataSource
-    DataSet = DbfNoms
+    DataSet = IBUtilisateur
     Left = 48
     Top = 288
   end
   object Datasource2: TDataSource
-    DataSet = Villes
+    DataSet = IBDepartement
     Left = 48
     Top = 360
   end
-  object Villes: TDbf
-    FilePath = 
-      '/home/matthieu/Bureau/Matthieu/Programmation/Lazarus Delphi/Exte' +
-      'nded/demo/\'
-    IndexDefs = <>
-    ReadOnly = True
-    TableName = 'cp.dbf'
-    TableLevel = 25
-    Left = 139
-    Top = 360
+  object IBDatabase: TIBDatabase
+    DatabaseName = '/var/lib/firebird/2.1/data/Exemple2.fdb'
+    Params.Strings = (
+      'user_name=SYSDBA'
+      'password=masterkey')
+    LoginPrompt = False
+    AllowStreamedConnected = False
+    Left = 48
+    Top = 216
   end
-end
+  object IBUtilisateur: TIBDataSet
+    Database = IBDatabase
+    Transaction = IBTransaction
+    DeleteSQL.Strings = (
+      'Delete From UTILISATEUR A'
+      'Where A.CLEP = :CLEP')
+    InsertSQL.Strings = (
+      'Insert Into UTILISATEUR(CLEP, NOM, PRENOM, IDDEPARTEMENT)'
+      'Values(:CLEP, :NOM, :PRENOM, :IDDEPARTEMENT)')
+    RefreshSQL.Strings = (
+      
+        'Select A.CLEP, A.NOM, A.PRENOM, A.IDDEPARTEMENT From UTILISATEUR' +
+        ' A'
+      'Where A.CLEP = :CLEP')
+    SelectSQL.Strings = (
+      
+        'Select A.CLEP, A.NOM, A.PRENOM, A.IDDEPARTEMENT From UTILISATEUR' +
+        ' A')
+    ModifySQL.Strings = (
+      'Update UTILISATEUR A Set '
+      '  A.CLEP = :CLEP,'
+      '  A.NOM = :NOM,'
+      '  A.PRENOM = :PRENOM,'
+      '  A.IDDEPARTEMENT = :IDDEPARTEMENT'
+      'Where A.CLEP = :OLD_CLEP')
+    Left = 152
+    Top = 288
+  end
+  object IBDepartement: TIBDataSet
+    Database = IBDatabase
+    Transaction = IBTransaction
+    DeleteSQL.Strings = (
+      'Delete From DEPARTEMENT A'
+      'Where A.CLEP = :CLEP')
+    InsertSQL.Strings = (
+      'Insert Into DEPARTEMENT(CLEP, NOM)'
+      'Values(:CLEP, :NOM)')
+    RefreshSQL.Strings = (
+      'Select A.CLEP, A.NOM From DEPARTEMENT A'
+      'Where A.CLEP = :CLEP')
+    SelectSQL.Strings = (
+      'Select A.CLEP, A.NOM From DEPARTEMENT A')
+    ModifySQL.Strings = (
+      'Update DEPARTEMENT A Set '
+      '  A.CLEP = :CLEP,'
+      '  A.NOM = :NOM'
+      'Where A.CLEP = :OLD_CLEP')
+    Left = 152
+    Top = 361
+  end
+  object IBTransaction: TIBTransaction
+    DefaultDatabase = IBDatabase
+    Left = 152
+    Top = 217
+  end
+  object IBDepSearch: TIBDataSet
+    Database = IBDatabase
+    Transaction = IBTransaction
+    DeleteSQL.Strings = (
+      'Delete From DEPARTEMENT A'
+      'Where A.CLEP = :CLEP')
+    InsertSQL.Strings = (
+      'Insert Into DEPARTEMENT(CLEP, NOM)'
+      'Values(:CLEP, :NOM)')
+    RefreshSQL.Strings = (
+      'Select A.CLEP, A.NOM From DEPARTEMENT A'
+      'Where A.CLEP = :CLEP')
+    SelectSQL.Strings = (
+      'Select A.CLEP, A.NOM From DEPARTEMENT A')
+    ModifySQL.Strings = (
+      'Update DEPARTEMENT A Set '
+      '  A.CLEP = :CLEP,'
+      '  A.NOM = :NOM'
+      'Where A.CLEP = :OLD_CLEP')
+    Left = 152
+    Top = 425
+  end
+  object Datasource3: TDataSource
+    DataSet = IBDepSearch
+    Left = 48
+    Top = 424
+  end
+end

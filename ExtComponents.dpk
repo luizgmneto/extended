@@ -99,6 +99,7 @@ contains
   U_FormMainIni in 'composants\U_FormMainIni.pas',
   U_ExtDBImage in 'composants\U_ExtDBImage.pas',
   u_framework_dbcomponents in 'composants\u_framework_dbcomponents.pas',
-  u_extsearchedit in 'composants\u_extsearchedit.pas';
+  u_extsearchedit in 'composants\u_extsearchedit.pas',
+  u_extdbgrid in 'composants\u_extdbgrid.pas';
 
 end.
