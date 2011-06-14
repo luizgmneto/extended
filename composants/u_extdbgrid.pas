@@ -1,4 +1,4 @@
-unit u_extdbgrid;
+﻿unit u_extdbgrid;
 
 {*********************************************************************}
 {                                                                     }
@@ -31,6 +31,9 @@ uses
   Classes, SysUtils, Grids,
   u_extcomponent, Graphics,
   Messages, DB,
+{$IFDEF TNT}
+  TntDBGrids,
+{$ENDIF}
 {$IFDEF EXRX}
   ExRXDBGrid,
 {$ENDIF}
@@ -78,13 +81,12 @@ type
 
    { TExtDbGridColumns }
 
-   TExtDbGridColumns = class({$IFDEF TNT}TTntDBGridColumns{$ELSE}TRxDbGridColumns{$ENDIF})
+   TExtDbGridColumns = class({$IFDEF TNT}TDBGridColumns{$ELSE}TRxDbGridColumns{$ENDIF})
    private
-     function GetColumn(const Index: Integer): TExtGridColumn;
-     procedure SetColumn( const Index: Integer; const Value: TExtGridColumn);
+     function GetColumn ( Index: Integer): TExtGridColumn;
+     procedure SetColumn( Index: Integer; const Value: TExtGridColumn);
    public
      function Add: TExtGridColumn;
-   published
      property Items[Index: Integer]: TExtGridColumn read GetColumn write SetColumn; default;
    end;
 
@@ -139,7 +141,11 @@ type
 implementation
 
 
-uses fonctions_proprietes;
+uses
+{$IFNDEF FPC}
+   Forms,
+{$ENDIF}
+   fonctions_proprietes;
 
 { TExtGridColumn }
 
@@ -252,12 +258,12 @@ end;
 
 { TExtDbGridColumns }
 
-function TExtDbGridColumns.GetColumn(const Index: Integer): TExtGridColumn;
+function TExtDbGridColumns.GetColumn( Index: Integer): TExtGridColumn;
 begin
   result := TExtGridColumn( inherited Items[Index] );
 end;
 
-procedure TExtDbGridColumns.SetColumn(const Index: Integer; const Value: TExtGridColumn);
+procedure TExtDbGridColumns.SetColumn( Index: Integer; const Value: TExtGridColumn);
 begin
   Items[Index].Assign( Value );
 end;
@@ -471,8 +477,8 @@ begin
   if  FPaintEdits
   and ( ACol > 0  )
   and ( ARow >= {$IFDEF FPC}1{$ELSE}IndicatorOffset{$ENDIF} )
-  and assigned (( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit ) Then
-   with ( TFWGridColumn ( Columns [ ACol - 1 ])).SomeEdit do
+  and assigned (( TExtGridColumn ( Columns [ ACol - 1 ])).SomeEdit ) Then
+   with ( TExtGridColumn ( Columns [ ACol - 1 ])).SomeEdit do
      Begin
        {$IFDEF FPC}
        PrepareCanvas(aCol, aRow, aState);
@@ -557,7 +563,7 @@ end;
 
  // Gestion du click sur le titre
 {$IFDEF EXRX}
-procedure TFWDBGrid.TitleClick(Column: TColumn);
+procedure TExtDBGrid.TitleClick(Column: TColumn);
 {$ELSE}
 procedure TExtDBGrid.DoTitleClick(ACol: Longint; AField: TField);
 {$ENDIF}

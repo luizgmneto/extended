@@ -50,23 +50,6 @@ type
 
   TExtDBComboInsert = class;
 
-  { TInsertDataLink }
-
-  TInsertDataLink = class(TFieldDataLink)
-
-    FComboInsert : TExtDBComboInsert;
-  private
-   protected
-     procedure DataSetScrolled(Distance: Integer); override;
-     procedure UpdateData; override;
-     procedure ActiveChanged; override;
-     procedure DataSetChanged; override;
-     procedure EditingChanged; override;
-     property ComboInsert : TExtDBComboInsert read FComboInsert;
-   public
-     constructor Create ( const ComboInsert : TExtDBComboInsert );
-  end;
-
 { TExtDBComboInsert }
   TExtDBComboInsert = class(TFWDBLookupCombo)
   private
@@ -76,7 +59,9 @@ type
     // Valeur affichée
     FDisplayValue : String ;
     // Focus sur le composant
+    {$IFDEF FPC}
     FCompleteWord,
+    {$ENDIF}
     Flocated,
     FReadOnly,
     FSet,
@@ -90,7 +75,6 @@ type
     FBeepOnError: Boolean;
     function GetSearchSource: TDataSource;
     procedure ResetMaxLength;
-    procedure SetCompleteWord ( const AValue : Boolean);
     procedure SetSearchSource(Value: TDataSource);
     procedure WMPaint(var Msg: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF} ); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
   protected
@@ -98,13 +82,14 @@ type
     OldSelStart : Integer;
     function GetTextMargins: TPoint; virtual;
     procedure ValidateSearch; virtual;
+    {$IFDEF FPC}
     procedure SetSelText(const Val: string); override;
     procedure RealSetText(const AValue: TCaption); override;
-    procedure UpdateData(Sender: TObject); override;
-    procedure CreateParams(var Params: TCreateParams); override;
     procedure CompleteText; virtual;
-    procedure EditingChange(Sender: TObject); override;
-    procedure DataChange(Sender: TObject); override;
+    {$ENDIF}
+    procedure {$IFDEF FPC}UpdateData(Sender: TObject){$ELSE}DataLinkUpdateData{$ENDIF}; override;
+    procedure CreateParams(var Params: TCreateParams); override;
+    procedure {$IFDEF FPC}DataChange(Sender: TObject){$ELSE}DataLinkRecordChanged(Field:TField){$ENDIF}; override;
     procedure InsertLookup ( const AUpdate : Boolean ); virtual ;
 
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -112,6 +97,9 @@ type
     procedure KeyPress(var Key: Char); override;
     procedure Change; override;
   public
+    {$IFNDEF FPC}
+    procedure SelectAll; virtual;
+    {$ENDIF}
     function GetDisplayValue: String;virtual;
     procedure DoEnter; override;
     procedure DoExit; override;
@@ -122,13 +110,12 @@ type
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
     property OnSet : TNotifyEvent read FOnSet write FOnSet;
     property BeepOnError: Boolean read FBeepOnError write FBeepOnError default True;
-    property DataField: string read GetDataField write SetDataField;
-    property DataSource: TDataSource read GetDataSource write SetDataSource;
     property SearchSource: TDataSource read GetSearchSource write SetSearchSource;
     property HideSelection : Boolean read FHideSelection write FHideSelection default false;
-    property CompleteWord : Boolean read FCompleteWord write SetCompleteWord default true;
+    {$IFDEF FPC}
+    property CompleteWord : Boolean read FCompleteWord write FCompleteWord default true;
+    {$ENDIF}
     property ReadOnly: Boolean read GetReadOnly write SetReadOnly default False;
-    property AutoComplete default True;
   end;
 
 implementation
@@ -141,44 +128,6 @@ uses
   JvConsts, JvToolEdit,
   {$ENDIF}
   unite_messages, fonctions_db;
-
-{ TInsertDataLink }
-
-procedure TInsertDataLink.DataSetScrolled(Distance: Integer);
-begin
-  inherited;
-  FComboInsert.UpdateData ( Self );
-end;
-
-procedure TInsertDataLink.UpdateData;
-begin
-  inherited;
-  FComboInsert.UpdateData ( Self );
-end;
-
-procedure TInsertDataLink.ActiveChanged;
-begin
-  inherited;
-
-end;
-
-procedure TInsertDataLink.DataSetChanged;
-begin
-  inherited;
-  FComboInsert.DataChange(self);
-end;
-
-procedure TInsertDataLink.EditingChanged;
-begin
-  inherited;
-  FComboInsert.EditingChange(self);
-end;
-
-constructor TInsertDataLink.Create(const ComboInsert: TExtDBComboInsert);
-begin
-  inherited Create;
-  FComboInsert := ComboInsert;
-end;
 
 { TExtDBComboInsert }
 
@@ -193,8 +142,9 @@ begin
   inherited Create(AOwner);
   // Pas de modification ni de mise à jour à la création
   FModify := False ;
-  AutoComplete:=True;
+  {$IFDEF FPC}
   FCompleteWord := True;
+  {$ENDIF}
   FUpdate := False ;
   // style lookup
   ControlStyle := ControlStyle + [csReplicatable];
@@ -207,16 +157,6 @@ begin
     // Glyph de combo par défaut
 end;
 
-////////////////////////////////////////////////////////////////////////////////
-// Evènement   : EditingChange
-// description : Changement dans l'édition des données
-// paramètre   : Sender : pour l'évènement
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.EditingChange;
-begin
-  if not ( csDestroying in ComponentState ) Then
-    ReadOnly := Field.CanModify;
-end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // procédure   : ResetMaxLength
@@ -250,6 +190,13 @@ begin
     Params.Style := Params.Style or ES_NOHIDESEL;
 end;
 
+{$IFNDEF FPC}
+procedure TExtDBComboInsert.SelectAll;
+Begin
+
+End;
+{$ENDIF}
+
 ////////////////////////////////////////////////////////////////////////////////
 // procédure   : KeyDown
 // description : évènement enfoncement de touche
@@ -265,20 +212,20 @@ begin
     VK_ESCAPE:
       Begin
         SelectAll;
-        Key := VK_UNKNOWN;
+        Key := 0;
       end;
     VK_DELETE :
       Begin
         Flocated:=False;
         FSet := False;
-        SelText:='';
-        Key := VK_UNKNOWN;
+        {$IFDEF FPC}SelText:='';{$ELSE}{$ENDIF}
+        Key := 0;
         Exit;
       end;
     VK_RETURN:
       Begin
         InsertLookup ( True );
-        Key := VK_UNKNOWN;
+        Key := 0;
       end;
   end;
   inherited;
@@ -302,7 +249,9 @@ begin
   if (Key in [#32..#255]) and (Field <> nil) Then
     Begin
       FModify := True ;
+      {$IFDEF FPC}
       CompleteText;
+      {$ENDIF}
        if  ( (( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} = '' ) and not Field.IsValidChar(Key))
        or  ( ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} <> '' ) and
        ( not assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} ) or not assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet ) or not assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ) ) or not {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).IsValidChar(Key)))) then
@@ -313,6 +262,29 @@ begin
       end;
     End ;
 end;
+
+{$IFDEF FPC}
+{------------------------------------------------------------------------------
+  Method: TExtDBComboInsert.SetSelText
+  Params: val - new string for text-field
+  Returns: nothings
+
+  Replace the selected part of text-field with "val".
+ ------------------------------------------------------------------------------}
+procedure TExtDBComboInsert.SetSelText(const Val: string);
+var
+  OldText, NewText: string;
+  OldPos: integer;
+begin
+  OldPos := SelStart;
+  OldText := Text;
+  NewText := UTF8Copy(OldText, 1, OldPos) +
+             Val +
+             UTF8Copy(OldText, OldPos + SelLength + 1, MaxInt);
+  Text := NewText;
+  SelStart := OldPos + UTF8Length(Val);
+end;
+
 
 procedure TExtDBComboInsert.RealSetText(const AValue: TCaption);
 begin
@@ -333,12 +305,13 @@ begin
   DebugLn(['TWinControl.RealSetText ',DbgSName(Self),' END']);
   {$ENDIF}
 end;
+{$ENDIF}
 
 //////////////////////////////////////////////////////////////////////////////////
 // Procédure Completetext
 // Complétion
 //////////////////////////////////////////////////////////////////////////////////
-
+{$IFDEF FPC}
 procedure TExtDBComboInsert.CompleteText;
 var li_pos : Integer;
     ls_temp : String;
@@ -369,30 +342,10 @@ begin
           End ;
       end
 end;
+{$ENDIF}
 
 procedure TExtDBComboInsert.Change;
 begin
-end;
-
-{------------------------------------------------------------------------------
-  Method: TCustomComboBox.SetSelText
-  Params: val - new string for text-field
-  Returns: nothings
-
-  Replace the selected part of text-field with "val".
- ------------------------------------------------------------------------------}
-procedure TExtDBComboInsert.SetSelText(const Val: string);
-var
-  OldText, NewText: string;
-  OldPos: integer;
-begin
-  OldPos := SelStart;
-  OldText := Text;
-  NewText := UTF8Copy(OldText, 1, OldPos) +
-             Val +
-             UTF8Copy(OldText, OldPos + SelLength + 1, MaxInt);
-  Text := NewText;
-  SelStart := OldPos + UTF8Length(Val);
 end;
 
 
@@ -433,15 +386,7 @@ begin
 end;
 
 
-procedure TExtDBComboInsert.SetCompleteWord(const AValue: Boolean);
-begin
-  if AValue <> FCompleteWord Then
-    Begin
-      FCompleteWord:=AValue;
-    end;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 // fonction    : GetDisplayValue
 // description : Récupère la valeur affichée
 // paramètre   : résultat : la valeur affichée
@@ -463,12 +408,13 @@ Begin
     End ;
 End ;
 
-////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
 // Evènement   : DataChange
 // description : Changement dans les données
 // paramètre   : Sender : pour l'évènement
 ////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.DataChange(Sender: TObject);
+procedure TExtDBComboInsert.{$IFDEF FPC}DataChange(Sender: TObject){$ELSE}DataLinkRecordChanged(Field:TField){$ENDIF};
 begin
   ResetMaxLength;
   if Field <> nil then
@@ -506,7 +452,7 @@ end;
 // description : Mise à jour après l'édition des données
 // paramètre   : Sender : pour l'évènement
 ////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.UpdateData;
+procedure TExtDBComboInsert.{$IFDEF FPC}UpdateData(Sender: TObject){$ELSE}DataLinkUpdateData{$ENDIF};
 begin
   // auto-insertion spécifique de ce composant
   InsertLookup ( False );
@@ -526,7 +472,7 @@ Begin
       Begin
         Flocated  := True;
         FSet := True;
-        Text := FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
+        {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
         if assigned ( FOnSet ) Then
           FOnSet ( Self )
       End ;
@@ -572,7 +518,7 @@ begin
               {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Post ;
               Field.Dataset.Edit;
               Field.Value := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FieldByName ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
-              Text := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value ;
+              {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value ;
               FUpdate := True ;
               if assigned ( FOnSet ) Then
                 FOnSet ( Self );

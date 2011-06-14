@@ -48,7 +48,7 @@ uses
   DBGrids, ComCtrls, StdCtrls, SysUtils,
   TypInfo, Variants, u_extcomponent,
 {$IFDEF TNT}
-   TntDBGrids, TntStdCtrls, TntDBCtrls,
+   TntStdCtrls, TntDBCtrls,
 {$ENDIF}
   fonctions_erreurs, u_framework_components;
 
