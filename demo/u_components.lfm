@@ -423,7 +423,7 @@ inherited Myform: TMyform
       TabOrder = 6
       SearchDisplay = 'NOM'
       SearchKey = 'CLEP'
-      SearchSource = Datasource2
+      SearchSource = Datasource3
       MyLabel = Search
     end
   end

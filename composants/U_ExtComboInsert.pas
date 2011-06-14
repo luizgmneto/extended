@@ -55,7 +55,9 @@ type
   TInsertDataLink = class(TFieldDataLink)
 
     FComboInsert : TExtDBComboInsert;
+  private
    protected
+     procedure DataSetScrolled(Distance: Integer); override;
      procedure UpdateData; override;
      procedure ActiveChanged; override;
      procedure DataSetChanged; override;
@@ -72,11 +74,7 @@ type
     FModify : Boolean ;
     FSearchSource : TDatasource;
     // Valeur affichée
-    FDisplayValue : Variant ;
-    // Lien de données
-    FDataLink: TInsertDataLink;
-    // Canevas de peinture du composant
-    FCanvas: TControlCanvas;
+    FDisplayValue : String ;
     // Focus sur le composant
     FCompleteWord,
     Flocated,
@@ -90,59 +88,36 @@ type
     FUpdate ,
     // Beep sur erreur
     FBeepOnError: Boolean;
-    function GetCanvas: TCanvas;
-    function GetDataField: string;
-    function GetDataSource: TDataSource;
-    function GetField: TField;
-    function GetReadOnly: Boolean;
-    function GetTextMargins: TPoint;
     function GetSearchSource: TDataSource;
     procedure ResetMaxLength;
-    procedure SetDataField(const Value: string);
     procedure SetCompleteWord ( const AValue : Boolean);
-    procedure SetDataSource(Value: TDataSource);
     procedure SetSearchSource(Value: TDataSource);
-    procedure SetFocused(Value: Boolean);
-    procedure SetReadOnly(const AValue: Boolean);
     procedure WMPaint(var Msg: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF} ); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
-    procedure WMCut(var Msg: TMessage); message {$IFDEF FPC}LM_CUT{$ELSE}WM_CUT{$ENDIF};
-    procedure WMPaste(var Msg: TMessage); message {$IFDEF FPC}LM_PASTE{$ELSE}WM_PASTE{$ENDIF};
-    {$IFNDEF FPC}
-    procedure WMUndo(var Msg: TMessage); message {$IFDEF FPC}LM_UNDO{$ELSE}WM_UNDO{$ENDIF};
-    {$ENDIF}
-    procedure CMGetDataLink(var Msg: TMessage); message CM_GETDATALINK;
-    function GetDisplayValue: String;
   protected
     OldText : String ;
+    OldSelStart : Integer;
+    function GetTextMargins: TPoint; virtual;
     procedure ValidateSearch; virtual;
-    procedure UpdateData; virtual;
-    procedure CompleteText; virtual;
-    procedure EditingChange; virtual;
-    procedure ActiveChange; virtual ;
-    procedure DataChange; virtual ;
-//    procedure ListLinkActiveChanged; override ;
-    procedure InsertLookup ( const AUpdate : Boolean ); virtual ;
+    procedure SetSelText(const Val: string); override;
+    procedure RealSetText(const AValue: TCaption); override;
+    procedure UpdateData(Sender: TObject); override;
     procedure CreateParams(var Params: TCreateParams); override;
+    procedure CompleteText; virtual;
+    procedure EditingChange(Sender: TObject); override;
+    procedure DataChange(Sender: TObject); override;
+    procedure InsertLookup ( const AUpdate : Boolean ); virtual ;
+
+    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure KeyUp(var Key: Word; Shift: TShiftState); override;
+    procedure KeyPress(var Key: Char); override;
+    procedure Change; override;
+  public
+    function GetDisplayValue: String;virtual;
     procedure DoEnter; override;
     procedure DoExit; override;
-
-    procedure Change; override;
-    function EditCanModify: Boolean; virtual;
-    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
-    procedure KeyPress(var Key: Char); override;
-    procedure Loaded; override;
-    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-    procedure Reset; virtual;
-  public
     property Modify : Boolean read FModify ;
     constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
-    function ExecuteAction(AAction: TBasicAction): Boolean; override;
-    function UpdateAction(AAction: TBasicAction): Boolean; override;
-    // function UseRightToLeftAlignment: Boolean; override;
-    property Field: TField read GetField;
-    property Canvas: TCanvas read GetCanvas;
-    property DisplayValue : Variant read FDisplayValue write FDisplayValue;
+    property DisplayValue : String read FDisplayValue write FDisplayValue;
   published
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
     property OnSet : TNotifyEvent read FOnSet write FOnSet;
@@ -153,42 +128,50 @@ type
     property HideSelection : Boolean read FHideSelection write FHideSelection default false;
     property CompleteWord : Boolean read FCompleteWord write SetCompleteWord default true;
     property ReadOnly: Boolean read GetReadOnly write SetReadOnly default False;
+    property AutoComplete default True;
   end;
 
 implementation
 
 uses
   SysUtils, Forms, StdCtrls, fonctions_erreurs,
-  {$IFNDEF FPC}
+  {$IFDEF FPC}
+  LCLProc,
+  {$ELSE}
   JvConsts, JvToolEdit,
   {$ENDIF}
   unite_messages, fonctions_db;
 
 { TInsertDataLink }
 
+procedure TInsertDataLink.DataSetScrolled(Distance: Integer);
+begin
+  inherited;
+  FComboInsert.UpdateData ( Self );
+end;
+
 procedure TInsertDataLink.UpdateData;
 begin
-  inherited UpdateData;
-  FComboInsert.UpdateData;
+  inherited;
+  FComboInsert.UpdateData ( Self );
 end;
 
 procedure TInsertDataLink.ActiveChanged;
 begin
-  inherited ActiveChanged;
-  FComboInsert.ActiveChange;
+  inherited;
 
 end;
 
 procedure TInsertDataLink.DataSetChanged;
 begin
-  inherited DataSetChanged;
-  FComboInsert.DataChange;
+  inherited;
+  FComboInsert.DataChange(self);
 end;
 
 procedure TInsertDataLink.EditingChanged;
 begin
-  inherited EditingChanged;
-  FComboInsert.EditingChange;
+  inherited;
+  FComboInsert.EditingChange(self);
 end;
 
 constructor TInsertDataLink.Create(const ComboInsert: TExtDBComboInsert);
@@ -210,16 +193,11 @@ begin
   inherited Create(AOwner);
   // Pas de modification ni de mise à jour à la création
   FModify := False ;
+  AutoComplete:=True;
   FCompleteWord := True;
   FUpdate := False ;
   // style lookup
   ControlStyle := ControlStyle + [csReplicatable];
-  // Création du canevas
-  FCanvas := TControlCanvas.Create;
-  FCanvas.Control := Self;
-  // Création du lien
-  FDataLink := TInsertDataLink.Create ( Self );
-  FDataLink.Control := Self;
   // Beep sur erreur par défaut
   FBeepOnError := True;
   // Mode création pour informer la popup
@@ -230,21 +208,6 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Destructeur : Destroy
-// description : Destruction des objets créés au create
-////////////////////////////////////////////////////////////////////////////////
-destructor TExtDBComboInsert.Destroy;
-begin
-  // Lien de données
-  FDataLink.Free;
-  FDataLink := nil;
-  inherited Destroy;
-  // (rom) destroy Canvas AFTER inherited Destroy
-  // canevas de peinture du composant
-  FCanvas.Free;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
 // Evènement   : EditingChange
 // description : Changement dans l'édition des données
 // paramètre   : Sender : pour l'évènement
@@ -252,7 +215,7 @@ end;
 procedure TExtDBComboInsert.EditingChange;
 begin
   if not ( csDestroying in ComponentState ) Then
-    ReadOnly := FDataLink.Field.CanModify;
+    ReadOnly := Field.CanModify;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -273,31 +236,18 @@ begin
 {$ENDIF}
 end;
 
-////////////////////////////////////////////////////////////////////////////////
-// procédure   : Loaded
-// description : Initialisations après le chargement des autres composants
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.Loaded;
-begin
-  inherited Loaded;
-  ResetMaxLength;
-  if csDesigning in ComponentState then
-    DataChange;
-end;
 
-
-////////////////////////////////////////////////////////////////////////////////
-// procédure   : Notification
-// description : enlève les liens vers les composants supprimés dans la fiche
-// paramètres  : AComponent : Le composant testé
-//               Operation  : supprimé ou ajouté
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.Notification(AComponent: TComponent;
-  Operation: TOperation);
+procedure TExtDBComboInsert.CreateParams(var Params: TCreateParams);
+const
+  AlignmentStyle: array[TAlignment] of DWord = (
+{ taLeftJustify  } ES_LEFT,
+{ taRightJustify } ES_RIGHT,
+{ taCenter       } ES_CENTER
+  );
 begin
-  inherited Notification(AComponent, Operation);
-  if (Operation = opRemove) and (FDataLink <> nil) and (AComponent = DataSource) then
-    DataSource := nil;
+  inherited CreateParams(Params);
+  if not HideSelection then
+    Params.Style := Params.Style or ES_NOHIDESEL;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -311,30 +261,33 @@ begin
   // new order, because result of inherited KeyDown(...) could be = 0
   // so, first set DataSet in Edit-Mode
   // certaines touches initient l'édition des données
-  if Key in [VK_BACK, VK_DELETE, VK_UP, VK_DOWN, 47..255] then // taken from TDBComboBox.KeyDown(...)
-    FDataLink.Edit;
-  // Auto-insertion dans ce composant
-  if Key in [VK_RETURN] Then
-    InsertLookup ( True );
-  inherited KeyDown(Key, Shift);
-    // Mode édition sur certaines touches
   case Key of
-    32..255 : FDataLink.Edit;
-{    Ord('H'), Ord('V'), Ord('X'):
-      Begin
-        if ssCtrl in Shift Then
-         FDataLink.Edit;
-      end;}
     VK_ESCAPE:
-    // annulation
-      begin
-        FDataLink.Reset;
-        {$IFDEF FPC}
+      Begin
         SelectAll;
-        {$ENDIF}
-  //        Key := #0;
+        Key := VK_UNKNOWN;
       end;
-    end;
+    VK_DELETE :
+      Begin
+        Flocated:=False;
+        FSet := False;
+        SelText:='';
+        Key := VK_UNKNOWN;
+        Exit;
+      end;
+    VK_RETURN:
+      Begin
+        InsertLookup ( True );
+        Key := VK_UNKNOWN;
+      end;
+  end;
+  inherited;
+end;
+
+procedure TExtDBComboInsert.KeyUp(var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -344,13 +297,13 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.KeyPress(var Key: Char);
 begin
-  inherited KeyPress(Key);
+  inherited;
   // vérifications : Tout est-il renseigné correctement ?
-  if (Key in [#32..#255]) and (FDataLink.Field <> nil) Then
+  if (Key in [#32..#255]) and (Field <> nil) Then
     Begin
       FModify := True ;
       CompleteText;
-       if  ( (( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} = '' ) and not FDataLink.Field.IsValidChar(Key))
+       if  ( (( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} = '' ) and not Field.IsValidChar(Key))
        or  ( ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} <> '' ) and
        ( not assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} ) or not assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet ) or not assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ) ) or not {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).IsValidChar(Key)))) then
       begin
@@ -361,62 +314,99 @@ begin
     End ;
 end;
 
-////////////////////////////////////////////////////////////////////////////////
-// fonction    : EditCanModify
-// description : Edition puis retour du mode édition
-// paramètres  : résultat : en mode édition ou pas
-////////////////////////////////////////////////////////////////////////////////
-function TExtDBComboInsert.EditCanModify: Boolean;
+procedure TExtDBComboInsert.RealSetText(const AValue: TCaption);
 begin
-  Result := FDataLink.Edit;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// procédure   : Reset
-// description : Remet les données originelles
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.Reset;
-begin
-  FDataLink.Reset;
-  {$IFDEF FPC}
-  SelectAll;
+  {$IFDEF VerboseTWinControlRealText}
+  DebugLn(['TWinControl.RealSetText ',DbgSName(Self),' AValue="',AValue,'" HandleAllocated=',HandleAllocated,' csLoading=',csLoading in ComponentState]);
+  {$ENDIF}
+  if HandleAllocated and (not (csLoading in ComponentState)) then
+  begin
+    WSSetText(AValue);
+    InvalidatePreferredSize;
+    if RealGetText = AValue then Exit;
+    Caption := AValue;
+    Perform(CM_TEXTCHANGED, 0, 0);
+    AdjustSize;
+  end
+  else inherited RealSetText(AValue);
+  {$IFDEF VerboseTWinControlRealText}
+  DebugLn(['TWinControl.RealSetText ',DbgSName(Self),' END']);
   {$ENDIF}
 end;
 
-////////////////////////////////////////////////////////////////////////////////
-// procédure   : SetFocused
-// description : Attribue la variable focus
-// paramètre   : Value : Focus ou pas focus
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.SetFocused(Value: Boolean);
+//////////////////////////////////////////////////////////////////////////////////
+// Procédure Completetext
+// Complétion
+//////////////////////////////////////////////////////////////////////////////////
+
+procedure TExtDBComboInsert.CompleteText;
+var li_pos : Integer;
+    ls_temp : String;
 begin
-  if FFocused <> Value then
-  begin
-    FFocused := Value;
-    // if (FAlignment <> taLeftJustify) and not IsMasked then Invalidate;
-    FDataLink.Reset;
-  end;
+  if FCompleteWord
+  and assigned ( FSearchSource ) Then
+    with FSearchSource.DataSet do
+      Begin
+        Open;
+        FSet := False;
+        if not assigned ( FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} )) Then Exit;
+        if fb_Locate ( FSearchSource.DataSet,
+                       {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF},
+                       Text, [loCaseInsensitive, loPartialKey], True )
+         Then
+          Begin
+            Flocated  := True;
+            li_pos    := SelStart ;
+            ls_temp   := FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
+            Text :=  ls_temp ;
+            SelStart := li_pos ;
+            SelLength := length ( ls_temp ) - li_pos;
+            if ( SelText = '' )  Then
+                ValidateSearch
+             else
+                if assigned ( FOnLocate ) Then
+                  FOnLocate ( Self );
+          End ;
+      end
 end;
 
-procedure TExtDBComboInsert.SetReadOnly(const AValue: Boolean);
+procedure TExtDBComboInsert.Change;
 begin
-  if FReadOnly <> AValue Then
-    Begin
-      FReadOnly := AValue;
-      Invalidate;
-    end;
 end;
+
+{------------------------------------------------------------------------------
+  Method: TCustomComboBox.SetSelText
+  Params: val - new string for text-field
+  Returns: nothings
+
+  Replace the selected part of text-field with "val".
+ ------------------------------------------------------------------------------}
+procedure TExtDBComboInsert.SetSelText(const Val: string);
+var
+  OldText, NewText: string;
+  OldPos: integer;
+begin
+  OldPos := SelStart;
+  OldText := Text;
+  NewText := UTF8Copy(OldText, 1, OldPos) +
+             Val +
+             UTF8Copy(OldText, OldPos + SelLength + 1, MaxInt);
+  Text := NewText;
+  SelStart := OldPos + UTF8Length(Val);
+end;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // procédure   : Change
 // description : Evènement sur changement du datasourc principal
 ////////////////////////////////////////////////////////////////////////////////
+(*
 procedure TExtDBComboInsert.Change;
 begin
   // On avertit le lien de données
-  FDataLink.Modified;
-  if assigned ( FDataLink.Dataset )
-  and not ( FDataLink.Dataset.State in [dsInsert,dsEdit]) Then
+  Inherited;
+  if assigned ( DataSource )
+  and not ( DataSource.Dataset.State in [dsInsert,dsEdit]) Then
     // Les données viennent peut-être d'être validées
     FModify := False ;
   // vérfications pour affectation
@@ -424,7 +414,7 @@ begin
   and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} )
   and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
   and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ))
-  and assigned ( FDataLink.Field ) Then
+  and assigned ( Field ) Then
     try
       // affectation
       FDataLink.Dataset.edit ;
@@ -433,30 +423,8 @@ begin
     End ;
   inherited Change;
 end;
+*)
 
-
-////////////////////////////////////////////////////////////////////////////////
-// fonction    : GetDataSource
-// description : Récupère le Datasource principal
-// paramètre   : résultat : le Datasource principal
-////////////////////////////////////////////////////////////////////////////////
-function TExtDBComboInsert.GetDataSource: TDataSource;
-begin
-  Result := FDataLink.DataSource;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// procédure   : SetDataSource
-// description : Attribue le Datasource principal
-// paramètre   : Value : le futur Datasource principal
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.SetDataSource(Value: TDataSource);
-begin
-  if not (FDataLink.DataSourceFixed and (csLoading in ComponentState)) then
-    FDataLink.DataSource := Value;
-  if Value <> nil then
-    Value.FreeNotification(Self);
-end;
 
 procedure TExtDBComboInsert.SetSearchSource(Value: TDataSource);
 begin
@@ -464,27 +432,6 @@ begin
     FSearchSource := Value;
 end;
 
-////////////////////////////////////////////////////////////////////////////////
-// fonction    : GetDataField
-// description : Récupère le champ du Datasource principal
-// paramètre   : résultat : le champ du Datasource principal
-////////////////////////////////////////////////////////////////////////////////
-function TExtDBComboInsert.GetDataField: string;
-begin
-  Result := FDataLink.FieldName;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// procédure   : SetDataField
-// description : Attribue le champ du Datasource principal
-// paramètre   : Value : le futur champ du Datasource principal
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.SetDataField(const Value: string);
-begin
-  if not (csDesigning in ComponentState) then
-    ResetMaxLength;
-  FDataLink.FieldName := Value;
-end;
 
 procedure TExtDBComboInsert.SetCompleteWord(const AValue: Boolean);
 begin
@@ -492,42 +439,6 @@ begin
     Begin
       FCompleteWord:=AValue;
     end;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// fonction    : GetCanvas
-// description : Récupère le canevas de peinture du composant
-// paramètre   : résultat : le canevas
-////////////////////////////////////////////////////////////////////////////////
-function TExtDBComboInsert.GetCanvas: TCanvas;
-begin
-  Result := FCanvas;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// fonction    : GetField
-// description : Récupère le champ principal
-// paramètre   : résultat : le champ
-////////////////////////////////////////////////////////////////////////////////
-function TExtDBComboInsert.GetField: TField;
-begin
-  Result := FDataLink.Field;
-end;
-
-function TExtDBComboInsert.GetReadOnly: Boolean;
-begin
-  Result := FReadOnly;
-end;
-
-
-////////////////////////////////////////////////////////////////////////////////
-// Evènement   : ActiveChange
-// description : Initialisation de la taille du texte
-// paramètre   : Sender : pour l'évènement
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.ActiveChange;
-begin
-  ResetMaxLength;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -539,14 +450,14 @@ function  TExtDBComboInsert.GetDisplayValue : String ;
 Begin
   Result := '' ;
     // Tests
-  If  assigned ( FDataLink.Field )
-  and not FDataLink.Field.IsNull
+  If  assigned ( Field )
+  and not Field.IsNull
   and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} )
   and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
   and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ))
   and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF}   )) Then
     Begin
-      if {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Locate ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF}, FDataLink.Field.AsString, [] ) Then
+      if {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Locate ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF}, Field.AsString, [] ) Then
         // récupération à partir de la listes
         Result := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString ;
     End ;
@@ -557,34 +468,27 @@ End ;
 // description : Changement dans les données
 // paramètre   : Sender : pour l'évènement
 ////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.DataChange;
+procedure TExtDBComboInsert.DataChange(Sender: TObject);
 begin
-  if FDataLink.Field <> nil then
+  ResetMaxLength;
+  if Field <> nil then
   begin
     // récupération du masque de saisie
 //    EditMask := FDataLink.Field.EditMask;
     {$IFDEF FPC}
     if not (csDesigning in ComponentState) then
-      if (FDataLink.Field.DataType in [ftString, ftWideString]) and (MaxLength = 0) then
+      if (Field.DataType in [ftString, ftWideString]) and (MaxLength = 0) then
         // Taille maxi
-        MaxLength := FDataLink.Field.Size;
+        MaxLength := Field.Size;
     {$ENDIF}
-    if FFocused and FDataLink.CanModify then
+    if FFocused and Field.DataSet.CanModify then
       Begin
         // récupération des données de la liste en mode lecture
-        if  ( not ( FDataLink.DataSet.State in [dsEdit, dsInsert]) or FUpdate) Then
+        if  ( not ( Field.DataSet.State in [dsEdit, dsInsert]) or FUpdate) Then
           Begin
             {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := GetDisplayValue ;
           End ;
       End
-    else
-    begin
-      // affectation du texte à partir de la liste quand on n'est pas sur la combo
-      {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := GetDisplayValue ;// FDataLink.Field.DisplayText
-      // Vérification de l'édition du champ ailleurs
-      if FDataLink.Editing then //and FDataLink.FModify || FModified is private in parent of fdatalink
-        FModify:= True;
-    end;
   end
   else
   begin
@@ -612,38 +516,6 @@ begin
   KeyValue := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.Dataset.FindField ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ).Value;
 end;
 
-procedure TExtDBComboInsert.CompleteText;
-var li_pos : Integer;
-    ls_temp : String;
-begin
-  if FCompleteWord
-  and assigned ( FSearchSource ) Then
-    with FSearchSource.DataSet do
-      Begin
-        Open;
-        FSet := False;
-        if not assigned ( FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} )) Then Exit;
-        if fb_Locate ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet,
-                       {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF},
-                       Text, [loCaseInsensitive, loPartialKey], True )
-         Then
-          Begin
-            Flocated  := True;
-            li_pos    := SelStart ;
-            ls_temp   := FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
-            SelText   := Copy   ( ls_temp, SelStart + 1,
-                         length ( ls_temp ) - length ( Text ));
-            SelStart  := li_pos ;
-            SelLength := length ( Text ) - li_pos ;
-            if ( SelText = '' )  Then
-                ValidateSearch
-             else
-                if assigned ( FOnLocate ) Then
-                  FOnLocate ( Self );
-          End ;
-      end
-end;
-
 procedure TExtDBComboInsert.ValidateSearch;
 Begin
   if not FSet
@@ -662,56 +534,16 @@ end;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Evènement message  : WMUndo
-// description : Annulation
-// paramètre   : Msg : données du message
-////////////////////////////////////////////////////////////////////////////////
-{$IFNDEF FPC}
-procedure TExtDBComboInsert.WMUndo(var Msg: TMessage);
-begin
-  FDataLink.Edit;
-  inherited;
-end;
-{$ENDIF}
-
-////////////////////////////////////////////////////////////////////////////////
-// Evènement message  : WMPaste
-// description : Coller
-// paramètre   : Msg : données du message
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.WMPaste(var Msg: TMessage);
-begin
-  FDataLink.Edit;
-  inherited;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// Evènement message  : WMCut
-// description : Couper
-// paramètre   : Msg : données du message
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.WMCut(var Msg: TMessage);
-begin
-  FDataLink.Edit;
-  inherited;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
 // procédure   : DoEnter
 // description : Attribue le focus au composant
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.DoEnter;
 begin
-  // Affecte la propriété focused
-  SetFocused(True);
   inherited DoEnter;
   // Sélectionne le texte
   {$IFDEF FPC}
   SelectAll ;
   {$ENDIF}
-  // pas de lecture seule ?
-  if SysLocale.FarEast and FDataLink.CanModify then
-    inherited ReadOnly := False;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -724,11 +556,10 @@ begin
   if ( csDesigning in ComponentState ) Then
     Exit ;
     // vérifications
-  if  assigned ( FDataLink.Dataset )
+  if  assigned ( Field )
+  and assigned ( Field.Dataset )
   and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} )
-  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
-  and assigned ( FDataLink.Field )
-  and ( FDataLink.Dataset.State in [ dsEdit,dsInsert ]) Then
+  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet ) Then
     try
       if ( Text <> '' ) Then
         // Si du texte est présent
@@ -739,30 +570,19 @@ begin
               {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Insert ;
               {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FieldByName ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value := Text ;
               {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Post ;
-              if assigned (  FDataLink.Field ) Then
-                FDataLink.Field.Value := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FieldByName ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
-            Text := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value ;
-            FUpdate := True ;
-              if AUpdate Then
-                FDataLink.UpdateRecord;
+              Field.Dataset.Edit;
+              Field.Value := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FieldByName ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
+              Text := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value ;
+              FUpdate := True ;
               if assigned ( FOnSet ) Then
                 FOnSet ( Self );
-            End
-          Else
-          // sinon affectation de Datafield uniquement
-            Begin
-              FUpdate := True ;
-              if AUpdate Then
-                Begin
-                  FDataLink.UpdateRecord;
-                End ;
-            End ;
+            End;
         End
       Else
        if AUpdate
-       and assigned (  FDataLink.Field ) Then
+       and assigned (  Field ) Then
         // pas de texte : on remet le texte originel
-        FDataLink.Field.Value := OldText ;
+        Field.Value := OldText ;
       FModify := False ;
     except
       {$IFDEF FPC}
@@ -782,9 +602,6 @@ procedure TExtDBComboInsert.DoExit;
 begin
   // Auto-insertion
   InsertLookup ( True );
-  // Focused à False
-  SetFocused(False);
-//  CheckCursor;
   inherited DoExit;
 end;
 
@@ -806,7 +623,6 @@ var
   PS: TPaintStruct;
   S: string;
   AAlignment: TAlignment;
-  ExStyle: DWORD;
 begin
   // destruction : pas besoin de peindre
   if csDestroying in ComponentState then
@@ -823,11 +639,11 @@ begin
   DC := Msg.DC;
   if DC = 0 then
     DC := BeginPaint(Handle, PS);
-  FCanvas.Handle := DC;
+  Canvas.Handle := DC;
   try
     // couleur de police
-    FCanvas.Font := Font;
-    with FCanvas do
+    Canvas.Font := Font;
+    with Canvas do
     begin
       R := ClientRect;
       if not (NewStyleControls {$IFNDEF FPC}and Ctl3D{$ENDIF}) {$IFDEF FPC} and (BorderStyle = bsSingle) {$ENDIF} then
@@ -842,10 +658,10 @@ begin
       if not Enabled then
         // désactivation
         Font.Color := clGrayText;
-      if (csPaintCopy in ControlState) and (FDataLink.Field <> nil) then
+      if (csPaintCopy in ControlState) and (Field <> nil) then
       begin
         //récupération du texte du champ
-        S := FDataLink.Field.DisplayText;
+        S := Field.DisplayText;
         {$IFDEF FPC}
         case CharCase of
           ecUpperCase:
@@ -875,29 +691,13 @@ begin
 //        UpdateTextFlags;
         // affiche le texte
       TextRect(R, Left, Margins.Y, S);
-      if SelText <> '' Then
-        Begin
-          Brush.Color := clHighlight;
-          Font.Color:=clwhite;
-          TextRect(R, FCanvas.TextWidth(S), Margins.Y, SelText);
-        end;
     end;
   finally
     // libération du canevas
-    FCanvas.Handle := 0;
+    Canvas.Handle := 0;
     if Msg.DC = 0 then
       EndPaint(Handle, PS);
   end;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// Evènement message  : CMGetDataLink
-// description : Récupération du handle du datalink
-// paramètre   : Msg : données du message
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.CMGetDataLink(var Msg: TMessage);
-begin
-  Msg.Result := Integer(FDataLink);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -972,42 +772,6 @@ begin
   Result := FSearchSource;
 end;
 
-////////////////////////////////////////////////////////////////////////////////
-// fonction    : ExecuteAction
-// description : Exécute une classe d'AAction
-// paramètre   : AAction   : L'AAction répertoriée
-//              résultat : AAction exécutée ou pas
-////////////////////////////////////////////////////////////////////////////////
-function TExtDBComboInsert.ExecuteAction(AAction: TBasicAction): Boolean;
-begin
-  Result := inherited ExecuteAction(AAction) or (FDataLink <> nil) and
-    FDataLink.ExecuteAction(AAction);
-end;
-
-procedure TExtDBComboInsert.CreateParams(var Params: TCreateParams);
-const
-  AlignmentStyle: array[TAlignment] of DWord = (
-{ taLeftJustify  } ES_LEFT,
-{ taRightJustify } ES_RIGHT,
-{ taCenter       } ES_CENTER
-  );
-begin
-  inherited CreateParams(Params);
-  if not FHideSelection then
-    Params.Style := Params.Style or ES_NOHIDESEL;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// fonction    : UpdateAction
-// description : Exécute une classe d'AAction de mise à jour
-// paramètre   : AAction   : L'AAction répertoriée
-//              résultat : AAction exécutée ou pas
-////////////////////////////////////////////////////////////////////////////////
-function TExtDBComboInsert.UpdateAction(AAction: TBasicAction): Boolean;
-begin
-  Result := inherited UpdateAction(AAction) or (FDataLink <> nil) and
-    FDataLink.UpdateAction(AAction);
-end;
 
 
 {$IFDEF VERSIONS}

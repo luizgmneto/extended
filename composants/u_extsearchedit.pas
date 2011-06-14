@@ -143,19 +143,22 @@ var li_pos : Integer;
     ls_temp : String;
 begin
   inherited KeyUp(Key, Shift);
-  if Key in [ VK_ESCAPE, VK_DELETE ] Then
+  case Key of
+    VK_ESCAPE:
+        SelectAll;
+    VK_DELETE :
     Begin
       Flocated:=False;
       FSet := False;
       SelText:='';
       Exit;
     end;
-  if ( Key in [ VK_RETURN ])
-   Then
-     Begin
-       ValidateSearch;
-       Exit;
-     End;
+    VK_RETURN:
+    Begin
+      ValidateSearch;
+      Exit;
+    End;
+    end;
   if not ( Key in [ VK_TAB, VK_BACK ])
   and ( Text    <> '' )
   and ( SelText =  '' )
@@ -171,10 +174,9 @@ begin
             Flocated  := True;
             li_pos    := SelStart ;
             ls_temp   := FindField ( FSearchSource.FieldName ).AsString;
-            SelText   := Copy   ( ls_temp, SelStart + 1,
-                         length ( ls_temp ) - length ( Text ));
+            Text      := ls_temp ;
             SelStart  := li_pos ;
-            SelLength := length ( Text ) - li_pos ;
+            SelLength := length ( ls_temp ) - li_pos ;
             if ( SelText = '' )  Then
                 ValidateSearch
              else
