@@ -47,6 +47,10 @@ const
    CST_FWINSELECT='TFWINSELECT';
    CST_FWOUTALL='TFWOUTALL';
    CST_FWINALL='TFWINALL';
+   CST_WIDTH_BUTTONS_MOVING  = 60;
+   CST_HEIGHT_BUTTONS_MOVING = 40;
+   CST_WIDTH_BUTTONS_ACTIONS  = 120;
+   CST_HEIGHT_BUTTONS_ACTIONS = 20;
 {$ENDIF}
 
 type
@@ -178,6 +182,21 @@ type
        property Glyph stored False;
      End;
 
+   TFWCancel = class ( TJvXPButton,IFWButton )
+      private
+      {$IFNDEF FPC}
+       ResInstance             : THandle      ;
+      {$ENDIF}
+      public
+       constructor Create ( AOwner : TComponent ) ; override;
+
+       procedure Paint; override;
+      published
+       property Glyph stored False;
+       property Caption stored False;
+     End;
+
+
 { TFWPreview }
    TFWPreview = class ( TJvXPButton,IFWButton )
       private
@@ -219,24 +238,23 @@ type
      End;
 
 {$IFDEF GROUPVIEW}
-{ TFWOutSelect }
-   TFWOutSelect = class ( TJvXPButton,IFWButton )
-      private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
-      public
+{ TFWGroupButton }
 
-       procedure Paint; override;
-      published
-       property Glyph stored False;
-     End;
+    { TFWGroupButtonActions }
 
-{ TFWOutAll }
+    TFWGroupButtonActions = class ( TJvXPButton,IFWButton )
+     public
+      constructor Create ( AOwner : TComponent ) ; override;
+
+     published
+      property Width  default CST_WIDTH_BUTTONS_ACTIONS;
+      property Height default CST_HEIGHT_BUTTONS_ACTIONS;
+    end;
+
 
    { TFWBasket }
 
-   TFWBasket = class ( TJvXPButton,IFWButton )
+   TFWBasket = class ( TFWGroupButtonActions )
       private
       {$IFNDEF FPC}
        ResInstance             : THandle      ;
@@ -252,7 +270,7 @@ type
 
    { TFWRecord }
 
-   TFWRecord = class ( TJvXPButton,IFWButton )
+   TFWRecord = class ( TFWGroupButtonActions )
       private
       {$IFNDEF FPC}
        ResInstance             : THandle      ;
@@ -266,21 +284,31 @@ type
        property Caption stored False;
      End;
 
-   TFWCancel = class ( TJvXPButton,IFWButton )
-      private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
+   { TFWGroupButtonMoving }
 
-       procedure Paint; override;
-      published
-       property Glyph stored False;
-       property Caption stored False;
-     End;
+   TFWGroupButtonMoving = class ( TJvXPButton,IFWButton )
+   public
+    constructor Create ( AOwner : TComponent ) ; override;
+   published
+    property Width  default CST_WIDTH_BUTTONS_MOVING;
+    property Height default CST_HEIGHT_BUTTONS_MOVING;
+   end;
+   { TFWOutSelect }
+      TFWOutSelect = class ( TFWGroupButtonMoving )
+         private
+         {$IFNDEF FPC}
+          ResInstance             : THandle      ;
+         {$ENDIF}
+         public
+          procedure Paint; override;
+         published
+          property Glyph stored False;
+        End;
 
-   TFWOutAll = class ( TJvXPButton,IFWButton )
+   { TFWOutAll }
+
+
+   TFWOutAll = class ( TFWGroupButtonMoving )
       private
       {$IFNDEF FPC}
        ResInstance             : THandle      ;
@@ -293,7 +321,7 @@ type
      End;
 
 { TFWInSelect }
-   TFWInSelect = class ( TJvXPButton,IFWButton )
+   TFWInSelect = class ( TFWGroupButtonMoving )
       private
       {$IFNDEF FPC}
        ResInstance             : THandle      ;
@@ -306,7 +334,7 @@ type
      End;
 
 { TFWInAll }
-   TFWInAll = class ( TJvXPButton,IFWButton )
+   TFWInAll = class ( TFWGroupButtonMoving )
       private
       {$IFNDEF FPC}
        ResInstance             : THandle      ;
@@ -325,6 +353,25 @@ implementation
 uses {$IFDEF FPC}ObjInspStrConsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
      {$IFDEF GROUPVIEW}unite_messages,{$ENDIF}Forms ;
+
+{ TFWGroupButtonActions }
+
+constructor TFWGroupButtonActions.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Width  := CST_WIDTH_BUTTONS_ACTIONS;
+  Height := CST_HEIGHT_BUTTONS_ACTIONS;
+end;
+
+{ TFWGroupButtonMoving }
+
+constructor TFWGroupButtonMoving.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Width  := CST_WIDTH_BUTTONS_MOVING;
+  Height := CST_HEIGHT_BUTTONS_MOVING;
+  Caption := '';
+end;
 
 {$IFDEF DELPHI}
   {$R *.dcr}
