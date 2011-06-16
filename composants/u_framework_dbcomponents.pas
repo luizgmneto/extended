@@ -32,7 +32,7 @@ uses
    RxDBGrid,
    dbdateedit,
 {$ELSE}
-   Windows, Mask, DBTables, ActnMan,
+   Windows, Mask, DBTables, ActnMan, Messages,
 {$ENDIF}
 {$IFDEF RX}
   RxLookup,
