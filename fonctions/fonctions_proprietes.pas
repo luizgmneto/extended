@@ -32,7 +32,6 @@ type
         i_Option : Byte ;
        End ;
 
-  tt_TableauVariant = Array of Variant ;
   tset_OctetOptions = set of Byte;
 
 procedure p_SetComponentProperty ( const aComp_ComponentToSet : TComponent ; const as_PropertyName : String ; const a_ValueToSet : Variant ); overload;

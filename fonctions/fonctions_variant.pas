@@ -3,7 +3,9 @@ unit fonctions_variant;
 interface
 
 {$I ..\Compilers.inc}
-
+{$IFDEF FPC}
+{$mode Delphi}
+{$ENDIF}
 {
 2004-08-27
 Création de l'unité par Matthieu Giroux
@@ -25,9 +27,9 @@ type
   // On utilise les tableaux de variant pour plus tard :
   // gestion des clés à champs multiples
   tt_TableauVarOption = Array of Record
-                        			  var_Cle : Variant ;
-                        			  i_Option : Byte ;
-                        			 End ;
+                        	  var_Cle : Variant ;
+                        	  i_Option : Byte ;
+                        	 End ;
 
   tt_TableauVariant = Array of Variant ;
   tset_OctetOptions = set of Byte;
@@ -54,28 +56,9 @@ function fi_findInListVarBool(const alst_liste: tt_TableauVarOption;
 // as_TexteAjoute  : Le résultat sQL
 // at_Liste        : la liste à traduire en SQL
 // alst_Cle        : le champ clé correspondant à la liste de clés
-function fb_TableauVersSQL ( var as_TexteAjoute : WideString ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ) : Boolean ; overload ;
+function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVarOption ; const ab_TestOption : Boolean ; const aset_Options : tset_OctetOptions ) : Boolean ; overload ;
 
 // Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
-function fb_TableauVersSQL ( var as_TexteAjoute : WideString ; const at_Liste : tt_TableauVarOption ; const ab_TestOption : Boolean ; const aset_Options : tset_OctetOptions ) : Boolean ; overload ;
-
-// Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
-// avar_option     : Rectification sur le champ
-function fb_TableauVersSQL ( var as_TexteAjoute : WideString ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ; const avar_Option : Variant ) : Boolean ; overload ;
-
-// Ne pas utiliser Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
-function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ) : Boolean ; overload ;
-
-// Ne pas utiliser Traduit un tableau de clés de variants en résultat SQL
 // as_TexteAjoute  : Le résultat sQL
 // at_Liste        : la liste à traduire en SQL
 // alst_Cle        : le champ clé correspondant à la liste de clés
@@ -218,30 +201,8 @@ Begin
            End ;
        End ;
 End ;
-// Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
-function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ) : Boolean ; overload ;
-var ls_Texte : WideString ;
-Begin
-  ls_Texte := as_TexteAjoute ;
-  Result := fb_TableauVersSQL ( ls_Texte, at_Liste, alst_Cle );
-  as_TexteAjoute := ls_Texte ;
-End ;
-// Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
-function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ; const avar_Option : Variant ) : Boolean ;
-var ls_Texte : WideString ;
-Begin
-  ls_Texte := as_TexteAjoute ;
-  Result := fb_TableauVersSQL ( ls_Texte, at_Liste, alst_Cle, avar_Option );
-  as_TexteAjoute := ls_Texte ;
-End ;
 
-function fb_TableauVersSQL ( var as_TexteAjoute : WideString ; const at_Liste : tt_TableauVarOption ; const ab_TestOption : Boolean ; const aset_Options : tset_OctetOptions ) : Boolean ;
+function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVarOption ; const ab_TestOption : Boolean ; const aset_Options : tset_OctetOptions ) : Boolean ;
 var li_i : Integer ;
     lb_PremiereFois : Boolean ;
 Begin
@@ -281,7 +242,7 @@ Begin
 End ;
 
 
-function fb_TableauVersSQL ( var as_TexteAjoute : WideString ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ; const avar_Option : Variant ) : Boolean ;
+function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ; const avar_Option : Variant ) : Boolean ;
 var li_i : Integer ;
     lb_PremiereFois : Boolean ;
 Begin
@@ -329,14 +290,6 @@ Begin
       End ;
 End ;
 
-// Traduit un tableau de clés de variants en résultat SQL
-// as_TexteAjoute  : Le résultat sQL
-// at_Liste        : la liste à traduire en SQL
-// alst_Cle        : le champ clé correspondant à la liste de clés
-function fb_TableauVersSQL ( var as_TexteAjoute : WideString ; const at_Liste : tt_TableauVariant ; const alst_Cle : TStringList ) : Boolean ;
-Begin
-  Result := fb_TableauVersSQL ( as_TexteAjoute, at_Liste, alst_Cle, Null );
-End ;
 // Ajoute un variant à un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
@@ -527,4 +480,4 @@ initialization
   p_ConcatVersion ( gVer_fonctions_variant );
 finalization
 end.
-
+

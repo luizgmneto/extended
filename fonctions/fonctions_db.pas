@@ -4,6 +4,9 @@ interface
 
 {$I ..\Compilers.inc}
 {$I ..\extends.inc}
+{$IFDEF FPC}
+{$mode Delphi}
+{$ENDIF}
 
 uses SysUtils,
   {$IFDEF EADO}
@@ -24,6 +27,8 @@ const
   CST_SQL_ORDER_BY = 'ORDER BY ' ;
   CST_SQL_ASC  = ' ASC'  ;
   CST_SQL_DESC = ' DESC' ;
+  CST_FIELD_DECLARE_SEPARATOR = '.';
+  CST_TABLE_SEPARATOR = ',';
   CST_SQL_ORDER_INTERLEAVING = 1 ;
   CST_DELPHI_FIELD_STRING = [ftString, ftFmtMemo, ftMemo, ftFixedChar, ftWideString];
   gVer_fonctions_db : T_Version = ( Component : 'Gestion des données' ; FileUnit : 'fonctions_db' ;
@@ -53,8 +58,7 @@ function fb_ChangeEnregistrement(var avar_EnregistrementCle : Variant ; const ad
   const as_Cle: String; const ab_Sort:Boolean): Boolean;
 
 function fb_MAJTableNumsOrdre ( const aDat_Dataset : TDataset ; const as_NomOrdre : String ; const ai_Intervalle : Longint ; const ab_DisableControls : Boolean ): Boolean ;
-function fb_SetMultipleFieldToQuery ( const astl_Champs, sts_SQLQuery : TStrings ; const avar_Variant : Variant ; const adat_Dataset : TDataset ): Boolean ; overload;
-function fb_SetMultipleFieldToQuery ( const astl_Champs, astl_SQLQuery : TStrings ; const avar_Variant : Variant ; const adat_Dataset : TDataset ; const ab_AddColma : Boolean ): Boolean ; overload;
+function fb_SetMultipleFieldToQuery ( const astl_Champs, astl_SQLQuery : TStrings ; const avar_Variant : Variant ; const adat_Dataset : TDataset ; const ab_AddColma : Boolean = True  ; as_table : String = '' ): Boolean ;
 function fb_Locate ( const adat_Dataset : TDataset ; const as_Champ : String ; const avar_Recherche : Variant; const alo_Options : TLocateOptions ; const ab_Trie : Boolean ): Boolean ;
 function fb_LocateFilter ( const aado_Seeker : TDataset ; const as_oldFilter, as_Fields, as_Condition : String ; const avar_Records : Variant ; const ach_Separator : Char ): Boolean ;
 
@@ -97,7 +101,7 @@ var ls_Filter : String ;
     ls_And : String ;
 Begin
   Result := False ;
-  if pos ( as_Fields, ach_Separator ) <= 0 Then
+  if pos ( ach_Separator, as_Fields ) <= 0 Then
     Begin
       if as_oldFilter <> ''  then
         ls_And := ' AND '
@@ -354,26 +358,24 @@ begin
   End ;
 end;
 
-function fb_SetMultipleFieldToQuery ( const astl_Champs, sts_SQLQuery : TStrings ; const avar_Variant : Variant ; const adat_Dataset : TDataset ): Boolean ;
-Begin
-  Result := fb_SetMultipleFieldToQuery ( astl_Champs, sts_SQLQuery, avar_Variant, adat_Dataset, True )
-End ;
-function fb_SetMultipleFieldToQuery ( const astl_Champs, astl_SQLQuery : TStrings ; const avar_Variant : Variant ; const adat_Dataset : TDataset ; const ab_AddColma : Boolean ): Boolean ;
+function fb_SetMultipleFieldToQuery ( const astl_Champs, astl_SQLQuery : TStrings ; const avar_Variant : Variant ; const adat_Dataset : TDataset ; const ab_AddColma : Boolean = True ; as_table : String = ''): Boolean ;
 var li_i : Integer ;
 Begin
   Result := False ;
+  if as_table <> '' Then
+    as_table:=as_table+CST_FIELD_DECLARE_SEPARATOR;
   if astl_Champs.Count <= 1 Then
     try
       if VarIsNull ( avar_Variant ) Then
-        astl_SQLQuery.Add( ' ' + astl_Champs [ 0 ] + ' IS NULL'   )
+        astl_SQLQuery.Add( ' ' + as_table + astl_Champs [ 0 ] + ' IS NULL'   )
       Else
         if ((adat_Dataset.FindField ( astl_Champs [ 0 ] ) is TStringField )
         or (adat_Dataset.FindField ( astl_Champs [ 0 ] ) is TMemoField )
         or ( adat_Dataset.FindField ( astl_Champs [ 0 ] ).DataType IN CST_DELPHI_FIELD_STRING ))
          Then
-          astl_SQLQuery.Add( ' ' + astl_Champs [ 0 ] + '=''' + avar_Variant + '''' )
+          astl_SQLQuery.Add( ' ' + as_table + astl_Champs [ 0 ] + '=''' + avar_Variant + '''' )
          Else
-          astl_SQLQuery.Add( ' ' + astl_Champs [ 0 ] + '=''' + avar_Variant + '''' );
+          astl_SQLQuery.Add( ' ' + as_table + astl_Champs [ 0 ] + '=''' + avar_Variant + '''' );
       Result := True ;
     Except
       On E: Exception do
@@ -386,9 +388,9 @@ Begin
       Begin
         if VarIsNull ( avar_Variant [ li_i ] ) Then
           if li_i = 0 Then
-            astl_SQLQuery.Add( ' (' + astl_Champs [ li_i ] + '=''' + avar_Variant [ li_i ] + '''' )
+            astl_SQLQuery.Add( ' (' + as_table + astl_Champs [ li_i ] + '=''' + avar_Variant [ li_i ] + '''' )
           Else
-            astl_SQLQuery.Add ( ' AND ' + astl_Champs [ li_i ] + ' IS NULL' );
+            astl_SQLQuery.Add ( ' AND ' + as_table + astl_Champs [ li_i ] + ' IS NULL' );
 
         if ((adat_Dataset.FindField ( astl_Champs [ li_i ] ) is TStringField )
         or (adat_Dataset.FindField ( astl_Champs [ li_i ] ) is TMemoField )
@@ -396,16 +398,16 @@ Begin
          Then
           Begin
             if li_i = 0 Then
-              astl_SQLQuery.Add( ' (' + astl_Champs [ li_i ] + '=''' + avar_Variant [ li_i ] + '''' )
+              astl_SQLQuery.Add( ' (' + as_table + astl_Champs [ li_i ] + '=''' + avar_Variant [ li_i ] + '''' )
             Else
-              astl_SQLQuery.Add ( ' AND ' + astl_Champs [ li_i ] + '=''' + avar_Variant [ li_i ] + '''' )
+              astl_SQLQuery.Add ( ' AND ' + as_table + astl_Champs [ li_i ] + '=''' + avar_Variant [ li_i ] + '''' )
           End
         Else
           Begin
             if li_i = 0 Then
-              astl_SQLQuery.Add( ' (' + astl_Champs [ li_i ] + '=' + avar_Variant [ li_i ] )
+              astl_SQLQuery.Add( ' (' + as_table + astl_Champs [ li_i ] + '=' + avar_Variant [ li_i ] )
             Else
-              astl_SQLQuery.Add ( ' AND ' + astl_Champs [ li_i ] + '=' + avar_Variant [ li_i ] )
+              astl_SQLQuery.Add ( ' AND ' + as_table + astl_Champs [ li_i ] + '=' + avar_Variant [ li_i ] )
           End ;
         End ;
     If ab_AddColma Then

@@ -55,11 +55,12 @@ const
                                                FileUnit : 'U_GroupView' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Liste chargeable au fur et à mesure.' ;
-                                               BugsStory : '1.0.0.2 : DBListView with better scrolling on LAZARUS.' + #13#10 +
+                                               BugsStory : '1.0.0.3 : Integrating field delimiter from DBGroupView.' + #13#10 +
+                                                           '1.0.0.2 : DBListView with better scrolling on LAZARUS.' + #13#10 +
                                                            '1.0.0.1 : DBListView working better on LAZARUS.' + #13#10 +
                                                            '1.0.0.0 : Chargement automatique OK.' ;
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 3 );
 
 
 {$ENDIF}
@@ -102,6 +103,7 @@ type
     ge_AfterScroll  : TDatasetNotifyEvent;
     FSortColumn : Integer;
     FSortOrder  : TSortOrder;
+    gc_FieldDelimiter : Char ;
 
     //Mode asynchrone
     gb_fetched : Boolean ;
@@ -172,9 +174,11 @@ type
     gcol_AncienneCouleur   : TColor ;
     // Clé primaire de la table des unités
     gs_CleUnite     ,
+    gs_CleUniteFieldValues,
     // Champs des sous-éléments ( colonne 1 à N )
     // Table de datasource pour la mise à jour
-    gs_TableSource   : {$IFDEF FPC} AnsiString{$ELSE}String{$ENDIF};
+    gs_TableSource   : String;
+    gs_ChampsListeFieldValues : String;
     gs_ChampsListe : String;
     // Propriété Montre Tous les enregistrements : Annule l'utilité du composant
     gb_MontreTout    ,
@@ -186,7 +190,7 @@ type
     procedure p_setSortOrder ( AValue : TSortOrder ); virtual;
     function fs_SortDataset(const adat_Dataset: TDataSet): String; virtual;
     procedure p_setSortColumn(AValue: Integer); virtual;
-    procedure p_SetClePrimaireListe(const a_Value: {$IFDEF FPC} AnsiString{$ELSE}String{$ENDIF});
+    procedure p_SetClePrimaireListe(const a_Value: String);
     procedure p_CreeListeChampsDisplay ( as_ChampsListe : String ); virtual;
     procedure p_AffecteEvenementsDatasource; virtual;
     procedure EditingChanged; virtual;
@@ -266,6 +270,7 @@ type
     property DataKeyUnit : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_CleUnite write p_SetClePrimaireListe;
     // Champs supplémentaires affichés
     property DataFieldsDisplay : String read gs_ChampsListe write p_SetChampsListe;
+    property FieldDelimiter : Char read gc_FieldDelimiter write  gc_FieldDelimiter default ';';
     // la liste utilise-t-elle les couleurs de lecture ?
     property DataRowColors : Boolean read gb_CouleursLignes write gb_CouleursLignes default True;
     // La liste est-elle chargée en entier
@@ -381,6 +386,7 @@ constructor TDBListView.create ( acom_owner : Tcomponent );
 begin
   inherited create ( acom_owner );
 
+  gc_FieldDelimiter         := ';';
   FSortOrder := soAscending;
   FSortColumn := 0 ;
     // Mode asynchrone
@@ -993,8 +999,7 @@ Begin
 End ;}
 // Fin du chargement du composant
 procedure TDBListView.Loaded;
-{   im_FlecheHaute ,
-   im_FlecheBasse : TBitmap ;}
+var li_i : LongInt;
 begin
   inherited Loaded;
   {$IFDEF FPC}
@@ -1015,7 +1020,8 @@ begin
       gb_HasLoaded := True ;
 
       p_CreeListeChampsDisplay ( gs_champsListe );
-      
+      gs_ChampsListeFieldValues:=fs_RemplaceChar( gs_champsListe, gc_FieldDelimiter, ';' );
+
 {$IFDEF EADO}
 
 
@@ -1169,7 +1175,7 @@ begin
     // SI on cache la clé dans la liste
       // On récupère directement la colonne de DataFieldDiplay
     // On récupère le bon champ
-   Result := fs_stringChamp ( gs_ChampsListe, ';', SortColumn + 1 );
+   Result := fs_stringChamp ( gs_ChampsListe, gc_FieldDelimiter, SortColumn + 1 );
     // Rien : on quitte
    if Result = ''
     Then
@@ -1261,7 +1267,7 @@ begin
 	 Then
 	    Begin
 	      // Récupération des champs
-	      lvar_AAfficher  := FieldValues [ gs_ChampsListe ];
+	      lvar_AAfficher  := FieldValues [ gs_ChampsListeFieldValues ];
 	      // C'est plusieurs champs
 	      if VarIsArray ( lvar_AAfficher )
 	       Then
@@ -1284,7 +1290,7 @@ begin
 	if ( gs_CleUnite <> '' )  and ( FindField ( gs_CleUnite ) <> nil )
 	 Then
 	    Begin
-	      lvar_AAfficher  := FieldValues [ gs_CleUnite ];
+	      lvar_AAfficher  := FieldValues [ gs_CleUniteFieldValues ];
 	      if VarIsArray ( lvar_AAfficher )
 	       Then
 		  Begin
@@ -1623,7 +1629,7 @@ begin
   p_LibereChampsListe;
   // Séparation des champs
   if ( as_ChampsListe <> '' ) Then
-    p_ChampsVersListe ( gsts_ChampsListe, as_ChampsListe, ';' )
+    p_ChampsVersListe ( gsts_ChampsListe, as_ChampsListe, gc_FieldDelimiter )
    Else
     gsts_ChampsListe := TStringList.Create ;
 end;
@@ -1659,7 +1665,7 @@ end;
 
 // Affectation de la propriété DataKeyUnit
 // a_Value : valeur à tester : test si égale à zéro
-procedure TDBListView.p_SetClePrimaireListe(const a_Value: {$IFDEF FPC} AnsiString{$ELSE}String{$ENDIF} );
+procedure TDBListView.p_SetClePrimaireListe(const a_Value: String );
 begin
   if ( gs_CleUnite <> a_Value ) Then
     Begin
@@ -1668,7 +1674,8 @@ begin
       if ( trim (gs_CleUnite) <> '' ) // Il ne faut pas que ça soit égal '' pour la création cde la liste
        Then
          Begin
-           p_ChampsVersListe ( gstl_CleDataSource, trim(gs_CleUnite), ';' );
+           p_ChampsVersListe ( gstl_CleDataSource, trim(gs_CleUnite), gc_FieldDelimiter );
+           gs_CleUniteFieldValues:= fs_RemplaceChar( gs_CleUnite, gc_FieldDelimiter, ';' );
          End;
     end;
 end;

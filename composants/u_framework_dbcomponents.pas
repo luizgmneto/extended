@@ -43,9 +43,9 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  Graphics, Controls, Classes, ExtCtrls, Dialogs, Messages,
-  Buttons, Forms, DBCtrls, Grids, DB,
-  DBGrids, ComCtrls, StdCtrls, SysUtils,
+  Graphics, Controls, Classes, ExtCtrls, Dialogs,
+  Buttons, Forms, DBCtrls,
+  ComCtrls, SysUtils,
   TypInfo, Variants, u_extcomponent,
 {$IFDEF TNT}
    TntStdCtrls, TntDBCtrls,

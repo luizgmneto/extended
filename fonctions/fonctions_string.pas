@@ -51,7 +51,7 @@ const
   function fs_RemplaceEspace ( const as_Texte : String ; const as_Remplace : String ): String ;
 
   function fs_RepeteChar     ( ach_Caractere : Char ; const ali_Repete : Longint ):String ;
-  function fs_RemplaceChar   ( const as_Texte : String ; ach_Origine, ach_Voulu : Char ) : String ;
+  function fs_RemplaceChar   ( const as_Texte : String ; const ach_Origine, ach_Voulu : Char ) : String ;
 
   function fs_ReplaceChaine( as_Texte : String ; const as_Origine, as_Voulu : string):string;
   function fs_GetBinOfString ( const astr_Source: AnsiString ): String;
@@ -63,13 +63,14 @@ const
     gVer_fonction_string : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Fonctions de traduction et de formatage des chaînes.' ;
-                        			                 BugsStory : 'Version 1.0.2.0 : Fonction fs_GetBinOfString.' + #13#10 + #13#10 +
-                        			                	        	 'Version 1.0.1.1 : Paramètres constantes plus rapides.' + #13#10 + #13#10 +
-                        			                	        	 'Version 1.0.1.0 : Fonction fs_stringDbQuoteFilter qui ne fonctionne pas mais ne provoque pas d''erreur.' + #13#10 + #13#10 +
-                        			                	        	 'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
-                        			                	        	 'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
+                        			                 BugsStory : 'Version 1.0.2.1 : Optimising.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.2.0 : Fonction fs_GetBinOfString.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.1.1 : Paramètres constantes plus rapides.' + #13#10 + #13#10 +
+                        			                	     'Version 1.0.1.0 : Fonction fs_stringDbQuoteFilter qui ne fonctionne pas mais ne provoque pas d''erreur.' + #13#10 + #13#10 +
+                        			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
+                        			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
+                        			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 1 );
     CST_ORD_GUILLEMENT = ord ( '''' );
     CST_ORD_POURCENT   = ord ( '%' );
     CST_ORD_ASTERISC   = ord ( '*' );
@@ -616,7 +617,7 @@ End ;
 // ach_Voulu      : Le caractère de remplacement
 // Résultat       : la chaîne avec le caractère de remplacement
 ////////////////////////////////////////////////////////////////////////////////
-function fs_RemplaceChar   ( const as_Texte : String ; ach_Origine, ach_Voulu : Char ) : String ;
+function fs_RemplaceChar   ( const as_Texte : String ; const ach_Origine, ach_Voulu : Char ) : String ;
 var li_i : Longint ;
 Begin
   Result := '' ;
