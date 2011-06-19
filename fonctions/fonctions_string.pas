@@ -12,7 +12,10 @@ uses
   Windows, AdoConEd, MaskUtils,
 {$ENDIF}
         IniFiles, Forms, SysUtils, StrUtils, Classes, DB, ComCtrls,
-  Dialogs, Math, fonctions_version ;
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
+  Dialogs, Math ;
 
 {$IFNDEF FPC}
 const
@@ -60,6 +63,7 @@ const
                          const ali_TailleLettrage : Longint ): String ;
   function fs_GetNameSoft : {$IFDEF FPC}AnsiString{$ELSE}String{$ENDIF};
 const
+{$IFDEF VERSIONS}
     gVer_fonction_string : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Fonctions de traduction et de formatage des chaînes.' ;
@@ -71,6 +75,7 @@ const
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 1 );
+{$ENDIF}
     CST_ORD_GUILLEMENT = ord ( '''' );
     CST_ORD_POURCENT   = ord ( '%' );
     CST_ORD_ASTERISC   = ord ( '*' );
@@ -743,8 +748,9 @@ Begin
   Result :=copy ( Result, 1 , length ( Result ) - length( ExtractFileExt(Result)));
 End;
 
+{$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gVer_fonction_string );
-finalization
+{$ENDIF}
 end.
 
