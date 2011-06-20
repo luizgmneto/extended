@@ -20,8 +20,8 @@ uses
 type
     TNumRounded = (nrNone,nrErase,nrMiddle);
 
-procedure p_editGridKeyPress ( const aobj_Sender : Tobject ; var ach_Key : Char ; const aby_NbApVirgule , aby_NbAvVirgule : Byte ; const ab_Negatif  : Boolean ; const ai_SelStart : Integer ; const as_Texte , as_SelTexte: String ; const afie_Champ  : TField );
-procedure p_editKeyUp ( const aed_Sender : TCustomMaskEdit ;  const afie_Field : TField ; var ach_Key : Word ; const aby_NbApVirgule , aby_NbAvVirgule : Byte ; const ab_Negatif  : Boolean ; const as_Texte     : String );
+procedure p_editGridKeyPress ( const aobj_Sender : Tobject ; var ach_Key : Char ; const aby_NbApVirgule , aby_NbAvVirgule : Byte ; const ab_Negatif  : Boolean ; const ai_SelStart : Integer ; const as_Texte , as_SelTexte: String ; const ab_Virgule : Boolean );
+procedure p_editKeyUp ( var aext_Value : Extended; const aed_Sender : TCustomMaskEdit ; var ach_Key : Word ; const aby_NbApVirgule , aby_NbAvVirgule : Byte ; const ab_Negatif  : Boolean ; const as_Texte     : String  );
 function fext_CalculateNumber ( const AValue : Extended ; const FNumRounded : TNumRounded ; const aby_NbApVirgule : Byte ): Extended;
 
 {$IFDEF VERSIONS}
@@ -43,15 +43,12 @@ uses fonctions_string, Math,
 // A ne pas utiliser
 // Evènement sur touche enlevée d'un dbedit et d'une grille
 // Paramètres : pour créer l'évènement
-procedure p_editKeyUp ( const aed_Sender : TCustomMaskEdit ; const afie_Field : TField ; var ach_Key : Word ; const aby_NbApVirgule , aby_NbAvVirgule : Byte ; const ab_Negatif  : Boolean ; const as_Texte     : String );
+procedure p_editKeyUp ( var aext_Value : Extended; const aed_Sender : TCustomMaskEdit ; var ach_Key : Word ; const aby_NbApVirgule , aby_NbAvVirgule : Byte ; const ab_Negatif  : Boolean ; const as_Texte     : String  );
 var lli_Position : Longint ;
     lb_Reformate : Boolean ;
 Begin
   // Zone d'éditon :
   // Rien alors on met un 0
-  if assigned ( afie_Field )
-  and not ( afie_Field.DataSet.State in [ dsInsert, dsEdit ]) Then
-    Exit ;
   lb_Reformate := False ;
   lli_Position := aed_Sender.SelStart ;
   if  ( AnsiPos ( DecimalSeparator, as_Texte ) > 0 )
@@ -62,11 +59,10 @@ Begin
     End ;
   // si il y a un séparateur de milliers et le texte est reformaté automatiquement
   // La saisie est alors différente
-  if  assigned ( afie_Field )
-  and ( AnsiPos ( ThousandSeparator, aed_Sender.Text ) > 0 )
+  if  ( AnsiPos ( ThousandSeparator, aed_Sender.Text ) > 0 )
   or lb_Reformate  Then
     Begin
-      afie_Field.Value := ( fs_RemplaceEspace ( aed_Sender.Text, '' ));
+      aext_Value := StrToFloat ( fs_RemplaceEspace ( aed_Sender.Text, '' ));
       if lli_Position >= length ( aed_Sender.Text ) Then
         aed_Sender.SelStart := length (aed_Sender.Text ) - 1
       Else
@@ -77,7 +73,7 @@ End ;
 // action sur touche enlevée d'une grille
 // Dévalide la suppression et l'insertion
 // Paramètres : pour créer l'évènement
-procedure p_editGridKeyPress ( const aobj_Sender : Tobject ; var ach_Key : Char ; const aby_NbApVirgule , aby_NbAvVirgule : Byte ; const ab_Negatif  : Boolean; const ai_SelStart : Integer ; const as_Texte , as_SelTexte : String ; const afie_Champ  : TField );
+procedure p_editGridKeyPress ( const aobj_Sender : Tobject ; var ach_Key : Char ; const aby_NbApVirgule , aby_NbAvVirgule : Byte ; const ab_Negatif  : Boolean; const ai_SelStart : Integer ; const as_Texte , as_SelTexte : String ; const ab_Virgule : Boolean );
 var lby_Signe   : Byte ;
 Begin
   if (( AnsiPos ( '+'             , as_Texte ) > 0 ) or ( AnsiPos ( '-'             , as_Texte ) > 0 )) Then
@@ -132,7 +128,7 @@ Begin
           End ;
   // Gestion d'un champ sans virgule
   if  ( ach_Key = DecimalSeparator)
-  and ((( AnsiPos(DecimalSeparator, as_Texte ) > 0 ) and ( AnsiPos ( DecimalSeparator, as_SelTexte ) <= 0 )) or ( afie_Champ is TIntegerField )) then
+  and ((( AnsiPos(DecimalSeparator, as_Texte ) > 0 ) and ( AnsiPos ( DecimalSeparator, as_SelTexte ) <= 0 )) or ( not ab_Virgule )) then
     ach_Key := #0 ;
 End ;
 

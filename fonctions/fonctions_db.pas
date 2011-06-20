@@ -16,10 +16,18 @@ uses SysUtils,
      WideStrings,
   {$ENDIF}
      DB,
-     Graphics,
-     fonctions_version,
-     Controls,
-     Classes ;
+  {$IFDEF REMOTE}
+     BufDataset,
+  {$ENDIF}
+  {$IFDEF CSV}
+    SdfData,
+  {$ENDIF}
+   Graphics,
+{$IFDEF VERSIONS}
+   fonctions_version,
+{$ENDIF}
+   Controls,
+   Classes ;
 
 const
 
@@ -31,24 +39,27 @@ const
   CST_TABLE_SEPARATOR = ',';
   CST_SQL_ORDER_INTERLEAVING = 1 ;
   CST_DELPHI_FIELD_STRING = [ftString, ftFmtMemo, ftMemo, ftFixedChar, ftWideString];
-  gVer_fonctions_db : T_Version = ( Component : 'Gestion des données' ; FileUnit : 'fonctions_db' ;
-                        			                 Owner : 'Matthieu Giroux' ;
-                        			                 Comment : 'Fonctions gestion des données partagées.' ;
-                        			                 BugsStory : 'Version 1.2.0.0 : Fonctions sur les composants de données dans fonctions_dbcomponents.' + #13#10 +
-                        			                	        	 'Version 1.1.0.1 : Changement de nom de procédures non utilisées, bug mode synchrone lent.' + #13#10 +
-                        			                	        	 'Version 1.1.0.0 : Mode asynchrone.' + #13#10 +
-                        			                	        	 'Version 1.0.8.0 : Fonction fb_RefreshDatasetIfEmpty.' + #13#10 +
-                        			                	        	 'Version 1.0.7.0 : Toutes les fonctions de déplacement.' + #13#10 +
-                        			                	        	 'Version 1.0.6.0 : Procédure p_InitNavigateurBoutonsDeplacement.' + #13#10 +
-                        			                	        	 'Version 1.0.5.0 : Fonction fb_MAJTableNumOrdre.' + #13#10 +
-                        			                	        	 'Version 1.0.4.0 : Fonction fb_RefreshADODataset correcte et fonction fb_RefreshADORecord.' + #13#10 +
-                        			                	        	 'Version 1.0.3.0 : Fonction fb_DatasetFilterLikeRecord pour évènement OnFilterRecord.' + #13#10 +
-                        			                	        	 'Version 1.0.2.0 : Fonction fb_RefreshADODataset.' + #13#10 +
-                        			                	        	 'Version 1.0.1.1 : Bug texte de recherche à rien.' + #13#10 +
-                        			                	        	 'Version 1.0.1.0 : Deuxième fonction fb_Locate.' + #13#10 +
-                        			                	        	 'Version 1.0.0.0 : La fonction fb_Locate a des limites sur plusieurs champs recherchés.';
-                        			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 2 ; Release : 0 ; Build : 0 );
+  {$IFDEF VERSIONS}
+  gVer_fonctions_db : T_Version =  ( Component : 'Gestion des données' ; FileUnit : 'fonctions_db' ;
+                        	     Owner : 'Matthieu Giroux' ;
+                        	     Comment : 'Fonctions gestion des données partagées.' ;
+                        	     BugsStory : 'Version 1.2.0.1 : Integrating Remote and CSV Dataset.' + #13#10 +
+                        			 'Version 1.2.0.0 : Fonctions sur les composants de données dans fonctions_dbcomponents.' + #13#10 +
+                        			 'Version 1.1.0.1 : Changement de nom de procédures non utilisées, bug mode synchrone lent.' + #13#10 +
+                        			 'Version 1.1.0.0 : Mode asynchrone.' + #13#10 +
+                        			 'Version 1.0.8.0 : Fonction fb_RefreshDatasetIfEmpty.' + #13#10 +
+                        			 'Version 1.0.7.0 : Toutes les fonctions de déplacement.' + #13#10 +
+                        			 'Version 1.0.6.0 : Procédure p_InitNavigateurBoutonsDeplacement.' + #13#10 +
+                        			 'Version 1.0.5.0 : Fonction fb_MAJTableNumOrdre.' + #13#10 +
+                        			 'Version 1.0.4.0 : Fonction fb_RefreshADODataset correcte et fonction fb_RefreshADORecord.' + #13#10 +
+                        			 'Version 1.0.3.0 : Fonction fb_DatasetFilterLikeRecord pour évènement OnFilterRecord.' + #13#10 +
+                        			 'Version 1.0.2.0 : Fonction fb_RefreshADODataset.' + #13#10 +
+                        			 'Version 1.0.1.1 : Bug texte de recherche à rien.' + #13#10 +
+                        			 'Version 1.0.1.0 : Deuxième fonction fb_Locate.' + #13#10 +
+                        			 'Version 1.0.0.0 : La fonction fb_Locate a des limites sur plusieurs champs recherchés.';
+                        	     UnitType : 1 ;
+                        	     Major : 1 ; Minor : 2 ; Release : 0 ; Build : 1 );
+  {$ENDIF}
 
 function fs_AjouteRechercheClePrimaire ( const adat_Dataset         : TDataset    ;
                                          const as_ChampsClePrimaire : TStringList ;
@@ -57,6 +68,7 @@ function fs_AjouteRechercheClePrimaire ( const adat_Dataset         : TDataset  
 function fb_ChangeEnregistrement(var avar_EnregistrementCle : Variant ; const adat_Dataset : TDataset ;
   const as_Cle: String; const ab_Sort:Boolean): Boolean;
 
+function fb_AddIndexToDataSet(aDat_Dataset: TDataSet;const as_IndexName, as_NomChamp: String; const aio_IndexOptions: TIndexOptions; const as_NomChampOrigine : String = ''): Boolean;
 function fb_MAJTableNumsOrdre ( const aDat_Dataset : TDataset ; const as_NomOrdre : String ; const ai_Intervalle : Longint ; const ab_DisableControls : Boolean ): Boolean ;
 function fb_SetMultipleFieldToQuery ( const astl_Champs, astl_SQLQuery : TStrings ; const avar_Variant : Variant ; const adat_Dataset : TDataset ; const ab_AddColma : Boolean = True  ; as_table : String = '' ): Boolean ;
 function fb_Locate ( const adat_Dataset : TDataset ; const as_Champ : String ; const avar_Recherche : Variant; const alo_Options : TLocateOptions ; const ab_Trie : Boolean ): Boolean ;
@@ -66,6 +78,7 @@ function  fb_MAJTableNumOrdre ( const aDat_Dataset : TDataset ; const avar_Numor
 function fb_IntervertitPositions2Champs   ( const aDat_Dataset : TDataset ; const as_NomOrdre : String ; const ab_Precedent, ab_SortAsc, ab_DisableControls : Boolean ): Boolean;
 function  fb_SortADataset ( const aDat_Dataset : TDataset; const as_NomChamp : String ; const ab_Desc : Boolean ) : Boolean;
 procedure p_UpdateBatch ( const adat_Dataset: Tdataset);
+function fb_SortLocalDataSet(aDat_Dataset: TDataSet;const as_NomChamp: String; const ab_Desc : Boolean): Boolean;
 
 var ge_DataSetErrorEvent : TDataSetErrorEvent = nil;
     ge_NilEvent : TDataSetErrorEvent = nil;
@@ -603,6 +616,7 @@ Begin
 
         TCustomADODataset( aDat_DataSet ).Sort   := as_NomChamp + ls_AscDesc ;
         Result := True ;
+        Exit;
       End
      Else
 {$ENDIF}
@@ -614,11 +628,91 @@ Begin
           p_SetComponentProperty ( aDat_DataSet, 'SortType', 1)
          Else
           p_SetComponentProperty ( aDat_DataSet, 'SortType', 0);
+        Exit;
       End;
+     Result := fb_SortLocalDataSet(aDat_Dataset, as_NomChamp, ab_Desc );
   Except
   End ;
 End ;
 
+
+function fb_SortLocalDataSet(aDat_Dataset: TDataSet;const as_NomChamp: String; const ab_Desc : Boolean): Boolean;
+var
+  i: Integer;
+  IndexDefs: TIndexDefs;
+  ls_IndexName: String;
+  IndexOptions: TIndexOptions;
+  Field: TField;
+begin
+  Result := False;
+  Field := aDat_DataSet.Fields.FindField(as_NomChamp);
+  //If invalid field name, exit.
+  if Field = nil then Exit;
+  //if invalid field type, exit.
+  if {(Field is TObjectField) or} (Field is TBlobField) or
+    {(Field is TAggregateField) or} (Field is TVariantField)
+     or (Field is TBinaryField) then Exit;
+  //Get IndexDefs and IndexName using RTTI
+  if IsPublishedProp(aDat_DataSet, 'IndexDefs') then
+    IndexDefs := GetObjectProp(aDat_DataSet, 'IndexDefs') as TIndexDefs
+  else
+    Exit;
+  if IsPublishedProp(aDat_DataSet, 'IndexName') then
+    ls_IndexName := GetStrProp(aDat_DataSet, 'IndexName')
+  else
+    Exit;
+  //Ensure IndexDefs is up-to-date
+  IndexDefs.Update;
+  //If an ascending index is already in use,
+  //switch to a descending index
+  if ab_Desc
+  then
+    begin
+      ls_IndexName := as_NomChamp + '__IdxD';
+      IndexOptions := [ixDescending];
+    end
+  else
+    begin
+      ls_IndexName := as_NomChamp + '__IdxA';
+      IndexOptions := [];
+    end;
+  //Look for existing index
+  for i := 0 to Pred(IndexDefs.Count) do
+  begin
+    if IndexDefs[i].Name = ls_IndexName then
+      begin
+        Result := True;
+        Break
+      end;  //if
+  end; // for
+  //If existing index not found, create one
+  if not Result then
+      begin
+        if ls_IndexName=as_NomChamp + '__IdxD' then
+          fb_AddIndexToDataSet(aDat_Dataset, ls_IndexName, as_NomChamp, IndexOptions, as_NomChamp)
+        else
+          fb_AddIndexToDataSet(aDat_Dataset, ls_IndexName, as_NomChamp, IndexOptions);
+        Result := True;
+      end; // if not
+  //Set the index
+  SetStrProp(aDat_DataSet, 'IndexName', ls_IndexName);
+end;
+
+function fb_AddIndexToDataSet(aDat_Dataset: TDataSet;const as_IndexName, as_NomChamp: String; const aio_IndexOptions: TIndexOptions; const as_NomChampOrigine : String = ''): Boolean;
+Begin
+  {$IFDEF REMOTE}
+  if aDat_Dataset is TCustomBufDataset
+   Then
+     Begin
+       (aDat_Dataset as TCustomBufDataset ).AddIndex(as_IndexName,as_NomChamp,aio_IndexOptions,as_NomChampOrigine)
+       Exit;
+     end;
+  {$ENDIF}
+  {$IFDEF CSV}
+   if aDat_Dataset is TCustomSdfDataset
+    Else (aDat_Dataset as TCustomSdfDataset ).AddIndex(as_IndexName,as_NomChamp,aio_IndexOptions,as_NomChampOrigine);
+  {$ENDIF}
+end;
 
 // récupère la propriété sort
 // aDat_Dataset : Le dataset
@@ -632,7 +726,8 @@ End ;}
 
 
 
+{$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gVer_fonctions_db );
-finalization
+{$ENDIF}
 end.

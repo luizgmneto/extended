@@ -28,7 +28,7 @@ uses
 {$ELSE}
   Windows,
 {$ENDIF}
-  Messages,  SysUtils, Classes;
+  SysUtils, Classes;
 
 procedure Register;
 

@@ -47,7 +47,8 @@ uses
                                                FileUnit : 'U_NumEdits' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Edition de nombres.' ;
-                                               BugsStory : '1.0.1.1 : NumRounded property not tested' + #13#10
+                                               BugsStory : '1.0.1.2 : Mask on num edit' + #13#10
+                                                         + '1.0.1.1 : NumRounded property not tested' + #13#10
                                                          + '1.0.1.0 : Better ExtNumEdit with good colors' + #13#10
                                                          + '1.0.0.1 : Bug rafraîchissement de AValue' + #13#10
                                                          + '1.0.0.0 : Gestion en place.';
@@ -57,12 +58,13 @@ uses
                                                FileUnit : 'U_NumEdits' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Edition de nombres en données.' ;
-                                               BugsStory : '1.0.1.2 : NumRounded property not tested' + #13#10
+                                               BugsStory : '1.0.1.3 : Better num edit' + #13#10
+                                                         + '1.0.1.2 : NumRounded property not tested' + #13#10
                                                          + '1.0.1.1 : Less methods with good colors' + #13#10
                                                          + '1.0.1.0 : Améliorations sur la gestion des erreurs' + #13#10
                                                          + '1.0.0.0 : Gestion en place.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 3 );
 {$ENDIF}
     CST_MC_NEGATIVE = True ;
     CST_MC_POSITIVE = True ;
@@ -86,7 +88,6 @@ type
     FColorEdit ,
     FOldColor ,
     FColorLabel : TColor;
-    FDataLink: TFieldDataLink;
     FNotifyOrder : TNotifyEvent;
    procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
   protected
@@ -116,6 +117,7 @@ type
     procedure SetOrder ; virtual;
   published
     property EditMask ;
+    property IsMasked ;
     property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
     property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
     property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
@@ -196,8 +198,11 @@ type
 
   end;
 
+  { TExtDBNumEdit }
+
   TExtDBNumEdit = class(TExtNumEdit, IFWComponent, IFWComponentEdit)
   private
+    FDataLink: TFieldDataLink;
     FFormat : String ;
     procedure ActiveChange(Sender: TObject);
     procedure DataChange(Sender: TObject);
@@ -241,6 +246,7 @@ type
    public
     procedure Loaded; override;
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
     function ExecuteAction(AAction: TBasicAction): Boolean; override;
     function UpdateAction(AAction: TBasicAction): Boolean; override;
     function UseRightToLeftAlignment: Boolean; override;
@@ -277,6 +283,7 @@ end;
 
 constructor TExtDBNumEdit.Create(AOwner: TComponent);
 begin
+  FDataLink := TFieldDataLink.Create;
   inherited Create(AOwner);
   ControlStyle := ControlStyle + [csReplicatable];
   FDataLink.Control := Self;
@@ -284,6 +291,13 @@ begin
   FDataLink.OnEditingChange := EditingChange;
   FDataLink.OnUpdateData := UpdateData;
   FDataLink.OnActiveChange := ActiveChange;
+end;
+
+destructor TExtDBNumEdit.Destroy;
+begin
+  inherited Destroy;
+  FDataLink.Free;
+  FDataLink := nil;
 end;
 
 
@@ -590,7 +604,6 @@ constructor TExtNumEdit.Create(AOwner: TComponent);
 begin
   inherited;
   FAlwaysSame := True;
-  FDataLink := TFieldDataLink.Create;
   gby_NbAvVirgule := CST_MC_BEFORECOMMA ;
   gby_NbApVirgule := CST_MC_AFTERCOMMA ;
   gb_Negatif   := CST_MC_NEGATIVE ;
@@ -604,6 +617,7 @@ begin
   FHasMin := false;
   FHasMax := false;
   FNumRounded := nrNone;
+  EditMask := '#0' + DecimalSeparator + '#9;0; ';
 
 end;
 
@@ -646,8 +660,6 @@ end;
 destructor TExtNumEdit.Destroy;
 begin
   FCanvas.Free;
-  FDataLink.Free;
-  FDataLink := nil;
   inherited;
 end;
 
@@ -694,7 +706,7 @@ end;
 
 procedure TExtNumEdit.KeyPress(var Key: Char);
 begin
-  p_editGridKeyPress ( Self, Key,gby_NbApVirgule, gby_NbAvVirgule, gb_Negatif, SelStart, Text, SelText, FDataLink.Field );
+  p_editGridKeyPress ( Self, Key,gby_NbApVirgule, gby_NbAvVirgule, gb_Negatif, SelStart, Text, SelText,pos ( DecimalSeparator, EditMask ) > 0 );
 
   if  ( FHasMax )
   and ( Value > FMax )  then
@@ -713,8 +725,11 @@ begin
 end;
 
 procedure TExtNumEdit.KeyUp(var Key: Word; Shift: TShiftState);
+var lext_Value : Extended;
 begin
-  p_editKeyUp ( Self, FDataLink.Field, Key,gby_NbApVirgule, gby_NbAvVirgule, gb_Negatif, Text );
+  lext_Value := gre_AValue;
+  p_editKeyUp ( lext_Value, Self, Key,gby_NbApVirgule, gby_NbAvVirgule, gb_Negatif, Text );
+  Value := lext_Value;
   try
     if  ( Text <> '' )
     and ( Text <> '+' )
@@ -798,9 +813,9 @@ begin
       Brush.Color := Color;
       if not Enabled then
         Font.Color := clGrayText;
-      if (csPaintCopy in ControlState) and (FDataLink.Field <> nil) then
+      if (csPaintCopy in ControlState) then
       begin
-        S := FDataLink.Field.DisplayText;
+        S := Text;
         case CharCase of
           ecUpperCase: S := AnsiUpperCase(S);
           ecLowerCase: S := AnsiLowerCase(S);

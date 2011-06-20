@@ -72,14 +72,13 @@ var ge_DataSetErrorEvent : TDataSetErrorEvent ;
 
 implementation
 
-uses Variants,  Math, fonctions_erreurs, fonctions_string, unite_messages,
+uses Variants,  fonctions_erreurs, fonctions_string, unite_messages,
 {$IFDEF FPC}
      SQLDB,
 {$ELSE}
      DBTables,
 {$ENDIF}
 {$IFDEF ZEOS}
-  ZDataset,
   ZAbstractRODataset,
 {$ENDIF}
 {$IFDEF EDBEXPRESS}

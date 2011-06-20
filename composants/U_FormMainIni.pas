@@ -319,7 +319,7 @@ uses fonctions_proprietes, fonctions_erreurs, TypInfo,
 {$IFDEF ZEOS}
      U_Zconnection,
 {$ENDIF}
-     unite_messages, fonctions_db, fonctions_string;
+     unite_messages, fonctions_string;
 
 { fonctions }
 
