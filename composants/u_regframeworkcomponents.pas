@@ -32,12 +32,12 @@ uses unite_messages, U_DBListView, U_ExtDBNavigator,
 
 procedure Register;
 begin
+  RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni]);
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TDBListView,TExtDBNavigator,
                                                 TExtDBImage,TExtDBNumEdit, TExtDBComboInsert,
                                                 TExtDBColorCombo, TExtSearchDBEdit,
                                                 TFWDBEdit,TFWDBLookupCombo,TExtDBGrid,TFWDBMemo,TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF}]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TOnFormInfoIni,
-                                                TExtNumEdit,
+  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtNumEdit,
                                                 TExtColorCombo,
                                                 TFWLabel, TFWEdit,TFWGrid,TFWMemo,TFWDateEdit]);
   RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataKeyUnit'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
