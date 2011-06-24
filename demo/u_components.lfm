@@ -11,6 +11,7 @@ inherited Myform: TMyform
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  OnCreate = FormCreate
   OnShow = FormShow
   object Splitter1: TSplitter[0]
     Left = 208
@@ -277,6 +278,7 @@ inherited Myform: TMyform
       Height = 24
       Top = 133
       Width = 221
+      EditMask = '#0,#9;0; '
       AlwaysSame = False
       Value = 0
       ColorLabel = clMaroon
@@ -286,7 +288,7 @@ inherited Myform: TMyform
       Min = 0
       CharCase = ecNormal
       Color = clInfoText
-      MaxLength = 0
+      MaxLength = 5
       ReadOnly = True
       TabOrder = 2
     end

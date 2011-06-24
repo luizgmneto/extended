@@ -62,6 +62,7 @@ type
     FWDBEdit2: TFWDBEdit;
     Prenom: TFWDBEdit;
     Nom: TFWDBEdit;
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure QuitterClick(Sender: TObject);
     procedure DbfNomsAfterPost(DataSet: TDataSet);
@@ -100,6 +101,13 @@ begin
        Exit;
       end;
   end;
+end;
+
+procedure TMyform.FormCreate(Sender: TObject);
+begin
+  {$IFDEF WINDOWS}
+  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+'\Exemple.fdb';
+  {$ENDIF}
 end;
 
 procedure TMyform.QuitterClick(Sender: TObject);
