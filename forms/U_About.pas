@@ -1,22 +1,19 @@
 
 // ************************************************************************ //
-// Dfm2Pas: WARNING!
+// Created with Dfm2Pas
 // -----------------
-// Part of the code declared in this file was generated from data read from
-// a *.DFM file or a Delphi project source using Dfm2Pas 1.0.
-// For a list of known issues check the README file.
-// Send Feedback, bug reports, or feature requests to:
-// e-mail: fvicaria@borland.com or check our Community website.
+// Author : Matthieu GIROUX www.liberlog.fr
+// Giroux 2004
+// Versioning for the client to see the evolution
 // ************************************************************************ //
 
 unit U_About;
 
 {$DEFINE CLR}
 
-//////////////////////////////////////////////////////////////////
-// Giroux 2004
-//  lb_Giroux doit avoir un caption '2006'
-//////////////////////////////////////////////////////////////////
+{$IFDEF FPC}
+{$mode Delphi}
+{$ENDIF}
 
 interface
 
@@ -44,12 +41,13 @@ uses
 
 const
   gver_F_About : T_Version = ( Component : 'Fenêtre A propos' ; FileUnit : 'U_About' ;
-         Owner : 'Matthieu Giroux' ;
+                 Owner : 'Matthieu Giroux' ;
                  Comment : 'Répertorie les composants.' ;
-                           BugsStory   : 'Version 1.0.0.1 : Bug sur icône à la réouverture.' + #13#10
+                 BugsStory   : 'Version 1.0.0.2 : Mode Delphi on Lazarus.' + #13#10
+                             + 'Version 1.0.0.1 : Bug sur icône à la réouverture.' + #13#10
                              + 'Version 1.0.0.0 : Gestion de versions.';
-                               UnitType : CST_TYPE_UNITE_FICHE ;
-                                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
+                 UnitType : CST_TYPE_UNITE_FICHE ;
+                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
 
 
       CST_NOEUDS_RACINES = 5 ;
@@ -494,7 +492,7 @@ begin
     Hint := 'R'#233'initialisation des tailles';
     ParentShowHint := False;
     ShowHint := True;
-    OnClick := {$IFDEF FPC}@{$ENDIF}bt_reinitClick;
+    OnClick := bt_reinitClick;
     Caption := 'R'#233'initialiser';
     TabOrder := 2;
   end;
@@ -520,10 +518,10 @@ begin
     TreeOptions.AutoOptions := [toAutoDropExpand, toAutoScrollOnExpand, toAutoSort, toAutoTristateTracking, toAutoDeleteMovedNodes];
     TreeOptions.PaintOptions := [toPopupMode, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toThemeAware, toUseBlendedImages];
     TreeOptions.SelectionOptions := [toFullRowSelect, toRightClickSelect];
-    OnCompareNodes := {$IFDEF FPC}@{$ENDIF}vt_VersioningCompareNodes;
-    OnGetText := {$IFDEF FPC}@{$ENDIF}vt_VersioningGetText;
-    OnInitNode := {$IFDEF FPC}@{$ENDIF}vt_VersioningInitNode;
-    OnMouseUp := {$IFDEF FPC}@{$ENDIF}vt_VersioningMouseUp;
+    OnCompareNodes := vt_VersioningCompareNodes;
+    OnGetText := vt_VersioningGetText;
+    OnInitNode := vt_VersioningInitNode;
+    OnMouseUp := vt_VersioningMouseUp;
   end;
   
   with APopupMenu do
@@ -537,7 +535,7 @@ begin
     Name := 'Commentaires1';
     APopupMenu.Items.Add(Commentaires1);
     Caption := 'Commentaires';
-    OnClick := {$IFDEF FPC}@{$ENDIF}Commentaires1Click;
+    OnClick := Commentaires1Click;
   end;
   
   with Bugsenlevs1 do
@@ -545,7 +543,7 @@ begin
     Name := 'Bugsenlevs1';
     APopupMenu.Items.Add(Bugsenlevs1);
     Caption := 'Bugs enlev'#233's';
-    OnClick := {$IFDEF FPC}@{$ENDIF}Bugsenlevs1Click;
+    OnClick := Bugsenlevs1Click;
   end;
 
   // Form's PMEs'
@@ -563,7 +561,7 @@ begin
   Font.Name := 'MS Sans Serif';
   Font.Style := [];
   Position := poScreenCenter;
-  OnActivate := {$IFDEF FPC}@{$ENDIF}FormActivate;
+  OnActivate := FormActivate;
 end;
 {$ENDIF}
 

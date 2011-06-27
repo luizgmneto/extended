@@ -9,19 +9,20 @@ interface
 uses fonctions_version ;
 
 const
-  gVer_unite_messages : T_Version = ( Component : 'Constantes messages' ; FileUnit : 'unite_messages' ;
-                        			                 Owner : 'Matthieu Giroux' ;
-                        			                 Comment : 'Constantes et variables messages.' ;
-                        			                 BugsStory : 'Version 1.0.4.0 : Message d''erreur de sauvegarde ini.' + #13#10
-                        			                	         + 'Version 1.0.3.3 : Message GS_MC_ERREUR_CONNEXION.' + #13#10
-                        			                	         + 'Version 1.0.3.2 : Modifs GS_MC_VALEUR_UTILISEE et GS_MC_VALEURS_UTILISEES, ajout de GS_MC_DETAILS_TECHNIQUES.' + #13#10
-                        			                	         + 'Version 1.0.3.1 : Constante message Form Dico.' + #13#10
-                        			                	         + 'Version 1.0.3.0 : Constantes INI.' + #13#10
-                        			                	         + 'Version 1.0.2.0 : Plus de messages dans l''unité.' + #13#10
-                        			                	         + 'Version 1.0.1.0 : Plus de messages dans l''unité.' + #13#10
-                        			                	         + 'Version 1.0.0.0 : Gestion des messages des fenêtres.';
-                        			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 4 ; Build : 0 );
+  gVer_unite_messages : T_Version= ( Component : 'Constantes messages' ; FileUnit : 'unite_messages' ;
+                        	     Owner : 'Matthieu Giroux' ;
+                        	     Comment : 'Constantes et variables messages.' ;
+                        	     BugsStory : 'Version 1.0.4.1 : Menu Toolbar messages.' + #13#10
+                        		       + 'Version 1.0.4.0 : Message d''erreur de sauvegarde ini.' + #13#10
+                        		       + 'Version 1.0.3.3 : Message GS_MC_ERREUR_CONNEXION.' + #13#10
+                        		       + 'Version 1.0.3.2 : Modifs GS_MC_VALEUR_UTILISEE et GS_MC_VALEURS_UTILISEES, ajout de GS_MC_DETAILS_TECHNIQUES.' + #13#10
+                        		       + 'Version 1.0.3.1 : Constante message Form Dico.' + #13#10
+                        		       + 'Version 1.0.3.0 : Constantes INI.' + #13#10
+                        		       + 'Version 1.0.2.0 : Plus de messages dans l''unité.' + #13#10
+                        		       + 'Version 1.0.1.0 : Plus de messages dans l''unité.' + #13#10
+                        		       + 'Version 1.0.0.0 : Gestion des messages des fenêtres.';
+                        	     UnitType : 1 ;
+                        	     Major : 1 ; Minor : 0 ; Release : 4 ; Build : 1 );
 
 {$ENDIF}
 
@@ -54,6 +55,7 @@ resourcestring
   // Paquet Fonctions
   GS_ECRITURE_IMPOSSIBLE = 'Impossible d''écrire sur le fichier @ARG avec l''attribut de fichier @ARG.' ;
   GS_DETAILS_TECHNIQUES = 'Détails techniques : ' ;
+  GS_TOOLBARMENU_Personnaliser = 'Personnaliser' ;
 
  // Composants
   GS_SUPPRIMER_QUESTION = 'Confirmez-vous l''effacement de l''enregistrement ?' ;
