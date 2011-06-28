@@ -51,7 +51,7 @@ procedure TExtMenuToolBar.Loaded;
 begin
   inherited Loaded;
   FButtonGet:= TToolButton.Create(Self);
-  if IsVertical Then
+  if Height > Width Then
     FButtonGet.Align:=alBottom
    Else
     FButtonGet.Align:=alRight;

@@ -39,7 +39,7 @@ uses
 
 procedure Register;
 begin
-  RegisterComponents('FWButtons', [TFWClose,TFWOK,TFWInsert,TFWInit,TFWDOCUMENT,TFWCancel,TFWQuit,TFWErase,TFWSaveAs,TFWPrint,TFWPreview,TFWCopy,TFWInSelect,TFWInAll,TFWOutSelect,TFWOutAll]);
+  RegisterComponents('FWButtons', [TFWClose,TFWBasket,TFWOK,TFWInsert,TFWInit,TFWDelete,TFWDocument,TFWCancel,TFWQuit,TFWErase,TFWSaveAs,TFWPrint,TFWPreview,TFWCopy,TFWInSelect,TFWInAll,TFWOutSelect,TFWOutAll]);
 End ;
 
 initialization

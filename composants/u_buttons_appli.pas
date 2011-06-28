@@ -33,8 +33,10 @@ const
 {$ENDIF}
    CST_FWCLOSE='TFWCLOSE';
    CST_FWCANCEL='TFWCANCEL';
+   CST_FWBASKET='TFWBASKET';
    CST_FWOK='TFWOK';
    CST_FWINSERT='TFWINSERT';
+   CST_FWDELETE='TFWDELETE';
    CST_FWCOPY='TFWCOPY';
    CST_FWQUIT='TFWQUIT';
    CST_FWERASE='TFWERASE';
@@ -54,6 +56,7 @@ const
    CST_HEIGHT_BUTTONS_ACTIONS = 20;
 {$ENDIF}
 
+
 type
 
    IFWButton = interface
@@ -63,12 +66,9 @@ type
 
    TFWClose = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
        constructor Create ( AOwner : TComponent ) ; override;
-       procedure Paint; override;
+       procedure Loaded; override;
        procedure Click; override;
       published
        property Glyph stored False;
@@ -80,12 +80,9 @@ type
 
    TFWAbort = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
        constructor Create ( AOwner : TComponent ) ; override;
-       procedure Paint; override;
+       procedure Loaded; override;
       published
        property Glyph stored False;
      End;
@@ -93,12 +90,9 @@ type
 { TFWOK }
    TFWOK = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
        constructor Create ( AOwner : TComponent ) ; override;
-       procedure Paint; override;
+       procedure Loaded; override;
       published
        property Glyph stored False;
      End;
@@ -106,25 +100,28 @@ type
 { TFWInsert }
    TFWInsert = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
        constructor Create ( AOwner : TComponent ) ; override;
-       procedure Paint; override;
+       procedure Loaded; override;
       published
        property Glyph stored False;
      End;
 
+{ TFWDelete }
+  TFWDelete = class ( TJvXPButton,IFWButton )
+     private
+     public
+      constructor Create ( AOwner : TComponent ) ; override;
+      procedure Loaded; override;
+     published
+      property Glyph stored False;
+    End;
+
 { TFWDocument }
    TFWDocument = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
-
-       procedure Paint; override;
+       procedure Loaded; override;
       published
        property Glyph stored False;
      End;
@@ -132,12 +129,9 @@ type
 { TFWQuit }
    TFWQuit = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
        constructor Create ( AOwner : TComponent ) ; override;
-       procedure Paint; override;
+       procedure Loaded; override;
       published
        property Glyph stored False;
      End;
@@ -145,12 +139,9 @@ type
 { TFWErase }
    TFWErase = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
        constructor Create ( AOwner : TComponent ) ; override;
-       procedure Paint; override;
+       procedure Loaded; override;
       published
        property Glyph stored False;
      End;
@@ -158,13 +149,10 @@ type
 { TFWSaveAs }
    TFWSaveAs = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
        constructor Create ( AOwner : TComponent ) ; override;
+       procedure Loaded; override;
 
-       procedure Paint; override;
       published
        property Glyph stored False;
      End;
@@ -172,26 +160,20 @@ type
 { TFWPrint }
    TFWPrint = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
        constructor Create ( AOwner : TComponent ) ; override;
+       procedure Loaded; override;
 
-       procedure Paint; override;
       published
        property Glyph stored False;
      End;
 
    TFWCancel = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
        constructor Create ( AOwner : TComponent ) ; override;
+       procedure Loaded; override;
 
-       procedure Paint; override;
       published
        property Glyph stored False;
        property Caption stored False;
@@ -201,12 +183,9 @@ type
 { TFWPreview }
    TFWPreview = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
+       procedure Loaded; override;
 
-       procedure Paint; override;
       published
        property Glyph stored False;
      End;
@@ -214,13 +193,9 @@ type
 { TFWCopy }
    TFWCopy = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
        constructor Create ( AOwner : TComponent ) ; override;
-
-       procedure Paint; override;
+       procedure Loaded; override;
       published
        property Glyph stored False;
      End;
@@ -228,12 +203,9 @@ type
 { TFWInit }
    TFWInit = class ( TJvXPButton,IFWButton )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
+       procedure Loaded; override;
 
-       procedure Paint; override;
       published
        property Glyph stored False;
      End;
@@ -246,7 +218,6 @@ type
     TFWGroupButtonActions = class ( TJvXPButton,IFWButton )
      public
       constructor Create ( AOwner : TComponent ) ; override;
-
      published
       property Width  default CST_WIDTH_BUTTONS_ACTIONS;
       property Height default CST_HEIGHT_BUTTONS_ACTIONS;
@@ -257,13 +228,10 @@ type
 
    TFWBasket = class ( TFWGroupButtonActions )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
        constructor Create ( AOwner : TComponent ) ; override;
+       procedure Loaded; override;
 
-       procedure Paint; override;
       published
        property Glyph stored False;
        property Caption stored False;
@@ -273,13 +241,10 @@ type
 
    TFWRecord = class ( TFWGroupButtonActions )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
        constructor Create ( AOwner : TComponent ) ; override;
+       procedure Loaded; override;
 
-       procedure Paint; override;
       published
        property Glyph stored False;
        property Caption stored False;
@@ -295,28 +260,21 @@ type
     property Height default CST_HEIGHT_BUTTONS_MOVING;
    end;
    { TFWOutSelect }
-      TFWOutSelect = class ( TFWGroupButtonMoving )
-         private
-         {$IFNDEF FPC}
-          ResInstance             : THandle      ;
-         {$ENDIF}
-         public
-          procedure Paint; override;
-         published
-          property Glyph stored False;
-        End;
+    TFWOutSelect = class ( TFWGroupButtonMoving )
+       private
+       public
+        procedure Loaded; override;
+       published
+        property Glyph stored False;
+      End;
 
    { TFWOutAll }
 
 
    TFWOutAll = class ( TFWGroupButtonMoving )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
-
-       procedure Paint; override;
+       procedure Loaded; override;
       published
        property Glyph stored False;
      End;
@@ -324,12 +282,8 @@ type
 { TFWInSelect }
    TFWInSelect = class ( TFWGroupButtonMoving )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
-
-       procedure Paint; override;
+       procedure Loaded; override;
       published
        property Glyph stored False;
      End;
@@ -337,12 +291,8 @@ type
 { TFWInAll }
    TFWInAll = class ( TFWGroupButtonMoving )
       private
-      {$IFNDEF FPC}
-       ResInstance             : THandle      ;
-      {$ENDIF}
       public
-
-       procedure Paint; override;
+       procedure Loaded; override;
       published
        property Glyph stored False;
      End;
@@ -353,7 +303,52 @@ implementation
 
 uses {$IFDEF FPC}ObjInspStrConsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
-     {$IFDEF GROUPVIEW}unite_messages,{$ENDIF}Forms ;
+     {$IFDEF GROUPVIEW}unite_messages,{$ENDIF}
+     Forms, Graphics ;
+
+
+{$IFNDEF FPC}
+var Buttons_Appli_ResInstance             : THandle      ;
+{$ENDIF}
+
+procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; const as_Resource : String );
+Begin
+  {$IFDEF FPC}
+    FGlyph.Clear;
+    FGlyph.LoadFromLazarusResource( as_Resource );
+  {$ELSE}
+    if ( Buttons_Appli_ResInstance = 0 ) Then
+      Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
+    FGlyph.Bitmap.LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
+  {$ENDIF}
+end;
+{ TFWDocument }
+
+procedure TFWDocument.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWDOCUMENT );
+  inherited Loaded;
+  Invalidate;
+end;
+
+{ TFWDelete }
+
+constructor TFWDelete.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  {$IFDEF FPC}
+  Caption := srVK_DELETE;
+  {$ELSE}
+  Caption := SDeleteRecord;
+  {$ENDIF}
+end;
+
+procedure TFWDelete.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWDELETE );
+  inherited Loaded;
+  Invalidate;
+end;
 
 { TFWGroupButtonActions }
 
@@ -397,19 +392,11 @@ begin
   Caption := SCloseButton;
 end;
 
-procedure TFWClose.Paint;
+procedure TFWClose.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWCLOSE);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWCLOSE);
-    {$ENDIF}
-    End;
-  inherited Paint;
+  p_Load_Buttons_Appli ( Glyph, CST_FWCLOSE );
+  inherited Loaded;
+  Invalidate;
 end;
 
 { TFWCancel }
@@ -424,20 +411,13 @@ begin
   {$ENDIF}
 end;
 
-procedure TFWCancel.Paint;
+procedure TFWCancel.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWCANCEL);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWCANCEL);
-    {$ENDIF}
-    End;
-  inherited Paint;
+  p_Load_Buttons_Appli ( Glyph, CST_FWCANCEL );
+  inherited Loaded;
+  Invalidate;
 end;
+
 
 { TFWOK }
 
@@ -451,19 +431,11 @@ begin
   {$ENDIF}
 end;
 
-procedure TFWOK.Paint;
+procedure TFWOK.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWOK);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWOK);
-    {$ENDIF}
-    End;
-  inherited Paint;
+  p_Load_Buttons_Appli ( Glyph, CST_FWOK );
+  inherited Loaded;
+  Invalidate;
 end;
 
 { TFWInsert }
@@ -478,36 +450,11 @@ begin
   {$ENDIF}
 end;
 
-procedure TFWInsert.Paint;
+procedure TFWInsert.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWINSERT);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWINSERT);
-    {$ENDIF}
-    End;
-  inherited Paint;
-end;
-
-{ TFWDocument }
-
-procedure TFWDocument.Paint;
-begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWDOCUMENT);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWDOCUMENT);
-    {$ENDIF}
-    End;
-  inherited Paint;
+  p_Load_Buttons_Appli ( Glyph, CST_FWINSERT );
+  inherited Loaded;
+  Invalidate;
 end;
 
 { TFWSaveAs }
@@ -520,19 +467,11 @@ begin
   {$ENDIF}
 end;
 
-procedure TFWSaveAs.Paint;
+procedure TFWSaveAs.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWSAVEAS);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWSAVEAS);
-    {$ENDIF}
-    End;
-  inherited Paint;
+  p_Load_Buttons_Appli ( Glyph, CST_FWSAVEAS );
+  inherited Loaded;
+  Invalidate;
 end;
 
 { TFWQuit }
@@ -543,20 +482,13 @@ begin
   Caption := SCloseButton {$IFDEF FPC}+ ' ' + oisAll{$ENDIF};
 end;
 
-procedure TFWQuit.Paint;
+procedure TFWQuit.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWQUIT);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWQUIT);
-    {$ENDIF}
-    End;
-  inherited Paint;
+  p_Load_Buttons_Appli ( Glyph, CST_FWQUIT );
+  inherited Loaded;
+  Invalidate;
 end;
+
 
 { TFWerase }
 
@@ -570,19 +502,11 @@ begin
   {$ENDIF}
 end;
 
-procedure TFWErase.Paint;
+procedure TFWErase.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWERASE);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWERASE);
-    {$ENDIF}
-    End;
-  inherited Paint;
+  p_Load_Buttons_Appli ( Glyph, CST_FWERASE );
+  inherited Loaded;
+  Invalidate;
 end;
 
 { TFWPrint }
@@ -595,54 +519,29 @@ begin
   {$ENDIF}
 end;
 
-procedure TFWPrint.Paint;
+procedure TFWPrint.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWPRINT);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWPRINT);
-    {$ENDIF}
-    End;
-  inherited Paint;
+  p_Load_Buttons_Appli ( Glyph, CST_FWPRINT );
+  inherited Loaded;
+  Invalidate;
 end;
 
 { TFWPreview }
 
-procedure TFWPreview.Paint;
+procedure TFWPreview.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWPREVIEW);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWPREVIEW);
-    {$ENDIF}
-    End;
-  inherited Paint;
+  p_Load_Buttons_Appli ( Glyph, CST_FWPREVIEW );
+  inherited Loaded;
+  Invalidate;
 end;
 
 { TFWInit }
 
-procedure TFWInit.Paint;
+procedure TFWInit.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWINIT);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWINIT);
-    {$ENDIF}
-    End;
-  inherited;
-
+  p_Load_Buttons_Appli ( Glyph, CST_FWINIT );
+  inherited Loaded;
+  Invalidate;
 end;
 
 { TFWCopy }
@@ -655,20 +554,11 @@ begin
   {$ENDIF}
 end;
 
-procedure TFWCopy.Paint;
+procedure TFWCopy.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWCOPY);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWCOPY);
-    {$ENDIF}
-    End;
-  inherited;
-
+  p_Load_Buttons_Appli ( Glyph, CST_FWCOPY );
+  inherited Loaded;
+  Invalidate;
 end;
 
 
@@ -676,62 +566,49 @@ end;
 
 { TFWOutSelect }
 
-procedure TFWOutSelect.Paint;
+procedure TFWOutSelect.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWOUTSELECT);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWOUTSELECT);
-    {$ENDIF}
-    End;
-  inherited;
-
+  p_Load_Buttons_Appli ( Glyph, CST_FWOUTSELECT );
+  inherited Loaded;
+  Invalidate;
 end;
+
+{ TFWBasket }
 
 constructor TFWBasket.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
   Caption := oisUndo;
+  {$ELSE}
+  Caption := Gs_GROUPVIEW_Basket;
   {$ENDIF}
 end;
 
-{ TFWBasket }
-procedure TFWBasket.Paint;
+procedure TFWBasket.Loaded;
 begin
-  Caption := Gs_GROUPVIEW_Basket;
-  inherited;
-
+  p_Load_Buttons_Appli ( Glyph, CST_FWBASKET );
+  inherited Loaded;
+  Invalidate;
 end;
+
+{ TFWRecord }
 
 constructor TFWRecord.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
   Caption := oisRecord;
+  {$ELSE}
+  Caption := Gs_GROUPVIEW_Record;
   {$ENDIF}
 end;
 
-{ TFWRecord }
-procedure TFWRecord.Paint;
+procedure TFWRecord.Loaded;
 begin
-  Caption := Gs_GROUPVIEW_Record;
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWOK);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWOK);
-    {$ENDIF}
-    End;
-  inherited;
-
+  p_Load_Buttons_Appli ( Glyph, CST_FWOK );
+  inherited Loaded;
+  Invalidate;
 end;
 
 constructor TFWAbort.Create(AOwner: TComponent);
@@ -744,76 +621,39 @@ begin
   {$ENDIF}
 end;
 
-{ TFWRecord }
-procedure TFWAbort.Paint;
+procedure TFWAbort.Loaded;
 begin
-  Caption := Gs_GROUPVIEW_Abort;
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWCANCEL);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWCANCEL);
-    {$ENDIF}
-    End;
-  inherited;
-
+  p_Load_Buttons_Appli ( Glyph, CST_FWCANCEL );
+  inherited Loaded;
+  Invalidate;
 end;
+
 
 { TFWOutAll }
 
-procedure TFWOutAll.Paint;
+procedure TFWOutAll.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWOUTALL);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWOUTALL);
-    {$ENDIF}
-    End;
-  inherited;
-
+  p_Load_Buttons_Appli ( Glyph, CST_FWOUTALL );
+  inherited Loaded;
+  Invalidate;
 end;
 
 { TFWInSelect }
 
-procedure TFWInSelect.Paint;
+procedure TFWInSelect.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWINSELECT);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWINSELECT);
-    {$ENDIF}
-    End;
-  inherited;
-
+  p_Load_Buttons_Appli ( Glyph, CST_FWINSELECT );
+  inherited Loaded;
+  Invalidate;
 end;
 
 { TFWInAll }
 
-procedure TFWInAll.Paint;
+procedure TFWInAll.Loaded;
 begin
-  if Glyph.Bitmap.Empty then
-    Begin
-    {$IFDEF FPC}
-      Glyph.LoadFromLazarusResource( CST_FWINALL);
-    {$ELSE}
-      if ( ResInstance = 0 ) Then
-        ResInstance:= FindResourceHInstance(HInstance);
-      Glyph.Bitmap.LoadFromResourceName(ResInstance, CST_FWINALL);
-    {$ENDIF}
-    End;
-  inherited;
-
+  p_Load_Buttons_Appli ( Glyph, CST_FWINALL );
+  inherited Loaded;
+  Invalidate;
 end;
 
 {$ENDIF}

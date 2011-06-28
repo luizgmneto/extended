@@ -221,7 +221,6 @@ type
     function  fb_ChangeEtatItem  ( const adat_Dataset : TDataset  ; const ab_AjouteItemPlus : Boolean )  : Boolean ; virtual;
     function  fb_RemplitEnregistrements ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean; dynamic;
     function  fb_RemplitListe : Boolean ; virtual;
-    procedure Loaded; override;
     {$IFDEF DELPHI}
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     {$ENDIF}
@@ -234,6 +233,7 @@ type
    public
     // Bookmark pour le chargement intermédiaire
     gbm_DernierEnregistrement : TBookmarkStr ;
+    procedure Loaded; override;
     {$IFDEF FPC}
     procedure SelectAll ; dynamic;
     {$ENDIF}

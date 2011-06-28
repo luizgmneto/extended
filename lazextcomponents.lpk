@@ -6,8 +6,8 @@
     <CompilerOptions>
       <Version Value="9"/>
       <SearchPaths>
-        <IncludeFiles Value="composants"/>
-        <OtherUnitFiles Value="composants;fonctions"/>
+        <IncludeFiles Value="composants;forms"/>
+        <OtherUnitFiles Value="composants;fonctions;forms"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="3" Build="1"/>
-    <Files Count="27">
+    <Files Count="29">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.lrs"/>
         <Type Value="LRS"/>
@@ -134,37 +134,48 @@
         <Filename Value="composants/u_extmenutoolbar.pas"/>
         <UnitName Value="u_extmenutoolbar"/>
       </Item27>
+      <Item28>
+        <Filename Value="forms/u_customizemenu.lfm"/>
+        <Type Value="LFM"/>
+      </Item28>
+      <Item29>
+        <Filename Value="forms/u_customizemenu.pas"/>
+        <UnitName Value="U_CustomizeMenu"/>
+      </Item29>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="9">
+    <RequiredPkgs Count="10">
       <Item1>
-        <PackageName Value="toolbarmenupkg"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="toolbarmenupkg"/>
       </Item2>
       <Item3>
-        <PackageName Value="lazfonctions"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item3>
       <Item4>
-        <PackageName Value="ExpertSuperForm"/>
+        <PackageName Value="lazfonctions"/>
       </Item4>
       <Item5>
-        <PackageName Value="LCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <PackageName Value="ExpertSuperForm"/>
       </Item5>
       <Item6>
-        <PackageName Value="zcomponent"/>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item6>
       <Item7>
-        <PackageName Value="IDEIntf"/>
+        <PackageName Value="zcomponent"/>
       </Item7>
       <Item8>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="IDEIntf"/>
       </Item8>
       <Item9>
-        <PackageName Value="rxnew"/>
+        <PackageName Value="SynEdit"/>
       </Item9>
+      <Item10>
+        <PackageName Value="rxnew"/>
+      </Item10>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
