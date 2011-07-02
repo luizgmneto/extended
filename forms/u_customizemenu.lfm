@@ -6,6 +6,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
   Caption = 'F_CustomizeMenu'
   ClientHeight = 400
   ClientWidth = 600
+  OnCreate = FormCreate
   Position = poMainFormCenter
   LCLVersion = '0.9.30'
   object Panel1: TPanel
@@ -38,7 +39,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
     ClientHeight = 370
     ClientWidth = 600
     TabOrder = 1
-    object VirtualStringTree1: TVirtualStringTree
+    object vt_MainMenu: TVirtualStringTree
       Left = 0
       Height = 340
       Top = 0
@@ -50,6 +51,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
       Header.DefaultHeight = 17
       Header.MainColumn = -1
       TabOrder = 0
+      OnInitNode = vt_MainMenuInitNode
     end
     object Panel3: TPanel
       Left = 0

@@ -88,23 +88,29 @@
       <OutDir Value="fonctions"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="5">
+    <RequiredPkgs Count="7">
       <Item1>
-        <PackageName Value="VampyreImagingPackage"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item2>
       <Item3>
-        <PackageName Value="zcomponent"/>
+        <PackageName Value="VampyreImagingPackage"/>
       </Item3>
       <Item4>
-        <PackageName Value="zcore"/>
+        <PackageName Value="LCL"/>
       </Item4>
       <Item5>
+        <PackageName Value="zcomponent"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="zcore"/>
+      </Item6>
+      <Item7>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item5>
+      </Item7>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

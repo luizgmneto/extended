@@ -15,16 +15,17 @@ unit U_About;
 {$mode Delphi}
 {$ENDIF}
 
+{$I ..\Compilers.inc}
+
 interface
 
 uses
 {$IFDEF FPC}
   LCLType,
-  virtualstringtree,
 {$ELSE}
   Windows,
 {$ENDIF}
-  VirtualTrees,
+  virtualtrees,
   Classes,
   Graphics,
   Forms,
@@ -67,9 +68,8 @@ type
 
     procedure FormActivate(Sender: TObject);
     procedure bt_reinitClick(Sender: TObject);
-    procedure vt_VersioningGetText(Sender: TBaseVirtualTree;
-      Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-      var CellText: WideString);
+    procedure vt_VersioningGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
+    TextType: TVSTTextType; var CellText: {$IFDEF DELPHI_9_UP}WideString{$ELSE}String{$ENDIF});
     procedure vt_VersioningInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure Commentaires1Click(Sender: TObject);
@@ -164,7 +164,7 @@ begin
     Exit ;
   vt_Versioning.BeginUpdate ;
   vt_Versioning.Clear;
-  vt_Versioning.NodeDataSize := Sizeof(T_Version) + CST_NOEUDS_RACINES ;
+  vt_Versioning.NodeDataSize := Sizeof(T_Version)+1;
   vt_Versioning.RootNodeCount := CST_NOEUDS_RACINES ;
   vt_Versioning.EndUpdate;
   with vt_Versioning.Header do
@@ -230,8 +230,8 @@ begin
     Begin
       if ord ( gs_Version [ li_i ] ) = ord ( ' ' ) Then
         Begin
-        	gs_Version := copy ( gs_Version, li_i + 1, length ( gs_Version ) - li_i );
-        	li_i := 1 ;
+       	  gs_Version := copy ( gs_Version, li_i + 1, length ( gs_Version ) - li_i );
+          li_i := 1 ;
         End ;
       inc ( li_i );
     End ;
@@ -255,40 +255,40 @@ begin
   CustomerRecord := Sender.GetNodeData(Node);
 //  if then
 //    begin
-      if  ( gi_Count2 < 0 )
-      and ( Sender.GetNodeLevel (Node) = 0 ) Then
-        begin
-        	Initialize(CustomerRecord^);
-        	case gi_Count1 of
-        		0 : Begin
-      				  CustomerRecord^.Component := 'Base de données' ;
-       				  CustomerRecord^.Owner       := 'Entreprise' ;
-       				  gnod_bdd := Node ;
-       				End ;
-        		1 : Begin
-                		  CustomerRecord^.Component := 'Application' ;
-			      gnod_Appli := Node ;
-			End ;
-        		2 : Begin
-        				  CustomerRecord^.Component := 'Fenêtres' ;
-        				  gnod_Fenetres := Node ;
-        				End ;
-        		3 : Begin
-        				  CustomerRecord^.Component := 'Composants' ;
-        				  gnod_Composants := Node ;
-        				End ;
-        		4 : Begin
-        				  CustomerRecord^.Component := 'Fonctions' ;
-        				  gnod_Fonctions := Node ;
-        				End ;
-        		End;
-        	inc ( gi_Count1 );
-        end
-      else if ( Sender.GetNodeLevel (Node) > 0 ) then//gi_Count2 <= high ( gt_Versioning ) then
-        begin
-        	Initialize(CustomerRecord^);
-                p_SetNodeFromVersion ( CustomerRecord );
-        end;
+  if  ( gi_Count2 < 0 )
+  and ( Sender.GetNodeLevel (Node) = 0 ) Then
+   begin
+     Initialize(CustomerRecord^);
+     case gi_Count1 of
+      0 : Begin
+     	    CustomerRecord^.Component := 'Base de données' ;
+      	    CustomerRecord^.Owner       := 'Entreprise' ;
+      	    gnod_bdd := Node ;
+      	  End ;
+      1 : Begin
+           CustomerRecord^.Component := 'Application' ;
+           gnod_Appli := Node ;
+         End ;
+      2 : Begin
+       	    CustomerRecord^.Component := 'Fenêtres' ;
+       	    gnod_Fenetres := Node ;
+       	  End ;
+      3 : Begin
+       	    CustomerRecord^.Component := 'Composants' ;
+       	    gnod_Composants := Node ;
+       	  End ;
+      4 : Begin
+       	    CustomerRecord^.Component := 'Fonctions' ;
+       	    gnod_Fonctions := Node ;
+       	  End ;
+      End;
+    inc ( gi_Count1 );
+   end
+ else if ( Sender.GetNodeLevel (Node) > 0 ) then//gi_Count2 <= high ( gt_Versioning ) then
+   begin
+    Initialize(CustomerRecord^);
+    p_SetNodeFromVersion ( CustomerRecord );
+   end;
 end;
 procedure TF_About.p_DeleteEmptyNode ( Sender: TBaseVirtualTree;
   Node: PVirtualNode );
@@ -318,9 +318,8 @@ End ;
 // Procedure : vst_dateGetText
 // Description : Affichage des dates dans la liste
 ///////////////////////////////////////////////////
-procedure TF_About.vt_VersioningGetText(Sender: TBaseVirtualTree;
-  Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: WideString);
+procedure TF_About.vt_VersioningGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
+    TextType: TVSTTextType; var CellText: {$IFDEF DELPHI_9_UP}WideString{$ELSE}String{$ENDIF});
 
 Var
   // Données du VirtualTreeView

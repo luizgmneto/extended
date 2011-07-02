@@ -11,7 +11,8 @@ uses
   u_buttons_appli, u_extcomponent, u_framework_components, U_DBListView, 
   U_ExtNumEdits, u_regframeworkcomponents, U_ExtDBNavigator, U_FormMainIni, 
   U_ExtDBImage, u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, 
-  u_extdbgrid, u_extmenutoolbar, U_CustomizeMenu, LazarusPackageIntf;
+  u_extdbgrid, u_extmenutoolbar, U_CustomizeMenu, u_extmenucustomize, 
+  LazarusPackageIntf;
 
 implementation
 

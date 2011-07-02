@@ -12,22 +12,29 @@ uses
 const MenuToolbar_TExtMenuToolBar = 'TExtMenuToolBar' ;
 
 type
-
+  IClickComponent = interface
+     ['{61CEE27F-94C1-4D3D-B94F-FE57A3E207D7}'] // GUID nécessaire pour l'opération de cast
+       procedure Click;
+  End;
   { TExtMenuToolBar }
 
   TExtMenuToolBar = class(TMenuToolBar)
   private
-    FMenuGet : TMainMenu;
+    FMenuGet : TMenu;
     FButtonGet: TToolButton;
+    FClickComponent : IClickComponent;
+    FOnClick : TNotifyEvent;
   protected
     procedure WindowGet ( AObject : TObject );
   public
     constructor Create(TheOwner: TComponent); override;
     procedure Loaded; override;
     destructor Destroy; override;
-    property ButtonGet: TToolButton read FButtonGet write FButtonGet;
+    property ButtonGet: TToolButton read FButtonGet;
   published
-    property MenuGet: TMainMenu read FMenuGet write FMenuGet;
+    property MenuGet: TMenu read FMenuGet write FMenuGet;
+    property ClickComponent: IClickComponent read FClickComponent write FClickComponent;
+    property OnClick: TNotifyEvent read FOnClick write FOnClick;
   end;
 
 implementation
@@ -38,7 +45,13 @@ uses unite_messages, Controls, Graphics, lresources;
 
 procedure TExtMenuToolBar.WindowGet(AObject: TObject);
 begin
-
+  if assigned ( FOnClick ) Then
+    Begin
+      FOnClick ( AObject );
+      Exit;
+    end;
+  If assigned ( FClickComponent ) Then
+    FClickComponent.Click;
 end;
 
 constructor TExtMenuToolBar.Create(TheOwner: TComponent);

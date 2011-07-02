@@ -28,17 +28,18 @@ uses unite_messages, U_DBListView, U_ExtDBNavigator,
 {$ELSE}
      DBReg, Designintf,
 {$ENDIF}
-     U_ExtDBImage, u_extdbgrid;
+     U_ExtDBImage, u_extdbgrid, u_extmenucustomize,
+     u_extmenutoolbar;
 
 procedure Register;
 begin
-  RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMenuCustomize]);
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TDBListView,TExtDBNavigator,
                                                 TExtDBImage,TExtDBNumEdit, TExtDBComboInsert,
                                                 TExtDBColorCombo, TExtSearchDBEdit,
                                                 TFWDBEdit,TFWDBLookupCombo,TExtDBGrid,TFWDBMemo,TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF}]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtNumEdit,
-                                                TExtColorCombo,
+                                                TExtColorCombo, TExtMenuToolBar,
                                                 TFWLabel, TFWEdit,TFWGrid,TFWMemo,TFWDateEdit]);
   RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataKeyUnit'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataSort'      , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
@@ -59,6 +60,7 @@ initialization
   {$i U_ExtComboInsert.lrs}
   {$i U_ExtColorCombos.lrs}
   {$i U_ExtNumEdits.lrs}
+  {$i u_extmenucustomize.lrs}
 {$ENDIF}
 end.
 
