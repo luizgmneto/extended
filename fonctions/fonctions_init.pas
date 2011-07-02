@@ -24,7 +24,7 @@ uses
 {$ENDIF}
      IniFiles, Forms, sysUtils, classes, DB, ComCtrls,
 {$IFDEF VIRTUALTREES}
-     virtualtrees,
+     VirtualTrees,
 {$ENDIF}
   dialogs, fonctions_version, unite_messages, DBGrids;
 

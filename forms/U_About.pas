@@ -249,7 +249,7 @@ end;
 procedure TF_About.vt_VersioningInitNode(Sender: TBaseVirtualTree;
   ParentNode, Node: PVirtualNode;
   var InitialStates: TVirtualNodeInitStates);
-  var  CustomerRecord : PCustVersion;
+var  CustomerRecord : PCustVersion;
 begin
 
   CustomerRecord := Sender.GetNodeData(Node);

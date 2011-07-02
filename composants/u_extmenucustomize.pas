@@ -11,10 +11,22 @@ interface
 
 uses
   Classes, SysUtils, ComCtrls, Menus, u_extmenutoolbar,
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
   Forms;
 
 const MENUINI_SECTION_BEGIN = 'CustomizedMenu.' ;
+  {$IFDEF VERSIONS}
+      gVer_TExtMenuCustomize : T_Version = ( Component : 'Composant TExtMenuCustomize' ;
+                                                 FileUnit : 'u_extmenucustomize' ;
+                                                 Owner : 'Matthieu Giroux' ;
+                                                 Comment : 'Gestion de l''ini pour un menu avec appel à la fenêtre de personnalisation.' ;
+                                                 BugsStory : '0.9.0.0 : Gestion de beaucoup de composants.';
+                                                 UnitType : 3 ;
+                                                 Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
 
+  {$ENDIF}
 type
 
   { TExtMenuToolBar }
@@ -27,10 +39,12 @@ type
     FOldClose : TCloseEvent;
   protected
     procedure Loaded; override;
-    procedure LoadAMenuNode ( const AMenuItem : TMenuItem ); virtual;
+    procedure LoadAMenuNode ( const AMenuItem : TMenuItem ; const ALoadLevel : Boolean); virtual;
     procedure SaveAMenuNode ( const AMenuItem : TMenuItem ; const ASaveLevel : Boolean); virtual;
   public
     constructor Create(TheOwner: TComponent); override;
+    procedure LoadIni; virtual;
+    procedure SaveIni; virtual;
     destructor Destroy; override;
     procedure Click; virtual;
   published
@@ -45,40 +59,28 @@ uses unite_messages, Controls, Graphics,
   {$IFDEF VIRTUALTREES}
    U_CustomizeMenu,
   {$ENDIF}
-   fonctions_init, Inifiles;
+   fonctions_init;
 
 { TExtMenuCustomize }
 
 procedure TExtMenuCustomize.Loaded;
-var FIniFile : TIniFile ;
 begin
   inherited Loaded;
-  if  assigned ( FMenuIni )
-  and assigned ( FMainMenu )
-   Then
-    Begin
-      FIniFile := f_GetMemIniFile;
-      if assigned ( FIniFile )
-      and FIniFile.SectionExists(MENUINI_SECTION_BEGIN+FMenuIni.Name)
-       Then
-        Begin
-          FMenuIni.Items.Clear;
-          LoadAMenuNode(FMainMenu.Items);
-        end;
-    end;
+  LoadIni;
 end;
 
-procedure TExtMenuCustomize.LoadAMenuNode(const AMenuItem: TMenuItem);
+procedure TExtMenuCustomize.LoadAMenuNode(const AMenuItem: TMenuItem; const ALoadLevel : Boolean);
 var i : Integer;
 begin
-  if f_IniReadSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name, AMenuItem.Name, False )
+  if ALoadLevel
+  and f_IniReadSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name, AMenuItem.Name, False )
    Then
     Begin
       FMenuIni.Items.Add(AMenuItem);
     end;
   for i := 0 to AMenuItem.Count - 1 do
     Begin
-      LoadAMenuNode(AMenuItem [ i ]);
+      LoadAMenuNode(AMenuItem [ i ], True);
     end;
 end;
 
@@ -100,6 +102,38 @@ begin
     Begin
       FOldClose := (TheOwner as TCustomForm).OnClose;
       (TheOwner as TCustomForm).OnClose := DoClose;
+    end;
+end;
+
+procedure TExtMenuCustomize.LoadIni;
+begin
+  if  assigned ( FMenuIni )
+  and assigned ( FMainMenu )
+   Then
+    Begin
+      FIniFile := f_GetMemIniFile;
+      if assigned ( FIniFile )
+      and FIniFile.SectionExists(MENUINI_SECTION_BEGIN+FMenuIni.Name)
+       Then
+        Begin
+          FMenuIni.Items.Clear;
+          LoadAMenuNode(FMainMenu.Items, False);
+        end;
+    end;
+end;
+
+procedure TExtMenuCustomize.SaveIni;
+begin
+  if  assigned ( FMenuIni )
+   Then
+    Begin
+      FIniFile := f_GetMemIniFile;
+      if assigned ( FIniFile )
+       Then
+        Begin
+          FIniFile.EraseSection(MENUINI_SECTION_BEGIN+FMenuIni.Name);
+          SaveAMenuNode(FMenuIni.Items, False);
+        end;
     end;
 end;
 
@@ -125,21 +159,14 @@ end;
 
 procedure TExtMenuCustomize.DoClose ( AObject : TObject; var CloseAction : TCloseAction );
 begin
-  if  assigned ( FMenuIni )
-   Then
-    Begin
-      FIniFile := f_GetMemIniFile;
-      if assigned ( FIniFile )
-       Then
-        Begin
-          if FIniFile.SectionExists(MENUINI_SECTION_BEGIN+FMenuIni.Name)
-           Then
-             FIniFile.EraseSection(MENUINI_SECTION_BEGIN+FMenuIni.Name);
-          SaveAMenuNode(FMenuIni.Items, False);
-        end;
-    end;
+  if MenuIni.Items.Count > 0 Then
+    SaveIni;
 end;
 
 
+{$IFDEF VERSIONS}
+initialization
+  p_ConcatVersion ( gVer_TExtMenuCustomize );
+{$ENDIF}
 end.
 

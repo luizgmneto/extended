@@ -688,7 +688,6 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.ExecuteEcriture(aLocal:Boolean);
 var i : Integer ;
-    ab_continue : Boolean ;
 
 begin
 
@@ -696,29 +695,25 @@ begin
    Then
     Exit ;
   FUpdateAll := True ;
-  ab_continue := True;
   f_GetMemIniFile;
-  If Assigned ( FOnIniWrite ) Then
-    FOnIniWrite ( FInifile, ab_continue );
-  if ab_continue Then
-    try
-      For i:=0 to application.ComponentCount-1 do //pour chaque af_Form de l'application
-      begin
-        if ( application.Components[i] is TCustomForm )
-        and ((FormAOwner.Name = ( TForm ( application.Components[i] )).Name) and aLocal) or (Not aLocal)
-         Then
-          p_ExecuteEcriture ( TCustomForm ( application.Components[i] ));
-      end; //fin pour chaque af_Form de l'application
-    finally
-      FUpdateAll := False ;
+  try
+    For i:=0 to application.ComponentCount-1 do //pour chaque af_Form de l'application
+    begin
+      if ( application.Components[i] is TCustomForm )
+      and ((FormAOwner.Name = ( TForm ( application.Components[i] )).Name) and aLocal) or (Not aLocal)
+       Then
+        p_ExecuteEcriture ( TCustomForm ( application.Components[i] ));
+    end; //fin pour chaque af_Form de l'application
+  finally
+    FUpdateAll := False ;
 
-      if FAutoUpdate Then
-        Begin
-          fb_iniWriteFile ( FInifile, False );
-          Application.ProcessMessages ;
+    if FAutoUpdate Then
+      Begin
+        fb_iniWriteFile ( FInifile, False );
+        Application.ProcessMessages ;
 
-        End ;
-    End ;
+      End ;
+  End ;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -726,6 +721,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.p_ExecuteEcriture ( const af_Form : TCustomForm ) ;
 var
+  ab_continue : Boolean ;
   mit: TMenuItem;
   j, Indice: integer;
 //  lvt_EnteteArbre : TVTHeader ;
@@ -987,6 +983,11 @@ var
 
 begin
   f_GetMemIniFile();
+  ab_continue := True;
+  If Assigned ( FOnIniWrite ) Then
+    FOnIniWrite ( FInifile, ab_continue );
+  If not ab_continue Then
+    Exit;
   if not Assigned(FInifile) then Exit;
 
       // traitement de la position de la af_Form
