@@ -92,7 +92,6 @@ contains
   U_DBListView in 'composants\U_DBListView.pas',
   U_ExtPageControl in 'composants\U_ExtPageControl.pas',
   u_regfwbuttons in 'composants\u_regfwbuttons.pas',
-  u_buttons_appli in 'composants\u_buttons_appli.pas',
   u_regframeworkcomponents in 'composants\u_regframeworkcomponents.pas',
   U_ExtDBNavigator in 'composants\U_ExtDBNavigator.pas',
   u_framework_components in 'composants\u_framework_components.pas',
@@ -100,6 +99,8 @@ contains
   U_ExtDBImage in 'composants\U_ExtDBImage.pas',
   u_framework_dbcomponents in 'composants\u_framework_dbcomponents.pas',
   u_extsearchedit in 'composants\u_extsearchedit.pas',
-  u_extdbgrid in 'composants\u_extdbgrid.pas';
+  u_extdbgrid in 'composants\u_extdbgrid.pas',
+  u_extmenucustomize in 'composants\u_extmenucustomize.pas',
+  u_extmenutoolbar in 'composants\u_extmenutoolbar.pas';
 
 end.

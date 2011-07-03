@@ -1,4 +1,4 @@
-unit U_CustomizeMenu;
+﻿unit U_CustomizeMenu;
 
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -16,12 +16,16 @@ unit U_CustomizeMenu;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
+  Classes, SysUtils,
+{$IFDEF FPC}
+  FileUtil, LResources,
+{$ENDIF}
+  Forms, Controls, Graphics, Dialogs,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
   ExtCtrls, u_buttons_appli, VirtualTrees, JvXPCheckCtrls, u_extmenucustomize,
-  U_OnFormInfoIni, Menus;
+  U_OnFormInfoIni, Menus, JvExControls, JvXPCore, JvXPButtons;
 
 {$IFDEF VERSIONS}
 const

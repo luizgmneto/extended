@@ -309,7 +309,7 @@ uses {$IFDEF FPC}ObjInspStrConsts,
 
 
 {$IFNDEF FPC}
-var Buttons_Appli_ResInstance             : THandle      ;
+var Buttons_Appli_ResInstance             : THandle      = 0 ;
 {$ENDIF}
 
 procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; const as_Resource : String );

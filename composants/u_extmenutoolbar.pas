@@ -47,9 +47,17 @@ type
     property OnClickCustomize: TNotifyEvent read FOnClickCustomize write FOnClickCustomize;
   end;
 
+{$IFNDEF FPC}
+var ExtMenuToolbar_ResInstance             : THandle      = 0;
+{$ENDIF}
+
 implementation
 
-uses unite_messages, Controls, Graphics, lresources, Dialogs;
+uses unite_messages, Controls, Graphics,
+{$IFDEF FPC}
+     LResources,
+{$ENDIF}
+     Dialogs;
 
 { TExtMenuToolBar }
 
@@ -93,6 +101,9 @@ begin
 end;
 
 procedure TExtMenuToolBar.SetMenu(Value: TMenu);
+{$IFNDEF FPC}
+var lbmp_Bitmap : TBitmap;
+{$ENDIF}
 begin
   inherited SetMenu(Value);
   if Value <> nil Then
@@ -103,7 +114,17 @@ begin
       FButtonGet.OnClick:= WindowGet;
       if Images <> Nil Then
         Begin
+  {$IFDEF FPC}
           Images.AddLazarusResource(MenuToolbar_TExtMenuToolBar,clNone);
+  {$ELSE}
+          if ( ExtMenuToolbar_ResInstance = 0 ) Then
+            ExtMenuToolbar_ResInstance:= FindResourceHInstance(HInstance);
+          lbmp_Bitmap := TBitmap.Create;
+          lbmp_Bitmap.LoadFromResourceName(ExtMenuToolbar_ResInstance, MenuToolbar_TExtMenuToolBar );
+          Images.AddMasked(lbmp_Bitmap,lbmp_Bitmap.Canvas.Pixels [ lbmp_Bitmap.Width - 1, lbmp_Bitmap.Height - 1 ]);
+          lbmp_Bitmap.Dormant;
+          lbmp_Bitmap.Free;
+  {$ENDIF}
           FButtonGet.ImageIndex:= Images.Count - 1;
           SetButtonGetSize;
         end;

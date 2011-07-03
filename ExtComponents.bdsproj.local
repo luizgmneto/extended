@@ -1,2 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject/>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2011/07/03 17:53:13.376.pas,C:\Users\Matthieu\Documents\Lazarus Delphi\Extended\composants\u_buttons_appli.pas=</Transaction>
+    <Transaction>2011/07/03 17:53:55.599.pas,C:\Users\Matthieu\Documents\Lazarus Delphi\Extended\forms\u_customizemenu.pas=</Transaction>
+    <Transaction>2011/07/03 17:53:55.599.dfm,C:\Users\Matthieu\Documents\Lazarus Delphi\Extended\forms\u_customizemenu.dfm=</Transaction>
+  </Transactions>
+</BorlandProject>

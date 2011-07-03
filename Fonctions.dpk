@@ -1,6 +1,7 @@
 package Fonctions;
 
 {$R *.res}
+{$R 'composants\u_buttons_appli.dcr'}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -77,6 +78,7 @@ contains
   fonctions_db in 'fonctions\fonctions_db.pas',
   fonctions_web in 'fonctions\fonctions_web.pas',
   StoHtmlHelp in 'fonctions\StoHtmlHelp.pas',
-  u_zconnection in 'forms\u_zconnection.pas';
+  u_zconnection in 'forms\u_zconnection.pas',
+  u_buttons_appli in 'composants\u_buttons_appli.pas';
 
 end.
