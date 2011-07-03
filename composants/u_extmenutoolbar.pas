@@ -35,7 +35,7 @@ type
     FAutoDrawDisabled : Boolean;
     FOnClickCustomize : TNotifyEvent;
   protected
-    procedure SetMenu(Value: TMainMenu); override;
+    procedure SetMenu(Value: TMenu); override;
     procedure SetButtonGetSize; virtual;
     procedure WindowGet ( AObject : TObject );
     procedure p_setAutoDrawDisabled ( AValue: Boolean ); virtual;
@@ -92,7 +92,7 @@ begin
   FAutoDrawDisabled := True;
 end;
 
-procedure TExtMenuToolBar.SetMenu(Value: TMainMenu);
+procedure TExtMenuToolBar.SetMenu(Value: TMenu);
 begin
   inherited SetMenu(Value);
   if Value <> nil Then

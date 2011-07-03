@@ -22,7 +22,7 @@ const MENUINI_SECTION_BEGIN = 'CustomizedMenu.' ;
                                                  FileUnit : 'u_extmenucustomize' ;
                                                  Owner : 'Matthieu Giroux' ;
                                                  Comment : 'Gestion de l''ini pour un menu avec appel à la fenêtre de personnalisation.' ;
-                                                 BugsStory : '0.9.0.0 : Gestion de beaucoup de composants.';
+                                                 BugsStory : '0.9.0.0 : Gestion en place.';
                                                  UnitType : 3 ;
                                                  Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
 
@@ -35,20 +35,19 @@ type
 
   TExtMenuCustomize = class(TComponent)
   private
+    FAutoIni : Boolean;
     FMenuIni, FMainMenu : TMenu;
-    FOldClose : TCloseEvent;
   protected
     procedure Loaded; override;
-    procedure LoadAMenuNode ( const AMenuItem : TMenuItem ; const ALoadLevel : Boolean); virtual;
-    procedure SaveAMenuNode ( const AMenuItem : TMenuItem ; const ASaveLevel : Boolean); virtual;
+    procedure LoadAMenuNode ( const AMenuItemToCopy, AMenuParent : TMenuItem ; const ALoadLevel : Boolean ; const EndSection : String ); virtual;
+    procedure SaveAMenuNode ( const AMenuItem : TMenuItem ; const ASaveLevel : Boolean ; const EndSection : String ); virtual;
   public
     constructor Create(TheOwner: TComponent); override;
-    procedure LoadIni; virtual;
-    procedure SaveIni; virtual;
-    destructor Destroy; override;
+    function  LoadIni ( const EndSection : String = '' ): Boolean; virtual;
+    function  SaveIni ( const EndSection : String = '' ): Boolean; virtual;
     procedure Click; virtual;
   published
-    procedure DoClose ( AObject : TObject; var CloseAction : TCloseAction ); virtual;
+    property AutoIni : Boolean read FAutoIni write FAutoIni default True;
     property MenuIni : TMenu read FMenuIni write FMenuIni;
     property MainMenu : TMenu read FMainMenu write FMainMenu;
   end;
@@ -66,64 +65,68 @@ uses unite_messages, Controls, Graphics,
 procedure TExtMenuCustomize.Loaded;
 begin
   inherited Loaded;
-  LoadIni;
+  if FAutoIni Then
+    LoadIni;
 end;
 
-procedure TExtMenuCustomize.LoadAMenuNode(const AMenuItem: TMenuItem; const ALoadLevel : Boolean);
+procedure TExtMenuCustomize.LoadAMenuNode(const AMenuItemToCopy, AMenuParent: TMenuItem; const ALoadLevel : Boolean; const EndSection : String );
 var i : Integer;
+    LMenuToAdd : TMenuItem ;
 begin
   if ALoadLevel
-  and f_IniReadSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name, AMenuItem.Name, False )
+  and f_IniReadSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name+EndSection, AMenuItemToCopy.Name, False )
    Then
     Begin
-      FMenuIni.Items.Add ( fmi_CloneMenuItem ( AMenuItem, FMenuIni ));
-    end;
-  for i := 0 to AMenuItem.Count - 1 do
+      LMenuToAdd := fmi_CloneMenuItem ( AMenuItemToCopy, FMenuIni );
+      AMenuParent.Add ( LMenuToAdd );
+    end
+   Else
+    LMenuToAdd := AMenuParent;
+  for i := 0 to AMenuItemToCopy.Count - 1 do
     Begin
-      LoadAMenuNode(AMenuItem [ i ], True);
+      LoadAMenuNode(AMenuItemToCopy [ i ], LMenuToAdd, True, EndSection);
     end;
 end;
 
-procedure TExtMenuCustomize.SaveAMenuNode(const AMenuItem: TMenuItem; const ASaveLevel : Boolean);
+procedure TExtMenuCustomize.SaveAMenuNode(const AMenuItem: TMenuItem; const ASaveLevel : Boolean; const EndSection : String );
 var i : Integer;
 begin
   if ASaveLevel Then
-    p_IniWriteSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name, AMenuItem.Name, True );
+    p_IniWriteSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name+EndSection, AMenuItem.Name, True );
   for i := 0 to AMenuItem.Count - 1 do
     Begin
-      SaveAMenuNode(AMenuItem [ i ], True);
+      SaveAMenuNode(AMenuItem [ i ], True, EndSection);
     end;
 end;
 
 constructor TExtMenuCustomize.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
-  If TheOwner is TCustomForm Then
-    Begin
-      FOldClose := (TheOwner as TCustomForm).OnClose;
-      (TheOwner as TCustomForm).OnClose := DoClose;
-    end;
+  FAutoIni := True;
 end;
 
-procedure TExtMenuCustomize.LoadIni;
+function TExtMenuCustomize.LoadIni ( const EndSection : String = '' ): Boolean;
 begin
+  Result := False;
   if  assigned ( FMenuIni )
   and assigned ( FMainMenu )
    Then
     Begin
       FIniFile := f_GetMemIniFile;
       if assigned ( FIniFile )
-      and FIniFile.SectionExists(MENUINI_SECTION_BEGIN+FMenuIni.Name)
+      and FIniFile.SectionExists(MENUINI_SECTION_BEGIN+FMenuIni.Name + EndSection)
        Then
         Begin
+          Result := True;
           FMenuIni.Items.Clear;
-          LoadAMenuNode(FMainMenu.Items, False);
+          LoadAMenuNode(FMainMenu.Items, FMenuIni.Items, False, EndSection);
         end;
     end;
 end;
 
-procedure TExtMenuCustomize.SaveIni;
+function TExtMenuCustomize.SaveIni ( const EndSection : String = '' ): Boolean;
 begin
+  Result := False;
   if  assigned ( FMenuIni )
    Then
     Begin
@@ -131,18 +134,10 @@ begin
       if assigned ( FIniFile )
        Then
         Begin
-          FIniFile.EraseSection(MENUINI_SECTION_BEGIN+FMenuIni.Name);
-          SaveAMenuNode(FMenuIni.Items, False);
+          Result := True;
+          FIniFile.EraseSection(MENUINI_SECTION_BEGIN+FMenuIni.Name + EndSection);
+          SaveAMenuNode(FMenuIni.Items, False, EndSection);
         end;
-    end;
-end;
-
-destructor TExtMenuCustomize.Destroy;
-begin
-  inherited Destroy;
-  If Owner is TCustomForm Then
-    Begin
-      (Owner as TCustomForm).OnClose := FOldClose;
     end;
 end;
 
@@ -155,14 +150,10 @@ begin
   F_CustomizeMenu.MenuCustomize := Self;
   F_CustomizeMenu.ShowModal;
   {$ENDIF}
-end;
-
-procedure TExtMenuCustomize.DoClose ( AObject : TObject; var CloseAction : TCloseAction );
-begin
-  if MenuIni.Items.Count > 0 Then
+  if FAutoIni
+  and ( MenuIni.Items.Count > 0 ) Then
     SaveIni;
 end;
-
 
 {$IFDEF VERSIONS}
 initialization

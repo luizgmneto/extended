@@ -25,10 +25,11 @@ uses Graphics,
                                                FileUnit : 'U_ExtDBImage' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Gestion d''images de tous types dans les données.' ;
-                                               BugsStory : 'Version 0.9.0.1 : En place, tout n''a pas été testé' + #13#10
-                                                   + '0.9.0.0 : Simple affiche de toute image en données';
+                                               BugsStory : 'Version 1.0.0.0 : En place, tout a été testé.' + #13#10
+                                                         + 'Version 0.9.0.1 : En place, tout n''a pas été testé.' + #13#10
+                                                         + '0.9.0.0 : Simple affiche de toute image en données.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 1 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
 

@@ -70,14 +70,14 @@ type
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: String);
     procedure vt_MainMenuInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
-    procedure LoadMenuNode ( const ATree : TVirtualStringTree ; const AMenuItem : TMenuItem ; const ParentNode : PVirtualNode ; const aajouter : Boolean ); virtual;
+    procedure LoadMenuNode ( const ATree : TVirtualStringTree ; const AMenuItem : TMenuItem ; const ParentNode : PVirtualNode ; const aajouter, aSearchValidity : Boolean ); virtual;
     procedure vt_MenuIniClick(Sender: TObject);
   private
     gMenuItem : TMenuItem;
     FMenuCustomize : TExtMenuCustomize;
     procedure GetMenu(const AMenuItem: TMenuItem; var AMenuFound: TMenuItem;
       const MenuNameToFind: String);
-    procedure p_ShowMenu(const ATree: TVirtualStringTree; const AMenu: TMenu);
+    procedure p_ShowMenu(const ATree: TVirtualStringTree; const AMenu: TMenu ; const aSearchValidity : Boolean );
     procedure vt_MenuNodeChange(const Sender: TVirtualStringTree);
     { private declarations }
   public
@@ -111,12 +111,12 @@ begin
     end;
 end;
 
-procedure TF_CustomizeMenu.LoadMenuNode(const ATree : TVirtualStringTree ; const AMenuItem: TMenuItem; const ParentNode : PVirtualNode ; const aajouter : Boolean );
+procedure TF_CustomizeMenu.LoadMenuNode(const ATree : TVirtualStringTree ; const AMenuItem: TMenuItem; const ParentNode : PVirtualNode ; const aajouter, aSearchValidity : Boolean );
 var lnod_ChildNode: PVirtualNode ;
   i : Integer;
 begin
   if aajouter
-  and ( assigned ( AMenuItem.OnClick ) or assigned ( AMenuItem.Action ) or ( AMenuItem.Count > 0 )) then
+  and ( not aSearchValidity or ( assigned ( AMenuItem.OnClick ) or assigned ( AMenuItem.Action ) or ( AMenuItem.Count > 0 ))) then
     Begin
       gMenuItem := AMenuItem;
       lnod_ChildNode := ATree.AddChild ( ParentNode );
@@ -126,7 +126,7 @@ begin
     lnod_ChildNode:=nil;
   for i := 0 to AMenuItem.Count -1  do
     Begin
-      LoadMenuNode( ATree, AMenuItem [ i ], lnod_ChildNode, True );
+      LoadMenuNode( ATree, AMenuItem [ i ], lnod_ChildNode, True, aSearchValidity );
     End ;
 
 end;
@@ -137,7 +137,7 @@ begin
   F_CustomizeMenu := nil;
 end;
 
-procedure TF_CustomizeMenu.p_ShowMenu ( const ATree : TVirtualStringTree ; const AMenu : TMenu );
+procedure TF_CustomizeMenu.p_ShowMenu ( const ATree : TVirtualStringTree ; const AMenu : TMenu ; const aSearchValidity : Boolean );
 begin
   if assigned ( AMenu ) Then
     with ATree do
@@ -148,15 +148,15 @@ begin
         Images := AMenu.Images;
         EndUpdate;
         BeginUpdate ;
-        LoadMenuNode( ATree, AMenu.Items, nil, False );
+        LoadMenuNode( ATree, AMenu.Items, nil, False, aSearchValidity );
         EndUpdate;
       end;
 end;
 
 procedure TF_CustomizeMenu.FormShow(Sender: TObject);
 begin
-  p_ShowMenu ( vt_MainMenu, MenuCustomize.MainMenu );
-  p_ShowMenu ( vt_MenuIni , MenuCustomize.MenuIni  );
+  p_ShowMenu ( vt_MainMenu, MenuCustomize.MainMenu, True );
+  p_ShowMenu ( vt_MenuIni , MenuCustomize.MenuIni , False );
 end;
 
 procedure TF_CustomizeMenu.FWClose1Click(Sender: TObject);

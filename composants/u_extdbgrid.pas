@@ -45,9 +45,10 @@ const
                                                FileUnit : 'U_ExtDBGrid' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Grille avec fonctions étendues.' ;
-                                               BugsStory : '0.9.0.0 : Création à partir de u_framework_dbcomponents.';
+                                               BugsStory : '0.9.9.9 : Tested OK on DELPHI, need new version of LAZARUS to be completed.' + #13#10
+                                                         + '0.9.0.0 : Création à partir de u_framework_dbcomponents.' ;
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 9 );
 
 {$ENDIF}
 

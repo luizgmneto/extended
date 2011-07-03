@@ -48,10 +48,11 @@ uses
                                        FileUnit : 'U_FormMainIni' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Fiche principale deuxième version.' ;
-                                       BugsStory : '1.1.0.0 : Passage en générique.' + #13#10
+                                       BugsStory : '1.1.0.1 : No static method on protected and public.' + #13#10
+                                                 + '1.1.0.0 : Passage en générique.' + #13#10
                                                  + '1.0.0.0 : Gestion INI, de fiches et du clavier.';
                                        UnitType : 3 ;
-                                       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
+                                       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
 type
@@ -155,19 +156,19 @@ type
     // Vérification du fait que des propriétés ne sont pas à nil et n'existent pas
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     // Termine l'appli sans sauver le fichier IN
-    procedure p_TerminateWithoutIni ;
+    procedure p_TerminateWithoutIni ; virtual;
     // Gestion du clavier à la reprise
-    procedure p_ApplicationActivate(Sender: TObject);
-    procedure p_ApplicationDeActivate(Sender: TObject);
+    procedure p_ApplicationActivate(Sender: TObject); virtual;
+    procedure p_ApplicationDeActivate(Sender: TObject); virtual;
     // Applique la connection ADO à la variable de la propriété
-    procedure p_SetConnection(const Value: TComponent);
+    procedure p_SetConnection(const Value: TComponent); virtual;
     // Applique la connection ADO à la variable de la propriété
-    procedure p_SetConnector(const Value: TComponent);
+    procedure p_SetConnector(const Value: TComponent); virtual;
 
     // A appeler si on n'appelle pas le constructeur
-    procedure p_CreeFormMainIni (AOwner:TComponent);
+    procedure p_CreeFormMainIni (AOwner:TComponent); virtual;
 
-    procedure p_CloseQueryChildForms ( const ab_Free : Boolean );
+    procedure p_CloseQueryChildForms ( const ab_Free : Boolean ); virtual;
 
   public
     { Déclarations publiques }
@@ -175,22 +176,22 @@ type
     gb_CloseQuery : Boolean ;
     {$IFDEF FPC}
     function ActiveMDIChild : TCustomForm; virtual;
-    procedure WindowMinimizeAll(Sender: TObject);
+    procedure WindowMinimizeAll(Sender: TObject); virtual;
     {$ENDIF}
-    procedure p_FreeChildForms ;
+    procedure p_FreeChildForms ; virtual;
     procedure DoClose ( var AAction : TCloseAction ); override;
     function CloseQuery: Boolean; override;
-    function fb_ReinitWindow ( var afor_Form : TCustomForm ) : Boolean ;
+    function fb_ReinitWindow ( var afor_Form : TCustomForm ) : Boolean ;  virtual;
     // Récupère le code déjà tapé d'une toouche à partir du buffer virtuelle et valide ou non la touche
     // Entrée : Numéro de touche
-    function fb_GetKeyState(aby_Key: Integer): Boolean;
+    function fb_GetKeyState(aby_Key: Integer): Boolean; virtual;
     // Modifie la touche
     // Entrée : Numéro de touche
-    procedure p_SetKeyState(aby_Key: Integer; ab_TurnOn: Boolean);
+    procedure p_SetKeyState(aby_Key: Integer; ab_TurnOn: Boolean); virtual;
     // Touche enfoncée
     function IsShortCut(var ao_Msg: {$IFDEF FPC} TLMKey {$ELSE} TWMKey {$ENDIF}): Boolean; override;
     // Libère le fichier ini en sauvant
-    procedure p_SauveIni ;
+    procedure p_SauveIni ; virtual;
     // Constructeur et destructeur
     Constructor Create ( AOwner : TComponent ); override;
     Destructor Destroy; override;
