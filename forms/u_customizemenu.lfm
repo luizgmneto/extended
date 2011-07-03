@@ -7,6 +7,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
   ClientHeight = 400
   ClientWidth = 600
   OnCreate = FormCreate
+  OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '0.9.30'
   object Panel1: TPanel
@@ -40,18 +41,25 @@ object F_CustomizeMenu: TF_CustomizeMenu
     ClientWidth = 600
     TabOrder = 1
     object vt_MainMenu: TVirtualStringTree
-      Left = 0
+      Left = 245
       Height = 340
       Top = 0
-      Width = 600
+      Width = 355
       Align = alClient
       DefaultText = 'Node'
       Header.AutoSizeIndex = 0
-      Header.Columns = <>
-      Header.DefaultHeight = 17
-      Header.MainColumn = -1
+      Header.Columns = <      
+        item
+          Position = 0
+          Text = 'Menu complet'
+          Width = 353
+        end>
+      Header.DefaultHeight = 22
+      Header.Height = 22
+      Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
       TabOrder = 0
       OnClick = vt_MainMenuClick
+      OnGetText = vt_MainMenuGetText
       OnGetImageIndex = vt_MainMenuGetImageIndex
       OnInitNode = vt_MainMenuInitNode
     end
@@ -71,17 +79,21 @@ object F_CustomizeMenu: TF_CustomizeMenu
         Top = 0
         Width = 105
         Caption = 'Supprimer'
+        Enabled = False
         TabOrder = 0
         Align = alLeft
+        OnClick = FWDeleteClick
       end
       object FWInsert: TFWInsert
-        Left = 136
+        Left = 519
         Height = 30
         Top = 0
         Width = 81
         Caption = 'Ajouter'
+        Enabled = False
         TabOrder = 1
-        Align = alLeft
+        Align = alRight
+        OnClick = FWInsertClick
       end
       object Panel4: TPanel
         Left = 105
@@ -92,6 +104,52 @@ object F_CustomizeMenu: TF_CustomizeMenu
         BevelOuter = bvNone
         TabOrder = 2
       end
+      object ch_ajouteravant: TJvXPCheckbox
+        Left = 358
+        Height = 30
+        Top = 0
+        Width = 161
+        Caption = 'Ajouter avant'
+        TabOrder = 3
+        UseDockManager = False
+        Align = alRight
+      end
     end
+    object vt_MenuIni: TVirtualStringTree
+      Left = 0
+      Height = 340
+      Top = 0
+      Width = 240
+      Align = alLeft
+      DefaultText = 'Node'
+      Header.AutoSizeIndex = 0
+      Header.Columns = <      
+        item
+          Position = 0
+          Text = 'Menu personnalisé'
+          Width = 238
+        end>
+      Header.DefaultHeight = 22
+      Header.Height = 22
+      Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+      TabOrder = 2
+      OnClick = vt_MenuIniClick
+      OnGetText = vt_MainMenuGetText
+      OnGetImageIndex = vt_MainMenuGetImageIndex
+      OnInitNode = vt_MainMenuInitNode
+    end
+    object Splitter1: TSplitter
+      Left = 240
+      Height = 340
+      Top = 0
+      Width = 5
+    end
+  end
+  object OnFormInfoIni: TOnFormInfoIni
+    SauvePosObjects = True
+    SauveEditObjets = [feTCheck]
+    SauvePosForm = True
+    left = 145
+    top = 140
   end
 end

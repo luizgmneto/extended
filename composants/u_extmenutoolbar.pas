@@ -14,6 +14,7 @@ uses
   menutbar;
 
 const MenuToolbar_TExtMenuToolBar = 'TExtMenuToolBar' ;
+      MenuToolbar_TagCustomizeButton = 1000;
 {$IFDEF VERSIONS}
     gVer_TExtMenuToolBar : T_Version = ( Component : 'Composant TExtMenuToolBar' ;
                                                FileUnit : 'u_extmenutoolbar' ;
@@ -26,31 +27,24 @@ const MenuToolbar_TExtMenuToolBar = 'TExtMenuToolBar' ;
 {$ENDIF}
 
 type
-  IClickComponent = interface
-     ['{61CEE27F-94C1-4D3D-B94F-FE57A3E207D7}'] // GUID nécessaire pour l'opération de cast
-       procedure Click;
-  End;
   { TExtMenuToolBar }
 
   TExtMenuToolBar = class(TMenuToolBar)
   private
-    FMenuGet : TMenu;
     FButtonGet: TToolButton;
-    FClickComponent : IClickComponent;
-    FOnClick : TNotifyEvent;
+    FAutoDrawDisabled : Boolean;
+    FOnClickCustomize : TNotifyEvent;
   protected
+    procedure SetMenu(Value: TMainMenu); override;
     procedure SetButtonGetSize; virtual;
     procedure WindowGet ( AObject : TObject );
+    procedure p_setAutoDrawDisabled ( AValue: Boolean ); virtual;
   public
     constructor Create(TheOwner: TComponent); override;
-    destructor Destroy; override;
-    procedure Loaded; override;
-    procedure Resize; override;
     property ButtonGet: TToolButton read FButtonGet;
   published
-    property MenuGet: TMenu read FMenuGet write FMenuGet;
-    property ClickComponent: IClickComponent read FClickComponent write FClickComponent;
-    property OnClick: TNotifyEvent read FOnClick write FOnClick;
+    property AutoDrawDisabled : Boolean read FAutoDrawDisabled write FAutoDrawDisabled default True;
+    property OnClickCustomize: TNotifyEvent read FOnClickCustomize write FOnClickCustomize;
   end;
 
 implementation
@@ -61,20 +55,65 @@ uses unite_messages, Controls, Graphics, lresources, Dialogs;
 
 procedure TExtMenuToolBar.WindowGet(AObject: TObject);
 begin
-  if assigned ( FOnClick ) Then
+  if assigned ( FOnClickCustomize ) Then
     Begin
-      FOnClick ( AObject );
+      FOnClickCustomize ( AObject );
       Exit;
     end;
-  If assigned ( FClickComponent ) Then
-    FClickComponent.Click;
+end;
+
+procedure TExtMenuToolBar.p_setAutoDrawDisabled(AValue: Boolean);
+var lbmp_Bitmap : TBitmap;
+     i : Integer;
+begin
+  FAutoDrawDisabled := AValue;
+  if ( DisabledImages <> nil )
+  and FAutoDrawDisabled Then
+  Begin
+    DisabledImages.Clear;
+    lbmp_Bitmap := TBitmap.Create;
+    for i := 0 to Images.Count -1 do
+      Begin
+        Images.GetBitmap( I, lbmp_Bitmap);
+        lbmp_Bitmap.Monochrome:=True;
+        DisabledImages.AddMasked(lbmp_Bitmap,lbmp_Bitmap.Canvas.Pixels[lbmp_Bitmap.Width-1, lbmp_Bitmap.Height -1]);
+      End;
+    {$IFNDEF FPC}
+    lbmp_Bitmap.Dormant;
+    {$ENDIF}
+    lbmp_Bitmap.Free;
+  end;
 end;
 
 constructor TExtMenuToolBar.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FButtonGet := nil;
+  FAutoDrawDisabled := True;
+end;
 
+procedure TExtMenuToolBar.SetMenu(Value: TMainMenu);
+begin
+  inherited SetMenu(Value);
+  if Value <> nil Then
+    Begin
+      FButtonGet:= TToolButton.Create(Self);
+      FButtonGet.Tag:= MenuToolbar_TagCustomizeButton;
+      FButtonGet.Caption:= GS_TOOLBARMENU_Personnaliser;
+      FButtonGet.OnClick:= WindowGet;
+      if Images <> Nil Then
+        Begin
+          Images.AddLazarusResource(MenuToolbar_TExtMenuToolBar,clNone);
+          FButtonGet.ImageIndex:= Images.Count - 1;
+          SetButtonGetSize;
+        end;
+      FButtonGet.Style:= tbsButton;
+      FButtonGet.Visible:=True;
+      FButtonGet.Parent := Self;
+    end
+   Else
+    FButtonGet := nil;
+  p_setAutoDrawDisabled ( FAutoDrawDisabled );
 end;
 
 procedure TExtMenuToolBar.SetButtonGetSize;
@@ -87,47 +126,14 @@ begin
   if Height > Width Then
     Begin
       FButtonGet.Align:=alBottom;
-      FButtonGet.ClientHeight := Images.Height;
     end
    Else
     Begin
       FButtonGet.Align:=alRight;
-      FButtonGet.ClientWidth := Images.Width;
     end;
   {$IFDEF FPC}
   EndUpdateBounds;
   {$ENDIF}
-end;
-
-procedure TExtMenuToolBar.Loaded;
-begin
-  inherited Loaded;
-  FButtonGet:= TToolButton.Create(Self);
-  FButtonGet.Tag:= 1000;
-  FButtonGet.Caption:= GS_TOOLBARMENU_Personnaliser;
-  FButtonGet.OnClick:= WindowGet;
-  SetButtonGetSize;
-  if Images <> Nil Then
-    Begin
-      Images.AddLazarusResource(MenuToolbar_TExtMenuToolBar,clNone);
-      FButtonGet.ImageIndex:= Images.Count - 1;
-    end;
-  FButtonGet.Style:= tbsButton;
-  FButtonGet.Visible:=True;
-
-  ShowMessage ( IntToStr(FButtonGet.ClientHeight) + ' ' + IntToStr(FButtonGet.ClientWidth));
-
-end;
-
-procedure TExtMenuToolBar.Resize;
-begin
-  inherited Resize;
-  SetButtonGetSize;
-end;
-
-destructor TExtMenuToolBar.Destroy;
-begin
-  inherited Destroy;
 end;
 
 initialization

@@ -33,7 +33,7 @@ type
 
   { TExtMenuCustomize }
 
-  TExtMenuCustomize = class(TComponent, IClickComponent)
+  TExtMenuCustomize = class(TComponent)
   private
     FMenuIni, FMainMenu : TMenu;
     FOldClose : TCloseEvent;
@@ -59,7 +59,7 @@ uses unite_messages, Controls, Graphics,
   {$IFDEF VIRTUALTREES}
    U_CustomizeMenu,
   {$ENDIF}
-   fonctions_init;
+   fonctions_init, fonctions_objects;
 
 { TExtMenuCustomize }
 
@@ -76,7 +76,7 @@ begin
   and f_IniReadSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name, AMenuItem.Name, False )
    Then
     Begin
-      FMenuIni.Items.Add(AMenuItem);
+      FMenuIni.Items.Add ( fmi_CloneMenuItem ( AMenuItem, FMenuIni ));
     end;
   for i := 0 to AMenuItem.Count - 1 do
     Begin

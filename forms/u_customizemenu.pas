@@ -20,7 +20,8 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  ExtCtrls, u_buttons_appli, VirtualTrees, u_extmenucustomize, Menus;
+  ExtCtrls, u_buttons_appli, VirtualTrees, JvXPCheckCtrls, u_extmenucustomize,
+  U_OnFormInfoIni, Menus;
 
 {$IFDEF VERSIONS}
 const
@@ -47,23 +48,37 @@ type
     FWClose1: TFWClose;
     FWDelete: TFWDelete;
     FWInsert: TFWInsert;
+    ch_ajouteravant: TJvXPCheckbox;
+    OnFormInfoIni: TOnFormInfoIni;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
+    Splitter1: TSplitter;
     vt_MainMenu: TVirtualStringTree;
+    vt_MenuIni: TVirtualStringTree;
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FWClose1Click(Sender: TObject);
+    procedure FWDeleteClick(Sender: TObject);
+    procedure FWInsertClick(Sender: TObject);
     procedure vt_MainMenuClick(Sender: TObject);
     procedure vt_MainMenuGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
       var Ghosted: Boolean; var ImageIndex: Integer);
+    procedure vt_MainMenuGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
+      Column: TColumnIndex; TextType: TVSTTextType; var CellText: String);
     procedure vt_MainMenuInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
-    procedure LoadMenuNode ( const AMenuItem : TMenuItem ; const ParentNode : PVirtualNode); virtual;
-    procedure DoesMenuExists ( const AMenuItem : TMenuItem ; const MenuNameToFind : String); virtual;
+    procedure LoadMenuNode ( const ATree : TVirtualStringTree ; const AMenuItem : TMenuItem ; const ParentNode : PVirtualNode ; const aajouter : Boolean ); virtual;
+    procedure vt_MenuIniClick(Sender: TObject);
   private
     gMenuItem : TMenuItem;
     FMenuCustomize : TExtMenuCustomize;
+    procedure GetMenu(const AMenuItem: TMenuItem; var AMenuFound: TMenuItem;
+      const MenuNameToFind: String);
+    procedure p_ShowMenu(const ATree: TVirtualStringTree; const AMenu: TMenu);
+    procedure vt_MenuNodeChange(const Sender: TVirtualStringTree);
     { private declarations }
   public
     procedure DoClose(var CloseAction: TCloseAction); override;
@@ -78,8 +93,7 @@ var
 
 implementation
 
-const
- CST_MENUCUSTOMIZE_NOEUDS_RACINES = 1 ;
+uses fonctions_objects;
 
 { TF_CustomizeMenu }
 
@@ -89,21 +103,30 @@ var  CustomerRecord : PCustMenuNode;
 begin
   CustomerRecord := Sender.GetNodeData(Node);
   Initialize(CustomerRecord^);
-  CustomerRecord^.Name  := gMenuItem.Name ;
-  CustomerRecord^.Title := gMenuItem.Caption ;
-  CustomerRecord^.ImageIndex:=gMenuItem.ImageIndex;
+  if assigned ( gMenuItem ) Then
+    Begin
+      CustomerRecord^.Name  := gMenuItem.Name ;
+      CustomerRecord^.Title := gMenuItem.Caption ;
+      CustomerRecord^.ImageIndex:=gMenuItem.ImageIndex;
+    end;
 end;
 
-procedure TF_CustomizeMenu.LoadMenuNode(const AMenuItem: TMenuItem; const ParentNode : PVirtualNode );
-var Lnod_ChildNode: PVirtualNode ;
+procedure TF_CustomizeMenu.LoadMenuNode(const ATree : TVirtualStringTree ; const AMenuItem: TMenuItem; const ParentNode : PVirtualNode ; const aajouter : Boolean );
+var lnod_ChildNode: PVirtualNode ;
   i : Integer;
 begin
-  gMenuItem := AMenuItem;
-  Lnod_ChildNode := vt_MainMenu.AddChild ( ParentNode );
-  vt_MainMenu.ValidateNode ( Lnod_ChildNode, False );
+  if aajouter
+  and ( assigned ( AMenuItem.OnClick ) or assigned ( AMenuItem.Action ) or ( AMenuItem.Count > 0 )) then
+    Begin
+      gMenuItem := AMenuItem;
+      lnod_ChildNode := ATree.AddChild ( ParentNode );
+      ATree.ValidateNode ( Lnod_ChildNode, False );
+    end
+   Else
+    lnod_ChildNode:=nil;
   for i := 0 to AMenuItem.Count -1  do
     Begin
-      LoadMenuNode( AMenuItem [ i ], Lnod_ChildNode );
+      LoadMenuNode( ATree, AMenuItem [ i ], lnod_ChildNode, True );
     End ;
 
 end;
@@ -114,52 +137,152 @@ begin
   F_CustomizeMenu := nil;
 end;
 
-procedure TF_CustomizeMenu.FormCreate(Sender: TObject);
+procedure TF_CustomizeMenu.p_ShowMenu ( const ATree : TVirtualStringTree ; const AMenu : TMenu );
 begin
-  if assigned ( MenuCustomize.MainMenu ) Then
-    Begin
-      vt_MainMenu.BeginUpdate ;
-      vt_MainMenu.Clear;
-      vt_MainMenu.NodeDataSize := Sizeof(TMenuNode)+1;
-      vt_MainMenu.RootNodeCount := MenuCustomize.MainMenu.Items.Count ;
-      vt_MainMenu.EndUpdate;
-      vt_MainMenu.Images := MenuCustomize.MainMenu.Images;
-      vt_MainMenu.BeginUpdate ;
-      LoadMenuNode(MenuCustomize.MainMenu.Items, nil );
-      vt_MainMenu.EndUpdate;
-    end;
+  if assigned ( AMenu ) Then
+    with ATree do
+      Begin
+        BeginUpdate ;
+        Clear;
+        NodeDataSize := Sizeof(TMenuNode)+1;
+        Images := AMenu.Images;
+        EndUpdate;
+        BeginUpdate ;
+        LoadMenuNode( ATree, AMenu.Items, nil, False );
+        EndUpdate;
+      end;
 end;
 
-procedure TF_CustomizeMenu.DoesMenuExists(const AMenuItem: TMenuItem; const MenuNameToFind : String);
+procedure TF_CustomizeMenu.FormShow(Sender: TObject);
+begin
+  p_ShowMenu ( vt_MainMenu, MenuCustomize.MainMenu );
+  p_ShowMenu ( vt_MenuIni , MenuCustomize.MenuIni  );
+end;
+
+procedure TF_CustomizeMenu.FWClose1Click(Sender: TObject);
+begin
+  Free;
+end;
+
+procedure TF_CustomizeMenu.FWDeleteClick(Sender: TObject);
+var  CustomerRecord : PCustMenuNode;
+     LMenuItem : TMenuItem ;
+begin
+  with vt_MenuIni do
+  if assigned ( FocusedNode )
+   Then
+    Begin
+      CustomerRecord := GetNodeData( FocusedNode );
+      LMenuItem := nil;
+      FWDelete.Enabled:=False;
+      GetMenu( MenuCustomize.MenuIni.Items, LMenuItem, CustomerRecord^.Name );
+      if assigned ( LMenuItem ) Then
+        LMenuItem.Free;
+      vt_MenuIni.DeleteNode(FocusedNode);
+    End;
+end;
+
+procedure TF_CustomizeMenu.FWInsertClick(Sender: TObject);
+var  CustomerRecord : PCustMenuNode;
+     LMenuItem, LMenuToAdd, lmenuCloned : TMenuItem ;
+     lnod_ChildNode : PVirtualNode;
+     lnod_Focus : PVirtualNode;
+begin
+  with vt_MainMenu do
+    if  assigned ( FocusedNode ) Then
+      Begin
+        LMenuItem  := nil;
+        LMenuToAdd := nil;
+        FWInsert.Enabled:=False;
+        CustomerRecord := GetNodeData( FocusedNode );
+        GetMenu( MenuCustomize.MainMenu.Items, LMenuToAdd, CustomerRecord^.Name );
+        lmenuCloned := fmi_CloneMenuItem ( LMenuToAdd, MenuCustomize.MenuIni );
+        if assigned ( vt_MenuIni.FocusedNode ) Then
+           lnod_Focus := vt_MenuIni.FocusedNode
+         else
+           Begin
+             lnod_Focus:= vt_MenuIni.RootNode;
+             MenuCustomize.MenuIni.Items.Add ( lmenuCloned );
+             gMenuItem := LMenuToAdd;
+             lnod_ChildNode := vt_MenuIni.AddChild ( nil );
+             vt_MenuIni.ValidateNode ( Lnod_ChildNode, False );
+             Exit;
+           end;
+        gMenuItem := lmenuCloned;
+        CustomerRecord := GetNodeData( lnod_Focus );
+        GetMenu( MenuCustomize.MenuIni.Items, LMenuItem, CustomerRecord^.Name );
+        if ( ch_ajouteravant.Checked )
+         Then
+          Begin
+            LMenuItem.Parent.Insert(LMenuItem.Parent.IndexOf(LMenuItem), lmenuCloned );
+            Lnod_ChildNode := vt_MenuIni.InsertNode(lnod_Focus, amInsertBefore);
+          end
+         Else
+           Begin
+             if ( LMenuItem.Parent.IndexOf(LMenuItem) = LMenuItem.Parent.Count - 1 )
+              Then LMenuItem.Parent.Add ( lmenuCloned )
+              Else LMenuItem.Parent.Insert(LMenuItem.Parent.IndexOf(LMenuItem) + 1, lmenuCloned );
+             Lnod_ChildNode := vt_MenuIni.InsertNode(lnod_Focus, amInsertAfter);
+           end;
+         vt_MenuIni.ValidateNode ( Lnod_ChildNode, False );
+      End;
+end;
+
+procedure TF_CustomizeMenu.vt_MainMenuClick(Sender: TObject);
+begin
+  vt_MenuNodeChange ( vt_MainMenu );
+end;
+
+
+procedure TF_CustomizeMenu.FormCreate(Sender: TObject);
+begin
+  gMenuItem := nil;
+end;
+
+procedure TF_CustomizeMenu.vt_MenuIniClick(Sender: TObject);
+begin
+  vt_MenuNodeChange(vt_MenuIni);
+end;
+
+
+procedure TF_CustomizeMenu.GetMenu(const AMenuItem: TMenuItem; var AMenuFound : TMenuItem; const MenuNameToFind : String);
 var i : Integer;
 begin
   with FWDelete do
     Begin
-      Enabled := MenuNameToFind = AMenuItem.Name;
-      if Enabled Then
+      if AMenuFound <> nil Then
         Exit;
+      if MenuNameToFind = AMenuItem.Name Then
+        Begin
+          AMenuFound := AMenuItem;
+          Exit;
+        end;
       for i := 0 to AMenuItem.Count -1  do
-        DoesMenuExists ( AMenuItem [ i ], MenuNameToFind );
+        GetMenu ( AMenuItem [ i ], AMenuFound, MenuNameToFind );
 
     end;
 end;
 
-procedure TF_CustomizeMenu.vt_MainMenuClick(Sender: TObject);
+procedure TF_CustomizeMenu.vt_MenuNodeChange ( const Sender: TVirtualStringTree );
 var  CustomerRecord : PCustMenuNode;
+     lmenuItem : TMenuItem;
 begin
-  if assigned ( vt_MainMenu.FocusedNode ) Then
-  with vt_MainMenu, vt_MainMenu.FocusedNode^ do
+  with Sender do
+  if assigned ( FocusedNode ) Then
     Begin
-      FWInsert.Enabled:=ChildCount=0;
-      FWDelete.Enabled:=ChildCount=0;
-      if FWDelete.Enabled
+      lmenuItem := nil ;
+      if ( FocusedNode^.ChildCount = 0 )
       and assigned ( MenuCustomize.MenuIni ) Then
         Begin
-          FWDelete.Enabled := False;
           CustomerRecord := GetNodeData( FocusedNode );
-          DoesMenuExists( MenuCustomize.MenuIni.Items, CustomerRecord^.Name );
-
+          GetMenu ( MenuCustomize.MenuIni.Items, lmenuItem, CustomerRecord^.Name );
         end;
+      if Sender = vt_MainMenu Then
+        Begin
+          FWInsert.Enabled := (lmenuItem = nil ) and (FocusedNode^.ChildCount = 0);
+        end
+       else
+         FWDelete.Enabled := lmenuItem <> nil;
     end;
 end;
 
@@ -170,6 +293,15 @@ var  CustomerRecord : PCustMenuNode;
 begin
   CustomerRecord := Sender.GetNodeData(Node);
   ImageIndex := CustomerRecord^.ImageIndex;
+end;
+
+procedure TF_CustomizeMenu.vt_MainMenuGetText(Sender: TBaseVirtualTree;
+  Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
+  var CellText: String);
+var  CustomerRecord : PCustMenuNode;
+begin
+   CustomerRecord := Sender.GetNodeData(Node);
+   CellText := StringReplace(CustomerRecord^.Title,'&','',[rfReplaceAll]);
 end;
 
 
