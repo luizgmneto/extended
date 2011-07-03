@@ -7,7 +7,7 @@
       <Version Value="9"/>
       <SearchPaths>
         <IncludeFiles Value="forms"/>
-        <OtherUnitFiles Value="fonctions;forms"/>
+        <OtherUnitFiles Value="fonctions;forms;composants"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -22,7 +22,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Release="1" Build="7"/>
-    <Files Count="16">
+    <Files Count="19">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -87,6 +87,19 @@
         <Filename Value="fonctions/fonctions_objects.pas"/>
         <UnitName Value="fonctions_objects"/>
       </Item16>
+      <Item17>
+        <Filename Value="composants/u_buttons_appli.lrs"/>
+        <Type Value="LRS"/>
+      </Item17>
+      <Item18>
+        <Filename Value="composants/u_buttons_appli.pas"/>
+        <UnitName Value="u_buttons_appli"/>
+      </Item18>
+      <Item19>
+        <Filename Value="composants/u_regfwbuttons.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regfwbuttons"/>
+      </Item19>
     </Files>
     <i18n>
       <OutDir Value="fonctions"/>

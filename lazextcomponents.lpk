@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="3" Build="1"/>
-    <Files Count="30">
+    <Files Count="27">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.lrs"/>
         <Type Value="LRS"/>
@@ -57,95 +57,82 @@
         <UnitName Value="U_ExtColorCombos"/>
       </Item8>
       <Item9>
-        <Filename Value="composants/u_regfwbuttons.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="u_regfwbuttons"/>
+        <Filename Value="composants/u_extcomponent.pas"/>
+        <UnitName Value="u_extcomponent"/>
       </Item9>
       <Item10>
-        <Filename Value="composants/u_buttons_appli.pas"/>
-        <UnitName Value="u_buttons_appli"/>
+        <Filename Value="composants/u_framework_components.pas"/>
+        <UnitName Value="u_framework_components"/>
       </Item10>
       <Item11>
-        <Filename Value="composants/u_buttons_appli.lrs"/>
+        <Filename Value="composants/U_DBListView.lrs"/>
         <Type Value="LRS"/>
       </Item11>
       <Item12>
-        <Filename Value="composants/u_extcomponent.pas"/>
-        <UnitName Value="u_extcomponent"/>
-      </Item12>
-      <Item13>
-        <Filename Value="composants/u_framework_components.pas"/>
-        <UnitName Value="u_framework_components"/>
-      </Item13>
-      <Item14>
-        <Filename Value="composants/U_DBListView.lrs"/>
-        <Type Value="LRS"/>
-      </Item14>
-      <Item15>
         <Filename Value="composants/U_DBListView.pas"/>
         <UnitName Value="U_DBListView"/>
-      </Item15>
-      <Item16>
+      </Item12>
+      <Item13>
         <Filename Value="composants/U_ExtNumEdits.lrs"/>
         <Type Value="LRS"/>
-      </Item16>
-      <Item17>
+      </Item13>
+      <Item14>
         <Filename Value="composants/U_ExtNumEdits.pas"/>
         <UnitName Value="U_ExtNumEdits"/>
-      </Item17>
-      <Item18>
+      </Item14>
+      <Item15>
         <Filename Value="composants/u_regframeworkcomponents.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regframeworkcomponents"/>
-      </Item18>
-      <Item19>
+      </Item15>
+      <Item16>
         <Filename Value="composants/U_ExtDBNavigator.lrs"/>
         <Type Value="LRS"/>
-      </Item19>
-      <Item20>
+      </Item16>
+      <Item17>
         <Filename Value="composants/U_ExtDBNavigator.pas"/>
         <UnitName Value="U_ExtDBNavigator"/>
-      </Item20>
-      <Item21>
+      </Item17>
+      <Item18>
         <Filename Value="composants/U_FormMainIni.pas"/>
         <UnitName Value="U_FormMainIni"/>
-      </Item21>
-      <Item22>
+      </Item18>
+      <Item19>
         <Filename Value="composants/U_ExtDBImage.pas"/>
         <UnitName Value="U_ExtDBImage"/>
-      </Item22>
-      <Item23>
+      </Item19>
+      <Item20>
         <Filename Value="composants/u_framework_dbcomponents.pas"/>
         <UnitName Value="u_framework_dbcomponents"/>
-      </Item23>
-      <Item24>
+      </Item20>
+      <Item21>
         <Filename Value="composants/u_extsearchedit.pas"/>
         <UnitName Value="u_extsearchedit"/>
-      </Item24>
-      <Item25>
+      </Item21>
+      <Item22>
         <Filename Value="composants/U_ExtComboInsert.pas"/>
         <UnitName Value="U_ExtComboInsert"/>
-      </Item25>
-      <Item26>
+      </Item22>
+      <Item23>
         <Filename Value="composants/u_extdbgrid.pas"/>
         <UnitName Value="u_extdbgrid"/>
-      </Item26>
-      <Item27>
+      </Item23>
+      <Item24>
         <Filename Value="composants/u_extmenutoolbar.pas"/>
         <UnitName Value="u_extmenutoolbar"/>
-      </Item27>
-      <Item28>
+      </Item24>
+      <Item25>
         <Filename Value="forms/u_customizemenu.lfm"/>
         <Type Value="LFM"/>
-      </Item28>
-      <Item29>
+      </Item25>
+      <Item26>
         <Filename Value="forms/u_customizemenu.pas"/>
         <UnitName Value="U_CustomizeMenu"/>
-      </Item29>
-      <Item30>
+      </Item26>
+      <Item27>
         <Filename Value="composants/u_extmenucustomize.pas"/>
         <UnitName Value="u_extmenucustomize"/>
-      </Item30>
+      </Item27>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="10">

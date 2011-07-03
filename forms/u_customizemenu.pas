@@ -19,13 +19,15 @@ uses
   Classes, SysUtils,
 {$IFDEF FPC}
   FileUtil, LResources,
+{$ELSE}
+  JvExControls,
 {$ENDIF}
   Forms, Controls, Graphics, Dialogs,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  ExtCtrls, u_buttons_appli, VirtualTrees, JvXPCheckCtrls, u_extmenucustomize,
-  U_OnFormInfoIni, Menus, JvExControls, JvXPCore, JvXPButtons;
+  ExtCtrls, u_buttons_appli, VirtualTrees, u_extmenucustomize,
+  U_OnFormInfoIni, Menus, JvXPCore, JvXPCheckCtrls, JvXPButtons;
 
 {$IFDEF VERSIONS}
 const
