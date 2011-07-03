@@ -116,7 +116,7 @@
 			<Linker Name="MinStackSize">16384</Linker>
 			<Linker Name="MaxStackSize">1048576</Linker>
 			<Linker Name="ImageBase">4194304</Linker>
-			<Linker Name="ExeDescription">Composants améliorés GIROUX &amp; MICROCELT</Linker>
+			<Linker Name="ExeDescription">Composants améliorés GIROUX</Linker>
 		</Linker>
 		<Directories>
 			<Directories Name="OutputDir"></Directories>
@@ -171,7 +171,8 @@
 			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
 		</VersionInfoKeys>  <Excluded_Packages>
-      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\JclDebugExpert100.bpl">JCL Debug IDE extension</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\RVFree_D6.bpl">RichView (Free)</Excluded_Packages>
+      <Excluded_Packages Name="C:\Program Files\Borland\Delphi7\Projects\Bpl\ExtToolbarTools.bpl">(sans titre)</Excluded_Packages>
     </Excluded_Packages>
   </Delphi.Personality>
 </BorlandProject>

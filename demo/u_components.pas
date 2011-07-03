@@ -105,6 +105,9 @@ end;
 
 procedure TMyform.FormCreate(Sender: TObject);
 begin
+  {$IFDEF WIN32}
+  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+'\Exemple.fdb';
+  {$ENDIF}
   {$IFDEF WINDOWS}
   IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+'\Exemple.fdb';
   {$ENDIF}

@@ -1,6 +1,8 @@
-unit fonctions_objects;
+﻿unit fonctions_objects;
 
-{$mode objfpc}{$H+}
+{$IFDEF FPC}
+{$mode Delphi}
+{$ENDIF}
 
 interface
 

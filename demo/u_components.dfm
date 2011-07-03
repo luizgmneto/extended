@@ -12,6 +12,7 @@ object Myform: TMyform
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -296,11 +297,13 @@ object Myform: TMyform
       Top = 133
       Width = 221
       Height = 21
+      EditMask = '#0,#9;0; '
       AlwaysSame = False
       ColorLabel = clMaroon
       ColorReadOnly = clInfoText
       MyLabel = FWLabel2
       Color = clInfoText
+      MaxLength = 5
       ReadOnly = True
       TabOrder = 2
     end
@@ -309,8 +312,8 @@ object Myform: TMyform
       Top = 166
       Width = 221
       Height = 24
-      Date = 40708.540152222220000000
-      Time = 40708.540152222220000000
+      Date = 40708.540152222210000000
+      Time = 40708.540152222210000000
       Color = clMoneyGreen
       TabOrder = 3
       ColorReadOnly = clInfoText

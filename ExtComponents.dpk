@@ -1,10 +1,6 @@
 package ExtComponents;
 
 {$R *.res}
-{$R 'composants\U_ExtColorCombos.dcr'}
-{$R 'composants\U_ExtNumEdits.dcr'}
-{$R 'composants\U_OnFormInfoIni.dcr'}
-{$R 'composants\U_ExtDBNavigator.dcr'}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -26,7 +22,7 @@ package ExtComponents;
 {$WRITEABLECONST ON}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DESCRIPTION 'Composants améliorés GIROUX & MICROCELT'}
+{$DESCRIPTION 'Composants améliorés GIROUX'}
 {$IMPLICITBUILD ON}
 {$DEFINE ADO}
 
@@ -79,7 +75,8 @@ requires
   ZPlain,
   dcldklang10,
   TntUnicodeVCL_R90,
-  VampyreImagingPackage;
+  VampyreImagingPackage,
+  dmenutoolbar;
 
 contains
   U_ExtComboInsert in 'composants\U_ExtComboInsert.pas',
@@ -91,7 +88,6 @@ contains
   u_extcomponent in 'composants\u_extcomponent.pas',
   U_DBListView in 'composants\U_DBListView.pas',
   U_ExtPageControl in 'composants\U_ExtPageControl.pas',
-  u_regfwbuttons in 'composants\u_regfwbuttons.pas',
   u_regframeworkcomponents in 'composants\u_regframeworkcomponents.pas',
   U_ExtDBNavigator in 'composants\U_ExtDBNavigator.pas',
   u_framework_components in 'composants\u_framework_components.pas',
@@ -101,6 +97,7 @@ contains
   u_extsearchedit in 'composants\u_extsearchedit.pas',
   u_extdbgrid in 'composants\u_extdbgrid.pas',
   u_extmenucustomize in 'composants\u_extmenucustomize.pas',
-  u_extmenutoolbar in 'composants\u_extmenutoolbar.pas';
+  u_extmenutoolbar in 'composants\u_extmenutoolbar.pas',
+  u_customizemenu in 'forms\u_customizemenu.pas';
 
 end.

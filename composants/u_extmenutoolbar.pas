@@ -2,6 +2,8 @@ unit u_extmenutoolbar;
 
 {$IFDEF FPC}
 {$mode Delphi}
+{$ELSE}
+{$R *.DCR}
 {$ENDIF}
 
 interface

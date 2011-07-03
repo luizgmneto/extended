@@ -73,7 +73,7 @@ type
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
       var Ghosted: Boolean; var ImageIndex: Integer);
     procedure vt_MainMenuGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Column: TColumnIndex; TextType: TVSTTextType; var CellText: String);
+      Column: TColumnIndex; TextType: TVSTTextType; var CellText: {$IFDEF FPC}String{$ELSE}WideString{$ENDIF});
     procedure vt_MainMenuInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure LoadMenuNode ( const ATree : TVirtualStringTree ; const AMenuItem : TMenuItem ; const ParentNode : PVirtualNode ; const aajouter, aSearchValidity : Boolean ); virtual;
@@ -92,7 +92,7 @@ type
   published
     property MenuCustomize : TExtMenuCustomize read FMenuCustomize  write FMenuCustomize ;
     { public declarations }
-  end; 
+  end;
 
 var
   F_CustomizeMenu: TF_CustomizeMenu = nil;
@@ -303,7 +303,7 @@ end;
 
 procedure TF_CustomizeMenu.vt_MainMenuGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: String);
+  var CellText: {$IFDEF FPC}String{$ELSE}WideString{$ENDIF});
 var  CustomerRecord : PCustMenuNode;
 begin
    CustomerRecord := Sender.GetNodeData(Node);

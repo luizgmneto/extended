@@ -1,7 +1,6 @@
 package Fonctions;
 
 {$R *.res}
-{$R 'composants\u_buttons_appli.dcr'}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -23,8 +22,7 @@ package Fonctions;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DESCRIPTION 'Fonctions MICROCELT'}
-{$RUNONLY}
+{$DESCRIPTION 'Composants et Fonctions GIROUX'}
 {$IMPLICITBUILD OFF}
 {$DEFINE ADO}
 
@@ -79,6 +77,8 @@ contains
   fonctions_web in 'fonctions\fonctions_web.pas',
   StoHtmlHelp in 'fonctions\StoHtmlHelp.pas',
   u_zconnection in 'forms\u_zconnection.pas',
-  u_buttons_appli in 'composants\u_buttons_appli.pas';
+  u_buttons_appli in 'composants\u_buttons_appli.pas',
+  fonctions_objects in 'fonctions\fonctions_objects.pas',
+  u_regfwbuttons in 'composants\u_regfwbuttons.pas';
 
 end.
