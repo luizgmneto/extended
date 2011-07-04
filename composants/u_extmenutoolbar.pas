@@ -38,11 +38,11 @@ type
     FOnClickCustomize : TNotifyEvent;
   protected
     procedure SetMenu(Value: TMenu); override;
-    procedure SetButtonGetSize; virtual;
     procedure WindowGet ( AObject : TObject );
     procedure p_setAutoDrawDisabled ( AValue: Boolean ); virtual;
   public
     constructor Create(TheOwner: TComponent); override;
+    procedure Loaded ; override;
     property ButtonGet: TToolButton read FButtonGet;
   published
     property AutoDrawDisabled : Boolean read FAutoDrawDisabled write FAutoDrawDisabled default True;
@@ -72,12 +72,19 @@ begin
     end;
 end;
 
+procedure TExtMenuToolBar.Loaded;
+begin
+  inherited;
+  p_setAutoDrawDisabled ( FAutoDrawDisabled );
+end;
+
 procedure TExtMenuToolBar.p_setAutoDrawDisabled(AValue: Boolean);
 var lbmp_Bitmap : TBitmap;
      i : Integer;
 begin
   FAutoDrawDisabled := AValue;
-  if ( DisabledImages <> nil )
+  if  ( DisabledImages <> nil )
+  and ( Images <> nil )
   and FAutoDrawDisabled Then
   Begin
     DisabledImages.Clear;
@@ -108,9 +115,11 @@ var lbmp_Bitmap : TBitmap;
 {$ENDIF}
 begin
   inherited SetMenu(Value);
-  if Value <> nil Then
+  if ( Value <> nil )
+  and not ( csDesigning in ComponentState ) Then
     Begin
       FButtonGet:= TToolButton.Create(Self);
+      FButtonGet.Name := 'Button_' + Name + '_Customize' ;
       FButtonGet.Tag:= MenuToolbar_TagCustomizeButton;
       FButtonGet.Caption:= GS_TOOLBARMENU_Personnaliser;
       FButtonGet.OnClick:= WindowGet;
@@ -128,7 +137,6 @@ begin
           lbmp_Bitmap.Free;
   {$ENDIF}
           FButtonGet.ImageIndex:= Images.Count - 1;
-          SetButtonGetSize;
         end;
       FButtonGet.Style:= tbsButton;
       FButtonGet.Visible:=True;
@@ -137,26 +145,6 @@ begin
    Else
     FButtonGet := nil;
   p_setAutoDrawDisabled ( FAutoDrawDisabled );
-end;
-
-procedure TExtMenuToolBar.SetButtonGetSize;
-begin
-  if not assigned ( FButtonGet ) Then
-    Exit;
-  {$IFDEF FPC}
-  BeginUpdateBounds;
-  {$ENDIF}
-  if Height > Width Then
-    Begin
-      FButtonGet.Align:=alBottom;
-    end
-   Else
-    Begin
-      FButtonGet.Align:=alRight;
-    end;
-  {$IFDEF FPC}
-  EndUpdateBounds;
-  {$ENDIF}
 end;
 
 initialization

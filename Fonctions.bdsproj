@@ -171,8 +171,8 @@
 			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
 		</VersionInfoKeys>  <Excluded_Packages>
-      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\RVFree_D6.bpl">RichView (Free)</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\Delphi7\Projects\Bpl\ExtToolbarTools.bpl">(sans titre)</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\GJLSoftwareD10.bpl">GJL Software ExDBGrid Components</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\dmenutoolbar.bpl">(sans titre)</Excluded_Packages>
     </Excluded_Packages>
   </Delphi.Personality>
 	<ModelSupport>False</ModelSupport>

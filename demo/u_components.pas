@@ -13,14 +13,15 @@ uses
 {$IFDEF FPC}
   FileUtil, LResources,
 {$ELSE}
-  DBCtrls, TntDBCtrls, ComCtrls, JvExControls, JvDBLookup, TntDBGrids,
+  DBCtrls, TntDBCtrls, JvExControls, JvDBLookup, TntDBGrids,
   JvExComCtrls, JvListView, TntStdCtrls, Mask,
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
   StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
   u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection,
-  DBGrids, IBDatabase, IBCustomDataSet ;
+  DBGrids, IBDatabase, IBCustomDataSet, Menus, u_extmenucustomize, ToolWin,
+  menutbar, ComCtrls, u_extmenutoolbar, ImgList ;
 
 type
 
@@ -30,42 +31,55 @@ type
     Datasource: TDatasource;
     Datasource2: TDatasource;
     Datasource3: TDatasource;
-    ExtDBComboInsert2: TExtDBComboInsert;
-    ExtSearchDBEdit2: TExtSearchDBEdit;
     IBDatabase: TIBDatabase;
     IBDepartement: TIBDataSet;
     IBDepSearch: TIBDataSet;
     IBTransaction: TIBTransaction;
     IBUtilisateur: TIBDataSet;
-    Search: TFWLabel;
-    Search2: TFWLabel;
     DBListView: TDBListView;
-    ExtColorCombo: TExtColorCombo;
     ExtDBNavigator1: TExtDBNavigator;
-    ExtNumEdit1: TExtNumEdit;
-    FWDateEdit1 : TFWDateEdit;
-    FWEdit: TFWEdit;
-    FWLabel1: TFWLabel;
-    FWLabel2: TFWLabel;
-    FWLabel3: TFWLabel;
-    FWLabel4: TFWLabel;
-    FWLabel5: TFWLabel;
-    FWLabel6: TFWLabel;
-    FWMemo: TFWMemo;
     Noms: TExtDBGrid;
     OnFormInfoIni: TOnFormInfoIni;
     Panel1: TPanel;
     Panel2: TPanel;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
-    FWDBEdit1: TFWDBEdit;
-    FWDBEdit2: TFWDBEdit;
     Prenom: TFWDBEdit;
     Nom: TFWDBEdit;
+    FWDBEdit2: TFWDBEdit;
+    FWDBEdit1: TFWDBEdit;
+    FWLabel6: TFWLabel;
+    FWLabel5: TFWLabel;
+    FWLabel1: TFWLabel;
+    ExtColorCombo: TExtColorCombo;
+    ExtNumEdit1: TExtNumEdit;
+    FWLabel2: TFWLabel;
+    FWLabel3: TFWLabel;
+    FWDateEdit1: TFWDateEdit;
+    FWEdit: TFWEdit;
+    FWLabel4: TFWLabel;
+    Search: TFWLabel;
+    ExtSearchDBEdit2: TExtSearchDBEdit;
+    ExtDBComboInsert2: TExtDBComboInsert;
+    Search2: TFWLabel;
+    FWMemo: TFWMemo;
+    ExtMenuCustomize: TExtMenuCustomize;
+    MenuIni: TMainMenu;
+    MainMenu: TMainMenu;
+    Menu1: TMenuItem;
+    Menu2: TMenuItem;
+    Menu3: TMenuItem;
+    Menu5: TMenuItem;
+    Menu4: TMenuItem;
+    Menu6: TMenuItem;
+    ExtMenuToolBar: TExtMenuToolBar;
+    ImageList: TImageList;
+    ImageListDisabled: TImageList;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure QuitterClick(Sender: TObject);
     procedure DbfNomsAfterPost(DataSet: TDataSet);
+    procedure ExtMenuToolBarClickCustomize(Sender: TObject);
   private
     { private declarations }
   public
@@ -81,6 +95,11 @@ implementation
 procedure TMyform.DbfNomsAfterPost(DataSet: TDataSet);
 begin
   DBListView.Refresh;
+end;
+
+procedure TMyform.ExtMenuToolBarClickCustomize(Sender: TObject);
+begin
+  ExtMenuCustomize.Click;
 end;
 
 procedure TMyForm.FormShow(Sender: TObject);

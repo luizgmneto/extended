@@ -11,6 +11,7 @@ object Myform: TMyform
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  Menu = MenuIni
   OldCreateOrder = False
   OnCreate = FormCreate
   OnShow = FormShow
@@ -18,15 +19,17 @@ object Myform: TMyform
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 208
-    Top = 0
+    Top = 19
     Width = 5
-    Height = 560
+    Height = 541
+    ExplicitTop = 0
+    ExplicitHeight = 560
   end
   object Panel1: TPanel
     Left = 0
-    Top = 0
+    Top = 19
     Width = 208
-    Height = 560
+    Height = 541
     Align = alLeft
     Caption = 'Panel1'
     TabOrder = 0
@@ -46,7 +49,7 @@ object Myform: TMyform
       Left = 1
       Top = 21
       Width = 206
-      Height = 538
+      Height = 519
       Align = alClient
       Columns = <
         item
@@ -102,7 +105,7 @@ object Myform: TMyform
       DataSource = Datasource
       MaxLength = 100
       TabOrder = 2
-      MyLabel = FWLabel6
+      MyLabel = Search2
       AlwaysSame = False
     end
     object Nom: TFWDBEdit
@@ -115,17 +118,62 @@ object Myform: TMyform
       DataSource = Datasource
       MaxLength = 100
       TabOrder = 3
-      MyLabel = FWLabel5
+      MyLabel = Search
       AlwaysSame = False
     end
   end
   object Panel2: TPanel
     Left = 213
-    Top = 0
+    Top = 19
     Width = 538
-    Height = 560
+    Height = 541
     Align = alClient
-    TabOrder = 3
+    TabOrder = 1
+    object Splitter2: TSplitter
+      Left = 1
+      Top = 327
+      Width = 536
+      Height = 3
+      Cursor = crVSplit
+      Align = alBottom
+      ExplicitTop = 320
+    end
+    object FWLabel6: TFWLabel
+      Left = 21
+      Top = 24
+      Width = 65
+      Height = 17
+      AutoSize = False
+      Caption = 'Surname'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = 14
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+      ColorFocus = clMaroon
+    end
+    object FWLabel5: TFWLabel
+      Left = 21
+      Top = 64
+      Width = 65
+      Height = 17
+      AutoSize = False
+      Caption = 'Name'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = 14
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+      ColorFocus = clMaroon
+    end
     object FWLabel1: TFWLabel
       Left = 19
       Top = 108
@@ -198,49 +246,23 @@ object Myform: TMyform
       Transparent = False
       ColorFocus = clMaroon
     end
-    object FWLabel5: TFWLabel
-      Left = 21
-      Top = 64
+    object Search: TFWLabel
+      Left = 19
+      Top = 243
       Width = 65
-      Height = 17
+      Height = 15
       AutoSize = False
-      Caption = 'Name'
+      Caption = 'Department'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = 14
+      Font.Height = 10
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentColor = False
       ParentFont = False
       Transparent = False
       ColorFocus = clMaroon
-    end
-    object FWLabel6: TFWLabel
-      Left = 21
-      Top = 24
-      Width = 65
-      Height = 17
-      AutoSize = False
-      Caption = 'Surname'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = 14
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = False
-      ColorFocus = clMaroon
-    end
-    object Splitter2: TSplitter
-      Left = 1
-      Top = 320
-      Width = 536
-      Height = 3
-      Cursor = crVSplit
-      Align = alBottom
     end
     object Search2: TFWLabel
       Left = 21
@@ -260,82 +282,11 @@ object Myform: TMyform
       Transparent = False
       ColorFocus = clMaroon
     end
-    object Search: TFWLabel
-      Left = 19
-      Top = 243
-      Width = 65
-      Height = 15
-      AutoSize = False
-      Caption = 'Department'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = 10
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = False
-      ColorFocus = clMaroon
-    end
-    object ExtColorCombo: TExtColorCombo
-      Left = 120
-      Top = 96
-      Width = 221
-      Height = 22
-      Language = lgEnglish
-      HTMLcolor = '#FFFFFF'
-      ColorReadOnly = clInfoText
-      MyLabel = FWLabel1
-      AlwaysSame = False
-      Color = clMoneyGreen
-      ItemHeight = 16
-      TabOrder = 0
-    end
-    object ExtNumEdit1: TExtNumEdit
-      Left = 118
-      Top = 133
-      Width = 221
-      Height = 21
-      EditMask = '#0,#9;0; '
-      AlwaysSame = False
-      ColorLabel = clMaroon
-      ColorReadOnly = clInfoText
-      MyLabel = FWLabel2
-      Color = clInfoText
-      MaxLength = 5
-      ReadOnly = True
-      TabOrder = 2
-    end
-    object FWDateEdit1: TFWDateEdit
-      Left = 118
-      Top = 166
-      Width = 221
-      Height = 24
-      Date = 40708.540152222210000000
-      Time = 40708.540152222210000000
-      Color = clMoneyGreen
-      TabOrder = 3
-      ColorReadOnly = clInfoText
-      MyLabel = FWLabel3
-      AlwaysSame = False
-    end
-    object FWEdit: TFWEdit
-      Left = 118
-      Top = 201
-      Width = 221
-      Height = 21
-      Color = clMoneyGreen
-      TabOrder = 4
-      Text = 'FWEdit'
-      MyLabel = FWLabel4
-      AlwaysSame = False
-    end
     object DBListView: TDBListView
       Left = 1
-      Top = 323
+      Top = 330
       Width = 536
-      Height = 236
+      Height = 210
       Align = alBottom
       Columns = <
         item
@@ -350,7 +301,7 @@ object Myform: TMyform
       DragMode = dmAutomatic
       MultiSelect = True
       RowSelect = True
-      TabOrder = 1
+      TabOrder = 0
       ColumnsOrder = '0=120,1=414'
       Groups = <>
       ExtendedColumns = <
@@ -362,29 +313,87 @@ object Myform: TMyform
       DataKeyUnit = 'Clep'
       DataFieldsDisplay = 'Nom'
       DataTableUnit = 'UTILISATEUR'
+      ExplicitTop = 320
     end
-    object FWMemo: TFWMemo
-      Left = 371
-      Top = 16
-      Width = 136
-      Height = 214
-      Color = clMoneyGreen
-      Lines.Strings = (
-        'FWMemo')
-      TabOrder = 5
-    end
-    object ExtDBComboInsert2: TExtDBComboInsert
-      Left = 118
-      Top = 268
+    object FWDBEdit2: TFWDBEdit
+      Left = 120
+      Top = 17
       Width = 221
-      Height = 27
+      Height = 21
       Color = clMoneyGreen
-      DataField = 'IDDEPARTEMENT'
+      DataField = 'Prenom'
       DataSource = Datasource
-      ReadOnly = True
-      TabOrder = 7
+      MaxLength = 100
+      TabOrder = 1
+      ColorReadOnly = clWhite
       MyLabel = Search2
-      SearchSource = Datasource3
+      AlwaysSame = False
+    end
+    object FWDBEdit1: TFWDBEdit
+      Left = 120
+      Top = 56
+      Width = 221
+      Height = 21
+      Color = clMoneyGreen
+      DataField = 'Nom'
+      DataSource = Datasource
+      MaxLength = 100
+      TabOrder = 2
+      MyLabel = Search
+      AlwaysSame = False
+    end
+    object ExtColorCombo: TExtColorCombo
+      Left = 120
+      Top = 96
+      Width = 221
+      Height = 22
+      Language = lgEnglish
+      HTMLcolor = '#FFFFFF'
+      ColorReadOnly = clInfoText
+      MyLabel = FWLabel1
+      AlwaysSame = False
+      Color = clMoneyGreen
+      ItemHeight = 16
+      TabOrder = 3
+    end
+    object ExtNumEdit1: TExtNumEdit
+      Left = 118
+      Top = 133
+      Width = 221
+      Height = 21
+      EditMask = '#0,#9;0; '
+      AlwaysSame = False
+      ColorLabel = clMaroon
+      ColorReadOnly = clInfoText
+      MyLabel = FWLabel2
+      Color = clInfoText
+      MaxLength = 5
+      ReadOnly = True
+      TabOrder = 4
+    end
+    object FWDateEdit1: TFWDateEdit
+      Left = 118
+      Top = 166
+      Width = 221
+      Height = 24
+      Date = 40708.540152222210000000
+      Time = 40708.540152222210000000
+      Color = clMoneyGreen
+      TabOrder = 5
+      ColorReadOnly = clInfoText
+      MyLabel = FWLabel3
+      AlwaysSame = False
+    end
+    object FWEdit: TFWEdit
+      Left = 118
+      Top = 201
+      Width = 221
+      Height = 21
+      Color = clMoneyGreen
+      TabOrder = 6
+      Text = 'FWEdit'
+      MyLabel = FWLabel4
+      AlwaysSame = False
     end
     object ExtSearchDBEdit2: TExtSearchDBEdit
       Left = 118
@@ -395,45 +404,55 @@ object Myform: TMyform
       DataField = 'NOM'
       DataSource = Datasource
       MaxLength = 100
-      TabOrder = 6
+      TabOrder = 7
       SearchDisplay = 'NOM'
       SearchKey = 'CLEP'
       SearchSource = Datasource3
       MyLabel = Search
     end
+    object ExtDBComboInsert2: TExtDBComboInsert
+      Left = 118
+      Top = 268
+      Width = 221
+      Height = 27
+      Color = clMoneyGreen
+      DataField = 'IDDEPARTEMENT'
+      DataSource = Datasource
+      ReadOnly = True
+      TabOrder = 8
+      MyLabel = Search2
+      SearchSource = Datasource3
+    end
+    object FWMemo: TFWMemo
+      Left = 371
+      Top = 16
+      Width = 136
+      Height = 214
+      Color = clMoneyGreen
+      Lines.Strings = (
+        'FWMemo')
+      TabOrder = 9
+    end
   end
-  object FWDBEdit1: TFWDBEdit
-    Left = 333
-    Top = 56
-    Width = 221
-    Height = 21
-    Color = clMoneyGreen
-    DataField = 'Nom'
-    DataSource = Datasource
-    MaxLength = 100
+  object ExtMenuToolBar: TExtMenuToolBar
+    Left = 0
+    Top = 0
+    Width = 751
+    Height = 19
+    AutoSize = False
+    ButtonWidth = 76
+    Caption = 'ExtMenuToolBar'
+    DisabledImages = ImageListDisabled
+    List = False
+    Menu = MenuIni
     TabOrder = 2
-    MyLabel = FWLabel5
-    AlwaysSame = False
-  end
-  object FWDBEdit2: TFWDBEdit
-    Left = 333
-    Top = 16
-    Width = 221
-    Height = 21
-    Color = clMoneyGreen
-    DataField = 'Prenom'
-    DataSource = Datasource
-    MaxLength = 100
-    TabOrder = 1
-    ColorReadOnly = clWhite
-    MyLabel = FWLabel6
-    AlwaysSame = False
+    OnClickCustomize = ExtMenuToolBarClickCustomize
   end
   object OnFormInfoIni: TOnFormInfoIni
     SauvePosObjects = True
     SauveEditObjets = [feTEdit, feTComboValue, feTColorCombo, feTDateEdit, feTMemo]
     SauvePosForm = True
-    Left = 80
+    Left = 48
     Top = 152
   end
   object Datasource: TDataSource
@@ -537,5 +556,51 @@ object Myform: TMyform
     DataSet = IBDepSearch
     Left = 48
     Top = 424
+  end
+  object ExtMenuCustomize: TExtMenuCustomize
+    MenuIni = MenuIni
+    MainMenu = MainMenu
+    Left = 152
+    Top = 152
+  end
+  object MenuIni: TMainMenu
+    Images = ImageList
+    Left = 48
+    Top = 80
+  end
+  object MainMenu: TMainMenu
+    Images = ImageList
+    Left = 152
+    Top = 80
+    object Menu1: TMenuItem
+      Caption = 'Menu1'
+      object Menu2: TMenuItem
+        Caption = 'Menu2'
+        OnClick = ExtMenuToolBarClickCustomize
+      end
+      object Menu3: TMenuItem
+        Caption = 'Menu3'
+        OnClick = ExtMenuToolBarClickCustomize
+      end
+      object Menu5: TMenuItem
+        Caption = 'Menu5'
+        OnClick = ExtMenuToolBarClickCustomize
+      end
+    end
+    object Menu4: TMenuItem
+      Caption = 'Menu4'
+      object Menu6: TMenuItem
+        Caption = 'Menu6'
+        OnClick = ExtMenuToolBarClickCustomize
+      end
+    end
+  end
+  object ImageList: TImageList
+    Left = 48
+    Top = 472
+  end
+  object ImageListDisabled: TImageList
+    Left = 152
+    Top = 472
   end
 end

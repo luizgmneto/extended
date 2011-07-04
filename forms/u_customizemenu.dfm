@@ -139,14 +139,14 @@ object F_CustomizeMenu: TF_CustomizeMenu
       Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
       TabOrder = 2
       OnClick = vt_MenuIniClick
-      OnGetText = vt_MenuIniGetText
+      OnGetText = vt_MainMenuGetText
       OnGetImageIndex = vt_MainMenuGetImageIndex
       OnInitNode = vt_MainMenuInitNode
       Columns = <
         item
           Position = 0
           Width = 236
-          WideText = 'Menu personnalis'#195#169
+          WideText = 'Menu personnalis'#233
         end>
     end
   end

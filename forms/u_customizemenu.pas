@@ -207,7 +207,6 @@ begin
            lnod_Focus := vt_MenuIni.FocusedNode
          else
            Begin
-             lnod_Focus:= vt_MenuIni.RootNode;
              MenuCustomize.MenuIni.Items.Add ( lmenuCloned );
              gMenuItem := LMenuToAdd;
              lnod_ChildNode := vt_MenuIni.AddChild ( nil );
