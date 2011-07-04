@@ -42,6 +42,7 @@ type
     procedure p_setAutoDrawDisabled ( AValue: Boolean ); virtual;
   public
     constructor Create(TheOwner: TComponent); override;
+    destructor Destroy; override;
     procedure Loaded ; override;
     property ButtonGet: TToolButton read FButtonGet;
   published
@@ -66,10 +67,7 @@ uses unite_messages, Controls, Graphics,
 procedure TExtMenuToolBar.WindowGet(AObject: TObject);
 begin
   if assigned ( FOnClickCustomize ) Then
-    Begin
-      FOnClickCustomize ( AObject );
-      Exit;
-    end;
+    FOnClickCustomize ( AObject );
 end;
 
 procedure TExtMenuToolBar.Loaded;
@@ -109,41 +107,53 @@ begin
   FAutoDrawDisabled := True;
 end;
 
+destructor TExtMenuToolBar.Destroy;
+begin
+  inherited Destroy;
+  if assigned ( FButtonGet ) Then
+    FButtonGet.Free;
+end;
+
 procedure TExtMenuToolBar.SetMenu(Value: TMenu);
 {$IFNDEF FPC}
 var lbmp_Bitmap : TBitmap;
 {$ENDIF}
 begin
-  inherited SetMenu(Value);
-  if ( Value <> nil )
-  and not ( csDesigning in ComponentState ) Then
+  if  not ( csDesigning in ComponentState )
+  and assigned ( FButtonGet ) Then
     Begin
-      FButtonGet:= TToolButton.Create(Self);
-      FButtonGet.Name := 'Button_' + Name + '_Customize' ;
-      FButtonGet.Tag:= MenuToolbar_TagCustomizeButton;
-      FButtonGet.Caption:= GS_TOOLBARMENU_Personnaliser;
-      FButtonGet.OnClick:= WindowGet;
-      if Images <> Nil Then
+      FButtonGet.Parent := nil;
+    end;
+  inherited SetMenu(Value);
+  if not ( csDesigning in ComponentState ) Then
+    Begin
+      if not assigned ( FButtonGet ) Then
         Begin
-  {$IFDEF FPC}
-          Images.AddLazarusResource(MenuToolbar_TExtMenuToolBar,clNone);
-  {$ELSE}
-          if ( ExtMenuToolbar_ResInstance = 0 ) Then
-            ExtMenuToolbar_ResInstance:= FindResourceHInstance(HInstance);
-          lbmp_Bitmap := TBitmap.Create;
-          lbmp_Bitmap.LoadFromResourceName(ExtMenuToolbar_ResInstance, MenuToolbar_TExtMenuToolBar );
-          Images.AddMasked(lbmp_Bitmap,lbmp_Bitmap.Canvas.Pixels [ lbmp_Bitmap.Width - 1, lbmp_Bitmap.Height - 1 ]);
-          lbmp_Bitmap.Dormant;
-          lbmp_Bitmap.Free;
-  {$ENDIF}
-          FButtonGet.ImageIndex:= Images.Count - 1;
+          FButtonGet:= TToolButton.Create(nil);
+          FButtonGet.Name := 'Button_' + Name + '_Customize' ;
+          FButtonGet.Tag:= MenuToolbar_TagCustomizeButton;
+          FButtonGet.Caption:= GS_TOOLBARMENU_Personnaliser;
+          FButtonGet.OnClick:= WindowGet;
+          if Images <> Nil Then
+            Begin
+      {$IFDEF FPC}
+              Images.AddLazarusResource(MenuToolbar_TExtMenuToolBar,clNone);
+      {$ELSE}
+              if ( ExtMenuToolbar_ResInstance = 0 ) Then
+                ExtMenuToolbar_ResInstance:= FindResourceHInstance(HInstance);
+              lbmp_Bitmap := TBitmap.Create;
+              lbmp_Bitmap.LoadFromResourceName(ExtMenuToolbar_ResInstance, MenuToolbar_TExtMenuToolBar );
+              Images.AddMasked(lbmp_Bitmap,lbmp_Bitmap.Canvas.Pixels [ lbmp_Bitmap.Width - 1, lbmp_Bitmap.Height - 1 ]);
+              lbmp_Bitmap.Dormant;
+              lbmp_Bitmap.Free;
+      {$ENDIF}
+              FButtonGet.ImageIndex:= Images.Count - 1;
+            end;
+          FButtonGet.Style:= tbsButton;
+          FButtonGet.Visible:=True;
         end;
-      FButtonGet.Style:= tbsButton;
-      FButtonGet.Visible:=True;
       FButtonGet.Parent := Self;
-    end
-   Else
-    FButtonGet := nil;
+    end;
   p_setAutoDrawDisabled ( FAutoDrawDisabled );
 end;
 
