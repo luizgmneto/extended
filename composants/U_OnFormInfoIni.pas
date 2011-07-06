@@ -46,22 +46,60 @@ uses
 {$ENDIF}
   fonctions_init, DBGrids;
 
+// Component properties
+const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text' {$ENDIF};
+      CST_ONFORMINI_TEXT        = 'Text' ;
+      CST_ONFORMINI_VALUE       = 'Value' ;
+      CST_ONFORMINI_DOT         = '.' ;
+      CST_ONFORMINI_LINES       = 'Lines' ;
+      CST_ONFORMINI_CHECKED     = 'Checked' ;
+      CST_ONFORMINI_WIDTH       = 'Width' ;
+      CST_ONFORMINI_HEIGHT      = 'Height' ;
+      CST_ONFORMINI_TOP         = 'Top' ;
+      CST_ONFORMINI_LEFT        = 'Left' ;
+      CST_ONFORMINI_WINDOWSTATE = 'WindowState' ;
+      CST_ONFORMINI_POSITION    = 'Position' ;
+      CST_ONFORMINI_FORMSTYLE   = 'FormStyle' ;
+      CST_ONFORMINI_INDEX       = 'Index' ;
+      CST_ONFORMINI_DATASOURCE  = 'Datasource'  ;
+      CST_ONFORMINI_ITEMINDEX   = 'ItemIndex'  ;
+
+      // Components
+      CST_ONFORMINI_EXTCOLOR    = 'TExtColorCombo' ;
+      CST_ONFORMINI_RICHVIEW    = 'TRichView' ;
+      CST_ONFORMINI_RICHMEMO    = 'TRichMemo'  ;
+      CST_ONFORMINI_XPCHECK     = 'TJvXPCheckbox' ;
+      CST_ONFORMINI_PCHECK      = 'TPCheck' ;
+      CST_ONFORMINI_JVDIRECTORY = 'TJvDirectoryEdit';
+      CST_ONFORMINI_SPINEDIT    = 'TSpinEdit';
+      CST_ONFORMINI_RXSPINEDIT  = 'TRxSpinEdit';
+      CST_ONFORMINI_JVSPINEDIT  = 'TJvSpinEdit';
+
+      // Variables
+      CST_ONFORMINI_SCREEN    = 'Screen' ;
+
+      // Events
+      CST_ONFORMINI_ONDESTROY   =  'OnDestroy'  ;
+      CST_ONFORMINI_ONSHOW      =  'OnShow'  ;
+      CST_ONFORMINI_ONCREATE    =  'OnCreate'  ;
 {$IFDEF VERSIONS}
-  const
-    gVer_TSvgFormInfoIni : T_Version = ( Component : 'Composant TOnFormInfoIni' ;
-                                               FileUnit : 'U_OnFormInfoIni' ;
-                                               Owner : 'Matthieu Giroux' ;
-                                               Comment : 'Gestion de l''ini à mettre sur une fiche.' ;
-                                               BugsStory : '1.0.1.1 : Testing ColorCombo.' +#13#10 +
-                                                           '1.0.1.0 : Testing DirectoryEdit, MaskEdit, on WINDOWS.' +#13#10 +
-                                                           '1.0.0.1 : Grouping.' +#13#10 +
-                                                           '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
-                                                           '1.0.0.0 : Gestion de beaucoup de composants.';
-                                               UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
+      gVer_TSvgFormInfoIni : T_Version = ( Component : 'Composant TOnFormInfoIni' ;
+                                           FileUnit : 'U_OnFormInfoIni' ;
+                                           Owner : 'Matthieu Giroux' ;
+                                           Comment : 'Gestion de l''ini à mettre sur une fiche.' ;
+                                           BugsStory : '1.0.1.2 : Testing and creating consts. New form events.' +#13#10 +
+                                                       '1.0.1.1 : Testing ColorCombo.' +#13#10 +
+                                                       '1.0.1.0 : Testing DirectoryEdit, MaskEdit, on WINDOWS.' +#13#10 +
+                                                       '1.0.0.1 : Grouping.' +#13#10 +
+                                                       '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
+                                                       '1.0.0.0 : Gestion de beaucoup de composants.';
+                                           UnitType : 3 ;
+                                           Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
 
 {$ENDIF}
-const CST_INI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text' {$ENDIF};
+
+
+
 type
   // Liste des objets dont on veut conserver les donner dans le fichier INI
   TSauveEditObjet = (feTEdit, feTCheck, feTComboValue, feTComboBox, feTColorCombo,feTCurrencyEdit,feTDateEdit,
@@ -81,6 +119,9 @@ type
     FSauvePosObjet,
     FAutoUpdate,
     FSauvePosForm:      Boolean;
+    FOnFormDestroy,
+    FOnFormShow   ,
+    FOnFormCreate : TNotifyEvent ;
     FOnIniLoad, FOnIniWrite : TEventIni;
   protected
     FUpdateAll ,
@@ -114,6 +155,9 @@ type
     property SauvePosForm: Boolean read FSauvePosForm  write FSauvePosForm default False;
     property OnIniLoad  : TEventIni read FOnIniLoad write FOnIniLoad ;
     property OnIniWrite : TEventIni read FOnIniWrite write FOnIniWrite;
+    property OnFormShow : TNotifyEvent read FOnFormShow write FOnFormShow;
+    property OnFormDestroy : TNotifyEvent read FOnFormDestroy write FOnFormDestroy;
+    property OnFormCreate : TNotifyEvent read FOnFormCreate write FOnFormCreate;
     procedure LaFormDestroy(Sender: TObject);
     procedure LaFormShow(Sender: TObject);
     procedure LaFormCreate(Sender: TObject);
@@ -147,7 +191,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 function GetFileIni: string;
 begin
-  Result := ExtractFilePath(Application.ExeName) + CST_Avant_Fichier + FW_Read_Computer_Name + '.ini';
+  Result := ExtractFilePath(Application.ExeName) + CST_Avant_Fichier + FW_Read_Computer_Name + CST_ONFORMINI_DOT + CST_EXTENSION_INI;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -164,7 +208,7 @@ begin
     // L0= suivi du contenu de la première ligne du TStrings. puis L1= etc..
     FIni.WriteString(SectionIni, 'L' + IntToStr(i), LeTStrings[i]);// écrit dans le fichier ini
   end;
-  FIni.WriteInteger(SectionIni, 'ItemIndex', ItemIndex);
+  FIni.WriteInteger(SectionIni, CST_ONFORMINI_ITEMINDEX, ItemIndex);
 end;
 
 
@@ -184,7 +228,7 @@ begin
           LeTStrings.Add(FIni.ReadString(SectionIni, 'L' + IntToStr(i), ''));
           inc(i);
         end;
-      ItemIndex := Fini.ReadInteger(SectionIni, 'ItemIndex', 0);
+      ItemIndex := Fini.ReadInteger(SectionIni, CST_ONFORMINI_ITEMINDEX, 0);
     end;
 end;
 
@@ -208,14 +252,14 @@ begin
       lmet_MethodToAdd.Data := Self;
       lmet_MethodToAdd.Code := MethodAddress('LaFormDestroy' );
       FormAOwner           := TCustomForm(AOwner);        // La forme propriétaire de notre composant
-      FormOldDestroy       := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnDestroy' )); // Sauvegarde de l'événement OnDestroy
-      p_SetComponentMethodProperty ( FormAOwner, 'OnDestroy', lmet_MethodToAdd );        // Idem pour OnDestroy
-      FormOldCreate        := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnCreate' ));  // Sauvegarde de l'événement OnClose
+      FormOldDestroy       := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, CST_ONFORMINI_ONDESTROY )); // Sauvegarde de l'événement OnDestroy
+      p_SetComponentMethodProperty ( FormAOwner, CST_ONFORMINI_ONDESTROY, lmet_MethodToAdd );        // Idem pour OnDestroy
+      FormOldCreate        := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, CST_ONFORMINI_ONCREATE ));  // Sauvegarde de l'événement OnClose
       lmet_MethodToAdd.Code := MethodAddress('LaFormCreate' );
-      p_SetComponentMethodProperty ( FormAOwner, 'OnCreate', lmet_MethodToAdd );         // Idem pour OnClose
-      FormOldShow          := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, 'OnShow' ));  // Sauvegarde de l'événement OnShow
+      p_SetComponentMethodProperty ( FormAOwner, CST_ONFORMINI_ONCREATE, lmet_MethodToAdd );         // Idem pour OnClose
+      FormOldShow          := TNotifyEvent ( fmet_getComponentMethodProperty ( FormAOwner, CST_ONFORMINI_ONSHOW ));  // Sauvegarde de l'événement OnShow
       lmet_MethodToAdd.Code := MethodAddress('LaFormShow' );
-      p_SetComponentMethodProperty ( FormAOwner, 'OnShow', lmet_MethodToAdd );     // Idem pour OnShow
+      p_SetComponentMethodProperty ( FormAOwner, CST_ONFORMINI_ONSHOW, lmet_MethodToAdd );     // Idem pour OnShow
     End;
 end;
 
@@ -235,19 +279,17 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.LaFormDestroy ( Sender: TObject );
 begin
+  if Assigned(FormOldDestroy) then FormOldDestroy(Sender);
   if Assigned(FormAOwner)
    then
     p_ExecuteEcriture(FormAOwner);
-  if Assigned(FormOldDestroy) then FormOldDestroy(Sender);
+  if Assigned(FOnFormDestroy) then FOnFormDestroy(Sender);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // À la fermeture de la form, on écrit les données dans le fichier ini
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.LaFormCreate ( Sender: TObject );
-var
-  Indice :integer;
-
 begin
   FUpdateAll := False ;
   FAutoUpdate := True ;
@@ -257,12 +299,13 @@ begin
     try
       Self.Updating ;
           // Traitement de la position de la af_Form
-      if (TFormStyle ( flin_getComponentProperty ( FormAOwner, 'FormStyle' )) <> fsMDIChild) and (FSauvePosForm) then
+      if (TFormStyle ( flin_getComponentProperty ( FormAOwner, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild) and (FSauvePosForm) then
         p_LecturePositionFenetre(FormAOwner);
 
     finally
       Self.Updated;
     end;
+  if Assigned(FOnFormCreate) then FOnFormCreate(Sender);
 end;
 
 procedure TOnFormInfoIni.LaFormShow(Sender: TObject);
@@ -276,6 +319,9 @@ begin
   end;
   if FAutoChargeIni then
     p_ExecuteLecture(TForm(Self.Owner));
+
+  if Assigned(FOnFormShow) then FOnFormShow(Sender);
+
 end;
 
 
@@ -316,7 +362,7 @@ end;
 procedure TOnFormInfoIni.p_ExecuteLecture(const aF_Form: TCustomForm);
 var
   mit: TMenuItem;
-  j, Indice, Rien, valItemIndex, li_Taille : integer;
+  j, Rien, valItemIndex, li_Taille : integer;
   ls_Temp : String ;
   ab_continue : Boolean;
   lcom_Component : Tcomponent ;
@@ -340,14 +386,14 @@ var
         // No continue because other use of grid
       end;
 
-    if (lcom_Component.ClassNameIs ( 'TBaseVirtualTree' ))
+    {$IFDEF VIRTUALTREES}
+    if (lcom_Component is TBaseVirtualTree )
      and   GetfeSauveEdit(FSauveEditObjets, feTVirtualTrees) then
         begin
-          {$IFDEF DELPHI}
           f_IniReadVirtualTreeFromIni ( FInifile, aF_Form.Name, lcom_Component as TBaseVirtualTree );
-          {$ENDIF}
         // No continue because other use of tree
       end;
+    {$ENDIF}
 
     if (lcom_Component is TCustomListView)
      and   GetfeSauveEdit(FSauveEditObjets, feTListView) then
@@ -365,10 +411,10 @@ var
         or (lcom_Component is TCustomGrid ))
     and FSauvePosObjet then
       begin
-        li_Taille := fli_ReadInteger ( lcom_Component.Name +'.Width', TControl (lcom_Component).Width);
+        li_Taille := fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH, TControl (lcom_Component).Width);
         if li_Taille > 0 Then
           TControl(lcom_Component).Width := li_Taille ;
-        li_Taille := fli_ReadInteger ( lcom_Component.Name +'.Height',TControl (lcom_Component).Height);
+        li_Taille := fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,TControl (lcom_Component).Height);
         if li_Taille > 0 Then
           TControl(lcom_Component).Height:= li_Taille ;
         Result := True;
@@ -380,11 +426,11 @@ var
     Result := False;
     // lecture des CheckBoxes
     if (   (lcom_Component is TCheckBox)
-        or (lcom_Component.ClassNameIs( 'TJvXPCheckbox' ))
-        or (lcom_Component.ClassNameIs( 'TPCheck' )))
+        or (lcom_Component.ClassNameIs( CST_ONFORMINI_XPCHECK ))
+        or (lcom_Component.ClassNameIs( CST_ONFORMINI_PCHECK )))
      and GetfeSauveEdit ( FSauveEditObjets, feTCheck ) then
       begin
-        p_SetComponentBoolProperty(lcom_Component,'Checked', FInifile.ReadBool(af_Form.name,lcom_Component.Name,fb_getComponentBoolProperty(lcom_Component, 'Checked')));
+        p_SetComponentBoolProperty(lcom_Component,CST_ONFORMINI_CHECKED, FInifile.ReadBool(af_Form.name,lcom_Component.Name,fb_getComponentBoolProperty(lcom_Component, CST_ONFORMINI_CHECKED)));
         Result := True;
       end;
     // lecture des RadioBoutons
@@ -456,13 +502,13 @@ var
     Result := False;
     if GetfeSauveEdit(FSauveEditObjets ,feTDirectoryEdit) Then
       Begin
-        if (lcom_Component.ClassNameIs('TJvDirectoryEdit')) then
+        if (lcom_Component.ClassNameIs(CST_ONFORMINI_JVDIRECTORY)) then
           begin
             ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
             If DirectoryExists( ls_Temp ) Then
-              p_SetComponentProperty (lcom_Component, 'Text', ls_temp )
+              p_SetComponentProperty (lcom_Component, CST_ONFORMINI_TEXT, ls_temp )
              Else
-              p_SetComponentProperty (lcom_Component, 'Text', GetCurrentDir );
+              p_SetComponentProperty (lcom_Component, CST_ONFORMINI_TEXT, GetCurrentDir );
             Result := True;
           end;
         if (lcom_Component is TDirectoryEdit) then
@@ -470,9 +516,9 @@ var
             ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
 //            Showmessage ( lcom_Component.Name + ' '+ ls_Temp + ' ' +fs_ReadString(lcom_Component.Name, '' ) );
             If DirectoryExists( ls_Temp ) Then
-              p_SetComponentProperty (lcom_Component, CST_INI_DIRECTORYEDIT_DIR, ls_Temp )
+              p_SetComponentProperty (lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR, ls_Temp )
              Else
-              p_SetComponentProperty (lcom_Component, CST_INI_DIRECTORYEDIT_DIR, GetCurrentDir );
+              p_SetComponentProperty (lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR, GetCurrentDir );
             Result := True;
           end;
       End;
@@ -491,11 +537,12 @@ var
         end;
     {$ENDIF}
     if GetfeSauveEdit(FSauveEditObjets ,feTSpinEdit)
-    and (   (lcom_Component.ClassNameIs( 'TSpinEdit'))
-         or (lcom_Component.ClassNameIs( 'TRxSpinEdit')))
+    and (   (lcom_Component.ClassNameIs( CST_ONFORMINI_SPINEDIT))
+         or (lcom_Component.ClassNameIs( CST_ONFORMINI_JVSPINEDIT))
+         or (lcom_Component.ClassNameIs( CST_ONFORMINI_RXSPINEDIT)))
        then
         begin
-          p_SetComponentProperty(lcom_Component, 'Value', fli_ReadInteger (lcom_Component.Name,flin_getComponentProperty(lcom_Component, 'Value')));
+          p_SetComponentProperty(lcom_Component, CST_ONFORMINI_VALUE, fli_ReadInteger (lcom_Component.Name,flin_getComponentProperty(lcom_Component, CST_ONFORMINI_VALUE)));
           Result := True;
         end;
 
@@ -509,12 +556,12 @@ var
         LitTstringsDeIni(FInifile, lcom_Component.Name,TCustomMemo(lcom_Component).Lines,rien );
         Result := True;
       end;
-    if {$IFDEF FPC}(lcom_Component.ClassNameIs('TRichView') or lcom_Component.ClassNameIs('TRichMemo') {$ELSE} (lcom_Component is  TCustomRichEdit {$ENDIF})
+    if {$IFDEF FPC}(lcom_Component.ClassNameIs(CST_ONFORMINI_RICHVIEW) or lcom_Component.ClassNameIs(CST_ONFORMINI_RICHMEMO) {$ELSE} (lcom_Component is  TCustomRichEdit {$ENDIF})
     and GetfeSauveEdit(FSauveEditObjets ,feTRichEdit)
-    and ( fobj_getComponentObjectProperty(lcom_Component, 'Lines' ) <> nil)
+    and ( fobj_getComponentObjectProperty(lcom_Component, CST_ONFORMINI_LINES ) <> nil)
      then
       begin
-        LitTstringsDeIni(FInifile, lcom_Component.Name,fobj_getComponentObjectProperty(lcom_Component, 'Lines' ) as TStrings,rien);
+        LitTstringsDeIni(FInifile, lcom_Component.Name,fobj_getComponentObjectProperty(lcom_Component, CST_ONFORMINI_LINES ) as TStrings,rien);
         Result := True;
       end;
   end;
@@ -524,34 +571,37 @@ var
   Begin
     Result := False;
     if (lcom_Component is TCustomComboBox) and GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
-    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,'Datasource'))
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      then
       begin
-          p_SetComponentProperty(lcom_Component, 'Text', fs_ReadString(lcom_Component.Name+'.Text',''));
+        if   assigned ( GetPropInfo ( lcom_Component, CST_ONFORMINI_TEXT ))
+        then SetPropValue    ( lcom_Component, CST_ONFORMINI_TEXT ,fs_ReadString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_TEXT,''))
+        Else if   assigned ( GetPropInfo ( lcom_Component, CST_ONFORMINI_ITEMINDEX ))
+        Then SetPropValue    ( lcom_Component, CST_ONFORMINI_ITEMINDEX ,fli_ReadInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_ITEMINDEX,0));
       End;
-    if (lcom_Component.CLassNameIs( 'TExtColorCombo')) and GetfeSauveEdit(FSauveEditObjets ,feTColorCombo)
+    if (lcom_Component.CLassNameIs( CST_ONFORMINI_EXTCOLOR)) and GetfeSauveEdit(FSauveEditObjets ,feTColorCombo)
      then
       begin
-         ls_Temp := fs_ReadString(lcom_Component.Name+'.Value','');
+         ls_Temp := fs_ReadString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_VALUE,'');
          if ls_Temp <> '' Then
-          p_SetComponentProperty(lcom_Component, 'Value', ls_Temp );
+          p_SetComponentProperty(lcom_Component, CST_ONFORMINI_VALUE, ls_Temp );
       End;
 {$IFDEF RX}
     if GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
     and (lcom_Component is {$IFDEF FPC}TRxCustomDBLookupCombo{$ELSE}TRxLookupControl{$ENDIF})
-    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,'Datasource'))
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      Then
       begin
         {$IFNDEF FPC}
         if (lcom_Component is TRxDBLookupList ) Then
-          (lcom_Component as TRxDBLookupList).DisplayValue := fs_ReadString(lcom_Component.Name + '.Value', '')
+          (lcom_Component as TRxDBLookupList).DisplayValue := fs_ReadString(lcom_Component.Name + CST_ONFORMINI_DOT + CST_ONFORMINI_VALUE, '')
          else
          {$ENDIF}
           if (lcom_Component is TRxDBLookupCombo ) Then
           {$IFDEF FPC}
-            (lcom_Component as TRxDBLookupCombo).LookupDisplayIndex := fli_ReadInteger (lcom_Component.Name + '.Index', -1);
+            (lcom_Component as TRxDBLookupCombo).LookupDisplayIndex := fli_ReadInteger (lcom_Component.Name + CST_ONFORMINI_DOT + CST_ONFORMINI_INDEX, -1);
           {$ELSE}
-           (lcom_Component as TRxDBLookupCombo).DisplayValue := fs_ReadString(lcom_Component.Name + '.Index', '');
+           (lcom_Component as TRxDBLookupCombo).DisplayValue := fs_ReadString(lcom_Component.Name + CST_ONFORMINI_DOT + CST_ONFORMINI_INDEX, '');
            {$ENDIF}
       End;
 {$ENDIF}
@@ -723,7 +773,7 @@ procedure TOnFormInfoIni.p_ExecuteEcriture ( const af_Form : TCustomForm ) ;
 var
   ab_continue : Boolean ;
   mit: TMenuItem;
-  j, Indice: integer;
+  j: integer;
 //  lvt_EnteteArbre : TVTHeader ;
 //  lgd_grid: TDBGrid;
 //  lsv_ListView : TListView ;
@@ -747,13 +797,13 @@ var
         p_IniWriteGridToIni ( FInifile, af_Form.Name, lcom_Component as TDBGrid );
       end;
 
-        if (lcom_Component.ClassNameIs ( 'TBaseVirtualTree' ))
+    {$IFDEF VIRTUALTREES}
+        if (lcom_Component is TBaseVirtualTree )
          and   GetfeSauveEdit(FSauveEditObjets, feTVirtualTrees) then
           begin
-            {$IFDEF DELPHI}
             p_IniWriteVirtualTreeToIni ( FInifile, af_Form.Name, lcom_Component as TBaseVirtualTree );
-            {$ENDIF}
           end;
+    {$ENDIF}
 
         if (lcom_Component is TListView)
          and   GetfeSauveEdit(FSauveEditObjets, feTListView) then
@@ -765,14 +815,16 @@ var
     if FSauvePosObjet then
     begin
       if      (lcom_Component is TPanel)
-      or (lcom_Component.ClassNameIs ( 'TBaseVirtualTree' ))
+       {$IFDEF VIRTUALTREES}
+      or (lcom_Component is TBaseVirtualTree)
+       {$ENDIF}
       or (lcom_Component is TCustomGrid)
       or (lcom_Component is TCustomListView) Then
        begin
         if TControl(lcom_Component).Width  > 0 Then
-          p_WriteInteger(lcom_Component.Name+'.Width',TControl(lcom_Component).Width);
+          p_WriteInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,TControl(lcom_Component).Width);
         if TControl(lcom_Component).Height > 0 Then
-          p_WriteInteger(lcom_Component.Name+'.Height',TControl(lcom_Component).Height);
+          p_WriteInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,TControl(lcom_Component).Height);
         Result := True;
       end;
     end;
@@ -800,11 +852,12 @@ var
   Begin
     Result := False;
     if GetfeSauveEdit(FSauveEditObjets ,feTSpinEdit)
-    and  (   (lcom_Component.ClassNameIs( 'TSpinEdit'))
-          or (lcom_Component.ClassNameIs( 'TRxSpinEdit')))
+    and  (   (lcom_Component.ClassNameIs(CST_ONFORMINI_SPINEDIT))
+          or (lcom_Component.ClassNameIs(CST_ONFORMINI_JVSPINEDIT))
+          or (lcom_Component.ClassNameIs(CST_ONFORMINI_RXSPINEDIT)))
      then
       begin
-        p_WriteInteger(lcom_Component.Name,flin_getComponentProperty(lcom_Component, 'Value' ));
+        p_WriteInteger(lcom_Component.Name,flin_getComponentProperty(lcom_Component, CST_ONFORMINI_VALUE ));
         Result := True;
       end;
 
@@ -814,12 +867,12 @@ var
   Begin
     Result := False;
     if ((lcom_Component is TCheckBox)
-    or (lcom_Component.ClassNameIs( 'TJvXPCheckbox' ))
-    or (lcom_Component.ClassNameIs( 'TPCheck' )))
+    or (lcom_Component.ClassNameIs( CST_ONFORMINI_XPCHECK ))
+    or (lcom_Component.ClassNameIs( CST_ONFORMINI_PCHECK )))
     and GetfeSauveEdit(FSauveEditObjets, feTCheck )
      then
       begin
-        FInifile.WriteBool(af_Form.name,lcom_Component.Name,fb_getComponentBoolProperty ( lcom_Component, 'Checked' ));
+        FInifile.WriteBool(af_Form.name,lcom_Component.Name,fb_getComponentBoolProperty ( lcom_Component, CST_ONFORMINI_CHECKED ));
         Result := True;
       end;
     if (lcom_Component is TRadioButton)    and GetfeSauveEdit(FSauveEditObjets, feTRadio )      then
@@ -840,14 +893,14 @@ var
     Result := False;
     if GetfeSauveEdit(FSauveEditObjets ,feTDirectoryEdit) then
       begin
-        if (lcom_Component.ClassNameIs('TJvDirectoryEdit')) then
+        if (lcom_Component.ClassNameIs(CST_ONFORMINI_JVDIRECTORY)) then
           Begin
-            p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, 'Text'));
+            p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, CST_ONFORMINI_TEXT));
             Result := True;
           End;
         if (lcom_Component is TDirectoryEdit) then
           begin
-            p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, CST_INI_DIRECTORYEDIT_DIR ));
+            p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR ));
             Result := True;
           end;
       end;
@@ -885,12 +938,12 @@ var
         SauveTStringsDansIni(FInifile, lcom_Component.Name,TMemo(lcom_Component).Lines,0);
         Result := True;
       end;
-    if {$IFDEF FPC}(lcom_Component.ClassNameIs('TRichView') or lcom_Component.ClassNameIs('TRichMemo') {$ELSE} (lcom_Component is  TCustomRichEdit {$ENDIF})
+    if {$IFDEF FPC}(lcom_Component.ClassNameIs(CST_ONFORMINI_RICHVIEW) or lcom_Component.ClassNameIs(CST_ONFORMINI_RICHMEMO) {$ELSE} (lcom_Component is  TCustomRichEdit {$ENDIF})
     and GetfeSauveEdit(FSauveEditObjets ,feTRichEdit)
-    and ( fobj_getComponentObjectProperty(lcom_Component, 'Lines' ) <> nil)
+    and ( fobj_getComponentObjectProperty(lcom_Component, CST_ONFORMINI_LINES ) <> nil)
      then
       begin
-        SauveTStringsDansIni(FInifile, lcom_Component.Name,fobj_getComponentObjectProperty(lcom_Component, 'Lines' ) as TStrings,0);
+        SauveTStringsDansIni(FInifile, lcom_Component.Name,fobj_getComponentObjectProperty(lcom_Component, CST_ONFORMINI_LINES ) as TStrings,0);
         Result := True;
       end;
 
@@ -899,37 +952,43 @@ var
   function fb_WriteCombos : Boolean;
   Begin
     Result := False;
-    if (lcom_Component.CLassNameIs( 'TExtColorCombo')) and GetfeSauveEdit(FSauveEditObjets ,feTColorCombo)
+    if (lcom_Component.CLassNameIs( CST_ONFORMINI_EXTCOLOR)) and GetfeSauveEdit(FSauveEditObjets ,feTColorCombo)
      then
       begin
-          p_WriteInteger(lcom_Component.Name+ '.Value', Flin_getComponentProperty (lcom_Component, 'Value'));
-          // No continue : Maybe a customcombo
+        p_WriteInteger(lcom_Component.Name+ CST_ONFORMINI_DOT + CST_ONFORMINI_VALUE, Flin_getComponentProperty (lcom_Component, CST_ONFORMINI_VALUE));
+        // No continue : Maybe a customcombo
+        Result := True;
       End;
     if (lcom_Component is TCustomComboBox) and GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
-    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,'Datasource'))
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      Then
       begin
-        p_WriteString(lcom_Component.Name+'.Text',fs_getComponentProperty(lcom_Component, 'Text'));
+        if   assigned ( GetPropInfo ( lcom_Component, CST_ONFORMINI_TEXT ))
+        then p_WriteString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_TEXT, GetPropValue    ( lcom_Component, CST_ONFORMINI_TEXT))
+        Else if   assigned ( GetPropInfo ( lcom_Component, CST_ONFORMINI_ITEMINDEX ))
+        Then p_WriteInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_ITEMINDEX, GetPropValue ( lcom_Component, CST_ONFORMINI_ITEMINDEX ));
           // No continue : Maybe a customcombo
+        Result := True;
       End;
   {$IFDEF RX}
     if GetfeSauveEdit(FSauveEditObjets ,feTComboValue)
     and (lcom_Component is {$IFDEF FPC}TRxCustomDBLookupCombo{$ELSE}TRxLookupControl{$ENDIF})
-    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,'Datasource'))
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      then
       begin
        {$IFNDEF FPC}
         if (lcom_Component is TRxDBLookupList) Then
-          p_WriteString(lcom_Component.Name + '.Value', (lcom_Component as TRxDBLookupList).DisplayValue)
+          p_WriteString(lcom_Component.Name + CST_ONFORMINI_DOT + CST_ONFORMINI_VALUE, (lcom_Component as TRxDBLookupList).DisplayValue)
          else
         {$ENDIF}
           if (lcom_Component is TRxDBLookupCombo) Then
           {$IFDEF FPC}
-            p_WriteInteger(lcom_Component.Name + '.Index', (lcom_Component as TRxDBLookupCombo).LookupDisplayIndex);
+            p_WriteInteger(lcom_Component.Name + CST_ONFORMINI_DOT + CST_ONFORMINI_INDEX, (lcom_Component as TRxDBLookupCombo).LookupDisplayIndex);
           {$ELSE}
-            p_WriteString(lcom_Component.Name + '.Value', (lcom_Component as TRxDBLookupCombo).DisplayValue);
+            p_WriteString(lcom_Component.Name + CST_ONFORMINI_DOT + CST_ONFORMINI_VALUE, (lcom_Component as TRxDBLookupCombo).DisplayValue);
            {$ENDIF}
           // No continue : Maybe a customcombo
+        Result := True;
       End;
   {$ENDIF}
     if (lcom_Component is TCustomComboBox)       and GetfeSauveEdit(FSauveEditObjets ,feTComboBox)        then
@@ -991,7 +1050,7 @@ begin
   if not Assigned(FInifile) then Exit;
 
       // traitement de la position de la af_Form
-  if (TFormStyle ( flin_getComponentProperty ( af_Form, 'FormStyle' )) <> fsMDIChild) and (FSauvePosForm)  then
+  if (TFormStyle ( flin_getComponentProperty ( af_Form, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild) and (FSauvePosForm)  then
     p_EcriturePositionFenetre(af_Form);
 
       // Traitement des composants de la af_Form
@@ -1052,29 +1111,29 @@ procedure TOnFormInfoIni.p_LecturePositionFenetre(aFiche: TCustomForm);
 var li_etat, li_ScreenHeight, li_ScreenWidth: integer;
 begin
   // Résolution de l'écran
-  li_ScreenHeight := f_IniReadSectionInt (aFiche.Name,'Screen.Height',Screen.Height);
-  li_ScreenWidth := f_IniReadSectionInt (aFiche.Name,'Screen.Width',Screen.Width);
+  li_ScreenHeight := f_IniReadSectionInt (aFiche.Name,CST_ONFORMINI_SCREEN + CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,Screen.Height);
+  li_ScreenWidth := f_IniReadSectionInt (aFiche.Name,CST_ONFORMINI_SCREEN + CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,Screen.Width);
 
-  li_etat := f_IniReadSectionInt (aFiche.Name,aFiche.name+'.WindowState',0);
+  li_etat := f_IniReadSectionInt (aFiche.Name,aFiche.name+CST_ONFORMINI_DOT + CST_ONFORMINI_WINDOWSTATE,0);
   // positionnement de la fenêtre
-  p_SetComponentProperty ( aFiche, 'Position', poDesigned );
+  p_SetComponentProperty ( aFiche, CST_ONFORMINI_POSITION, poDesigned );
   if li_etat = 0 then
     aFiche.WindowState := wsNormal
   else
     if li_etat = 1 then
     begin
-      p_SetComponentProperty ( aFiche, 'Position', poDefault );
-      p_SetComponentProperty ( aFiche, 'WindowState', wsMaximized );
+      p_SetComponentProperty ( aFiche, CST_ONFORMINI_POSITION, poDefault );
+      p_SetComponentProperty ( aFiche, CST_ONFORMINI_WINDOWSTATE, wsMaximized );
       end
     else
-      p_SetComponentProperty ( aFiche, 'WindowState', wsMinimized );
+      p_SetComponentProperty ( aFiche, CST_ONFORMINI_WINDOWSTATE, wsMinimized );
 
   if li_etat <> 1 then
   begin
-    aFiche.Width := f_IniReadSectionInt (aFiche.Name,aFiche.name+'.Width',aFiche.Width) ;
-    aFiche.Height:= f_IniReadSectionInt (aFiche.Name,aFiche.name+'.Height',aFiche.Height);
-    aFiche.Top   := f_IniReadSectionInt (aFiche.Name,aFiche.name+'.Top',aFiche.Top);
-    aFiche.Left  := f_IniReadSectionInt (aFiche.Name,aFiche.name+'.Left',aFiche.Left);
+    aFiche.Width := f_IniReadSectionInt (aFiche.Name,aFiche.name+CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,aFiche.Width) ;
+    aFiche.Height:= f_IniReadSectionInt (aFiche.Name,aFiche.name+CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,aFiche.Height);
+    aFiche.Top   := f_IniReadSectionInt (aFiche.Name,aFiche.name+CST_ONFORMINI_DOT + CST_ONFORMINI_TOP,aFiche.Top);
+    aFiche.Left  := f_IniReadSectionInt (aFiche.Name,aFiche.name+CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT,aFiche.Left);
 
     if Screen.Height <> li_ScreenHeight then
     begin
@@ -1093,8 +1152,8 @@ end;
 procedure TOnFormInfoIni.p_EcriturePositionFenetre ( const aFiche: TCustomForm);
 var li_etat: integer;
 begin
-  p_IniWriteSectionInt(aFiche.Name,'Screen.Height',Screen.Height);
-  p_IniWriteSectionInt(aFiche.Name,'Screen.Width',Screen.Width);
+  p_IniWriteSectionInt(aFiche.Name,CST_ONFORMINI_SCREEN + CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,Screen.Height);
+  p_IniWriteSectionInt(aFiche.Name,CST_ONFORMINI_SCREEN + CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,Screen.Width);
 
   // Etat de la fenêtre
   if aFiche.WindowState = wsNormal then
@@ -1105,15 +1164,15 @@ begin
     else
       li_etat := 2;
   // sauvegarde de son état
-  p_IniWriteSectionInt(aFiche.Name,aFiche.name+'.WindowState',li_etat);
+  p_IniWriteSectionInt(aFiche.Name,aFiche.name+CST_ONFORMINI_DOT + CST_ONFORMINI_WINDOWSTATE,li_etat);
 
   // sauvegarde de sa position si la fenêtre n'est pas au Maximun
   if li_etat <> 1 then
     begin
-      p_IniWriteSectionInt (aFiche.Name,aFiche.name+'.Width',aFiche.Width);
-      p_IniWriteSectionInt (aFiche.Name,aFiche.name+'.Height',aFiche.Height);
-      p_IniWriteSectionInt (aFiche.Name,aFiche.name+'.Top',aFiche.Top);
-      p_IniWriteSectionInt (aFiche.Name,aFiche.name+'.Left',aFiche.Left);
+      p_IniWriteSectionInt (aFiche.Name,aFiche.name+CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,aFiche.Width);
+      p_IniWriteSectionInt (aFiche.Name,aFiche.name+CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,aFiche.Height);
+      p_IniWriteSectionInt (aFiche.Name,aFiche.name+CST_ONFORMINI_DOT + CST_ONFORMINI_TOP,aFiche.Top);
+      p_IniWriteSectionInt (aFiche.Name,aFiche.name+CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT,aFiche.Left);
     end;
 end;
 

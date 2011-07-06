@@ -26,23 +26,28 @@ uses
 {$IFDEF VIRTUALTREES}
      VirtualTrees,
 {$ENDIF}
-  dialogs, fonctions_version, unite_messages, DBGrids;
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
+  dialogs,unite_messages, DBGrids;
 
 type
   TIniEvent = procedure( const afor_MainObject : TObject ; const aini_iniFile : TCustomInifile ) of object;
 
 const
+{$IFDEF VERSIONS}
   gVer_fonctions_init : T_Version = ( Component : 'Gestion du fichier INI' ; FileUnit : 'fonctions_init' ;
-           Owner : 'Matthieu Giroux' ;
-                              Comment : 'Première version de gestion du fichier INI.' + #13#10 + 'Certaines fonctions sont encore utilisées.' ;
-           BugsStory : 'Version 1.0.3.1 : Function fs_GetIniDir' + #13#10 +
-                       'Version 1.0.3.0 : Fonction fb_iniWriteFile' + #13#10 +
-                       'Version 1.0.2.0 : Fonctions ini pour les listview,dbgrid, et virtualtrees' + #13#10 +
-             'Version 1.0.1.0 : Paramètre Utilisateur.' + #13#10 +
-             'Version 1.0.0.0 : La gestion est en place.' + #13#10 +
-                               'On utilise plus cette unité complètement mais Fenêtre principale puis plus tard Mc Form Main INI.';
-           UnitType : 1 ;
-           Major : 1 ; Minor : 0 ; Release : 3 ; Build : 1 );
+                                      Owner     : 'Matthieu Giroux' ;
+                                      Comment   : 'Première version de gestion du fichier INI.' + #13#10 + 'Certaines fonctions sont encore utilisées.' ;
+                                      BugsStory : 'Version 1.0.3.1 : Function fs_GetIniDir' + #13#10 +
+                                                  'Version 1.0.3.0 : Fonction fb_iniWriteFile' + #13#10 +
+                                                  'Version 1.0.2.0 : Fonctions ini pour les listview,dbgrid, et virtualtrees' + #13#10 +
+                                                  'Version 1.0.1.0 : Paramètre Utilisateur.' + #13#10 +
+                                                  'Version 1.0.0.0 : La gestion est en place.' + #13#10 +
+                                                  'On utilise plus cette unité complètement mais Fenêtre principale puis plus tard Mc Form Main INI.';
+                                     UnitType : 1 ;
+                                     Major : 1 ; Minor : 0 ; Release : 3 ; Build : 1 );
+{$ENDIF}
   // Constantes des sections du fichier ini
   INISEC_PAR = 'parametres';
   INISEC_CON = 'connexion';
@@ -844,8 +849,10 @@ end;
 
 
 
+{$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gVer_fonctions_init );
+{$ENDIF}
 finalization
   FIniFile.Free;
   FIniFile := nil ;
