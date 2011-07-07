@@ -22,10 +22,11 @@ const MenuToolbar_TExtMenuToolBar = 'TExtMenuToolBar' ;
                                                FileUnit : 'u_extmenutoolbar' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Barre de menu avec bouton de click.' ;
-                                               BugsStory : '0.9.0.1 : Optimising.' + #13#10
+                                               BugsStory : '0.9.0.2 : Making comments.' + #13#10
+                                                         + '0.9.0.1 : Optimising.' + #13#10
                                                          + '0.9.0.0 : Gestion en place et testée.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 1 );
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 2 );
 
 {$ENDIF}
 
@@ -40,8 +41,8 @@ type
   protected
     procedure SetMenu(Value: TMenu); override;
     procedure WindowGet ( AObject : TObject );
-    procedure p_setAutoDrawDisabled ( AValue: Boolean ); virtual;
   public
+    procedure p_setAutoDrawDisabled ( AValue: Boolean ); virtual;
     constructor Create(TheOwner: TComponent); override;
     procedure Loaded ; override;
     property ButtonGet: TToolButton read FButtonGet;
@@ -64,11 +65,17 @@ uses unite_messages, Controls, Graphics,
 
 { TExtMenuToolBar }
 
+// procedure TExtMenuToolBar.WindowGet
+// OnClick Event of the FBUttonGet Button
+// AObject : The notify event sender
 procedure TExtMenuToolBar.WindowGet(AObject: TObject);
 begin
   if assigned ( FOnClickCustomize ) Then
     FOnClickCustomize ( AObject );
 end;
+
+// procedure TExtMenuToolBar.Loaded
+// draw the Disabled Images when AutoDrawDisabled set to true
 
 procedure TExtMenuToolBar.Loaded;
 begin
@@ -76,6 +83,11 @@ begin
   p_setAutoDrawDisabled ( FAutoDrawDisabled );
 end;
 
+
+// procedure TExtMenuToolBar.p_setAutoDrawDisabled
+// Setting AutoDrawDisabled
+// draw the Disabled Images when AutoDrawDisabled set to true
+// AValue : The new value of AutoDrawDisabled
 procedure TExtMenuToolBar.p_setAutoDrawDisabled(AValue: Boolean);
 var lbmp_Bitmap : TBitmap;
      i : Integer;
@@ -100,6 +112,9 @@ begin
   end;
 end;
 
+// constructor TExtMenuToolBar.Create
+// Initing the  TExtMenuToolBar
+// TheOwner : The owner of the component
 constructor TExtMenuToolBar.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
@@ -107,13 +122,14 @@ begin
   FAutoDrawDisabled := True;
 end;
 
+/// Procedure SetMenu
+// Creating the ToolButtons when setting the menu
 procedure TExtMenuToolBar.SetMenu(Value: TMenu);
 {$IFNDEF FPC}
 var lbmp_Bitmap : TBitmap;
 {$ENDIF}
 begin
-  if  not ( csDesigning in ComponentState )
-  and assigned ( FButtonGet ) Then
+  if assigned ( FButtonGet ) Then
     Begin
       FButtonGet.Parent := nil;
     end;
@@ -152,9 +168,11 @@ end;
 
 initialization
 {$IFDEF FPC}
+  // lazarus Resources file
   {$I u_extmenutoolbar.lrs}
 {$ENDIF}
 {$IFDEF VERSIONS}
+  // Versioning
   p_ConcatVersion ( gVer_TExtMenuToolBar );
 {$ENDIF}
 end.

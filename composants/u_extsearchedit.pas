@@ -32,12 +32,13 @@ uses Variants, Controls, Classes,
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '0.9.0.3 : Tested.'
+                                          BugsStory : '0.9.0.4 : Making comments.'
+                                                    + '0.9.0.3 : Tested.'
                                                     + '0.9.0.2 : Not tested, upgrading.'
                                                     + '0.9.0.1 : Not tested, compiling on DELPHI.'
                                                     + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 0 ; Minor : 9 ; Release : 0 ; Build : 3 );
+                                          Major : 0 ; Minor : 9 ; Release : 0 ; Build : 4 );
 
 {$ENDIF}
 type
@@ -45,7 +46,6 @@ type
 { TExtSearchDBEdit }
   TExtSearchDBEdit = class(TDBEdit)
   private
-    FieldName: String;
     // Lien de données
     FSearchSource: TFieldDataLink;
     FOnLocate ,
@@ -99,26 +99,37 @@ implementation
 uses Dialogs, fonctions_db;
 { TExtSearchDBEdit }
 
+// procedure TExtSearchDBEdit.p_setSearchDisplay
+// Setting The Search field on SearchSource
 procedure TExtSearchDBEdit.p_setSearchDisplay(AValue: String);
 begin
   FSearchSource.FieldName:= AValue;
 end;
 
+// function TExtSearchDBEdit.fs_getSearchDisplay
+// Getting The Search field on SearchSource
 function TExtSearchDBEdit.fs_getSearchDisplay: String;
 begin
   Result := FSearchSource.FieldName;
 end;
 
+// procedure TExtSearchDBEdit.p_setSearchSource
+// Setting the Search source
 procedure TExtSearchDBEdit.p_setSearchSource(AValue: TDataSource);
 begin
   FSearchSource.DataSource := AValue;
 end;
 
+// function TExtSearchDBEdit.fs_getSearchSource
+// Getting the Search source
 function TExtSearchDBEdit.fs_getSearchSource: TDataSource;
 begin
   Result := FSearchSource.DataSource;
 end;
 
+// procedure TExtSearchDBEdit.p_setLabel
+// Linked label property setting
+// The Label changes its color on focusing
 procedure TExtSearchDBEdit.p_setLabel(const alab_Label: TFWLabel);
 begin
   if alab_Label <> FLabel Then
@@ -128,12 +139,16 @@ begin
     End;
 end;
 
+// procedure TExtSearchDBEdit.WMPaint
+// Setting the correct color on painting
 procedure TExtSearchDBEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
 begin
   p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
   inherited;
 end;
 
+// procedure TExtSearchDBEdit.KeyUp
+//  searching on key up
 procedure TExtSearchDBEdit.KeyUp(var Key: Word; Shift: TShiftState);
 var li_pos : Integer;
     ls_temp : String;
@@ -183,6 +198,8 @@ begin
 
 end;
 
+// procedure TExtSearchDBEdit.ValidateSearch
+// Calling OnSet Event if setted
 procedure TExtSearchDBEdit.ValidateSearch;
 Begin
   if not FSet
@@ -199,6 +216,8 @@ Begin
       End ;
 end;
 
+// procedure TExtSearchDBEdit.DoEnter
+// Setting the label and ExtSearchDBEdit color
 procedure TExtSearchDBEdit.DoEnter;
 begin
   if assigned ( FBeforeEnter ) Then
@@ -211,6 +230,8 @@ begin
   inherited DoEnter;
 end;
 
+// procedure TExtSearchDBEdit.DoExit
+// Setting the label and ExtSearchDBEdit color
 procedure TExtSearchDBEdit.DoExit;
 begin
   inherited DoExit;
@@ -221,6 +242,8 @@ begin
     FAfterExit ( Self );
 end;
 
+// procedure TExtSearchDBEdit.Loaded
+// Finishing the init of loaded component
 procedure TExtSearchDBEdit.Loaded;
 begin
   inherited Loaded;
@@ -230,12 +253,16 @@ begin
     Color := gCol_Edit ;
 end;
 
+// procedure TExtSearchDBEdit.SetOrder
+// calling FNotifyOrder Event
 procedure TExtSearchDBEdit.SetOrder;
 begin
   if assigned ( FNotifyOrder ) then
     FNotifyOrder ( Self );
 end;
 
+// constructor TExtSearchDBEdit.Create
+// Initing
 constructor TExtSearchDBEdit.Create(Aowner: TComponent);
 begin
   inherited Create(Aowner);
@@ -248,6 +275,8 @@ begin
   FColorReadOnly := CST_EDIT_READ;
 end;
 
+// destructor TExtSearchDBEdit.Destroy
+// Destroying
 destructor TExtSearchDBEdit.Destroy;
 begin
   inherited Destroy;
@@ -256,6 +285,7 @@ end;
 
 {$IFDEF VERSIONS}
 initialization
+  // Versioning
   p_ConcatVersion ( gVer_TExtSearchDBEdit );
 {$ENDIF}
 end.

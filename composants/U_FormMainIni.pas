@@ -1071,6 +1071,11 @@ begin
 end;
 
 
+// procedure TF_FormMainIni.p_SetChildForm
+// Setting FormStyle
+// If using SuperForm, setting the child superform if not FormStyle is fsStayOnTop
+// afor_Reference : Form Variable
+// The style to set afs_newFormStyle
 procedure TF_FormMainIni.p_SetChildForm(const afor_Reference: TCustomForm; const  afs_newFormStyle : TFormStyle );
 begin
 {$IFDEF SFORM}
@@ -1100,11 +1105,11 @@ begin
   afor_Reference.BringToFront ;
 end;
 
-    // Création d'une form MDI renvoie True si la form existe dans les enfants MDI
-    // as_FormNom        : nom      de la form
-    // afor_FormClasse   : classe   de la form
-    // afor_Reference    : variable de la form
-    // newFormStyle      : style    de la form à mettre
+// Création d'une form MDI renvoie True si la form existe dans les enfants MDI
+// as_FormNom        : nom      de la form
+// afor_FormClasse   : classe   de la form
+// afor_Reference    : variable de la form
+// newFormStyle      : style    de la form à mettre
 function TF_FormMainIni.fb_CreateChild ( afor_FormClasse : TFormClass; var afor_Reference : TCustomForm ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean; const aico_Icon : TIcon  ) : Boolean ;
 var
   li_i : integer;

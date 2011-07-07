@@ -286,6 +286,8 @@ begin
 end;
 
 
+// procedure TExtDBComboInsert.RealSetText
+// ?
 procedure TExtDBComboInsert.RealSetText(const AValue: TCaption);
 begin
   {$IFDEF VerboseTWinControlRealText}

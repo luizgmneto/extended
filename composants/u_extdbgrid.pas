@@ -45,10 +45,11 @@ const
                                                FileUnit : 'U_ExtDBGrid' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Grille avec fonctions étendues.' ;
-                                               BugsStory : '0.9.9.9 : Tested OK on DELPHI, need new version of LAZARUS to be completed.' + #13#10
+                                               BugsStory : '1.0.0.0 : Tested, making comments.' + #13#10
+                                                         + '0.9.9.9 : Tested OK on DELPHI, need new version of LAZARUS to be completed.' + #13#10
                                                          + '0.9.0.0 : Création à partir de u_framework_dbcomponents.' ;
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 9 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
 
@@ -153,7 +154,6 @@ uses
 // Procedure SetControl
 // Setting control of column
 // Parameter : AValue the control of property
-
 procedure TExtGridColumn.SetControl(const AValue: TWinControl);
 var lmet_MethodeDistribuee: TMethod;
 
@@ -212,6 +212,8 @@ begin
   FFieldTag := avalue;
 end;
 
+// procedure TExtGridColumn.ControlKeyDown
+// Sending the control key event to the dbgrid
 procedure TExtGridColumn.ControlKeyDown(ASender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -223,6 +225,8 @@ begin
 
 end;
 
+// procedure TExtGridColumn.ControlKeyPress
+// Sending the control key event to the dbgrid
 procedure TExtGridColumn.ControlKeyPress(ASender: TObject; var Key: Char);
 begin
   if assigned ( FOldControlKeyPress ) Then
@@ -233,6 +237,8 @@ begin
 
 end;
 
+// procedure TExtGridColumn.ControlKeyUp
+// Sending the control key event to the dbgrid
 procedure TExtGridColumn.ControlKeyUp(ASender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -243,6 +249,8 @@ begin
      FAfterControlKeyUp ( ASender, Key, Shift );
 end;
 
+// constructor TExtGridColumn.Create
+// Initing the column
 constructor TExtGridColumn.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
@@ -259,16 +267,22 @@ end;
 
 { TExtDbGridColumns }
 
+// function TExtDbGridColumns.GetColumn
+// Getting the Column property from index
 function TExtDbGridColumns.GetColumn( Index: Integer): TExtGridColumn;
 begin
   result := TExtGridColumn( inherited Items[Index] );
 end;
 
+// procedure TExtDbGridColumns.SetColum
+// Setting the Column property with index
 procedure TExtDbGridColumns.SetColumn( Index: Integer; const Value: TExtGridColumn);
 begin
   Items[Index].Assign( Value );
 end;
 
+// function TExtDbGridColumns.Add
+// Adding a Column
 function TExtDbGridColumns.Add: TExtGridColumn;
 begin
   result := TExtGridColumn (inherited Add);
@@ -278,7 +292,6 @@ end;
 
 // Procedure  p_SetPaintEdits
 // Setting PaintEdits property to paint edits in grid
-
 procedure TExtDBGrid.p_SetPaintEdits(const AValue: Boolean);
 begin
   if AValue <> FPaintEdits Then
@@ -290,6 +303,9 @@ begin
 end;
 
 
+// procedure TExtDBGrid.HideColumnControl
+// Hiding the Column's Control
+// Elsewhere the component is painted by the dbgrid to clone it
 procedure TExtDBGrid.HideColumnControl;
 var i : Integer ;
 Begin
@@ -304,12 +320,24 @@ Begin
 
 End;
 
-
+// procedure TExtDBGrid.WMHScroll
+// Hiding column's control on scroll
 procedure TExtDBGrid.WMHScroll(var Msg: TWMHScroll);
 begin
   inherited;
   HideColumnControl;
 end;
+
+// procedure TExtDBGrid.WMVScroll
+// Hiding column's control on scroll
+procedure TExtDBGrid.WMVScroll(var Message: TWMVScroll);
+begin
+  inherited;
+  HideColumnControl;
+end;
+
+// procedure TExtDBGrid.WMSetFocus
+// Hiding column's control on Focus
 procedure TExtDBGrid.WMSetFocus(var Msg: TWMSetFocus);
 begin
   Inherited;
@@ -405,11 +433,6 @@ begin
 
 end;
 
-procedure TExtDBGrid.WMVScroll(var Message: TWMVScroll);
-begin
-  inherited;
-  HideColumnControl;
-end;
 
 function TExtDBGrid.CanEditShow: Boolean;
 begin
@@ -425,6 +448,8 @@ begin
 
 end;
 
+// constructor TExtDBGrid.Create
+// Initing the dbgrid
 constructor TExtDBGrid.Create( AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -437,6 +462,8 @@ begin
   FWBeforeExit :=nil;
 end;
 
+// procedure TExtDBGrid.Loaded
+// Finishing the Init after the dbgrid is fully loaded
 procedure TExtDBGrid.Loaded;
 begin
   inherited Loaded;
@@ -446,6 +473,8 @@ begin
     FixedColor := gCol_Grid ;
 End;
 
+// procedure TExtDBGrid.MouseDown
+// On MouseDown show eventually column control
 procedure TExtDBGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
@@ -453,17 +482,23 @@ begin
   ShowControlColumn;
 end;
 
+// function TExtDBGrid.GetColumns
+// This Dbgrid uses TExtDbGridColumns
 function TExtDBGrid.GetColumns: TExtDbGridColumns;
 begin
   Result := inherited Columns as TExtDBGridColumns;
 end;
 
+// procedure TExtDBGrid.SetColumns
+// This Dbgrid uses TExtDbGridColumns
 procedure TExtDBGrid.SetColumns(const AValue: TExtDbGridColumns);
 begin
   inherited Columns := AValue;
 end;
 
 
+// procedure TExtDBGrid.DrawCel
+// Cloning the Column Control on cell drawing
 procedure TExtDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect;
   aState: TGridDrawState);
 {$IFNDEF FPC}
@@ -499,22 +534,29 @@ begin
        ControlState := ControlState - [csPaintCopy];
        Datalink.ActiveRecord := OldActive;
      end
-    Else    {$ENDIF}
+    Else
+{$ENDIF}
       inherited DrawCell(aCol, aRow, aRect, aState);
 end;
 
+// function TExtDBGrid.IsColumnsStored
+//  Columns are stored
 function TExtDBGrid.IsColumnsStored: boolean;
 begin
   result := True;
 end;
 
 
+// procedure TExtDBGrid.KeyDown
+// Show Column control on KeyDown
 procedure TExtDBGrid.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   inherited;
   ShowControlColumn;
 end;
 
+// procedure TExtDBGrid.KeyUp
+// DELETING on DELETE key
 procedure TExtDBGrid.KeyUp(var ach_Key: Word; ashi_Shift: TShiftState);
 begin
   if  ( ach_Key = VK_DELETE )
@@ -528,11 +570,15 @@ begin
   inherited KeyUp(ach_Key, ashi_Shift);
 end;
 
+// function TExtDBGrid.CreateColumns
+// This Dbgrid uses TExtDbGridColumns
 function TExtDBGrid.CreateColumns: {$IFDEF FPC}TGridColumns{$ELSE}TDBGridColumns{$ENDIF};
 begin
   Result := TExtDbGridColumns.Create(Self, TExtGridColumn);
 end;
 
+// procedure TExtDBGrid.DoEnter
+// Setting the Focus color
 procedure TExtDBGrid.DoEnter;
 begin
   if assigned ( FBeforeEnter ) Then
@@ -546,6 +592,8 @@ begin
   inherited DoEnter;
 end;
 
+// procedure TExtDBGrid.DoEnter
+// Setting the editing or readonly color
 procedure TExtDBGrid.DoExit;
 begin
   if assigned ( FBeforeExit ) Then
@@ -559,7 +607,9 @@ begin
     FixedColor := FOldFixedColor ;
 end;
 
- // Gestion du click sur le titre
+// procedure TExtDBGrid.(Do)TitleClick
+// Gestion du click sur le titre, sorting
+// Overriding The ancestor Title Click procedure
 {$IFDEF EXRX}
 procedure TExtDBGrid.TitleClick(Column: TColumn);
 {$ELSE}
