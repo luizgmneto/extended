@@ -48,8 +48,6 @@ type
     FieldName: String;
     // Lien de données
     FSearchSource: TFieldDataLink;
-    FFieldKey ,
-    FSearchKey : String;
     FOnLocate ,
     FOnSet ,
     FBeforeEnter, FAfterExit : TNotifyEvent;
@@ -82,8 +80,6 @@ type
     property Located : Boolean read Flocated;
   published
     property SearchDisplay : String read fs_getSearchDisplay write p_setSearchDisplay ;
-    property SearchKey : String read FSearchKey write FSearchKey ;
-    property DataKey : String read FFieldKey write FFieldKey ;
     property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
     property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
