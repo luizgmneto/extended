@@ -142,8 +142,7 @@ type
     procedure p_ExecuteLecture(const aF_Form: TCustomForm); virtual;
     procedure ExecuteEcriture(aLocal: Boolean); virtual;
     procedure p_ExecuteEcriture(const aF_Form: TCustomForm); virtual;
-    procedure p_LectureColonnes(const aF_Form: TCustomForm); virtual;
-
+    procedure p_LectureColonnes(const aF_Form: TCustomForm=nil); virtual;
     property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate default True;
     property AutoLoad   : Boolean read FAutoChargeIni write FAutoChargeIni default True;
   published

@@ -27,7 +27,7 @@ uses
   fonctions_version,
 {$ENDIF}
   ExtCtrls, u_buttons_appli, VirtualTrees, u_extmenucustomize,
-  U_OnFormInfoIni, Menus, JvXPCore, JvXPCheckCtrls, JvXPButtons;
+  U_OnFormInfoIni, Menus, JvXPCheckCtrls, JvXPButtons;
 
 {$IFDEF VERSIONS}
 const

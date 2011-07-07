@@ -22,9 +22,10 @@ const MenuToolbar_TExtMenuToolBar = 'TExtMenuToolBar' ;
                                                FileUnit : 'u_extmenutoolbar' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Barre de menu avec bouton de click.' ;
-                                               BugsStory : '0.9.0.0 : Gestion de beaucoup de composants.';
+                                               BugsStory : '0.9.0.1 : Optimising.' + #13#10
+                                                         + '0.9.0.0 : Gestion en place et testée.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
 
@@ -42,7 +43,6 @@ type
     procedure p_setAutoDrawDisabled ( AValue: Boolean ); virtual;
   public
     constructor Create(TheOwner: TComponent); override;
-    destructor Destroy; override;
     procedure Loaded ; override;
     property ButtonGet: TToolButton read FButtonGet;
   published
@@ -107,13 +107,6 @@ begin
   FAutoDrawDisabled := True;
 end;
 
-destructor TExtMenuToolBar.Destroy;
-begin
-  inherited Destroy;
-  if assigned ( FButtonGet ) Then
-    FButtonGet.Free;
-end;
-
 procedure TExtMenuToolBar.SetMenu(Value: TMenu);
 {$IFNDEF FPC}
 var lbmp_Bitmap : TBitmap;
@@ -129,7 +122,7 @@ begin
     Begin
       if not assigned ( FButtonGet ) Then
         Begin
-          FButtonGet:= TToolButton.Create(nil);
+          FButtonGet:= TToolButton.Create(Self);
           FButtonGet.Name := 'Button_' + Name + '_Customize' ;
           FButtonGet.Tag:= MenuToolbar_TagCustomizeButton;
           FButtonGet.Caption:= GS_TOOLBARMENU_Personnaliser;
