@@ -21,7 +21,6 @@ interface
 uses
 {$IFDEF FPC}
    LCLType,
-   RxDBGrid,
 {$ELSE}
    Windows,
 {$ENDIF}
@@ -33,6 +32,12 @@ uses
   Messages, DB,
 {$IFDEF TNT}
   TntDBGrids,
+{$ELSE}
+  {$IFDEF FPC}
+   RxDBGrid,
+  {$ELSE}
+   RxDBCtrl,
+  {$ENDIF}
 {$ENDIF}
 {$IFDEF EXRX}
   ExRXDBGrid,
@@ -56,7 +61,7 @@ const
 
    { TExtGridColumn }
 type
-   TExtGridColumn = class({$IFDEF TNT}TTntColumn{$ELSE}TRxColumn{$ENDIF})
+   TExtGridColumn = class({$IFDEF TNT}TTntColumn{$ELSE}{$IFDEF FPC}TRxColumn{$ELSE}TColumn{$ENDIF}{$ENDIF})
    private
      FOldControlKeyUp   , FOldControlKeyDown,
      FAfterControlKeyUp , FAfterControlKeyDown : TKeyEvent;
@@ -83,7 +88,7 @@ type
 
    { TExtDbGridColumns }
 
-   TExtDbGridColumns = class({$IFDEF TNT}TTntDBGridColumns{$ELSE}TRxDbGridColumns{$ENDIF})
+   TExtDbGridColumns = class({$IFDEF TNT}TTntDBGridColumns{$ELSE}{$IFDEF FPC}TRxDbGridColumns{$ELSE}TDBGridColumns{$ENDIF}{$ENDIF})
    private
      function GetColumn ( Index: Integer): TExtGridColumn;
      procedure SetColumn( Index: Integer; const Value: TExtGridColumn);
