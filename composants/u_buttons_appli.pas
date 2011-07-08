@@ -25,14 +25,14 @@ uses
 const
 {$IFDEF VERSIONS}
     gVer_buttons_appli : T_Version = ( Component : 'Boutons personnalisés' ;
-                                               FileUnit : 'u_buttons_appli' ;
-                                               Owner : 'Matthieu Giroux' ;
-                                               Comment : 'Composants boutons personnalisés.' ;
-                                               BugsStory : '1.0.0.0 : Version OK.'+ #13#10
-                                                         + '0.8.0.1 : Group view buttons better.'+ #13#10
-                                                         + '0.8.0.0 : Gestion à tester.';
-                                               UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                                       FileUnit : 'u_buttons_appli' ;
+                                       Owner : 'Matthieu Giroux' ;
+                                       Comment : 'Composants boutons personnalisés.' ;
+                                       BugsStory : '1.0.0.0 : Version OK.'+ #13#10
+                                                 + '0.8.0.1 : Group view buttons better.'+ #13#10
+                                                 + '0.8.0.0 : Gestion à tester.';
+                                       UnitType : 3 ;
+                                       Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 {$ENDIF}
 {$IFDEF FPC}
    CST_FWBEGIN_Component = '' ;

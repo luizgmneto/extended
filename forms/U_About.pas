@@ -25,7 +25,7 @@ uses
 {$ELSE}
   Windows,
 {$ENDIF}
-  virtualtrees,
+  VirtualTrees,
   Classes,
   Graphics,
   Forms,

@@ -60,6 +60,7 @@ procedure p_SetFileToStream ( const afile : String; const Stream : TStream ; con
 procedure p_SetStreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean );
 procedure p_SetFileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean );
 procedure p_SetFileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean );
+procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TBitmap; const ai_Taille : Integer );
 
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
                                   const ab_AjouteBitmap      ,
@@ -78,11 +79,6 @@ function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
 // Entrée : Le Bitmap source
 // Sortie : Le petit bitmap
 procedure p_RecuperePetitBitmap ( const abmp_BitmapOrigine : TBitmap );
-
-// Transforme un bitmap en tout petit bitmap
-// Entrée : Le Bitmap source
-// Sortie : Le petit bitmap
-procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TBitmap; const ai_Taille : Integer );
 
 // Transformation d'un champ image en TPersistent ( Faire un assign sur TIcon ensuite )
 // aFie_FieldImage     : Champ image

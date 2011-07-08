@@ -161,6 +161,12 @@ begin
           FButtonGet.Style:= tbsButton;
           FButtonGet.Visible:=True;
         end;
+      // At the end
+      if ControlCount > 0 Then
+        with Controls [ ControlCount - 1 ] do
+          if Width > Height
+           Then FButtonGet.Left  := Left + Width
+           else FButtonGet.Top   := Top  + Height ;
       FButtonGet.Parent := Self;
     end;
   p_setAutoDrawDisabled ( FAutoDrawDisabled );

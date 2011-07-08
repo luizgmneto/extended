@@ -63,16 +63,19 @@ Procedure p_ConcatVersion ( const aver_Version : T_Version );
 
 Begin
   setLength ( gt_Versioning, high ( gt_Versioning ) + 2 );
-  gt_Versioning [ high ( gt_Versioning )].Component := aver_Version.Component ;
-  gt_Versioning [ high ( gt_Versioning )].FileUnit      := aver_Version.FileUnit ;
-  gt_Versioning [ high ( gt_Versioning )].Owner       := aver_Version.Owner ;
-  gt_Versioning [ high ( gt_Versioning )].Comment     := aver_Version.Comment ;
-  gt_Versioning [ high ( gt_Versioning )].BugsStory   := aver_Version.BugsStory ;
-  gt_Versioning [ high ( gt_Versioning )].UnitType    := aver_Version.UnitType ;
-  gt_Versioning [ high ( gt_Versioning )].Major       := aver_Version.Major ;
-  gt_Versioning [ high ( gt_Versioning )].Minor       := aver_Version.Minor ;
-  gt_Versioning [ high ( gt_Versioning )].Release     := aver_Version.Release ;
-  gt_Versioning [ high ( gt_Versioning )].Build       := aver_Version.Build ;
+  with gt_Versioning [ high ( gt_Versioning )] do
+    Begin
+      Component   := aver_Version.Component ;
+      FileUnit    := aver_Version.FileUnit ;
+      Owner       := aver_Version.Owner ;
+      Comment     := aver_Version.Comment ;
+      BugsStory   := aver_Version.BugsStory ;
+      UnitType    := aver_Version.UnitType ;
+      Major       := aver_Version.Major ;
+      Minor       := aver_Version.Minor ;
+      Release     := aver_Version.Release ;
+      Build       := aver_Version.Build ;
+    end;
 End ;
 
 procedure p_AboutComponent ( const aver_Version : T_Version );
