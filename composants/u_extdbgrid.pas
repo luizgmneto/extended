@@ -38,9 +38,13 @@ uses
   {$ELSE}
    RxDBCtrl,
   {$ENDIF}
-{$ENDIF}
 {$IFDEF EXRX}
   ExRXDBGrid,
+{$ELSE}
+  {$IFDEF JEDI}
+   JvDBUltimGrid,
+  {$ENDIF}
+{$ENDIF}
 {$ENDIF}
   DBGrids, Controls;
 
