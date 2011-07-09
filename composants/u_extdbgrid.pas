@@ -33,18 +33,19 @@ uses
 {$IFDEF TNT}
   TntDBGrids,
 {$ELSE}
-  {$IFDEF FPC}
-   RxDBGrid,
-  {$ELSE}
-   RxDBCtrl,
-  {$ENDIF}
 {$IFDEF EXRX}
   ExRXDBGrid,
 {$ELSE}
   {$IFDEF JEDI}
    JvDBUltimGrid,
+  {$ELSE}
+    {$IFDEF FPC}
+     RxDBGrid,
+    {$ELSE}
+     RxDBCtrl,
+    {$ENDIF}
+    {$ENDIF}
   {$ENDIF}
-{$ENDIF}
 {$ENDIF}
   DBGrids, Controls;
 
