@@ -259,7 +259,7 @@ Begin
       Connexion.Password     := Inifile.ReadString ( gs_DataSectionIni, gs_DataPasswordIni, '' ) ;
       Connexion.User         := Inifile.ReadString ( gs_DataSectionIni, gs_DataUserNameIni, '' ) ;
       Connexion.catalog      := Inifile.ReadString ( gs_DataSectionIni, gs_DataCatalogIni    , '' ) ;
-      p_SetCaractersZEOSConnector(Connexion, Inifile.ReadString ( gs_DataSectionIni, gs_DataCollationIni    , 'UTF8' ));
+      p_SetCaractersZEOSConnector(Connexion, Inifile.ReadString ( gs_DataSectionIni, gs_DataCollationIni    , Inifile.ReadString ( gs_DataSectionIni, gs_DataCollationIni    , 'UTF8' )));
     End ;
   if ( Connexion.Database = '' )
   or not ( fb_TestZConnection ( Connexion, Test )) Then

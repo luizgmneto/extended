@@ -217,7 +217,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
     Top = 61
     Width = 376
     Height = 21
-    ItemHeight = 13
+    ItemHeight = 0
     MaxLength = 65535
     TabOrder = 9
   end
