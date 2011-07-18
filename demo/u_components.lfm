@@ -385,7 +385,7 @@ inherited Myform: TMyform
     end
     object FWMemo: TFWMemo
       Left = 371
-      Height = 214
+      Height = 240
       Top = 16
       Width = 136
       Color = clMoneyGreen
@@ -424,7 +424,6 @@ inherited Myform: TMyform
       MaxLength = 100
       TabOrder = 6
       SearchDisplay = 'NOM'
-      SearchKey = 'CLEP'
       SearchSource = Datasource3
       MyLabel = Search
     end

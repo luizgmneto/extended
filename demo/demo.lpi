@@ -57,11 +57,12 @@
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="demo"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="53" Y="19"/>
+        <CursorPos X="37" Y="18"/>
         <UsageCount Value="75"/>
-        <LoadedDesigner Value="True"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -145,10 +146,14 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="77"/>
-        <CursorPos X="73" Y="109"/>
+        <TopLine Value="68"/>
+        <CursorPos X="3" Y="91"/>
         <UsageCount Value="14"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -252,10 +257,12 @@
       <Unit23>
         <Filename Value="../fonctions/fonctions_proprietes.pas"/>
         <UnitName Value="fonctions_proprietes"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="101"/>
-        <CursorPos X="1" Y="124"/>
+        <TopLine Value="105"/>
+        <CursorPos X="139" Y="118"/>
         <UsageCount Value="12"/>
+        <Loaded Value="True"/>
       </Unit23>
       <Unit24>
         <Filename Value="/usr/lib/lazarus/0.9.30/lcl/widgetset/wscontrols.pp"/>
@@ -304,10 +311,12 @@
       </Unit29>
       <Unit30>
         <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/control.inc"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="4163"/>
-        <CursorPos X="1" Y="4188"/>
+        <TopLine Value="3166"/>
+        <CursorPos X="1" Y="3189"/>
         <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit30>
       <Unit31>
         <Filename Value="/usr/lib/lazarus/0.9.30/lcl/lclmessageglue.pas"/>
@@ -458,20 +467,16 @@
         <TopLine Value="40"/>
         <CursorPos X="8" Y="5"/>
         <UsageCount Value="13"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit49>
       <Unit50>
         <Filename Value="../forms/u_customizemenu.pas"/>
         <ComponentName Value="F_CustomizeMenu"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_CustomizeMenu"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="18" Y="20"/>
+        <CursorPos X="127" Y="14"/>
         <UsageCount Value="28"/>
-        <Loaded Value="True"/>
       </Unit50>
       <Unit51>
         <Filename Value="../composants/u_buttons_appli.pas"/>
@@ -532,11 +537,19 @@
         <UsageCount Value="10"/>
       </Unit57>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
+    <JumpHistory Count="3" HistoryIndex="2">
       <Position1>
-        <Filename Value="../forms/u_customizemenu.pas"/>
-        <Caret Line="42" Column="3" TopLine="2"/>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="18" Column="37" TopLine="1"/>
       </Position1>
+      <Position2>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="91" Column="3" TopLine="68"/>
+      </Position2>
+      <Position3>
+        <Filename Value="../fonctions/fonctions_proprietes.pas"/>
+        <Caret Line="124" Column="1" TopLine="101"/>
+      </Position3>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
