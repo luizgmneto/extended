@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="3" Build="7"/>
-    <Files Count="27">
+    <Files Count="26">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.lrs"/>
         <Type Value="LRS"/>
@@ -81,58 +81,53 @@
         <UnitName Value="U_ExtNumEdits"/>
       </Item14>
       <Item15>
-        <Filename Value="composants/u_regframeworkcomponents.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="u_regframeworkcomponents"/>
-      </Item15>
-      <Item16>
         <Filename Value="composants/U_ExtDBNavigator.lrs"/>
         <Type Value="LRS"/>
-      </Item16>
-      <Item17>
+      </Item15>
+      <Item16>
         <Filename Value="composants/U_ExtDBNavigator.pas"/>
         <UnitName Value="U_ExtDBNavigator"/>
-      </Item17>
-      <Item18>
+      </Item16>
+      <Item17>
         <Filename Value="composants/U_FormMainIni.pas"/>
         <UnitName Value="U_FormMainIni"/>
-      </Item18>
-      <Item19>
+      </Item17>
+      <Item18>
         <Filename Value="composants/U_ExtDBImage.pas"/>
         <UnitName Value="U_ExtDBImage"/>
-      </Item19>
-      <Item20>
+      </Item18>
+      <Item19>
         <Filename Value="composants/u_framework_dbcomponents.pas"/>
         <UnitName Value="u_framework_dbcomponents"/>
-      </Item20>
-      <Item21>
+      </Item19>
+      <Item20>
         <Filename Value="composants/u_extsearchedit.pas"/>
         <UnitName Value="u_extsearchedit"/>
-      </Item21>
-      <Item22>
+      </Item20>
+      <Item21>
         <Filename Value="composants/U_ExtComboInsert.pas"/>
         <UnitName Value="U_ExtComboInsert"/>
-      </Item22>
-      <Item23>
+      </Item21>
+      <Item22>
         <Filename Value="composants/u_extdbgrid.pas"/>
         <UnitName Value="u_extdbgrid"/>
-      </Item23>
-      <Item24>
+      </Item22>
+      <Item23>
         <Filename Value="composants/u_extmenutoolbar.pas"/>
         <UnitName Value="u_extmenutoolbar"/>
-      </Item24>
-      <Item25>
+      </Item23>
+      <Item24>
         <Filename Value="forms/u_customizemenu.lfm"/>
         <Type Value="LFM"/>
-      </Item25>
-      <Item26>
+      </Item24>
+      <Item25>
         <Filename Value="forms/u_customizemenu.pas"/>
         <UnitName Value="U_CustomizeMenu"/>
-      </Item26>
-      <Item27>
+      </Item25>
+      <Item26>
         <Filename Value="composants/u_extmenucustomize.pas"/>
         <UnitName Value="u_extmenucustomize"/>
-      </Item27>
+      </Item26>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="10">

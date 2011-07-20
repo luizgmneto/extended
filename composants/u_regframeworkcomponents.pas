@@ -37,7 +37,9 @@ begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TDBListView,TExtDBNavigator,
                                                 TExtDBImage,TExtDBNumEdit, TExtDBComboInsert,
                                                 TExtDBColorCombo, TExtSearchDBEdit,
-                                                TFWDBEdit,TFWDBLookupCombo,TExtDBGrid,TFWDBMemo,TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF}]);
+                                                TFWDBEdit,TFWDBLookupCombo,TExtDBGrid,TFWDBMemo,
+                                                TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF},
+                                                TFWFillCombo]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtNumEdit,
                                                 TExtColorCombo, TExtMenuToolBar,
                                                 TFWLabel, TFWEdit,TFWGrid,TFWMemo,TFWDateEdit]);
