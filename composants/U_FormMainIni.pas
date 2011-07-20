@@ -219,9 +219,6 @@ type
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
     function fb_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ; var afor_Reference; const ab_Ajuster : Boolean ): Boolean; overload ; virtual;
 
-    // Création d'une form MDI renvoie True si la form existe
-    // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
-    function fp_CreateChild ( const as_FormNom, as_FormClasse : string ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean ; const aico_Icon : TIcon ): Pointer; virtual;
 
     function ffor_getForm   ( const as_FormNom, as_FormClasse : string  ): TForm; overload ; virtual;
 
@@ -230,7 +227,10 @@ type
     // Création d'une form MDI avec changement du style Form
     // renvoie True si la form existe
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
-    function fb_CreateChild ( afor_FormClasse : TFormClass; var afor_Reference : TCustomForm ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean ; const aico_Icon : TIcon ) : Boolean ; virtual;
+    function ffor_CreateChild ( afor_FormClasse : TFormClass; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean ; const aico_Icon : TIcon ): TCustomForm; virtual;
+    // Création d'une form MDI renvoie True si la form existe
+    // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
+    function fp_CreateChild ( const as_FormNom, as_FormClasse : string ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean ; const aico_Icon : TIcon ): Pointer; virtual;
 
     // Création d'une form modal
     // renvoie True si la form existe
@@ -1126,35 +1126,33 @@ end;
 // afor_FormClasse   : classe   de la form
 // afor_Reference    : variable de la form
 // newFormStyle      : style    de la form à mettre
-function TF_FormMainIni.fb_CreateChild ( afor_FormClasse : TFormClass; var afor_Reference : TCustomForm ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean; const aico_Icon : TIcon  ) : Boolean ;
+function TF_FormMainIni.ffor_CreateChild ( afor_FormClasse : TFormClass; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean; const aico_Icon : TIcon  ): TCustomForm;
 var
   li_i : integer;
   lico_icon : Ticon ;
 begin
-  Result := false ;
-  afor_Reference := nil ;
+  Result := nil ;
     // Recherche sûre de fiches quelconques
   For li_i := Application.ComponentCount - 1 downto 0
    do if (  Application.Components [ li_i ] is TCustomForm )
      and (( Application.Components [ li_i ] as TCustomForm ).ClassType = afor_FormClasse )
     Then
       Begin
-        afor_Reference := TCustomForm ( Application.Components [ li_i ] );
-        Result := True ;
+        Result := TCustomForm ( Application.Components [ li_i ]);
       End ;
 
       //Création si nil
-  if ( afor_Reference = nil )
+  if ( Result = nil )
     Then
      Begin
-      Application.CreateForm ( afor_FormClasse, afor_Reference );
+      Application.CreateForm ( afor_FormClasse, Result );
      End ;
   If  assigned ( aico_Icon      )
-  and assigned ( afor_Reference )
-  and (fobj_getComponentObjectProperty ( afor_Reference, 'Icon' ) is TIcon )
+  and assigned ( Result )
+  and (fobj_getComponentObjectProperty ( Result, 'Icon' ) is TIcon )
    Then
     Begin
-      lico_icon := TIcon ( fobj_getComponentObjectProperty ( afor_Reference, 'Icon' ));
+      lico_icon := TIcon ( fobj_getComponentObjectProperty ( Result, 'Icon' ));
       if assigned ( lico_icon ) then
         Begin
           lico_icon.Modified := False ;
@@ -1169,15 +1167,15 @@ begin
           lico_icon.Modified := True ;
           lico_icon.PaletteModified := True ;
 
-          afor_Reference.Invalidate ;
+          Result.Invalidate ;
 
         End;
     End ;
     // Mise à jour de la form
-  if Assigned(afor_Reference)
+  if Assigned(Result)
   and ab_Ajuster
-  and ( afor_Reference is TCustomForm ) then
-    fb_setNewFormStyle ( afor_Reference as TCustomForm , newFormStyle, ab_Ajuster );
+  and ( Result is TCustomForm ) then
+    fb_setNewFormStyle ( Result as TCustomForm , newFormStyle, ab_Ajuster );
 end;
 
 // Création d'une form modal
@@ -1749,7 +1747,7 @@ begin
             afor_Form.Free ;
             afor_Form := Nil ;
             p_IniDeleteSection ( lcln_FormName );
-            fb_CreateChild ( TFormClass ( lclt_ClassType ), afor_Form, lfs_FormStyle, False, lico_Icone );
+            afor_Form := ffor_CreateChild ( TFormClass ( lclt_ClassType ), lfs_FormStyle, False, lico_Icone );
             if assigned ( afor_Form ) Then
               Begin
                 fb_setNewFormStyle ( afor_Form, lfs_FormStyle, lb_Modal, lwst_WindowState, lpos_Position );

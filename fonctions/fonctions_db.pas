@@ -440,12 +440,16 @@ Begin
   if ( adat_Dataset is TCustomADODataset ) Then
     Begin
      ( adat_Dataset as TCustomADODataset ).UpdateBatch(arAll);
-    End
-   else
-  {$ENDIF}
-  {$IFDEF FPC}
-    adat_Dataset.Refresh;
-  {$ENDIF}
+    End;
+  {$ELSE}
+   {$IFDEF FPC}
+     adat_Dataset.Refresh;
+   {$ELSE}
+     adat_Dataset.Close;
+     adat_Dataset.Open;
+   {$ENDIF}
+ {$ENDIF}
+
 End ;
 
 function fs_AjouteRechercheClePrimaire ( const adat_Dataset         : TDataset    ;
