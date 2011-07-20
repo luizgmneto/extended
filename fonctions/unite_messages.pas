@@ -1,4 +1,4 @@
-unit unite_messages;
+﻿unit unite_messages;
 
 interface
 
@@ -40,6 +40,7 @@ const
   CST_CONNECTION_TIMEOUT_DEFAUT : Integer = 15 ;
   CST_ASYNCHRONE_NB_ENREGISTREMENTS : Integer = 300 ;
   CST_CONNECTION_TIMEOUT = 'Connection TimeOut' ;
+  CST_FORM_ONCLOSE = 'OnClose' ;
  {$IFDEF EADO}
   CST_Set_KEYSET = 'Set Keyset' ;
   CST_MODE_ASYNCHRONE = 'Mode Asynchrone' ;

@@ -387,7 +387,11 @@ procedure TFWClose.Click;
 begin
   if not assigned ( OnClick )
   and ( Owner is TCustomForm ) then
-    ( Owner as TCustomForm ).Close;
+    with Owner as TCustomForm do
+     Begin
+      Close;
+      Exit;
+     End;
   inherited;
 
 end;

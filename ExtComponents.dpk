@@ -1,6 +1,7 @@
 package ExtComponents;
 
 {$R *.res}
+{$R 'composants\u_buttons_appli.dcr'}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}

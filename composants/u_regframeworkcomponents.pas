@@ -38,8 +38,7 @@ begin
                                                 TExtDBImage,TExtDBNumEdit, TExtDBComboInsert,
                                                 TExtDBColorCombo, TExtSearchDBEdit,
                                                 TFWDBEdit,TFWDBLookupCombo,TExtDBGrid,TFWDBMemo,
-                                                TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF},
-                                                TFWFillCombo]);
+                                                TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF}]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtNumEdit,
                                                 TExtColorCombo, TExtMenuToolBar,
                                                 TFWLabel, TFWEdit,TFWGrid,TFWMemo,TFWDateEdit]);
