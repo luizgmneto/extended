@@ -48,11 +48,12 @@ uses
                                        FileUnit : 'U_FormMainIni' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Fiche principale deuxième version.' ;
-                                       BugsStory : '1.1.0.1 : No static method on protected and public.' + #13#10
+                                       BugsStory : '1.1.0.2 : Some fb_CreateChild to fp_CreateChild, Creating p_CloseForm from p_CloseMDI.' + #13#10
+                                                 + '1.1.0.1 : No static method on protected and public.' + #13#10
                                                  + '1.1.0.0 : Passage en générique.' + #13#10
                                                  + '1.0.0.0 : Gestion INI, de fiches et du clavier.';
                                        UnitType : 3 ;
-                                       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 1 );
+                                       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
 
 {$ENDIF}
 type
@@ -207,6 +208,7 @@ type
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form
     function ffor_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ): TForm; overload ; virtual;
     function fi_FindForm ( const as_FormNom : string ) : Integer; virtual;
+    procedure p_CloseForm ( const as_FormNom : string ); virtual;
 
     procedure p_SetChildForm ( const afor_Reference: TCustomForm; const  afs_newFormStyle : TFormStyle ); virtual;
 
@@ -219,7 +221,7 @@ type
 
     // Création d'une form MDI renvoie True si la form existe
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
-    function fb_CreateChild ( const as_FormNom, as_FormClasse : string ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean ; const aico_Icon : TIcon ): Boolean; overload ; virtual;
+    function fp_CreateChild ( const as_FormNom, as_FormClasse : string ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean ; const aico_Icon : TIcon ): Pointer; virtual;
 
     function ffor_getForm   ( const as_FormNom, as_FormClasse : string  ): TForm; overload ; virtual;
 
@@ -228,7 +230,7 @@ type
     // Création d'une form MDI avec changement du style Form
     // renvoie True si la form existe
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
-    function fb_CreateChild ( afor_FormClasse : TFormClass; var afor_Reference : TCustomForm ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean ; const aico_Icon : TIcon ) : Boolean ; overload ; virtual;
+    function fb_CreateChild ( afor_FormClasse : TFormClass; var afor_Reference : TCustomForm ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean ; const aico_Icon : TIcon ) : Boolean ; virtual;
 
     // Création d'une form modal
     // renvoie True si la form existe
@@ -1072,6 +1074,18 @@ begin
 
 end;
 
+procedure TF_FormMainIni.p_CloseForm(const as_FormNom: string);
+var
+ li_existe : integer;
+begin
+  li_existe := fi_FindForm ( as_FormNom );
+
+  if  li_existe <> - 1 then
+    begin
+      (TCustomForm ( Application.Components [li_existe])).Free;
+    end;
+end;
+
 
 // procedure TF_FormMainIni.p_SetChildForm
 // Setting FormStyle
@@ -1254,27 +1268,24 @@ End ;
 // as_FormNom        : nom      de la form
 // afor_FormClasse   : classe   de la form
 // newFormStyle      : style    de la form à mettre
-function TF_FormMainIni.fb_CreateChild(const as_FormNom, as_FormClasse: string; const newFormStyle: TFormStyle; const ab_Ajuster: Boolean; const aico_Icon : TIcon): Boolean;
+function TF_FormMainIni.fp_CreateChild(const as_FormNom, as_FormClasse: string; const newFormStyle: TFormStyle; const ab_Ajuster: Boolean; const aico_Icon : TIcon): Pointer;
 var
-  lp_Reference: Pointer;
   lper_ClasseForm : TComponentClass ;
   lb_Unload : Boolean ;
 
 begin
-  // Initialisation
-  Result          := False;
   // Recherche la form
-  lp_Reference    := ffor_getForm ( as_FormNom, as_FormClasse );
+  Result    := ffor_getForm ( as_FormNom, as_FormClasse );
 
   // Form non trouvée : on crée
-  if not Assigned(lp_Reference) then
+  if not Assigned(Result) then
     Begin
         // Recherche la classe de la form dans cette unité
         lper_ClasseForm := TComponentClass ( fper_FindClass ( as_FormClasse ));
 
         if Assigned(lper_ClasseForm)
         // Rapide : on a trouvé la form dans cette unité
-         Then Application.CreateForm ( lper_ClasseForm              , lp_Reference )
+         Then Application.CreateForm ( lper_ClasseForm              , Result )
          Else
            Begin
              try
@@ -1285,46 +1296,42 @@ begin
              // Lent form trouvée dans delphi
              if Assigned(lper_ClasseForm)
               Then
-               Application.CreateForm ( lper_ClasseForm, lp_Reference );
+               Application.CreateForm ( lper_ClasseForm, Result );
            End ;
     // Assigne l'icône si existe
       If assigned ( aico_Icon    )
-      and Assigned( lp_Reference )
+      and Assigned( Result )
        Then
         Begin
-          ( TForm ( lp_Reference )).Icon.Modified := False ;
-          ( TForm ( lp_Reference )).Icon.PaletteModified := False ;
-          if ( TForm ( lp_Reference )).Icon.Handle <> 0 Then
+          ( TForm ( Result )).Icon.Modified := False ;
+          ( TForm ( Result )).Icon.PaletteModified := False ;
+          if ( TForm ( Result )).Icon.Handle <> 0 Then
             Begin
-              ( TForm ( lp_Reference )).Icon.ReleaseHandle ;
-              ( TForm ( lp_Reference )).Icon.CleanupInstance ;
+              ( TForm ( Result )).Icon.ReleaseHandle ;
+              ( TForm ( Result )).Icon.CleanupInstance ;
             End ;
-          ( TForm ( lp_Reference )).Icon.Handle := 0 ;
-          ( TForm ( lp_Reference )).Icon.width  := 16 ;
-          ( TForm ( lp_Reference )).Icon.Height := 16 ;
-          ( TForm ( lp_Reference )).Icon.Assign ( aico_Icon );
-          ( TForm ( lp_Reference )).Icon.Modified := True ;
-          ( TForm ( lp_Reference )).Icon.PaletteModified := True ;
+          ( TForm ( Result )).Icon.Handle := 0 ;
+          ( TForm ( Result )).Icon.width  := 16 ;
+          ( TForm ( Result )).Icon.Height := 16 ;
+          ( TForm ( Result )).Icon.Assign ( aico_Icon );
+          ( TForm ( Result )).Icon.Modified := True ;
+          ( TForm ( Result )).Icon.PaletteModified := True ;
 
-          ( TForm ( lp_Reference )).Invalidate ;
+          ( TForm ( Result )).Invalidate ;
 
         End ;
 
 //      ShowMessage('Fiche ' + afor_FormClasse + ' non enregistrée ( Utiliser RegisterClasses dans la création du projet )');
-    end
-  else
-    // On a trouvé la form sans créer
-    Result := True ;
-
+    end;
     // Paramètre d'affichage
-  if Assigned(lp_Reference)
+  if Assigned(Result)
   and ab_Ajuster then
     Begin
-      lb_Unload := fb_getComponentBoolProperty ( TComponent( lp_Reference ), 'DataUnload' );
+      lb_Unload := fb_getComponentBoolProperty ( TComponent( Result ), 'DataUnload' );
       if not lb_Unload Then
-        fb_setNewFormStyle( TForm ( lp_Reference ), newFormStyle, ab_Ajuster)
+        fb_setNewFormStyle( TForm ( Result ), newFormStyle, ab_Ajuster)
       else 
-        ( TForm ( lp_Reference )).Free ;
+        ( TForm ( Result )).Free ;
     End ;
 end;
 

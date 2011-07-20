@@ -82,8 +82,6 @@ type
        property Glyph stored False;
      End;
 
-{ TFWCancel }
-
    { TFWAbort }
 
    TFWAbort = class ( TJvXPButton,IFWButton )
