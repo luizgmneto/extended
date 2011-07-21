@@ -48,12 +48,13 @@ uses
                                        FileUnit : 'U_FormMainIni' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Fiche principale deuxième version.' ;
-                                       BugsStory : '1.1.0.2 : Some fb_CreateChild to fp_CreateChild, Creating p_CloseForm from p_CloseMDI.' + #13#10
+                                       BugsStory : '1.1.1.0 : Changing fi_findForm to ffor_findForm.' + #13#10
+                                                 + '1.1.0.2 : Some fb_CreateChild to fp_CreateChild, Creating p_CloseForm from p_CloseMDI.' + #13#10
                                                  + '1.1.0.1 : No static method on protected and public.' + #13#10
                                                  + '1.1.0.0 : Passage en générique.' + #13#10
                                                  + '1.0.0.0 : Gestion INI, de fiches et du clavier.';
                                        UnitType : 3 ;
-                                       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
+                                       Major : 1 ; Minor : 1 ; Release : 1 ; Build : 0 );
 
 {$ENDIF}
 type
@@ -207,7 +208,7 @@ type
     // Création d'une form MDI renvoie la form si existe
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form
     function ffor_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ): TForm; overload ; virtual;
-    function fi_FindForm ( const as_FormNom : string ) : Integer; virtual;
+    function ffor_FindForm ( const as_FormNom : string ) : TCustomForm; virtual;
     procedure p_CloseForm ( const as_FormNom : string ); virtual;
 
     procedure p_SetChildForm ( const afor_Reference: TCustomForm; const  afs_newFormStyle : TFormStyle ); virtual;
@@ -1037,9 +1038,8 @@ end;
 
     // Création d'une form MDI renvoie  la form qui existe
 function TF_FormMainIni.ffor_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ) : TForm;
-var
- li_existe : integer;
-afor_Reference : Pointer ;
+
+var afor_Reference : TCustomForm ;
 begin
   if ( FormStyle <> fsMDIForm )
    Then
@@ -1047,43 +1047,40 @@ begin
       Result := nil ;
       Exit ;
     End ;
-  li_existe := fi_FindForm ( as_FormNom );
+  afor_Reference := ffor_FindForm ( as_FormNom );
 
-  if  li_existe = - 1 then
-    begin
-      Application.CreateForm ( afor_FormClasse, afor_Reference );
-      Result := TForm ( afor_Reference );
-    end
-    else
-    begin
-      (TCustomForm ( Application.Components [li_existe])).BringToFront;
-      Result := TForm ( Application.Components [li_existe]);
-    end;
+  if afor_Reference = nil then
+    Application.CreateForm ( afor_FormClasse, afor_Reference )
+   else
+    afor_Reference.BringToFront;
+  Result := TForm ( afor_Reference );
 end;
 
     // Création d'une form MDI renvoie  la form qui existe
-function TF_FormMainIni.fi_FindForm ( const as_FormNom : string ) : Integer;
-var
-i : integer;
+function TF_FormMainIni.ffor_FindForm ( const as_FormNom : string ) : TCustomForm;
+
+var i : integer;
 begin
-  Result := -1;
+  Result := nil;
   // Cette recherche ne fonctionne qu'avec les forms mdi child
   for i := 0 to Application.ComponentCount - 1 do
     if ( Application.Components [ i ] is TCustomForm )
-    and ( Application.Components [ i ].Name = as_FormNom ) then Result := i;
+    and ( Application.Components [ i ].Name = as_FormNom ) then
+     Begin
+      Result := Application.Components [ i ] as TCustomForm;
+      Break;
+     end;
 
 end;
 
 procedure TF_FormMainIni.p_CloseForm(const as_FormNom: string);
 var
- li_existe : integer;
+ lfor_Reference : TCustomForm;
 begin
-  li_existe := fi_FindForm ( as_FormNom );
+  lfor_Reference := ffor_FindForm ( as_FormNom );
 
-  if  li_existe <> - 1 then
-    begin
-      (TCustomForm ( Application.Components [li_existe])).Free;
-    end;
+  if lfor_Reference <> nil then
+    lfor_Reference.Free;
 end;
 
 
@@ -1443,16 +1440,16 @@ end;
 // afor_Reference    : variable de la form
 function TF_FormMainIni.fb_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ; var afor_Reference ; const ab_Ajuster : Boolean ): Boolean;
 var
-  li_existe : integer;
+  lfor_Reference : TCustomForm;
 
 begin
   Result := False;
   // Pas mdi quitte sinon erreur
   if (FormStyle <> fsMDIForm) then Exit;
 
-  li_existe := fi_FindForm ( as_FormNom );
+  lfor_Reference := ffor_FindForm ( as_FormNom );
     // form pas trouvée
-  if (li_existe = - 1) then
+  if (lfor_Reference = nil ) then
     begin
       if not Assigned(TForm(afor_Reference)) then
         Application.CreateForm(afor_FormClasse, afor_Reference);
@@ -1461,7 +1458,7 @@ begin
   else
   // Si trouvée affiche
     begin
-      (TCustomForm ( Application.Components[li_existe])).BringToFront;
+      lfor_Reference.BringToFront;
       Result := True;
     end;
 end;
