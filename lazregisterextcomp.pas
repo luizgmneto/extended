@@ -7,14 +7,13 @@ unit lazregisterextcomp;
 interface
 
 uses
-  u_regframeworkcomponents, U_RegisterAppIni, LazarusPackageIntf;
+  u_regframeworkcomponents, LazarusPackageIntf;
 
 implementation
 
 procedure Register; 
 begin
   RegisterUnit('u_regframeworkcomponents', @u_regframeworkcomponents.Register); 
-  RegisterUnit('U_RegisterAppIni', @U_RegisterAppIni.Register); 
 end; 
 
 initialization

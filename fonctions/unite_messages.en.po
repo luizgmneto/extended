@@ -27,8 +27,8 @@ msgstr ""
 
 #: unite_messages.gs_deconnecter_annule
 #, fuzzy
-#| msgid "Annulation de la d#233connexion"
-msgid "Annulation de la déconnexion"
+#| msgid "Annulation de la déconnexion"
+msgid "#224G#184#177#28#0#0#0#28#0#0#0#17#0#236&#188#166#138#177#0#0#0#0#25#0#0#0"
 msgstr "Cancelling connection"
 
 #: unite_messages.gs_deleterecord
@@ -36,11 +36,11 @@ msgid "Supprimer l'enregistrement"
 msgstr ""
 
 #: unite_messages.gs_details_techniques
-msgid "Détails techniques : "
+msgid "#128#152#137#177#21#0#0#0#21#0#0#0#17#0l%#6syst"
 msgstr ""
 
 #: unite_messages.gs_ecriture_impossible
-msgid "Impossible d'écrire sur le fichier @ARG avec l'attribut de fichier @ARG."
+msgid "#0#175y#183H#0#0#0H#0#0#0#17#0l%#6system#0#0#0#0#0#17#0|%#224KG#183��#138#177 (#0#0#17#0#140%#6objpas#0#0#0#0#0#17#0#156%8#128#31#8#0#0#0#0"
 msgstr ""
 
 #: unite_messages.gs_editrecord
@@ -48,43 +48,36 @@ msgid "Modifier l'enregistrement"
 msgstr ""
 
 #: unite_messages.gs_erreur_connexion
-msgid ""
-"Un problème est survenu pour la connexion aux données.\n"
-"Réessayez d'ouvrir la fiche.\n"
+msgid "`#8#163#177T#0#0#0T#0#0#0#17#0#12'#28#167#138#177#188#166#138#1778#0#0#0#17#0#28',#167#138#177#12#167#138#177#0#0#0#0#17#0,'<#167#138#177#28#167#138#177#0#0#0#0#17#0<'L#167#138#177,#167#138#177#0#0#0#0#17#0L'\\#167#138#177"
 msgstr ""
 
 #: unite_messages.gs_erreur_modification_maj
 #, fuzzy
 #| msgid ""
-#| "de supprimer cet enregistrement.\n"
-#| "is#233 dans une autre fonction.\n"
+#| "Impossible de supprimer cet enregistrement.\n"
+#| "Il est utilisé dans une autre fonction.\n"
 msgctxt "unite_messages.GS_ERREUR_CONNEXION"
-msgid ""
-"Impossible de supprimer cet enregistrement.\n"
-"Il est utilisé dans une autre fonction.\n"
+msgid "`#8#163#177T#0#0#0T#0#0#0#17#0#236&#28#167#138#177#188#166#138#177#16#0#0#0#17#0#252&̦#138#177|#166#138#177T#0#0#0#17#0#12'#172#166#138#177#0#0#0#0-#0#0#0#17#0#28',#167#138#177즊#177#0#0#0#0#17#0,'<#167#138#177"
 msgstr "An error has occured while connecting to data"
 
 #: unite_messages.gs_erreur_nombre_grand
 msgid ""
-"Problème à la validation du nombre :\n"
-"Un nombre saisi est trop grand.\n"
-"Modifier la saisie ou annuler.\n"
+"#176>\n"
+"#178e#0#0#0e#0#0#0#17#0#236&|#166#138#177#252#166#138#177#30#0#0#0#17#0#252&즊#177#0#0#0#0G#0#0#0#17#0#12'̦#138#177|#166#138#177e#0#0#0#17#0#28',#167#138#177#172#166#138#177#0#0#0#0#17#0,'<#167#138#177#28#167#138#177#0#0#0#0#17#0<'L#167#138#177,\n"
 msgstr ""
 
 #: unite_messages.gs_erreur_ouverture
 #, fuzzy
-#| msgid "Erreur #224 l'ouverture @ARG."
-msgid "Erreur à l'ouverture @ARG."
+#| msgid "Erreur à l'ouverture @ARG."
+msgid "`F#184#177#26#0#0#0#26#0#0#0#17#0l%#6system#0#0#0"
 msgstr "Error opening @ARG."
 
 #: unite_messages.gs_erreur_reseau
 #, fuzzy
 #| msgid ""
-#| "3seau.\n"
-#| " la connexion r#233seau.\n"
-msgid ""
-"Erreur réseau.\n"
-"Vérifier la connexion réseau.\n"
+#| "Erreur réseau.\n"
+#| "Vérifier la connexion réseau.\n"
+msgid "#192-#0#0#0-#0#0#0#17#0#28',#167#138#177즊#177#0#0#0#0#17#0,'<#167#138#177#28#167#138#177#0#0#0#0#17"
 msgstr ""
 "Network error.\n"
 "Verify network connexion.\n"
@@ -98,7 +91,7 @@ msgid "Abandon de l'ouverture de la fiche @ARG..."
 msgstr ""
 
 #: unite_messages.gs_gotobookmarkrecord
-msgid "Aller à l'enregistrement Marqué"
+msgid "#0W#141#177#31#0#0#0#31#0#0#0#17#0#140&Rechercher#0#0#17#0#156"
 msgstr ""
 
 #: unite_messages.gs_groupview_abort
@@ -114,7 +107,7 @@ msgid "Enregistrer"
 msgstr ""
 
 #: unite_messages.gs_image_doit_etre
-msgid "La taille de l'image doit être de "
+msgid "#160W#141#177\"#0#0#0\"#0#0#0#17#0#12'#28#167#138#177#188#166#138#1778#0#0#0#17#0#28',#167"
 msgstr ""
 
 #: unite_messages.gs_image_hauteur
@@ -138,14 +131,14 @@ msgid "L'image est trop petite."
 msgstr "The picture must have a height of "
 
 #: unite_messages.gs_inserer_enregistrement
-msgid "Insérer un enregistrement"
+msgid "#160G#184#177#25#0#0#0#25#0#0#0#17#0#12'#28#167#138#177#188#166#138#1778"
 msgstr ""
 
 #: unite_messages.gs_insertrecord
 #, fuzzy
-#| msgid "Ins#233rer enregistrement"
+#| msgid "Insérer enregistrement"
 msgctxt "unite_messages.gs_insertrecord"
-msgid "Insérer enregistrement"
+msgid "#16#153#137#177#22#0#0#0#22#0#0#0#17#0l%#6syste"
 msgstr "Post record"
 
 #: unite_messages.gs_lastrecord
@@ -155,37 +148,37 @@ msgstr ""
 #: unite_messages.gs_mettre_a_jour_fiche
 #, fuzzy
 #| msgid ""
-#| "ement a #233t#233 effac#233 ou modifi#233 par un autre utilisateur.\n"
-#| " #234tre mise #224 jour.\n"
+#| "L'enregistrement a été effacé ou modifié par un autre utilisateur.\n"
+#| "La fiche va être mise à jour.\n"
 msgid ""
-"L'enregistrement a été effacé ou modifié par un autre utilisateur.\n"
-"La fiche va être mise à jour.\n"
+"#176>\n"
+"#178a#0#0#0a#0#0#0#17#0#28',#167#138#177ܦ#138#177#0#0#0#0#17#0,'<#167#138#177#28#167#138#177#0#0#0#0#17#0<'L#167#138#177,#167#138#177#0#0#0#0#17#0L'\\#167#138#177<#167#138#177#0#0#0#0#17#0\\'l#167#138#177L#167#138#177#0#0#0#0#17#0l'|\n"
 msgstr ""
 "The record has been modified or erased by another user.\n"
 "The form will be refreshed.\n"
 
 #: unite_messages.gs_movenextrecord
 #, fuzzy
-#| msgid "D#233placer l'enregistrement au suivant"
-msgid "Déplacer l'enregistrement au suivant"
+#| msgid "Déplacer l'enregistrement au suivant"
+msgid "#0W#141#177$#0#0#0$#0#0#0#17#0#140&Rechercher#0#0#17#0#156&#172#166#138#177"
 msgstr "Move record to next"
 
 #: unite_messages.gs_movepreviousrecord
 #, fuzzy
-#| msgid "D#233placer l'enregistrement au pr#233c#233dent"
-msgid "Déplacer l'enregistrement au précédent"
+#| msgid "Déplacer l'enregistrement au précédent"
+msgid "#0W#141#177&#0#0#0&#0#0#0#17#0#140&Rechercher#0#0#17#0#156&#172#166#138#177#0#0"
 msgstr "Move record to previous"
 
 #: unite_messages.gs_navigateur_vers_le_bas
 #, fuzzy
-#| msgid "D#233placer la ligne vers le bas"
-msgid "Déplacer la ligne vers le bas"
+#| msgid "Déplacer la ligne vers le bas"
+msgid "#160G#184#177#29#0#0#0#29#0#0#0#17#0#12'#28#167#138#177#188#166#138#1778#0#0#0#17"
 msgstr "Move line to bottom"
 
 #: unite_messages.gs_navigateur_vers_le_haut
 #, fuzzy
-#| msgid "D#233placer la ligne vers le haut"
-msgid "Déplacer la ligne vers le haut"
+#| msgid "Déplacer la ligne vers le haut"
+msgid "#160G#184#177#30#0#0#0#30#0#0#0#17#0#12'#28#167#138#177#188#166#138#1778#0#0#0#17#0"
 msgstr ""
 "Probl#232me #224 la validation du nombre :\n"
 "Un nombre saisi est trop grand.\n"
@@ -198,11 +191,9 @@ msgstr ""
 #: unite_messages.gs_pb_connexion
 #, fuzzy
 #| msgid ""
-#| "n a #233chou#233e.\n"
-#| "ntacter votre administrateur.\n"
-msgid ""
-"La connexion a échouée.\n"
-"Veuillez contacter votre administrateur.\n"
+#| "La connexion a échouée.\n"
+#| "Veuillez contacter votre administrateur.\n"
+msgid "pa#153#177A#0#0#0A#0#0#0#17#0#236&#188#166#138#177#0#0#0#0#25#0#0#0#17#0#252&#12#167#138#177̦#138#177#25#0#0#0#17#0#12'#28#167#138#177#252#166#138#1778#0#0#0#17#0#28',"
 msgstr ""
 "Cannot connect.\n"
 "Please contact you administrator.\n"
@@ -212,11 +203,11 @@ msgid "Valider modifications"
 msgstr ""
 
 #: unite_messages.gs_priorrecord
-msgid "Enregistrement précédent"
+msgid "`F#184#177#24#0#0#0#24#0#0#0#17#0l%#6system#0"
 msgstr ""
 
 #: unite_messages.gs_refreshrecord
-msgid "Rafraîchir les données"
+msgid "#16#153#137#177#22#0#0#0#22#0#0#0#17#0#140&#156#166#138#177#0#0"
 msgstr ""
 
 #: unite_messages.gs_searchrecord
@@ -238,11 +229,9 @@ msgstr ""
 #: unite_messages.gs_valeurs_utilisees
 #, fuzzy
 #| msgid ""
-#| " @ARG sont d#233j#224 utilis#233es.\n"
-#| "valeurs diff#233rentes, annuler ou r#233effectuer la validation si une valeur n'est pas modifiable.\n"
-msgid ""
-"Les valeurs @ARG sont déjà utilisées.\n"
-"Saisir des valeurs différentes, annuler ou réeffectuer la validation si une valeur n'est pas modifiable.\n"
+#| "Les valeurs @ARG sont déjà utilisées.\n"
+#| "Saisir des valeurs différentes, annuler ou réeffectuer la validation si une valeur n'est pas modifiable.\n"
+msgid "#16#153=#183#143#0#0#0#143#0#0#0#17#0#236&#252#166#138#177#0#0#0#0'#0#0#0#17#0#252&|#166#138#177즊#177h#0#0#0#17#0#12'̦#138#177|#166#138#177#143#0#0#0#17#0#28',#167#138#177#172#166#138#177#0#0#0#0#17#0,'<#167#138#177#28#167#138#177#0#0#0#0#17#0<'L#167#138#177,#167#138#177#0#0#0#0#17#0L'\\#167#138#177<#167#138#177#0#0#0#0#17#0\\'l#167#138#177L#167#138#177#0#0#0#0#17#0l"
 msgstr ""
 "The values @ARG are ever used.\n"
 "Modyify the values, cancel or revalidate if you cannot modify one value.\n"
@@ -250,11 +239,9 @@ msgstr ""
 #: unite_messages.gs_valeur_utilisee
 #, fuzzy
 #| msgid ""
-#| "ARG est d#233j#224 utilis#233e.\n"
-#| "valeur diff#233rente, annuler ou r#233effectuer la validation si une valeur n'est pas modifiable.\n"
-msgid ""
-"La valeur @ARG est déjà utilisée.\n"
-"Saisir une valeur différente, annuler ou réeffectuer la validation si une valeur n'est pas modifiable.\n"
+#| "La valeur @ARG est déjà utilisée.\n"
+#| "Saisir une valeur différente, annuler ou réeffectuer la validation si une valeur n'est pas modifiable.\n"
+msgid "`#229.#178#137#0#0#0#137#0#0#0#17#0#188&#12#167#138#177̦#138#177G#0#0#0#17#0#204&#188#166#138#177ܦ#138#177#1#0#0#0#17#0#220&̦#138#177|#166#138#177#137#0#0#0#17#0#236&|#166#138#177#252#166#138#177f#0#0#0#17#0#252&즊#177#0#0#0#0##0#0#0#17#0#12'#28#167#138#177#188#166#138#177##0#0#0#17#0#28',#167#138#177#12#167#138#177#0#0#0#0#17#0,'<#167#138#177#28#167#138#177#0"
 msgstr ""
 "The value @ARG is ever used.\n"
 "Modyify the value, cancel or revalidate if you cannot modify the value.\n"
