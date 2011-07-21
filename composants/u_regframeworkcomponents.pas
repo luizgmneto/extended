@@ -49,8 +49,8 @@ begin
   RegisterPropertyEditor ( TypeInfo(string), TExtSearchDBEdit, 'FieldKey'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
 end;
 
-initialization
 {$IFDEF FPC}
+initialization
   {$i u_framework_components.lrs}
   {$i u_framework_dbcomponents.lrs}
   {$I U_RegImageComponents.lrs}
@@ -62,6 +62,7 @@ initialization
   {$i U_ExtColorCombos.lrs}
   {$i U_ExtNumEdits.lrs}
   {$i u_extmenucustomize.lrs}
+  {$i u_extdbgrid.lrs}
 {$ENDIF}
 end.
 
