@@ -2,24 +2,27 @@
 <CONFIG>
   <Package Version="3">
     <Name Value="lazfonctions"/>
+    <AutoUpdate Value="Manually"/>
     <CompilerOptions>
-      <Version Value="8"/>
+      <Version Value="9"/>
       <SearchPaths>
-        <IncludeFiles Value="forms/"/>
-        <OtherUnitFiles Value="fonctions/;forms/;/home/giroux/Desktop/Matthieu/Programmation/Lazarus/composants/Toolbar97/Source/"/>
+        <IncludeFiles Value="forms"/>
+        <OtherUnitFiles Value="fonctions;forms;composants"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
         <SyntaxOptions>
           <CStyleOperator Value="False"/>
           <CPPInline Value="False"/>
+          <UseAnsiStrings Value="False"/>
         </SyntaxOptions>
       </Parsing>
       <Other>
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="18">
+    <Version Major="1" Release="2" Build="1"/>
+    <Files Count="19">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -29,8 +32,8 @@
         <UnitName Value="fonctions_erreurs"/>
       </Item2>
       <Item3>
-        <Filename Value="fonctions/fonctions_file.pas"/>
-        <UnitName Value="fonctions_file"/>
+        <Filename Value="fonctions/fonctions_db.pas"/>
+        <UnitName Value="fonctions_db"/>
       </Item3>
       <Item4>
         <Filename Value="fonctions/fonctions_images.pas"/>
@@ -57,61 +60,69 @@
         <UnitName Value="fonctions_variant"/>
       </Item9>
       <Item10>
-        <Filename Value="fonctions/fonctions_version.pas"/>
-        <UnitName Value="fonctions_version"/>
-      </Item10>
-      <Item11>
         <Filename Value="fonctions/fonctions_web.pas"/>
         <UnitName Value="fonctions_web"/>
-      </Item11>
-      <Item12>
+      </Item10>
+      <Item11>
         <Filename Value="fonctions/fonctions_array.pas"/>
         <UnitName Value="fonctions_array"/>
-      </Item12>
-      <Item13>
-        <Filename Value="forms/u_connection.lfm"/>
-        <Type Value="LFM"/>
-      </Item13>
-      <Item14>
-        <Filename Value="forms/u_connection.lrs"/>
-        <Type Value="LRS"/>
-      </Item14>
-      <Item15>
-        <Filename Value="forms/u_connection.pas"/>
-        <UnitName Value="U_Connection"/>
-      </Item15>
-      <Item16>
+      </Item11>
+      <Item12>
         <Filename Value="forms/u_zconnection.lfm"/>
         <Type Value="LFM"/>
+      </Item12>
+      <Item13>
+        <Filename Value="forms/u_zconnection.pas"/>
+        <UnitName Value="u_zconnection"/>
+      </Item13>
+      <Item14>
+        <Filename Value="fonctions/fonctions_dbcomponents.pas"/>
+        <UnitName Value="fonctions_dbcomponents"/>
+      </Item14>
+      <Item15>
+        <Filename Value="fonctions/fonctions_version.pas"/>
+        <UnitName Value="fonctions_version"/>
+      </Item15>
+      <Item16>
+        <Filename Value="fonctions/fonctions_objects.pas"/>
+        <UnitName Value="fonctions_objects"/>
       </Item16>
       <Item17>
-        <Filename Value="forms/u_zconnection.lrs"/>
+        <Filename Value="composants/u_buttons_appli.lrs"/>
         <Type Value="LRS"/>
       </Item17>
       <Item18>
-        <Filename Value="forms/u_zconnection.pas"/>
-        <UnitName Value="u_zconnection"/>
+        <Filename Value="composants/u_buttons_appli.pas"/>
+        <UnitName Value="u_buttons_appli"/>
       </Item18>
+      <Item19>
+        <Filename Value="composants/u_regfwbuttons.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regfwbuttons"/>
+      </Item19>
     </Files>
+    <i18n>
+      <OutDir Value="fonctions"/>
+    </i18n>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="7">
       <Item1>
-        <PackageName Value="zcomponent"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item1>
       <Item2>
-        <PackageName Value="zcore"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item2>
       <Item3>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="VampyreImagingPackage"/>
       </Item3>
       <Item4>
-        <PackageName Value="virtualtreeslcl"/>
+        <PackageName Value="LCL"/>
       </Item4>
       <Item5>
-        <PackageName Value="rxnew"/>
+        <PackageName Value="zcomponent"/>
       </Item5>
       <Item6>
-        <PackageName Value="LCL"/>
+        <PackageName Value="zcore"/>
       </Item6>
       <Item7>
         <PackageName Value="FCL"/>
