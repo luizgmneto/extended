@@ -100,14 +100,19 @@ type
     gb_Positif   : Boolean ;
     FMin         ,
     FMax         : Double ;
+    gb_Ismasked  ,
     FHasMin      ,
     FHasMax      : Boolean ;
+    procedure SetName(const NewName: TComponentName); override;
     function GetText: TCaption;
     procedure KeyPress(var Key: Char); override;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure p_SetValue ( AValue : Extended ); virtual;
     procedure SetFocused(AValue: Boolean); virtual;
-    function GetTextMargins: TPoint;
+    function GetTextMargins: TPoint; virtual;
+    procedure Setmask; virtual;
+    procedure p_SetNbAvVirgule ( const Avalue : Byte ); virtual;
+    procedure p_SetNbApVirgule ( const Avalue : Byte ); virtual;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -117,15 +122,15 @@ type
     procedure SetOrder ; virtual;
   published
     property EditMask ;
-    property IsMasked ;
+    property IsMasked read gb_Ismasked write gb_Ismasked default False;
     property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
     property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
     property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
     property Value : Extended read gre_AValue write p_SetValue stored True ;
     property NbPositive : Boolean read gb_Positif write gb_Positif stored True default CST_MC_POSITIVE ;
     property NbNegative : Boolean read gb_Negatif write gb_Negatif stored True default CST_MC_NEGATIVE ;
-    property NbBeforeComma : Byte read gby_NbAvVirgule write gby_NbAvVirgule stored True default CST_MC_BEFORECOMMA;
-    property NbAfterComma  : Byte read gby_NbApVirgule write gby_NbApVirgule stored True default CST_MC_AFTERCOMMA ;
+    property NbBeforeComma : Byte read gby_NbAvVirgule write p_SetNbAvVirgule stored True default CST_MC_BEFORECOMMA;
+    property NbAfterComma  : Byte read gby_NbApVirgule write p_SetNbApVirgule stored True default CST_MC_AFTERCOMMA ;
     property ColorLabel : TColor read FColorLabel write FColorLabel default CST_EDIT_SELECT ;
     property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
     property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
@@ -603,6 +608,7 @@ end;
 constructor TExtNumEdit.Create(AOwner: TComponent);
 begin
   inherited;
+  gb_Ismasked := False;
   FAlwaysSame := True;
   gby_NbAvVirgule := CST_MC_BEFORECOMMA ;
   gby_NbApVirgule := CST_MC_AFTERCOMMA ;
@@ -617,8 +623,6 @@ begin
   FHasMin := false;
   FHasMax := false;
   FNumRounded := nrNone;
-  EditMask := '#0' + DecimalSeparator + '#9;0; ';
-
 end;
 
 function TExtNumEdit.GetTextMargins: TPoint;
@@ -654,6 +658,40 @@ begin
     Result.X := I;
     Result.Y := I;
   end;
+end;
+
+procedure TExtNumEdit.Setmask;
+var ls_Mask : String;
+begin
+  if gb_Ismasked Then
+    Begin
+      ls_Mask := '#0';
+      if gby_NbApVirgule > 0 Then
+        ls_Mask := ls_Mask + DecimalSeparator + '#9' ;
+      ls_Mask := ';0; ';
+      EditMask := ls_Mask;
+
+    end;
+
+end;
+
+procedure TExtNumEdit.p_SetNbAvVirgule(const Avalue: Byte);
+begin
+  if Avalue <> gby_NbAvVirgule Then
+   Begin
+     gby_NbAvVirgule := Avalue;
+     SetMask;
+   end;
+end;
+
+procedure TExtNumEdit.p_SetNbApVirgule(const Avalue: Byte);
+begin
+  if Avalue <> gby_NbApVirgule Then
+   Begin
+     gby_NbApVirgule := Avalue;
+     SetMask;
+   end;
+
 end;
 
 
@@ -840,6 +878,12 @@ begin
     if Message.DC = 0 then EndPaint(Handle, PS);
   end;
 End;
+
+procedure TExtNumEdit.SetName(const NewName: TComponentName);
+begin
+  inherited SetName(NewName);
+  Text := '0' ;
+end;
 
 procedure TExtNumEdit.Loaded;
 begin

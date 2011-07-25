@@ -53,6 +53,7 @@ const
    CST_FWDOCUMENT=CST_FWBEGIN_Component+'TFWDOCUMENT';
    CST_FWPREVIEW=CST_FWBEGIN_Component+'TFWPREVIEW';
    CST_FWINIT=CST_FWBEGIN_Component+'TFWINIT';
+   CST_FWWIDTH_CLOSE_BUTTON = 80 ;
 {$IFDEF GROUPVIEW}
    CST_FWOUTSELECT=CST_FWBEGIN_Component+'TFWOUTSELECT';
    CST_FWINSELECT=CST_FWBEGIN_Component+'TFWINSELECT';
@@ -80,6 +81,7 @@ type
        procedure Click; override;
       published
        property Glyph stored False;
+       property Width default CST_FWWIDTH_CLOSE_BUTTON ;
      End;
 
    { TFWAbort }
@@ -400,6 +402,7 @@ constructor TFWClose.Create(AOwner: TComponent);
 begin
   inherited;
   Caption := SCloseButton;
+  Width := CST_FWWIDTH_CLOSE_BUTTON;
 end;
 
 procedure TFWClose.Loaded;
