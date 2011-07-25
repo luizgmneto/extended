@@ -58,11 +58,12 @@ const
                                                FileUnit : 'u_framework_dbcomponents' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Composants d''interactivité de U_CustomFrameWork.' ;
-                                               BugsStory : '0.9.0.2 : Paint Edits or not on FWDBGrid.'
+                                               BugsStory : '0.9.0.3 : Using RXLookupCombo on FPC.'
+                                                         + '0.9.0.2 : Paint Edits or not on FWDBGrid.'
                                                          + '0.9.0.1 : FWDBGrid tested on Delphi, with Controls on Columns.'
                                                          + '0.9.0.0 : Création à partir de u_framework_components.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 2 );
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 3 );
 
 {$ENDIF}
 type
@@ -170,7 +171,7 @@ type
 {$ENDIF}
 
    { TFWLabel }
-   TFWDBLookupCombo = class ( {$IFDEF JEDI}TJvDBLookupCombo{$ELSE}{$IFDEF FPC}TDBLookupComboBox{$ELSE}{$IFDEF RX}TRxDBLookupCombo{$ELSE}TDBLookupComboBox{$ENDIF}{$ENDIF}{$ENDIF}, IFWComponent, IFWComponentEdit )
+   TFWDBLookupCombo = class ( {$IFDEF JEDI}TJvDBLookupCombo{$ELSE}{$IFDEF RX}TRxDBLookupCombo{$ELSE}TDBLookupComboBox{$ENDIF}{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FLabel : TFWLabel ;
@@ -237,7 +238,7 @@ type
 
 implementation
 
-uses fonctions_db, fonctions_proprietes;
+uses fonctions_proprietes;
 
 
 

@@ -14,6 +14,7 @@
 unit U_ExtComboInsert;
 
 {$I ..\Compilers.inc}
+{$I ..\extends.inc}
 {$IFDEF FPC}
 {$Mode Delphi}
 {$ENDIF}
@@ -74,7 +75,9 @@ type
     // Beep sur erreur
     FBeepOnError: Boolean;
     function GetSearchSource: TDataSource;
+    {$IFNDEF RXJV}
     procedure ResetMaxLength;
+    {$ENDIF}
     procedure SetSearchSource(Value: TDataSource);
     procedure WMPaint(var Msg: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF} ); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
   protected
@@ -83,21 +86,23 @@ type
     function GetTextMargins: TPoint; virtual;
     procedure ValidateSearch; virtual;
     {$IFDEF FPC}
+    {$IFNDEF RX}
     procedure SetSelText(const Val: string); override;
-    procedure RealSetText(const AValue: TCaption); override;
     procedure CompleteText; virtual;
     {$ENDIF}
-    procedure {$IFDEF FPC}UpdateData(Sender: TObject){$ELSE}DataLinkUpdateData{$ENDIF}; override;
+    procedure RealSetText(const AValue: TCaption); override;
+    {$ENDIF}
+
+    procedure {$IFDEF FPC}UpdateData{$IFNDEF RX}(Sender: TObject){$ENDIF}{$ELSE}DataLinkUpdateData{$ENDIF}; override;
     procedure CreateParams(var Params: TCreateParams); override;
-    procedure {$IFDEF FPC}DataChange(Sender: TObject){$ELSE}DataLinkRecordChanged(Field:TField){$ENDIF}; override;
+    procedure {$IFNDEF RXJV}DataChange(Sender: TObject){$ELSE}DataLinkRecordChanged(Field:TField){$ENDIF}; override;
     procedure InsertLookup ( const AUpdate : Boolean ); virtual ;
 
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure KeyPress(var Key: Char); override;
-    procedure Change; override;
   public
-    {$IFNDEF FPC}
+    {$IFDEF RXJV}
     procedure SelectAll; virtual;
     {$ENDIF}
     function GetDisplayValue: String;virtual;
@@ -112,10 +117,10 @@ type
     property BeepOnError: Boolean read FBeepOnError write FBeepOnError default True;
     property SearchSource: TDataSource read GetSearchSource write SetSearchSource;
     property HideSelection : Boolean read FHideSelection write FHideSelection default false;
+    property ReadOnly default False;
     {$IFDEF FPC}
     property CompleteWord : Boolean read FCompleteWord write FCompleteWord default true;
     {$ENDIF}
-    property ReadOnly: Boolean read GetReadOnly write SetReadOnly default False;
   end;
 
 implementation
@@ -162,19 +167,19 @@ end;
 // procédure   : ResetMaxLength
 // description : Vérifications avant affectation de la taille du texte à rien
 ////////////////////////////////////////////////////////////////////////////////
+{$IFNDEF RXJV}
 procedure TExtDBComboInsert.ResetMaxLength;
 var
   F: TField;
 begin
-{$IFDEF FPC}
   if (MaxLength > 0) and Assigned(DataSource) and Assigned(DataSource.DataSet) then
   begin
     F := DataSource.DataSet.FindField(DataField);
     if Assigned(F) and (F.DataType in [ftString, ftWideString]) and (F.Size = MaxLength) then
       MaxLength := 0;
   end;
-{$ENDIF}
 end;
+{$ENDIF}
 
 
 procedure TExtDBComboInsert.CreateParams(var Params: TCreateParams);
@@ -190,10 +195,9 @@ begin
     Params.Style := Params.Style or ES_NOHIDESEL;
 end;
 
-{$IFNDEF FPC}
+{$IFDEF RXJV}
 procedure TExtDBComboInsert.SelectAll;
 Begin
-
 End;
 {$ENDIF}
 
@@ -218,7 +222,7 @@ begin
       Begin
         Flocated:=False;
         FSet := False;
-        {$IFDEF FPC}SelText:='';{$ELSE}{$ENDIF}
+        {$IFNDEF RXJV}SelText:='';{$ENDIF}
         Key := 0;
         Exit;
       end;
@@ -249,12 +253,15 @@ begin
   if (Key in [#32..#255]) and (Field <> nil) Then
     Begin
       FModify := True ;
-      {$IFDEF FPC}
+      {$IFNDEF RXJV}
       CompleteText;
       {$ENDIF}
-       if  ( (( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} = '' ) and not Field.IsValidChar(Key))
-       or  ( ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} <> '' ) and
-       ( not assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} ) or not assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet ) or not assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ) ) or not {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).IsValidChar(Key)))) then
+       if  ( (( {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF} = '' ) and not Field.IsValidChar(Key))
+       or  ( ( {$IFNDEF RXJV}}ListField{$ELSE}LookupDisplay{$ENDIF} <> '' ) and
+       ( not assigned ( {$IFNDEF RXJV}}ListSource{$ELSE}LookupSource{$ENDIF} )
+        or not assigned ( {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
+        or not assigned ( {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF} ) )
+        or not {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF} ).IsValidChar(Key)))) then
       begin
         if BeepOnError then
           SysUtils.Beep;
@@ -264,6 +271,7 @@ begin
 end;
 
 {$IFDEF FPC}
+{$IFNDEF RX}
 {------------------------------------------------------------------------------
   Method: TExtDBComboInsert.SetSelText
   Params: val - new string for text-field
@@ -284,6 +292,7 @@ begin
   Text := NewText;
   SelStart := OldPos + UTF8Length(Val);
 end;
+{$ENDIF}
 
 
 // procedure TExtDBComboInsert.RealSetText
@@ -313,7 +322,7 @@ end;
 // Procédure Completetext
 // Complétion
 //////////////////////////////////////////////////////////////////////////////////
-{$IFDEF FPC}
+{$IFNDEF RXJV}
 procedure TExtDBComboInsert.CompleteText;
 var li_pos : Integer;
     ls_temp : String;
@@ -324,15 +333,15 @@ begin
       Begin
         Open;
         FSet := False;
-        if not assigned ( FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} )) Then Exit;
+        if not assigned ( FindField ( {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF} )) Then Exit;
         if fb_Locate ( FSearchSource.DataSet,
-                       {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF},
+                       {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF},
                        Text, [loCaseInsensitive, loPartialKey], True )
          Then
           Begin
             Flocated  := True;
             li_pos    := SelStart ;
-            ls_temp   := FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
+            ls_temp   := FindField ( {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
             Text :=  ls_temp ;
             SelStart := li_pos ;
             SelLength := length ( ls_temp ) - li_pos;
@@ -345,10 +354,6 @@ begin
       end
 end;
 {$ENDIF}
-
-procedure TExtDBComboInsert.Change;
-begin
-end;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -399,14 +404,14 @@ Begin
     // Tests
   If  assigned ( Field )
   and not Field.IsNull
-  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} )
-  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
-  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ))
-  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF}   )) Then
+  and assigned ( {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF} )
+  and assigned ( {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
+  and assigned ( {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF} ))
+  and assigned ( {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF RXJV}KeyField{$ELSE}LookupField{$ENDIF}   )) Then
     Begin
-      if {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Locate ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF}, Field.AsString, [] ) Then
+      if {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Locate ( {$IFNDEF RXJV}KeyField{$ELSE}LookupField{$ENDIF}, Field.AsString, [] ) Then
         // récupération à partir de la listes
-        Result := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString ;
+        Result := {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString ;
     End ;
 End ;
 
@@ -416,14 +421,16 @@ End ;
 // description : Changement dans les données
 // paramètre   : Sender : pour l'évènement
 ////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.{$IFDEF FPC}DataChange(Sender: TObject){$ELSE}DataLinkRecordChanged(Field:TField){$ENDIF};
+procedure TExtDBComboInsert.{$IFNDEF RXJV}DataChange(Sender: TObject){$ELSE}DataLinkRecordChanged(Field:TField){$ENDIF};
 begin
+  {$IFNDEF RXJV}
   ResetMaxLength;
+  {$ENDIF}
   if Field <> nil then
   begin
     // récupération du masque de saisie
 //    EditMask := FDataLink.Field.EditMask;
-    {$IFDEF FPC}
+    {$IFNDEF RXJV}
     if not (csDesigning in ComponentState) then
       if (Field.DataType in [ftString, ftWideString]) and (MaxLength = 0) then
         // Taille maxi
@@ -454,27 +461,27 @@ end;
 // description : Mise à jour après l'édition des données
 // paramètre   : Sender : pour l'évènement
 ////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.{$IFDEF FPC}UpdateData(Sender: TObject){$ELSE}DataLinkUpdateData{$ENDIF};
+procedure TExtDBComboInsert.{$IFDEF FPC}UpdateData{$IFNDEF RX}(Sender: TObject){$ENDIF}{$ELSE}DataLinkUpdateData{$ENDIF};
 begin
   // auto-insertion spécifique de ce composant
   InsertLookup ( False );
   // Validation de l'édition
 //  ValidateEdit;
   // affectation
-  KeyValue := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.Dataset.FindField ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ).Value;
+//  KeyValue := {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.Dataset.FindField ( {$IFNDEF RXJV}KeyField{$ELSE}LookupField{$ENDIF} ).Value;
 end;
 
 procedure TExtDBComboInsert.ValidateSearch;
 Begin
   if not FSet
   and Flocated
-  and fb_Locate ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet, {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive, loPartialKey], True )
+  and fb_Locate ( {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet, {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive, loPartialKey], True )
    Then
-     with {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet do
+     with {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet do
       Begin
         Flocated  := True;
         FSet := True;
-        {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
+        {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := FindField ( {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
         if assigned ( FOnSet ) Then
           FOnSet ( Self )
       End ;
@@ -489,9 +496,7 @@ procedure TExtDBComboInsert.DoEnter;
 begin
   inherited DoEnter;
   // Sélectionne le texte
-  {$IFDEF FPC}
   SelectAll ;
-  {$ENDIF}
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -506,21 +511,21 @@ begin
     // vérifications
   if  assigned ( Field )
   and assigned ( Field.Dataset )
-  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} )
-  and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet ) Then
+  and assigned ( {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF} )
+  and assigned ( {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet ) Then
     try
       if ( Text <> '' ) Then
         // Si du texte est présent
         Begin
-          if not {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Locate ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive] ) Then
+          if not {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Locate ( {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive] ) Then
             // Autoinsertion si pas dans la liste
             Begin
-              {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Insert ;
-              {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FieldByName ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value := Text ;
-              {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Post ;
+              {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Insert ;
+              {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FieldByName ( {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value := Text ;
+              {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Post ;
               Field.Dataset.Edit;
-              Field.Value := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FieldByName ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
-              {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value ;
+              Field.Value := {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FieldByName ( {$IFNDEF RXJV}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
+              {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := {$IFNDEF RXJV}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF RXJV}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value ;
               FUpdate := True ;
               if assigned ( FOnSet ) Then
                 FOnSet ( Self );
@@ -610,7 +615,7 @@ begin
       begin
         //récupération du texte du champ
         S := Field.DisplayText;
-        {$IFDEF FPC}
+        {$IFNDEF RXJV}
         case CharCase of
           ecUpperCase:
             S := AnsiUpperCase(S);

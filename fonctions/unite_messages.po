@@ -27,8 +27,8 @@ msgstr "Confirmation"
 
 #: unite_messages.gs_deconnecter_annule
 #, fuzzy
-#| msgid "Annulation de la déconnexion"
-msgid "#224G#184#177#28#0#0#0#28#0#0#0#17#0#236&#188#166#138#177#0#0#0#0#25#0#0#0"
+#| msgid " #174r#183#28#0#0#0#28#0#0#0#17#0l_<#15A#183#0#0#0#0#25#0#0#0"
+msgid "#224F#164#177#28#0#0#0#28#0#0#0#17#0#12+#220*u#177#0#0#0#0#25#0#0#0"
 msgstr "Annulation de la d#233connexion"
 
 #: unite_messages.gs_deleterecord
@@ -37,14 +37,16 @@ msgstr "Supprimer l'enregistrement"
 
 #: unite_messages.gs_details_techniques
 #, fuzzy
-#| msgid "Détails techniques : "
-msgid "#128#152#137#177#21#0#0#0#21#0#0#0#17#0l%#6syst"
+#| msgid "#144$?#183#21#0#0#0#21#0#0#0#17#0#236]#6syst"
+msgid "#176#155t#177#21#0#0#0#21#0#0#0#17#0#140)#6syst"
 msgstr "D#233tails techniques : "
 
 #: unite_messages.gs_ecriture_impossible
 #, fuzzy
-#| msgid "Impossible d'écrire sur le fichier @ARG avec l'attribut de fichier @ARG."
-msgid "#0#175y#183H#0#0#0H#0#0#0#17#0l%#6system#0#0#0#0#0#17#0|%#224KG#183��#138#177 (#0#0#17#0#140%#6objpas#0#0#0#0#0#17#0#156%8#128#31#8#0#0#0#0"
+#| msgid ""
+#| "`1q#183H#0#0#0H#0#0#0#17#0#236]#6system#0#0#0#0#0#17#0#252]#160#249>#183@\n"
+#| "A#183 (#0#0#17#0#12^#6objpas#0#0#0#0#0#17#0#28^8#128#31#8#0#0#0#0\n"
+msgid "#160#175l#183H#0#0#0H#0#0#0#17#0#140)#6system#0#0#0#0#0#17#0#156)#224K:#183#208(u#177 (#0#0#17#0#172)#6objpas#0#0#0#0#0#17#0#188)8#128#31#8#0#0#0#0"
 msgstr "Impossible d'#233crire sur le fichier @ARG avec l'attribut de fichier @ARG."
 
 #: unite_messages.gs_editrecord
@@ -53,33 +55,24 @@ msgstr "Modifier l'enregistrement"
 
 #: unite_messages.gs_erreur_connexion
 #, fuzzy
-#| msgid ""
-#| "Un problème est survenu pour la connexion aux données.\n"
-#| "Réessayez d'ouvrir la fiche.\n"
-msgid "`#8#163#177T#0#0#0T#0#0#0#17#0#12'#28#167#138#177#188#166#138#1778#0#0#0#17#0#28',#167#138#177#12#167#138#177#0#0#0#0#17#0,'<#167#138#177#28#167#138#177#0#0#0#0#17#0<'L#167#138#177,#167#138#177#0#0#0#0#17#0L'\\#167#138#177"
+#| msgid "#16Dv#183T#0#0#0T#0#0#0#17#0#140_#156#15A#183<#15A#1838#0#0#0#17#0#156_#172#15A#183#140#15A#183#0#0#0#0#17#0#172_#188#15A#183#156#15A#183#0#0#0#0#17#0#188_#204#15A#183#172#15A#183#0#0#0#0#17#0#204_#220#15A#183"
+msgid "#160#5#140#177T#0#0#0T#0#0#0#17#0,+<+u#177#220*u#1778#0#0#0#17#0<+L+u#177,+u#177#0#0#0#0#17#0L+\\+u#177<+u#177#0#0#0#0#17#0\\+l+u#177L+u#177#0#0#0#0#17#0l+|+u#177"
 msgstr ""
 "Un probl#232me est survenu pour la connexion aux donn#233es.\n"
 "R#233essayez d'ouvrir la fiche.\n"
 
 #: unite_messages.gs_erreur_modification_maj
 #, fuzzy
-#| msgid ""
-#| "Impossible de supprimer cet enregistrement.\n"
-#| "Il est utilisé dans une autre fonction.\n"
-msgid "`#8#163#177T#0#0#0T#0#0#0#17#0#236&#28#167#138#177#188#166#138#177#16#0#0#0#17#0#252&̦#138#177|#166#138#177T#0#0#0#17#0#12'#172#166#138#177#0#0#0#0-#0#0#0#17#0#28',#167#138#177즊#177#0#0#0#0#17#0,'<#167#138#177"
+#| msgid "#16Dv#183T#0#0#0T#0#0#0#17#0l_#156#15A#183<#15A#183#16#0#0#0#17#0|_L#15A#183#252#14A#183T#0#0#0#17#0#140_,#15A#183#0#0#0#0-#0#0#0#17#0#156_#172#15A#183l#15A#183#0#0#0#0#17#0#172_#188#15A#183"
+msgid "#160#5#140#177T#0#0#0T#0#0#0#17#0#12+<+u#177#220*u#177#16#0#0#0#17#0#28+#236*u#177#156*u#177T#0#0#0#17#0,+#204*u#177#0#0#0#0-#0#0#0#17#0<+L+u#177#12+u#177#0#0#0#0#17#0L+\\+u#177"
 msgstr ""
 "Impossible de supprimer cet enregistrement.\n"
 "Il est utilis#233 dans une autre fonction.\n"
 
 #: unite_messages.gs_erreur_nombre_grand
 #, fuzzy
-#| msgid ""
-#| "Problème à la validation du nombre :\n"
-#| "Un nombre saisi est trop grand.\n"
-#| "Modifier la saisie ou annuler.\n"
-msgid ""
-"#176>\n"
-"#178e#0#0#0e#0#0#0#17#0#236&|#166#138#177#252#166#138#177#30#0#0#0#17#0#252&즊#177#0#0#0#0G#0#0#0#17#0#12'̦#138#177|#166#138#177e#0#0#0#17#0#28',#167#138#177#172#166#138#177#0#0#0#0#17#0,'<#167#138#177#28#167#138#177#0#0#0#0#17#0<'L#167#138#177,\n"
+#| msgid "p#183s#183e#0#0#0e#0#0#0#17#0l_#252#14A#183|#15A#183#30#0#0#0#17#0|_l#15A#183#0#0#0#0G#0#0#0#17#0#140_L#15A#183#252#14A#183e#0#0#0#17#0#156_#172#15A#183,#15A#183#0#0#0#0#17#0#172_#188#15A#183#156#15A#183#0#0#0#0#17#0#188_#204#15A#183#172"
+msgid "P@#249#177e#0#0#0e#0#0#0#17#0#12+#156*u#177#28+u#177#30#0#0#0#17#0#28+#12+u#177#0#0#0#0G#0#0#0#17#0,+#236*u#177#156*u#177e#0#0#0#17#0<+L+u#177#204*u#177#0#0#0#0#17#0L+\\+u#177<+u#177#0#0#0#0#17#0\\+l+u#177L"
 msgstr ""
 "Probl#232me #224 la validation du nombre :\n"
 "Un nombre saisi est trop grand.\n"
@@ -87,16 +80,14 @@ msgstr ""
 
 #: unite_messages.gs_erreur_ouverture
 #, fuzzy
-#| msgid "Erreur à l'ouverture @ARG."
-msgid "`F#184#177#26#0#0#0#26#0#0#0#17#0l%#6system#0#0#0"
+#| msgid "#160#172r#183#26#0#0#0#26#0#0#0#17#0#236]#6system#0#0#0"
+msgid "`E#164#177#26#0#0#0#26#0#0#0#17#0#140)#6system#0#0#0"
 msgstr "Erreur #224 l'ouverture @ARG."
 
 #: unite_messages.gs_erreur_reseau
 #, fuzzy
-#| msgid ""
-#| "Erreur réseau.\n"
-#| "Vérifier la connexion réseau.\n"
-msgid "#192-#0#0#0-#0#0#0#17#0#28',#167#138#177즊#177#0#0#0#0#17#0,'<#167#138#177#28#167#138#177#0#0#0#0#17"
+#| msgid "#160#243?#183-#0#0#0-#0#0#0#17#0#156_#172#15A#183l#15A#183#0#0#0#0#17#0#172_#188#15A#183#156#15A#183#0#0#0#0#17"
+msgid "#160|n#177-#0#0#0-#0#0#0#17#0<+L+u#177#12+u#177#0#0#0#0#17#0L+\\+u#177<+u#177#0#0#0#0#17"
 msgstr ""
 "Erreur r#233seau.\n"
 "V#233rifier la connexion r#233seau.\n"
@@ -111,8 +102,8 @@ msgstr "Abandon de l'ouverture de la fiche @ARG..."
 
 #: unite_messages.gs_gotobookmarkrecord
 #, fuzzy
-#| msgid "Aller à l'enregistrement Marqué"
-msgid "#0W#141#177#31#0#0#0#31#0#0#0#17#0#140&Rechercher#0#0#17#0#156"
+#| msgid "@y?#183#31#0#0#0#31#0#0#0#17#0#12_Rechercher#0#0#17#0#28"
+msgid "#0u#128#177#31#0#0#0#31#0#0#0#17#0#172*Rechercher#0#0#17#0#188"
 msgstr "Aller #224 l'enregistrement Marqu#233"
 
 #: unite_messages.gs_groupview_abort
@@ -129,8 +120,8 @@ msgstr "Enregistrer"
 
 #: unite_messages.gs_image_doit_etre
 #, fuzzy
-#| msgid "La taille de l'image doit être de "
-msgid "#160W#141#177\"#0#0#0\"#0#0#0#17#0#12'#28#167#138#177#188#166#138#1778#0#0#0#17#0#28',#167"
+#| msgid "#224y?#183\"#0#0#0\"#0#0#0#17#0#140_#156#15A#183<#15A#1838#0#0#0#17#0#156_#172#15"
+msgid "#160u#128#177\"#0#0#0\"#0#0#0#17#0,+<+u#177#220*u#1778#0#0#0#17#0<+L+"
 msgstr "La taille de l'image doit #234tre de "
 
 #: unite_messages.gs_image_hauteur
@@ -150,13 +141,13 @@ msgid "L'image est trop petite."
 msgstr "L'image est trop petite."
 
 #: unite_messages.gs_inserer_enregistrement
-msgid "#160G#184#177#25#0#0#0#25#0#0#0#17#0#12'#28#167#138#177#188#166#138#1778"
+msgid "#160F#164#177#25#0#0#0#25#0#0#0#17#0,+<+u#177#220*u#1778"
 msgstr ""
 
 #: unite_messages.gs_insertrecord
 #, fuzzy
-#| msgid "Insérer enregistrement"
-msgid "#16#153#137#177#22#0#0#0#22#0#0#0#17#0l%#6syste"
+#| msgid " %?#183#22#0#0#0#22#0#0#0#17#0#236]#6syste"
+msgid "@#156t#177#22#0#0#0#22#0#0#0#17#0#140)#6syste"
 msgstr "Ins#233rer enregistrement"
 
 #: unite_messages.gs_lastrecord
@@ -165,38 +156,34 @@ msgstr "Dernier enregistrement"
 
 #: unite_messages.gs_mettre_a_jour_fiche
 #, fuzzy
-#| msgid ""
-#| "L'enregistrement a été effacé ou modifié par un autre utilisateur.\n"
-#| "La fiche va être mise à jour.\n"
-msgid ""
-"#176>\n"
-"#178a#0#0#0a#0#0#0#17#0#28',#167#138#177ܦ#138#177#0#0#0#0#17#0,'<#167#138#177#28#167#138#177#0#0#0#0#17#0<'L#167#138#177,#167#138#177#0#0#0#0#17#0L'\\#167#138#177<#167#138#177#0#0#0#0#17#0\\'l#167#138#177L#167#138#177#0#0#0#0#17#0l'|\n"
+#| msgid "p#183s#183a#0#0#0a#0#0#0#17#0#156_#172#15A#183\\#15A#183#0#0#0#0#17#0#172_#188#15A#183#156#15A#183#0#0#0#0#17#0#188_#204#15A#183#172#15A#183#0#0#0#0#17#0#204_#220#15A#183#188#15A#183#0#0#0#0#17#0#220_#236#15A#183#204#15A#183#0#0#0#0#17#0#236_#252"
+msgid "P@#249#177a#0#0#0a#0#0#0#17#0<+L+u#177#252*u#177#0#0#0#0#17#0L+\\+u#177<+u#177#0#0#0#0#17#0\\+l+u#177L+u#177#0#0#0#0#17#0l+|+u#177\\+u#177#0#0#0#0#17#0|+#140+u#177l+u#177#0#0#0#0#17#0#140+#156"
 msgstr ""
 "L'enregistrement a #233t#233 effac#233 ou modifi#233 par un autre utilisateur.\n"
 "La fiche va #234tre mise #224 jour.\n"
 
 #: unite_messages.gs_movenextrecord
 #, fuzzy
-#| msgid "Déplacer l'enregistrement au suivant"
-msgid "#0W#141#177$#0#0#0$#0#0#0#17#0#140&Rechercher#0#0#17#0#156&#172#166#138#177"
+#| msgid "@y?#183$#0#0#0$#0#0#0#17#0#12_Rechercher#0#0#17#0#28_,#15A#183"
+msgid "#0u#128#177$#0#0#0$#0#0#0#17#0#172*Rechercher#0#0#17#0#188*#204*u#177"
 msgstr "D#233placer l'enregistrement au suivant"
 
 #: unite_messages.gs_movepreviousrecord
 #, fuzzy
-#| msgid "Déplacer l'enregistrement au précédent"
-msgid "#0W#141#177&#0#0#0&#0#0#0#17#0#140&Rechercher#0#0#17#0#156&#172#166#138#177#0#0"
+#| msgid "@y?#183&#0#0#0&#0#0#0#17#0#12_Rechercher#0#0#17#0#28_,#15A#183#0#0"
+msgid "#0u#128#177&#0#0#0&#0#0#0#17#0#172*Rechercher#0#0#17#0#188*#204*u#177#0#0"
 msgstr "D#233placer l'enregistrement au pr#233c#233dent"
 
 #: unite_messages.gs_navigateur_vers_le_bas
 #, fuzzy
-#| msgid "Déplacer la ligne vers le bas"
-msgid "#160G#184#177#29#0#0#0#29#0#0#0#17#0#12'#28#167#138#177#188#166#138#1778#0#0#0#17"
+#| msgid "#224#173r#183#29#0#0#0#29#0#0#0#17#0#140_#156#15A#183<#15A#1838#0#0#0#17"
+msgid "#160F#164#177#29#0#0#0#29#0#0#0#17#0,+<+u#177#220*u#1778#0#0#0#17"
 msgstr "D#233placer la ligne vers le bas"
 
 #: unite_messages.gs_navigateur_vers_le_haut
 #, fuzzy
-#| msgid "Déplacer la ligne vers le haut"
-msgid "#160G#184#177#30#0#0#0#30#0#0#0#17#0#12'#28#167#138#177#188#166#138#1778#0#0#0#17#0"
+#| msgid "#224#173r#183#30#0#0#0#30#0#0#0#17#0#140_#156#15A#183<#15A#1838#0#0#0#17#0"
+msgid "#160F#164#177#30#0#0#0#30#0#0#0#17#0,+<+u#177#220*u#1778#0#0#0#17#0"
 msgstr "D#233placer la ligne vers le haut"
 
 #: unite_messages.gs_nextrecord
@@ -205,10 +192,8 @@ msgstr "Enregistrement suivant"
 
 #: unite_messages.gs_pb_connexion
 #, fuzzy
-#| msgid ""
-#| "La connexion a échouée.\n"
-#| "Veuillez contacter votre administrateur.\n"
-msgid "pa#153#177A#0#0#0A#0#0#0#17#0#236&#188#166#138#177#0#0#0#0#25#0#0#0#17#0#252&#12#167#138#177̦#138#177#25#0#0#0#17#0#12'#28#167#138#177#252#166#138#1778#0#0#0#17#0#28',"
+#| msgid "P#245C#183A#0#0#0A#0#0#0#17#0l_<#15A#183#0#0#0#0#25#0#0#0#17#0|_#140#15A#183L#15A#183#25#0#0#0#17#0#140_#156#15A#183|#15A#1838#0#0#0#17#0#156_#172"
+msgid "#16#168w#177A#0#0#0A#0#0#0#17#0#12+#220*u#177#0#0#0#0#25#0#0#0#17#0#28+,+u#177#236*u#177#25#0#0#0#17#0,+<+u#177#28+u#1778#0#0#0#17#0<+L"
 msgstr ""
 "La connexion a #233chou#233e.\n"
 "Veuillez contacter votre administrateur.\n"
@@ -219,14 +204,14 @@ msgstr "Valider modifications"
 
 #: unite_messages.gs_priorrecord
 #, fuzzy
-#| msgid "Enregistrement précédent"
-msgid "`F#184#177#24#0#0#0#24#0#0#0#17#0l%#6system#0"
+#| msgid "#160#172r#183#24#0#0#0#24#0#0#0#17#0#236]#6system#0"
+msgid "`E#164#177#24#0#0#0#24#0#0#0#17#0#140)#6system#0"
 msgstr "Enregistrement pr#233c#233dent"
 
 #: unite_messages.gs_refreshrecord
 #, fuzzy
-#| msgid "Rafraîchir les données"
-msgid "#16#153#137#177#22#0#0#0#22#0#0#0#17#0#140&#156#166#138#177#0#0"
+#| msgid " %?#183#22#0#0#0#22#0#0#0#17#0#12_#28#15A#183#0#0"
+msgid "@#156t#177#22#0#0#0#22#0#0#0#17#0#172*#188*u#177#0#0"
 msgstr "Rafra#238chir les donn#233es"
 
 #: unite_messages.gs_searchrecord
@@ -247,20 +232,16 @@ msgstr ""
 
 #: unite_messages.gs_valeurs_utilisees
 #, fuzzy
-#| msgid ""
-#| "Les valeurs @ARG sont déjà utilisées.\n"
-#| "Saisir des valeurs différentes, annuler ou réeffectuer la validation si une valeur n'est pas modifiable.\n"
-msgid "#16#153=#183#143#0#0#0#143#0#0#0#17#0#236&#252#166#138#177#0#0#0#0'#0#0#0#17#0#252&|#166#138#177즊#177h#0#0#0#17#0#12'̦#138#177|#166#138#177#143#0#0#0#17#0#28',#167#138#177#172#166#138#177#0#0#0#0#17#0,'<#167#138#177#28#167#138#177#0#0#0#0#17#0<'L#167#138#177,#167#138#177#0#0#0#0#17#0L'\\#167#138#177<#167#138#177#0#0#0#0#17#0\\'l#167#138#177L#167#138#177#0#0#0#0#17#0l"
+#| msgid "P#177<#183#143#0#0#0#143#0#0#0#17#0l_|#15A#183#0#0#0#0'#0#0#0#17#0|_#252#14A#183l#15A#183h#0#0#0#17#0#140_L#15A#183#252#14A#183#143#0#0#0#17#0#156_#172#15A#183,#15A#183#0#0#0#0#17#0#172_#188#15A#183#156#15A#183#0#0#0#0#17#0#188_#204#15A#183#172#15A#183#0#0#0#0#17#0#204_#220#15A#183#188#15A#183#0#0#0#0#17#0#220_#236#15A#183#204#15A#183#0#0#0#0#17#0#236"
+msgid "#16#251#183#143#0#0#0#143#0#0#0#17#0#12+#28+u#177#0#0#0#0'#0#0#0#17#0#28+#156*u#177#12+u#177h#0#0#0#17#0,+#236*u#177#156*u#177#143#0#0#0#17#0<+L+u#177#204*u#177#0#0#0#0#17#0L+\\+u#177<+u#177#0#0#0#0#17#0\\+l+u#177L+u#177#0#0#0#0#17#0l+|+u#177\\+u#177#0#0#0#0#17#0|+#140+u#177l+u#177#0#0#0#0#17#0#140"
 msgstr ""
 "Les valeurs @ARG sont d#233j#224 utilis#233es.\n"
 "Saisir des valeurs diff#233rentes, annuler ou r#233effectuer la validation si une valeur n'est pas modifiable.\n"
 
 #: unite_messages.gs_valeur_utilisee
 #, fuzzy
-#| msgid ""
-#| "La valeur @ARG est déjà utilisée.\n"
-#| "Saisir une valeur différente, annuler ou réeffectuer la validation si une valeur n'est pas modifiable.\n"
-msgid "`#229.#178#137#0#0#0#137#0#0#0#17#0#188&#12#167#138#177̦#138#177G#0#0#0#17#0#204&#188#166#138#177ܦ#138#177#1#0#0#0#17#0#220&̦#138#177|#166#138#177#137#0#0#0#17#0#236&|#166#138#177#252#166#138#177f#0#0#0#17#0#252&즊#177#0#0#0#0##0#0#0#17#0#12'#28#167#138#177#188#166#138#177##0#0#0#17#0#28',#167#138#177#12#167#138#177#0#0#0#0#17#0,'<#167#138#177#28#167#138#177#0"
+#| msgid "#1283t#183#137#0#0#0#137#0#0#0#17#0<_#140#15A#183L#15A#183G#0#0#0#17#0L_<#15A#183\\#15A#183#1#0#0#0#17#0\\_L#15A#183#252#14A#183#137#0#0#0#17#0l_#252#14A#183|#15A#183f#0#0#0#17#0|_l#15A#183#0#0#0#0##0#0#0#17#0#140_#156#15A#183<#15A#183##0#0#0#17#0#156_#172#15A#183#140#15A#183#0#0#0#0#17#0#172_#188#15A#183#156#15A#183#0"
+msgid "`#229#25#178#137#0#0#0#137#0#0#0#17#0#220*,+u#177#236*u#177G#0#0#0#17#0#236*#220*u#177#252*u#177#1#0#0#0#17#0#252*#236*u#177#156*u#177#137#0#0#0#17#0#12+#156*u#177#28+u#177f#0#0#0#17#0#28+#12+u#177#0#0#0#0##0#0#0#17#0,+<+u#177#220*u#177##0#0#0#17#0<+L+u#177,+u#177#0#0#0#0#17#0L+\\+u#177<+u#177#0"
 msgstr ""
 "La valeur @ARG est d#233j#224 utilis#233e.\n"
 "Saisir une valeur diff#233rente, annuler ou r#233effectuer la validation si une valeur n'est pas modifiable.\n"
