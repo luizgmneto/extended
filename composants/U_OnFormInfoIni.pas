@@ -87,14 +87,15 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
                                            Comment : 'Gestion de l''ini à mettre sur une fiche.' ;
-                                           BugsStory : '1.0.1.2 : Testing and creating consts. New form events.' +#13#10 +
+                                           BugsStory : '1.0.1.3 : Erasing form section after reading ini.' +#13#10 +
+                                                       '1.0.1.2 : Testing and creating consts. New form events.' +#13#10 +
                                                        '1.0.1.1 : Testing ColorCombo.' +#13#10 +
                                                        '1.0.1.0 : Testing DirectoryEdit, MaskEdit, on WINDOWS.' +#13#10 +
                                                        '1.0.0.1 : Grouping.' +#13#10 +
                                                        '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
                                                        '1.0.0.0 : Gestion de beaucoup de composants.';
                                            UnitType : 3 ;
-                                           Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
+                                           Major : 1 ; Minor : 0 ; Release : 1 ; Build : 3 );
 
 {$ENDIF}
 
@@ -729,6 +730,7 @@ begin
         end;
    {$ENDIF}
       Self.Updated;
+      FIniFile.EraseSection(af_Form.Name);
     end;
 end;
 

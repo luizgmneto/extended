@@ -52,7 +52,7 @@
         <PackageName Value="LCL"/>
       </Item6>
     </RequiredPackages>
-    <Units Count="58">
+    <Units Count="59">
       <Unit0>
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -90,7 +90,6 @@
         <TopLine Value="61"/>
         <CursorPos X="108" Y="82"/>
         <UsageCount Value="15"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
       <Unit4>
         <Filename Value="../composants/u_framework_dbcomponents.pas"/>
@@ -146,10 +145,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="68"/>
+        <TopLine Value="1"/>
         <CursorPos X="3" Y="91"/>
         <UsageCount Value="14"/>
         <Loaded Value="True"/>
@@ -536,8 +534,19 @@
         <CursorPos X="108" Y="102"/>
         <UsageCount Value="10"/>
       </Unit57>
+      <Unit58>
+        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
+        <UnitName Value="U_OnFormInfoIni"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="351"/>
+        <CursorPos X="50" Y="371"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit58>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="8" HistoryIndex="7">
       <Position1>
         <Filename Value="demo.lpr"/>
         <Caret Line="18" Column="37" TopLine="1"/>
@@ -550,6 +559,26 @@
         <Filename Value="../fonctions/fonctions_proprietes.pas"/>
         <Caret Line="124" Column="1" TopLine="101"/>
       </Position3>
+      <Position4>
+        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
+        <Caret Line="84" Column="49" TopLine="66"/>
+      </Position4>
+      <Position5>
+        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
+        <Caret Line="203" Column="63" TopLine="165"/>
+      </Position5>
+      <Position6>
+        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
+        <Caret Line="206" Column="60" TopLine="168"/>
+      </Position6>
+      <Position7>
+        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position7>
+      <Position8>
+        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
+        <Caret Line="141" Column="24" TopLine="103"/>
+      </Position8>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
