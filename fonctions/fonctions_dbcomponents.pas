@@ -26,23 +26,24 @@ uses SysUtils,
 
   {$IFDEF VERSIONS}
 const
-  gVer_fonctions_db_components : T_Version = ( Component : 'Gestion des donnÃ©es d''une fiche' ;
+  gVer_fonctions_db_components : T_Version = ( Component : 'Gestion des données d''une fiche' ;
                                          FileUnit : 'fonctions_dbcomponents' ;
       			                 Owner : 'Matthieu Giroux' ;
-      			                 Comment : 'Fonctions gestion des donnÃ©es avec les composants visuels.' ;
-      			                 BugsStory : 'Version 1.1.0.1 : Simplify function fb_InsereCompteur.' + #13#10 +
+      			                 Comment : 'Fonctions gestion des données avec les composants visuels.' ;
+      			                 BugsStory : 'Version 1.1.0.2 : Too many code on fb_inserecompteur, creating functions.' + #13#10 +
+                                                     'Version 1.1.0.1 : Simplify function fb_InsereCompteur.' + #13#10 +
                                                      'Version 1.1.0.0 : Ajout de fonctions d''automatisation.' + #13#10
-                                       + 'Version 1.0.0.0 : Gestion des donnÃ©es rÃ©utilisable.';
+                                                   + 'Version 1.0.0.0 : Gestion des donnÃ©es rétilisable.';
       			                 UnitType : 1 ;
-      			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build : 1 );
+      			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
 
   {$ENDIF}
-function fb_InsereCompteur ( const adat_Dataset, adat_DatasourceIncCompteur : TDataset ;
+function fb_InsereCompteur ( const adat_Dataset, adat_DatasetQuery : TDataset ;
                              const aslt_Cle : TStringlist ;
                              const as_ChampCompteur, as_Table, as_PremierLettrage : String ;
                              const ach_DebutLettrage, ach_FinLettrage : Char ;
                              const ali_Debut, ali_LimiteRecherche     : Int64 ;
-                             const lb_DBMessageOnError  : Boolean ): Boolean;
+                             const ab_DBMessageOnError  : Boolean ): Boolean;
 function fb_RefreshDataset ( const aDat_Dataset : TDataset ): Boolean ; overload;
 function fb_RefreshDataset ( const aDat_Dataset : TDataset; const ab_GardePosition : Boolean ): Boolean ; overload;
 procedure p_OpenSQLQuery(const adat_Dataset: Tdataset; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
@@ -66,7 +67,23 @@ procedure p_LocateInit ( const aado_Seeker : TDataset ; const as_Table, as_Condi
 function fb_AssignSort ( const adat_Dataset : TDataset ; const as_ChampsOrdonner : String ):Boolean;
 function fb_DatasetFilterLikeRecord ( const as_DatasetValue, as_FilterValue : String ; const ab_CaseInsensitive : Boolean ): Boolean ;
 procedure p_setParamDataset (const adat_ADataset : Tdataset ; const as_ParamName : String ; const avar_Value : Variant );
+function fb_InsereCompteurAlpha  ( const adat_Dataset, adat_DatasetQuery : TDataset ;
+                                   const aslt_Cle : TStringlist ;
+                                   const as_ChampCompteur, as_Table, as_PremierLettrage : String ;
+                                   const ach_DebutLettrage, ach_FinLettrage : Char ;
+                                   const ab_DBMessageOnError  : Boolean ): Boolean;
+function fb_InsereCompteurNumerique  ( const adat_Dataset, adat_DatasetQuery : TDataset ;
+                                       const aslt_Cle : TStringlist ;
+                                       const as_ChampCompteur, as_Table : String ;
+                                       const ali_Debut, ali_LimiteRecherche     : Int64 ;
+                                       const ab_DBMessageOnError  : Boolean ): Boolean;
 
+function fb_FieldRecordExists  ( const adat_Dataset, adat_DatasetQuery : TDataset ;
+                               const as_Table, as_FieldName : String;
+                               const ab_DBMessageOnError  : Boolean ): Boolean;
+function fb_RecordExists ( const adat_DatasetQuery : TDataset ;
+                           const as_Table, as_Where : String;
+                           const ab_DBMessageOnError  : Boolean ): Boolean;
 
 var ge_DataSetErrorEvent : TDataSetErrorEvent ;
 
@@ -642,192 +659,227 @@ End ;
 //              ali_Debut        : Le compteur
 //              ali_LimiteRecherche : Le maximum du champ compteur
 /////////////////////////////////////////////////////////////////////////////////
-function fb_InsereCompteur ( const adat_Dataset, adat_DatasourceIncCompteur : TDataset ;
+function fb_InsereCompteur ( const adat_Dataset, adat_DatasetQuery : TDataset ;
                              const aslt_Cle : TStringlist ;
                              const as_ChampCompteur, as_Table, as_PremierLettrage : String ;
                              const ach_DebutLettrage, ach_FinLettrage : Char ;
                              const ali_Debut, ali_LimiteRecherche     : Int64 ;
-                             const lb_DBMessageOnError  : Boolean ): Boolean;
-var li64_Terminus     ,
-    li64_Compteur     ,
-    li64_Compteur2    : Int64 ;
-    li_i              : Integer ;
-    ls_ChampLettrage  : String ;
-    lvar_Cle          : Variant ;
-    lch_Lettrage      ,
-    lch_Lettrage2     : Char ;
-    ls_SQL, ls_SQL2 : WideString ;
+                             const ab_DBMessageOnError  : Boolean ): Boolean;
 Begin
   Result := False ;
   if ( adat_Dataset.State in [dsInsert,dsEdit] ) or ( adat_Dataset.FieldByName ( as_ChampCompteur ).AsCurrency < ali_Debut )  then
     begin
-      // Mode édition : on recherche la clé
-      if ( adat_Dataset.State=dsEdit )
-      and assigned ( aslt_Cle )
-      and ( aslt_Cle.Count > 0 ) Then
-        Begin
-          ls_ChampLettrage := aslt_Cle [ 0 ];
-          for li_i := 1 to aslt_Cle.Count - 1 do
-            Begin
-              ls_ChampLettrage := ls_ChampLettrage + ';' + aslt_Cle [ li_i ];
-            End ;
-          lvar_Cle := adat_Dataset.FieldValues [ ls_ChampLettrage ];
-        End
-      Else
-        lvar_Cle := Null ;
       if  ( adat_Dataset.FieldByName ( as_ChampCompteur ) is TNumericField )
        Then
-        begin
-          adat_DatasourceIncCompteur.Close;
-          // sélectionner le compteur maximum
-          ls_SQL := 'SELECT MAX(' + as_ChampCompteur + ') FROM ' + as_Table ;
-          ls_SQL2 := fs_AjouteRechercheClePrimaire ( adat_Dataset, aslt_Cle, lvar_Cle, as_ChampCompteur );
-          if ls_SQL2 <> '' Then
-            ls_SQL := ls_SQL + ls_SQL2 + ' AND '   + as_ChampCompteur + '<=' + IntToStr ( ali_LimiteRecherche )
-          Else
-            ls_SQL := ls_SQL + ' WHERE ' + as_ChampCompteur + '<=' + IntToStr ( ali_LimiteRecherche );
-          try
-             p_OpenSQLQuery ( adat_DatasourceIncCompteur, ls_SQL );
-          finally
-          End;
-          try
-            // Incrémenter le compteur si c'est possible
-            if ( ali_LimiteRecherche = ali_Debut ) // annuler les limites si elles sont égales
-            or ( adat_DatasourceIncCompteur.Fields[0].Value < ali_LimiteRecherche ) Then // Limite supérieure uniquement à cause du MAX
-              Begin
-                if adat_DatasourceIncCompteur.Fields[0].Value >= ali_Debut then
-                  adat_Dataset.FieldByName ( as_ChampCompteur ).Value :=
-                    adat_DatasourceIncCompteur.Fields[0].Value + 1
-                else
-                  adat_Dataset.FieldByName ( as_ChampCompteur ).Value := ali_Debut;
-              End
-            Else
-            // Sinon scrute le dataset à la recherche d'un compteur
-              Begin
-                adat_DatasourceIncCompteur.Close;
-                ls_SQL := 'SELECT ' + as_ChampCompteur + ' FROM ' + as_Table ;
-                ls_SQL := ls_SQL + fs_AjouteRechercheClePrimaire ( adat_Dataset, aslt_Cle, lvar_Cle, as_ChampCompteur );
-                ls_SQL := ls_SQL + ' ORDER BY ' + as_ChampCompteur ;
-                p_OpenSQLQuery ( adat_DatasourceIncCompteur, ls_SQL );
-                li64_Compteur := ali_Debut ;
-                if not adat_DatasourceIncCompteur.IsEmpty Then
-                  with adat_DatasourceIncCompteur do
-                    if Fields [ 0 ].Value <= li64_Compteur Then
-                      while not eof do
-                        Begin
-                          li64_Compteur := Fields [ 0 ].Value ;
-                          Next ;
-                          if  not eof  Then
-                            Begin
-                              if ( adat_DatasourceIncCompteur.Fields [ 0 ].Value > li64_Compteur + 1 ) Then
-                                Begin
-                                  adat_Dataset.FieldByName ( as_ChampCompteur ).Value := li64_Compteur + 1 ;
-                                  Break ;
-                                End ;
-                            End
-                          Else
-                            adat_Dataset.FieldByName ( as_ChampCompteur ).Value := li64_Compteur + 1 ;
-                        End
-                    Else
-                      adat_Dataset.FieldByName ( as_ChampCompteur ).Value := li64_Compteur ;
-
-              End ;
-
-            Result := True ;
-
-            adat_DatasourceIncCompteur.Close;
-          Except
-            On E:Exception do
-              f_GereExceptionEvent ( E, adat_DatasourceIncCompteur, nil, not lb_DBMessageOnError );
-          End ;
-        end
+         fb_InsereCompteurNumerique ( adat_Dataset, adat_DatasetQuery,
+                                      aslt_Cle,
+                                      as_ChampCompteur, as_Table,
+                                      ali_Debut, ali_LimiteRecherche,
+                                      ab_DBMessageOnError )
       Else
-        begin
-          adat_DatasourceIncCompteur.Close;
-          // sélectionner le compteur maximum
-          ls_SQL := 'select ' + as_ChampCompteur + ' from ' + as_Table ;
-          ls_SQL := ls_SQL + fs_AjouteRechercheClePrimaire ( adat_Dataset, aslt_Cle, Null, as_ChampCompteur );
-          ls_SQL := ls_SQL + ' order by ' + as_ChampCompteur + ' desc' ;
-          try
-            p_OpenSQLQuery ( adat_DatasourceIncCompteur, ls_SQL );
-            if adat_DatasourceIncCompteur.IsEmpty Then
-              Begin
-                // Aucun enregistrement donc premier lettrage
-                adat_Dataset.FieldByName ( as_ChampCompteur ).Value := as_PremierLettrage;
-              End
-            Else
-              Begin
-                // Incrémenter le compteur si c'est possible
-                ls_ChampLettrage := adat_DatasourceIncCompteur.Fields[0].AsString ;
-                lch_Lettrage  := ls_ChampLettrage [ 1 ];
-                try
-                  li64_Compteur := StrToInt64 ( copy ( ls_ChampLettrage, 2, length ( ls_ChampLettrage ) - 1 ));
-                Except
-                  li64_Compteur := 0 ;
-                End ;
-                li64_Terminus := StrToInt64 ( fs_RepeteChar ( '9', length ( ls_ChampLettrage ) - 1 ));
-                if  ( ord ( lch_Lettrage )  < ord ( ach_FinLettrage ) )
-                or  ( li64_Compteur <  li64_Terminus ) Then
-                  Begin
-                    if ( li64_Compteur < li64_Terminus ) Then
-                      adat_Dataset.FieldByName ( as_ChampCompteur ).Value := fs_Lettrage ( lch_Lettrage, li64_Compteur + 1, length (  ls_ChampLettrage ))
-                    Else
-                      adat_Dataset.FieldByName ( as_ChampCompteur ).Value := fs_Lettrage ( chr ( ord ( lch_Lettrage ) + 1 ), 0, length (  ls_ChampLettrage ) );
-                  End
-                Else
-                // Sinon scrute le dataset à la recherche d'un compteur
-                  with adat_DatasourceIncCompteur do
-                    while not adat_DatasourceIncCompteur.Eof do
-                      Begin
-                        Next ;
-                        lch_Lettrage2  := adat_DatasourceIncCompteur.Fields[0].AsString [ 1 ] ;
-                        try
-                          li64_Compteur2 := StrToInt64 ( Trim ( copy ( adat_DatasourceIncCompteur.Fields[0].AsString, 2, length ( adat_DatasourceIncCompteur.Fields[0].AsString ) - 1 )));
-                        Except
-                          li64_Compteur2 := 0 ;
-                        End ;
-                          if  ( li64_Compteur2 < li64_Compteur - 1 ) Then
-                            Begin
-                              adat_Dataset.FieldByName ( as_ChampCompteur ).Value := fs_Lettrage ( lch_Lettrage2, li64_Compteur2 + 1, length (  ls_ChampLettrage ));
-                              Break ;
-                            End
-                          Else
-                            if ord ( lch_Lettrage2 ) < ord ( lch_Lettrage ) Then
-                              Begin
-//                                  if ( ord ( lch_Lettrage2 ) < ord ( lch_Lettrage ) - 1 ) Then
-                                if ( li64_Compteur2 < li64_Terminus ) Then
-                                  Begin
-                                    adat_Dataset.FieldByName ( as_ChampCompteur ).Value := fs_Lettrage ( lch_Lettrage2, li64_Compteur2 + 1, length (  ls_ChampLettrage ));
-                                    Break ;
-                                  End
-                                Else
-                                  if ( ord ( lch_Lettrage2 ) < ord ( lch_Lettrage ) - 1 ) Then
-                                    Begin
-                                      adat_Dataset.FieldByName ( as_ChampCompteur ).Value := fs_Lettrage ( chr ( ord ( lch_Lettrage2 ) + 1 ), 0, length (  ls_ChampLettrage ));
-                                      Break ;
-                                    End ;
-                              End ;
-                      lch_Lettrage  := lch_Lettrage2 ;
-                      li64_Compteur := li64_Compteur2 ;
-
-                    End ;
-                if adat_Dataset.FieldByName ( as_ChampCompteur ).IsNull Then
-                  Begin
-                    if ( li64_Compteur > 0 )
-                    or ( ord ( lch_Lettrage ) > ord ( ach_DebutLettrage )) Then
-                      adat_Dataset.FieldByName ( as_ChampCompteur ).Value := fs_Lettrage ( ach_DebutLettrage, 0, length (  ls_ChampLettrage ));
-                  End ;
-              End ;
-            Result := True ;
-
-            adat_DatasourceIncCompteur.Close;
-          Except
-            On E:Exception do
-              f_GereExceptionEvent ( E, adat_DatasourceIncCompteur, nil, not lb_DBMessageOnError );
-          End ;
-        end
+        fb_InsereCompteurAlpha     ( adat_Dataset, adat_DatasetQuery,
+                                     aslt_Cle,
+                                     as_ChampCompteur, as_Table, as_PremierLettrage,
+                                     ach_DebutLettrage, ach_FinLettrage,
+                                     ab_DBMessageOnError );
     end;
 End ;
+
+
+/////////////////////////////////////////////////////////////////////////////////
+// Fonction : fb_InsereCompteur
+// Description : Compteur sur un champ numérique ou chaîne
+// Paramètres : adat_Dataset : Le dataset du compteur
+//              aslt_Cle     : La clé du dataset
+//              as_ChampCompteur : Le champ compteur dans la clé
+//              as_Table         : La table du compteur
+//              ach_FinLettrage    : Le caractère du dernier lettrage
+//              ali_Debut        : Le compteur
+//              ali_LimiteRecherche : Le maximum du champ compteur
+/////////////////////////////////////////////////////////////////////////////////
+function fb_InsereCompteurNumerique  ( const adat_Dataset, adat_DatasetQuery : TDataset ;
+                                       const aslt_Cle : TStringlist ;
+                                       const as_ChampCompteur, as_Table : String ;
+                                       const ali_Debut, ali_LimiteRecherche     : Int64 ;
+                                       const ab_DBMessageOnError  : Boolean ): Boolean;
+var li64_Compteur     : Int64 ;
+    lvar_Cle          : Variant;
+    ls_SQL, ls_SQL2 : WideString ;
+begin
+  Result := False;
+
+  adat_DatasetQuery.Close;
+  lvar_Cle:=fvar_getKeyRecord(adat_Dataset,aslt_Cle);
+  // sélectionner le compteur maximum
+  ls_SQL := 'SELECT MAX(' + as_ChampCompteur + ') FROM ' + as_Table ;
+  ls_SQL2 := fs_AjouteRechercheClePrimaire ( adat_Dataset, aslt_Cle, lvar_Cle, as_ChampCompteur );
+  if ls_SQL2 <> '' Then
+    ls_SQL := ls_SQL + ls_SQL2 + ' AND '   + as_ChampCompteur + '<=' + IntToStr ( ali_LimiteRecherche )
+  Else
+    ls_SQL := ls_SQL + ' WHERE ' + as_ChampCompteur + '<=' + IntToStr ( ali_LimiteRecherche );
+  try
+     p_OpenSQLQuery ( adat_DatasetQuery, ls_SQL );
+  finally
+  End;
+  try
+    // Incrémenter le compteur si c'est possible
+    if ( ali_LimiteRecherche = ali_Debut ) // annuler les limites si elles sont égales
+    or ( adat_DatasetQuery.Fields[0].Value < ali_LimiteRecherche ) Then // Limite supérieure uniquement à cause du MAX
+      Begin
+        if adat_DatasetQuery.Fields[0].Value >= ali_Debut then
+          adat_Dataset.FieldByName ( as_ChampCompteur ).Value :=
+            adat_DatasetQuery.Fields[0].Value + 1
+        else
+          adat_Dataset.FieldByName ( as_ChampCompteur ).Value := ali_Debut;
+      End
+    Else
+    // Sinon scrute le dataset à la recherche d'un compteur
+      Begin
+        adat_DatasetQuery.Close;
+        ls_SQL := 'SELECT ' + as_ChampCompteur + ' FROM ' + as_Table ;
+        ls_SQL := ls_SQL + fs_AjouteRechercheClePrimaire ( adat_Dataset, aslt_Cle, lvar_Cle, as_ChampCompteur );
+        ls_SQL := ls_SQL + ' ORDER BY ' + as_ChampCompteur ;
+        p_OpenSQLQuery ( adat_DatasetQuery, ls_SQL );
+        li64_Compteur := ali_Debut ;
+        if not adat_DatasetQuery.IsEmpty Then
+          with adat_DatasetQuery do
+            if Fields [ 0 ].Value <= li64_Compteur Then
+              while not eof do
+                Begin
+                  li64_Compteur := Fields [ 0 ].Value ;
+                  Next ;
+                  if  not eof  Then
+                    Begin
+                      if ( adat_DatasetQuery.Fields [ 0 ].Value > li64_Compteur + 1 ) Then
+                        Begin
+                          adat_Dataset.FieldByName ( as_ChampCompteur ).Value := li64_Compteur + 1 ;
+                          Break ;
+                        End ;
+                    End
+                  Else
+                    adat_Dataset.FieldByName ( as_ChampCompteur ).Value := li64_Compteur + 1 ;
+                End
+            Else
+              adat_Dataset.FieldByName ( as_ChampCompteur ).Value := li64_Compteur ;
+
+      End ;
+
+    Result := True ;
+
+    adat_DatasetQuery.Close;
+  Except
+    On E:Exception do
+      f_GereExceptionEvent ( E, adat_DatasetQuery, nil, not ab_DBMessageOnError );
+  End ;
+end;
+
+/////////////////////////////////////////////////////////////////////////////////
+// Fonction : fb_InsereCompteur
+// Description : Compteur sur un champ numérique ou chaîne
+// Paramètres : adat_Dataset : Le dataset du compteur
+//              aslt_Cle     : La clé du dataset
+//              as_ChampCompteur : Le champ compteur dans la clé
+//              as_Table         : La table du compteur
+//              as_PremierLettrage : Le premier lettrage en entier
+//              ali_Debut        : Le compteur
+//              ali_LimiteRecherche : Le maximum du champ compteur
+/////////////////////////////////////////////////////////////////////////////////
+function fb_InsereCompteurAlpha  ( const adat_Dataset, adat_DatasetQuery : TDataset ;
+                                   const aslt_Cle : TStringlist ;
+                                   const as_ChampCompteur, as_Table, as_PremierLettrage : String ;
+                                   const ach_DebutLettrage, ach_FinLettrage : Char ;
+                                   const ab_DBMessageOnError  : Boolean ): Boolean;
+var li64_Terminus     ,
+    li64_Compteur     ,
+    li64_Compteur2    : Int64 ;
+    lch_Lettrage      ,
+    lch_Lettrage2     : Char ;
+    ls_ChampLettrage : String;
+    ls_SQL  : WideString ;
+begin
+  adat_DatasetQuery.Close;
+  // sélectionner le compteur maximum
+  ls_SQL := 'select ' + as_ChampCompteur + ' from ' + as_Table ;
+  ls_SQL := ls_SQL + fs_AjouteRechercheClePrimaire ( adat_Dataset, aslt_Cle, Null, as_ChampCompteur );
+  ls_SQL := ls_SQL + ' order by ' + as_ChampCompteur + ' desc' ;
+  try
+    p_OpenSQLQuery ( adat_DatasetQuery, ls_SQL );
+    if adat_DatasetQuery.IsEmpty Then
+      Begin
+        // Aucun enregistrement donc premier lettrage
+        adat_Dataset.FieldByName ( as_ChampCompteur ).Value := as_PremierLettrage;
+      End
+    Else
+      Begin
+        // Incrémenter le compteur si c'est possible
+        ls_ChampLettrage := adat_DatasetQuery.Fields[0].AsString ;
+        lch_Lettrage  := ls_ChampLettrage [ 1 ];
+        try
+          li64_Compteur := StrToInt64 ( copy ( ls_ChampLettrage, 2, length ( ls_ChampLettrage ) - 1 ));
+        Except
+          li64_Compteur := 0 ;
+        End ;
+        li64_Terminus := StrToInt64 ( fs_RepeteChar ( '9', length ( ls_ChampLettrage ) - 1 ));
+        if  ( ord ( lch_Lettrage )  < ord ( ach_FinLettrage ) )
+        or  ( li64_Compteur <  li64_Terminus ) Then
+          Begin
+            if ( li64_Compteur < li64_Terminus ) Then
+              adat_Dataset.FieldByName ( as_ChampCompteur ).Value := fs_Lettrage ( lch_Lettrage, li64_Compteur + 1, length (  ls_ChampLettrage ))
+            Else
+              adat_Dataset.FieldByName ( as_ChampCompteur ).Value := fs_Lettrage ( chr ( ord ( lch_Lettrage ) + 1 ), 0, length (  ls_ChampLettrage ) );
+          End
+        Else
+        // Sinon scrute le dataset à la recherche d'un compteur
+          with adat_DatasetQuery do
+            while not adat_DatasetQuery.Eof do
+              Begin
+                Next ;
+                lch_Lettrage2  := adat_DatasetQuery.Fields[0].AsString [ 1 ] ;
+                try
+                  li64_Compteur2 := StrToInt64 ( Trim ( copy ( adat_DatasetQuery.Fields[0].AsString, 2, length ( adat_DatasetQuery.Fields[0].AsString ) - 1 )));
+                Except
+                  li64_Compteur2 := 0 ;
+                End ;
+                  if  ( li64_Compteur2 < li64_Compteur - 1 ) Then
+                    Begin
+                      adat_Dataset.FieldByName ( as_ChampCompteur ).Value := fs_Lettrage ( lch_Lettrage2, li64_Compteur2 + 1, length (  ls_ChampLettrage ));
+                      Break ;
+                    End
+                  Else
+                    if ord ( lch_Lettrage2 ) < ord ( lch_Lettrage ) Then
+                      Begin
+//                                  if ( ord ( lch_Lettrage2 ) < ord ( lch_Lettrage ) - 1 ) Then
+                        if ( li64_Compteur2 < li64_Terminus ) Then
+                          Begin
+                            adat_Dataset.FieldByName ( as_ChampCompteur ).Value := fs_Lettrage ( lch_Lettrage2, li64_Compteur2 + 1, length (  ls_ChampLettrage ));
+                            Break ;
+                          End
+                        Else
+                          if ( ord ( lch_Lettrage2 ) < ord ( lch_Lettrage ) - 1 ) Then
+                            Begin
+                              adat_Dataset.FieldByName ( as_ChampCompteur ).Value := fs_Lettrage ( chr ( ord ( lch_Lettrage2 ) + 1 ), 0, length (  ls_ChampLettrage ));
+                              Break ;
+                            End ;
+                      End ;
+              lch_Lettrage  := lch_Lettrage2 ;
+              li64_Compteur := li64_Compteur2 ;
+
+            End ;
+        if adat_Dataset.FieldByName ( as_ChampCompteur ).IsNull Then
+          Begin
+            if ( li64_Compteur > 0 )
+            or ( ord ( lch_Lettrage ) > ord ( ach_DebutLettrage )) Then
+              adat_Dataset.FieldByName ( as_ChampCompteur ).Value := fs_Lettrage ( ach_DebutLettrage, 0, length (  ls_ChampLettrage ));
+          End ;
+      End ;
+    Result := True ;
+
+    adat_DatasetQuery.Close;
+  Except
+    On E:Exception do
+      f_GereExceptionEvent ( E, adat_DatasetQuery, nil, not ab_DBMessageOnError );
+  End ;
+end;
 
 // Trier le dataset en cours
 // as_ChampsOrdonner : Le sort à affecter
@@ -853,6 +905,61 @@ Begin
 //  Showmessage (( gdl_DataLink.DataSet as TCustomADODataset ).Sort );
 End ;
 
+
+/////////////////////////////////////////////////////////////////////////////////
+// Fonction : fb_KeyRecordExists
+// Description :
+// Paramètres : adat_Dataset : Le dataset du compteur
+//              adat_DatasetQuery : The query dataset
+//              as_Table         : La table du compteur
+//              as_Where         : The Where clause
+/////////////////////////////////////////////////////////////////////////////////
+function fb_RecordExists ( const adat_DatasetQuery : TDataset ;
+                           const as_Table, as_Where : String;
+                           const ab_DBMessageOnError  : Boolean ): Boolean;
+var li_Pos     : Integer ;
+    ls_SQL : WideString ;
+begin
+  Result := False;
+
+  adat_DatasetQuery.Close;
+  // sélectionner le compteur maximum
+  li_pos := pos ( 'where', lowercase ( as_Where ));
+  if ( li_pos < 1 )
+  or ( li_pos > 2 )
+   Then ls_SQL:= ' WHERE ' + as_Where
+   else ls_SQL:= ' ' + as_Where;
+  ls_SQL := 'SELECT * FROM ' + as_Table + ls_SQL;
+  try
+    p_OpenSQLQuery ( adat_DatasetQuery, ls_SQL );
+    Result := adat_DatasetQuery.RecordCount > 0;
+  Except
+    On E:Exception do
+      f_GereExceptionEvent ( E, adat_DatasetQuery, nil, not ab_DBMessageOnError );
+  End ;
+end;
+
+
+/////////////////////////////////////////////////////////////////////////////////
+// Fonction : fb_KeyRecordExists
+// Description :
+// Paramètres : adat_Dataset : Le dataset du compteur
+//              adat_DatasetQuery : The query dataset
+//              aslt_Cle     : La clé du dataset
+//              as_Table         : La table du compteur
+//              as_fieldName    : The unique Fieldname
+/////////////////////////////////////////////////////////////////////////////////
+function fb_FieldRecordExists  ( const adat_Dataset, adat_DatasetQuery : TDataset ;
+                               const as_Table, as_FieldName : String;
+                               const ab_DBMessageOnError  : Boolean ): Boolean;
+var ls_Where : WideString ;
+begin
+  if adat_Dataset.FindField ( as_FieldName ) is TNumericField
+   then ls_Where := as_FieldName + '=' + adat_Dataset.FindField ( as_FieldName ).AsString
+   else ls_Where := as_FieldName + '=''' + fs_stringDbQuote ( adat_Dataset.FindField ( as_FieldName ).AsString ) + '''';
+
+  Result := fb_RecordExists ( adat_DatasetQuery, as_Table, ls_Where, ab_DBMessageOnError );
+end;
 
 {$IFDEF VERSIONS}
 initialization

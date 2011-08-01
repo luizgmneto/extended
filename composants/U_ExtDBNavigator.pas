@@ -25,7 +25,7 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  Messages, Math, DB, Buttons, RXCtrls,
+  Messages, Math, DB, Buttons,
   SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ExtCtrls, DBCtrls, unite_messages ;
 
@@ -1030,6 +1030,7 @@ begin
         if Assigned(FOnBtnPost) then
           FOnBtnPost(Self)
         else
+         if (State in [dsInsert,dsEdit]) Then
           Post;
       nbERefresh:
         if Assigned(FOnBtnRefresh) then

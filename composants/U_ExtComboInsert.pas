@@ -23,11 +23,11 @@ interface
 
 uses Variants, Controls, Classes,
   {$IFDEF FPC}
-     LMessages, MaskEdit, LCLType, LCLIntf,
+     LMessages, LCLType, LCLIntf,
   {$ELSE}
      Windows, Mask, JvDBLookup,
   {$ENDIF}
-     Graphics, Menus, Messages, ComCtrls, DB,DBCtrls, Dialogs,
+     Graphics, Menus, ComCtrls, DB,DBCtrls, Dialogs,
      fonctions_version, u_framework_dbcomponents ;
 
 {$IFDEF VERSIONS}
@@ -64,7 +64,6 @@ type
     FCompleteWord,
     {$ENDIF}
     Flocated,
-    FReadOnly,
     FSet,
     FHideSelection,
     FFocused: Boolean;

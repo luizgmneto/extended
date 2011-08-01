@@ -79,6 +79,7 @@ function fb_IntervertitPositions2Champs   ( const aDat_Dataset : TDataset ; cons
 function  fb_SortADataset ( const aDat_Dataset : TDataset; const as_NomChamp : String ; const ab_Desc : Boolean ) : Boolean;
 procedure p_UpdateBatch ( const adat_Dataset: Tdataset);
 function fb_SortLocalDataSet(aDat_Dataset: TDataSet;const as_NomChamp: String; const ab_Desc : Boolean): Boolean;
+function fvar_getKeyRecord ( const adat_Dataset : TDataset ; const aslt_Cle : TStringlist ): Variant;
 
 var ge_DataSetErrorEvent : TDataSetErrorEvent = nil;
     ge_NilEvent : TDataSetErrorEvent = nil;
@@ -132,6 +133,8 @@ Begin
       Result := aado_Seeker.RecordCount > 0 ;
     End ;
 End ;
+
+
 
 
 function fb_Locate(const adat_Dataset: TDataset;
@@ -451,6 +454,34 @@ Begin
  {$ENDIF}
 
 End ;
+/////////////////////////////////////////////////////////////////////////////////
+// Function : fvar_getKeyRecord
+// Description : Get Key record
+// Paramètres : adat_Dataset : Le dataset du compteur
+//              aslt_Cle     : La clé du dataset
+// Returns Variant
+/////////////////////////////////////////////////////////////////////////////////
+
+function fvar_getKeyRecord ( const adat_Dataset : TDataset ; const aslt_Cle : TStringlist ): Variant;
+
+var li_i              : Integer ;
+    ls_Champ : String;
+Begin
+  // Mode édition : on recherche la clé
+  if ( adat_Dataset.State=dsEdit )
+  and assigned ( aslt_Cle )
+  and ( aslt_Cle.Count > 0 ) Then
+    Begin
+      ls_Champ := aslt_Cle [ 0 ];
+      for li_i := 1 to aslt_Cle.Count - 1 do
+        Begin
+          ls_Champ := ls_Champ + ';' + aslt_Cle [ li_i ];
+        End ;
+      Result := adat_Dataset.FieldValues [ ls_Champ ];
+    End
+  Else
+    Result := Null ;
+End;
 
 function fs_AjouteRechercheClePrimaire ( const adat_Dataset         : TDataset    ;
                                          const as_ChampsClePrimaire : TStringList ;

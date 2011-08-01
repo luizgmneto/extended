@@ -5,6 +5,10 @@ interface
 
 {$I ..\Compilers.inc}
 
+{$IFDEF FPC}
+{$mode Delphi}
+{$ENDIF}
+
 uses
 {$IFDEF FPC}
         LCLIntf, MaskEdit,

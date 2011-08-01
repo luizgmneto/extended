@@ -293,7 +293,7 @@ End;
 function fb_iniWriteFile( const amem_Inifile : TCustomInifile ; const ab_Afficheerreur : Boolean ):Boolean;
 var
     li_Attr : Integer ;
-    lt_Arg  : Array [0..1] of {$IFDEF FPC}Shortstring{$ELSE}String{$ENDIF} ;
+    lt_Arg  : Array [0..1] of String ;
 begin
   Result := False ;
   if assigned ( amem_Inifile ) Then
