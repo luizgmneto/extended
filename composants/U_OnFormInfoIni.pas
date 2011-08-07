@@ -87,7 +87,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
                                            Comment : 'Gestion de l''ini à mettre sur une fiche.' ;
-                                           BugsStory : '1.0.1.4 : Freeing ini.' +#13#10 +
+                                           BugsStory : '1.0.1.4 : Freeing ini, erasing before saving.' +#13#10 +
                                                        '1.0.1.3 : Erasing form section after reading ini.' +#13#10 +
                                                        '1.0.1.2 : Testing and creating consts. New form events.' +#13#10 +
                                                        '1.0.1.1 : Testing ColorCombo.' +#13#10 +
@@ -732,7 +732,6 @@ begin
         end;
    {$ENDIF}
       Self.Updated;
-      FIniFile.EraseSection(af_Form.Name);
     end;
  Freeini;
 end;
@@ -1052,6 +1051,8 @@ var
 
 begin
   f_GetMemIniFile();
+  //Erasing The current section before saving
+  FIniFile.EraseSection(af_Form.Name);
   ab_continue := True;
   If Assigned ( FOnIniWrite ) Then
     FOnIniWrite ( FInifile, ab_continue );
