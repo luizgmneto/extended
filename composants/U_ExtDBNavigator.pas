@@ -1,4 +1,4 @@
-{------------------------------------------------------------------------------}
+﻿{------------------------------------------------------------------------------}
 {                                                                              }
 {  TExtDBNavigator                                                     }
 {  by Matthieu GIROUX                                                          }
@@ -20,7 +20,7 @@ uses
 {$IFDEF FPC}
   LCLIntf, LCLType, lMessages, lresources,
 {$ELSE}
-  Windows, VDBConsts,
+  Windows, VDBConsts, RXCtrls,
 {$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,

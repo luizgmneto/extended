@@ -25,7 +25,7 @@ uses Variants, Controls, Classes,
   {$IFDEF FPC}
      LMessages, LCLType, LCLIntf,
   {$ELSE}
-     Windows, Mask, JvDBLookup,
+     Windows, Mask, JvDBLookup, Messages,
   {$ENDIF}
      Graphics, Menus, ComCtrls, DB,DBCtrls, Dialogs,
      fonctions_version, u_framework_dbcomponents ;
