@@ -118,6 +118,7 @@ type
   TOnFormInfoIni = class(TComponent)
   private
     FSauveEditObjets: TSauveEditObjets;
+    FFreeIni ,
     FSauvePosObjet,
     FAutoUpdate,
     FSauvePosForm:      Boolean;
@@ -137,7 +138,7 @@ type
     // traitement de la position de la af_Form mise dans le create
     procedure p_LecturePositionFenetre(aFiche:TCustomForm);
     procedure p_EcriturePositionFenetre(const aFiche:TCustomForm);
-    procedure Freeini; virtual;
+    procedure p_Freeini; virtual;
 
   public
     Constructor Create(AOwner:TComponent); override;
@@ -160,6 +161,7 @@ type
     property OnFormShow : TNotifyEvent read FOnFormShow write FOnFormShow;
     property OnFormDestroy : TNotifyEvent read FOnFormDestroy write FOnFormDestroy;
     property OnFormCreate : TNotifyEvent read FOnFormCreate write FOnFormCreate;
+    property Freeini : Boolean read FFreeIni write FFreeIni default True;
     procedure LaFormDestroy(Sender: TObject);
     procedure LaFormShow(Sender: TObject);
     procedure LaFormCreate(Sender: TObject);
@@ -246,6 +248,7 @@ begin
   FAutoUpdate    := True;
   FSauvePosObjet := False;
   FSauvePosForm  := False;
+  FFreeIni       := True;
   FOnIniLoad     := nil;
   FOnIniWrite    := nil;
   if not (csDesigning in ComponentState)  //si on est pas en mode conception
@@ -733,13 +736,16 @@ begin
    {$ENDIF}
       Self.Updated;
     end;
- Freeini;
+ p_Freeini;
 end;
 
-procedure TOnFormInfoIni.Freeini;
+procedure TOnFormInfoIni.p_Freeini;
 begin
-  FIniFile.Free;
-  FIniFile := nil;
+  if FFreeIni Then
+    Begin
+      FIniFile.Free;
+      FIniFile := nil;
+    end;
 end;
 ////////////////////////////////////////////////////////////////////////////////
 // Ecriture des données dans le fichier ini
@@ -772,7 +778,7 @@ begin
 
       End ;
   End ;
-  Freeini;
+  p_Freeini;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
