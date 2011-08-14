@@ -11,7 +11,7 @@ uses
   fonctions_init, fonctions_numedit, fonctions_proprietes, fonctions_string, 
   fonctions_variant, fonctions_web, fonctions_array, u_zconnection, 
   fonctions_dbcomponents, fonctions_version, fonctions_objects, 
-  u_buttons_appli, u_regfwbuttons, LazarusPackageIntf;
+  u_buttons_appli, u_regfwbuttons, fonctions_system, LazarusPackageIntf;
 
 implementation
 

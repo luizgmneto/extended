@@ -22,7 +22,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Release="2" Build="2"/>
-    <Files Count="19">
+    <Files Count="20">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -100,6 +100,10 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regfwbuttons"/>
       </Item19>
+      <Item20>
+        <Filename Value="fonctions/fonctions_system.pas"/>
+        <UnitName Value="fonctions_system"/>
+      </Item20>
     </Files>
     <i18n>
       <OutDir Value="fonctions"/>

@@ -65,7 +65,6 @@ const
   function fs_Lettrage ( const ach_Lettrage: Char;
                          const ai64_Compteur : Int64 ;
                          const ali_TailleLettrage : Longint ): String ;
-  function fs_GetNameSoft : {$IFDEF FPC}AnsiString{$ELSE}String{$ENDIF};
 const
 {$IFDEF VERSIONS}
     gVer_fonction_string : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
@@ -704,20 +703,6 @@ End ;
 function fs_getSoftDir : String;
 Begin
   Result := ExtractFileDir( Application.ExeName ) + DirectorySeparator ;
-End;
-
-function fs_GetNameSoft : {$IFDEF FPC}AnsiString{$ELSE}String{$ENDIF};
-var li_Pos : Integer;
-Begin
-  Result := ExtractFileName(Application.ExeName);
-  li_Pos := Pos ( '.', Result );
-  if ( li_Pos > 0 ) then
-    Begin
-      while PosEx ( '.', Result, li_Pos + 1 )> 0 do
-        li_Pos := PosEx ( '.', Result, li_Pos + 1 );
-      Result := Copy ( Result, 1, PosEx ( '.', Result, li_Pos )-1 );
-    End;
-  li_Pos := Pos ( DirectorySeparator, Result );
 End;
 
 {$IFDEF FPC}
