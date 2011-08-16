@@ -1,10 +1,10 @@
-unit fonctions_languages;
+﻿unit fonctions_languages;
 
 interface
 
 {$I ..\extends.inc}
 {$I ..\Compilers.inc}
-{$IFDEF DELPHI}
+{$IFDEF FPC}
 {$Mode Delphi}
 {$ENDIF}
 
@@ -30,7 +30,7 @@ uses Forms,
    Windows, ToolWin,
 {$ENDIF}
 
-  Controls, Classes,
+  Controls, Classes, fonctions_system,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
@@ -75,10 +75,10 @@ const // Evènements gérés
 {$ENDIF}
 
 
-{$IFDEF FPC}
 procedure p_RegisterALanguage ( const as_littlelang, as_longlang : String );
 function fi_findLanguage  ( const as_littlelang, as_longlang : String ): Longint; overload;
 function fi_findLanguage  ( const as_littlelang : String ): Longint; overload;
+{$IFDEF FPC}
 function GetUserLanguage: Ansistring;
 function GetUserLongLanguage: Ansistring;
 {$ENDIF}
@@ -221,7 +221,6 @@ End;
   {$ENDIF}
 {$ENDIF}
 
-{$IFDEF FPC}
 function fi_findLanguage  ( const as_littlelang, as_longlang : String ): Longint;
 var li_i : LongInt ;
 Begin
@@ -257,7 +256,6 @@ Begin
         end;
     end;
 end;
-{$ENDIF}
 
 
 

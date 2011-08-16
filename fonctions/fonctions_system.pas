@@ -1,4 +1,4 @@
-// unité contenant des fonctions de traitements de chaine
+﻿// unité contenant des fonctions de traitements de chaine
 unit fonctions_system;
 
 interface
@@ -64,7 +64,7 @@ End;
 
 {$IFDEF VERSIONS}
 initialization
-  p_ConcatVersion ( gVer_fonction_string );
+  p_ConcatVersion ( gVer_fonction_system );
 {$ENDIF}
 end.
 
