@@ -32,6 +32,7 @@ const
   function fs_Dos2Win( const aText: string): string;
   function fs_Win2Dos( const aText: string): string;
 {$ENDIF}
+  function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
   function fs_EraseFirstDirectory ( const as_Path : String ) :String;
   function fs_EraseSpecialChars( const aText: string): string;
   function fs_ExtractFileNameOnly ( const as_Path : String ): String;
@@ -704,6 +705,28 @@ function fs_getSoftDir : String;
 Begin
   Result := ExtractFileDir( Application.ExeName ) + DirectorySeparator ;
 End;
+
+
+function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ): String;
+{$IFNDEF FPC}
+var ls_temp:  String;
+{$ENDIF}
+Begin
+  if astl_Labels = nil Then
+   Begin
+     Result := as_Name ;
+     exit;
+   End;
+  {$IFDEF FPC}Result{$ELSE}ls_temp{$ENDIF} := astl_Labels.Values [ as_Name ];
+{$IFNDEF FPC}
+  Result  := UTF8decode ( ls_temp );
+  if ( Result = '' ) then
+    Result := ls_temp ;
+{$ENDIF}
+  if ( Result = '' ) then
+    Result := as_Name ;
+End;
+
 
 {$IFDEF FPC}
 function ExtractFileDir ( const as_FilePath : String ) :String;
