@@ -75,8 +75,6 @@ const // Evènements gérés
 {$ENDIF}
 
 
-function fs_getLocalLanguageFromTwoChars ( const aini_Inifile : TInifile ; const as_TwoCharsLanguage : String ): String ;
-
 {$IFDEF FPC}
 procedure p_RegisterALanguage ( const as_littlelang, as_longlang : String );
 function fi_findLanguage  ( const as_littlelang, as_longlang : String ): Longint; overload;
@@ -168,13 +166,6 @@ function GetSystemCharset : String ;
 Begin
   Result := 'ISO_8859_1' ;
 End;
-
-function fs_getLocalLanguageFromTwoChars ( const aini_Inifile : TInifile ; const as_TwoCharsLanguage : String ): String ;
-Begin
-  if Assigned(aini_Inifile)
-   Then Result := aini_Inifile.ReadString('ISO_639-1_TO_LOCAL',as_TwoCharsLanguage,as_TwoCharsLanguage)
-   Else Result := as_TwoCharsLanguage;
-end;
 
 {$IFDEF FPC}
 function GetUserLanguage: Ansistring;
