@@ -36,6 +36,7 @@ const
   CST_PALETTE_COMPOSANTS_DB = 'ExtDB' ;
   CST_PALETTE_COMPOSANTS    = 'ExtCtrls' ;
   CST_Avant_Fichier = 'MG_';
+  CST_ARG           = '@ARG' ;
   CST_ASYNCHRONE_TIMEOUT_DEFAUT = 30 ;
   CST_CONNECTION_TIMEOUT_DEFAUT : Integer = 15 ;
   CST_ASYNCHRONE_NB_ENREGISTREMENTS : Integer = 300 ;
@@ -117,6 +118,7 @@ resourcestring
   GS_IMAGE_HAUTEUR = 'L''image doit avoir une hauteur de ' ;
   GS_IMAGE_TROP_PETITE = 'L''image est trop petite.' ;
   GS_IMAGE_TROP_GRANDE = 'L''image est trop grande.' ;
+  GS_FICHIER_NON_TROUVE = 'Fichier @ARG non trouvé.' ;
 
  // Messages pour le navigateur
   GS_INSERER_ENREGISTREMENT = 'Insérer un enregistrement' ;

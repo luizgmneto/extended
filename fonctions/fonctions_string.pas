@@ -617,7 +617,7 @@ Begin
   SetLength ( Result, ali_Repete );
   if ali_Repete = 0 Then
     Exit;
-  lpc_AChar := Addr(Result);
+  lpc_AChar := @Result[1];
   for li_i := 1 to ali_Repete do
     Begin
       lpc_AChar^ := ach_Caractere;

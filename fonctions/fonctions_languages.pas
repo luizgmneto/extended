@@ -92,9 +92,14 @@ function GetUserInfo ( const ai_LOCALEINFO : Integer ): string;
 function GetLanguageCode ( ALANGID : LCID ) : string;
 {$ENDIF}
 procedure ChangeLanguage( iIndex : integer);
-function fb_LoadProperties ( const as_FilePath : String ):Boolean; overload;
-function fb_LoadProperties ( const as_DirPath, as_BeginFile, as_Lang : String ):Boolean; overload;
+function fb_LoadProperties ( const as_FilePath : String ; const ab_ErrorMessage : Boolean = False ):Boolean; overload;
+function fb_LoadProperties ( const as_DirPath, as_BeginFile, as_Lang : String ; const ab_ErrorMessage : Boolean = False ):Boolean; overload;
+procedure p_FreeProperties;
 function fs_GetLabelCaption ( const as_Name : String ):WideString;
+function fs_ReplaceLanguageString ( const as_Source, as_SearchedString, as_LabelToSet : String  ) : String ; overload;
+function fs_ReplaceLanguageString ( const as_Source, as_SearchedString: String  ) : String ; overload;
+procedure p_ReplaceLanguagesStrings ( const astl_FileToChange : TStringList ; const aa_SearchedStrings : Array of String );
+
 
 implementation
 
@@ -102,13 +107,39 @@ uses
 {$IFDEF TNT}
   TntSysUtils, TntSystem,
 {$ENDIF}
-  SysUtils, fonctions_string;
+  SysUtils, fonctions_string,
+  Dialogs, unite_messages;
 
 var    gstl_Labels             : TStringlist = nil ;
 
-function fb_LoadProperties ( const as_FilePath : String ):Boolean;
+procedure p_FreeProperties;
 Begin
   gstl_Labels.Free;
+  gstl_Labels := nil;
+end;
+
+function fs_ReplaceLanguageString ( const as_Source, as_SearchedString, as_LabelToSet : String  ) : String ;
+begin
+  Result := StringReplace( as_Source, '[' + as_SearchedString + ']', as_LabelToSet, [] );
+end;
+function fs_ReplaceLanguageString ( const as_Source, as_SearchedString: String  ) : String ;
+begin
+  Result := StringReplace( as_Source, '[' + as_SearchedString + ']', fs_GetLabelCaption(as_SearchedString), [] );
+end;
+
+procedure p_ReplaceLanguagesStrings ( const astl_FileToChange : TStringList ; const aa_SearchedStrings : Array of String );
+var li_i : Integer ;
+begin
+  for li_i:= low ( aa_SearchedStrings ) to High(aa_SearchedStrings) do
+    Begin
+      astl_FileToChange.text := fs_ReplaceLanguageString (astl_FileToChange.Text, aa_SearchedStrings [ li_i ]);
+    end;
+
+end;
+
+function fb_LoadProperties ( const as_FilePath : String ; const ab_ErrorMessage : Boolean = False ):Boolean;
+Begin
+  p_FreeProperties;
   gstl_Labels := TStringlist.Create ;
   if fileExists ( as_FilePath ) then
     Begin
@@ -116,13 +147,17 @@ Begin
       Result := True;
     end
    Else
-    Result := False;
+    Begin
+     Result := False;
+     if ab_ErrorMessage Then
+       ShowMessage(StringReplace ( GS_FICHIER_NON_TROUVE, CST_ARG, as_FilePath, [] ));
+    end;
 
 end;
 
-function fb_LoadProperties ( const as_DirPath, as_BeginFile, as_Lang : String ):Boolean;
+function fb_LoadProperties ( const as_DirPath, as_BeginFile, as_Lang : String ; const ab_ErrorMessage : Boolean = False ):Boolean;
 Begin
-  Result := fb_LoadProperties (as_DirPath+as_BeginFile+GS_INNER_LANG_SEPARATOR+as_Lang+GS_EXT_LANGUAGES);
+  Result := fb_LoadProperties (as_DirPath+as_BeginFile+GS_INNER_LANG_SEPARATOR+as_Lang+GS_EXT_LANGUAGES, ab_ErrorMessage);
 End;
 // function fs_GetLabelCaption
 // Getting label caption from name
@@ -331,7 +366,7 @@ initialization
   p_ConcatVersion ( gVer_fonctions_languages );
 {$ENDIF}
 finalization
-  gstl_Labels.Free;
+  p_FreeProperties;
 {$IFDEF TNT}
 //  Languages.Free;
 //  Languages := nil;
