@@ -58,7 +58,7 @@ const
   function fs_RemplaceMsg(const as_Texte: String; const aTs_arg: Array of String): String;
   function fs_RemplaceEspace ( const as_Texte : String ; const as_Remplace : String ): String ;
 
-  function fs_RepeteChar     ( ach_Caractere : Char ; const ali_Repete : Longint ):String ;
+  function fs_RepeteChar     ( const ach_Caractere : Char ; const ali_Repete : Integer ):String ;
   function fs_RemplaceChar   ( const as_Texte : String ; const ach_Origine, ach_Voulu : Char ) : String ;
 
   function fs_ReplaceChaine( as_Texte : String ; const as_Origine, as_Voulu : string):string;
@@ -610,12 +610,19 @@ End ;
 // ali_Repete     : Le nombre de répétitions du caractère
 // Résultat       : la chaîne avec le caractère répété
 ////////////////////////////////////////////////////////////////////////////////
-function fs_RepeteChar     ( ach_Caractere : Char ; const ali_Repete : Longint ):String ;
-var lli_i : Longint ;
+function fs_RepeteChar     ( const ach_Caractere : Char ; const ali_Repete : Integer ):String ;
+var lpc_AChar : PChar ;
+    li_i : Integer;
 Begin
-  Result := '' ;
-  for lli_i := 1 to ali_Repete do
-    Result := Result + ach_Caractere ;
+  SetLength ( Result, ali_Repete );
+  if ali_Repete = 0 Then
+    Exit;
+  lpc_AChar := Addr(Result);
+  for li_i := 1 to ali_Repete do
+    Begin
+      lpc_AChar^ := ach_Caractere;
+      inc ( lpc_AChar );
+    end;
 End ;
 
 ////////////////////////////////////////////////////////////////////////////////

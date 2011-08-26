@@ -180,7 +180,7 @@ const
 
   // Retourne true si la section aSection existe.
   function f_SectionExiste(aSection: string): Boolean;
-  function fb_iniWriteFile( const amem_Inifile : TCustomInifile ; const ab_Afficheerreur : Boolean ):Boolean;
+  function fb_iniWriteFile( const amem_Inifile : TCustomInifile ; const ab_Afficheerreur : Boolean  = False ):Boolean;
 
 {$IFDEF ZEOS}
   function fb_IniSetZConnection ( const asqc_Connection : TZConnection ; const IniFile : TIniFile  ) : Boolean ;
@@ -290,7 +290,7 @@ End;
 ////////////////////////////////////////////////////////////////////////////////
 // Lit le nom de toutes les sections d'un fichier INI dans une liste de chaînes
 ////////////////////////////////////////////////////////////////////////////////
-function fb_iniWriteFile( const amem_Inifile : TCustomInifile ; const ab_Afficheerreur : Boolean ):Boolean;
+function fb_iniWriteFile( const amem_Inifile : TCustomInifile ; const ab_Afficheerreur : Boolean = False ):Boolean;
 var
     li_Attr : Integer ;
     lt_Arg  : Array [0..1] of String ;

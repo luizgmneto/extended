@@ -69,6 +69,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
       CST_ONFORMINI_RICHVIEW    = 'TRichView' ;
       CST_ONFORMINI_RICHMEMO    = 'TRichMemo'  ;
       CST_ONFORMINI_XPCHECK     = 'TJvXPCheckbox' ;
+      CST_ONFORMINI_FLATCHECK   = 'TFlatCheckBox' ;
       CST_ONFORMINI_PCHECK      = 'TPCheck' ;
       CST_ONFORMINI_JVDIRECTORY = 'TJvDirectoryEdit';
       CST_ONFORMINI_SPINEDIT    = 'TSpinEdit';
@@ -432,6 +433,7 @@ var
     // lecture des CheckBoxes
     if (   (lcom_Component is TCheckBox)
         or (lcom_Component.ClassNameIs( CST_ONFORMINI_XPCHECK ))
+        or (lcom_Component.ClassNameIs( CST_ONFORMINI_FLATCHECK ))
         or (lcom_Component.ClassNameIs( CST_ONFORMINI_PCHECK )))
      and GetfeSauveEdit ( FSauveEditObjets, feTCheck ) then
       begin
@@ -883,6 +885,7 @@ var
     Result := False;
     if ((lcom_Component is TCheckBox)
     or (lcom_Component.ClassNameIs( CST_ONFORMINI_XPCHECK ))
+    or (lcom_Component.ClassNameIs( CST_ONFORMINI_FLATCHECK ))
     or (lcom_Component.ClassNameIs( CST_ONFORMINI_PCHECK )))
     and GetfeSauveEdit(FSauveEditObjets, feTCheck )
      then

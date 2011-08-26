@@ -54,6 +54,8 @@ type TALanguage = Record
      TTheLanguages = array of TALanguage ;
 var ga_SoftwareLanguages : TTheLanguages;
 {$ENDIF}
+var       GS_EXT_LANGUAGES : String = '.properties';
+          GS_INNER_LANG_SEPARATOR : Char = '_' ;
 
 const // Evènements gérés
   CST_sdb_consts      = 'sdb_consts';
@@ -69,9 +71,10 @@ const // Evènements gérés
   gver_fonctions_languages : T_Version = ( Component : 'Languages Management' ; FileUnit : 'fonctions_languages' ;
               			                 Owner : 'Matthieu Giroux' ;
               			                 Comment : 'Languages Management' ;
-              			                 BugsStory : 'Version 0.9.0.0 : Created from fonctions_Objets_Dynamiques.' + #13#10 ;
+              			                 BugsStory : 'Version 0.9.9.0 : Centralising getting Properties.' + #13#10
+                                                           + 'Version 0.9.0.0 : Created from fonctions_Objets_Dynamiques.' + #13#10;
               			                 UnitType : 1 ;
-              			                 Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+              			                 Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
 {$ENDIF}
 
 
@@ -89,6 +92,9 @@ function GetUserInfo ( const ai_LOCALEINFO : Integer ): string;
 function GetLanguageCode ( ALANGID : LCID ) : string;
 {$ENDIF}
 procedure ChangeLanguage( iIndex : integer);
+function fb_LoadProperties ( const as_FilePath : String ):Boolean; overload;
+function fb_LoadProperties ( const as_DirPath, as_BeginFile, as_Lang : String ):Boolean; overload;
+function fs_GetLabelCaption ( const as_Name : String ):WideString;
 
 implementation
 
@@ -98,8 +104,33 @@ uses
 {$ENDIF}
   SysUtils, fonctions_string;
 
+var    gstl_Labels             : TStringlist = nil ;
 
+function fb_LoadProperties ( const as_FilePath : String ):Boolean;
+Begin
+  gstl_Labels.Free;
+  gstl_Labels := TStringlist.Create ;
+  if fileExists ( as_FilePath ) then
+    Begin
+      gstl_Labels.LoadFromFile ( as_FilePath );
+      Result := True;
+    end
+   Else
+    Result := False;
 
+end;
+
+function fb_LoadProperties ( const as_DirPath, as_BeginFile, as_Lang : String ):Boolean;
+Begin
+  Result := fb_LoadProperties (as_DirPath+as_BeginFile+GS_INNER_LANG_SEPARATOR+as_Lang+GS_EXT_LANGUAGES);
+End;
+// function fs_GetLabelCaption
+// Getting label caption from name
+// Name of caption
+function fs_GetLabelCaption ( const as_Name : String ):WideString;
+Begin
+   Result := fs_GetStringValue ( gstl_Labels, as_Name );
+end;
 {$IFDEF FPC}
 procedure ChangeUnitLanguage( const as_Unit : String ; const ar_Language : TALanguage );
 var ls_LangFileBegin : String;
@@ -124,11 +155,46 @@ begin
   {$IFDEF FPC}
   lr_Language := ga_SoftwareLanguages [iIndex];
   ChangeUnitLanguage( CST_sdb_consts, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_sdb_consts, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_sdb_consts, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_sdb_consts, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_ldd_consts, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_ldd_consts, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_ldd_consts, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_ldd_consts, lr_Language );
   ChangeUnitLanguage( CST_ldd_consts, lr_Language );
   ChangeUnitLanguage( CST_lclstrconsts, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_lclstrconsts, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_lclstrconsts, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_lclstrconsts, lr_Language );
   ChangeUnitLanguage( CST_lazdatadeskstr, lr_Language );
-  ChangeUnitLanguage( CST_u_languagevars, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_lazdatadeskstr, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_lazdatadeskstr, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_lazdatadeskstr, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_lazdatadeskstr, lr_Language );
   ChangeUnitLanguage( CST_lr_const, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_lr_const, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_lr_const, lr_Language );
+  // Bug on 0.9.30 : must repeat
+  ChangeUnitLanguage( CST_lr_const, lr_Language );
+  // Own units
+  ChangeUnitLanguage( CST_u_languagevars, lr_Language );
   ChangeUnitLanguage( CST_unite_messages, lr_Language );
   ChangeUnitLanguage( CST_unite_variables, lr_Language );
  // Translations.TranslateResourceStrings(as_Unit, fs_getSoftDir () + CST_LNG_DIRECTORY +'SoftLang.%s.po', ar_Language.LongLang, ar_Language.LittleLang);
@@ -265,6 +331,7 @@ initialization
   p_ConcatVersion ( gVer_fonctions_languages );
 {$ENDIF}
 finalization
+  gstl_Labels.Free;
 {$IFDEF TNT}
 //  Languages.Free;
 //  Languages := nil;
