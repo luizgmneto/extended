@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="4" Build="2"/>
-    <Files Count="26">
+    <Files Count="27">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.lrs"/>
         <Type Value="LRS"/>
@@ -128,6 +128,10 @@
         <Filename Value="composants/u_extmenucustomize.pas"/>
         <UnitName Value="u_extmenucustomize"/>
       </Item26>
+      <Item27>
+        <Filename Value="composants/u_extimage.pas"/>
+        <UnitName Value="U_ExtImage"/>
+      </Item27>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="10">

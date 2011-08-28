@@ -28,7 +28,7 @@ uses unite_messages, U_DBListView, U_ExtDBNavigator,
 {$ELSE}
      DBReg, Designintf,
 {$ENDIF}
-     U_ExtDBImage, u_extdbgrid, u_extmenucustomize,
+     U_ExtDBImage, U_ExtImage, u_extdbgrid, u_extmenucustomize,
      u_extmenutoolbar;
 
 procedure Register;
@@ -41,7 +41,8 @@ begin
                                                 TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF}]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtNumEdit,
                                                 TExtColorCombo, TExtMenuToolBar,
-                                                TFWLabel, TFWEdit,TFWGrid,TFWMemo,TFWDateEdit]);
+                                                TFWLabel, TFWEdit,TFWGrid,TFWMemo,TFWDateEdit,
+                                                TExtImage]);
   RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataKeyUnit'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataSort'      , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo(string), TDBListView, 'DataFieldsDisplay'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
@@ -63,6 +64,7 @@ initialization
   {$i U_ExtNumEdits.lrs}
   {$i u_extmenucustomize.lrs}
   {$i u_extdbgrid.lrs}
+  {$i u_extimage.lrs}
 {$ENDIF}
 end.
 

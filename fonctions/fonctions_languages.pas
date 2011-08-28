@@ -5,7 +5,7 @@ interface
 {$I ..\extends.inc}
 {$I ..\Compilers.inc}
 {$IFDEF FPC}
-{$Mode Delphi}
+  {$MODE objfpc}{$H+}
 {$ENDIF}
 
 {
@@ -40,7 +40,7 @@ uses Forms,
 {$IFDEF TNT}
   DKLang,
 {$ENDIF}
-  IniFiles ;
+  SysUtils, IniFiles ;
 
 var
       gb_ExisteFonctionMenu   : Boolean      ;   // Existe-t-il une fonction d'accès au menu
@@ -96,8 +96,8 @@ function fb_LoadProperties ( const as_FilePath : String ; const ab_ErrorMessage 
 function fb_LoadProperties ( const as_DirPath, as_BeginFile, as_Lang : String ; const ab_ErrorMessage : Boolean = False ):Boolean; overload;
 procedure p_FreeProperties;
 function fs_GetLabelCaption ( const as_Name : String ):WideString;
-function fs_ReplaceLanguageString ( const as_Source, as_SearchedString, as_LabelToSet : String  ) : String ; overload;
-function fs_ReplaceLanguageString ( const as_Source, as_SearchedString: String  ) : String ; overload;
+procedure p_ReplaceLanguageString ( const astl_FileToChange : TStringList ; const as_SearchedString, as_LabelToSet : String  ; const  Flags: TReplaceFlags = [] ) ; overload;
+procedure p_ReplaceLanguageString ( const astl_FileToChange : TStringList ; const as_SearchedString: String  ; const  Flags: TReplaceFlags = [] ); overload;
 procedure p_ReplaceLanguagesStrings ( const astl_FileToChange : TStringList ; const aa_SearchedStrings : Array of String );
 
 
@@ -107,7 +107,7 @@ uses
 {$IFDEF TNT}
   TntSysUtils, TntSystem,
 {$ENDIF}
-  SysUtils, fonctions_string,
+  fonctions_string,
   Dialogs, unite_messages;
 
 var    gstl_Labels             : TStringlist = nil ;
@@ -118,13 +118,23 @@ Begin
   gstl_Labels := nil;
 end;
 
-function fs_ReplaceLanguageString ( const as_Source, as_SearchedString, as_LabelToSet : String  ) : String ;
+procedure p_ReplaceLanguageString ( const astl_FileToChange : TStringList ; const as_SearchedString, as_LabelToSet : String ; const  Flags: TReplaceFlags = [] ) ;
+var li_i : Longint ;
+    ls_line : String ;
 begin
-  Result := StringReplace( as_Source, '[' + as_SearchedString + ']', as_LabelToSet, [] );
+  for li_i := 0 to astl_FileToChange.Count - 1 do
+    Begin
+      ls_line := astl_FileToChange [ li_i ];
+      if pos ( '[' + as_SearchedString + ']', ls_line ) > 0 Then
+        Begin
+          astl_FileToChange [ li_i ] :=  StringReplace( ls_line, '[' + as_SearchedString + ']', as_LabelToSet, Flags );
+          Exit;
+        end;
+    end;
 end;
-function fs_ReplaceLanguageString ( const as_Source, as_SearchedString: String  ) : String ;
+procedure p_ReplaceLanguageString ( const astl_FileToChange : TStringList ; const as_SearchedString : String  ; const  Flags: TReplaceFlags = [] ) ;
 begin
-  Result := StringReplace( as_Source, '[' + as_SearchedString + ']', fs_GetLabelCaption(as_SearchedString), [] );
+  p_ReplaceLanguageString ( astl_FileToChange, as_SearchedString, fs_GetLabelCaption(as_SearchedString), Flags);
 end;
 
 procedure p_ReplaceLanguagesStrings ( const astl_FileToChange : TStringList ; const aa_SearchedStrings : Array of String );
@@ -132,7 +142,7 @@ var li_i : Integer ;
 begin
   for li_i:= low ( aa_SearchedStrings ) to High(aa_SearchedStrings) do
     Begin
-      astl_FileToChange.text := fs_ReplaceLanguageString (astl_FileToChange.Text, aa_SearchedStrings [ li_i ]);
+      p_ReplaceLanguageString (astl_FileToChange, aa_SearchedStrings [ li_i ]);
     end;
 
 end;

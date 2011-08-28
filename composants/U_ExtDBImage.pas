@@ -17,7 +17,7 @@ uses Graphics,
   fonctions_version,
 {$ENDIF}
      DB, DBCtrls,
-     Classes;
+     Classes, U_ExtImage;
 
 {$IFDEF VERSIONS}
   const
@@ -33,7 +33,11 @@ uses Graphics,
 
 {$ENDIF}
 
-type TExtDBImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF} )
+type
+
+{ TExtDBImage }
+
+TExtDBImage = class( TExtImage)
      private
        FDataLink: TFieldDataLink;
        procedure p_SetDatafield  ( const Value : String );
@@ -41,13 +45,13 @@ type TExtDBImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF} )
        function  fds_GetDatasource : TDatasource;
        function  fs_GetDatafield : String;
      protected
+       procedure p_SetImage; virtual;
        procedure p_ActiveChange(Sender: TObject); virtual;
        procedure p_DataChange(Sender: TObject); virtual;
        procedure p_UpdateData(Sender: TObject); virtual;
-       procedure p_SetImage ; virtual;
      public
-       procedure LoadFromStream ( const astream : TStream ); virtual;
-       function  LoadFromFile   ( const afile   : String ):Boolean; virtual;
+       procedure LoadFromStream ( const astream : TStream ); override;
+       function  LoadFromFile   ( const afile   : String ):Boolean;  override;
        constructor Create(AOwner: TComponent); override;
        destructor Destroy ; override;
      published
