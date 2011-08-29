@@ -16,7 +16,6 @@ uses Graphics,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-     DB, DBCtrls,
      Classes;
 
 {$IFDEF VERSIONS}
@@ -31,16 +30,30 @@ uses Graphics,
 
 {$ENDIF}
 
-type TExtImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF} )
+type
+
+{ TExtImage }
+
+TExtImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF} )
+     private
+       FShowErrors : Boolean ;
+       procedure p_SetFileName  ( const Value : String ); virtual;
+     protected
+       FFileName : String;
      public
        procedure LoadFromStream ( const astream : TStream ); virtual;
        function  LoadFromFile   ( const afile   : String ):Boolean; virtual;
+       constructor Create(AOwner: TComponent); override;
+       procedure Loaded; override;
+     published
+       property FileName : String read FFileName write p_SetFileName ;
+       property ShowErrors : Boolean read FShowErrors write FShowErrors default True ;
      end;
 
 
 implementation
 
-uses fonctions_images, Controls;
+uses fonctions_images, Controls, sysutils;
 
 { TExtImage }
 
@@ -48,13 +61,32 @@ uses fonctions_images, Controls;
 function TExtImage.LoadFromFile(const afile: String):Boolean;
 begin
   Result := False;
-  p_SetFileToImage(afile, Self.Picture, True);
+  FFileName:=afile;
+  if FileExists ( FFileName ) Then
+    p_FileToImage(FFileName, Self.Picture, FShowErrors);
   Result := True;
+end;
+
+constructor TExtImage.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FShowErrors:=True;
+end;
+
+procedure TExtImage.Loaded;
+begin
+  inherited Loaded;
+  LoadFromFile(FFileName);
+end;
+
+procedure TExtImage.p_SetFileName(const Value: String);
+begin
+  LoadFromFile(Value);
 end;
 
 procedure TExtImage.LoadFromStream(const astream: TStream);
 begin
-  p_SetStreamToImage( astream, Self.Picture, True );
+  p_StreamToImage( astream, Self.Picture, FShowErrors );
 end;
 
 

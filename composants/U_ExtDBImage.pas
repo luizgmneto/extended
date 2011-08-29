@@ -25,12 +25,13 @@ uses Graphics,
                                                FileUnit : 'U_ExtDBImage' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Gestion d''images de tous types dans les données.' ;
-                                               BugsStory : 'Version 1.0.0.1 : Creating ExtImage.' + #13#10
+                                               BugsStory : 'Version 1.0.0.2 : Upgrading from tested functions.' + #13#10
+                                                         + 'Version 1.0.0.1 : Creating ExtImage.' + #13#10
                                                          + 'Version 1.0.0.0 : En place, tout a été testé.' + #13#10
                                                          + 'Version 0.9.0.1 : En place, tout n''a pas été testé.' + #13#10
                                                          + '0.9.0.0 : Simple affiche de toute image en données.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
 
 {$ENDIF}
 
@@ -53,6 +54,8 @@ TExtDBImage = class( TExtImage)
      public
        procedure LoadFromStream ( const astream : TStream ); override;
        function  LoadFromFile   ( const afile   : String ):Boolean;  override;
+       procedure SaveToStream ( const astream : TMemoryStream ); virtual;
+       function  SavetoFile   ( const afile   : String ;const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;  virtual;
        constructor Create(AOwner: TComponent); override;
        destructor Destroy ; override;
      published
@@ -63,7 +66,7 @@ TExtDBImage = class( TExtImage)
 
 implementation
 
-uses fonctions_images, Controls;
+uses fonctions_images, Controls,sysutils;
 
 { TExtDBImage }
 
@@ -109,18 +112,38 @@ end;
 function TExtDBImage.LoadFromFile(const afile: String):Boolean;
 begin
   Result := False;
-  if  assigned ( FDataLink.Field ) then
+  FFileName:=afile;
+  if  assigned ( FDataLink.Field )
+  and FileExists(FFileName) then
     Begin
-      p_SetImageFileToField(afile, FDataLink.Field, True);
+      p_ImageFileToField(FFileName, FDataLink.Field, ShowErrors);
       Result := True;
     End;
+end;
+
+procedure TExtDBImage.SaveToStream(const astream: TMemoryStream);
+begin
+  if  assigned ( FDataLink.Field ) then
+    Begin
+      p_ImageFieldToStream ( FDataLink.Field, astream, ShowErrors );
+    end;
+end;
+
+function TExtDBImage.SavetoFile(const afile: String;
+  const ali_newWidth: Longint; const ali_newHeight: Longint;
+  const ab_KeepProportion: Boolean): Boolean;
+begin
+  if  assigned ( FDataLink.Field ) then
+    Begin
+      fb_ImageFieldToFile ( FDataLink.Field, afile, ali_newWidth, ali_newHeight, ab_KeepProportion, ShowErrors );
+    end;
 end;
 
 procedure TExtDBImage.LoadFromStream(const astream: TStream);
 begin
   if  assigned ( FDataLink.Field ) then
     Begin
-      p_SetStreamToField( astream, FDataLink.Field, True );
+      p_StreamToField( astream, FDataLink.Field, ShowErrors );
     End;
 end;
 
@@ -160,7 +183,7 @@ begin
   and assigned ( FDataLink.Field )
   and not FDataLink.Field.IsNull Then
     Begin
-      p_SetFieldToImage ( FDataLink.Field, Self.Picture, True );
+      p_FieldToImage ( FDataLink.Field, Self.Picture, ShowErrors );
     End
    Else
     Picture.Bitmap.Assign(nil);

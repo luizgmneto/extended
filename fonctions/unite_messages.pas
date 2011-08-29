@@ -59,6 +59,10 @@ resourcestring
   GS_DETAILS_TECHNIQUES = 'Détails techniques : ' ;
   GS_TOOLBARMENU_Personnaliser = 'Personnaliser' ;
 
+  GS_IMAGE_MAUVAISE_TAILLE = 'La taille de l''image doit être au moins de 32 sur 32.' ;
+  GS_IMAGE_DEFORMATION = 'L''image sera déformée, continuer ?' ;
+  GS_IMAGE_MAUVAISE_IMAGE = 'Mauvais format d''image.' ;
+
  // Composants
   GS_SUPPRIMER_QUESTION = 'Confirmez-vous l''effacement de l''enregistrement ?' ;
   GS_CHARGEMENT_IMPOSSIBLE_FIELD_IMAGE  = 'Il est impossible de charger l''enregistrement de l''image.' ;

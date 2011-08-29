@@ -63,6 +63,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
       CST_ONFORMINI_INDEX       = 'Index' ;
       CST_ONFORMINI_DATASOURCE  = 'Datasource'  ;
       CST_ONFORMINI_ITEMINDEX   = 'ItemIndex'  ;
+      CST_ONFORMINI_COUNT       = 'Count'  ;
 
       // Components
       CST_ONFORMINI_EXTCOLOR    = 'TExtColorCombo' ;
@@ -88,7 +89,8 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
                                            Comment : 'Gestion de l''ini à mettre sur une fiche.' ;
-                                           BugsStory : '1.0.1.4 : Freeing ini, erasing before saving.' +#13#10 +
+                                           BugsStory : '1.0.1.5 : Testing Memo.' +#13#10 +
+                                                       '1.0.1.4 : Freeing ini, erasing before saving.' +#13#10 +
                                                        '1.0.1.3 : Erasing form section after reading ini.' +#13#10 +
                                                        '1.0.1.2 : Testing and creating consts. New form events.' +#13#10 +
                                                        '1.0.1.1 : Testing ColorCombo.' +#13#10 +
@@ -97,7 +99,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                                        '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
                                                        '1.0.0.0 : Gestion de beaucoup de composants.';
                                            UnitType : 3 ;
-                                           Major : 1 ; Minor : 0 ; Release : 1 ; Build : 4 );
+                                           Major : 1 ; Minor : 0 ; Release : 1 ; Build : 5 );
 
 {$ENDIF}
 
@@ -203,36 +205,38 @@ end;
 // permet de sauver dans un ini le contenu d'un mémo, d'un Combobox, d'un ListBox, d'un RichEdit
 // et d'un façon générale, le contenu des composants qui le stocke dans des TStrings
 ////////////////////////////////////////////////////////////////////////////////
-procedure SauveTStringsDansIni(FIni:TIniFile; SectionIni:string; LeTStrings:TStrings; ItemIndex:integer);
-var i: integer;
+procedure SauveTStringsDansIni(const FIni:TIniFile; SectionIni:string; const LeTStrings:TStrings; const ItemIndex:integer);
+var li_i: integer;
 begin
   Fini.EraseSection(SectionIni); // on efface toute la section décrite par SectionIni
-  for i := 0 to LeTStrings.Count - 1 do // pour chaque ligne du Tstrings
+  for li_i := 1 to LeTStrings.Count do // pour chaque ligne du Tstrings
   begin
     // on aura ainsi dans le fichier ini et dans la section considéré :
     // L0= suivi du contenu de la première ligne du TStrings. puis L1= etc..
-    FIni.WriteString(SectionIni, 'L' + IntToStr(i), LeTStrings[i]);// écrit dans le fichier ini
+    FIni.WriteString(SectionIni, 'L' + IntToStr(li_i), LeTStrings[li_i-1]);// écrit dans le fichier ini
   end;
   FIni.WriteInteger(SectionIni, CST_ONFORMINI_ITEMINDEX, ItemIndex);
+  FIni.WriteInteger(SectionIni, CST_ONFORMINI_COUNT, LeTStrings.Count);
 end;
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // permet de lire le contenu d'un ini qui a été sauvé par SauveTStringsDansIni
 ////////////////////////////////////////////////////////////////////////////////
-procedure LitTstringsDeIni(FIni: TIniFile; SectionIni: string; LeTStrings: TStrings; var ItemIndex: integer);
-var i: integer;
+procedure LitTstringsDeIni(const FIni: TIniFile; SectionIni: string; const LeTStrings: TStrings; var ItemIndex: integer);
+var li_i, li_count : integer;
 begin
   ItemIndex := -1;
   if FIni.SectionExists(SectionIni) then
     begin
       LeTStrings.Clear;
-      i := 0;
-      while FIni.ValueExists(SectionIni, 'L' + IntToStr(i)) do
-        begin
-          LeTStrings.Add(FIni.ReadString(SectionIni, 'L' + IntToStr(i), ''));
-          inc(i);
-        end;
+      LeTStrings.BeginUpdate;
+      li_count:=FIni.ReadInteger(SectionIni, CST_ONFORMINI_COUNT, 0 );
+      for li_i := 1 to li_count do
+       if FIni.ValueExists(SectionIni, 'L' + IntToStr(li_i))
+        Then LeTStrings.Add(FIni.ReadString(SectionIni, 'L' + IntToStr(li_i), ''))
+        Else LeTStrings.Add('');
+      LeTStrings.EndUpdate;
       ItemIndex := Fini.ReadInteger(SectionIni, CST_ONFORMINI_ITEMINDEX, 0);
     end;
 end;
@@ -560,7 +564,7 @@ var
     Result := False;
     if (lcom_Component is TMemo) and GetfeSauveEdit(FSauveEditObjets ,feTMemo)        then
       begin
-        LitTstringsDeIni(FInifile, lcom_Component.Name,TCustomMemo(lcom_Component).Lines,rien );
+        LitTstringsDeIni(FInifile, aF_Form.Name + '-' + lcom_Component.Name,TCustomMemo(lcom_Component).Lines,rien );
         Result := True;
       end;
     if {$IFDEF FPC}(lcom_Component.ClassNameIs(CST_ONFORMINI_RICHVIEW) or lcom_Component.ClassNameIs(CST_ONFORMINI_RICHMEMO) {$ELSE} (lcom_Component is  TCustomRichEdit {$ENDIF})
@@ -568,7 +572,7 @@ var
     and ( fobj_getComponentObjectProperty(lcom_Component, CST_ONFORMINI_LINES ) <> nil)
      then
       begin
-        LitTstringsDeIni(FInifile, lcom_Component.Name,fobj_getComponentObjectProperty(lcom_Component, CST_ONFORMINI_LINES ) as TStrings,rien);
+        LitTstringsDeIni(FInifile, af_Form.Name + '-' +  lcom_Component.Name,fobj_getComponentObjectProperty(lcom_Component, CST_ONFORMINI_LINES ) as TStrings,rien);
         Result := True;
       end;
   end;
@@ -953,7 +957,7 @@ var
     Result := False;
     if (lcom_Component is TMemo)           and GetfeSauveEdit(FSauveEditObjets ,feTMemo)            then
       begin
-        SauveTStringsDansIni(FInifile, lcom_Component.Name,TMemo(lcom_Component).Lines,0);
+        SauveTStringsDansIni(FInifile, af_Form.Name + '-' +  lcom_Component.Name,TMemo(lcom_Component).Lines,0);
         Result := True;
       end;
     if {$IFDEF FPC}(lcom_Component.ClassNameIs(CST_ONFORMINI_RICHVIEW) or lcom_Component.ClassNameIs(CST_ONFORMINI_RICHMEMO) {$ELSE} (lcom_Component is  TCustomRichEdit {$ENDIF})
@@ -961,7 +965,7 @@ var
     and ( fobj_getComponentObjectProperty(lcom_Component, CST_ONFORMINI_LINES ) <> nil)
      then
       begin
-        SauveTStringsDansIni(FInifile, lcom_Component.Name,fobj_getComponentObjectProperty(lcom_Component, CST_ONFORMINI_LINES ) as TStrings,0);
+        SauveTStringsDansIni(FInifile, af_Form.Name + '-' +  lcom_Component.Name,fobj_getComponentObjectProperty(lcom_Component, CST_ONFORMINI_LINES ) as TStrings,0);
         Result := True;
       end;
 

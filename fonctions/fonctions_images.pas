@@ -18,22 +18,24 @@ uses Forms,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  DB, Graphics, Classes, Controls, Dialogs ;
+  DB, Graphics, Classes,
+  ImagingTypes, ImagingComponents, Imaging,
+  Controls, Dialogs ;
 
-const CST_IMAGE_MAUVAISE_TAILLE = 'La taille de l''image doit être au moins de 32 sur 32.' ;
-      CST_IMAGE_DEFORMATION = 'L''image sera déformée, continuer ?' ;
-      CST_IMAGE_MAUVAISE_IMAGE = 'Mauvais format d''image.' ;
+const CST_EXTENSION_JPEG           = '.jpg' ;
 {$IFDEF VERSIONS}
   gVer_fonctions_images : T_Version = ( Component : 'Gestion des images' ; FileUnit : 'fonctions_images' ;
                         			             Owner : 'Matthieu Giroux' ;
                         			              Comment : 'Chargement des icônes et bitmap ( vérifier des erreurs éventuelles avec Memproof ).' + #13#10 + 'Gestion des images.' ;
-                        			              BugsStory : 'Version 1.0.0.4 : Bug couleur transparente en noir dans les imagelist.' + #13#10 +
-                        			                	        'Version 1.0.0.3 : Handle à 0 après FreeImage et create des TBitmap.' + #13#10 +
-                        			                	        'Version 1.0.0.2 : Suppression du RealeaseHanlde après FreeImage.' + #13#10 +
-                        			                	        'Version 1.0.0.1 : Meilleure gestion des images, problèmes de rafraichissement.' + #13#10 +
-                        			                	        'Version 1.0.0.0 : La gestion est en place.' + #13#10 + 'Il faut utiliser les fonctions et vérifier les erreurs éventuellement produites avec Memproof.';
+                        			              BugsStory : 'Version 1.0.1.0 : Testing and saving to file.' + #13#10 +
+                        			                	  'Version 1.0.0.5 : Testing Imaging.' + #13#10 +
+                        			                	  'Version 1.0.0.4 : Bug couleur transparente en noir dans les imagelist.' + #13#10 +
+                        			                	  'Version 1.0.0.3 : Handle à 0 après FreeImage et create des TBitmap.' + #13#10 +
+                        			                	  'Version 1.0.0.2 : Suppression du RealeaseHanlde après FreeImage.' + #13#10 +
+                        			                	  'Version 1.0.0.1 : Meilleure gestion des images, problèmes de rafraichissement.' + #13#10 +
+                        			                	  'Version 1.0.0.0 : La gestion est en place.' + #13#10 + 'Il faut utiliser les fonctions et vérifier les erreurs éventuellement produites avec Memproof.';
                         			              UnitType : 1 ;
-                        			              Major : 1 ; Minor : 0 ; Release : 0 ; Build : 4 );
+                        			              Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 
 
 {$ENDIF}
@@ -53,14 +55,19 @@ function fb_ChargeIcoBmp ( const aod_ChargerImage : TOpenDialog ;
                            const ab_MontreMessage : Boolean     ;
                            const adxb_Image       : TBitmap     ) : Boolean ;
 
-procedure p_SetImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean );
-procedure p_SetStreamToField ( const astream: TStream; const field : TField ; const ab_ShowError : Boolean );
-procedure p_SetFieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean );
-procedure p_SetFileToStream ( const afile : String; const Stream : TStream ; const ab_ShowError : Boolean );
-procedure p_SetStreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean );
-procedure p_SetFileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean );
-procedure p_SetFileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean );
+function  fb_ImageFieldToFile ( const field : TField ; const afile: String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
+function  fb_StreamToFile ( const Stream : TStream ; const afile : String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ; const ab_ShowError : Boolean = False ) : Boolean;
+procedure p_ImageFieldToStream ( const field : TField ; const ast_memory_stream: tMemoryStream ; const ab_ShowError : Boolean = False );
+procedure p_ImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean = False );
+procedure p_StreamToField ( const astream: TStream; const field : TField ; const ab_ShowError : Boolean = False );
+procedure p_FieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean = False );
+procedure p_FileToStream ( const afile : String; const Stream : TStream ; const ab_ShowError : Boolean = False );
+procedure p_StreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean = False );
+procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean = False );
+procedure p_FileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean = False );
 procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TBitmap; const ai_Taille : Integer );
+
+function fb_ResizeImaging ( var Fdata : TImageData; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
 
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
                                   const ab_AjouteBitmap      ,
@@ -98,7 +105,7 @@ function fb_FichierIcoBmpVersBitmap ( const as_Fichier : String; const aBmp_Sort
 procedure p_BitmapVersIco ( const aBmp_Bitmap : TBitmap ; const aIco_Destination : TIcon );
 
 implementation
-uses ImagingTypes, ImagingComponents, Imaging,
+uses
 {$IFDEF FPC}
      LCLType,
 {$ELSE}
@@ -283,7 +290,7 @@ begin
       End ;
     aBmp_Sortie.Transparent := True ;
   except
-      MessageDlg(CST_IMAGE_MAUVAISE_IMAGE, mtWarning, [mbOk], 0);
+      MessageDlg(GS_IMAGE_MAUVAISE_IMAGE, mtWarning, [mbOk], 0);
   End ;
 end ;
 
@@ -451,13 +458,13 @@ begin
             Begin
               if ab_MontreMessage
                Then
-                MessageDlg ( CST_IMAGE_MAUVAISE_TAILLE, mtWarning, [mbOk], 0);
+                MessageDlg ( GS_IMAGE_MAUVAISE_TAILLE, mtWarning, [mbOk], 0);
               Exit ;
             End
            Else
             if  (    ( LBmp_Tempo.Width  = LBmp_Tempo.Height )
       // L'image va être déformée alors avertissement
-                 or  ( ab_MontreMessage and ( MessageDlg ( CST_IMAGE_DEFORMATION, mtWarning, [mbOk,mbCancel], 0) = mrOK )))
+                 or  ( ab_MontreMessage and ( MessageDlg ( GS_IMAGE_DEFORMATION, mtWarning, [mbOk,mbCancel], 0) = mrOK )))
              Then
               Begin
               // Création du bitmap de conversion
@@ -537,7 +544,7 @@ End ;
 // Procédure de transfert d'un champ vers une image
 // field : Le champ image
 // Image : La destination
-procedure p_SetFieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean );
+procedure p_FieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean = False );
 var l_c_memory_stream: tMemoryStream;
 begin
   if not ( field.IsNull ) then
@@ -550,7 +557,7 @@ begin
          if ab_ShowError Then
             ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FIELD_IMAGE);
       end;
-      p_SetStreamToImage ( l_c_memory_stream, Image, ab_ShowError );
+      p_StreamToImage ( l_c_memory_stream, Image, ab_ShowError );
       l_c_memory_stream.Free;
     End;
 
@@ -559,13 +566,13 @@ end;
 // Procédure de transfert d'un champ vers une image
 // field : Le champ image
 // Image : La destination
-procedure p_SetImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean );
+procedure p_ImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean = False );
 var l_c_memory_stream: tMemoryStream;
 begin
   if FileExists ( afile ) then
     Begin
       l_c_memory_stream:= tMemoryStream.Create;
-      p_SetFileToStream(afile,l_c_memory_stream, ab_ShowError);
+      p_FileToStream(afile,l_c_memory_stream, ab_ShowError);
       try
         ( field as tBlobField ).LoadFromStream ( l_c_memory_stream );
       Except
@@ -573,16 +580,48 @@ begin
          if ab_ShowError Then
             ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FIELD_IMAGE);
       end;
-      p_SetStreamToField ( l_c_memory_stream, field, ab_ShowError );
+      p_StreamToField ( l_c_memory_stream, field, ab_ShowError );
       l_c_memory_stream.Free;
     End;
 
 end;
 
+// Procédure de transfert d'un champ vers un fichier
+// field : Le champ image
+// afile : La destination
+function fb_ImageFieldToFile ( const field : TField ; const afile: String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
+var l_c_memory_stream: tMemoryStream;
+begin
+  if not FileExists ( afile )
+  and ( field is TBlobField )
+  and (( field as TBlobField ).BlobSize > 0 ) then
+    Begin
+      l_c_memory_stream := TMemoryStream.Create();
+      p_ImageFieldToStream ( field, l_c_memory_stream );
+      Result := fb_StreamToFile ( l_c_memory_stream, afile, ali_newWidth, ali_newHeight, ab_KeepProportion, ab_ShowError );
+      l_c_memory_stream.Free;
+    End;
+
+end;
+
+// Procédure de transfert d'un champ vers un fichier
+// field : Le champ image
+// afile : La destination
+procedure p_ImageFieldToStream ( const field : TField ; const ast_memory_stream: tMemoryStream ; const ab_ShowError : Boolean = False );
+begin
+  try
+    ( field as tBlobField ).SaveToStream ( ast_memory_stream );
+  Except
+    On E:Exception do
+     if ab_ShowError Then
+        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FIELD_IMAGE);
+  end;
+end;
+
 // Procédure de transfert d'un champ vers une image
 // field : Le champ image
 // Image : La destination
-procedure p_SetStreamToField ( const astream: TStream; const field : TField ; const ab_ShowError : Boolean );
+procedure p_StreamToField ( const astream: TStream; const field : TField ; const ab_ShowError : Boolean = False );
 begin
   if ( field is tBlobField ) then
     try
@@ -595,76 +634,125 @@ begin
 
 end;
 
-procedure p_SetStreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean );
-var Aimagedata : TImageData;
+procedure p_StreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean = False );
+var lid_imagedata : TImageData;
 begin
   try
-    stream.Position := 0;
-    aimagedata.Width   := 0;
-    aimagedata.Height  := 0;
-    Aimagedata.Format  := ifUnknown;
-    Aimagedata.Size    := 0;
-    Aimagedata.Bits    := nil;
-    Aimagedata.Palette := nil;
-    LoadImageFromStream( stream, aimagedata );
-    ConvertDataToBitmap( aimagedata, Image.Bitmap );
+    InitImage(lid_imagedata);
+    LoadImageFromStream( stream, lid_imagedata );
+    ConvertDataToBitmap( lid_imagedata, Image.Bitmap );
     Image.Bitmap.Canvas.Refresh;
   Except
     On E:Exception do
       if ab_ShowError Then
         ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_STREAM_IMAGE);
   end;
+  FreeImage(lid_imagedata);
 end;
 
-procedure p_SetFileToStream ( const afile : String; const Stream : TStream ; const ab_ShowError : Boolean );
-var Aimagedata : TImageData;
+procedure p_FileToStream ( const afile : String; const Stream : TStream ; const ab_ShowError : Boolean = False );
+var lid_imagedata : TImageData;
 begin
   try
-    aimagedata.Width   := 0;
-    aimagedata.Height  := 0;
-    Aimagedata.Format  := ifUnknown;
-    Aimagedata.Size    := 0;
-    Aimagedata.Bits    := nil;
-    Aimagedata.Palette := nil;
-    LoadImageFromFile  ( afile, aimagedata );
-    SaveImageToStream( 'JPG', Stream, aImageData);
+    InitImage(lid_imagedata);
+    LoadImageFromFile  ( afile, lid_imagedata );
+    SaveImageToStream( 'JPG', Stream, lid_imagedata);
   Except
     On E:Exception do
       if ab_ShowError Then
         ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
   end;
+  FreeImage(lid_imagedata);
+end;
+function fb_StreamToFile ( const Stream : TStream ; const afile : String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ; const ab_ShowError : Boolean = False ) : Boolean;
+var lid_imagedata : TImageData;
+begin
+  Result := False;
+  InitImage(lid_imagedata);
+  try
+    if ( Stream.Size = 0 ) then
+      Exit;
+    Stream.Position := 0;
+    LoadImageFromStream  ( Stream, lid_imagedata );
+    if ( lid_imagedata.Height = 0 )
+    or ( lid_imagedata.Width  = 0 ) then
+      Exit;
+    fb_ResizeImaging(lid_imagedata, ali_newWidth, ali_newHeight, ab_KeepProportion );
+    SaveImageToFile( afile, lid_imagedata);
+    Result := True;
+  Except
+    On E:Exception do
+      if ab_ShowError Then
+        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
+  end;
+  FreeImage(lid_imagedata);
 end;
 
 /////////////////////////////////////////////////////////////////////////
-// procedure p_SetFileToBitmap
+// procedure p_FileToBitmap
 // setting some image file to Bitmap object
 // afile : The file image
 // abmp_Image : Bitmap object to set
 // ab_ShowError : Error showing
 /////////////////////////////////////////////////////////////////////////
-procedure p_SetFileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean );
-var Aimagedata : TImageData;
+procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean = False );
+var lid_imagedata : TImageData;
 begin
+  InitImage(lid_imagedata);
   try
-    aimagedata.Width   := 0;
-    aimagedata.Height  := 0;
-    Aimagedata.Format  := ifUnknown;
-    Aimagedata.Size    := 0;
-    Aimagedata.Bits    := nil;
-    Aimagedata.Palette := nil;
-    LoadImageFromFile  ( afile, aimagedata );
-    ConvertDataToBitmap( aimagedata, abmp_Image );
+    LoadImageFromFile  ( afile, lid_imagedata );
+    ConvertDataToBitmap( lid_imagedata, abmp_Image );
   Except
     On E:Exception do
       if ab_ShowError Then
         ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
   end;
+  FreeImage(lid_imagedata);
 end;
 
-
-procedure p_SetFileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean );
+function fb_ResizeImaging ( var Fdata : TImageData; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
+var
+    li_ImageWidth,
+    li_ImageHeight,
+    li_Size : Longint ;
 begin
-  p_SetFileToBitmap ( afile, Image.Bitmap, ab_ShowError );
+  li_ImageWidth  := Fdata.Width;
+  li_ImageHeight := Fdata.Height;
+  // let the system doing some thinks
+  Result := False;
+  //Resizing
+  if  (( ali_newWidth  < li_ImageWidth ) or ( ali_newHeight < li_ImageHeight ))
+  and ( li_ImageHeight > 0 )
+  and ( li_ImageWidth > 0 )
+  and ( not ab_KeepProportion )
+    Then
+     Begin
+      Result := ResizeImage ( Fdata, ali_newWidth, ali_newHeight, rfBicubic );
+     End
+    else
+     Begin
+       if  ( ali_newWidth > 0 )
+       and ( ali_newWidth <  li_ImageWidth )
+       // doit-on retailler en longueur ?
+       and (( ali_newHeight = 0 ) or ( li_ImageWidth / ali_newWidth > li_ImageHeight / ali_newHeight ))
+        Then
+         Begin
+           li_Size := ( ali_newWidth * li_ImageHeight ) div li_ImageWidth;
+           Result  := ResizeImage ( Fdata, ali_newWidth, li_Size, rfBicubic );
+         End
+       else
+         if  ( ali_newHeight > 0 )
+         and ( ali_newHeight <  li_ImageHeight ) Then
+           Begin
+             li_Size := ( ali_newHeight * li_ImageWidth ) div li_ImageHeight ;
+             Result  := ResizeImage ( Fdata, li_Size, ali_newHeight, rfBicubic );
+           End ;
+    End ;
+end;
+
+procedure p_FileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean = False );
+begin
+  p_FileToBitmap ( afile, Image.Bitmap, ab_ShowError );
   Image.Bitmap.Canvas.Refresh;
 end;
 
