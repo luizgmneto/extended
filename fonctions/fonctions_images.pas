@@ -600,7 +600,9 @@ begin
       p_ImageFieldToStream ( field, l_c_memory_stream );
       Result := fb_StreamToFile ( l_c_memory_stream, afile, ali_newWidth, ali_newHeight, ab_KeepProportion, ab_ShowError );
       l_c_memory_stream.Free;
-    End;
+    End
+  Else
+    Result := False;
 
 end;
 
