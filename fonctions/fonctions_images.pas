@@ -23,6 +23,7 @@ uses Forms,
   Controls, Dialogs ;
 
 const CST_EXTENSION_JPEG           = '.jpg' ;
+      CST_EXTENSION_GIF            = '.gif' ;
 {$IFDEF VERSIONS}
   gVer_fonctions_images : T_Version = ( Component : 'Gestion des images' ; FileUnit : 'fonctions_images' ;
                         			             Owner : 'Matthieu Giroux' ;
