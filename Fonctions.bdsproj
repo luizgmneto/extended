@@ -172,7 +172,11 @@
 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
 		</VersionInfoKeys>  <Excluded_Packages>
       <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\GJLSoftwareD10.bpl">GJL Software ExDBGrid Components</Excluded_Packages>
-      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\dmenutoolbar.bpl">(sans titre)</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\ExtCopyD10.bpl">(sans titre)</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\DExtHTML.bpl">(sans titre)</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\RVFree_D6.bpl">RichView (Free)</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\ManFrames.bpl">Composants ManFrames : FrameWork amélioré</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\ManSoft.bpl">(sans titre)</Excluded_Packages>
     </Excluded_Packages>
   </Delphi.Personality>
 	<ModelSupport>False</ModelSupport>

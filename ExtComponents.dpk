@@ -1,7 +1,6 @@
 package ExtComponents;
 
 {$R *.res}
-{$R 'composants\u_buttons_appli.dcr'}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -99,6 +98,7 @@ contains
   u_extdbgrid in 'composants\u_extdbgrid.pas',
   u_extmenucustomize in 'composants\u_extmenucustomize.pas',
   u_extmenutoolbar in 'composants\u_extmenutoolbar.pas',
-  u_customizemenu in 'forms\u_customizemenu.pas';
+  u_customizemenu in 'forms\u_customizemenu.pas',
+  u_extimage in 'composants\u_extimage.pas';
 
 end.

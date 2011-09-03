@@ -53,6 +53,7 @@ type TALanguage = Record
                   end;
      TTheLanguages = array of TALanguage ;
 var ga_SoftwareLanguages : TTheLanguages;
+    gs_Lang : String = 'fr' ;
 {$ENDIF}
 var       GS_EXT_LANGUAGES : String = '.properties';
           GS_INNER_LANG_SEPARATOR : Char = '_' ;
