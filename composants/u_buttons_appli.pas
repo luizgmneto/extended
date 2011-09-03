@@ -511,7 +511,7 @@ begin
   {$IFDEF FPC}
   Caption := oisDelete;
   {$ELSE}
-  Caption := SDeleteRecord;
+  //Caption := SDeleteRecord;
   {$ENDIF}
 end;
 
