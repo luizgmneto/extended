@@ -1,4 +1,4 @@
-// Unité de gestion du fichier INI dépendant de l'unité FormMainIni
+﻿// Unité de gestion du fichier INI dépendant de l'unité FormMainIni
 // intégrant une form de gestion de fichier INI
 unit fonctions_init;
 
@@ -39,14 +39,15 @@ const
   gVer_fonctions_init : T_Version = ( Component : 'Gestion du fichier INI' ; FileUnit : 'fonctions_init' ;
                                       Owner     : 'Matthieu Giroux' ;
                                       Comment   : 'Première version de gestion du fichier INI.' + #13#10 + 'Certaines fonctions sont encore utilisées.' ;
-                                      BugsStory : 'Version 1.0.3.1 : Function fs_GetIniDir' + #13#10 +
+                                      BugsStory : 'Version 1.0.3.2 : ini can be cutomized' + #13#10 +
+                                                  'Version 1.0.3.1 : Function fs_GetIniDir' + #13#10 +
                                                   'Version 1.0.3.0 : Fonction fb_iniWriteFile' + #13#10 +
                                                   'Version 1.0.2.0 : Fonctions ini pour les listview,dbgrid, et virtualtrees' + #13#10 +
                                                   'Version 1.0.1.0 : Paramètre Utilisateur.' + #13#10 +
                                                   'Version 1.0.0.0 : La gestion est en place.' + #13#10 +
                                                   'On utilise plus cette unité complètement mais Fenêtre principale puis plus tard Mc Form Main INI.';
                                      UnitType : 1 ;
-                                     Major : 1 ; Minor : 0 ; Release : 3 ; Build : 1 );
+                                     Major : 1 ; Minor : 0 ; Release : 3 ; Build : 2 );
 {$ENDIF}
   // Constantes des sections du fichier ini
   INISEC_PAR = 'parametres';
@@ -85,7 +86,7 @@ const
 
   // Retourne l'objet FIniFile représentant le fichier INI
   function f_GetMemIniFile(): TIniFile;
-  function f_GetMainMemIniFile( ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ): TIniFile;
+  function f_GetMainMemIniFile( const ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ; const as_Ininame : String = '' ): TIniFile;
 
   // Lecture du fichier SQL dans FSQLFile avec gestion du fichier SQL
   // et lecture de requête à partir de la section parent et de de la clé requete.
@@ -643,11 +644,17 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // Retourne le nom du fichier ini
 ////////////////////////////////////////////////////////////////////////////////
-function f_GetMainMemIniFile( ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ): TIniFile;
+function f_GetMainMemIniFile( const ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ; const as_Ininame : String = '' ): TIniFile;
 begin
   if not Assigned(FIniFile) then
     begin
-      if gs_ModeConnexion = CST_MACHINE then
+      if as_Ininame <> '' then
+      Begin
+        if not DirectoryExists ( GetUserDir + DirectorySeparator + as_Ininame ) then
+          CreateDir( GetUserDir + DirectorySeparator + as_Ininame );
+        FIniFile := TIniFile.Create(GetUserDir + DirectorySeparator + as_Ininame + DirectorySeparator + CST_INI_SOFT  + as_Ininame + CST_EXTENSION_INI );
+      End
+      else if gs_ModeConnexion = CST_MACHINE then
         FIniFile := TIniFile.Create(fs_GetIniDir + CST_INI_USERS  + f_IniFWReadComputerName + CST_EXTENSION_INI )
       else
         FIniFile := TIniFile.Create(fs_GetIniDir + CST_INI_USERS + f_IniFWReadUtilisateurSession + CST_EXTENSION_INI );
