@@ -49,6 +49,7 @@ uses
 // Component properties
 const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text' {$ENDIF};
       CST_ONFORMINI_TEXT        = 'Text' ;
+      CST_ONFORMINI_FILENAME    = 'FileName' ;
       CST_ONFORMINI_VALUE       = 'Value' ;
       CST_ONFORMINI_DOT         = '.' ;
       CST_ONFORMINI_LINES       = 'Lines' ;
@@ -486,25 +487,22 @@ var
 
   end;
   function fb_ReadFiles: Boolean;
+  var ls_FilenameProp : String;
   Begin
     Result := False;
-    if GetfeSauveEdit(FSauveEditObjets ,feTFileNameEdit) Then
-      Begin
-        {$IFDEF DELPHI}
-      if (lcom_Component is  TJvFileNameEdit) then
-        begin
-          TJvFileNameEdit (lcom_Component).Text := fs_ReadString( lcom_Component.Name, GetCurrentDir);
-          Result := True;
+    if GetfeSauveEdit(FSauveEditObjets ,feTFileNameEdit)
+    and (  lcom_Component.ClassNameIs ( 'TJvFileNameEdit' )
+        or lcom_Component.ClassNameIs ( 'TFileNameEdit' ))
+      then
+        Begin
+         if IsPublishedProp(lcom_Component, CST_ONFORMINI_TEXT )
+          Then ls_FilenameProp:=CST_ONFORMINI_TEXT
+          Else ls_FilenameProp:=CST_ONFORMINI_FILENAME;
+           p_SetComponentProperty (lcom_Component, ls_FilenameProp,
+                                    fs_ReadString( lcom_Component.Name,
+                                    fs_getComponentProperty (lcom_Component, ls_FilenameProp )));
+            Result := True;
         end;
-         {$ENDIF}
-     {$IFDEF RX}
-      if (lcom_Component is TFileNameEdit ) then
-        begin
-          TFileNameEdit (lcom_Component).Text := fs_ReadString( lcom_Component.Name, GetCurrentDir);
-          Result := True;
-        end;
-        {$ENDIF}
-      End ;
 
   end;
 
@@ -930,24 +928,20 @@ var
   end;
 
   function fb_WriteFiles : Boolean;
+  var ls_FilenameProp : String;
   Begin
     Result := False;
-    if GetfeSauveEdit(FSauveEditObjets ,feTFileNameEdit) Then
-      Begin
-      {$IFDEF DELPHI}
-        If (lcom_Component is TJvFileNameEdit) then
-          begin
-            p_WriteString(lcom_Component.Name,TJvFileNameEdit(lcom_Component).Text);
-            Result := True;
-          end;
-       {$ENDIF}
-      {$IFDEF RX}
-        If (lcom_Component is TFileNameEdit) then
-          begin
-            p_WriteString(lcom_Component.Name,TFileNameEdit(lcom_Component).Text);
-            Result := True;
-          end;
-       {$ENDIF}
+    if GetfeSauveEdit(FSauveEditObjets ,feTFileNameEdit)
+    and (  lcom_Component.ClassNameIs ( 'TJvFileNameEdit' )
+        or lcom_Component.ClassNameIs ( 'TFileNameEdit' ))
+      then
+        Begin
+         if IsPublishedProp(lcom_Component, CST_ONFORMINI_TEXT )
+          Then ls_FilenameProp:=CST_ONFORMINI_TEXT
+          Else ls_FilenameProp:=CST_ONFORMINI_FILENAME;
+        p_WriteString( lcom_Component.Name,
+                       fs_getComponentProperty (lcom_Component, ls_FilenameProp ));
+        Result:=True;
       End ;
 
   end;

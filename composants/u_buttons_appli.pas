@@ -54,6 +54,7 @@ const
    CST_FWPREVIEW=CST_FWBEGIN_Component+'TFWPREVIEW';
    CST_FWINIT=CST_FWBEGIN_Component+'TFWINIT';
    CST_FWWIDTH_CLOSE_BUTTON = 80 ;
+   CST_FWLOAD=CST_FWBEGIN_Component+'TFWLOAD';
 {$IFDEF GROUPVIEW}
    CST_FWOUTSELECT=CST_FWBEGIN_Component+'TFWOUTSELECT';
    CST_FWINSELECT=CST_FWBEGIN_Component+'TFWINSELECT';
@@ -164,6 +165,17 @@ type
       published
        property Glyph stored False;
      End;
+
+   { TFWLoad }
+      TFWLoad = class ( TJvXPButton,IFWButton )
+         private
+         public
+          constructor Create ( AOwner : TComponent ) ; override;
+          procedure Loaded; override;
+
+         published
+          property Glyph stored False;
+        End;
 
 { TFWPrint }
    TFWPrint = class ( TJvXPButton,IFWButton )
@@ -330,6 +342,24 @@ Begin
     FGlyph.Bitmap.LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
   {$ENDIF}
 end;
+
+{ TFWLoad }
+
+constructor TFWLoad.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  {$IFDEF FPC}
+  caption := oiStdActFileOpenHint;
+  {$ENDIF}
+end;
+
+procedure TFWLoad.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWLOAD );
+  inherited Loaded;
+  Invalidate;
+end;
+
 { TFWDocument }
 
 procedure TFWDocument.Loaded;
@@ -347,7 +377,7 @@ begin
   {$IFDEF FPC}
   Caption := srVK_DELETE;
   {$ELSE}
-  Caption := SDeleteRecord;
+//  Caption := SDeleteRecord;
   {$ENDIF}
 end;
 
