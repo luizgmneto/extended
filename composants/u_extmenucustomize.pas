@@ -10,7 +10,8 @@ unit u_extmenucustomize;
 interface
 
 uses
-  Classes, SysUtils, ComCtrls, Menus, u_extmenutoolbar,
+  Classes, SysUtils, ComCtrls, Menus,
+  {$IFDEF MENUBAR}u_extmenutoolbar,{$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}

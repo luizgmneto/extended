@@ -28,8 +28,8 @@ uses unite_messages, U_DBListView, U_ExtDBNavigator,
 {$ELSE}
      DBReg, Designintf,
 {$ENDIF}
-     U_ExtDBImage, U_ExtImage, u_extdbgrid, u_extmenucustomize,
-     u_extmenutoolbar;
+     {$IFDEF MENUBAR}u_extmenutoolbar,{$ENDIF}
+     U_ExtDBImage, U_ExtImage, u_extdbgrid, u_extmenucustomize;
 
 procedure Register;
 begin
@@ -40,7 +40,7 @@ begin
                                                 TFWDBEdit,TFWDBLookupCombo,TExtDBGrid,TFWDBMemo,
                                                 TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF}]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtNumEdit,
-                                                TExtColorCombo, TExtMenuToolBar,
+                                                TExtColorCombo, {$IFDEF MENUBAR}TExtMenuToolBar,{$ENDIF}
                                                 TFWLabel, TFWEdit,TFWGrid,TFWMemo,TFWDateEdit,
                                                 TExtImage]);
   RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataKeyUnit'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});

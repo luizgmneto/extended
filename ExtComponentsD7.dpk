@@ -2,7 +2,6 @@ package ExtComponentsD7;
 
 {$R *.res}
 {$R 'composants\U_ExtColorCombos.dcr'}
-{$R 'composants\U_ExtNumEdits.dcr'}
 {$R 'composants\U_OnFormInfoIni.dcr'}
 {$R 'composants\U_ExtDBNavigator.dcr'}
 {$ALIGN 8}
@@ -70,7 +69,9 @@ requires
   rxbde,
   rxdb,
   JvHMID7R,
-  JvPageCompsD7R;
+  JvPageCompsD7R,
+  VampyreImagingPackageD7,
+  ZComponentDesign;
 
 contains
   U_ExtComboInsert in 'composants\U_ExtComboInsert.pas',
@@ -79,18 +80,19 @@ contains
   U_ExtColorCombos in 'composants\U_ExtColorCombos.pas',
   U_ExtNumEdits in 'composants\U_ExtNumEdits.pas',
   fonctions_numedit in 'fonctions\fonctions_numedit.pas',
-  U_RegisterListView in 'composants\U_RegisterListView.pas',
   U_DBListView in 'composants\U_DBListView.pas',
   U_ExtPageControl in 'composants\U_ExtPageControl.pas',
-  u_regonforminfoini in 'composants\u_regonforminfoini.pas',
-  u_regfwbuttons in 'composants\u_regfwbuttons.pas',
-  u_regextcolorcombos in 'composants\u_regextcolorcombos.pas',
-  u_buttons_appli in 'composants\u_buttons_appli.pas',
   u_regframeworkcomponents in 'composants\u_regframeworkcomponents.pas',
   U_ExtDBNavigator in 'composants\U_ExtDBNavigator.pas',
-  U_RegisterExtDBNav in 'composants\U_RegisterExtDBNav.pas',
   u_framework_components in 'composants\u_framework_components.pas',
   fonctions_dbcomponents in 'fonctions\fonctions_dbcomponents.pas',
-  u_regextnumedits in 'composants\u_regextnumedits.pas';
+  U_ExtImage in 'composants\u_extimage.pas',
+  u_extmenucustomize in 'composants\u_extmenucustomize.pas',
+  u_framework_dbcomponents in 'composants\u_framework_dbcomponents.pas',
+  fonctions_objects in 'fonctions\fonctions_objects.pas',
+  U_ExtDBImage in 'composants\U_ExtDBImage.pas',
+  u_extsearchedit in 'composants\u_extsearchedit.pas',
+  u_extdbgrid in 'composants\u_extdbgrid.pas',
+  U_CustomizeMenu in 'forms\U_CustomizeMenu.pas';
 
 end.
