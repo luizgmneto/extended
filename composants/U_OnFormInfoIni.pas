@@ -507,31 +507,23 @@ var
   end;
 
   function fb_ReadDirectories: Boolean;
+  var ls_DirnameProp : String ;
   Begin
     Result := False;
-    if GetfeSauveEdit(FSauveEditObjets ,feTDirectoryEdit) Then
+    if GetfeSauveEdit(FSauveEditObjets ,feTDirectoryEdit)
+    and (lcom_Component.ClassNameIs(CST_ONFORMINI_JVDIRECTORY)
+         or (lcom_Component is TDirectoryEdit)) Then
       Begin
-        if (lcom_Component.ClassNameIs(CST_ONFORMINI_JVDIRECTORY)) then
-          begin
-            ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
-            If DirectoryExists( ls_Temp ) Then
-              p_SetComponentProperty (lcom_Component, CST_ONFORMINI_TEXT, ls_temp )
-             Else
-              if fs_getComponentProperty(lcom_Component, CST_ONFORMINI_TEXT) = '' Then
-                p_SetComponentProperty (lcom_Component, CST_ONFORMINI_TEXT, GetCurrentDir );
-            Result := True;
-          end;
-        if (lcom_Component is TDirectoryEdit) then
-          begin
-            ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
-//            Showmessage ( lcom_Component.Name + ' '+ ls_Temp + ' ' +fs_ReadString(lcom_Component.Name, '' ) );
-            If DirectoryExists( ls_Temp ) Then
-              p_SetComponentProperty (lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR, ls_Temp )
-             Else
-              if fs_getComponentProperty(lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR) = '' Then
-                p_SetComponentProperty (lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR, GetCurrentDir );
-            Result := True;
-          end;
+       if IsPublishedProp(lcom_Component, CST_ONFORMINI_TEXT )
+        Then ls_DirnameProp:=CST_ONFORMINI_TEXT
+        Else ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR;
+        ls_Temp := fs_ReadString(lcom_Component.Name, GetCurrentDir );
+        If DirectoryExists( ls_Temp ) Then
+          p_SetComponentProperty (lcom_Component, ls_DirnameProp, ls_temp )
+         Else
+          if fs_getComponentProperty(lcom_Component, ls_DirnameProp) = '' Then
+            p_SetComponentProperty (lcom_Component, ls_DirnameProp, GetCurrentDir );
+        Result := True;
       End;
 
   end;
