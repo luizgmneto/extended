@@ -151,9 +151,9 @@ type
     procedure ExecuteEcriture(aLocal: Boolean); virtual;
     procedure p_ExecuteEcriture(const aF_Form: TCustomForm); virtual;
     procedure p_LectureColonnes(const aF_Form: TCustomForm=nil); virtual;
+  published
     property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate default True;
     property AutoLoad   : Boolean read FAutoChargeIni write FAutoChargeIni default True;
-  published
     // Propriété qui conserve la position des objets d'une form
     property SauvePosObjects: Boolean read FSauvePosObjet write FSauvePosObjet default False;
     // Propriété qui conserve les données des objets d'une form
@@ -517,7 +517,8 @@ var
             If DirectoryExists( ls_Temp ) Then
               p_SetComponentProperty (lcom_Component, CST_ONFORMINI_TEXT, ls_temp )
              Else
-              p_SetComponentProperty (lcom_Component, CST_ONFORMINI_TEXT, GetCurrentDir );
+              if fs_getComponentProperty(lcom_Component, CST_ONFORMINI_TEXT) = '' Then
+                p_SetComponentProperty (lcom_Component, CST_ONFORMINI_TEXT, GetCurrentDir );
             Result := True;
           end;
         if (lcom_Component is TDirectoryEdit) then
@@ -527,7 +528,8 @@ var
             If DirectoryExists( ls_Temp ) Then
               p_SetComponentProperty (lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR, ls_Temp )
              Else
-              p_SetComponentProperty (lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR, GetCurrentDir );
+              if fs_getComponentProperty(lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR) = '' Then
+                p_SetComponentProperty (lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR, GetCurrentDir );
             Result := True;
           end;
       End;
