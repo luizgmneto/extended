@@ -66,8 +66,6 @@ requires
   rxdb,
   JvHMID10R,
   JvPageCompsD10R,
-  dxPack2D10,
-  GJLSoftwareD10,
   ZComponent,
   ZParseSql,
   ZCore,

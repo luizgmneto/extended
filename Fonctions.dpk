@@ -53,13 +53,13 @@ requires
   JvSystemD10R,
   ZParseSql,
   ZCore,
+  ZComponent,
   ZDbc,
   ZPlain,
-  ZComponent,
-  VampyreImagingPackage,
   JclVcl,
   Jcl,
-  xmlrtl;
+  xmlrtl,
+  VampyreImagingPackage;
 
 contains
   fonctions_version in 'fonctions\fonctions_version.pas',

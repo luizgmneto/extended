@@ -1,4 +1,4 @@
-unit u_extmenutoolbar;
+﻿unit u_extmenutoolbar;
 
 {$IFDEF FPC}
 {$mode Delphi}

@@ -170,7 +170,8 @@
 			<VersionInfoKeys Name="ProductName"></VersionInfoKeys>
 			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
-		</VersionInfoKeys>  <Excluded_Packages>
+		</VersionInfoKeys>  
+    <Excluded_Packages>
       <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\GJLSoftwareD10.bpl">GJL Software ExDBGrid Components</Excluded_Packages>
       <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\ExtCopyD10.bpl">(sans titre)</Excluded_Packages>
       <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\DExtHTML.bpl">(sans titre)</Excluded_Packages>
