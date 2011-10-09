@@ -1,11 +1,11 @@
-unit u_buttons_appli;
+﻿unit u_buttons_appli;
 
 {$I ..\Compilers.inc}
 {$I ..\extends.inc}
 {$IFDEF FPC}
 {$mode Delphi}
 {$ELSE}
-//{$R *.DCR}
+{$R *.DCR}
 {$ENDIF}
 
 interface
