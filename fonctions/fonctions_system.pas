@@ -14,7 +14,7 @@ uses
 {$IFDEF FPC}
   LCLIntf,
 {$ELSE}
-  Windows, AdoConEd, MaskUtils,
+  Windows,
 {$ENDIF}
   Forms, SysUtils,
 {$IFDEF VERSIONS}
@@ -22,7 +22,7 @@ uses
 {$ENDIF}
   StrUtils, Classes ;
 
-{$IFNDEF FPC}
+{$IFDEF DELPHI}
 const
   DirectorySeparator = '\' ;
 {$ENDIF}
@@ -41,10 +41,10 @@ const
 
 implementation
 
+
 {$IFDEF FPC}
-uses LCLType, FileUtil ;
-{$ELSE}
-uses JclStrings ;
+uses
+  LCLType, FileUtil ;
 {$ENDIF}
 
 
@@ -59,7 +59,6 @@ Begin
         li_Pos := PosEx ( '.', Result, li_Pos + 1 );
       Result := Copy ( Result, 1, PosEx ( '.', Result, li_Pos )-1 );
     End;
-  li_Pos := Pos ( DirectorySeparator, Result );
 End;
 
 {$IFDEF VERSIONS}
