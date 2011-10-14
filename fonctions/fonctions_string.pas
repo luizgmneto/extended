@@ -32,6 +32,7 @@ const
   function fs_Dos2Win( const aText: string): string;
   function fs_Win2Dos( const aText: string): string;
 {$ENDIF}
+  function fs_getCorrectString ( const as_string : String ): String ;
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
   function fs_EraseFirstDirectory ( const as_Path : String ) :String;
   function fs_EraseSpecialChars( const aText: string): string;
@@ -715,24 +716,37 @@ End;
 
 
 function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ): String;
-{$IFNDEF FPC}
 var ls_temp:  String;
-{$ENDIF}
 Begin
   if astl_Labels = nil Then
    Begin
      Result := as_Name ;
      exit;
    End;
-  {$IFDEF FPC}Result{$ELSE}ls_temp{$ENDIF} := astl_Labels.Values [ as_Name ];
-{$IFNDEF FPC}
-  Result  := UTF8decode ( ls_temp );
-  if ( Result = '' ) then
-    Result := ls_temp ;
-{$ENDIF}
+  ls_temp := astl_Labels.Values [ as_Name ];
+  Result  := fs_getCorrectString ( ls_temp );
   if ( Result = '' ) then
     Result := as_Name ;
 End;
+
+function fs_getCorrectString ( const as_string : String ): String ;
+Begin
+  {$IFDEF windows}
+  {$IFDEF FPC}
+  if  ( DLLreason = 0 )
+   Then Result  := as_string
+   Else Result  := UTF8decode ( as_string );
+  {$ELSE}
+  Result  := UTF8decode ( as_string );
+  {$ENDIF}
+  if ( Result = '' ) then
+    Result := as_string ;
+  {$ELSE}
+  Result := as_string;
+  {$ENDIF}
+
+end;
+
 
 
 {$IFDEF FPC}
