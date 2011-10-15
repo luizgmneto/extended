@@ -1,4 +1,4 @@
-{*********************************************************************}
+﻿{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             Matthieu Giroux                                         }
@@ -903,20 +903,18 @@ var
   end;
 
   function fb_WriteDirectories : Boolean;
+  var ls_DirnameProp : String;
   Begin
     Result := False;
-    if GetfeSauveEdit(FSauveEditObjets ,feTDirectoryEdit) then
+    if  GetfeSauveEdit(FSauveEditObjets ,feTDirectoryEdit)
+    and (lcom_Component.ClassNameIs(CST_ONFORMINI_JVDIRECTORY)
+        or (lcom_Component is TDirectoryEdit)) then
       begin
-        if (lcom_Component.ClassNameIs(CST_ONFORMINI_JVDIRECTORY)) then
-          Begin
-            p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, CST_ONFORMINI_TEXT));
-            Result := True;
-          End;
-        if (lcom_Component is TDirectoryEdit) then
-          begin
-            p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR ));
-            Result := True;
-          end;
+       if IsPublishedProp(lcom_Component, CST_ONFORMINI_TEXT )
+        Then ls_DirnameProp:=CST_ONFORMINI_TEXT
+        Else ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR;
+        p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component,ls_DirnameProp));
+        Result := True;
       end;
 
   end;

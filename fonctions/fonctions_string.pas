@@ -1,4 +1,4 @@
-// unité contenant des fonctions de traitements de chaine
+﻿// unité contenant des fonctions de traitements de chaine
 unit fonctions_string;
 
 interface
