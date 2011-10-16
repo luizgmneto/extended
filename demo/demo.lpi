@@ -1,0 +1,656 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <General>
+      <MainUnit Value="0"/>
+      <UseXPManifest Value="True"/>
+      <Icon Value="0"/>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <VersionInfo>
+      <Language Value=""/>
+      <CharSet Value=""/>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="6">
+      <Item1>
+        <PackageName Value="virtualtreeview_package"/>
+        <MinVersion Major="4" Minor="8" Release="7" Build="1" Valid="True"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="ibexpress"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="DBFLaz"/>
+        <MinVersion Minor="1" Release="1" Valid="True"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="lazextcomponents"/>
+        <MinVersion Minor="9" Build="4" Valid="True"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="LCL"/>
+      </Item6>
+    </RequiredPackages>
+    <Units Count="59">
+      <Unit0>
+        <Filename Value="demo.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="demo"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="37" Y="18"/>
+        <UsageCount Value="75"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/application.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1206"/>
+        <CursorPos X="1" Y="1229"/>
+        <UsageCount Value="9"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="u_components.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="../../ManFrames/composants/u_customframework.pas"/>
+        <ComponentName Value="F_CustomFrameWork"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_customframework"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="61"/>
+        <CursorPos X="108" Y="82"/>
+        <UsageCount Value="15"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="../composants/u_framework_dbcomponents.pas"/>
+        <UnitName Value="u_framework_dbcomponents"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="18"/>
+        <UsageCount Value="21"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/dbgrids.pas"/>
+        <UnitName Value="DBGrids"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1220"/>
+        <CursorPos X="1" Y="1242"/>
+        <UsageCount Value="13"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/grids.pas"/>
+        <UnitName Value="Grids"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="4257"/>
+        <CursorPos X="1" Y="4279"/>
+        <UsageCount Value="13"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="../../../Lazarus/composants/rxfpc/rxdbgrid.pas"/>
+        <UnitName Value="rxdbgrid"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1036"/>
+        <CursorPos X="1" Y="1059"/>
+        <UsageCount Value="13"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="../../XMLFrames/composants/u_xmlform.pas"/>
+        <UnitName Value="u_xmlform"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="100"/>
+        <CursorPos X="109" Y="115"/>
+        <UsageCount Value="17"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="../composants/u_extdbgrid.pas"/>
+        <UnitName Value="u_extdbgrid"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="428"/>
+        <CursorPos X="14" Y="428"/>
+        <UsageCount Value="12"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="u_components.pas"/>
+        <ComponentName Value="Myform"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="U_Components"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="3" Y="91"/>
+        <UsageCount Value="14"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="../../../Lazarus/Livre/Lazarus/NomsDepFIREBIRD/ufiche.pas"/>
+        <ComponentName Value="MaFiche"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UFiche"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="41"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="../../ZEOSDBO/src/component/ZAbstractRODataset.pas"/>
+        <UnitName Value="ZAbstractRODataset"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="735"/>
+        <CursorPos X="30" Y="746"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="../../ZEOSDBO/src/dbc/ZDbcInterbase6Metadata.pas"/>
+        <UnitName Value="ZDbcInterbase6Metadata"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1679"/>
+        <CursorPos X="1" Y="1702"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/dbctrls.pp"/>
+        <UnitName Value="DbCtrls"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="657"/>
+        <CursorPos X="15" Y="680"/>
+        <UsageCount Value="17"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/dblookup.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="78"/>
+        <CursorPos X="54" Y="108"/>
+        <UsageCount Value="10"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="../../ibx/runtime/IB.pas"/>
+        <UnitName Value="IB"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="388"/>
+        <CursorPos X="1" Y="411"/>
+        <UsageCount Value="11"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="../composants/u_extsearchedit.pas"/>
+        <UnitName Value="u_extsearchedit"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="136"/>
+        <CursorPos X="1" Y="146"/>
+        <UsageCount Value="12"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/wincontrol.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="5219"/>
+        <CursorPos X="1" Y="5242"/>
+        <UsageCount Value="10"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="../composants/U_ExtComboInsert.pas"/>
+        <UnitName Value="U_ExtComboInsert"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="282"/>
+        <CursorPos X="77" Y="292"/>
+        <UsageCount Value="14"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/dblookupcombobox.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="27"/>
+        <CursorPos X="1" Y="47"/>
+        <UsageCount Value="10"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/customdbcombobox.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="32"/>
+        <CursorPos X="1" Y="41"/>
+        <UsageCount Value="9"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/stdctrls.pp"/>
+        <UnitName Value="StdCtrls"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="712"/>
+        <CursorPos X="22" Y="735"/>
+        <UsageCount Value="11"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="../fonctions/fonctions_proprietes.pas"/>
+        <UnitName Value="fonctions_proprietes"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="105"/>
+        <CursorPos X="139" Y="118"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/widgetset/wscontrols.pp"/>
+        <UnitName Value="WSControls"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="184"/>
+        <CursorPos X="1" Y="208"/>
+        <UsageCount Value="9"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/intfbaselcl.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="40"/>
+        <CursorPos X="1" Y="63"/>
+        <UsageCount Value="9"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/maskedit.pp"/>
+        <UnitName Value="MaskEdit"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="166"/>
+        <CursorPos X="31" Y="176"/>
+        <UsageCount Value="9"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/customedit.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="466"/>
+        <CursorPos X="22" Y="468"/>
+        <UsageCount Value="11"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/customcombobox.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/controls.pp"/>
+        <UnitName Value="Controls"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="94"/>
+        <CursorPos X="3" Y="117"/>
+        <UsageCount Value="16"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/control.inc"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3166"/>
+        <CursorPos X="1" Y="3189"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/lclmessageglue.pas"/>
+        <UnitName Value="LCLMessageGlue"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="94"/>
+        <CursorPos X="1" Y="121"/>
+        <UsageCount Value="9"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/interfaces/gtk2/gtk2proc.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2408"/>
+        <CursorPos X="1" Y="2434"/>
+        <UsageCount Value="9"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/interfaces/gtk2/gtk2widgetset.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2446"/>
+        <CursorPos X="1" Y="2472"/>
+        <UsageCount Value="9"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="../../ibx/runtime/IBCustomDataSet.pas"/>
+        <UnitName Value="IBCustomDataSet"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1240"/>
+        <CursorPos X="37" Y="1250"/>
+        <UsageCount Value="9"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="../../ibx/runtime/IBSQL.pas"/>
+        <UnitName Value="IBSQL"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1999"/>
+        <CursorPos X="1" Y="2022"/>
+        <UsageCount Value="9"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="/usr/share/fpcsrc/2.4.2/packages/fcl-db/src/base/db.pas"/>
+        <UnitName Value="db"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1380"/>
+        <CursorPos X="15" Y="1393"/>
+        <UsageCount Value="9"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="/usr/share/fpcsrc/2.4.2/packages/fcl-db/src/base/datasource.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="265"/>
+        <CursorPos X="33" Y="297"/>
+        <UsageCount Value="9"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/lclclasses.pp"/>
+        <UnitName Value="LCLClasses"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="117"/>
+        <CursorPos X="1" Y="141"/>
+        <UsageCount Value="9"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/lclproc.pas"/>
+        <UnitName Value="LCLProc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="310"/>
+        <CursorPos X="10" Y="333"/>
+        <UsageCount Value="9"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/interfaces/gtk2/gtk2wsstdctrls.pp"/>
+        <UnitName Value="Gtk2WSStdCtrls"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1609"/>
+        <CursorPos X="41" Y="1623"/>
+        <UsageCount Value="9"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="../../../Lazarus/composants/menutbar/menutbar.pas"/>
+        <UnitName Value="menutbar"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="79"/>
+        <CursorPos X="31" Y="28"/>
+        <UsageCount Value="14"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="../composants/u_extmenutoolbar.pas"/>
+        <UnitName Value="u_extmenutoolbar"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="31"/>
+        <CursorPos X="20" Y="54"/>
+        <UsageCount Value="14"/>
+        <Loaded Value="True"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="../fonctions/unite_messages.pas"/>
+        <UnitName Value="unite_messages"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="27"/>
+        <CursorPos X="3" Y="58"/>
+        <UsageCount Value="13"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="../composants/u_extmenutoolbar.lrs"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="17" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/comctrls.pp"/>
+        <UnitName Value="ComCtrls"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1717"/>
+        <CursorPos X="14" Y="1714"/>
+        <UsageCount Value="13"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="/usr/lib/lazarus/0.9.30/lcl/include/toolbar.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="210"/>
+        <CursorPos X="3" Y="212"/>
+        <UsageCount Value="13"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="../../ManFrames/forms/U_FenetrePrincipale.pas"/>
+        <UnitName Value="U_FenetrePrincipale"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="775"/>
+        <CursorPos X="33" Y="815"/>
+        <UsageCount Value="13"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="../fonctions/fonctions_version.pas"/>
+        <UnitName Value="fonctions_version"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="5"/>
+        <UsageCount Value="10"/>
+      </Unit48>
+      <Unit49>
+        <Filename Value="../forms/U_About.pas"/>
+        <UnitName Value="U_About"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="40"/>
+        <CursorPos X="8" Y="5"/>
+        <UsageCount Value="13"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="../forms/u_customizemenu.pas"/>
+        <ComponentName Value="F_CustomizeMenu"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="U_CustomizeMenu"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="127" Y="14"/>
+        <UsageCount Value="28"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="../composants/u_buttons_appli.pas"/>
+        <UnitName Value="u_buttons_appli"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="44" Y="11"/>
+        <UsageCount Value="11"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="../lazfonctions.pas"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="lazfonctions"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="12" Y="23"/>
+        <UsageCount Value="10"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="../composants/u_regframeworkcomponents.pas"/>
+        <UnitName Value="u_regframeworkcomponents"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="19"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="../composants/u_regfwbuttons.pas"/>
+        <UnitName Value="u_regfwbuttons"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="100" Y="42"/>
+        <UsageCount Value="10"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="../composants/u_buttons_appli.lrs"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="261"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="../forms/u_customizemenu.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="../../../Lazarus/composants/jvXP/JvXPButtons.pas"/>
+        <UnitName Value="JvXPButtons"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="58"/>
+        <CursorPos X="108" Y="102"/>
+        <UsageCount Value="10"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
+        <UnitName Value="U_OnFormInfoIni"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="351"/>
+        <CursorPos X="50" Y="371"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit58>
+    </Units>
+    <JumpHistory Count="8" HistoryIndex="7">
+      <Position1>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="18" Column="37" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="91" Column="3" TopLine="68"/>
+      </Position2>
+      <Position3>
+        <Filename Value="../fonctions/fonctions_proprietes.pas"/>
+        <Caret Line="124" Column="1" TopLine="101"/>
+      </Position3>
+      <Position4>
+        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
+        <Caret Line="84" Column="49" TopLine="66"/>
+      </Position4>
+      <Position5>
+        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
+        <Caret Line="203" Column="63" TopLine="165"/>
+      </Position5>
+      <Position6>
+        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
+        <Caret Line="206" Column="60" TopLine="168"/>
+      </Position6>
+      <Position7>
+        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position7>
+      <Position8>
+        <Filename Value="../composants/U_OnFormInfoIni.pas"/>
+        <Caret Line="141" Column="24" TopLine="103"/>
+      </Position8>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="9"/>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+        <UseAnsiStrings Value="False"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <Optimizations>
+        <OptimizationLevel Value="0"/>
+      </Optimizations>
+    </CodeGeneration>
+    <Linking>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <Verbosity>
+        <ShowErrors Value="False"/>
+        <ShowWarn Value="False"/>
+        <ShowNotes Value="False"/>
+        <ShowHints Value="False"/>
+        <ShowGenInfo Value="False"/>
+      </Verbosity>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <BreakPoints Count="5">
+      <Item1>
+        <Source Value="/usr/lib/lazarus/0.9.30/lcl/include/wincontrol.inc"/>
+        <Line Value="4808"/>
+      </Item1>
+      <Item2>
+        <Source Value="/usr/lib/lazarus/0.9.30/lcl/include/customcombobox.inc"/>
+        <Line Value="308"/>
+      </Item2>
+      <Item3>
+        <Source Value="/usr/lib/lazarus/0.9.30/lcl/include/customcombobox.inc"/>
+        <Line Value="514"/>
+      </Item3>
+      <Item4>
+        <Source Value="/usr/lib/lazarus/0.9.30/lcl/include/customcombobox.inc"/>
+        <Line Value="625"/>
+      </Item4>
+      <Item5>
+        <Source Value="/usr/lib/lazarus/0.9.30/lcl/include/customcombobox.inc"/>
+        <Line Value="978"/>
+      </Item5>
+    </BreakPoints>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>
