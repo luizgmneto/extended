@@ -2,7 +2,6 @@
 <CONFIG>
   <Package Version="3">
     <Name Value="lazextcomponents"/>
-    <AutoUpdate Value="Manually"/>
     <CompilerOptions>
       <Version Value="9"/>
       <SearchPaths>
@@ -20,8 +19,8 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Minor="9" Release="4" Build="3"/>
-    <Files Count="26">
+    <Version Minor="9" Release="4" Build="4"/>
+    <Files Count="27">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
@@ -128,6 +127,10 @@
         <Filename Value="composants/u_extimage.pas"/>
         <UnitName Value="U_ExtImage"/>
       </Item26>
+      <Item27>
+        <Filename Value="composants/U_OnFormInfoIni.lrs"/>
+        <Type Value="LRS"/>
+      </Item27>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="10">
@@ -171,4 +174,4 @@
       <IgnoreBinaries Value="False"/>
     </PublishOptions>
   </Package>
-</CONFIG>
+</CONFIG>

@@ -5,6 +5,9 @@ unit u_regframeworkcomponents;
 {$ENDIF}
 
 
+{$I ..\Compilers.inc}
+{$I ..\extends.inc}
+
 interface
 
 uses

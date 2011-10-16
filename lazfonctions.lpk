@@ -2,7 +2,6 @@
 <CONFIG>
   <Package Version="3">
     <Name Value="lazfonctions"/>
-    <AutoUpdate Value="Manually"/>
     <CompilerOptions>
       <Version Value="9"/>
       <SearchPaths>
@@ -21,7 +20,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Release="2" Build="4"/>
+    <Version Major="1" Release="2" Build="5"/>
     <Files Count="21">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
