@@ -733,9 +733,9 @@ function fs_getCorrectString ( const as_string : String ): String ;
 Begin
   {$IFDEF windows}
   {$IFDEF FPC}
-//  if  ( DLLreason = 0 )
+  if  ( DLLreason = 0 )
   Result  := as_string;
-//   Else Result  := UTF8decode ( as_string );
+  Else Result  := UTF8decode ( as_string );
   {$ELSE}
   Result  := UTF8decode ( as_string );
   {$ENDIF}
