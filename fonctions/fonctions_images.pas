@@ -593,6 +593,9 @@ end;
 function fb_ImageFieldToFile ( const field : TField ; const afile: String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
 var l_c_memory_stream: tMemoryStream;
 begin
+{$IFDEF FPC}
+  //jpeg bug
+{$ENDIF}
   if not FileExists ( afile )
   and ( field is TBlobField )
   and (( field as TBlobField ).BlobSize > 0 ) then
