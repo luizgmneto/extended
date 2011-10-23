@@ -110,9 +110,9 @@ uses
 {$IFDEF FPC}
      LCLType,
 {$ELSE}
-     JclGraphics, StrUtils,
+     JclGraphics,
 {$ENDIF}
-     SysUtils, unite_messages ;
+     SysUtils, GraphType, StrUtils, FPWriteJPEG, IntfGraphics, unite_messages ;
 
 
 
@@ -546,11 +546,11 @@ End ;
 // field : Le champ image
 // Image : La destination
 procedure p_FieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean = False );
-var l_c_memory_stream: tMemoryStream;
+var l_c_memory_stream: TMemoryStream;
 begin
   if not ( field.IsNull ) then
     Begin
-      l_c_memory_stream:= tMemoryStream.Create;
+      l_c_memory_stream:= TMemoryStream.Create;
       try
         ( field as tBlobField ).SaveToStream ( l_c_memory_stream );
       Except
@@ -558,6 +558,7 @@ begin
          if ab_ShowError Then
             ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FIELD_IMAGE);
       end;
+      l_c_memory_stream.Position:=0;
       p_StreamToImage ( l_c_memory_stream, Image, ab_ShowError );
       l_c_memory_stream.Free;
     End;
@@ -568,19 +569,13 @@ end;
 // field : Le champ image
 // Image : La destination
 procedure p_ImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean = False );
-var l_c_memory_stream: tMemoryStream;
+var l_c_memory_stream: TMemoryStream;
 begin
   if FileExists ( afile ) then
     Begin
-      l_c_memory_stream:= tMemoryStream.Create;
+      l_c_memory_stream:= TMemoryStream.Create;
       p_FileToStream(afile,l_c_memory_stream, ab_ShowError);
-      try
-        ( field as tBlobField ).LoadFromStream ( l_c_memory_stream );
-      Except
-        On E:Exception do
-         if ab_ShowError Then
-            ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FIELD_IMAGE);
-      end;
+      l_c_memory_stream.Position:=0;
       p_StreamToField ( l_c_memory_stream, field, ab_ShowError );
       l_c_memory_stream.Free;
     End;
@@ -593,9 +588,7 @@ end;
 function fb_ImageFieldToFile ( const field : TField ; const afile: String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
 var l_c_memory_stream: tMemoryStream;
 begin
-{$IFDEF FPC}
-  //jpeg bug
-{$ENDIF}
+
   if not FileExists ( afile )
   and ( field is TBlobField )
   and (( field as TBlobField ).BlobSize > 0 ) then
@@ -629,9 +622,9 @@ end;
 // Image : La destination
 procedure p_StreamToField ( const astream: TStream; const field : TField ; const ab_ShowError : Boolean = False );
 begin
-  if ( field is tBlobField ) then
+  if ( field is TBlobField ) then
     try
-      ( field as tBlobField ).LoadFromStream ( astream );
+      ( field as TBlobField ).LoadFromStream ( astream );
     Except
       On E:Exception do
        if ab_ShowError Then
@@ -672,7 +665,36 @@ begin
 end;
 function fb_StreamToFile ( const Stream : TStream ; const afile : String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ; const ab_ShowError : Boolean = False ) : Boolean;
 var lid_imagedata : TImageData;
+  {$IFDEF FPC}
+  li_Length : Integer;
+  fpj_Writer : TFPWriterJPEG;
+  IntfImg : TLazIntfImage;
+  lri_Image : TRawImage;
+  {$ENDIF}
 begin
+  {$IFDEF FPC}
+{  li_Length := Length(afile)-5;
+  if posex ( '.jpg' , LowerCase ( afile ), li_Length )
+  or posex ( '.jpeg', LowerCase ( afile ), li_Length )
+   Then
+     Begin
+      fpj_Writer := TFPWriterJPEG.Create;
+      IntfImg := TLazIntfImage.Create(0,0,[]);
+      try
+        lri_Image := TRawImage.CreateData(False);
+        IntfImg.SetRawImage(fpBmp.GetRawImagePtr^, False);
+        fpBmp.InitializeWriter(IntfImg, ImgWriter);
+        IntfImg.SaveToStream(Stream, ImgWriter);
+        fpBmp.FinalizeWriter(ImgWriter);
+      finally
+        IntfImg.Free;
+        fpj_Writer.Free;
+      end;
+      Exit;
+     End
+ }
+    //jpeg bug
+  {$ENDIF}
   Result := False;
   InitImage(lid_imagedata);
   try
