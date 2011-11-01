@@ -734,7 +734,7 @@ Begin
   {$IFDEF windows}
   {$IFDEF FPC}
   if  ( DLLreason = 0 )
-  Result  := as_string;
+  Then Result  := as_string
   Else Result  := UTF8decode ( as_string );
   {$ELSE}
   Result  := UTF8decode ( as_string );
