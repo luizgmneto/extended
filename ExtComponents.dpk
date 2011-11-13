@@ -90,13 +90,14 @@ contains
   U_ExtDBNavigator in 'composants\U_ExtDBNavigator.pas',
   u_framework_components in 'composants\u_framework_components.pas',
   U_FormMainIni in 'composants\U_FormMainIni.pas',
-  U_ExtDBImage in 'composants\U_ExtDBImage.pas',
+  U_ExtDBImageList in 'composants\U_ExtDBImageList.pas',
   u_framework_dbcomponents in 'composants\u_framework_dbcomponents.pas',
   u_extsearchedit in 'composants\u_extsearchedit.pas',
   u_extdbgrid in 'composants\u_extdbgrid.pas',
   u_extmenucustomize in 'composants\u_extmenucustomize.pas',
   u_extmenutoolbar in 'composants\u_extmenutoolbar.pas',
   u_customizemenu in 'forms\u_customizemenu.pas',
-  u_extimage in 'composants\u_extimage.pas';
+  u_extimage in 'composants\u_extimage.pas',
+  U_ExtDBImage in 'composants\U_ExtDBImage.pas';
 
 end.
