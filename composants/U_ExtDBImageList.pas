@@ -103,6 +103,7 @@ end;
 constructor TExtDBImageList.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  CreateImagesMap;
   FDataLink := TFieldDataLink.Create ;
   FDataLink.DataSource := nil ;
   FDataLink.FieldName  := '' ;
