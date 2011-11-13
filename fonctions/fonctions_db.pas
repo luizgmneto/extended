@@ -168,7 +168,8 @@ begin
       and ( Trim ( avar_Recherche ) <> ''   ) Then
         lb_Continue := True ;
     Except
-    End ;
+    End
+   Else lb_Continue := True ;
   try
     if ab_Trie
     and assigned ( adat_Dataset.FindField ( as_Champ )) then

@@ -21,7 +21,7 @@ uses
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
   u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection,
   DBGrids, IBDatabase, IBCustomDataSet, Menus, u_extmenucustomize, ToolWin,
-  menutbar, ComCtrls, u_extmenutoolbar, ImgList ;
+  menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage, ImgList, ExtDlgs ;
 
 type
 
@@ -31,6 +31,7 @@ type
     Datasource: TDatasource;
     Datasource2: TDatasource;
     Datasource3: TDatasource;
+    ExtDBImage: TExtDBImage;
     IBDatabase: TIBDatabase;
     IBDepartement: TIBDataSet;
     IBDepSearch: TIBDataSet;
@@ -40,6 +41,7 @@ type
     ExtDBNavigator1: TExtDBNavigator;
     Noms: TExtDBGrid;
     OnFormInfoIni: TOnFormInfoIni;
+    OpenPictureDialog: TOpenPictureDialog;
     Panel1: TPanel;
     Panel2: TPanel;
     Splitter1: TSplitter;
@@ -75,6 +77,7 @@ type
     ExtMenuToolBar: TExtMenuToolBar;
     ImageList: TImageList;
     ImageListDisabled: TImageList;
+    procedure ExtDBImageClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure QuitterClick(Sender: TObject);
@@ -130,6 +133,15 @@ begin
   {$IFDEF WINDOWS}
   IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+'\Exemple.fdb';
   {$ENDIF}
+end;
+
+procedure TMyform.ExtDBImageClick(Sender: TObject);
+begin
+  if OpenPictureDialog.Execute Then
+   Begin
+     IBUtilisateur.Edit;
+     ExtDBImage.LoadFromFile(OpenPictureDialog.FileName);
+   end;
 end;
 
 procedure TMyform.QuitterClick(Sender: TObject);

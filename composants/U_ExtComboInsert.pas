@@ -252,6 +252,9 @@ begin
   if (Key in [#32..#255]) and (Field <> nil) Then
     Begin
       FModify := True ;
+{      SelText:='';
+      Text := Text + Key ;
+      SelStart:=SelStart+1;}
       {$IFNDEF RXJVCOMBO}
       CompleteText;
       {$ENDIF}
