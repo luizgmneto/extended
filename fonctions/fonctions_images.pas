@@ -1,4 +1,4 @@
-unit fonctions_images;
+﻿unit fonctions_images;
 
 interface
 
@@ -112,7 +112,7 @@ uses
 {$ELSE}
      JclGraphics,
 {$ENDIF}
-     SysUtils, GraphType, StrUtils, FPWriteJPEG, IntfGraphics, unite_messages ;
+     SysUtils, StrUtils, unite_messages ;
 
 
 
@@ -665,36 +665,7 @@ begin
 end;
 function fb_StreamToFile ( const Stream : TStream ; const afile : String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ; const ab_ShowError : Boolean = False ) : Boolean;
 var lid_imagedata : TImageData;
-  {$IFDEF FPC}
-  li_Length : Integer;
-  fpj_Writer : TFPWriterJPEG;
-  IntfImg : TLazIntfImage;
-  lri_Image : TRawImage;
-  {$ENDIF}
 begin
-  {$IFDEF FPC}
-{  li_Length := Length(afile)-5;
-  if posex ( '.jpg' , LowerCase ( afile ), li_Length )
-  or posex ( '.jpeg', LowerCase ( afile ), li_Length )
-   Then
-     Begin
-      fpj_Writer := TFPWriterJPEG.Create;
-      IntfImg := TLazIntfImage.Create(0,0,[]);
-      try
-        lri_Image := TRawImage.CreateData(False);
-        IntfImg.SetRawImage(fpBmp.GetRawImagePtr^, False);
-        fpBmp.InitializeWriter(IntfImg, ImgWriter);
-        IntfImg.SaveToStream(Stream, ImgWriter);
-        fpBmp.FinalizeWriter(ImgWriter);
-      finally
-        IntfImg.Free;
-        fpj_Writer.Free;
-      end;
-      Exit;
-     End
- }
-    //jpeg bug
-  {$ENDIF}
   Result := False;
   InitImage(lid_imagedata);
   try

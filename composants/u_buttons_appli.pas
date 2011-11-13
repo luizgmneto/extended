@@ -40,6 +40,8 @@ const
    CST_FWOK='TFWOK';
    CST_FWINSERT='TFWINSERT';
    CST_FWDELETE='TFWDELETE';
+   CST_FWIMPORT='TFWINSERT';
+   CST_FWEXPORT='TFWDELETE';
    CST_FWCOPY='TFWCOPY';
    CST_FWQUIT='TFWQUIT';
    CST_FWERASE='TFWERASE';
@@ -47,7 +49,10 @@ const
    CST_FWPRINT='TFWPRINT';
    CST_FWDOCUMENT='TFWDOCUMENT';
    CST_FWPREVIEW='TFWPREVIEW';
+   CST_FWNEXT='TFWPREVIEW';
+   CST_FWPRIOR='TFWPREVIEW';
    CST_FWINIT='TFWINIT';
+   CST_FWCONFIG='TFWINIT';
    CST_FWWIDTH_CLOSE_BUTTON = 80 ;
    CST_FWLOAD='TFWLOAD';
 {$IFDEF GROUPVIEW}
@@ -103,6 +108,15 @@ type
 
 { TFWInsert }
    TFWInsert = class ( TJvXPButton,IFWButton )
+      private
+      public
+       constructor Create ( AOwner : TComponent ) ; override;
+       procedure Loaded; override;
+      published
+       property Glyph stored False;
+     End;
+{ TFWAdd }
+   TFWAdd = class ( TJvXPButton,IFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -183,6 +197,7 @@ type
        property Glyph stored False;
      End;
 
+{ TFWCancel }
    TFWCancel = class ( TJvXPButton,IFWButton )
       private
       public
@@ -205,6 +220,26 @@ type
        property Glyph stored False;
      End;
 
+{ TFWNext }
+   TFWNext = class ( TJvXPButton,IFWButton )
+      private
+      public
+       procedure Loaded; override;
+
+      published
+       property Glyph stored False;
+     End;
+
+{ TFWPrior }
+   TFWPrior= class ( TJvXPButton,IFWButton )
+      private
+      public
+       procedure Loaded; override;
+
+      published
+       property Glyph stored False;
+     End;
+
 { TFWCopy }
    TFWCopy = class ( TJvXPButton,IFWButton )
       private
@@ -217,6 +252,36 @@ type
 
 { TFWInit }
    TFWInit = class ( TJvXPButton,IFWButton )
+      private
+      public
+       procedure Loaded; override;
+
+      published
+       property Glyph stored False;
+     End;
+
+{ TFWConfig }
+   TFWConfig = class ( TJvXPButton,IFWButton )
+      private
+      public
+       procedure Loaded; override;
+
+      published
+       property Glyph stored False;
+     End;
+
+{ TFWImport }
+   TFWImport = class ( TJvXPButton,IFWButton )
+      private
+      public
+       procedure Loaded; override;
+
+      published
+       property Glyph stored False;
+     End;
+
+{ TFWExport }
+   TFWExport = class ( TJvXPButton,IFWButton )
       private
       public
        procedure Loaded; override;
@@ -489,6 +554,19 @@ begin
   inherited Loaded;
   Invalidate;
 end;
+{ TFWAdd }
+
+constructor TFWAdd.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+end;
+
+procedure TFWAdd.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWINSERT );
+  inherited Loaded;
+  Invalidate;
+end;
 
 { TFWSaveAs }
 
@@ -558,6 +636,23 @@ begin
   inherited Loaded;
   Invalidate;
 end;
+  
+{ TFWNext }
+
+procedure TFWNext.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWNEXT );
+  inherited Loaded;
+  Invalidate;
+end;  
+{ TFWPrior }
+
+procedure TFWPrior.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWPRIOR );
+  inherited Loaded;
+  Invalidate;
+end;
 
 { TFWPreview }
 
@@ -573,6 +668,33 @@ end;
 procedure TFWInit.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWINIT );
+  inherited Loaded;
+  Invalidate;
+end;
+
+{ TFWConfig }
+
+procedure TFWConfig.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWCONFIG );
+  inherited Loaded;
+  Invalidate;
+end;
+
+{ TFWImport }
+
+procedure TFWImport.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWIMPORT );
+  inherited Loaded;
+  Invalidate;
+end;
+
+{ TFWExport }
+
+procedure TFWExport.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWEXPORT );
   inherited Loaded;
   Invalidate;
 end;
