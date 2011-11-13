@@ -1,0 +1,31 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: fonctions_db.gs_acces_direct_serveur
+msgid "Accès directs Serveur"
+msgstr ""
+
+#: fonctions_db.gs_connection_timeout
+msgid "Connection TimeOut"
+msgstr ""
+
+#: fonctions_db.gs_mode_asynchrone
+msgid "Mode Asynchrone"
+msgstr ""
+
+#: fonctions_db.gs_mode_asynchrone_nb_enregistrements
+msgid "Mode Asynchrone Enregistrements"
+msgstr ""
+
+#: fonctions_db.gs_mode_asynchrone_timeout
+msgid "Mode Asynchrone TimeOut"
+msgstr ""
+
+#: fonctions_db.gs_mode_connexion_asynchrone
+msgid "Connection Asynchrone"
+msgstr ""
+
+#: fonctions_db.gs_set_keyset
+msgid "Set Keyset"
+msgstr ""
+
