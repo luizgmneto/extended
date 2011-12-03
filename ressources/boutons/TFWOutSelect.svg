@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:ns="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -13,14 +13,13 @@
    height="122.97446"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.45pre1"
-   sodipodi:docname="mystica_Arrow_set_(Smooth)_1.svg"
+   inkscape:version="0.48.2 r9819"
+   sodipodi:docname="TFWOutSelect.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0"
-   inkscape:export-filename="C:\Documents and Settings\Dan\Skrivbord\Clipart egna (InkScape)\Original\Kanske Upload\Arrows.png"
-   inkscape:export-xdpi="310"
-   inkscape:export-ydpi="310"
-   sodipodi:docbase="C:\Matthieu\Programmation\Lazarus Delphi\Extended\ressources\GroupView">
+   inkscape:export-filename="/home/matthieu/Bureau/Matthieu/Programmation/Lazarus Delphi/Extended/ressources/boutons/TFWOutSelect.png"
+   inkscape:export-xdpi="27.810654"
+   inkscape:export-ydpi="27.810654">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -64,7 +63,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.0958389"
-     inkscape:cx="328.12589"
+     inkscape:cx="329.95098"
      inkscape:cy="239.44648"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -73,16 +72,18 @@
      inkscape:window-height="778"
      inkscape:window-x="92"
      inkscape:window-y="92"
-     showborder="true" />
+     showborder="true"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
-      <ns:Work
+      <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-      </ns:Work>
+        <dc:title></dc:title>
+      </cc:Work>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>

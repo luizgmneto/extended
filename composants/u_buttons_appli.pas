@@ -40,8 +40,9 @@ const
    CST_FWOK='TFWOK';
    CST_FWINSERT='TFWINSERT';
    CST_FWDELETE='TFWDELETE';
-   CST_FWIMPORT='TFWINSERT';
-   CST_FWEXPORT='TFWDELETE';
+   CST_FWIMPORT='TFWIMPORT';
+   CST_FWEXPORT='TFWEXPORT';
+   CST_FWTRASH='TFWTRASH';
    CST_FWCOPY='TFWCOPY';
    CST_FWQUIT='TFWQUIT';
    CST_FWERASE='TFWERASE';
@@ -49,10 +50,10 @@ const
    CST_FWPRINT='TFWPRINT';
    CST_FWDOCUMENT='TFWDOCUMENT';
    CST_FWPREVIEW='TFWPREVIEW';
-   CST_FWNEXT='TFWPREVIEW';
-   CST_FWPRIOR='TFWPREVIEW';
+   CST_FWNEXT='TFWNEXT';
+   CST_FWPRIOR='TFWPRIOR';
    CST_FWINIT='TFWINIT';
-   CST_FWCONFIG='TFWINIT';
+   CST_FWCONFIG='TFWCONFIG';
    CST_FWWIDTH_CLOSE_BUTTON = 80 ;
    CST_FWLOAD='TFWLOAD';
 {$IFDEF GROUPVIEW}
@@ -279,6 +280,15 @@ type
       published
        property Glyph stored False;
      End;
+{ TFWTrash }
+   TFWTrash = class ( TJvXPButton,IFWButton )
+      private
+      public
+       procedure Loaded; override;
+
+      published
+       property Glyph stored False;
+     End;
 
 { TFWExport }
    TFWExport = class ( TJvXPButton,IFWButton )
@@ -401,6 +411,15 @@ Begin
       Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
     FGlyph.Bitmap.LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
   {$ENDIF}
+end;
+
+{ TFWTrash }
+
+procedure TFWTrash.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWTRASH );
+  inherited Loaded;
+  Invalidate;
 end;
 
 { TFWLoad }

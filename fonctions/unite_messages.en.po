@@ -1,3 +1,264 @@
+<<<<<<< local
+msgid "Rechercher"
+msgstr "Search"
+
+#: unite_messages.gs_canceledit
+msgid "Annuler les modifications"
+msgstr ""
+
+#: unite_messages.gs_chargement_impossible_field_image
+msgid "Il est impossible de charger l'enregistrement de l'image."
+msgstr ""
+
+#: unite_messages.gs_chargement_impossible_file_image
+msgid "Il est impossible de charger le fichier image."
+msgstr ""
+
+#: unite_messages.gs_chargement_impossible_stream_field
+msgid "Il est impossible de charger le flux image dans le champ."
+msgstr ""
+
+#: unite_messages.gs_chargement_impossible_stream_image
+msgid "Il est impossible de charger le flux image."
+msgstr ""
+
+#: unite_messages.gs_confirmcaption
+msgid "Confirmation"
+msgstr ""
+
+#: unite_messages.gs_deconnecter_annule
+#, fuzzy
+#| msgid "`#31l#183#28#0#0#0#28#0#0#0#17#0#28a#236#128:#183#0#0#0#0#25#0#0#0"
+msgid "`ī#177#28#0#0#0#28#0#0#0#17#0#188{#140k|#177#0#0#0#0#25#0#0#0"
+msgstr "Cancelling connection"
+
+#: unite_messages.gs_deleterecord
+msgid "Supprimer l'enregistrement"
+msgstr ""
+
+#: unite_messages.gs_details_techniques
+msgid "Ppq#177#21#0#0#0#21#0#0#0#17#0#28z#6syst"
+msgstr ""
+
+#: unite_messages.gs_ecriture_impossible
+msgid "@ #235#182H#0#0#0H#0#0#0#17#0#28z#6system#0#0#0#0#0#17#0,z#160<A#183`i|#177 (#0#0#17#0<z#6objpas#0#0#0#0#0#17#0LzX#149#31#8#0#0#0#0"
+msgstr ""
+
+#: unite_messages.gs_editrecord
+msgid "Modifier l'enregistrement"
+msgstr ""
+
+#: unite_messages.gs_erreur_connexion
+msgid "#240t#132#177T#0#0#0T#0#0#0#17#0#220{#236k|#177#140k|#1778#0#0#0#17#0#236{#252k|#177#220k|#177#0#0#0#0#17#0#252{#12l|#177#236k|#177#0#0#0#0#17#0#12|#28l|#177#252k|#177#0#0#0#0#17#0#28|,l|#177"
+msgstr ""
+
+#: unite_messages.gs_erreur_modification_maj
+#, fuzzy
+#| msgid " #182o#183T#0#0#0T#0#0#0#17#0#28aL#129:#183#236#128:#183#16#0#0#0#17#0,a#252#128:#183#172#128:#183T#0#0#0#17#0<a܀:#183#0#0#0#0-#0#0#0#17#0La\\#129:#183#28#129:#183#0#0#0#0#17#0\\al#129:#183"
+msgctxt "unite_messages.GS_ERREUR_CONNEXION"
+msgid "#240t#132#177T#0#0#0T#0#0#0#17#0#188{#236k|#177#140k|#177#16#0#0#0#17#0#204{#156k|#177Lk|#177T#0#0#0#17#0#220{|k|#177#0#0#0#0-#0#0#0#17#0#236{#252k|#177#188k|#177#0#0#0#0#17#0#252{#12l|#177"
+msgstr "An error has occured while connecting to data"
+
+#: unite_messages.gs_erreur_nombre_grand
+msgid " #177#253#177e#0#0#0e#0#0#0#17#0#188{Lk|#177#204k|#177#30#0#0#0#17#0#204{#188k|#177#0#0#0#0G#0#0#0#17#0#220{#156k|#177Lk|#177e#0#0#0#17#0#236{#252k|#177|k|#177#0#0#0#0#17#0#252{#12l|#177#236k|#177#0#0#0#0#17#0#12|#28l|#177#252"
+msgstr ""
+
+#: unite_messages.gs_erreur_ouverture
+#, fuzzy
+#| msgid "#224#29l#183#26#0#0#0#26#0#0#0#17#0|_#6system#0#0#0"
+msgid "#224«#177#26#0#0#0#26#0#0#0#17#0#28z#6system#0#0#0"
+msgstr "Error opening @ARG."
+
+#: unite_messages.gs_erreur_reseau
+#, fuzzy
+#| msgid "`g9#183-#0#0#0-#0#0#0#17#0La\\#129:#183#28#129:#183#0#0#0#0#17#0\\al#129:#183L#129:#183#0#0#0#0#17"
+msgid " #2q#177-#0#0#0-#0#0#0#17#0#236{#252k|#177#188k|#177#0#0#0#0#17#0#252{#12l|#177#236k|#177#0#0#0#0#17"
+msgstr ""
+"Network error.\n"
+"Verify network connexion.\n"
+
+#: unite_messages.gs_fichier_non_trouve
+msgid " ī#177#24#0#0#0#24#0#0#0#17#0#220{#236k|#177#140k|#177"
+msgstr ""
+
+#: unite_messages.gs_firstrecord
+msgid "Premier enregistrement"
+msgstr ""
+
+#: unite_messages.gs_form_abandon_ouverture
+msgid "Abandon de l'ouverture de la fiche @ARG..."
+msgstr ""
+
+#: unite_messages.gs_gotobookmarkrecord
+msgid "#1603{#177#31#0#0#0#31#0#0#0#17#0\\{Rechercher#0#0#17#0l"
+msgstr ""
+
+#: unite_messages.gs_groupview_abort
+msgid "Abandonner"
+msgstr ""
+
+#: unite_messages.gs_groupview_basket
+msgid "Retour origine"
+msgstr ""
+
+#: unite_messages.gs_groupview_record
+msgid "Enregistrer"
+msgstr ""
+
+#: unite_messages.gs_image_deformation
+msgid "#1603{#177\"#0#0#0\"#0#0#0#17#0#28z#6system#0#0#0#0#0#17#0,z#160<"
+msgstr ""
+
+#: unite_messages.gs_image_doit_etre
+msgid "@4{#177\"#0#0#0\"#0#0#0#17#0#220{#236k|#177#140k|#1778#0#0#0#17#0#236{#252k"
+msgstr ""
+
+#: unite_messages.gs_image_hauteur
+msgctxt "unite_messages.gs_image_hauteur"
+msgid "L'image doit avoir une hauteur de "
+msgstr "The picture must have a height of "
+
+#: unite_messages.gs_image_mauvaise_image
+msgid "Mauvais format d'image."
+msgstr ""
+
+#: unite_messages.gs_image_mauvaise_taille
+msgid "p#183#245#1805#0#0#05#0#0#0#17#0#28z#6system#0#0#0#0#0#17#0,z#160<A#183`i|#177 (#0#0#17#0<z#6objp"
+msgstr ""
+
+#: unite_messages.gs_image_multiple_5
+msgid "L'image doit avoir une largeur multiple de "
+msgstr "The picture must have a width multiple of "
+
+#: unite_messages.gs_image_trop_grande
+msgid "L'image est trop grande."
+msgstr "The picture is too big."
+
+#: unite_messages.gs_image_trop_petite
+#, fuzzy
+#| msgid "L'image doit avoir une hauteur de "
+msgctxt "unite_messages.gs_image_trop_petite"
+msgid "L'image est trop petite."
+msgstr "The picture must have a height of "
+
+#: unite_messages.gs_inserer_enregistrement
+msgid " ī#177#25#0#0#0#25#0#0#0#17#0#220{#236k|#177#140k|#1778"
+msgstr ""
+
+#: unite_messages.gs_insertrecord
+#, fuzzy
+#| msgid " #1528#183#22#0#0#0#22#0#0#0#17#0|_#6syste"
+msgctxt "unite_messages.gs_insertrecord"
+msgid "#16qq#177#22#0#0#0#22#0#0#0#17#0#28z#6syste"
+msgstr "Post record"
+
+#: unite_messages.gs_lastrecord
+msgid "Dernier enregistrement"
+msgstr ""
+
+#: unite_messages.gs_mettre_a_jour_fiche
+#, fuzzy
+#| msgid "#160&m#183a#0#0#0a#0#0#0#17#0La\\#129:#183#12#129:#183#0#0#0#0#17#0\\al#129:#183L#129:#183#0#0#0#0#17#0la|#129:#183\\#129:#183#0#0#0#0#17#0|a#140#129:#183l#129:#183#0#0#0#0#17#0#140a#156#129:#183|#129:#183#0#0#0#0#17#0#156a#172"
+msgid " #177#253#177a#0#0#0a#0#0#0#17#0#236{#252k|#177#172k|#177#0#0#0#0#17#0#252{#12l|#177#236k|#177#0#0#0#0#17#0#12|#28l|#177#252k|#177#0#0#0#0#17#0#28|,l|#177#12l|#177#0#0#0#0#17#0,|<l|#177#28l|#177#0#0#0#0#17#0<|L"
+msgstr ""
+"The record has been modified or erased by another user.\n"
+"The form will be refreshed.\n"
+
+#: unite_messages.gs_movenextrecord
+#, fuzzy
+#| msgid "0#2298#183$#0#0#0$#0#0#0#17#0#188`Rechercher#0#0#17#0#204`܀:#183"
+msgid "#1603{#177$#0#0#0$#0#0#0#17#0\\{Rechercher#0#0#17#0l{|k|#177"
+msgstr "Move record to next"
+
+#: unite_messages.gs_movepreviousrecord
+#, fuzzy
+#| msgid "0#2298#183&#0#0#0&#0#0#0#17#0#188`Rechercher#0#0#17#0#204`܀:#183#0#0"
+msgid "#1603{#177&#0#0#0&#0#0#0#17#0\\{Rechercher#0#0#17#0l{|k|#177#0#0"
+msgstr "Move record to previous"
+
+#: unite_messages.gs_navigateur_vers_le_bas
+#, fuzzy
+#| msgid " #31l#183#29#0#0#0#29#0#0#0#17#0<aL#129:#183#236#128:#1838#0#0#0#17"
+msgid " ī#177#29#0#0#0#29#0#0#0#17#0#220{#236k|#177#140k|#1778#0#0#0#17"
+msgstr "Move line to bottom"
+
+#: unite_messages.gs_navigateur_vers_le_haut
+#, fuzzy
+#| msgid " #31l#183#30#0#0#0#30#0#0#0#17#0<aL#129:#183#236#128:#1838#0#0#0#17#0"
+msgid " ī#177#30#0#0#0#30#0#0#0#17#0#220{#236k|#177#140k|#1778#0#0#0#17#0"
+msgstr ""
+"Probl#232me #224 la validation du nombre :\n"
+"Un nombre saisi est trop grand.\n"
+"Modifier la saisie ou annuler.\n"
+
+#: unite_messages.gs_nextrecord
+msgid "Enregistrement suivant"
+msgstr ""
+
+#: unite_messages.gs_pb_connexion
+#, fuzzy
+#| msgid "#224e=#183A#0#0#0A#0#0#0#17#0#28a#236#128:#183#0#0#0#0#25#0#0#0#17#0,a<#129:#183#252#128:#183#25#0#0#0#17#0<aL#129:#183,#129:#1838#0#0#0#17#0La\\"
+msgid "��{#177A#0#0#0A#0#0#0#17#0#188{#140k|#177#0#0#0#0#25#0#0#0#17#0#204{#220k|#177#156k|#177#25#0#0#0#17#0#220{#236k|#177#204k|#1778#0#0#0#17#0#236{#252"
+msgstr ""
+"Cannot connect.\n"
+"Please contact you administrator.\n"
+
+#: unite_messages.gs_postedit
+msgid "Valider modifications"
+msgstr ""
+
+#: unite_messages.gs_priorrecord
+msgid "#224«#177#24#0#0#0#24#0#0#0#17#0#28z#6system#0"
+msgstr ""
+
+#: unite_messages.gs_refreshrecord
+msgid "#16qq#177#22#0#0#0#22#0#0#0#17#0\\{lk|#177#0#0"
+msgstr ""
+
+#: unite_messages.gs_searchrecord
+msgid "Rechercher"
+msgstr ""
+
+#: unite_messages.gs_setbookmarkrecord
+msgid "Marquer L'enregistrement"
+msgstr ""
+
+#: unite_messages.gs_supprimer_question
+msgid "Confirmez-vous l'effacement de l'enregistrement ?"
+msgstr ""
+
+#: unite_messages.gs_toolbarmenu_personnaliser
+msgid "Personnaliser"
+msgstr ""
+
+#: unite_messages.gs_valeurs_utilisees
+#, fuzzy
+#| msgid "P!*#183#143#0#0#0#143#0#0#0#17#0#28a,#129:#183#0#0#0#0'#0#0#0#17#0,a#172#128:#183#28#129:#183h#0#0#0#17#0<a#252#128:#183#172#128:#183#143#0#0#0#17#0La\\#129:#183܀:#183#0#0#0#0#17#0\\al#129:#183L#129:#183#0#0#0#0#17#0la|#129:#183\\#129:#183#0#0#0#0#17#0|a#140#129:#183l#129:#183#0#0#0#0#17#0#140a#156#129:#183|#129:#183#0#0#0#0#17#0#156"
+msgid "#16#9,#183#143#0#0#0#143#0#0#0#17#0#188{#204k|#177#0#0#0#0'#0#0#0#17#0#204{Lk|#177#188k|#177h#0#0#0#17#0#220{#156k|#177Lk|#177#143#0#0#0#17#0#236{#252k|#177|k|#177#0#0#0#0#17#0#252{#12l|#177#236k|#177#0#0#0#0#17#0#12|#28l|#177#252k|#177#0#0#0#0#17#0#28|,l|#177#12l|#177#0#0#0#0#17#0,|<l|#177#28l|#177#0#0#0#0#17#0<"
+msgstr ""
+"The values @ARG are ever used.\n"
+"Modyify the values, cancel or revalidate if you cannot modify one value.\n"
+
+#: unite_messages.gs_valeur_utilisee
+#, fuzzy
+#| msgid "#160#164m#183#137#0#0#0#137#0#0#0#17#0#236`<#129:#183#252#128:#183G#0#0#0#17#0#252`#236#128:#183#12#129:#183#1#0#0#0#17#0#12a#252#128:#183#172#128:#183#137#0#0#0#17#0#28a#172#128:#183,#129:#183f#0#0#0#17#0,a#28#129:#183#0#0#0#0##0#0#0#17#0<aL#129:#183#236#128:#183##0#0#0#17#0La\\#129:#183<#129:#183#0#0#0#0#17#0\\al#129:#183L#129:#183#0"
+msgid "`#213#28#178#137#0#0#0#137#0#0#0#17#0#140{#220k|#177#156k|#177G#0#0#0#17#0#156{#140k|#177#172k|#177#1#0#0#0#17#0#172{#156k|#177Lk|#177#137#0#0#0#17#0#188{Lk|#177#204k|#177f#0#0#0#17#0#204{#188k|#177#0#0#0#0##0#0#0#17#0#220{#236k|#177#140k|#177##0#0#0#17#0#236{#252k|#177#220k|#177#0#0#0#0#17#0#252{#12l|#177#236k|#177#0"
+msgstr ""
+"The value @ARG is ever used.\n"
+"Modyify the value, cancel or revalidate if you cannot modify the value.\n"
+
+#: unite_messages.gs_valider_modifications
+#, fuzzy
+#| msgid "Valider les modifications"
+msgctxt "unite_messages.gs_valider_modifications"
+msgid "Valider les modifications"
+msgstr "Post record"
+
+#: unite_messages.sclosebutton
+msgid "&Fermer"
+msgstr ""
+
+=======
 msgid "Rechercher"
 msgstr "Search"
 
@@ -257,3 +518,4 @@ msgstr "Post record"
 msgid "&Fermer"
 msgstr ""
 
+>>>>>>> other
