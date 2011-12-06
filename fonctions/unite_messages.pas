@@ -59,6 +59,23 @@ resourcestring
   GS_DETAILS_TECHNIQUES = 'Détails techniques : ' ;
   GS_TOOLBARMENU_Personnaliser = 'Personnaliser' ;
 
+  GS_GROUPE_INCLURE         = 'Inclure' ;
+  GS_GROUPE_EXCLURE         = 'Exclure' ;
+  GS_GROUPE_TOUT_INCLURE    = 'Tout inclure' ;
+  GS_GROUPE_TOUT_EXCLURE    = 'Tout exclure' ;
+  GS_GROUPE_RETOUR_ORIGINE  = 'Restaurer les données initiales' ;
+  GS_GROUPE_MAUVAIS_BOUTONS = 'Les boutons de transfert doivent s''inverser dans les deux listes. ' + #13#10
+                        	+ 'Les boutons de transfert sont identifiés par rapport à leur liste,' + #13#10
+                        	+ ' à l''inverse des numéros d''images identifiés par rapport à la table. ' ;
+      // Doit-on enregistrer ou abandonner
+  GS_GROUPE_ABANDON = 'Veuillez enregistrer ou abandonner avant de continuer.' ;
+      // Vidage du panier : oui ou non
+  GS_GROUPE_VIDER   = 'Le panier utilisé pour les réaffectations n''est pas vide.' + #13#10
+                         + 'Voulez-vous abandonner ces réaffectations ?' ;
+  GS_PAS_GROUPES    = 'DatasourceOwnerTable ou DatasourceOwnerKey non trouvés.' ;
+  GS_GROUP_INCLUDE_LIST = 'Liste d''inclusion';
+  GS_GROUP_EXCLUDE_LIST = 'Liste d''exclusion';
+
   GS_IMAGE_MAUVAISE_TAILLE = 'La taille de l''image doit être au moins de 32 sur 32.' ;
   GS_IMAGE_DEFORMATION = 'L''image sera déformée, continuer ?' ;
   GS_IMAGE_MAUVAISE_IMAGE = 'Mauvais format d''image.' ;

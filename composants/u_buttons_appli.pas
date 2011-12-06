@@ -71,6 +71,7 @@ const
 type
 
    IFWButton = interface
+   ['{620AE27F-98C1-8A6D-E54F-FE57A16207E5}']
        procedure Paint;
    end;
 { TFWClose }

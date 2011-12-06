@@ -20,7 +20,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="4" Build="8"/>
-    <Files Count="27">
+    <Files Count="29">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
@@ -131,6 +131,14 @@
         <Filename Value="composants/U_OnFormInfoIni.lrs"/>
         <Type Value="LRS"/>
       </Item27>
+      <Item28>
+        <Filename Value="composants/U_GroupView.lrs"/>
+        <Type Value="LRS"/>
+      </Item28>
+      <Item29>
+        <Filename Value="composants/U_GroupView.pas"/>
+        <UnitName Value="U_GroupView"/>
+      </Item29>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="10">
@@ -174,4 +182,4 @@
       <IgnoreBinaries Value="False"/>
     </PublishOptions>
   </Package>
-</CONFIG>
+</CONFIG>
