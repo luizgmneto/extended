@@ -28,10 +28,18 @@ const
 {$ENDIF}
 
 
+function fs_ExtractFileNameOnly ( const as_Path : String ): String;
 function fs_GetNameSoft : String;
-{$IFDEF VERSIONS}
+function GetAppConfigDirectory ( const Global : Boolean = False ): string;
+{$IFNDEF FPC}
+  function GetWinDir ( const CSIDL : Integer ) : String ;
+{$ENDIF}
 const
-    gVer_fonction_system : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
+  {$IFDEF LINUX}
+  SYSDIR_CONFIGDIR_NAME = '.config';
+  {$ENDIF}
+  {$IFDEF VERSIONS}
+  gVer_fonction_system : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Fonctions de traduction et de formatage des chaînes.' ;
                         			                 BugsStory : 'Version 1.0.0.0 : Creating from fonctions_string.';
@@ -47,6 +55,35 @@ uses
   LCLType, FileUtil ;
 {$ENDIF}
 
+function fs_ExtractFileNameOnly ( const as_Path : String ): String;
+Begin
+  Result := ExtractFileName(as_path);
+  Result :=copy ( Result, 1 , length ( Result ) - length( ExtractFileExt(Result)));
+End;
+
+
+function GetAppConfigDirectory ( const Global : Boolean = False ): string;
+ begin
+   {$IFDEF FPC}
+   Result := GetAppConfigDir ( Global );
+   {$ELSE}
+   if Global
+    Then Result := GetWinDir ( CSIDL_COMMON_APPDATA )
+    Else Result := GetWinDir ( CSIDL_APPDATA );
+   Result := Result + DirectorySeparator + fs_ExtractFileNameOnly ( Application.ExeName );
+   {$ENDIF}
+ end;
+
+{$IFNDEF FPC}
+
+function GetWinDir ( const CSIDL : Integer ) : string;
+ var
+    path: array[0..Max_Path] of Char;
+ begin
+    ShGetSpecialFolderPath(0, path, CSIDL, False) ;
+    Result := Path;
+ end;
+{$ENDIF}
 
 function fs_GetNameSoft : String;
 var li_Pos : Integer;

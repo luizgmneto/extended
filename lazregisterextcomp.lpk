@@ -12,7 +12,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1"/>
+    <Version Major="1" Build="1"/>
     <Files Count="2">
       <Item1>
         <Filename Value="composants/u_regframeworkcomponents.pas"/>
