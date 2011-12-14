@@ -53,9 +53,6 @@ const
   INISEC_PAR = 'parametres';
   INISEC_CON = 'connexion';
   INISEC_UTI = 'Utilisateur' ;
-  {$IFDEF LINUX}
-  INIDIR_CONFIGDIR_NAME = '.config';
-  {$ENDIF}
   // Paramètres du fichier ini
   INIPAR_CREATION  = 'creation ini';
   INIPAR_LANCEMENT = 'lancement';
@@ -191,8 +188,6 @@ const
 {$ENDIF}
 {$IFDEF FPC}
   function fb_IniSetSQLConnection ( const asqc_Connection : TSQLConnection ) : Boolean ;
-{$ELSE}
-  function GetUserDir: string;
 {$ENDIF}
 function fs_IniSetConnection ( const accx_Connection : TComponent ) : String ;
 procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ; {$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
@@ -215,22 +210,12 @@ var
 
 implementation
 
-uses TypInfo, fonctions_string,
+uses TypInfo, fonctions_string, fonctions_system,
 {$IFDEF ZEOS}
       U_ZConnection,
 {$ENDIF}
       fonctions_proprietes, fonctions_db ;
 
-
-{$IFNDEF FPC}
-function GetUserDir: string;
- var
-    path: array[0..Max_Path] of Char;
- begin
-    ShGetSpecialFolderPath(0, path, CSIDL_APPDATA, False) ;
-    Result := Path;
- end;
-{$ENDIF}
 
 {$IFDEF ZEOS}
 function fb_IniSetZConnection ( const asqc_Connection : TZConnection; const IniFile : TIniFile ) : Boolean ;
@@ -633,7 +618,7 @@ var ls_Dir : String;
 begin
   if not Assigned(FIniFile) then
     begin
-      Result := GetUserDir + DirectorySeparator + {$IFDEF LINUX}INIDIR_CONFIGDIR_NAME + DirectorySeparator + {$ENDIF} fs_ExtractFileNameOnly ( Application.ExeName ) + DirectorySeparator ;
+      Result := GetAppConfigDirectory + DirectorySeparator ;
       if not DirectoryExists(  Result )
       and not CreateDir (  Result ) Then
         Result := fs_getSoftDir;

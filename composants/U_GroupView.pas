@@ -567,6 +567,7 @@ Begin
   While assigned ( ge_GroupFetchLoading ) and ( ge_GroupFetchLoading.WaitFor ( 100 ) = wrSignaled ) do
      Begin
        Application.ProcessMessages ;
+       Sleep ( 100 );
 
      End ;
   Result := True ;

@@ -36,7 +36,6 @@ const
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
   function fs_EraseFirstDirectory ( const as_Path : String ) :String;
   function fs_EraseSpecialChars( const aText: string): string;
-  function fs_ExtractFileNameOnly ( const as_Path : String ): String;
   function fs_getSoftDir : String;
   function fs_ArgConnectString ( const as_connectstring, as_arg: string): string;
   function fb_stringVide ( const aTexte: string): Boolean;
@@ -775,12 +774,6 @@ Begin
       Result := Result + '_';
 
 End;
-function fs_ExtractFileNameOnly ( const as_Path : String ): String;
-Begin
-  Result := ExtractFileName(as_path);
-  Result :=copy ( Result, 1 , length ( Result ) - length( ExtractFileExt(Result)));
-End;
-
 {$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gVer_fonction_string );
