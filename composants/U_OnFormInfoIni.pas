@@ -184,23 +184,9 @@ uses TypInfo, Grids, U_ExtNumEdits,
 {$IFDEF VIRTUALTREES}
      VirtualTrees ,
 {$ENDIF}
-     unite_messages, fonctions_proprietes;
-
-////////////////////////////////////////////////////////////////////////////////
-// retourne le nom de la machine
-////////////////////////////////////////////////////////////////////////////////
-function FW_Read_Computer_Name : string;
-begin
-  Result := f_IniFWReadComputerName;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// Retourne le fichier INI
-////////////////////////////////////////////////////////////////////////////////
-function GetFileIni: string;
-begin
-  Result := ExtractFilePath(Application.ExeName) + CST_Avant_Fichier + FW_Read_Computer_Name + CST_ONFORMINI_DOT + CST_EXTENSION_INI;
-end;
+     unite_messages,
+     fonctions_system,
+     fonctions_proprietes;
 
 ////////////////////////////////////////////////////////////////////////////////
 // permet de sauver dans un ini le contenu d'un mémo, d'un Combobox, d'un ListBox, d'un RichEdit
@@ -219,7 +205,6 @@ begin
   FIni.WriteInteger(SectionIni, CST_ONFORMINI_ITEMINDEX, ItemIndex);
   FIni.WriteInteger(SectionIni, CST_ONFORMINI_COUNT, LeTStrings.Count);
 end;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // permet de lire le contenu d'un ini qui a été sauvé par SauveTStringsDansIni

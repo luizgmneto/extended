@@ -30,6 +30,11 @@ const
 
 function fs_ExtractFileNameOnly ( const as_Path : String ): String;
 function fs_GetNameSoft : String;
+// Retourne le nom d'utilisateur (string) de la session WINDOWS
+function fs_GetUserSession: string;
+
+// Retourne le nom d'ordinateur (string)
+function fs_GetComputerName: string;
 {$IFNDEF FPC}
 function GetAppConfigDir ( const Global : Boolean ): string;
 function GetWinDir ( const CSIDL : Integer ) : String ;
@@ -54,6 +59,44 @@ implementation
 uses
   LCLType, FileUtil ;
 {$ENDIF}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Lit le nom de la session
+////////////////////////////////////////////////////////////////////////////////
+function fs_GetUserSession: string;
+{$IFDEF FPC}
+Begin
+ Result := 'config';
+{$ELSE}
+var
+  Buffer: array[0..255] of char;    // tableau de 255 caracteres
+  BufferSize: DWORD;                // nombre 16 bits non signé  VL_B_Resultat : Boolean;
+begin
+  BufferSize := sizeOf(Buffer); // (= 256)
+  if GetUserName(@buffer, BufferSize) then ; // (lpBuffer: PChar; var nSize: DWORD)
+  result := Buffer; // MEP utilisateur
+{$ENDIF}
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+// Lit le nom de la machine
+////////////////////////////////////////////////////////////////////////////////
+function fs_GetComputerName : string;
+{$IFDEF FPC}
+Begin
+ //    Result := GetComputerName;
+ Result := '';
+{$ELSE}
+var
+  Buffer: array[0..255] of char;    // tableau de 255 caracteres
+  BufferSize: DWORD;                // nombre 16 bits non signé  VL_B_Resultat : Boolean;
+begin
+  BufferSize := sizeOf(Buffer); // (= 256)
+  if GetComputerName(@buffer, BufferSize) then ; // (lpBuffer: PChar; var nSize: DWORD)
+  result := Buffer; // MEP utilisateur
+{$ENDIF}
+end;
 
 function fs_ExtractFileNameOnly ( const as_Path : String ): String;
 Begin
