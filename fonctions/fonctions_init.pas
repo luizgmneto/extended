@@ -618,7 +618,7 @@ var ls_Dir : String;
 begin
   if not Assigned(FIniFile) then
     begin
-      Result := GetAppConfigDirectory + DirectorySeparator ;
+      Result := GetAppConfigDir ( False ) + DirectorySeparator ;
       if not DirectoryExists(  Result )
       and not CreateDir (  Result ) Then
         Result := fs_getSoftDir;
