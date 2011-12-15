@@ -75,6 +75,7 @@ const
 ////////////////////////////////////////////////////////////////////////////////
 
   function fs_GetIniDir: String;
+  function fb_CreateCommonIni ( var amif_Init : TIniFile  ; const as_NomConnexion: string ) : Boolean ;
   // Lit la section des commandes et si elle existe la retourne dans donnees (TStrings)
   function Lecture_ini_sauvegarde_fonctions(sauvegarde: string; donnees: Tstrings): Boolean;
 
@@ -748,30 +749,76 @@ begin
     end;
 end;
 
-// Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)
-// Entrée : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
-// Renvoie un fichier INI (même si c'est pas très utile) !!!
-procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ;{$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
-begin
-  if not Assigned(amif_Init) then
-    begin
-      amif_Init := TIniFile.Create(fs_getSoftDir + CST_INI_SOFT + as_NomConnexion + CST_EXTENSION_INI);
-    End;
-  // Soit on a une connexion ADO
-  if Assigned(acco_Conn) then
-    begin
-      // Connexion à la base d'accès
-      p_SetComponentBoolProperty ( acco_Conn, 'Connected', False );
 
-{$IFDEF ZEOS}
-      if ( acco_Conn is TZConnection ) Then
+function fs_PathCommonIni ( const as_NomConnexion: string ; const ab_create : Boolean = True ) : String ;
+var lt_Arg  : Array [0..0] of String ;
+Begin
+    try
+      Result := GetAppConfigDir ( True );
+      if ab_create
+      and not DirectoryExists(Result) Then
+        CreateDir(Result);
+      Result := Result + CST_INI_SOFT + as_NomConnexion + CST_EXTENSION_INI ;
+    except
+      On E : Exception do
+       Begin
+         lt_Arg [ 0 ] := Result;
+         Result := '';
+         MessageDlg(fs_RemplaceMsg ( GS_INI_FILE_CANT_WRITE, lt_Arg ),mtError,[mbOK],0);
+       end;
+    End;
+end;
+
+function fb_CreateCommonIni ( var amif_Init : TIniFile ; const as_NomConnexion: string ) : Boolean ;
+var ls_Path : String ;
+    lt_Arg  : Array [0..0] of String ;
+Begin
+  Result := False;
+  if not Assigned(amif_Init) then
+    try
+      ls_Path:=fs_PathCommonIni ( as_NomConnexion );
+      if (ls_Path <> '') Then
         Begin
-          fb_IniSetZConnection ( acco_Conn as TZConnection, amif_Init );
-          p_SetComponentBoolProperty ( acco_Conn, 'Connected', True );
-        End ;
-{$ENDIF}
+          amif_Init := TIniFile.Create ( ls_path );
+          Result := True;
+        end;
+    except
+      On E : Exception do
+       Begin
+         lt_Arg [ 0 ] := ls_Path;
+         MessageDlg(fs_RemplaceMsg ( GS_INI_FILE_CANT_WRITE, lt_Arg ),mtError,[mbOK],0);
+       end;
+    End;
+end;
+
 {$IFDEF EADO}
-      if not amif_Init.SectionExists(INISEC_PAR) then
+
+procedure p_ReadADOCommonIni ( const acco_ConnAcces, acco_Conn: TComponent; const amif_Init : TIniFile ) : Boolean ;
+Begin
+  if  ( acco_Conn is TADOConnection ) Then
+    Begin
+      gb_ApplicationAsynchrone := amif_Init.ReadBool(INISEC_PAR, GS_MODE_ASYNCHRONE, GB_ASYNCHRONE_PAR_DEFAUT);
+      gb_ConnexionAsynchrone := amif_Init.ReadBool(INISEC_PAR, GS_MODE_ASYNCHRONE, GB_ASYNCHRONE_PAR_DEFAUT);
+      gi_IniDatasourceAsynchroneEnregistrementsACharger := amif_Init.ReadInteger(INISEC_PAR, GS_MODE_ASYNCHRONE_NB_ENREGISTREMENTS, CST_ASYNCHRONE_NB_ENREGISTREMENTS);
+      gi_IniDatasourceAsynchroneTimeOut                 := amif_Init.ReadInteger(INISEC_PAR, GS_MODE_ASYNCHRONE_TIMEOUT, CST_ASYNCHRONE_TIMEOUT_DEFAUT);
+      gb_IniDirectAccessOnServer := amif_Init.ReadBool   (INISEC_PAR, GS_ACCES_DIRECT_SERVEUR, gb_IniDirectAccessOnServer );
+      gb_IniADOsetKeySet := amif_Init.ReadBool   (INISEC_PAR, GS_Set_KEYSET, gb_IniADOsetKeySet );
+      if gb_ConnexionAsynchrone Then
+        Begin
+          if ( acco_ConnAcces is TADOConnection ) Then
+             ( acco_ConnAcces as TADOConnection ).ConnectOptions := coAsyncConnect ;
+          ( acco_Conn      as TADOConnection ).ConnectOptions := coAsyncConnect ;
+        End ;
+  End ;
+End;
+
+function fb_WriteADOCommonIni ( const acco_Conn: TComponent ; var amif_Init : TIniFile ; const as_NomConnexion: string ) : Boolean ;
+var lt_Arg  : Array [0..0] of String ;
+Begin
+  Result := False;
+  if ( acco_Conn is TADOConnection ) Then
+    try
+      if not amif_Init.SectionExists(INISEC_PAR) Then
         begin
           p_SetComponentProperty ( acco_Conn, 'ConnectionString', '' );
           // Mise à jour des paramètre
@@ -786,19 +833,46 @@ begin
           amif_Init.WriteBool   (INISEC_PAR, GS_MODE_ASYNCHRONE, GB_ASYNCHRONE_PAR_DEFAUT);
           amif_Init.WriteInteger(INISEC_PAR, GS_MODE_ASYNCHRONE_TIMEOUT, CST_ASYNCHRONE_TIMEOUT_DEFAUT);
           // Ouverture de la fenêtre de dialogue de connexion
-          if ( acco_Conn is TADOConnection ) Then
-            Begin
-              EditConnectionString(acco_Conn);
-              amif_Init.WriteString (INISEC_PAR, INIPAR_ACCESS, ( acco_Conn as TADOConnection ).ConnectionString);
-            End
+          EditConnectionString(acco_Conn);
+          amif_Init.WriteString (INISEC_PAR, INIPAR_ACCESS, ( acco_Conn as TADOConnection ).ConnectionString);
         end
           else
-            if ( acco_Conn is TADOConnection ) Then
-              Begin
-                ( acco_Conn as TADOConnection ).ConnectionString := amif_Init.Readstring(INISEC_PAR, INIPAR_ACCESS, '');
-                if assigned ( acco_ConnAcces ) Then
-                  ( acco_ConnAcces as TADOConnection ).ConnectionTimeout := amif_Init.ReadInteger(INISEC_PAR, GS_CONNECTION_TIMEOUT, CST_CONNECTION_TIMEOUT_DEFAUT);
-              End;
+            Begin
+              ( acco_Conn as TADOConnection ).ConnectionString := amif_Init.Readstring(INISEC_PAR, INIPAR_ACCESS, '');
+              if assigned ( acco_ConnAcces ) Then
+                ( acco_ConnAcces as TADOConnection ).ConnectionTimeout := amif_Init.ReadInteger(INISEC_PAR, GS_CONNECTION_TIMEOUT, CST_CONNECTION_TIMEOUT_DEFAUT);
+            End;
+        Result := True;
+    except
+      On E : Exception do
+       Begin
+         lt_Arg [ 0 ] := fs_PathCommonIni ( as_NomConnexion, False );
+         MessageDlg(fs_RemplaceMsg ( GS_INI_FILE_CANT_WRITE, lt_Arg ),mtError,[mbOK],0);
+       end;
+    End;
+end;
+{$ENDIF}
+
+// Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)
+// Entrée : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
+// Renvoie un fichier INI (même si c'est pas très utile) !!!
+procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ;{$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
+begin
+  // Soit on a une connexion ADO
+  if Assigned(acco_Conn)
+  and fb_CreateCommonIni ( amif_Init, as_NomConnexion ) then
+    begin
+      // Connexion à la base d'accès
+      p_SetComponentBoolProperty ( acco_Conn, 'Connected', False );
+{$IFDEF ZEOS}
+      if ( acco_Conn is TZConnection ) Then
+        Begin
+          fb_IniSetZConnection ( acco_Conn as TZConnection, amif_Init );
+          p_SetComponentBoolProperty ( acco_Conn, 'Connected', True );
+        End ;
+{$ENDIF}
+{$IFDEF EADO}
+   fb_WriteADOCommonIni ( acco_Conn, amif_Init, as_NomConnexion );
 {$ENDIF}
 {$IFDEF DBEXPRESS}
         if ( acco_Conn is TSQLConnection ) Then
@@ -821,21 +895,7 @@ begin
     gs_ModeConnexion := amif_Init.Readstring(INISEC_PAR, INISEC_CON, '');
     gs_aide := amif_Init.Readstring(INISEC_PAR, GS_AIDE, GS_CHEMIN_AIDE);
 {$IFDEF EADO}
-    gb_ApplicationAsynchrone := amif_Init.ReadBool(INISEC_PAR, GS_MODE_ASYNCHRONE, GB_ASYNCHRONE_PAR_DEFAUT);
-    gb_ConnexionAsynchrone := amif_Init.ReadBool(INISEC_PAR, GS_MODE_ASYNCHRONE, GB_ASYNCHRONE_PAR_DEFAUT);
-    gi_IniDatasourceAsynchroneEnregistrementsACharger := amif_Init.ReadInteger(INISEC_PAR, GS_MODE_ASYNCHRONE_NB_ENREGISTREMENTS, CST_ASYNCHRONE_NB_ENREGISTREMENTS);
-    gi_IniDatasourceAsynchroneTimeOut                 := amif_Init.ReadInteger(INISEC_PAR, GS_MODE_ASYNCHRONE_TIMEOUT, CST_ASYNCHRONE_TIMEOUT_DEFAUT);
-    gb_IniDirectAccessOnServer := amif_Init.ReadBool   (INISEC_PAR, GS_ACCES_DIRECT_SERVEUR, gb_IniDirectAccessOnServer );
-    gb_IniADOsetKeySet := amif_Init.ReadBool   (INISEC_PAR, GS_Set_KEYSET, gb_IniADOsetKeySet );
-{$ENDIF}
-{$IFDEF EADO}
-  if gb_ConnexionAsynchrone
-  and ( acco_ConnAcces is TADOConnection )
-  and ( acco_Conn      is TADOConnection ) Then
-    Begin
-      ( acco_ConnAcces as TADOConnection ).ConnectOptions := coAsyncConnect ;
-      ( acco_Conn      as TADOConnection ).ConnectOptions := coAsyncConnect ;
-    End ;
+    p_ReadADOCommonIni ( acco_ConnAcces, acco_Conn, amif_Init );
 {$ENDIF}
 end;
 

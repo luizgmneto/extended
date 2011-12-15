@@ -140,6 +140,7 @@ resourcestring
   GS_IMAGE_TROP_PETITE = 'L''image est trop petite.' ;
   GS_IMAGE_TROP_GRANDE = 'L''image est trop grande.' ;
   GS_FICHIER_NON_TROUVE = 'Fichier @ARG non trouvé.' ;
+  GS_INI_FILE_CANT_WRITE = 'Chemin @ARG inaccessible.' + #13#10 + 'Démarrer l''application en tant qu''administrateur' ;
 
  // Messages pour le navigateur
   GS_INSERER_ENREGISTREMENT = 'Insérer un enregistrement' ;
