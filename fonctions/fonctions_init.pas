@@ -63,7 +63,7 @@ const
   CST_MACHINE = 'MACHINE';
   CST_INI_DB   = 'db_';
   CST_INI_SOFT   = 'soft_';
-  CST_INI_USERS   = 'user_';
+  CST_INI_USERS   = 'user_config';
   CST_INI_SQL   = 'sql_';
   CST_EXTENSION_INI = '.ini';
   CST_DBEXPRESS = 'DBEXPRESS' ;
@@ -94,11 +94,6 @@ const
 ////////////////////////////////////////////////////////////////////////////////
 //  Fonctions appelées ( Utiliser plutôt les fonctions qui les appellent)
 ////////////////////////////////////////////////////////////////////////////////
-  // Retourne le nom d'utilisateur (string) de la session WINDOWS
-  function f_IniFWReadUtilisateurSession: string;
-
-  // Retourne le nom d'ordinateur (string)
-  function f_IniFWReadComputerName: string;
 
   // Initialisation de paramètres du fichier INI
   // (appelée quand il n'existe pas de fichier INI ou pas d'ADO)
@@ -377,44 +372,6 @@ begin
   result := FIniFile.ReadBool(aSection, aCle, aDefaut);
 end;
 
-////////////////////////////////////////////////////////////////////////////////
-// Lit le nom de la session
-////////////////////////////////////////////////////////////////////////////////
-function f_IniFWReadUtilisateurSession: string;
-{$IFDEF FPC}
-Begin
-//     Result := GetCurrentUSerName;
- Result := '';
-{$ELSE}
-var
-  Buffer: array[0..255] of char;    // tableau de 255 caracteres
-  BufferSize: DWORD;                // nombre 16 bits non signé  VL_B_Resultat : Boolean;
-begin
-  BufferSize := sizeOf(Buffer); // (= 256)
-  if GetUserName(@buffer, BufferSize) then ; // (lpBuffer: PChar; var nSize: DWORD)
-  result := Buffer; // MEP utilisateur
-{$ENDIF}
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// Lit le nom de la machine
-////////////////////////////////////////////////////////////////////////////////
-function f_IniFWReadComputerName : string;
-{$IFDEF FPC}
-Begin
-//     Result := GetCumputerName;
- Result := '';
-{$ELSE}
-var
-  Buffer: array[0..255] of char;    // tableau de 255 caracteres
-  BufferSize: DWORD;                // nombre 16 bits non signé  VL_B_Resultat : Boolean;
-begin
-  BufferSize := sizeOf(Buffer); // (= 256)
-  if GetComputerName(@buffer, BufferSize) then ; // (lpBuffer: PChar; var nSize: DWORD)
-  result := Buffer; // MEP utilisateur
-{$ENDIF}
-end;
-
 /////////////////////////////////////////////////////////////////////////////////
 // Fonction : f_IniReadGridFromIni
 // Description : Affecte les tailles de colonnes d'une grille à partir de l'ini
@@ -641,9 +598,9 @@ begin
         FIniFile := TIniFile.Create(GetUserDir + DirectorySeparator + as_Ininame + DirectorySeparator + CST_INI_SOFT  + as_Ininame + CST_EXTENSION_INI );
       End
       else if gs_ModeConnexion = CST_MACHINE then
-        FIniFile := TIniFile.Create(fs_GetIniDir + CST_INI_USERS  + f_IniFWReadComputerName + CST_EXTENSION_INI )
+        FIniFile := TIniFile.Create(fs_GetIniDir + CST_INI_USERS  + fs_GetComputerName + CST_EXTENSION_INI )
       else
-        FIniFile := TIniFile.Create(fs_GetIniDir + CST_INI_USERS + f_IniFWReadUtilisateurSession + CST_EXTENSION_INI );
+        FIniFile := TIniFile.Create(fs_GetIniDir + CST_INI_USERS + CST_EXTENSION_INI );
       if not FIniFile.SectionExists(INISEC_PAR) then
         Begin
           FIniFile.WriteString(INISEC_PAR, INIPAR_CREATION, 'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time));
