@@ -30,9 +30,9 @@ const
 
 function fs_ExtractFileNameOnly ( const as_Path : String ): String;
 function fs_GetNameSoft : String;
-function GetAppConfigDirectory ( const Global : Boolean = False ): string;
 {$IFNDEF FPC}
-  function GetWinDir ( const CSIDL : Integer ) : String ;
+function GetAppConfigDir ( const Global : Boolean ): string;
+function GetWinDir ( const CSIDL : Integer ) : String ;
 {$ENDIF}
 const
   {$IFDEF LINUX}
@@ -62,19 +62,14 @@ Begin
 End;
 
 
-function GetAppConfigDirectory ( const Global : Boolean = False ): string;
+{$IFNDEF FPC}
+function GetAppConfigDir ( const Global : Boolean ): string;
  begin
-   {$IFDEF FPC}
-   Result := GetAppConfigDir ( Global );
-   {$ELSE}
    if Global
     Then Result := GetWinDir ( CSIDL_COMMON_APPDATA )
     Else Result := GetWinDir ( CSIDL_APPDATA );
    Result := Result + DirectorySeparator + fs_ExtractFileNameOnly ( Application.ExeName );
-   {$ENDIF}
  end;
-
-{$IFNDEF FPC}
 
 function GetWinDir ( const CSIDL : Integer ) : string;
  var
