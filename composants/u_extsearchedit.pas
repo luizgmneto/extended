@@ -12,7 +12,7 @@
 
 unit u_extsearchedit;
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 
 interface
 

@@ -13,7 +13,7 @@
 
 unit U_ExtComboInsert;
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 {$IFDEF FPC}
 {$Mode Delphi}

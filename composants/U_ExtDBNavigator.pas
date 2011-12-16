@@ -11,7 +11,7 @@ unit U_ExtDBNavigator;
 {$mode Delphi}
 {$ENDIF}
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 interface

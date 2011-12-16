@@ -25,7 +25,7 @@ interface
 // L'index des objets CheckBoxex, RadioBoutons, RadioGroups ,PopupMenus
 // les positions de la fenêtre
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 uses

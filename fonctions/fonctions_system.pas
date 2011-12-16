@@ -3,7 +3,7 @@ unit fonctions_system;
 
 interface
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 {$IFDEF FPC}
@@ -39,11 +39,8 @@ function fs_GetComputerName: string;
 function GetAppConfigDir ( const Global : Boolean ): string;
 function GetWinDir ( const CSIDL : Integer ) : String ;
 {$ENDIF}
+{$IFDEF VERSIONS}
 const
-  {$IFDEF LINUX}
-  SYSDIR_CONFIGDIR_NAME = '.config';
-  {$ENDIF}
-  {$IFDEF VERSIONS}
   gVer_fonction_system : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Fonctions de traduction et de formatage des chaînes.' ;

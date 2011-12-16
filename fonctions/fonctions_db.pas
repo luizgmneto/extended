@@ -2,7 +2,7 @@ unit fonctions_db;
 
 interface
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 {$IFDEF FPC}
 {$mode Delphi}

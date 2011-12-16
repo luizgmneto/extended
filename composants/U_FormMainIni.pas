@@ -8,7 +8,7 @@
 // Il gère les forms enfants
 // créé par Matthieu Giroux en décembre 2007
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 interface

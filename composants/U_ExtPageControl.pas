@@ -16,7 +16,7 @@ unit U_ExtPageControl;
 interface
 
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 
 uses
 {$IFDEF FPC}

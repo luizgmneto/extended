@@ -19,7 +19,7 @@ unit u_regfwbuttons;
 
 interface
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 uses

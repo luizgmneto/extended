@@ -4,7 +4,7 @@ unit u_extmenucustomize;
 {$mode Delphi}
 {$ENDIF}
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 interface
