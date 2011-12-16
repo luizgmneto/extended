@@ -2,7 +2,7 @@ unit fonctions_numedit;
 
 interface
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 

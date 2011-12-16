@@ -9,7 +9,7 @@
 {                                                                     }
 {*********************************************************************}
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 unit U_DBListView;

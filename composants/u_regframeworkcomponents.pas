@@ -5,7 +5,7 @@ unit u_regframeworkcomponents;
 {$ENDIF}
 
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 interface

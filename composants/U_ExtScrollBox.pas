@@ -15,7 +15,7 @@ unit U_ExtScrollBox;
 
 interface
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 
 uses Windows, Messages, SysUtils, Classes, Graphics, Controls,
      JvScrollBox,

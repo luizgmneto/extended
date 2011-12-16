@@ -15,7 +15,7 @@ unit U_About;
 {$mode Delphi}
 {$ENDIF}
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 
 interface
 

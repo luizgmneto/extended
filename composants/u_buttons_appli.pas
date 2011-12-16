@@ -1,6 +1,6 @@
 ﻿unit u_buttons_appli;
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 {$IFDEF FPC}
 {$mode Delphi}

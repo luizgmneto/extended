@@ -1,6 +1,6 @@
 unit fonctions_proprietes;
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 
 interface
 {

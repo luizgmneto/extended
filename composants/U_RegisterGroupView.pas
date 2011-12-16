@@ -11,7 +11,7 @@
 
 unit U_RegisterGroupView;
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$IFDEF FPC}
 {$mode objfpc}{$H+}
 {$ENDIF}

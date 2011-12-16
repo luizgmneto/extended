@@ -3,7 +3,7 @@ unit fonctions_string;
 
 interface
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 
 {$IFDEF FPC}
 {$mode Delphi}

@@ -13,13 +13,13 @@
 
 unit U_ExtColorCombos;
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 {$IFDEF FPC}
 {$mode Delphi}
 {$ENDIF}
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 
 interface
 

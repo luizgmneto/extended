@@ -2,7 +2,7 @@ unit fonctions_variant;
 
 interface
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$IFDEF FPC}
 {$mode Delphi}
 {$ENDIF}

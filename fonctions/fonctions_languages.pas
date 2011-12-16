@@ -3,7 +3,7 @@
 interface
 
 {$I ..\extends.inc}
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$IFDEF FPC}
   {$MODE objfpc}{$H+}
 {$ENDIF}

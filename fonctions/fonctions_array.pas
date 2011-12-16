@@ -1,7 +1,7 @@
 unit fonctions_array;
 
 {$I ..\extends.inc}
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$IFDEF FPC}
 {$mode Delphi}
 {$ENDIF}

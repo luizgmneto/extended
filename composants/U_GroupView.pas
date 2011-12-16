@@ -19,7 +19,7 @@ unit U_GroupView;
 {$R *.res}
 {$ENDIF}
 
-{$I ..\Compilers.inc}
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 interface
