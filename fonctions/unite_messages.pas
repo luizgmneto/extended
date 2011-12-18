@@ -2,6 +2,7 @@
 
 interface
 
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 

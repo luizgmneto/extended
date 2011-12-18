@@ -1,5 +1,5 @@
-LazarusResources.Add('tfwexport','XPM',[
-  '/* XPM */'#10'static char * tfwexport_xpm[] = {'#10'"24 22 157 2",'#10'"  '#9
+LazarusResources.Add('tfsexport','XPM',[
+  '/* XPM */'#10'static char * tfsexport_xpm[] = {'#10'"24 22 157 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #4F4F4F",'#10'"+ '#9'c #5B5B5B",'#10'"@ '#9'c #626262'
   +'",'#10'"# '#9'c #4D4D4D",'#10'"$ '#9'c #6A6A6A",'#10'"% '#9'c #EEEEEE",'#10
   +'"& '#9'c #898989",'#10'"* '#9'c #666666",'#10'"= '#9'c #787878",'#10'"- '#9
@@ -66,8 +66,8 @@ LazarusResources.Add('tfwexport','XPM',[
   ,'% % % % % % % % % v.",'#10'"                w.@ x.x.x.x.x.x.x.x.x.x.x.x.y.z'
   +'."};'#10
 ]);
-LazarusResources.Add('tfwimport','XPM',[
-  '/* XPM */'#10'static char * tfwimport_xpm[] = {'#10'"12 24 113 2",'#10'"  '#9
+LazarusResources.Add('tfsimport','XPM',[
+  '/* XPM */'#10'static char * tfsimport_xpm[] = {'#10'"12 24 113 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #5D5D5D",'#10'"+ '#9'c #828282",'#10'"@ '#9'c #858585'
   +'",'#10'"# '#9'c #7B7B7B",'#10'"$ '#9'c #525252",'#10'"% '#9'c #EEEEEE",'#10
   +'"& '#9'c #D7D7D7",'#10'"* '#9'c #969696",'#10'"= '#9'c #626262",'#10'"- '#9
@@ -114,8 +114,8 @@ LazarusResources.Add('tfwimport','XPM',[
   +'-.;.      ",'#10'"      >.,.''.U ).        ",'#10'"        !.~.{.          '
   +'",'#10'"          ].^.          "};'#10
 ]);
-LazarusResources.Add('tfwconfig','XPM',[
-  '/* XPM */'#10'static char * tfwconfig_xpm[] = {'#10'"24 24 136 2",'#10'"  '#9
+LazarusResources.Add('tfsconfig','XPM',[
+  '/* XPM */'#10'static char * tfsconfig_xpm[] = {'#10'"24 24 136 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #292929",'#10'"+ '#9'c #2D2D2D",'#10'"@ '#9'c #313131'
   +'",'#10'"# '#9'c #333333",'#10'"$ '#9'c #3B3B3B",'#10'"% '#9'c #252525",'#10
   +'"& '#9'c #373737",'#10'"* '#9'c #5B5B5B",'#10'"= '#9'c #8A8A8A",'#10'"- '#9
@@ -177,8 +177,8 @@ LazarusResources.Add('tfwconfig','XPM',[
   +'                             ",'#10'"  d.e.^.                              '
   +'          "};'#10
 ]);
-LazarusResources.Add('tfwbasket','XPM',[
-  '/* XPM */'#10'static char * tfwbasket_xpm[] = {'#10'"24 24 111 2",'#10'"  '#9
+LazarusResources.Add('tfsbasket','XPM',[
+  '/* XPM */'#10'static char * tfsbasket_xpm[] = {'#10'"24 24 111 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #C4C4C4",'#10'"+ '#9'c #A9A9A9",'#10'"@ '#9'c #A3A3A3'
   +'",'#10'"# '#9'c #CECECE",'#10'"$ '#9'c #919191",'#10'"% '#9'c #B1B1B1",'#10
   +'"& '#9'c #DBDBDB",'#10'"* '#9'c #A2A2A2",'#10'"= '#9'c #B7B7B7",'#10'"- '#9
@@ -232,8 +232,8 @@ LazarusResources.Add('tfwbasket','XPM',[
   +'   ",'#10'"          !.E $ i             ~.z > {.          ",'#10'"        '
   +'                                        "};'#10
 ]);
-LazarusResources.Add('tfwtrash','XPM',[
-  '/* XPM */'#10'static char * tfwtrash_xpm[] = {'#10'"24 24 303 2",'#10'"  '#9
+LazarusResources.Add('tfstrash','XPM',[
+  '/* XPM */'#10'static char * tfstrash_xpm[] = {'#10'"24 24 303 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #848686",'#10'"+ '#9'c #696969",'#10'"@ '#9'c #4F6380'
   +'",'#10'"# '#9'c #5B6E8A",'#10'"$ '#9'c #6C7D99",'#10'"% '#9'c #9098A4",'#10
   +'"& '#9'c #9AA2B0",'#10'"* '#9'c #D0D0D0",'#10'"= '#9'c #B6B6B6",'#10'"- '#9
@@ -345,8 +345,8 @@ LazarusResources.Add('tfwtrash','XPM',[
   +'-@;@}+>@,@''@)@!@~@{@          ",'#10'"                ]@^@/@(@_@:@<@[@    '
   +'            ",'#10'"                                                "};'#10
 ]);
-LazarusResources.Add('tfwcancel','XPM',[
-  '/* XPM */'#10'static char * tfwcancel_xpm[] = {'#10'"24 24 263 2",'#10'"  '#9
+LazarusResources.Add('tfscancel','XPM',[
+  '/* XPM */'#10'static char * tfscancel_xpm[] = {'#10'"24 24 263 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #AB4444",'#10'"+ '#9'c #B65E5E",'#10'"@ '#9'c #A13636'
   +'",'#10'"# '#9'c #AF5454",'#10'"$ '#9'c #A53A3A",'#10'"% '#9'c #AA4444",'#10
   +'"& '#9'c #F4E7E7",'#10'"* '#9'c #FEFEFE",'#10'"= '#9'c #EEDCDC",'#10'"- '#9
@@ -446,8 +446,8 @@ LazarusResources.Add('tfwcancel','XPM',[
   +'    B+C+[+[+b+D+z.    ",'#10'"      z.E+l F+p+                G+H+b+I+J+   '
   +'   ",'#10'"        K+L+                      K+M+N+        "};'#10
 ]);
-LazarusResources.Add('tfwcopy','XPM',[
-  '/* XPM */'#10'static char * tfwcopy_xpm[] = {'#10'"16 16 15 1",'#10'" '#9'c '
+LazarusResources.Add('tfscopy','XPM',[
+  '/* XPM */'#10'static char * tfscopy_xpm[] = {'#10'"16 16 15 1",'#10'" '#9'c '
   +'None",'#10'".'#9'c #000000",'#10'"+'#9'c #000080",'#10'"@'#9'c #1E0710",'#10
   +'"#'#9'c #7C205E",'#10'"$'#9'c #88235A",'#10'"%'#9'c #8D2458",'#10'"&'#9'c #'
   +'942656",'#10'"*'#9'c #972756",'#10'"='#9'c #9B2856",'#10'"-'#9'c #9E305C",'
@@ -460,8 +460,8 @@ LazarusResources.Add('tfwcopy','XPM',[
   +'",'#10'"      ''''''''''''''''. ",'#10'"      ''''''''''''''''. ",'#10'"   '
   +'    ........ ",'#10'"                "};'#10
 ]);
-LazarusResources.Add('tfwclose','XPM',[
-  '/* XPM */'#10'static char * tfwclose_xpm[] = {'#10'"24 24 156 2",'#10'"  '#9
+LazarusResources.Add('tfsclose','XPM',[
+  '/* XPM */'#10'static char * tfsclose_xpm[] = {'#10'"24 24 156 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #CFA767",'#10'"+ '#9'c #CFA664",'#10'"@ '#9'c #CFA867'
   +'",'#10'"# '#9'c #CFA868",'#10'"$ '#9'c #CEAB71",'#10'"% '#9'c #CFA765",'#10
   +'"& '#9'c #CFA869",'#10'"* '#9'c #CEAB72",'#10'"= '#9'c #CFA766",'#10'"- '#9
@@ -529,8 +529,8 @@ LazarusResources.Add('tfwclose','XPM',[
   +'c.d.e.f.g.h.i.j.k.l.          ",'#10'"        m.n.o.o.p.q.r.s.s.t.u.v.w.x.y'
   +'.          "};'#10
 ]);
-LazarusResources.Add('tfwdelete','XPM',[
-  '/* XPM */'#10'static char * tfwdelete_xpm[] = {'#10'"24 24 157 2",'#10'"  '#9
+LazarusResources.Add('tfsdelete','XPM',[
+  '/* XPM */'#10'static char * tfsdelete_xpm[] = {'#10'"24 24 157 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #168D06",'#10'"+ '#9'c #17A007",'#10'"@ '#9'c #179F06'
   +'",'#10'"# '#9'c #179C05",'#10'"$ '#9'c #169B06",'#10'"% '#9'c #159906",'#10
   +'"& '#9'c #169706",'#10'"* '#9'c #169505",'#10'"= '#9'c #169404",'#10'"- '#9
@@ -598,8 +598,8 @@ LazarusResources.Add('tfwdelete','XPM',[
   +'   ",'#10'"                                                ",'#10'"        '
   +'                                        "};'#10
 ]);
-LazarusResources.Add('tfwdocument','XPM',[
-  '/* XPM */'#10'static char * tfwdoc_xpm[] = {'#10'"16 16 161 2",'#10'"  '#9'c'
+LazarusResources.Add('tfsdocument','XPM',[
+  '/* XPM */'#10'static char * tfsdoc_xpm[] = {'#10'"16 16 161 2",'#10'"  '#9'c'
   +' None",'#10'". '#9'c #BEDBFB",'#10'"+ '#9'c #DEEEFD",'#10'"@ '#9'c #DBE8F9"'
   +','#10'"# '#9'c #D9E3F4",'#10'"$ '#9'c #D8E3F3",'#10'"% '#9'c #D4DFEF",'#10
   +'"& '#9'c #D3DCEE",'#10'"* '#9'c #CFD8E9",'#10'"= '#9'c #A7B2D3",'#10'"- '#9
@@ -659,8 +659,8 @@ LazarusResources.Add('tfwdocument','XPM',[
   +'.h.i.j.k.l.m.    ",'#10'"    n.o.p.q.r.s.s.t.u.u.v.w.    ",'#10'"    x.y.z.'
   +'A.A.A.A.A.B.B.C.D.    "};'#10
 ]);
-LazarusResources.Add('tfwerase','XPM',[
-  '/* XPM */'#10'static char * tfwerase_xpm[] = {'#10'"18 18 197 2",'#10'"  '#9
+LazarusResources.Add('tfserase','XPM',[
+  '/* XPM */'#10'static char * tfserase_xpm[] = {'#10'"18 18 197 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #8C8A89",'#10'"+ '#9'c #000000",'#10'"@ '#9'c #322E2D'
   +'",'#10'"# '#9'c #D8D6D6",'#10'"$ '#9'c #9A9591",'#10'"% '#9'c #00102C",'#10
   +'"& '#9'c #4E96BC",'#10'"* '#9'c #358B8C",'#10'"= '#9'c #34504C",'#10'"- '#9
@@ -733,8 +733,8 @@ LazarusResources.Add('tfwerase','XPM',[
   +'I.I.I.U.V.W.",'#10'"        X.Y.Z.`. +.+++@+J.J.#+$+%+  ",'#10'"          &'
   +'++ *+=+-+@+@+J.J.;+>+    "};'#10
 ]);
-LazarusResources.Add('tfwinsert','XPM',[
-  '/* XPM */'#10'static char * tfwinsert_xpm[] = {'#10'"24 24 214 2",'#10'"  '#9
+LazarusResources.Add('tfsinsert','XPM',[
+  '/* XPM */'#10'static char * tfsinsert_xpm[] = {'#10'"24 24 214 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #179A07",'#10'"+ '#9'c #179807",'#10'"@ '#9'c #179406'
   +'",'#10'"# '#9'c #18A106",'#10'"$ '#9'c #79F069",'#10'"% '#9'c #83F274",'#10
   +'"& '#9'c #83F174",'#10'"* '#9'c #78ED69",'#10'"= '#9'c #179805",'#10'"- '#9
@@ -819,8 +819,8 @@ LazarusResources.Add('tfwinsert','XPM',[
   +'.{.{+]+^+d.                  ",'#10'"                  /+(+_+:+<+[+        '
   +'          ",'#10'"                    }+|+[+1+                    "};'#10
 ]);
-LazarusResources.Add('tfwload','XPM',[
-  '/* XPM */'#13#10'static char * tfwload_xpm[] = {'#13#10'"24 24 13 1",'#13#10
+LazarusResources.Add('tfsload','XPM',[
+  '/* XPM */'#13#10'static char * tfsload_xpm[] = {'#13#10'"24 24 13 1",'#13#10
   +'" '#9'c None",'#13#10'".'#9'c #A6CAF0",'#13#10'"+'#9'c #80A0C0",'#13#10'"@'
   +#9'c #A0C0C0",'#13#10'"#'#9'c #6080C0",'#13#10'"$'#9'c #E0C040",'#13#10'"%'#9
   +'c #E0C080",'#13#10'"&'#9'c #E0E080",'#13#10'"*'#9'c #E0A040",'#13#10'"='#9
@@ -838,8 +838,8 @@ LazarusResources.Add('tfwload','XPM',[
   +'"                        ",'#13#10'"                        ",'#13#10'"    '
   +'                    "};'#13#10
 ]);
-LazarusResources.Add('tfwok','XPM',[
-  '/* XPM */'#10'static char * tfwok_xpm[] = {'#10'"24 24 279 2",'#10'"  '#9'c '
+LazarusResources.Add('tfsok','XPM',[
+  '/* XPM */'#10'static char * tfsok_xpm[] = {'#10'"24 24 279 2",'#10'"  '#9'c '
   +'None",'#10'". '#9'c #226022",'#10'"+ '#9'c #226122",'#10'"@ '#9'c #286428",'
   +#10'"# '#9'c #226222",'#10'"$ '#9'c #3E7B3E",'#10'"% '#9'c #70B470",'#10'"& '
   +#9'c #82CF82",'#10'"* '#9'c #95E295",'#10'"= '#9'c #A1EFA1",'#10'"- '#9'c #9'
@@ -944,8 +944,8 @@ LazarusResources.Add('tfwok','XPM',[
   +'           ",'#10'"            # }.h.z.$.@+{+4+h+t+D+.             ",'#10'"'
   +'                  . + @ @ + .                   "};'#10
 ]);
-LazarusResources.Add('tfwpreview','XPM',[
-  '/* XPM */'#10'static char * tfwpreview_xpm[] = {'#10'"16 16 155 2",'#10'"  '
+LazarusResources.Add('tfspreview','XPM',[
+  '/* XPM */'#10'static char * tfspreview_xpm[] = {'#10'"16 16 155 2",'#10'"  '
   +#9'c None",'#10'". '#9'c #E7F2FD",'#10'"+ '#9'c #F2F7FC",'#10'"@ '#9'c #F2F5'
   +'FA",'#10'"# '#9'c #F1F4F8",'#10'"$ '#9'c #F1F3F7",'#10'"% '#9'c #F0F1F6",'
   +#10'"& '#9'c #EAEEF6",'#10'"* '#9'c #E7EEF6",'#10'"= '#9'c #9DB1D2",'#10'"- '
@@ -1003,8 +1003,8 @@ LazarusResources.Add('tfwpreview','XPM',[
   +#10'"  0.a.b.c.d.e.f.g.h.''.i.j.k.l.  ",'#10'"      m.n.o.p.q.r.s.t.u.v.w.x.'
   +'  ",'#10'"                                "};'#10
 ]);
-LazarusResources.Add('tfwinit','XPM',[
-  '/* XPM */'#13#10'static char * tfwinit_xpm[] = {'#13#10'"16 16 109 2",'#13#10
+LazarusResources.Add('tfsinit','XPM',[
+  '/* XPM */'#13#10'static char * tfsinit_xpm[] = {'#13#10'"16 16 109 2",'#13#10
   +'"  '#9'c None",'#13#10'". '#9'c #765553",'#13#10'"+ '#9'c #562D2C",'#13#10
   +'"@ '#9'c #2B0404",'#13#10'"# '#9'c #230000",'#13#10'"$ '#9'c #FBE5E3",'#13
   +#10'"% '#9'c #A36763",'#13#10'"& '#9'c #623937",'#13#10'"* '#9'c #A3736F",'
@@ -1053,8 +1053,8 @@ LazarusResources.Add('tfwinit','XPM',[
   +#13#10'"  ''.).            !.            ",'#13#10'"                        '
   +'        ",'#13#10'"                                "};'#13#10
 ]);
-LazarusResources.Add('tfwprint','XPM',[
-  '/* XPM */'#10'static char * tfwprint_xpm[] = {'#10'"16 16 149 2",'#10'"  '#9
+LazarusResources.Add('tfsprint','XPM',[
+  '/* XPM */'#10'static char * tfsprint_xpm[] = {'#10'"16 16 149 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #A8A8C5",'#10'"+ '#9'c #C7C5D0",'#10'"@ '#9'c #A9A7B8'
   +'",'#10'"# '#9'c #B4B1C2",'#10'"$ '#9'c #BBB9CB",'#10'"% '#9'c #BBBBCE",'#10
   +'"& '#9'c #DBDBE4",'#10'"* '#9'c #D0CFDB",'#10'"= '#9'c #AFB4CE",'#10'"- '#9
@@ -1110,7 +1110,7 @@ LazarusResources.Add('tfwprint','XPM',[
   +'  ",'#10'"    8.9.0.- a.b.c.d.e.f.g.:.h.  ",'#10'"      M i.j.k.l.m.n.o.!.f'
   +'       ",'#10'"          p.q.p.p.r.            "};'#10
 ]);
-LazarusResources.Add('tfwquit','XPM',[
+LazarusResources.Add('tfsquit','XPM',[
   '/* XPM */'#10'static char * fwquit_xpm[] = {'#10'"16 16 230 2",'#10'"  '#9'c'
   +' None",'#10'". '#9'c #FDBCEC",'#10'"+ '#9'c #F8F0D8",'#10'"@ '#9'c #F8E1DC"'
   +','#10'"# '#9'c #F9E2DC",'#10'"$ '#9'c #F9E1DB",'#10'"% '#9'c #F9E0DA",'#10
@@ -1192,8 +1192,8 @@ LazarusResources.Add('tfwquit','XPM',[
   +'''+)+!+~+{+]+^+/+(+",'#10'"_+:+<+[+V u }+|+1+2+3+4+5+6+7+8+",'#10'"  9+0+a+'
   +'b+b+b+q.E.c+E.d+e+f+g+  "};'#10
 ]);
-LazarusResources.Add('tfwsaveas','XPM',[
-  '/* XPM */'#10'static char * tfwsaveas_xpm[] = {'#10'"16 16 107 2",'#10'"  '#9
+LazarusResources.Add('tfssaveas','XPM',[
+  '/* XPM */'#10'static char * tfssaveas_xpm[] = {'#10'"16 16 107 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #B2B2C5",'#10'"+ '#9'c #5D514F",'#10'"@ '#9'c #505036'
   +'",'#10'"# '#9'c #AAAA00",'#10'"$ '#9'c #AAAABD",'#10'"% '#9'c #C2BFBE",'#10
   +'"& '#9'c #514A4A",'#10'"* '#9'c #00677E",'#10'"= '#9'c #84747D",'#10'"- '#9
@@ -1236,8 +1236,8 @@ LazarusResources.Add('tfwsaveas','XPM',[
   +' ..+.@.#.$.%.&.        ",'#10'"          *.=.-.;.>.            ",'#10'"    '
   +'        ,.''.                ",'#10'"                                "};'#10
 ]);
-LazarusResources.Add('tfwnext','XPM',[
-  '/* XPM */'#10'static char * tfwnext_xpm[] = {'#10'"24 24 99 2",'#10'"  '#9'c'
+LazarusResources.Add('tfsnext','XPM',[
+  '/* XPM */'#10'static char * tfsnext_xpm[] = {'#10'"24 24 99 2",'#10'"  '#9'c'
   +' None",'#10'". '#9'c #05070C",'#10'"+ '#9'c #090C14",'#10'"@ '#9'c #131C2F"'
   +','#10'"# '#9'c #070A12",'#10'"$ '#9'c #090E17",'#10'"% '#9'c #4E75C4",'#10
   +'"& '#9'c #2F4776",'#10'"* '#9'c #070C13",'#10'"= '#9'c #39568F",'#10'"- '#9
@@ -1287,8 +1287,8 @@ LazarusResources.Add('tfwnext','XPM',[
   +'                          ",'#10'"                                         '
   +'       ",'#10'"                                                "};'#10
 ]);
-LazarusResources.Add('tfwprior','XPM',[
-  '/* XPM */'#10'static char * tfwprior_xpm[] = {'#10'"24 24 99 2",'#10'"  '#9
+LazarusResources.Add('tfsprior','XPM',[
+  '/* XPM */'#10'static char * tfsprior_xpm[] = {'#10'"24 24 99 2",'#10'"  '#9
   +'c None",'#10'". '#9'c #05070C",'#10'"+ '#9'c #070A12",'#10'"@ '#9'c #131C2F'
   +'",'#10'"# '#9'c #090C14",'#10'"$ '#9'c #070C13",'#10'"% '#9'c #2F4776",'#10
   +'"& '#9'c #4E75C4",'#10'"* '#9'c #090E17",'#10'"= '#9'c #0B111D",'#10'"- '#9
@@ -1338,7 +1338,7 @@ LazarusResources.Add('tfwprior','XPM',[
   +'                           ",'#10'"                                        '
   +'        ",'#10'"                                                "};'#10
 ]);
-LazarusResources.Add('TFWInAll','PNG',[
+LazarusResources.Add('tfsInAll','PNG',[
   #137'PNG'#13#10#26#10#0#0#0#13'IHDR'#0#0#0'0'#0#0#0'+'#8#6#0#0#0'>'#19#11#223
   +#0#0#0#1'sRGB'#0#174#206#28#233#0#0#0#6'bKGD'#0#255#0#255#0#255#160#189#167
   +#147#0#0#0#9'pHYs'#0#0'/'#173#0#0'/'#173#1'^'#170#158#152#0#0#0#7'tIME'#7#217
@@ -1439,7 +1439,7 @@ LazarusResources.Add('TFWInAll','PNG',[
   +'I<'#241#206#135#242'-'#229#193'Th5'#234'w'#11'r'#13#200'd'#255#158#149#227
   +#21'B'#255#5#216#151'z;5G#'#7#0#0#0#0'IEND'#174'B`'#130
 ]);
-LazarusResources.Add('TFWInSelect','PNG',[
+LazarusResources.Add('tfsInSelect','PNG',[
   #137'PNG'#13#10#26#10#0#0#0#13'IHDR'#0#0#0'0'#0#0#0'&'#8#6#0#0#0#130#141#24#1
   +#0#0#0#1'sRGB'#0#174#206#28#233#0#0#0#6'bKGD'#0#255#0#255#0#255#160#189#167
   +#147#0#0#0#9'pHYs'#0#0'/'#173#0#0'/'#173#1'^'#170#158#152#0#0#0#7'tIME'#7#217
@@ -1516,7 +1516,7 @@ LazarusResources.Add('TFWInSelect','PNG',[
   +#157#6#206#172#23#129#255#1'o'#175#10'a'#223#171#24'*'#0#0#0#0'IEND'#174'B`'
   +#130
 ]);
-LazarusResources.Add('TFWOutAll','PNG',[
+LazarusResources.Add('tfsOutAll','PNG',[
   #137'PNG'#13#10#26#10#0#0#0#13'IHDR'#0#0#0'0'#0#0#0'*'#8#6#0#0#0#245'O'#216'z'
   +#0#0#0#1'sRGB'#0#174#206#28#233#0#0#0#6'bKGD'#0#255#0#255#0#255#160#189#167
   +#147#0#0#0#9'pHYs'#0#0'/'#173#0#0'/'#173#1'^'#170#158#152#0#0#0#7'tIME'#7#217
@@ -1613,7 +1613,7 @@ LazarusResources.Add('TFWOutAll','PNG',[
   +#169#202#141'q'#179'A'#181'6'#183'['#160#255#0'{'#193''''#211't'#185'J'#15#0
   +#0#0#0'IEND'#174'B`'#130
 ]);
-LazarusResources.Add('TFWOutSelect','PNG',[
+LazarusResources.Add('tfsOutSelect','PNG',[
   #137'PNG'#13#10#26#10#0#0#0#13'IHDR'#0#0#0'0'#0#0#0'&'#8#6#0#0#0#130#141#24#1
   +#0#0#0#4'sBIT'#8#8#8#8'|'#8'd'#136#0#0#0#9'pHYs'#0#0#4'G'#0#0#4'G'#1#180'Fy}'
   +#0#0#0#25'tEXtSoftware'#0'www.inkscape.org'#155#238'<'#26#0#0#5#144'IDATX'
