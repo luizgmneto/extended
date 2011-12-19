@@ -53,9 +53,11 @@ const
 implementation
 
 
-{$IFDEF FPC}
 uses
+{$IFDEF FPC}
   LCLType, FileUtil ;
+{$ELSE}
+  ShFolder, ShlObj;
 {$ENDIF}
 
 
@@ -114,7 +116,7 @@ function GetAppConfigDir ( const Global : Boolean ): string;
 
 function GetUserDir: string;
  begin
-   Result := GetWinDir ( CSIDL_PROFILE ) + DirectorySeparator;
+   Result := GetWinDir ( CSIDL_PERSONAL ) + DirectorySeparator;
  end;
 
 function GetWinDir ( const CSIDL : Integer ) : string;

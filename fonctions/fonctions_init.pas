@@ -748,7 +748,7 @@ end;
 
 {$IFDEF EADO}
 
-procedure p_ReadADOCommonIni ( const acco_ConnAcces, acco_Conn: TComponent; const amif_Init : TIniFile ) : Boolean ;
+procedure p_ReadADOCommonIni ( const acco_ConnAcces, acco_Conn: TComponent; const amif_Init : TIniFile );
 Begin
   if  ( acco_Conn is TADOConnection ) Then
     Begin
@@ -767,7 +767,7 @@ Begin
   End ;
 End;
 
-function fb_WriteADOCommonIni ( const acco_Conn: TComponent ; var amif_Init : TIniFile ; const as_NomConnexion: string ) : Boolean ;
+function fb_WriteADOCommonIni ( const acco_Conn,acco_ConnAcces : TComponent ; var amif_Init : TIniFile ; const as_NomConnexion: string ) : Boolean ;
 var lt_Arg  : Array [0..0] of String ;
 Begin
   Result := False;
@@ -827,7 +827,7 @@ begin
         End ;
 {$ENDIF}
 {$IFDEF EADO}
-   fb_WriteADOCommonIni ( acco_Conn, amif_Init, as_NomConnexion );
+   fb_WriteADOCommonIni ( acco_Conn, acco_ConnAcces, amif_Init, as_NomConnexion );
 {$ENDIF}
 {$IFDEF DBEXPRESS}
         if ( acco_Conn is TSQLConnection ) Then
