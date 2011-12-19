@@ -31,7 +31,7 @@ const
                                        Major : 0 ; Minor : 8 ; Release : 0 ; Build : 0 );
 {$ENDIF}
 
-procedure p_Load_Buttons_Appli ( const FGLyph : TGraphic; const as_Resource : String );
+procedure p_Load_Buttons_Appli ( const FGLyph : TBitmap; const as_Resource : String );
 
 type
     TFSClose = class ( TFlatSpeedButton,IFWButton )
@@ -342,7 +342,7 @@ implementation
 
 uses {$IFDEF FPC}ObjInspStrConsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
-     unite_messages,
+     unite_messages, Dialogs,
      Forms ;
 
 
@@ -350,11 +350,14 @@ uses {$IFDEF FPC}ObjInspStrConsts,
 var Buttons_Appli_ResInstance             : THandle      = 0 ;
 {$ENDIF}
 
-procedure p_Load_Buttons_Appli ( const FGLyph : TGraphic; const as_Resource : String );
+procedure p_Load_Buttons_Appli ( const FGLyph : TBitmap; const as_Resource : String );
 Begin
   {$IFDEF FPC}
+    FGLyph.BeginUpdate;
     FGlyph.Clear;
     FGlyph.LoadFromLazarusResource( as_Resource );
+    FGLyph.EndUpdate;
+    FGLyph.Modified:=True;
   {$ELSE}
     if ( Buttons_Appli_ResInstance = 0 ) Then
       Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
@@ -368,7 +371,7 @@ procedure TFSTrash.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWTRASH );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSLoad }
@@ -385,7 +388,7 @@ procedure TFSLoad.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWLOAD );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSDocument }
@@ -394,7 +397,7 @@ procedure TFSDocument.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWDOCUMENT );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSDelete }
@@ -413,7 +416,7 @@ procedure TFSDelete.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWDELETE );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSClose }
@@ -443,7 +446,7 @@ procedure TFSClose.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWCLOSE );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSCancel }
@@ -462,7 +465,7 @@ procedure TFSCancel.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWCANCEL );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 
@@ -482,7 +485,7 @@ procedure TFSOK.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWOK );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSInsert }
@@ -501,7 +504,7 @@ procedure TFSInsert.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWINSERT );
   inherited Loaded;
-  Invalidate;
+
 end;
 { TFSAdd }
 
@@ -514,7 +517,7 @@ procedure TFSAdd.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWINSERT );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSSaveAs }
@@ -531,7 +534,7 @@ procedure TFSSaveAs.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWSAVEAS );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSQuit }
@@ -546,7 +549,7 @@ procedure TFSQuit.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWQUIT );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 
@@ -566,7 +569,7 @@ procedure TFSErase.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWERASE );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSPrint }
@@ -583,7 +586,7 @@ procedure TFSPrint.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWPRINT );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSNext }
@@ -592,7 +595,7 @@ procedure TFSNext.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWNEXT );
   inherited Loaded;
-  Invalidate;
+
 end;
 { TFSPrior }
 
@@ -600,7 +603,7 @@ procedure TFSPrior.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWPRIOR );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSPreview }
@@ -609,7 +612,7 @@ procedure TFSPreview.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWPREVIEW );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSInit }
@@ -618,7 +621,7 @@ procedure TFSInit.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWINIT );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSConfig }
@@ -627,7 +630,7 @@ procedure TFSConfig.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWCONFIG );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSImport }
@@ -636,7 +639,7 @@ procedure TFSImport.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWIMPORT );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSExport }
@@ -645,7 +648,7 @@ procedure TFSExport.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWEXPORT );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSCopy }
@@ -662,7 +665,7 @@ procedure TFSCopy.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWCOPY );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 
@@ -674,7 +677,7 @@ procedure TFSOutSelect.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWOUTSELECT );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSBasket }
@@ -693,7 +696,7 @@ procedure TFSBasket.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWBASKET );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSRecord }
@@ -712,7 +715,7 @@ procedure TFSRecord.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWOK );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 
@@ -722,7 +725,7 @@ procedure TFSOutAll.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWOUTALL );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSInSelect }
@@ -731,7 +734,7 @@ procedure TFSInSelect.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWINSELECT );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 { TFSInAll }
@@ -740,7 +743,7 @@ procedure TFSInAll.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWINALL );
   inherited Loaded;
-  Invalidate;
+
 end;
 
 
