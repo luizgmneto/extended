@@ -7,7 +7,7 @@ unit lazextbuttons;
 interface
 
 uses
-  u_buttons_extension, LazarusPackageIntf;
+  u_buttons_extension, u_buttons_blue, LazarusPackageIntf;
 
 implementation
 

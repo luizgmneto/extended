@@ -20,7 +20,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="5"/>
-    <Files Count="22">
+    <Files Count="23">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
@@ -111,6 +111,10 @@
         <Filename Value="composants/U_GroupView.pas"/>
         <UnitName Value="U_GroupView"/>
       </Item22>
+      <Item23>
+        <Filename Value="composants/U_ExtPictCombo.pas"/>
+        <UnitName Value="U_ExtColorCombos"/>
+      </Item23>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="10">

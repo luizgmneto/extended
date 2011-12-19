@@ -1,4 +1,4 @@
-unit u_buttons_extension;
+unit u_buttons_blue;
 
 {$IFDEF FPC}
 {$mode Delphi}
@@ -18,12 +18,12 @@ uses
   fonctions_version,
   {$ENDIF}
   u_buttons_appli,
-  TFlatSpeedButtonUnit, Graphics;
+  Graphics, u_comp_TBlueFlatSpeedButton;
 
 {$IFDEF VERSIONS}
 const
-    gVer_buttons_ext : T_Version = ( Component : 'Buttons extension' ;
-                                       FileUnit : 'u_buttons_extension' ;
+    gVer_buttons_blue : T_Version = ( Component : 'Blue Buttons extension' ;
+                                       FileUnit : 'u_buttons_blue' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Composants boutons étendus.' ;
                                        BugsStory : '0.8.0.0 : Not tested.';
@@ -34,12 +34,17 @@ const
 procedure p_Load_Buttons_Appli ( const FGLyph : TBitmap; const as_Resource : String );
 
 type
-    TFSSpeedButton = class ( TFlatSpeedButton, IFWButton )
+
+    { TFBSpeedButton }
+
+    TFBSpeedButton = class ( TBlueFlatSpeedButton, IFWButton )
+      public
+       constructor Create(AOwner: TComponent); override;
       published
        property Glyph stored False;
      End;
 
-    TFSClose = class ( TFSSpeedButton,IFWButton )
+    TFBClose = class ( TFBSpeedButton,IFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -49,69 +54,69 @@ type
        property Width default CST_FWWIDTH_CLOSE_BUTTON ;
      End;
 
-{ TFSOK }
-   TFSOK = class ( TFSSpeedButton,IFWButton )
+{ TFBOK }
+   TFBOK = class ( TFBSpeedButton,IFWButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
      End;
 
-{ TFSInsert }
-   TFSInsert = class ( TFSSpeedButton,IFWButton )
+{ TFBInsert }
+   TFBInsert = class ( TFBSpeedButton,IFWButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
      End;
-{ TFSAdd }
-   TFSAdd = class ( TFSSpeedButton,IFWButton )
+{ TFBAdd }
+   TFBAdd = class ( TFBSpeedButton,IFWButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
      End;
 
-{ TFSDelete }
-  TFSDelete = class ( TFSSpeedButton,IFWButton )
+{ TFBDelete }
+  TFBDelete = class ( TFBSpeedButton,IFWButton )
      public
       constructor Create ( AOwner : TComponent ) ; override;
     End;
 
-{ TFSDocument }
-   TFSDocument = class ( TFSSpeedButton,IFWButton )
+{ TFBDocument }
+   TFBDocument = class ( TFBSpeedButton,IFWButton )
       public
        procedure Loaded; override;
      End;
 
-{ TFSQuit }
-   TFSQuit = class ( TFSSpeedButton,IFWButton )
+{ TFBQuit }
+   TFBQuit = class ( TFBSpeedButton,IFWButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
      End;
 
-{ TFSErase }
-   TFSErase = class ( TFSSpeedButton,IFWButton )
+{ TFBErase }
+   TFBErase = class ( TFBSpeedButton,IFWButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
      End;
 
-{ TFSSaveAs }
-   TFSSaveAs = class ( TFSSpeedButton,IFWButton )
+{ TFBSaveAs }
+   TFBSaveAs = class ( TFBSpeedButton,IFWButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
      End;
 
-   { TFSLoad }
-      TFSLoad = class ( TFSSpeedButton,IFWButton )
+   { TFBLoad }
+      TFBLoad = class ( TFBSpeedButton,IFWButton )
          private
          public
           constructor Create ( AOwner : TComponent ) ; override;
         End;
 
-{ TFSPrint }
-   TFSPrint = class ( TFSSpeedButton,IFWButton )
+{ TFBPrint }
+   TFBPrint = class ( TFBSpeedButton,IFWButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
      End;
 
-{ TFSCancel }
-   TFSCancel = class ( TFSSpeedButton,IFWButton )
+{ TFBCancel }
+   TFBCancel = class ( TFBSpeedButton,IFWButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
       published
@@ -119,67 +124,67 @@ type
      End;
 
 
-{ TFSPreview }
-   TFSPreview = class ( TFSSpeedButton,IFWButton )
+{ TFBPreview }
+   TFBPreview = class ( TFBSpeedButton,IFWButton )
       public
        procedure Loaded; override;
      End;
 
-{ TFSNext }
-   TFSNext = class ( TFSSpeedButton,IFWButton )
+{ TFBNext }
+   TFBNext = class ( TFBSpeedButton,IFWButton )
       public
        procedure Loaded; override;
      End;
 
-{ TFSPrior }
-   TFSPrior= class ( TFSSpeedButton,IFWButton )
+{ TFBPrior }
+   TFBPrior= class ( TFBSpeedButton,IFWButton )
       public
        procedure Loaded; override;
      End;
 
-{ TFSCopy }
-   TFSCopy = class ( TFSSpeedButton,IFWButton )
+{ TFBCopy }
+   TFBCopy = class ( TFBSpeedButton,IFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
      End;
 
-{ TFSInit }
-   TFSInit = class ( TFSSpeedButton,IFWButton )
+{ TFBInit }
+   TFBInit = class ( TFBSpeedButton,IFWButton )
       public
        procedure Loaded; override;
      End;
 
-{ TFSConfig }
-   TFSConfig = class ( TFSSpeedButton,IFWButton )
+{ TFBConfig }
+   TFBConfig = class ( TFBSpeedButton,IFWButton )
       public
        procedure Loaded; override;
      End;
 
-{ TFSImport }
-   TFSImport = class ( TFSSpeedButton,IFWButton )
+{ TFBImport }
+   TFBImport = class ( TFBSpeedButton,IFWButton )
       public
        procedure Loaded; override;
      End;
-{ TFSTrash }
-   TFSTrash = class ( TFSSpeedButton,IFWButton )
+{ TFBTrash }
+   TFBTrash = class ( TFBSpeedButton,IFWButton )
       public
        procedure Loaded; override;
      End;
 
-{ TFSExport }
-   TFSExport = class ( TFSSpeedButton,IFWButton )
+{ TFBExport }
+   TFBExport = class ( TFBSpeedButton,IFWButton )
       public
        procedure Loaded; override;
      End;
 
 {$IFDEF GROUPVIEW}
 
-{ TFSGroupButton }
+{ TFBGroupButton }
 
-    { TFSGroupButtonActions }
+    { TFBGroupButtonActions }
 
-    TFSGroupButtonActions = class ( TFSSpeedButton,IFWButton )
+    TFBGroupButtonActions = class ( TFBSpeedButton,IFWButton )
      public
       constructor Create ( AOwner : TComponent ) ; override;
      published
@@ -188,55 +193,55 @@ type
     end;
 
 
-   { TFSBasket }
+   { TFBBasket }
 
-   TFSBasket = class ( TFSGroupButtonActions )
+   TFBBasket = class ( TFBGroupButtonActions )
       public
        constructor Create ( AOwner : TComponent ) ; override;
       published
        property Caption stored False;
      End;
 
-   { TFSRecord }
+   { TFBRecord }
 
-   TFSRecord = class ( TFSGroupButtonActions )
+   TFBRecord = class ( TFBGroupButtonActions )
       public
        constructor Create ( AOwner : TComponent ) ; override;
       published
        property Caption stored False;
      End;
 
-   { TFSGroupButtonMoving }
+   { TFBGroupButtonMoving }
 
-   TFSGroupButtonMoving = class ( TFSSpeedButton,IFWButton )
+   TFBGroupButtonMoving = class ( TFBSpeedButton,IFWButton )
    public
     constructor Create ( AOwner : TComponent ) ; override;
    published
     property Width  default CST_WIDTH_BUTTONS_MOVING;
     property Height default CST_HEIGHT_BUTTONS_MOVING;
    end;
-   { TFSOutSelect }
-    TFSOutSelect = class ( TFSGroupButtonMoving )
+   { TFBOutSelect }
+    TFBOutSelect = class ( TFBGroupButtonMoving )
        public
         procedure Loaded; override;
       End;
 
-   { TFSOutAll }
+   { TFBOutAll }
 
 
-   TFSOutAll = class ( TFSGroupButtonMoving )
+   TFBOutAll = class ( TFBGroupButtonMoving )
       public
        procedure Loaded; override;
      End;
 
-{ TFSInSelect }
-   TFSInSelect = class ( TFSGroupButtonMoving )
+{ TFBInSelect }
+   TFBInSelect = class ( TFBGroupButtonMoving )
       public
        procedure Loaded; override;
      End;
 
-{ TFSInAll }
-   TFSInAll = class ( TFSGroupButtonMoving )
+{ TFBInAll }
+   TFBInAll = class ( TFBGroupButtonMoving )
       public
        procedure Loaded; override;
      End;
@@ -270,18 +275,26 @@ Begin
   {$ENDIF}
 end;
 
-{ TFSTrash }
+{ TFBSpeedButton }
 
-procedure TFSTrash.Loaded;
+constructor TFBSpeedButton.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Glyph.Clear;
+end;
+
+{ TFBTrash }
+
+procedure TFBTrash.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWTRASH );
   inherited Loaded;
 
 end;
 
-{ TFSLoad }
+{ TFBLoad }
 
-constructor TFSLoad.Create(AOwner: TComponent);
+constructor TFBLoad.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
@@ -290,18 +303,18 @@ begin
   p_Load_Buttons_Appli ( Glyph, CST_FWLOAD );
 end;
 
-{ TFSDocument }
+{ TFBDocument }
 
-procedure TFSDocument.Loaded;
+procedure TFBDocument.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWDOCUMENT );
   inherited Loaded;
 
 end;
 
-{ TFSDelete }
+{ TFBDelete }
 
-constructor TFSDelete.Create(AOwner: TComponent);
+constructor TFBDelete.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
@@ -312,10 +325,10 @@ begin
   p_Load_Buttons_Appli ( Glyph, CST_FWDELETE );
 end;
 
-{ TFSClose }
+{ TFBClose }
 
 
-procedure TFSClose.Click;
+procedure TFBClose.Click;
 begin
   if not assigned ( OnClick )
   and ( Owner is TCustomForm ) then
@@ -328,23 +341,23 @@ begin
 
 end;
 
-constructor TFSClose.Create(AOwner: TComponent);
+constructor TFBClose.Create(AOwner: TComponent);
 begin
   inherited;
   Caption := SCloseButton;
   Width := CST_FWWIDTH_CLOSE_BUTTON;
 end;
 
-procedure TFSClose.Loaded;
+procedure TFBClose.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWCLOSE );
   inherited Loaded;
 
 end;
 
-{ TFSCancel }
+{ TFBCancel }
 
-constructor TFSCancel.Create(AOwner: TComponent);
+constructor TFBCancel.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
@@ -355,9 +368,9 @@ begin
   p_Load_Buttons_Appli ( Glyph, CST_FWCANCEL );
 end;
 
-{ TFSOK }
+{ TFBOK }
 
-constructor TFSOK.Create(AOwner: TComponent);
+constructor TFBOK.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
@@ -367,16 +380,16 @@ begin
   {$ENDIF}
 end;
 
-procedure TFSOK.Loaded;
+procedure TFBOK.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWOK );
   inherited Loaded;
 
 end;
 
-{ TFSInsert }
+{ TFBInsert }
 
-constructor TFSInsert.Create(AOwner: TComponent);
+constructor TFBInsert.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
@@ -387,17 +400,17 @@ begin
   p_Load_Buttons_Appli ( Glyph, CST_FWINSERT );
 end;
 
-{ TFSAdd }
+{ TFBAdd }
 
-constructor TFSAdd.Create(AOwner: TComponent);
+constructor TFBAdd.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   p_Load_Buttons_Appli ( Glyph, CST_FWINSERT );
 end;
 
-{ TFSSaveAs }
+{ TFBSaveAs }
 
-constructor TFSSaveAs.Create(AOwner: TComponent);
+constructor TFBSaveAs.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
@@ -406,18 +419,18 @@ begin
   p_Load_Buttons_Appli ( Glyph, CST_FWSAVEAS );
 end;
 
-{ TFSQuit }
+{ TFBQuit }
 
-constructor TFSQuit.Create(AOwner: TComponent);
+constructor TFBQuit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   Caption := SCloseButton {$IFDEF FPC}+ ' ' + oisAll{$ENDIF};
   p_Load_Buttons_Appli ( Glyph, CST_FWQUIT );
 end;
 
-{ TFSerase }
+{ TFBerase }
 
-constructor TFSErase.Create(AOwner: TComponent);
+constructor TFBErase.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
@@ -428,9 +441,9 @@ begin
   p_Load_Buttons_Appli ( Glyph, CST_FWERASE );
 end;
 
-{ TFSPrint }
+{ TFBPrint }
 
-constructor TFSPrint.Create(AOwner: TComponent);
+constructor TFBPrint.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
@@ -439,71 +452,71 @@ begin
   p_Load_Buttons_Appli ( Glyph, CST_FWPRINT );
 end;
 
-{ TFSNext }
+{ TFBNext }
 
-procedure TFSNext.Loaded;
+procedure TFBNext.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWNEXT );
   inherited Loaded;
 
 end;
-{ TFSPrior }
+{ TFBPrior }
 
-procedure TFSPrior.Loaded;
+procedure TFBPrior.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWPRIOR );
   inherited Loaded;
 
 end;
 
-{ TFSPreview }
+{ TFBPreview }
 
-procedure TFSPreview.Loaded;
+procedure TFBPreview.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWPREVIEW );
   inherited Loaded;
 
 end;
 
-{ TFSInit }
+{ TFBInit }
 
-procedure TFSInit.Loaded;
+procedure TFBInit.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWINIT );
   inherited Loaded;
 
 end;
 
-{ TFSConfig }
+{ TFBConfig }
 
-procedure TFSConfig.Loaded;
+procedure TFBConfig.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWCONFIG );
   inherited Loaded;
 
 end;
 
-{ TFSImport }
+{ TFBImport }
 
-procedure TFSImport.Loaded;
+procedure TFBImport.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWIMPORT );
   inherited Loaded;
 
 end;
 
-{ TFSExport }
+{ TFBExport }
 
-procedure TFSExport.Loaded;
+procedure TFBExport.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWEXPORT );
   inherited Loaded;
 
 end;
 
-{ TFSCopy }
+{ TFBCopy }
 
-constructor TFSCopy.Create(AOwner: TComponent);
+constructor TFBCopy.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
@@ -514,18 +527,18 @@ end;
 
 {$IFDEF GROUPVIEW}
 
-{ TFSOutSelect }
+{ TFBOutSelect }
 
-procedure TFSOutSelect.Loaded;
+procedure TFBOutSelect.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWOUTSELECT );
   inherited Loaded;
 
 end;
 
-{ TFSBasket }
+{ TFBBasket }
 
-constructor TFSBasket.Create(AOwner: TComponent);
+constructor TFBBasket.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
@@ -536,9 +549,9 @@ begin
   p_Load_Buttons_Appli ( Glyph, CST_FWBASKET );
 end;
 
-{ TFSRecord }
+{ TFBRecord }
 
-constructor TFSRecord.Create(AOwner: TComponent);
+constructor TFBRecord.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
@@ -549,27 +562,27 @@ begin
   p_Load_Buttons_Appli ( Glyph, CST_FWOK );
 end;
 
-{ TFSOutAll }
+{ TFBOutAll }
 
-procedure TFSOutAll.Loaded;
+procedure TFBOutAll.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWOUTALL );
   inherited Loaded;
 
 end;
 
-{ TFSInSelect }
+{ TFBInSelect }
 
-procedure TFSInSelect.Loaded;
+procedure TFBInSelect.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWINSELECT );
   inherited Loaded;
 
 end;
 
-{ TFSInAll }
+{ TFBInAll }
 
-procedure TFSInAll.Loaded;
+procedure TFBInAll.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWINALL );
   inherited Loaded;
@@ -578,18 +591,18 @@ end;
 
 
 
-{ TFSGroupButtonActions }
+{ TFBGroupButtonActions }
 
-constructor TFSGroupButtonActions.Create(AOwner: TComponent);
+constructor TFBGroupButtonActions.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   Width  := CST_WIDTH_BUTTONS_ACTIONS;
   Height := CST_HEIGHT_BUTTONS_ACTIONS;
 end;
 
-{ TFSGroupButtonMoving }
+{ TFBGroupButtonMoving }
 
-constructor TFSGroupButtonMoving.Create(AOwner: TComponent);
+constructor TFBGroupButtonMoving.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   Width  := CST_WIDTH_BUTTONS_MOVING;
@@ -602,7 +615,7 @@ end;
 
 initialization
 {$IFDEF VERSIONS}
-  p_ConcatVersion ( gVer_buttons_ext  );
+  p_ConcatVersion ( gVer_buttons_blue  );
 {$ENDIF}
 
 end.

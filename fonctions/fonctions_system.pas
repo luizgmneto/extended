@@ -37,6 +37,7 @@ function fs_GetUserSession: string;
 function fs_GetComputerName: string;
 {$IFNDEF FPC}
 function GetAppConfigDir ( const Global : Boolean ): string;
+function GetUserDir: string;
 function GetWinDir ( const CSIDL : Integer ) : String ;
 {$ENDIF}
 {$IFDEF VERSIONS}
@@ -109,6 +110,11 @@ function GetAppConfigDir ( const Global : Boolean ): string;
     Then Result := GetWinDir ( CSIDL_COMMON_APPDATA )
     Else Result := GetWinDir ( CSIDL_APPDATA );
    Result := Result + DirectorySeparator + fs_ExtractFileNameOnly ( Application.ExeName );
+ end;
+
+function GetUserDir: string;
+ begin
+   Result := GetWinDir ( CSIDL_PROFILE ) + DirectorySeparator;
  end;
 
 function GetWinDir ( const CSIDL : Integer ) : string;
