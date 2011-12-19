@@ -593,9 +593,7 @@ begin
     begin
       if as_Ininame <> '' then
       Begin
-        if not DirectoryExists ( GetUserDir + DirectorySeparator + as_Ininame ) then
-          CreateDir( GetUserDir + DirectorySeparator + as_Ininame );
-        FIniFile := TIniFile.Create(GetUserDir + DirectorySeparator + as_Ininame + DirectorySeparator + CST_INI_SOFT  + as_Ininame + CST_EXTENSION_INI );
+        FIniFile := TIniFile.Create( fs_GetIniDir + CST_INI_SOFT  + as_Ininame + CST_EXTENSION_INI );
       End
       else if gs_ModeConnexion = CST_MACHINE then
         FIniFile := TIniFile.Create(fs_GetIniDir + CST_INI_USERS  + fs_GetComputerName + CST_EXTENSION_INI )

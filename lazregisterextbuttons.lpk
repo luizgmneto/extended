@@ -5,19 +5,29 @@
     <CompilerOptions>
       <Version Value="9"/>
       <SearchPaths>
+        <IncludeFiles Value="composants"/>
         <OtherUnitFiles Value="composants"/>
-        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)/"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="1">
+    <Files Count="3">
       <Item1>
         <Filename Value="composants/u_regfsbuttons.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regfsbuttons"/>
       </Item1>
+      <Item2>
+        <Filename Value="composants/u_regfbbuttons.lrs"/>
+        <Type Value="LRS"/>
+      </Item2>
+      <Item3>
+        <Filename Value="composants/u_regfbbuttons.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regfbbuttons"/>
+      </Item3>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">

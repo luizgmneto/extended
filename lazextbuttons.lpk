@@ -20,24 +20,31 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="5"/>
-    <Files Count="1">
+    <Files Count="2">
       <Item1>
         <Filename Value="composants/u_buttons_extension.pas"/>
         <UnitName Value="u_buttons_extension"/>
       </Item1>
+      <Item2>
+        <Filename Value="composants/u_buttons_blue.pas"/>
+        <UnitName Value="u_buttons_blue"/>
+      </Item2>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="4">
       <Item1>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="FlatStyle_Add"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazfonctions"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item2>
       <Item3>
+        <PackageName Value="lazfonctions"/>
+      </Item3>
+      <Item4>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item3>
+      </Item4>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
