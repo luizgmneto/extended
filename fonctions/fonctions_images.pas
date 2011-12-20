@@ -28,7 +28,8 @@ const CST_EXTENSION_JPEG           = '.jpg' ;
   gVer_fonctions_images : T_Version = ( Component : 'Gestion des images' ; FileUnit : 'fonctions_images' ;
                         			             Owner : 'Matthieu Giroux' ;
                         			              Comment : 'Chargement des icônes et bitmap ( vérifier des erreurs éventuelles avec Memproof ).' + #13#10 + 'Gestion des images.' ;
-                        			              BugsStory : 'Version 1.0.1.0 : Testing and saving to file.' + #13#10 +
+                        			              BugsStory : 'Version 1.0.1.1 : Improving p_ChangeTailleBitmap.' + #13#10 +
+                        			                	  'Version 1.0.1.0 : Testing and saving to file.' + #13#10 +
                         			                	  'Version 1.0.0.5 : Testing Imaging.' + #13#10 +
                         			                	  'Version 1.0.0.4 : Bug couleur transparente en noir dans les imagelist.' + #13#10 +
                         			                	  'Version 1.0.0.3 : Handle à 0 après FreeImage et create des TBitmap.' + #13#10 +
@@ -36,8 +37,7 @@ const CST_EXTENSION_JPEG           = '.jpg' ;
                         			                	  'Version 1.0.0.1 : Meilleure gestion des images, problèmes de rafraichissement.' + #13#10 +
                         			                	  'Version 1.0.0.0 : La gestion est en place.' + #13#10 + 'Il faut utiliser les fonctions et vérifier les erreurs éventuellement produites avec Memproof.';
                         			              UnitType : 1 ;
-                        			              Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
-
+                        			              Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
 
 {$ENDIF}
 
@@ -112,7 +112,7 @@ uses
 {$ELSE}
      JclGraphics,
 {$ENDIF}
-     SysUtils, StrUtils, unite_messages ;
+     SysUtils, unite_messages ;
 
 
 
@@ -668,8 +668,9 @@ end;
 procedure p_StreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean = False );
 var lid_imagedata : TImageData;
 begin
+  Finalize(lid_imagedata);
+  InitImage(lid_imagedata);
   try
-    InitImage(lid_imagedata);
     LoadImageFromStream( stream, lid_imagedata );
     ConvertDataToBitmap( lid_imagedata, Image.Bitmap );
     Image.Bitmap.Canvas.Refresh;
@@ -684,8 +685,9 @@ end;
 procedure p_FileToStream ( const afile : String; const Stream : TStream ; const ab_ShowError : Boolean = False );
 var lid_imagedata : TImageData;
 begin
+  Finalize ( lid_imagedata );
+  InitImage(lid_imagedata);
   try
-    InitImage(lid_imagedata);
     LoadImageFromFile  ( afile, lid_imagedata );
     SaveImageToStream( 'JPG', Stream, lid_imagedata);
   Except
@@ -699,6 +701,7 @@ function fb_StreamToFile ( const Stream : TStream ; const afile : String; const 
 var lid_imagedata : TImageData;
 begin
   Result := False;
+  Finalize ( lid_imagedata );
   InitImage(lid_imagedata);
   try
     if ( Stream.Size = 0 ) then
@@ -729,6 +732,7 @@ end;
 procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean = False );
 var lid_imagedata : TImageData;
 begin
+  Finalize(lid_imagedata);
   InitImage(lid_imagedata);
   try
     LoadImageFromFile  ( afile, lid_imagedata );
