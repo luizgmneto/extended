@@ -66,7 +66,7 @@ procedure p_FileToStream ( const afile : String; const Stream : TStream ; const 
 procedure p_StreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean = False );
 procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean = False );
 procedure p_FileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean = False );
-procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TBitmap; const ai_Taille : Integer );
+procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TBitmap; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
 
 function fb_ResizeImaging ( var Fdata : TImageData; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
 
@@ -298,27 +298,59 @@ end ;
 // Transforme un bitmap en tout petit bitmap
 // Entrée : Le Bitmap source
 // Sortie : Le petit bitmap
-procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TBitmap; const ai_Taille : Integer );
+procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TBitmap; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
 
 var
   lrec_Rectangle      : TRect ;  // Nouvelle taille
   lbmp_Tempo          : TBitmap ;
+  li_Size             : Longint ;
 Begin
   lbmp_Tempo := TBitmap.Create ; // Création petit bitmap
   lbmp_Tempo.Handle := 0 ;
-  lbmp_Tempo.Width   := ai_Taille ;
-  lbmp_Tempo.Height  := ai_Taille ;
   lrec_Rectangle.Left := 0 ;
   lrec_Rectangle.Top  := 0 ;
-  lrec_Rectangle.Right  := ai_Taille ;
-  lrec_Rectangle.Bottom := ai_Taille ;
-  lbmp_Tempo.Canvas.StretchDraw ( lrec_Rectangle, abmp_BitmapOrigine );
+  with abmp_BitmapOrigine do
+    if  (( ali_newWidth  < Width ) or ( ali_newHeight < Height ))
+    and ( Width > 0 )
+    and ( not ab_KeepProportion )
+      Then
+       Begin
+        lbmp_Tempo.Width   := ali_newWidth ;
+        lbmp_Tempo.Height  := ali_newWidth ;
+        lrec_Rectangle.Right  := ali_newWidth ;
+        lrec_Rectangle.Bottom := ali_newWidth ;
+        lbmp_Tempo.Canvas.StretchDraw ( lrec_Rectangle, abmp_BitmapOrigine );
+        abmp_BitmapOrigine.Width   := ali_newWidth ;
+        abmp_BitmapOrigine.Height  := ali_newWidth ;
+       End
+      else
+       Begin
+         if  ( ali_newWidth > 0 )
+         and ( ali_newWidth <  Width )
+         // doit-on retailler en longueur ?
+         and (( ali_newHeight = 0 ) or ( Width / ali_newWidth > Height / ali_newHeight ))
+          Then
+           Begin
+             li_Size := ( ali_newWidth * Height ) div Width;
+             lrec_Rectangle.Right  := ali_newWidth ;
+             lrec_Rectangle.Bottom := li_Size ;
+             lbmp_Tempo.Canvas.StretchDraw ( lrec_Rectangle, abmp_BitmapOrigine );
+           End
+         else
+           if  ( ali_newHeight > 0 )
+           and ( ali_newHeight <  Height ) Then
+             Begin
+               li_Size := ( ali_newHeight * Width ) div Height ;
+               lrec_Rectangle.Right  := li_Size ;
+               lrec_Rectangle.Bottom := ali_newHeight ;
+               lbmp_Tempo.Canvas.StretchDraw ( lrec_Rectangle, abmp_BitmapOrigine );
+             End ;
+      End ;
   lbmp_Tempo.Transparent := True ;
 {$IFDEF FPC}
   abmp_BitmapOrigine.Clear;
 {$ENDIF}
-  abmp_BitmapOrigine.Width   := ai_Taille ;
-  abmp_BitmapOrigine.Height  := ai_Taille ;
+
   // 2004-10-20 : MAJ destruction bitmap
   with abmp_BitmapOrigine do
     if Handle <> 0 Then

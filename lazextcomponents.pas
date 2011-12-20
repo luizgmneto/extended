@@ -12,7 +12,7 @@ uses
   U_FormMainIni, U_ExtDBImage, u_framework_dbcomponents, u_extsearchedit, 
   U_ExtComboInsert, u_extdbgrid, u_extmenutoolbar, U_CustomizeMenu, 
   u_extmenucustomize, U_ExtImage, U_GroupView, U_ExtPictCombo, 
-  LazarusPackageIntf;
+  U_ExtMapImageIndex, LazarusPackageIntf;
 
 implementation
 
