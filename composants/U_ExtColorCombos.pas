@@ -93,8 +93,8 @@ type
       procedure WMRButtonDblClk(var Message: {$IFDEF FPC}TLMLButtonDblClk{$ELSE}TWMLButtonDblClk{$ENDIF}); message {$IFDEF FPC}LM_RBUTTONDBLCLK{$ELSE}WM_RBUTTONDBLCLK{$ENDIF};
     protected
     { Protected declarations }
-      Function WebColor(AColor:TColor): String;
-      procedure p_SetColorValue(AColor: TColor); virtual ;
+      Function WebColor(const AColor:TColor): String;
+      procedure p_SetColorValue(const AColor: TColor); virtual ;
       procedure MouseDown(Button: TMouseButton;
         Shift: TShiftState; X, Y: Integer);
       procedure WMKeyDown(var Message: {$IFDEF FPC}TLMKeyDown{$ELSE}TWMKeyDown{$ENDIF}); message {$IFDEF FPC}LM_KEYDOWN{$ELSE}WM_KEYDOWN{$ENDIF};
@@ -209,7 +209,7 @@ type
       procedure UpdateData(Sender: TObject); virtual;
       function GetReadOnly: Boolean; override;
       procedure SetReadOnly(AValue: Boolean); override;
-      procedure p_SetColorValue(AColor: TColor); override ;
+      procedure p_SetColorValue(const AColor: TColor); override ;
       procedure KeyDown(var Key: Word; Shift: TShiftState); override;
       procedure KeyPress(var Key: Char); override;
       procedure Loaded; override;
@@ -451,7 +451,7 @@ begin
     end;
 end;
 
-Function TExtColorCombo.WebColor(AColor:TColor): String;
+Function TExtColorCombo.WebColor(const AColor:TColor): String;
 var
      Temp: String;
 begin
@@ -491,7 +491,7 @@ begin
   inherited change;
 end;
 
-procedure TExtColorCombo.p_SetColorValue(AColor: TColor);
+procedure TExtColorCombo.p_SetColorValue(const AColor: TColor);
 var
    a, AIndex: integer;
    Temp: TColor;
@@ -734,7 +734,7 @@ begin
     FDataLink.UpdateAction(AAction){$ENDIF};
 end;
 
-procedure TExtDBColorCombo.p_SetColorValue(AColor: TColor);
+procedure TExtDBColorCombo.p_SetColorValue(const AColor: TColor);
 begin
  inherited p_SetColorValue ( AColor );
  if assigned ( FDataLink.Field )
@@ -742,11 +742,7 @@ begin
   Begin
     FDataLink.Dataset.Edit ;
     FDataLink.Field.Value := AColor ;
-  End
- Else
-  if assigned ( FDataLink.Field )
-  and FDataLink.Field.IsNull Then
-    AColor := -1 ;
+  End ;
 end;
 
 initialization
@@ -754,4 +750,4 @@ initialization
   p_ConcatVersion ( gVer_TExtColorCombo   );
   p_ConcatVersion ( gVer_TDBColorCombo );
 {$ENDIF}
-end.
+end.

@@ -16,8 +16,9 @@ uses Graphics,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-     DB, DBCtrls, ImgList,
-     Classes, U_ExtImage;
+  DB, DBCtrls, ImgList,
+  Classes, U_ExtImage, U_ExtMapImageIndex,
+  u_extcomponent;
 
 {$IFDEF VERSIONS}
   const
@@ -32,40 +33,12 @@ uses Graphics,
 {$ENDIF}
 
 type
-  TExtMapImageIndex = class;
-  TExtMapImagesColumns = class;
-
- { TExtFieldImageIndex }
-  TExtMapImageIndex = class(TCollectionItem)
-  private
-    s_Value : String;
-    i_ImageIndex : Integer ;
-  public
-    property Value : String read s_Value write s_Value;
-    property ImageIndex : Integer read i_ImageIndex write i_ImageIndex;
-  End;
-  TExtMapImageIndexClass = class of TExtMapImageIndex;
-
- { TExtFieldImagesColumns }
-  TExtMapImagesColumns = class(TCollection)
-  private
-    FComponent: TComponent;
-    function GetImageMap( Index: Integer): TExtMapImageIndex;
-    procedure SetImageMap( Index: Integer; Value: TExtMapImageIndex);
-  protected
-    function GetOwner: TPersistent; override;
-  public
-    constructor Create(Component: TComponent; ColumnClass: TExtMapImageIndexClass); virtual;
-    function Add: TExtMapImageIndex; virtual;
-    property Component : TComponent read FComponent;
-    property Items[Index: Integer]: TExtMapImageIndex read GetImageMap write SetImageMap; default;
-  End;
-
 { TExtDBImageList }
 
-    TExtDBImageList = class( TExtImage)
+    TExtDBImageList = class( TExtImage, IFWComponent, IFWComponentEdit, IMapImageComponent)
      private
        FDataLink: TFieldDataLink;
+       FNotifyOrder : TNotifyEvent;
        FImages : TCustomImageList;
        FMapImagesColumns : TExtMapImagesColumns;
        procedure p_SetDatafield  ( const Value : String );
@@ -74,6 +47,7 @@ type
        function  fds_GetDatasource : TDatasource;
        function  fs_GetDatafield : String;
      protected
+       procedure SetOrder ; virtual;
        procedure p_SetImage; virtual;
        procedure p_ActiveChange(Sender: TObject); virtual;
        procedure p_DataChange(Sender: TObject); virtual;
@@ -91,7 +65,7 @@ type
 
 implementation
 
-uses fonctions_images, sysutils;
+uses sysutils;
 
 { TExtDBImageList }
 
@@ -137,6 +111,12 @@ begin
    Else
     Result := '';
 
+end;
+
+procedure TExtDBImageList.SetOrder;
+begin
+  if assigned ( FNotifyOrder ) then
+    FNotifyOrder ( Self );
 end;
 
 function TExtDBImageList.fds_GetDatasource: TDatasource;
@@ -194,39 +174,9 @@ end;
 
 procedure TExtDBImageList.p_SetImages(const Value: TCustomImageList);
 begin
-
+  FImages := Value;
 end;
 
-{ TExtMapImagesColumns }
-
-function TExtMapImagesColumns.Add: TExtMapImageIndex;
-begin
-  Result := TExtMapImageIndex(inherited Add);
-end;
-
-constructor TExtMapImagesColumns.Create(Component: TComponent;
-  ColumnClass: TExtMapImageIndexClass);
-begin
-  inherited Create(ColumnClass);
-  FComponent := Component;
-end;
-
-function TExtMapImagesColumns.GetImageMap(Index: Integer): TExtMapImageIndex;
-begin
-  Result := TExtMapImageIndex(inherited Items[Index]);
-end;
-
-function TExtMapImagesColumns.GetOwner: TPersistent;
-begin
-  Result := FComponent;
-end;
-
-
-procedure TExtMapImagesColumns.SetImageMap(Index: Integer;
-  Value: TExtMapImageIndex);
-begin
-  Items[Index].Assign(Value);
-end;
 
 {$IFDEF VERSIONS}
 initialization

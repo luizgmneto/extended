@@ -32,20 +32,26 @@ uses unite_messages, U_DBListView, U_ExtDBNavigator,
      DBReg, Designintf,
 {$ENDIF}
      {$IFDEF MENUBAR}u_extmenutoolbar,{$ENDIF}
-     U_ExtDBImage, U_ExtDBImageList, U_ExtImage, u_extdbgrid, u_extmenucustomize;
+     U_ExtDBImage, U_ExtDBImageList, U_ExtImage,
+     U_ExtPictCombo,
+     u_extdbgrid, u_extmenucustomize;
 
 procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMenuCustomize]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TDBListView,TExtDBNavigator,
-                                                TExtDBImage,TExtDBImageList,TExtDBNumEdit, TExtDBComboInsert,
-                                                TExtDBColorCombo, TExtSearchDBEdit,
-                                                TFWDBEdit,TFWDBLookupCombo,TExtDBGrid,TFWDBMemo,
-                                                TFWDBDateEdit{$IFNDEF FPC},TFWDBDateTimePicker{$ENDIF}]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtNumEdit,
-                                                TExtColorCombo, {$IFDEF MENUBAR}TExtMenuToolBar,{$ENDIF}
-                                                TFWLabel, TFWEdit,TFWGrid,TFWMemo,TFWDateEdit,
-                                                TExtImage]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TExtDBColorCombo, TExtDBComboInsert,
+                                                TFWDBDateEdit, {$IFNDEF FPC}TFWDBDateTimePicker,{$ENDIF}
+                                                TFWDBEdit, TExtDBGrid,
+                                                TExtDBImage,TExtDBImageList,
+                                                TDBListView,TFWDBLookupCombo,
+                                                TFWDBMemo, TExtDBNavigator,
+                                                TExtDBNumEdit,TExtDBPictCombo,
+                                                TExtSearchDBEdit]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtColorCombo, TFWDateEdit,
+                                                TFWEdit,TFWGrid,TExtImage,
+                                                TFWLabel,TFWMemo,
+                                                {$IFDEF MENUBAR}TExtMenuToolBar,{$ENDIF}
+                                                TExtNumEdit,TExtPictCombo]);
   RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataKeyUnit'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataSort'      , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo(string), TDBListView, 'DataFieldsDisplay'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
