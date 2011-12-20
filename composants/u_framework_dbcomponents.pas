@@ -58,12 +58,13 @@ const
                                                FileUnit : 'u_framework_dbcomponents' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Composants d''interactivité de U_CustomFrameWork.' ;
-                                               BugsStory : '0.9.0.3 : Using RXLookupCombo on FPC.'
+                                               BugsStory : '0.9.0.4 : Added FWDBCombobox.'
+                                                         + '0.9.0.3 : Using RXLookupCombo on FPC.'
                                                          + '0.9.0.2 : Paint Edits or not on FWDBGrid.'
                                                          + '0.9.0.1 : FWDBGrid tested on Delphi, with Controls on Columns.'
                                                          + '0.9.0.0 : Création à partir de u_framework_components.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 3 );
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 4 );
 
 {$ENDIF}
 type
@@ -170,8 +171,41 @@ type
 
 {$ENDIF}
 
-   { TFWLabel }
+   { TFWDBLookupCombo }
    TFWDBLookupCombo = class ( {$IFDEF JEDI}TJvDBLookupCombo{$ELSE}{$IFDEF RXCOMBO}TRxDBLookupCombo{$ELSE}TDBLookupComboBox{$ENDIF}{$ENDIF}, IFWComponent, IFWComponentEdit )
+      private
+       FBeforeEnter, FBeforeExit : TNotifyEvent;
+       FLabel : TFWLabel ;
+       FOldColor ,
+       FColorReadOnly,
+       FColorFocus ,
+       FColorEdit ,
+       FColorLabel : TColor;
+       FAlwaysSame : Boolean;
+       FNotifyOrder : TNotifyEvent;
+       procedure p_setLabel ( const alab_Label : TFWLabel );
+       procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
+      public
+
+       constructor Create ( AOwner : TComponent ); override;
+       procedure DoEnter; override;
+       procedure DoExit; override;
+       procedure Loaded; override;
+       procedure SetOrder ; virtual;
+      published
+       property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
+       property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
+       property ColorLabel : TColor read FColorLabel write FColorLabel default CST_LBL_SELECT ;
+       property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
+       property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
+       property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
+       property MyLabel : TFWLabel read FLabel write p_setLabel;
+       property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
+       property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
+     End;
+
+   { TFWDBComboBox }
+   TFWDBComboBox = class ( TDBComboBox, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FLabel : TFWLabel ;
@@ -496,6 +530,70 @@ begin
 end;
 
 procedure TFWDBLookupCombo.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
+Begin
+  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
+  inherited;
+End;
+
+{ TFWDBComboBox }
+
+procedure TFWDBComboBox.p_setLabel(const alab_Label: TFWLabel);
+begin
+  if alab_Label <> FLabel Then
+    Begin
+      FLabel := alab_Label;
+      FLabel.MyEdit := Self;
+    End;
+end;
+
+procedure TFWDBComboBox.SetOrder;
+begin
+  if assigned ( FNotifyOrder ) then
+    FNotifyOrder ( Self );
+end;
+
+constructor TFWDBComboBox.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FAlwaysSame := True;
+  FColorLabel := CST_LBL_SELECT;
+  FColorEdit  := CST_EDIT_STD;
+  FColorFocus := CST_EDIT_SELECT;
+  FColorReadOnly := CST_EDIT_READ;
+end;
+
+procedure TFWDBComboBox.DoEnter;
+begin
+  if assigned ( FBeforeEnter ) Then
+    FBeforeEnter ( Self );
+  // Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
+  // avec la souris => cas de tri)
+  p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
+  p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
+  inherited DoEnter;
+end;
+
+procedure TFWDBComboBox.DoExit;
+begin
+  if assigned ( FBeforeExit ) Then
+    FBeforeExit ( Self );
+  inherited DoExit;
+  p_setLabelColorExit ( FLabel, FAlwaysSame );
+  p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
+
+end;
+
+procedure TFWDBComboBox.Loaded;
+begin
+  inherited Loaded;
+  FOldColor := Color;
+  if  FAlwaysSame
+   Then
+    Color := gCol_Edit ;
+end;
+
+procedure TFWDBComboBox.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
 Begin
   p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
   inherited;

@@ -39,7 +39,7 @@ uses unite_messages, U_DBListView, U_ExtDBNavigator,
 procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMenuCustomize]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TExtDBColorCombo, TExtDBComboInsert,
+  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TExtDBColorCombo,TFWDBComboBox, TExtDBComboInsert,
                                                 TFWDBDateEdit, {$IFNDEF FPC}TFWDBDateTimePicker,{$ENDIF}
                                                 TFWDBEdit, TExtDBGrid,
                                                 TExtDBImage,TExtDBImageList,
