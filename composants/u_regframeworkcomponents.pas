@@ -46,12 +46,12 @@ begin
                                                 TDBListView,TFWDBLookupCombo,
                                                 TFWDBMemo, TExtDBNavigator,
                                                 TExtDBNumEdit,TExtDBPictCombo,
-                                                TExtSearchDBEdit]);
+                                                TExtSearchDBEdit,TFWDBSpinEdit]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtColorCombo, TFWDateEdit,
                                                 TFWEdit,TFWGrid,TExtImage,
                                                 TFWLabel,TFWMemo,
                                                 {$IFDEF MENUBAR}TExtMenuToolBar,{$ENDIF}
-                                                TExtNumEdit,TExtPictCombo]);
+                                                TExtNumEdit,TExtPictCombo,TFWSpinEdit]);
   RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataKeyUnit'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataSort'      , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo(string), TDBListView, 'DataFieldsDisplay'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});

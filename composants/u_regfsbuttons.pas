@@ -25,7 +25,7 @@ uses u_buttons_extension;
 
 procedure Register;
 begin
-  RegisterComponents('FSButtons', [TFSClose,TFSNext,TFSPrior,TFSLoad,TFSTrash,
+  RegisterComponents('FSButtons', [TFSClose,TFSNext,TFSPrior,TFSLoad,TFSTrash,TFSConfig,
                                    {$IFDEF GROUPVIEW} TFSBasket,TFSInSelect,TFSInAll,TFSOutSelect,TFSOutAll,{$ENDIF}
                                    TFSOK,TFSInsert,TFSInit,TFSDelete,TFSDocument,TFSCancel,TFSQuit,TFSErase,TFSSaveAs,TFSAdd,TFSImport,TFSExport,TFSPrint,TFSPreview,TFSCopy]);
 End ;

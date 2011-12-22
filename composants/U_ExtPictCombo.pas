@@ -1,4 +1,4 @@
-{*********************************************************************}
+﻿{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             Matthieu Giroux                                         }
@@ -27,7 +27,7 @@ uses
 {$IFDEF FPC}
   LCLIntf, LCLType, lMessages, lresources,
 {$ELSE}
-  Windows,
+  Windows, Variants,
 {$ENDIF}
 {$IFDEF TNT}
    TntStdCtrls,
@@ -103,7 +103,6 @@ type
       property ImagesMap : TExtMapImagesColumns read FMapImagesColumns ;
       property Value : String read FValue write p_SetValue;
       property ReadOnly: Boolean read GetReadOnly write SetReadOnly stored True default False;
-      property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
     // Visuel
       property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
       property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;

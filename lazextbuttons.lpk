@@ -19,8 +19,8 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Minor="9" Release="5"/>
-    <Files Count="2">
+    <Version Minor="9" Release="5" Build="2"/>
+    <Files Count="3">
       <Item1>
         <Filename Value="composants/u_buttons_extension.pas"/>
         <UnitName Value="u_buttons_extension"/>
@@ -29,22 +29,29 @@
         <Filename Value="composants/u_buttons_blue.pas"/>
         <UnitName Value="u_buttons_blue"/>
       </Item2>
+      <Item3>
+        <Filename Value="composants/u_buttons_flat.pas"/>
+        <UnitName Value="u_buttons_flat"/>
+      </Item3>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="4">
+    <RequiredPkgs Count="5">
       <Item1>
-        <PackageName Value="FlatStyle_Add"/>
+        <PackageName Value="lazflatstyle"/>
       </Item1>
       <Item2>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="FlatStyle_Add"/>
       </Item2>
       <Item3>
-        <PackageName Value="lazfonctions"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item3>
       <Item4>
+        <PackageName Value="lazfonctions"/>
+      </Item4>
+      <Item5>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item4>
+      </Item5>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
@@ -54,4 +61,4 @@
       <IgnoreBinaries Value="False"/>
     </PublishOptions>
   </Package>
-</CONFIG>
+</CONFIG>

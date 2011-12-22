@@ -32,7 +32,7 @@ uses
    RxDBGrid,
    dbdateedit,
 {$ELSE}
-   Windows, Mask, DBTables, ActnMan, Messages,
+   Windows, Mask, DBTables, ActnMan,
 {$ENDIF}
 {$IFDEF RXCOMBO}
   RxLookup,
@@ -50,7 +50,8 @@ uses
 {$IFDEF TNT}
    TntStdCtrls, TntDBCtrls,
 {$ENDIF}
-  fonctions_erreurs, u_framework_components;
+  fonctions_erreurs, DB, Messages,
+  u_framework_components;
 
 {$IFDEF VERSIONS}
 const
@@ -269,6 +270,50 @@ type
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
      End;
 
+
+     TFWDBSpinEdit  = class( TFWSpinEdit )
+       private
+         FDataLink: TFieldDataLink;
+         function GetDataField: string;
+         function GetDataSource: TDataSource;
+         function GetField: TField;
+         procedure SetDataField(const AValue: string);
+         procedure SetDataSource(AValue: TDataSource);
+         procedure WMCut(var Message: TMessage); message {$IFDEF FPC} LM_CUT {$ELSE} WM_CUT {$ENDIF};
+         procedure WMPaste(var Message: TMessage); message {$IFDEF FPC} LM_PASTE {$ELSE} WM_PASTE {$ENDIF};
+       {$IFDEF FPC}
+       {$ELSE}
+         procedure WMUndo(var Message: TMessage); message WM_UNDO;
+       {$ENDIF}
+         procedure CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF}); message CM_EXIT;
+         procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
+       protected
+         procedure ActiveChange(Sender: TObject); virtual;
+         procedure DataChange(Sender: TObject); virtual;
+         procedure UpdateData(Sender: TObject); virtual;
+         function GetReadOnly: Boolean; {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
+         procedure SetReadOnly(AValue: Boolean); {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
+//         procedure SetValue(const AValue: Double); override ;
+         procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+         procedure KeyPress(var Key: Char); override;
+         procedure Loaded; override;
+         procedure Notification(AComponent: TComponent;
+         Operation: TOperation); override;
+       public
+         procedure Change; override;
+         constructor Create(AOwner: TComponent); override;
+         destructor Destroy; override;
+         function ExecuteAction(AAction: TBasicAction): Boolean; override;
+         function UpdateAction(AAction: TBasicAction): Boolean; override;
+         property Field: TField read GetField;
+       published
+         property Value stored False ;
+         property DataField: string read GetDataField write SetDataField stored True;
+         property DataSource: TDataSource read GetDataSource write SetDataSource stored True;
+         {$IFNDEF FPC}
+         property ReadOnly: Boolean read GetReadOnly write SetReadOnly default false;
+         {$ENDIF}
+       end;
 
 implementation
 
@@ -664,6 +709,218 @@ Begin
   inherited;
 End;
 
+{ TFWDBSpinEdit }
+constructor TFWDBSpinEdit.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FDataLink := TFieldDataLink.Create ;
+  FDataLink.DataSource := nil ;
+  FDataLink.FieldName  := '' ;
+  FDataLink.Control := Self;
+  FDataLink.OnDataChange := DataChange;
+  FDataLink.OnUpdateData := UpdateData;
+  FDataLink.OnActiveChange := ActiveChange;
+  ControlStyle := ControlStyle + [csReplicatable];
+end;
+
+destructor TFWDBSpinEdit.Destroy;
+begin
+  inherited Destroy;
+  FDataLink.Free ;
+end;
+
+procedure TFWDBSpinEdit.Loaded;
+begin
+  inherited Loaded;
+  if (csDesigning in ComponentState) then
+    Begin
+      DataChange(Self);
+    End ;
+end;
+
+procedure TFWDBSpinEdit.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation = opRemove) and (FDataLink <> nil) and
+    (AComponent = DataSource) then DataSource := nil;
+end;
+
+procedure TFWDBSpinEdit.KeyDown(var Key: Word; Shift: TShiftState);
+begin
+  inherited KeyDown(Key, Shift);
+  if (Key = VK_DELETE) or ((Key = VK_INSERT) and (ssShift in Shift)) then
+    FDataLink.Edit;
+end;
+
+procedure TFWDBSpinEdit.KeyPress(var Key: Char);
+begin
+  inherited KeyPress(Key);
+  if (Key in [#32..#255]) and (FDataLink.Field <> nil) and
+    not FDataLink.Field.IsValidChar(Key) then
+  begin
+    {$IFDEF DELPHI}
+    MessageBeep(0);
+    {$ENDIF}
+    Key := #0;
+  end;
+  case Key of
+    ^H, ^V, ^X, #32..#255:
+      FDataLink.Edit;
+    #27:
+      begin
+        FDataLink.Reset;
+        SelectAll;
+        Key := #0;
+      end;
+  end;
+end;
+
+procedure TFWDBSpinEdit.Change;
+begin
+  inherited Change;
+  if assigned ( FDataLink.Field ) Then
+    if FDataLink.Field.IsNull then
+      SetValue ( MinValue )
+    Else
+      SetValue ( FDataLink.Field.AsFloat );
+  FDataLink.Modified;
+end;
+
+function TFWDBSpinEdit.GetDataSource: TDataSource;
+begin
+  Result := FDataLink.DataSource;
+end;
+
+procedure TFWDBSpinEdit.SetDataSource(AValue: TDataSource);
+begin
+  if not (FDataLink.DataSourceFixed and (csLoading in ComponentState)) then
+    FDataLink.DataSource := AValue;
+  if AValue <> nil then AValue.FreeNotification(Self);
+end;
+
+function TFWDBSpinEdit.GetDataField: string;
+begin
+  Result := FDataLink.FieldName;
+end;
+
+procedure TFWDBSpinEdit.SetDataField(const AValue: string);
+begin
+  if  assigned ( FDataLink.DataSet )
+  and FDataLink.DataSet.Active Then
+    Begin
+      if assigned ( FDataLink.DataSet.FindField ( AValue ))
+      and ( FDataLink.DataSet.FindField ( AValue ) is TNumericField ) Then
+        FDataLink.FieldName := AValue;
+    End
+  Else
+    FDataLink.FieldName := AValue;
+end;
+
+function TFWDBSpinEdit.GetReadOnly: Boolean;
+begin
+  Result := FDataLink.ReadOnly;
+end;
+
+procedure TFWDBSpinEdit.SetReadOnly(AValue: Boolean);
+begin
+  FDataLink.ReadOnly := AValue;
+end;
+
+function TFWDBSpinEdit.GetField: TField;
+begin
+  Result := FDataLink.Field;
+end;
+
+procedure TFWDBSpinEdit.ActiveChange(Sender: TObject);
+begin
+  if FDataLink.Field <> nil then
+    begin
+      SetValue ( FDataLink.Field.AsFloat );
+    end;
+end;
+
+procedure TFWDBSpinEdit.DataChange(Sender: TObject);
+begin
+  if FDataLink.Field <> nil then
+    begin
+      SetValue ( FDataLink.Field.AsFloat );
+    end;
+end;
+
+
+procedure TFWDBSpinEdit.UpdateData(Sender: TObject);
+begin
+  if Value > -1 Then
+    Begin
+      FDataLink.Edit ;
+      FDataLink.Field.Value := Value ;
+    End ;
+end;
+
+{$IFDEF DELPHI}
+procedure TFWDBSpinEdit.WMUndo(var Message: TMessage);
+begin
+  FDataLink.Edit;
+  inherited;
+end;
+{$ENDIF}
+
+procedure TFWDBSpinEdit.WMPaste(var Message: TMessage);
+begin
+  FDataLink.Edit;
+  inherited;
+end;
+
+procedure TFWDBSpinEdit.WMCut(var Message: TMessage);
+begin
+  FDataLink.Edit;
+  inherited;
+end;
+
+procedure TFWDBSpinEdit.CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF});
+begin
+  try
+    FDataLink.UpdateRecord;
+  except
+    on e: Exception do
+      Begin
+        SetFocus;
+        f_GereException ( e, FDataLink.DataSet, nil , False )
+      End ;
+  end;
+  DoExit;
+end;
+
+procedure TFWDBSpinEdit.CMGetDataLink(var Message: TMessage);
+begin
+  Message.Result := Integer(FDataLink);
+end;
+
+function TFWDBSpinEdit.ExecuteAction(AAction: TBasicAction): Boolean;
+begin
+  Result := inherited ExecuteAction(AAction){$IFDEF DELPHI}  or (FDataLink <> nil) and
+    FDataLink.ExecuteAction(AAction){$ENDIF};
+end;
+
+function TFWDBSpinEdit.UpdateAction(AAction: TBasicAction): Boolean;
+begin
+  Result := inherited UpdateAction(AAction) {$IFDEF DELPHI}  or (FDataLink <> nil) and
+    FDataLink.UpdateAction(AAction){$ENDIF};
+end;
+{
+procedure TFWDBSpinEdit.SetValue(const AColor: TColor);
+begin
+ inherited p_SetColorValue ( AColor );
+ if assigned ( FDataLink.Field )
+ and ( FDataLink.Field.AsInteger <> AColor ) Then
+  Begin
+    FDataLink.Dataset.Edit ;
+    FDataLink.Field.Value := AColor ;
+  End ;
+end;
+ }
+
 
 {$IFDEF VERSIONS}
 initialization
@@ -671,4 +928,4 @@ initialization
   p_ConcatVersion(gVer_framework_DBcomponents);
 {$ENDIF}
 end.
-
+
