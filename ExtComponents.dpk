@@ -98,6 +98,8 @@ contains
   u_extmenutoolbar in 'composants\u_extmenutoolbar.pas',
   u_customizemenu in 'forms\u_customizemenu.pas',
   u_extimage in 'composants\u_extimage.pas',
-  U_ExtDBImage in 'composants\U_ExtDBImage.pas';
+  U_ExtDBImage in 'composants\U_ExtDBImage.pas',
+  U_ExtPictCombo in 'composants\U_ExtPictCombo.pas',
+  u_extmapimageindex in 'composants\u_extmapimageindex.pas';
 
 end.

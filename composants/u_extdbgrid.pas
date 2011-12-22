@@ -357,7 +357,7 @@ end;
 // Procedure ShowControlColumn
 // Shows the control of column if exists
 procedure TExtDBGrid.ShowControlColumn;
-var Weight, Coord, WidthHeight : Integer ;
+var Weight, Coord : Integer ;
 {$IFNDEF FPC}
     DrawInfo: TGridDrawInfo;
  function LinePos(const AxisInfo: TGridAxisDrawInfo; Line: Integer): Integer;
@@ -387,11 +387,10 @@ var Weight, Coord, WidthHeight : Integer ;
     end;
   end;
 
-  function CalcAxis(const AxisInfo: TGridAxisDrawInfo;
+  procedure CalcAxis(const AxisInfo: TGridAxisDrawInfo;
     GridRectMin: Integer;
-    var ScreenRectMin: Integer): Boolean;
+    var ScreenRectMin: Integer);
   begin
-    Result := False;
     with AxisInfo do
     begin
       if (GridRectMin >= FixedCellCount) and (GridRectMin < FirstGridCell) then
@@ -399,8 +398,9 @@ var Weight, Coord, WidthHeight : Integer ;
 
       ScreenRectMin := LinePos(AxisInfo, GridRectMin);
     end;
-    Result := True;
   end;
+{$ELSE}
+  WidthHeight : Integer ;
 {$ENDIF}
 begin
   {$IFNDEF FPC}
@@ -513,7 +513,6 @@ procedure TExtDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$END
   aState: TGridDrawState);
 {$IFNDEF FPC}
 var OldActive : Integer;
-    FBackground: TColor;
 {$ENDIF}
 begin
   {$IFNDEF FPC}
