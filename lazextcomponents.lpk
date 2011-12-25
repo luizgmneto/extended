@@ -19,7 +19,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Minor="9" Release="5" Build="3"/>
+    <Version Minor="9" Release="5" Build="4"/>
     <Files Count="24">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.pas"/>
