@@ -814,8 +814,8 @@ end;
 procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ;{$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
 begin
   // Soit on a une connexion ADO
-  if Assigned(acco_Conn)
-  and fb_CreateCommonIni ( amif_Init, as_NomConnexion ) then
+  if not Assigned(acco_Conn) then Exit;
+  if fb_CreateCommonIni ( amif_Init, as_NomConnexion ) then
     begin
       // Connexion à la base d'accès
       p_SetComponentBoolProperty ( acco_Conn, 'Connected', False );

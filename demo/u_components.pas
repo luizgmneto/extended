@@ -21,7 +21,8 @@ uses
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
   u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection,
   DBGrids, IBDatabase, IBCustomDataSet, Menus, u_extmenucustomize, ToolWin,
-  menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage, ImgList, ExtDlgs ;
+  menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage, U_ExtDBImageList, ImgList,
+  ExtDlgs, U_ExtPictCombo  ;
 
 type
 
@@ -32,6 +33,13 @@ type
     Datasource2: TDatasource;
     Datasource3: TDatasource;
     ExtDBImage: TExtDBImage;
+    ExtDBImageList1: TExtDBImageList;
+    ExtDBPictCombo1: TExtDBPictCombo;
+    FWDBSpinEdit1: TFWDBSpinEdit;
+    FWLabel7: TFWLabel;
+    FWLabel8: TFWLabel;
+    FWLabel9: TFWLabel;
+    FWSpinEdit1: TFWSpinEdit;
     IBDatabase: TIBDatabase;
     IBDepartement: TIBDataSet;
     IBDepSearch: TIBDataSet;
@@ -39,6 +47,7 @@ type
     IBUtilisateur: TIBDataSet;
     DBListView: TDBListView;
     ExtDBNavigator1: TExtDBNavigator;
+    ImageResources: TImageList;
     Noms: TExtDBGrid;
     OnFormInfoIni: TOnFormInfoIni;
     OpenPictureDialog: TOpenPictureDialog;
@@ -75,8 +84,6 @@ type
     Menu4: TMenuItem;
     Menu6: TMenuItem;
     ExtMenuToolBar: TExtMenuToolBar;
-    ImageList: TImageList;
-    ImageListDisabled: TImageList;
     procedure ExtDBImageClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -119,19 +126,21 @@ begin
     // Il s'agit d'une entrée/sortie donc on gère les exceptions
     on e:Exception do
       Begin
-       ShowMessage ( 'Impossible d''ouvrir le fichier DBF : ' + E.Message );
+       ShowMessage ( 'Impossible d''ouvrir la connexion : ' + E.Message );
        Exit;
       end;
   end;
 end;
 
+
 procedure TMyform.FormCreate(Sender: TObject);
 begin
+  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
   {$IFDEF WIN32}
-  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+'\Exemple.fdb';
+  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
   {$ENDIF}
   {$IFDEF WINDOWS}
-  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+'\Exemple.fdb';
+  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
   {$ENDIF}
 end;
 

@@ -223,6 +223,8 @@ uses unite_messages, fonctions_proprietes, fonctions_images;
 constructor TExtPictCombo.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  CreateImagesMap;
+
   FValue := '' ;
 
   //Visuel
