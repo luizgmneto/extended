@@ -75,6 +75,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
       CST_ONFORMINI_PCHECK      = 'TPCheck' ;
       CST_ONFORMINI_JVDIRECTORY = 'TJvDirectoryEdit';
       CST_ONFORMINI_SPINEDIT    = 'TSpinEdit';
+      CST_ONFORMINI_FWSPINEDIT  = 'TFWSpinEdit';
       CST_ONFORMINI_RXSPINEDIT  = 'TRxSpinEdit';
       CST_ONFORMINI_JVSPINEDIT  = 'TJvSpinEdit';
 
@@ -523,6 +524,7 @@ var
     {$ENDIF}
     if GetfeSauveEdit(FSauveEditObjets ,feTSpinEdit)
     and (   (lcom_Component.ClassNameIs( CST_ONFORMINI_SPINEDIT))
+         or (lcom_Component.ClassNameIs( CST_ONFORMINI_FWSPINEDIT))
          or (lcom_Component.ClassNameIs( CST_ONFORMINI_JVSPINEDIT))
          or (lcom_Component.ClassNameIs( CST_ONFORMINI_RXSPINEDIT)))
        then
@@ -848,6 +850,7 @@ var
     Result := False;
     if GetfeSauveEdit(FSauveEditObjets ,feTSpinEdit)
     and  (   (lcom_Component.ClassNameIs(CST_ONFORMINI_SPINEDIT))
+          or (lcom_Component.ClassNameIs(CST_ONFORMINI_FWSPINEDIT))
           or (lcom_Component.ClassNameIs(CST_ONFORMINI_JVSPINEDIT))
           or (lcom_Component.ClassNameIs(CST_ONFORMINI_RXSPINEDIT)))
      then

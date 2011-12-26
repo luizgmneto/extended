@@ -112,35 +112,32 @@
       <OutDir Value="fonctions"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="9">
+    <RequiredPkgs Count="8">
       <Item1>
-        <PackageName Value="lazextcomponents"/>
+        <PackageName Value="lazflatstyle"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazflatstyle"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item2>
       <Item3>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item3>
       <Item4>
-        <PackageName Value="virtualtreeview_package"/>
+        <PackageName Value="VampyreImagingPackage"/>
       </Item4>
       <Item5>
-        <PackageName Value="VampyreImagingPackage"/>
+        <PackageName Value="LCL"/>
       </Item5>
       <Item6>
-        <PackageName Value="LCL"/>
+        <PackageName Value="zcomponent"/>
       </Item6>
       <Item7>
-        <PackageName Value="zcomponent"/>
+        <PackageName Value="zcore"/>
       </Item7>
       <Item8>
-        <PackageName Value="zcore"/>
-      </Item8>
-      <Item9>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item9>
+      </Item8>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
