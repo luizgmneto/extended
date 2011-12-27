@@ -33,12 +33,12 @@ uses unite_messages, U_DBListView, U_ExtDBNavigator,
 {$ENDIF}
      {$IFDEF MENUBAR}u_extmenutoolbar,{$ENDIF}
      U_ExtDBImage, U_ExtDBImageList, U_ExtImage,
-     U_ExtPictCombo,
+     U_ExtPictCombo, U_ExtMapImageIndex,
      u_extdbgrid, u_extmenucustomize;
 
 procedure Register;
 begin
-  RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMenuCustomize]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMenuCustomize,TExtMapImages]);
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TExtDBColorCombo,TFWDBComboBox, TExtDBComboInsert,
                                                 TFWDBDateEdit, {$IFNDEF FPC}TFWDBDateTimePicker,{$ENDIF}
                                                 TFWDBEdit, TExtDBGrid,

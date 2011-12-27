@@ -20,9 +20,9 @@ uses
   StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
   u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection,
-  DBGrids, IBDatabase, IBCustomDataSet, Menus, u_extmenucustomize, ToolWin,
+  DBGrids, UIBDataSet, uib, Menus, u_extmenucustomize, ToolWin,
   menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage, U_ExtDBImageList, ImgList,
-  ExtDlgs, U_ExtPictCombo  ;
+  ExtDlgs, U_ExtPictCombo, U_ExtMapImageIndex  ;
 
 type
 
@@ -33,18 +33,20 @@ type
     Datasource2: TDatasource;
     Datasource3: TDatasource;
     ExtDBImage: TExtDBImage;
-    ExtDBImageList1: TExtDBImageList;
-    ExtDBPictCombo1: TExtDBPictCombo;
-    FWDBSpinEdit1: TFWDBSpinEdit;
+    ExtDBImageList: TExtDBImageList;
+    ExtDBPictCombo: TExtDBPictCombo;
+    ExtMapImages: TExtMapImages;
+    MapImages: TExtMapImages;
+    FWDBSpinEdit: TFWDBSpinEdit;
     FWLabel7: TFWLabel;
     FWLabel8: TFWLabel;
     FWLabel9: TFWLabel;
-    FWSpinEdit1: TFWSpinEdit;
-    IBDatabase: TIBDatabase;
-    IBDepartement: TIBDataSet;
-    IBDepSearch: TIBDataSet;
-    IBTransaction: TIBTransaction;
-    IBUtilisateur: TIBDataSet;
+    FWSpinEdit: TFWSpinEdit;
+    IBDatabase: TUIBDatabase;
+    IBDepartement: TUIBDataSet;
+    IBDepSearch: TUIBDataSet;
+    IBTransaction: TUIBTransaction;
+    IBUtilisateur: TUIBDataSet;
     DBListView: TDBListView;
     ExtDBNavigator1: TExtDBNavigator;
     ImageResources: TImageList;
@@ -118,7 +120,7 @@ begin
   Noms.Columns [ 1 ].SomeEdit := Prenom;
   try
   IBDatabase.Connected := True;
-  IBTransaction.Active := True;
+//  IBTransaction.Active := True;
   // On cherche ou crée le fichier CSV
   IBUtilisateur.Open;
   IBDepartement.Open;
@@ -146,7 +148,8 @@ end;
 
 procedure TMyform.ExtDBImageClick(Sender: TObject);
 begin
-  if OpenPictureDialog.Execute Then
+  if IBUtilisateur.CanModify
+  and OpenPictureDialog.Execute Then
    Begin
      IBUtilisateur.Edit;
      ExtDBImage.LoadFromFile(OpenPictureDialog.FileName);
