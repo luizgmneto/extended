@@ -326,27 +326,37 @@ Begin
       else
        Begin
          if  ( ali_newWidth > 0 )
-         and ( ali_newWidth <  Width )
+         and ( ali_newWidth <=  Width )
          // doit-on retailler en longueur ?
-         and (( ali_newHeight = 0 ) or ( Width / ali_newWidth > Height / ali_newHeight ))
+         and (( ali_newHeight = 0 ) or ( Width / ali_newWidth >= Height / ali_newHeight ))
           Then
            Begin
              li_Size := ( ali_newWidth * Height ) div Width;
+             lbmp_Tempo.Width   := ali_newWidth ;
+             lbmp_Tempo.Height  := li_Size ;
              lrec_Rectangle.Right  := ali_newWidth ;
              lrec_Rectangle.Bottom := li_Size ;
              lbmp_Tempo.Canvas.StretchDraw ( lrec_Rectangle, abmp_BitmapOrigine );
+             abmp_BitmapOrigine.Width   := ali_newWidth ;
+             abmp_BitmapOrigine.Height  := li_Size ;
            End
          else
            if  ( ali_newHeight > 0 )
-           and ( ali_newHeight <  Height ) Then
+           and ( ali_newHeight <=  Height ) Then
              Begin
                li_Size := ( ali_newHeight * Width ) div Height ;
+               lbmp_Tempo.Width   := li_Size ;
+               lbmp_Tempo.Height  := ali_newHeight ;
                lrec_Rectangle.Right  := li_Size ;
                lrec_Rectangle.Bottom := ali_newHeight ;
                lbmp_Tempo.Canvas.StretchDraw ( lrec_Rectangle, abmp_BitmapOrigine );
+               abmp_BitmapOrigine.Width   := li_Size ;
+               abmp_BitmapOrigine.Height  :=ali_newHeight ;
              End ;
       End ;
+   writeln(IntToStr(li_Size) + ' '+ IntToStr(lbmp_Tempo.Height) + ' '  + IntToStr(lbmp_Tempo.Width) + ' ' + IntToStr(ali_newHeight) + ' ' + IntToStr(ali_newWidth) + ' ' + IntToStr(abmp_BitmapOrigine.Width) + ' ' + IntToStr(abmp_BitmapOrigine.Height));
   lbmp_Tempo.Transparent := True ;
+  lbmp_Tempo.TransparentColor := clBlack ;
 {$IFDEF FPC}
   abmp_BitmapOrigine.Clear;
 {$ENDIF}

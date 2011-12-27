@@ -16,8 +16,8 @@ uses Graphics,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-     DB, DBCtrls, ImgList,
-     Classes, U_ExtImage;
+     DBCtrls,
+     Classes;
 
 {$IFDEF VERSIONS}
   const
@@ -40,7 +40,7 @@ type
   private
     s_Value : String;
     i_ImageIndex : Integer ;
-  public
+  published
     property Value : String read s_Value write s_Value;
     property ImageIndex : Integer read i_ImageIndex write i_ImageIndex;
   End;
@@ -59,6 +59,7 @@ type
     constructor Create(Component: TComponent; ColumnClass: TExtMapImageIndexClass); virtual;
     function Add: TExtMapImageIndex; virtual;
     property Component : TComponent read FComponent;
+    property Count;
     property Items[Index: Integer]: TExtMapImageIndex read GetImageMap write SetImageMap; default;
   End;
 
@@ -66,9 +67,41 @@ type
     procedure CreateImagesMap;
   end;
 
+  { TExtMapImages }
+
+  TExtMapImages = class(TComponent, IMapImageComponent)
+      private
+        FMapImagesColumns : TExtMapImagesColumns;
+        procedure CreateImagesMap; virtual;
+        procedure SetColumns ( AValue : TExtMapImagesColumns ); virtual;
+      public
+        constructor Create(AOwner: TComponent); override;
+      published
+      { Published declarations }
+        property Columns : TExtMapImagesColumns read FMapImagesColumns write SetColumns ;
+    end;
+
 implementation
 
-uses fonctions_images, sysutils;
+uses sysutils;
+
+{ TExtMapImages }
+
+procedure TExtMapImages.CreateImagesMap;
+begin
+  FMapImagesColumns := TExtMapImagesColumns.Create(Self,TExtMapImageIndex);
+end;
+
+procedure TExtMapImages.SetColumns(AValue: TExtMapImagesColumns);
+begin
+  FMapImagesColumns.Assign(AValue);
+end;
+
+constructor TExtMapImages.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  CreateImagesMap;
+end;
 
 { TExtMapImagesColumns }
 

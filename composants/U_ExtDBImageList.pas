@@ -35,15 +35,16 @@ uses Graphics,
 type
 { TExtDBImageList }
 
-    TExtDBImageList = class( TExtImage, IFWComponent, IFWComponentEdit, IMapImageComponent)
+    TExtDBImageList = class( TExtImage, IFWComponent, IFWComponentEdit)
      private
        FDataLink: TFieldDataLink;
        FNotifyOrder : TNotifyEvent;
        FImages : TCustomImageList;
-       FMapImagesColumns : TExtMapImagesColumns;
+       FMapImages : TExtMapImages;
        procedure p_SetDatafield  ( const Value : String );
        procedure p_SetDatasource ( const Value : TDatasource );
-       procedure p_SetImages ( const Value : TCustomImageList );
+       procedure p_SetImages    ( const Value : TCustomImageList );
+       procedure p_SetImagesMap ( const Value : TExtMapImages );
        function  fds_GetDatasource : TDatasource;
        function  fs_GetDatafield : String;
      protected
@@ -51,7 +52,6 @@ type
        procedure p_SetImage; virtual;
        procedure p_ActiveChange(Sender: TObject); virtual;
        procedure p_DataChange(Sender: TObject); virtual;
-       procedure CreateImagesMap; virtual;
      public
        constructor Create(AOwner: TComponent); override;
        destructor Destroy ; override;
@@ -59,7 +59,7 @@ type
        property Datafield : String read fs_GetDatafield write p_SetDatafield ;
        property Datasource : TDatasource read fds_GetDatasource write p_SetDatasource ;
        property Images : TCustomImageList read FImages write p_SetImages ;
-       property ImagesMap : TExtMapImagesColumns read FMapImagesColumns ;
+       property ImagesMap : TExtMapImages read FMapImages write p_SetImagesMap ;
      end;
 
 
@@ -77,7 +77,6 @@ end;
 constructor TExtDBImageList.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  CreateImagesMap;
   FDataLink := TFieldDataLink.Create ;
   FDataLink.DataSource := nil ;
   FDataLink.FieldName  := '' ;
@@ -91,10 +90,6 @@ begin
   p_SetImage;
 end;
 
-procedure TExtDBImageList.CreateImagesMap;
-begin
-   FMapImagesColumns := TExtMapImagesColumns.Create(Self,TExtMapImageIndex);
-end;
 
 destructor TExtDBImageList.Destroy;
 begin
@@ -155,12 +150,13 @@ begin
   lb_Found := False ;
   if  assigned ( FDataLink )
   and assigned ( FImages )
+  and assigned ( FMapImages )
   and FDataLink.Active
   and assigned ( FDataLink.Field )
   and not FDataLink.Field.IsNull Then
     Begin
-      for li_i := 0 to FMapImagesColumns.Count - 1 do
-      with FMapImagesColumns.Items [ li_i ] do
+      for li_i := 0 to FMapImages.Columns.Count - 1 do
+      with FMapImages.Columns.Items [ li_i ] do
         if  ( FDataLink.Field.AsString = Value )
         and ( ImageIndex < FImages.Count )  then
           Begin
@@ -175,6 +171,11 @@ end;
 procedure TExtDBImageList.p_SetImages(const Value: TCustomImageList);
 begin
   FImages := Value;
+end;
+
+procedure TExtDBImageList.p_SetImagesMap(const Value: TExtMapImages);
+begin
+  FMapImages:=Value;
 end;
 
 

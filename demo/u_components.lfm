@@ -443,15 +443,17 @@ inherited Myform: TMyform
       Datafield = 'PHOTO'
       Datasource = Datasource
     end
-    object ExtDBPictCombo1: TExtDBPictCombo
+    object ExtDBPictCombo: TExtDBPictCombo
       Left = 121
       Height = 25
-      Top = 288
+      Top = 290
       Width = 219
       Images = ImageResources
+      ImagesMap = MapImages
       Color = clMoneyGreen
       ItemHeight = 0
       TabOrder = 9
+      DataField = 'IDDEPARTEMENT'
       DataSource = Datasource
     end
     object FWLabel7: TFWLabel
@@ -462,6 +464,7 @@ inherited Myform: TMyform
       AutoSize = False
       Caption = 'SpinEdit'
       Color = clBtnFace
+      FocusControl = FWSpinEdit
       Font.Color = clBlack
       Font.Height = 14
       Font.Name = 'Tahoma'
@@ -470,13 +473,14 @@ inherited Myform: TMyform
       Transparent = False
       ColorFocus = clMaroon
     end
-    object FWSpinEdit1: TFWSpinEdit
+    object FWSpinEdit: TFWSpinEdit
       Left = 120
       Height = 22
       Top = 240
       Width = 220
       Color = clMoneyGreen
       TabOrder = 10
+      MyLabel = FWLabel8
     end
     object FWLabel8: TFWLabel
       Left = 20
@@ -494,31 +498,35 @@ inherited Myform: TMyform
       Transparent = False
       ColorFocus = clMaroon
     end
-    object ExtDBImageList1: TExtDBImageList
+    object ExtDBImageList: TExtDBImageList
       Left = 483
       Height = 24
       Top = 152
       Width = 24
+      Datafield = 'IDDEPARTEMENT'
       Datasource = Datasource
       Images = ImageResources
+      ImagesMap = MapImages
     end
-    object FWDBSpinEdit1: TFWDBSpinEdit
+    object FWDBSpinEdit: TFWDBSpinEdit
       Left = 120
       Height = 22
       Top = 264
       Width = 219
       Color = clMoneyGreen
       TabOrder = 11
+      DataField = 'IDDEPARTEMENT'
       DataSource = Datasource
     end
     object FWLabel9: TFWLabel
       Left = 21
       Height = 17
-      Top = 264
+      Top = 269
       Width = 65
       AutoSize = False
       Caption = 'DBSpinEdit'
       Color = clBtnFace
+      FocusControl = FWDBSpinEdit
       Font.Color = clBlack
       Font.Height = 11
       Font.Name = 'Tahoma'
@@ -574,116 +582,52 @@ inherited Myform: TMyform
     left = 48
     top = 360
   end
-  object IBDatabase: TIBDatabase[8]
-    Connected = False
-    LoginPrompt = False
-    AllowStreamedConnected = False
-    DatabaseName = '/var/lib/firebird/2.5/data/Exemple.fdb'
+  object IBDatabase: TUIBDataBase[8]
     Params.Strings = (
       'user_name=SYSDBA'
       'password=masterkey'
+      'lc_ctype=UTF8'
     )
-    IdleTimer = 0
-    TraceFlags = []
+    DatabaseName = 'Exemple'
+    CharacterSet = csUTF8
+    UserName = 'SYSDBA'
+    PassWord = 'masterkey'
+    LibraryName = 'libfbembed.so'
     left = 48
     top = 217
   end
-  object IBUtilisateur: TIBDataSet[9]
-    Database = IBDatabase
+  object IBUtilisateur: TUIBDataSet[9]
     Transaction = IBTransaction
-    BufferChunks = 1000
-    CachedUpdates = False
-    DeleteSQL.Strings = (
-      'Delete From UTILISATEUR A'
-      'Where A.CLEP = :CLEP'
+    Database = IBDatabase
+    UniDirectional = True
+    SQL.Strings = (
+      'SELECT * FROM UTILISATEUR'
     )
-    InsertSQL.Strings = (
-      'Insert Into UTILISATEUR(CLEP, NOM, PRENOM, IDDEPARTEMENT,PHOTO)'
-      'Values(:CLEP, :NOM, :PRENOM, :IDDEPARTEMENT,:PHOTO)'
-    )
-    RefreshSQL.Strings = (
-      'Select A.CLEP, A.NOM, A.PRENOM, A.IDDEPARTEMENT, A.PHOTO From UTILISATEUR A'
-      'Where A.CLEP = :CLEP'
-    )
-    SelectSQL.Strings = (
-      'Select A.CLEP, A.NOM, A.PRENOM, A.IDDEPARTEMENT, A.PHOTO From UTILISATEUR A'
-    )
-    ModifySQL.Strings = (
-      'Update UTILISATEUR A Set '
-      '  A.CLEP = :CLEP,'
-      '  A.NOM = :NOM,'
-      '  A.PRENOM = :PRENOM,'
-      '  A.IDDEPARTEMENT = :IDDEPARTEMENT,'
-      ' A.PHOTO = :PHOTO'
-      'Where A.CLEP = :OLD_CLEP'
-    )
-    GeneratorField.ApplyOnEvent = gaeOnNewRecord
     left = 152
     top = 288
   end
-  object IBDepartement: TIBDataSet[10]
-    Database = IBDatabase
+  object IBDepartement: TUIBDataSet[10]
     Transaction = IBTransaction
-    BufferChunks = 1000
-    CachedUpdates = False
-    DeleteSQL.Strings = (
-      'Delete From DEPARTEMENT A'
-      'Where A.CLEP = :CLEP'
+    Database = IBDatabase
+    UniDirectional = True
+    SQL.Strings = (
+      'SELECT * FROM DEPARTEMENT'
     )
-    InsertSQL.Strings = (
-      'Insert Into DEPARTEMENT(CLEP, NOM)'
-      'Values(:CLEP, :NOM)'
-    )
-    RefreshSQL.Strings = (
-      'Select A.CLEP, A.NOM From DEPARTEMENT A'
-      'Where A.CLEP = :CLEP'
-    )
-    SelectSQL.Strings = (
-      'Select A.CLEP, A.NOM From DEPARTEMENT A'
-    )
-    ModifySQL.Strings = (
-      'Update DEPARTEMENT A Set '
-      '  A.CLEP = :CLEP,'
-      '  A.NOM = :NOM'
-      'Where A.CLEP = :OLD_CLEP'
-    )
-    GeneratorField.ApplyOnEvent = gaeOnNewRecord
     left = 152
     top = 361
   end
-  object IBTransaction: TIBTransaction[11]
-    Active = False
-    DefaultDatabase = IBDatabase
+  object IBTransaction: TUIBTransaction[11]
+    DataBase = IBDatabase
     left = 152
     top = 217
   end
-  object IBDepSearch: TIBDataSet[12]
-    Database = IBDatabase
+  object IBDepSearch: TUIBDataSet[12]
     Transaction = IBTransaction
-    BufferChunks = 1000
-    CachedUpdates = False
-    DeleteSQL.Strings = (
-      'Delete From DEPARTEMENT A'
-      'Where A.CLEP = :CLEP'
+    Database = IBDatabase
+    UniDirectional = True
+    SQL.Strings = (
+      'SELECT * FROM DEPARTEMENT'
     )
-    InsertSQL.Strings = (
-      'Insert Into DEPARTEMENT(CLEP, NOM)'
-      'Values(:CLEP, :NOM)'
-    )
-    RefreshSQL.Strings = (
-      'Select A.CLEP, A.NOM From DEPARTEMENT A'
-      'Where A.CLEP = :CLEP'
-    )
-    SelectSQL.Strings = (
-      'Select A.CLEP, A.NOM From DEPARTEMENT A'
-    )
-    ModifySQL.Strings = (
-      'Update DEPARTEMENT A Set '
-      '  A.CLEP = :CLEP,'
-      '  A.NOM = :NOM'
-      'Where A.CLEP = :OLD_CLEP'
-    )
-    GeneratorField.ApplyOnEvent = gaeOnNewRecord
     left = 152
     top = 425
   end
@@ -1785,5 +1729,38 @@ inherited Myform: TMyform
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000
     }
+  end
+  object MapImages: TExtMapImages[16]
+    Columns = <    
+      item
+        Value = '1'
+        ImageIndex = 0
+      end    
+      item
+        Value = '2'
+        ImageIndex = 1
+      end    
+      item
+        Value = '3'
+        ImageIndex = 2
+      end    
+      item
+        Value = '4'
+        ImageIndex = 3
+      end    
+      item
+        Value = '6'
+        ImageIndex = 5
+      end    
+      item
+        Value = '7'
+        ImageIndex = 6
+      end    
+      item
+        Value = '8'
+        ImageIndex = 7
+      end>
+    left = 176
+    top = 80
   end
 end

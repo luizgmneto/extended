@@ -32,7 +32,7 @@ uses
 {$IFDEF TNT}
    TntStdCtrls,
 {$ENDIF}
-  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Messages, SysUtils, Classes, Graphics, Controls, Forms,
   StdCtrls, DB, DBCtrls, fonctions_erreurs, fonctions_version,
   u_extcomponent, ImgList, U_ExtMapImageIndex ;
 
@@ -60,10 +60,10 @@ type
 
   { TExtPictCombo }
 
-  TExtPictCombo = class(TCustomComboBox, IFWComponent, IFWComponentEdit, IMapImageComponent)
+  TExtPictCombo = class(TCustomComboBox, IFWComponent, IFWComponentEdit)
     private
       FImages : TCustomImageList;
-      FMapImagesColumns : TExtMapImagesColumns;
+      FMapImages : TExtMapImages;
       FBeforeEnter, FBeforeExit : TNotifyEvent;
       FLabel : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} ;
       FNotifyOrder : TNotifyEvent;
@@ -73,19 +73,23 @@ type
       FColorEdit ,
       FColorLabel : TColor;
       FReadOnly   ,
+      FShowValues ,
       FAlwaysSame : Boolean;
       FValue : String;
+      procedure CreateItems;
       procedure p_SetImages ( const Value : TCustomImageList );
+      procedure p_SetImagesMap ( const Value : TExtMapImages );
       procedure p_setLabel ( const alab_Label : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} );
       procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
+      procedure CNCommand(var TheMessage: TLMCommand); message CN_Command;
     protected
     { Protected declarations }
       procedure DrawAnImage( const AIndex : Longint; const ARect: TRect; var novorect : TRect ); virtual ;
       procedure p_SetValue(const AValue: String); virtual ;
     protected
       procedure CreateWnd; override;
-      procedure CreateImagesMap; virtual;
       function GetReadOnly: Boolean; virtual;
+      procedure SetDroppedDown(const AValue: Boolean); override;
       procedure SetReadOnly(Value: Boolean); virtual;
     public
     { Public declarations }
@@ -100,7 +104,7 @@ type
     published
     { Published declarations }
       property Images : TCustomImageList read FImages write p_SetImages ;
-      property ImagesMap : TExtMapImagesColumns read FMapImagesColumns ;
+      property ImagesMap : TExtMapImages read FMapImages write p_SetImagesMap ;
       property Value : String read FValue write p_SetValue;
       property ReadOnly: Boolean read GetReadOnly write SetReadOnly stored True default False;
     // Visuel
@@ -112,8 +116,10 @@ type
       property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
       property MyLabel : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} read FLabel write p_setLabel;
       property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
+      property ShowValues : Boolean read FShowValues write FShowValues default true;
       property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
     // Propriétés gardées
+      property Style default csOwnerDrawFixed;
       property AutoComplete;
       property AutoDropDown;
 {$IFDEF DELPHI}
@@ -171,6 +177,8 @@ type
     property OnStartDrag;
   end;
 
+  { TExtDBPictCombo }
+
   TExtDBPictCombo  = class( TExtPictCombo )
     private
       FDataLink: TFieldDataLink;
@@ -187,18 +195,18 @@ type
     {$ENDIF}
       procedure CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF}); message CM_EXIT;
       procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
+      procedure CNCommand(var TheMessage: TLMCommand); message CN_Command;
     protected
+      procedure SetDroppedDown(const AValue: Boolean); override;
       procedure ActiveChange(Sender: TObject); virtual;
       procedure DataChange(Sender: TObject); virtual;
       procedure UpdateData(Sender: TObject); virtual;
-      function GetReadOnly: Boolean; override;
-      procedure SetReadOnly(AValue: Boolean); override;
       procedure p_SetValue(const AValue: String); override ;
-      procedure KeyDown(var Key: Word; Shift: TShiftState); override;
       procedure KeyPress(var Key: Char); override;
       procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
     public
+      procedure DoEnter; override;
       procedure Loaded; override;
       procedure Change; override;
       constructor Create(AOwner: TComponent); override;
@@ -215,7 +223,7 @@ type
 
 implementation
 
-uses unite_messages, fonctions_proprietes, fonctions_images;
+uses unite_messages, fonctions_proprietes, fonctions_images, dialogs;
 
 
 { TExtPictCombo }
@@ -223,8 +231,9 @@ uses unite_messages, fonctions_proprietes, fonctions_images;
 constructor TExtPictCombo.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  CreateImagesMap;
 
+  FShowValues := True ;
+  Style := csOwnerDrawFixed;
   FValue := '' ;
 
   //Visuel
@@ -236,17 +245,23 @@ begin
   FColorReadOnly := CST_EDIT_READ;
 end;
 
-procedure TExtPictCombo.CreateWnd;
+procedure TExtPictCombo.CreateItems;
 var a :  Integer;
 begin
-  inherited CreateWnd;
-  if ( Items.Count <> FMapImagesColumns.Count ) then
+  if assigned ( FMapImages )
+  and ( Items.Count <> FMapImages.Columns.Count ) then
    Begin
      Items.BeginUpdate;
      Items.Clear;
-     for a:=0 to FMapImagesColumns.Count - 1 do Items.add(FMapImagesColumns.Items[a].Value);
+     for a:=0 to FMapImages.Columns.Count - 1 do Items.add(FMapImages.Columns.Items[a].Value);
      Items.EndUpdate;
    End;
+end;
+
+procedure TExtPictCombo.CreateWnd;
+begin
+  inherited CreateWnd;
+  CreateItems;
 end;
 
 procedure TExtPictCombo.SetOrder;
@@ -274,6 +289,12 @@ begin
   Result := FReadOnly;
 end;
 
+procedure TExtPictCombo.SetDroppedDown(const AValue: Boolean);
+begin
+  If ReadOnly and Avalue Then Exit;
+  inherited SetDroppedDown(AValue);
+end;
+
 procedure TExtPictCombo.SetReadOnly(Value: Boolean);
 begin
   FReadOnly := Value;
@@ -282,6 +303,7 @@ end;
 
 procedure TExtPictCombo.DoEnter;
 begin
+  if GetReadOnly Then Exit;
   if assigned ( FBeforeEnter ) Then
     FBeforeEnter ( Self );
   // Si on arrive sur une zone de saisie, on met en valeur son {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} par une couleur
@@ -317,25 +339,35 @@ Begin
   inherited;
 End;
 
+procedure TExtPictCombo.CNCommand(var TheMessage: TLMCommand);
+begin
+  if ReadOnly Then Exit;
+  inherited;
+end;
+
 procedure TExtPictCombo.DrawAnImage ( const AIndex : Longint; const ARect: TRect; var novorect : TRect );
 var
    FImage:TBitmap;
 Begin
- novorect:= rect(arect.Left+4, arect.Top+1, 24, arect.bottom-1);
  if AIndex < FImages.Count
   Then
     Begin
       FImage := TBitmap.Create;
       FImages.GetBitmap(AIndex,FImage);
+      novorect:= rect(arect.Left+4, arect.Top+1, arect.bottom - 2, arect.bottom- 2);
+ writeln(IntToStr(Aindex) + ' ' + IntToStr(novorect.Left) + ' ' + IntToStr(novorect.Top) + ' ' + IntToStr(novorect.Right) + ' ' + IntToStr(FImage.Height) + ' ' + IntToStr(FImage.Width));
+      if FImage.Width  < novorect.Right  Then novorect.Right  := FImage.Width;
+      if FImage.Height < novorect.Bottom Then novorect.Bottom := FImage.Height;
       p_ChangeTailleBitmap(FImage,novorect.Right,novorect.Bottom,True);
-      Canvas.Draw(novorect.Left,novorect.Top,FImage);
+      Canvas.Draw ( novorect.Left+ ( arect.bottom - FImage.Width  ) div 2 - 1,
+                    novorect.Top + ( arect.bottom - FImage.Height ) div 2 - 1,FImage);
       {$IFNDEF FPC}
       FImage.Dormant;
       {$ENDIF}
       FImage.FreeImage;
       FImage.Free;
     end;
- novoRect := rect(ARect.Left + 30, arect.top, arect.right - 5, arect.bottom);
+ novoRect := rect(ARect.Left + arect.bottom + 2, arect.top, arect.right - 5, arect.bottom);
 end;
 
 procedure TExtPictCombo.DrawItem(Index: Integer;
@@ -348,13 +380,17 @@ begin
     begin
       FillRect(ARect);
       novorect:=ARect;
-      if assigned ( FImages )
-      and ( Index < FMapImagesColumns.Count ) Then
+      if  assigned ( FImages )
+      and assigned ( FMapImages )
+      and ( Index < FMapImages.Columns.Count ) Then
        Begin
-         DrawAnImage ( FMapImagesColumns.Items[Index].ImageIndex, ARect, novorect );
+         DrawAnImage ( FMapImages.Columns.Items[Index].ImageIndex, ARect, novorect );
        end
       Else
+      Begin
+      // writeln(IntToStr(index) + ' ' + IntToStr(FMapImages.Columns.Count));
        novoRect := arect;
+      end;
 
       format := DT_SINGLELINE or DT_NOPREFIX;
       if ( BiDiMode = bdLeftToRight )
@@ -364,23 +400,25 @@ begin
         format := format or DT_RIGHT ;
       if BiDiMode <> bdRightToLeftNoAlign Then
         format := format or DT_VCENTER ;
-      if Index < Items.Count Then
+      if FShowValues
+      and ( Index < Items.Count ) Then
         DrawText(Canvas.Handle, Pchar ( Items [ Index] ), Length(Items [ Index]), novoRect, format );
     end;
 end;
 
-procedure TExtPictCombo.CreateImagesMap;
+procedure TExtPictCombo.p_SetImagesMap(const Value: TExtMapImages);
 begin
- FMapImagesColumns := TExtMapImagesColumns.Create(Self,TExtMapImageIndex);
+ FMapImages := Value;
 
 end;
 
 procedure TExtPictCombo.Change;
 begin
-   if  ( itemindex >= 0 )
-   and ( itemindex < FMapImagesColumns.Count )
+   if  assigned ( FMapImages )
+   and ( itemindex >= 0 )
+   and ( itemindex < FMapImages.Columns.Count )
     Then
-     p_SetValue(FMapImagesColumns.Items[ItemIndex].Value)
+     p_SetValue(FMapImages.Columns.Items[ItemIndex].Value)
     Else
      p_SetValue('');
   inherited change;
@@ -438,38 +476,13 @@ begin
     (AComponent = DataSource) then DataSource := nil;
 end;
 
-procedure TExtDBPictCombo.KeyDown(var Key: Word; Shift: TShiftState);
-begin
-  inherited KeyDown(Key, Shift);
-  if (Key = VK_DELETE) or ((Key = VK_INSERT) and (ssShift in Shift)) then
-    FDataLink.Edit;
-end;
-
 procedure TExtDBPictCombo.KeyPress(var Key: Char);
 begin
-  inherited KeyPress(Key);
-  if (Key in [#32..#255]) and (FDataLink.Field <> nil) and
-    not FDataLink.Field.IsValidChar(Key) then
-  begin
-    {$IFDEF DELPHI}
-    MessageBeep(0);
-    {$ENDIF}
-    Key := #0;
-  end;
-  case Key of
-    ^H, ^V, ^X, #32..#255:
-      FDataLink.Edit;
-    #27:
-      begin
-        FDataLink.Reset;
-        SelectAll;
-        Key := #0;
-      end;
-  end;
 end;
 
 procedure TExtDBPictCombo.Change;
 begin
+  if not FDataLink.CanModify Then Exit;
   inherited Change;
   if assigned ( FDataLink.Field ) Then
     if FDataLink.Field.IsNull then
@@ -507,16 +520,6 @@ begin
     End
   Else
     FDataLink.FieldName := AValue;
-end;
-
-function TExtDBPictCombo.GetReadOnly: Boolean;
-begin
-  Result := FDataLink.ReadOnly;
-end;
-
-procedure TExtDBPictCombo.SetReadOnly(AValue: Boolean);
-begin
-  FDataLink.ReadOnly := AValue;
 end;
 
 function TExtDBPictCombo.GetField: TField;
@@ -591,6 +594,20 @@ begin
   Message.Result := Integer(FDataLink);
 end;
 
+procedure TExtDBPictCombo.CNCommand(var TheMessage: TLMCommand);
+begin
+  if ( GetReadOnly or not FDataLink.CanModify )
+  and ( TheMessage.NotifyCode = CBN_DROPDOWN )
+   Then exit;
+  inherited;
+end;
+
+procedure TExtDBPictCombo.DoEnter;
+begin
+  if ( GetReadOnly or not FDataLink.CanModify ) Then Exit;
+  inherited DoEnter;
+end;
+
 function TExtDBPictCombo.ExecuteAction(AAction: TBasicAction): Boolean;
 begin
   Result := inherited ExecuteAction(AAction){$IFDEF DELPHI}  or (FDataLink <> nil) and
@@ -612,6 +629,12 @@ begin
     FDataLink.Dataset.Edit ;
     FDataLink.Field.Value := AValue ;
   End;
+end;
+
+procedure TExtDBPictCombo.SetDroppedDown(const AValue: Boolean);
+begin
+  If ( GetReadOnly or not FDataLink.CanModify ) and Avalue Then Exit;
+  inherited SetDroppedDown(AValue);
 end;
 
 initialization

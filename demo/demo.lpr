@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, U_Components, LResources, DBFLaz, lazextcomponents, lazregisterextcomp,
-  ibexpress, virtualtreeview_package;
+  ibexpress, uiblaz, virtualtreeview_package;
 
 {$IFDEF WINDOWS}{$R demo.rc}{$ENDIF}
 
