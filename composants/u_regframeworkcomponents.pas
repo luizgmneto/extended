@@ -17,7 +17,6 @@ uses
 {$ENDIF}
   SysUtils;
 
-
 procedure Register;
 
 implementation
@@ -73,6 +72,9 @@ initialization
   {$i U_ExtNumEdits.lrs}
   {$i u_extmenucustomize.lrs}
   {$i u_extdbgrid.lrs}
+  {$i U_ExtPictCombo.lrs}
+  {$i U_ExtDBImageList.lrs}
+  {$i u_extmapimageindex.lrs}
   {$i u_extimage.lrs}
 {$ENDIF}
 end.
