@@ -73,10 +73,9 @@ type
       FColorEdit ,
       FColorLabel : TColor;
       FReadOnly   ,
-      FShowValues ,
+      FShowItems ,
       FAlwaysSame : Boolean;
       FValue : String;
-      procedure CreateItems;
       procedure p_SetImages ( const Value : TCustomImageList );
       procedure p_SetImagesMap ( const Value : TExtMapImages );
       procedure p_setLabel ( const alab_Label : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} );
@@ -87,7 +86,6 @@ type
       procedure DrawAnImage( const AIndex : Longint; const ARect: TRect; var novorect : TRect ); virtual ;
       procedure p_SetValue(const AValue: String); virtual ;
     protected
-      procedure CreateWnd; override;
       function GetReadOnly: Boolean; virtual;
       procedure SetDroppedDown(const AValue: Boolean); override;
       procedure SetReadOnly(Value: Boolean); virtual;
@@ -116,7 +114,7 @@ type
       property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
       property MyLabel : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} read FLabel write p_setLabel;
       property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
-      property ShowValues : Boolean read FShowValues write FShowValues default true;
+      property ShowItems  : Boolean read FShowItems write FShowItems default true;
       property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
     // Propriétés gardées
       property Style default csOwnerDrawFixed;
@@ -232,7 +230,7 @@ constructor TExtPictCombo.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FShowValues := True ;
+  FShowItems := True ;
   Style := csOwnerDrawFixed;
   FValue := '' ;
 
@@ -243,25 +241,6 @@ begin
   FColorEdit  := CST_EDIT_STD;
   FColorFocus := CST_EDIT_SELECT;
   FColorReadOnly := CST_EDIT_READ;
-end;
-
-procedure TExtPictCombo.CreateItems;
-var a :  Integer;
-begin
-  if assigned ( FMapImages )
-  and ( Items.Count <> FMapImages.Columns.Count ) then
-   Begin
-     Items.BeginUpdate;
-     Items.Clear;
-     for a:=0 to FMapImages.Columns.Count - 1 do Items.add(FMapImages.Columns.Items[a].Value);
-     Items.EndUpdate;
-   End;
-end;
-
-procedure TExtPictCombo.CreateWnd;
-begin
-  inherited CreateWnd;
-  CreateItems;
 end;
 
 procedure TExtPictCombo.SetOrder;
@@ -400,7 +379,7 @@ begin
         format := format or DT_RIGHT ;
       if BiDiMode <> bdRightToLeftNoAlign Then
         format := format or DT_VCENTER ;
-      if FShowValues
+      if FShowItems
       and ( Index < Items.Count ) Then
         DrawText(Canvas.Handle, Pchar ( Items [ Index] ), Length(Items [ Index]), novoRect, format );
     end;
