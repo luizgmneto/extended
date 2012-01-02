@@ -80,14 +80,16 @@ type
       procedure p_SetImagesMap ( const Value : TExtMapImages );
       procedure p_setLabel ( const alab_Label : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} );
       procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
-      procedure CNCommand(var TheMessage: TLMCommand); message CN_Command;
+      procedure CNCommand(var TheMessage: {$IFDEF FPC}TLMCommand{$ELSE}TWMCommand{$ENDIF}); message {$IFDEF FPC}CN_Command{$ELSE}WM_COMMAND{$ENDIF};
     protected
     { Protected declarations }
       procedure DrawAnImage( const AIndex : Longint; const ARect: TRect; var novorect : TRect ); virtual ;
       procedure p_SetValue(const AValue: String); virtual ;
     protected
       function GetReadOnly: Boolean; virtual;
+      {$IFDEF FPC}
       procedure SetDroppedDown(const AValue: Boolean); override;
+      {$ENDIF}
       procedure SetReadOnly(Value: Boolean); virtual;
     public
     { Public declarations }
@@ -193,9 +195,11 @@ type
     {$ENDIF}
       procedure CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF}); message CM_EXIT;
       procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
-      procedure CNCommand(var TheMessage: TLMCommand); message CN_Command;
+      procedure CNCommand(var TheMessage: {$IFDEF FPC}TLMCommand{$ELSE}TWMCommand{$ENDIF}); message {$IFDEF FPC}CN_Command{$ELSE}WM_COMMAND{$ENDIF};
     protected
+      {$IFDEF FPC}
       procedure SetDroppedDown(const AValue: Boolean); override;
+      {$ENDIF}
       procedure ActiveChange(Sender: TObject); virtual;
       procedure DataChange(Sender: TObject); virtual;
       procedure UpdateData(Sender: TObject); virtual;
@@ -268,11 +272,13 @@ begin
   Result := FReadOnly;
 end;
 
+{$IFDEF FPC}
 procedure TExtPictCombo.SetDroppedDown(const AValue: Boolean);
 begin
   If ReadOnly and Avalue Then Exit;
   inherited SetDroppedDown(AValue);
 end;
+{$ENDIF}
 
 procedure TExtPictCombo.SetReadOnly(Value: Boolean);
 begin
@@ -318,7 +324,7 @@ Begin
   inherited;
 End;
 
-procedure TExtPictCombo.CNCommand(var TheMessage: TLMCommand);
+procedure TExtPictCombo.CNCommand(var TheMessage: {$IFDEF FPC}TLMCommand{$ELSE}TWMCommand{$ENDIF});
 begin
   if ReadOnly Then Exit;
   inherited;
@@ -573,7 +579,7 @@ begin
   Message.Result := Integer(FDataLink);
 end;
 
-procedure TExtDBPictCombo.CNCommand(var TheMessage: TLMCommand);
+procedure TExtDBPictCombo.CNCommand(var TheMessage: {$IFDEF FPC}TLMCommand{$ELSE}TWMCommand{$ENDIF});
 begin
   if ( GetReadOnly or not FDataLink.CanModify )
   and ( TheMessage.NotifyCode = CBN_DROPDOWN )
@@ -610,11 +616,13 @@ begin
   End;
 end;
 
+{$IFDEF FPC}
 procedure TExtDBPictCombo.SetDroppedDown(const AValue: Boolean);
 begin
   If ( GetReadOnly or not FDataLink.CanModify ) and Avalue Then Exit;
   inherited SetDroppedDown(AValue);
 end;
+{$ENDIF}
 
 initialization
 {$IFDEF VERSIONS}

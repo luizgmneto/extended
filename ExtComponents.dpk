@@ -1,6 +1,7 @@
 package ExtComponents;
 
 {$R *.res}
+{$R 'composants\u_buttons_appli.dcr'}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -74,7 +75,9 @@ requires
   dcldklang10,
   TntUnicodeVCL_R90,
   VampyreImagingPackage,
-  dmenutoolbar;
+  dmenutoolbar,
+  FlatStyle_AddOn,
+  FlatStyle_D6;
 
 contains
   U_ExtComboInsert in 'composants\U_ExtComboInsert.pas',
@@ -100,6 +103,12 @@ contains
   u_extimage in 'composants\u_extimage.pas',
   U_ExtDBImage in 'composants\U_ExtDBImage.pas',
   U_ExtPictCombo in 'composants\U_ExtPictCombo.pas',
-  u_extmapimageindex in 'composants\u_extmapimageindex.pas';
+  u_extmapimageindex in 'composants\u_extmapimageindex.pas',
+  u_buttons_blue in 'composants\u_buttons_blue.pas',
+  u_buttons_extension in 'composants\u_buttons_extension.pas',
+  u_buttons_flat in 'composants\u_buttons_flat.pas',
+  u_regbfsbuttons in 'composants\u_regbfsbuttons.pas',
+  u_regfbbuttons in 'composants\u_regfbbuttons.pas',
+  u_regfsbuttons in 'composants\u_regfsbuttons.pas';
 
 end.
