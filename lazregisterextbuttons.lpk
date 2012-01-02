@@ -36,18 +36,21 @@
       <Item5>
         <Filename Value="composants/u_regbfsbuttons.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="u_regfbbuttons"/>
+        <UnitName Value="u_regbfsbuttons"/>
       </Item5>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="2">
+    <RequiredPkgs Count="3">
       <Item1>
-        <PackageName Value="lazextbuttons"/>
+        <PackageName Value="LCL"/>
       </Item1>
       <Item2>
+        <PackageName Value="lazextbuttons"/>
+      </Item2>
+      <Item3>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item2>
+      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
@@ -56,4 +59,4 @@
       <Version Value="2"/>
     </PublishOptions>
   </Package>
-</CONFIG>
+</CONFIG>

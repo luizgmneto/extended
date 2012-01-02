@@ -73,7 +73,6 @@ type
       FColorEdit ,
       FColorLabel : TColor;
       FReadOnly   ,
-      FShowItems ,
       FAlwaysSame : Boolean;
       FValue : String;
       procedure p_SetImages ( const Value : TCustomImageList );
@@ -116,7 +115,6 @@ type
       property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
       property MyLabel : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} read FLabel write p_setLabel;
       property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
-      property ShowItems  : Boolean read FShowItems write FShowItems default true;
       property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
     // Propriétés gardées
       property Style default csOwnerDrawFixed;
@@ -141,6 +139,7 @@ type
     {$ENDIF}
     property DragCursor;
     property DragKind;
+    property Items;
     property DragMode;
     property DropDownCount;
     property Enabled;
@@ -225,7 +224,7 @@ type
 
 implementation
 
-uses unite_messages, fonctions_proprietes, fonctions_images, dialogs;
+uses unite_messages, fonctions_proprietes, fonctions_images;
 
 
 { TExtPictCombo }
@@ -234,7 +233,6 @@ constructor TExtPictCombo.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FShowItems := True ;
   Style := csOwnerDrawFixed;
   FValue := '' ;
 
@@ -340,7 +338,6 @@ Begin
       FImage := TBitmap.Create;
       FImages.GetBitmap(AIndex,FImage);
       novorect:= rect(arect.Left+4, arect.Top+1, arect.bottom - 2, arect.bottom- 2);
- writeln(IntToStr(Aindex) + ' ' + IntToStr(novorect.Left) + ' ' + IntToStr(novorect.Top) + ' ' + IntToStr(novorect.Right) + ' ' + IntToStr(FImage.Height) + ' ' + IntToStr(FImage.Width));
       if FImage.Width  < novorect.Right  Then novorect.Right  := FImage.Width;
       if FImage.Height < novorect.Bottom Then novorect.Bottom := FImage.Height;
       p_ChangeTailleBitmap(FImage,novorect.Right,novorect.Bottom,True);
@@ -373,7 +370,6 @@ begin
        end
       Else
       Begin
-      // writeln(IntToStr(index) + ' ' + IntToStr(FMapImages.Columns.Count));
        novoRect := arect;
       end;
 
@@ -385,8 +381,7 @@ begin
         format := format or DT_RIGHT ;
       if BiDiMode <> bdRightToLeftNoAlign Then
         format := format or DT_VCENTER ;
-      if FShowItems
-      and ( Index < Items.Count ) Then
+      if  ( Index < Items.Count ) Then
         DrawText(Canvas.Handle, Pchar ( Items [ Index] ), Length(Items [ Index]), novoRect, format );
     end;
 end;

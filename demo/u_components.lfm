@@ -451,6 +451,15 @@ inherited Myform: TMyform
       Images = ImageResources
       ImagesMap = MapImages
       Color = clMoneyGreen
+      Items.Strings = (
+        'Image'
+        'Image'
+        'Image'
+        'Image'
+        'Image'
+        'Image'
+        'Image'
+      )
       ItemHeight = 0
       TabOrder = 9
       DataField = 'IDDEPARTEMENT'
@@ -592,7 +601,7 @@ inherited Myform: TMyform
     CharacterSet = csUTF8
     UserName = 'SYSDBA'
     PassWord = 'masterkey'
-    LibraryName = 'libfbembed.so'
+    LibraryName = 'libfbembed.so.2.5'
     left = 48
     top = 217
   end

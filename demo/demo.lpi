@@ -155,11 +155,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="132"/>
-        <CursorPos X="7" Y="152"/>
+        <TopLine Value="90"/>
+        <CursorPos X="134" Y="147"/>
         <UsageCount Value="45"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -409,7 +408,6 @@
         <TopLine Value="79"/>
         <CursorPos X="31" Y="28"/>
         <UsageCount Value="13"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit41>
       <Unit42>
         <Filename Value="../composants/u_extmenutoolbar.pas"/>
@@ -828,10 +826,11 @@
       <Unit92>
         <Filename Value="../composants/U_ExtPictCombo.pas"/>
         <UnitName Value="U_ExtPictCombo"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="173"/>
-        <CursorPos X="17" Y="246"/>
+        <TopLine Value="349"/>
+        <CursorPos X="1" Y="373"/>
         <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit92>
@@ -932,6 +931,7 @@
         <TopLine Value="693"/>
         <CursorPos X="34" Y="721"/>
         <UsageCount Value="12"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit104>
       <Unit105>
         <Filename Value="../composants/u_framework_components.pas"/>
@@ -948,6 +948,7 @@
         <TopLine Value="51"/>
         <CursorPos X="1" Y="1"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit106>
       <Unit107>
         <Filename Value="/usr/share/fpcsrc/2.4.4/rtl/objpas/classes/classesh.inc"/>
@@ -963,6 +964,7 @@
         <TopLine Value="71"/>
         <CursorPos X="85" Y="58"/>
         <UsageCount Value="12"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit108>
       <Unit109>
         <Filename Value="../composants/U_ExtColorCombos.pas"/>
@@ -975,7 +977,7 @@
         <Loaded Value="True"/>
       </Unit109>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
+    <JumpHistory Count="9" HistoryIndex="8">
       <Position1>
         <Filename Value="../composants/U_ExtPictCombo.pas"/>
         <Caret Line="63" Column="30" TopLine="57"/>
@@ -984,6 +986,34 @@
         <Filename Value="../composants/U_ExtPictCombo.pas"/>
         <Caret Line="246" Column="17" TopLine="213"/>
       </Position2>
+      <Position3>
+        <Filename Value="../composants/U_ExtPictCombo.pas"/>
+        <Caret Line="76" Column="1" TopLine="51"/>
+      </Position3>
+      <Position4>
+        <Filename Value="../composants/U_ExtPictCombo.pas"/>
+        <Caret Line="118" Column="1" TopLine="96"/>
+      </Position4>
+      <Position5>
+        <Filename Value="../composants/U_ExtPictCombo.pas"/>
+        <Caret Line="236" Column="1" TopLine="200"/>
+      </Position5>
+      <Position6>
+        <Filename Value="../composants/U_ExtPictCombo.pas"/>
+        <Caret Line="359" Column="58" TopLine="350"/>
+      </Position6>
+      <Position7>
+        <Filename Value="../composants/U_ExtPictCombo.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position7>
+      <Position8>
+        <Filename Value="../composants/U_ExtPictCombo.pas"/>
+        <Caret Line="207" Column="38" TopLine="203"/>
+      </Position8>
+      <Position9>
+        <Filename Value="../composants/U_ExtPictCombo.pas"/>
+        <Caret Line="341" Column="1" TopLine="305"/>
+      </Position9>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
