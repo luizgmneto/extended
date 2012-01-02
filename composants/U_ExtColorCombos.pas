@@ -45,10 +45,11 @@ const
                                                FileUnit : 'U_ExtColorCombo' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Choisir une couleur dans une liste ou avec la palette de couleurs.' ;
-                                               BugsStory : '1.0.1.0 : Bug du re-focus enlevé, propriétés Combo.' + #13#10 +
+                                               BugsStory : '1.0.1.1 : Better items'' dimension, correct inherit.' + #13#10 +
+                                                           '1.0.1.0 : Bug du re-focus enlevé, propriétés Combo.' + #13#10 +
                                                            '1.0.0.0 : OK.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
     gVer_TDBColorCombo : T_Version = ( Component : 'Composant TExtDBColorCombo' ;
                                                FileUnit : 'U_ExtColorCombo' ;
                                                Owner : 'Matthieu Giroux' ;
@@ -96,7 +97,7 @@ type
       Function WebColor(const AColor:TColor): String;
       procedure p_SetColorValue(const AColor: TColor); virtual ;
       procedure MouseDown(Button: TMouseButton;
-        Shift: TShiftState; X, Y: Integer);
+        Shift: TShiftState; X, Y: Integer); override;
       procedure WMKeyDown(var Message: {$IFDEF FPC}TLMKeyDown{$ELSE}TWMKeyDown{$ENDIF}); message {$IFDEF FPC}LM_KEYDOWN{$ELSE}WM_KEYDOWN{$ENDIF};
     protected
       function GetReadOnly: Boolean; virtual;
@@ -212,10 +213,10 @@ type
       procedure p_SetColorValue(const AColor: TColor); override ;
       procedure KeyDown(var Key: Word; Shift: TShiftState); override;
       procedure KeyPress(var Key: Char); override;
-      procedure Loaded; override;
       procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
     public
+      procedure Loaded; override;
       procedure Change; override;
       constructor Create(AOwner: TComponent); override;
       destructor Destroy; override;
@@ -354,7 +355,8 @@ begin
     Begin
       ItemIndex := CST_COLOR_COMBO_LastDefinedColor ;
       Change ;
-    End ;
+    End
+   Else Inherited;
 end;
 
 

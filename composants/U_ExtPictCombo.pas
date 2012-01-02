@@ -42,17 +42,19 @@ const
                                                FileUnit : 'U_ExtPictCombo' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Choisir une image dans une liste.' ;
-                                               BugsStory : '0.8.0.0 : Not tested.';
+                                               BugsStory : '0.9.0.0 : Tested and optimised.' + #13#10 +
+                                                           '0.8.0.0 : Not tested.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 8 ; Release : 0 ; Build : 0 );
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
 
     gVer_TExtDbPictCombo : T_Version = ( Component : 'Composant TExtDbPictCombo' ;
                                                FileUnit : 'U_ExtPictCombo' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Choisir une image dans une liste.' ;
-                                               BugsStory : '0.8.0.0 : Not tested.';
+                                               BugsStory : '0.9.0.0 : Tested and optimised.' + #13#10 +
+                                                           '0.8.0.0 : Not tested.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 8 ; Release : 0 ; Build : 0 );
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
     CST_PICT_COMBO_DEFAULT_STYLE       = csOwnerDrawFixed ;

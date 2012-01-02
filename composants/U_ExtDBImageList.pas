@@ -26,9 +26,10 @@ uses Graphics,
                                                FileUnit : 'U_ExtDBImageList' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Gestion de liste d''images dans les données.' ;
-                                               BugsStory : '0.9.0.0 : Non testée.';
+                                               BugsStory : '0.9.9.0 : Tested and optimised.' + #13#10 +
+                                                           '0.9.0.0 : Non testée.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
 
 {$ENDIF}
 

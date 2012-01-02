@@ -25,9 +25,10 @@ uses Graphics,
                                                FileUnit : 'U_ExtMapImageIndex' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Gestion de liste d''images dans les données.' ;
-                                               BugsStory : '0.9.0.0 : Not tested.';
+                                               BugsStory : '0.9.9.0 : Tested and new component.' + #13#10 +
+                                                           '0.9.0.0 : Not tested.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
 
 {$ENDIF}
 
