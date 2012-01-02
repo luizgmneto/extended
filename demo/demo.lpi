@@ -826,11 +826,10 @@
       <Unit92>
         <Filename Value="../composants/U_ExtPictCombo.pas"/>
         <UnitName Value="U_ExtPictCombo"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="349"/>
-        <CursorPos X="1" Y="373"/>
+        <TopLine Value="25"/>
+        <CursorPos X="60" Y="46"/>
         <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit92>
@@ -909,18 +908,21 @@
       <Unit102>
         <Filename Value="../composants/U_ExtDBImageList.pas"/>
         <UnitName Value="U_ExtDBImageList"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="33"/>
-        <CursorPos X="39" Y="20"/>
+        <TopLine Value="20"/>
+        <CursorPos X="83" Y="32"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit102>
       <Unit103>
         <Filename Value="../composants/u_extmapimageindex.pas"/>
         <UnitName Value="U_ExtMapImageIndex"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="95"/>
-        <CursorPos X="34" Y="97"/>
+        <TopLine Value="1"/>
+        <CursorPos X="83" Y="31"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit103>
@@ -971,13 +973,13 @@
         <UnitName Value="U_ExtColorCombos"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="293"/>
-        <CursorPos X="39" Y="306"/>
+        <TopLine Value="77"/>
+        <CursorPos X="54" Y="100"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit109>
     </Units>
-    <JumpHistory Count="9" HistoryIndex="8">
+    <JumpHistory Count="18" HistoryIndex="17">
       <Position1>
         <Filename Value="../composants/U_ExtPictCombo.pas"/>
         <Caret Line="63" Column="30" TopLine="57"/>
@@ -1014,6 +1016,42 @@
         <Filename Value="../composants/U_ExtPictCombo.pas"/>
         <Caret Line="341" Column="1" TopLine="305"/>
       </Position9>
+      <Position10>
+        <Filename Value="../composants/U_ExtPictCombo.pas"/>
+        <Caret Line="356" Column="49" TopLine="349"/>
+      </Position10>
+      <Position11>
+        <Filename Value="../composants/U_ExtColorCombos.pas"/>
+        <Caret Line="296" Column="65" TopLine="293"/>
+      </Position11>
+      <Position12>
+        <Filename Value="../composants/u_extmapimageindex.pas"/>
+        <Caret Line="97" Column="34" TopLine="95"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../composants/u_extmapimageindex.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../composants/U_ExtColorCombos.pas"/>
+        <Caret Line="52" Column="95" TopLine="37"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../composants/U_ExtColorCombos.pas"/>
+        <Caret Line="353" Column="3" TopLine="350"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../composants/U_ExtColorCombos.pas"/>
+        <Caret Line="220" Column="1" TopLine="194"/>
+      </Position16>
+      <Position17>
+        <Filename Value="../composants/U_ExtColorCombos.pas"/>
+        <Caret Line="48" Column="112" TopLine="37"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../composants/U_ExtColorCombos.pas"/>
+        <Caret Line="359" Column="18" TopLine="350"/>
+      </Position18>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

@@ -19,8 +19,8 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Minor="9" Release="5" Build="5"/>
-    <Files Count="24">
+    <Version Minor="9" Release="5" Build="6"/>
+    <Files Count="25">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
@@ -119,6 +119,10 @@
         <Filename Value="composants/u_extmapimageindex.pas"/>
         <UnitName Value="U_ExtMapImageIndex"/>
       </Item24>
+      <Item25>
+        <Filename Value="composants/U_ExtDBImageList.pas"/>
+        <UnitName Value="U_ExtDBImageList"/>
+      </Item25>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="10">
