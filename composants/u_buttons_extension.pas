@@ -269,7 +269,7 @@ Begin
       Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
     FGlyph.LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
   {$ENDIF}
-  if not csCreating in acon_control.ComponentState then
+  if not ( csCreating in acon_control.ControlState ) then
     acon_control.Invalidate;
 end;
 
