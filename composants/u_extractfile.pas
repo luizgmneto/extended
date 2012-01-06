@@ -22,11 +22,6 @@ interface
 
 uses
   SysUtils, Classes,ComCtrls,
-{$IFDEF FPC}
-  unit_messagescopy,
-{$ELSE}
-  unit_messagescopy_delphi,
-{$ENDIF}
 {$IFDEF VERSIONS}
    fonctions_version,
 {$ENDIF}
