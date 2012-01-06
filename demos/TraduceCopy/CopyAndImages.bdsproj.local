@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2007/11/11 11:38:58.609.bdsproj,D:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\Convertirdpr.bdsproj=D:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\traduce.bdsproj</Transaction>
+    <Transaction>2007/11/18 10:59:55.968.bdsproj,D:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\traduce.bdsproj=D:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\CopyAndImages.bdsproj</Transaction>
+    <Transaction>2007/11/18 12:47:29.984.pas,D:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\ABOUT.pas=D:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\U_ABOUT.pas</Transaction>
+    <Transaction>2007/11/18 12:47:29.984.dfm,D:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\ABOUT.dfm=D:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\U_ABOUT.dfm</Transaction>
+    <Transaction>2007/11/18 12:52:23.125.pas,D:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\U_ABOUT.pas=D:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\U_ABOUTBOX.pas</Transaction>
+    <Transaction>2007/11/18 12:52:23.125.dfm,D:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\U_ABOUT.dfm=D:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\U_ABOUTBOX.dfm</Transaction>
+    <Transaction>2008/01/02 12:51:42.906.pas,E:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\U_LICENCE.pas=</Transaction>
+    <Transaction>2008/01/02 12:51:42.906.dfm,E:\Matthieu\Programmation\Delphi\Virtual\TraduceCopy\U_LICENCE.dfm=</Transaction>
+  </Transactions>
+</BorlandProject>

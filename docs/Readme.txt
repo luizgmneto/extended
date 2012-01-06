@@ -1,0 +1,1 @@
+ExtCopy uses imagemagick and magickwand development libraries

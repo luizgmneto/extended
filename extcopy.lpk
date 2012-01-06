@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="3">
+    <Name Value="ExtCopy"/>
+    <CompilerOptions>
+      <Version Value="9"/>
+      <SearchPaths>
+        <IncludeFiles Value="composants"/>
+        <OtherUnitFiles Value="composants;fonctions"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="Delphi"/>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Version Minor="1"/>
+    <Files Count="10">
+      <Item1>
+        <Filename Value="composants/u_traducefile.lrs"/>
+        <Type Value="LRS"/>
+      </Item1>
+      <Item2>
+        <Filename Value="composants/u_traducefile.pas"/>
+        <UnitName Value="u_traducefile"/>
+      </Item2>
+      <Item3>
+        <Filename Value="composants/U_ExtFileCopy.lrs"/>
+        <Type Value="LRS"/>
+      </Item3>
+      <Item4>
+        <Filename Value="composants/U_ExtFileCopy.pas"/>
+        <UnitName Value="U_ExtFileCopy"/>
+      </Item4>
+      <Item5>
+        <Filename Value="composants/u_regextfilecopy.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regextfilecopy"/>
+      </Item5>
+      <Item6>
+        <Filename Value="fonctions/fonctions_file.pas"/>
+        <UnitName Value="fonctions_file"/>
+      </Item6>
+      <Item7>
+        <Filename Value="composants/u_extabscopy.pas"/>
+        <UnitName Value="u_extabscopy"/>
+      </Item7>
+      <Item8>
+        <Filename Value="composants/u_extractfile.lrs"/>
+        <Type Value="LRS"/>
+      </Item8>
+      <Item9>
+        <Filename Value="composants/u_extractfile.pas"/>
+        <UnitName Value="u_extractfile"/>
+      </Item9>
+      <Item10>
+        <Filename Value="fonctions/unit_messagescopy.pas"/>
+        <UnitName Value="unit_messagescopy"/>
+      </Item10>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="lazfonctions"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="IDEIntf"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
