@@ -35,10 +35,11 @@ uses
                                                FileUnit : 'U_ExtDBNavigator' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Navigateur avec boutons de recherche, déplacement, de retour à une marque.' ;
-                                               BugsStory : '1.0.0.0 : Mise en place des images et tests.' +#13#10
+                                               BugsStory : '1.0.0.1 : Optimising source with last lazarus.' +#13#10
+                                                         + '1.0.0.0 : Mise en place des images et tests.' +#13#10
                                                          + '0.9.0.0 : En place sans les images à tester.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
 {$ENDIF}
 type
 
@@ -58,8 +59,6 @@ type
   EExtNavClick = procedure (Sender: TObject; Button: TExtNavigateBtn) of object;
 
 {$IFDEF FPC}
-  TDBNavButtonStyle = ( nsAllowTimer );
-  TDBNavButtonStyles = set of TDBNavButtonStyle;
 const CST_DBNav_Pause = 15 ;
 {$ENDIF}
 
@@ -119,7 +118,6 @@ type
     function GetDataSource: TDataSource;
     procedure SetDataSource(Value: TDataSource);
     procedure SetFlat(Value: Boolean);
-    procedure SetVisible(Value: TExtButtonSet);
     function GetGlyphs(Index: TExtNavigateBtn): TBitmap;
     procedure SetGlyphs(Index: TExtNavigateBtn; const AValue: TBitmap);
     procedure SwapButtons;
@@ -135,6 +133,7 @@ type
   protected
     FButtons: array[TExtNavigateBtn] of TExtNavButton;
     FGlyphs : array[TExtNavigateBtn] of TBitmap;
+    procedure SetVisible(Value: TExtButtonSet); overload; virtual;
     procedure DataChanged; virtual;
     procedure InitHints; virtual;
     procedure EditingChanged; virtual;
@@ -247,11 +246,7 @@ type
   private
     FMouseDragged : Boolean ;
     FIndex: TExtNavigateBtn;
-{$IFDEF FPC}
-    FBtnStyle: TDBNavButtonStyles;
-{$ELSE}
-    FBtnStyle: TNavButtonStyle;
-{$ENDIF}
+    FBtnStyle: TDBNavButtonStyle;
     FRepeatTimer: TTimer;
     procedure TimerExpired(Sender: TObject);
     procedure WMSetFocus(var Message: {$IFDEF FPC}TLMSetFocus); message LM_SETFOCUS{$ELSE}TWMSetFocus); message WM_SETFOCUS{$ENDIF};
@@ -266,11 +261,7 @@ type
     property MouseDragged : Boolean read FMouseDragged write FMouseDragged ;
   public
     destructor Destroy; override;
-{$IFDEF FPC}
-    property BtnStyle: TDBNavButtonStyles read FBtnStyle write FBtnStyle;
-{$ELSE}
-    property NavStyle: TNavButtonStyle read FBtnStyle write FBtnStyle;
-{$ENDIF}
+    property NavStyle: TDBNavButtonStyle read FBtnStyle write FBtnStyle;
     property Index : TExtNavigateBtn read FIndex write FIndex;
   end;
 
@@ -541,13 +532,8 @@ begin
     inc ( X,  MinButtonSize.X );
   end;
 
-{$IFDEF FPC}
-  FButtons[nbEPrior].BtnStyle := FButtons[nbEPrior].BtnStyle + [nsAllowTimer];
-  FButtons[nbENext].BtnStyle  := FButtons[nbENext].BtnStyle + [nsAllowTimer];
-{$ELSE}
   FButtons[nbEPrior].NavStyle := FButtons[nbEPrior].NavStyle + [nsAllowTimer];
   FButtons[nbENext].NavStyle  := FButtons[nbENext].NavStyle + [nsAllowTimer];
-{$ENDIF}
 end;
 
 constructor TExtDBNavigator.Create(AOwner: TComponent);

@@ -178,6 +178,7 @@ uses TypInfo, Grids, U_ExtNumEdits,
 {$IFDEF FPC}
      EditBtn,
 {$ELSE}
+     fonctions_system,
 {$IFDEF RX}
      rxToolEdit,
 {$ENDIF}
@@ -186,7 +187,6 @@ uses TypInfo, Grids, U_ExtNumEdits,
      VirtualTrees ,
 {$ENDIF}
      unite_messages,
-     fonctions_system,
      fonctions_proprietes;
 
 ////////////////////////////////////////////////////////////////////////////////

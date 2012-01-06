@@ -27,10 +27,10 @@ uses Forms,
 {$IFDEF FPC}
    LCLIntf, LCLType, ComCtrls, gettext, Translations,
 {$ELSE}
-   Windows, ToolWin,
+   Windows, ToolWin, fonctions_system,
 {$ENDIF}
 
-  Controls, Classes, fonctions_system,
+  Controls, Classes,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
@@ -40,7 +40,7 @@ uses Forms,
 {$IFDEF TNT}
   DKLang,
 {$ENDIF}
-  SysUtils, IniFiles ;
+  SysUtils;
 
 var
       gb_ExisteFonctionMenu   : Boolean      ;   // Existe-t-il une fonction d'accès au menu
@@ -283,6 +283,7 @@ End;
 function GetUserLanguage: Ansistring;
 var ls_Language : AnsiString;
 begin
+  ls_Language := '';
   GetLanguageIDs( Result, ls_Language );  //LOCALE_SNATIVELANGNAME
 End;
 {$ELSE}

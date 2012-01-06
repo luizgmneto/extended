@@ -1,4 +1,3 @@
-
 {*********************************************************************}
 {                                                                     }
 {                                                                     }
@@ -29,7 +28,7 @@ interface
 // DatasourceOwner : Le DataSource des groupes
 // créé par Matthieu Giroux en Mars 2004
 
-// 29-9-2004 : abandon complété dans la gestion panier
+// 29-9-2004 : abandon complété dans la gestion panier (basket cancel completed)
 
 
 uses
@@ -61,12 +60,13 @@ const
                                      FileUnit : 'U_GroupView' ;
                                      Owner : 'Matthieu Giroux' ;
                                      Comment : 'TDBListView avec gestion de groupes et affectation.' ;
-                                     BugsStory :  '1.0.1.2 : Creating methods from recording action.' +
+                                     BugsStory :  '1.1.0.0 : traducing methods and variables to english.' +
+                                                  '1.0.1.2 : Creating methods from recording action.' +
                                                   '1.0.1.1 : Ajouts de la gestion DBExpress et BDE.' +
                                                   '1.0.1.0 : Gestion pour tous Datasources testée.' +
                                                   '1.0.0.0 : Gestion de groupe avec gestion de l''ADO non testée.';
                                      UnitType : 3 ;
-                                     Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
+                                     Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
 {$ENDIF}
 
 type
@@ -76,10 +76,10 @@ type
   TDBGroupView = class ;
 
 
-     IFWFormVerify = interface
+    IFWFormVerify = interface
      ['{693AE27F-98C1-8E6D-E54F-FE57A16057E5}']
-     procedure p_DesactiveGrille;
-     procedure p_VerifieModifications ;
+     procedure Modifying;
+     procedure VerifyModifying;
      end;
   // Gestion de groupe
 
@@ -116,7 +116,7 @@ type
     ge_BasketGetAll : EBasketAllEvent ;
     gb_Oldfiltered,
     gb_Open,
-    gb_Enregistre    ,
+    gb_Record    ,
     gb_Filtered : Boolean ;
     // Première fois de ce composant : Utilisé dans loaded
     function  fds_GetDatasourceQuery : TDataSource;
@@ -128,18 +128,18 @@ type
     procedure p_SetDataSourceGroupes ( const a_Value: TDataSource );
     function  fds_GetDatasourceGroupes : TdataSource ;
     procedure p_groupeMouseDownDisableEnableFleche ( const aLSV_groupe : TListView ; const abt_item : TControl );
-    procedure p_SetListeTotal  ( const a_Value: TWinControl );
-    procedure p_SetBtnListe  ( const a_Value: TWinControl );
+    procedure p_SetTotalList  ( const a_Value: TWinControl );
+    procedure p_SetBtnList  ( const a_Value: TWinControl );
     procedure p_SetAutreTotal  ( const a_Value: TWinControl );
-    procedure p_SetBtnAutreListe  ( const a_Value : TWinControl );
-    procedure p_setBtnPanier      ( const a_Value : TWinControl );
-    procedure p_SetAutreListe  ( const a_Value: TDBGroupView );
+    procedure p_SetOtherListBtn  ( const a_Value : TWinControl );
+    procedure p_setBtnBasket      ( const a_Value : TWinControl );
+    procedure p_SetOtherList  ( const a_Value: TDBGroupView );
     procedure p_setEnregistre  ( const a_Value: TWinControl );
     procedure p_setAbandonne   ( const a_Value: TWinControl );
-    procedure p_setCleGroupe   ( const a_Value: String );
-    procedure p_setChampUnite  ( const a_Value: String );
-    procedure p_SetChampGroupe ( const a_Value: String );
-    procedure p_SetTableGroupe ( const a_Value: String );
+    procedure p_setGroupKey   ( const a_Value: String );
+    procedure p_setUnitsField  ( const a_Value: String );
+    procedure p_SetGroupField ( const a_Value: String );
+    procedure p_SetGroupTable ( const a_Value: String );
     procedure p_SetImageSupprime ( const a_Value: Integer );
     procedure p_SetImageInsere ( const a_Value: Integer );
     function fb_ErreurBtnTotalIn: Boolean;
@@ -160,70 +160,71 @@ type
     gdat_Query2          : TDataset;
 
     // Groupe en cours
-    gvar_GroupeEnCours : Variant ;
+    gvar_WorkingOriginKey,
+    gvar_WorkingGroup : Variant ;
     // lien vers le Datasource mettant à jour le composant
     gdl_DataLinkOwner : TUltimListViewDatalink;
     // champ de groupe dans la table d'association des groupes
     // Ou clé étrangère vers la table des groupes
     // Clé du Datasource des informations du groupe
-    gstl_CleGroupe     ,
-    gstl_ChampGroupe     : TStringList ;
-    gs_ChampGroupe ,
+    gstl_GroupKey     ,
+    gstl_GroupField     : TStringList ;
+    gs_GroupField ,
     // champ unité dans la table d'association des groupes
     // Ou clé primaire de la table liée
-    gs_ChampUnite   ,
+    gs_UnitsField   ,
     // Sort sauvegardé du query
     gs_SortQuery    ,
     // Table des groupes
     gs_TableOwner ,
     // Clé primaire de la table des groupes
-    gs_CleGroupe    ,
+    gs_GroupKey    ,
     // Table d'association NN des groupes
-    gs_TableGroupe  : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF};
-    // Propriété "est Datasource de liste d'inclusion"
+    gs_GroupTable  : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF};
+    // Propriété "est Datasource de List d'inclusion"
     gb_EstPrincipale : Boolean;
     // anciens evènements sur click des boutons
-    ge_enregistreEvent   ,
+    ge_RecordedEvent   ,
     ge_FilterEvent       ,
     ge_QueryAll           ,
-    ge_abandonneEvent    : TDatasetNotifyEvent ;
-    ge_enregistreError   : TDataSetErrorEvent ;
-    ge_PanierClick       ,
-    ge_enregistreClick   ,
-    ge_abandonneClick    ,
-    ge_ListeTotalClick   ,
+    ge_CancelledEvent    : TDatasetNotifyEvent ;
+    ge_RecordError   : TDataSetErrorEvent ;
+    ge_BasketClick       ,
+    ge_RecordClick   ,
+    ge_CancelClick    ,
+    ge_TotalListClick   ,
     ge_BtnInvertClick    ,
-    ge_ListeClick        : TNotifyEvent ;
+    ge_ListClick        : TNotifyEvent ;
      /////////////////////////
      // Propriétés boutons  //
       /////////////////////////
-       // Panier
-    gBT_Panier       ,
-    gBT_Optionnel       ,
+       // Basket
+    gBT_Basket       ,
+    gBT_Optional       ,
     // Enregistre : évènement si principale
-    gBT_enregistre   ,
+    gBT_Record   ,
     // abandonne : évènement si principale
-    gBT_abandonne    ,
+    gBT_Cancel    ,
     // Ajoute tout dans la liste : évènement
-    gBT_ListeTotal   ,
+    gBT_TotalList   ,
     // Ajoute dans la liste : évènement
-    gBT_Liste        ,
+    gBT_List        ,
     // Inversion des deux listes
     gbt_Exchange      ,
     // supprime de la liste
-    gBT_Autre        ,
+    gBT_Other        ,
     // supprime tout de la liste
-    gBT_AutreTotal   : TWinControl ;
+    gBT_OtherTotal   : TWinControl ;
     // Propriété Image d'Insertion
     gi_ImageInsere   ,
     // Propriété Image de suppression
     gi_ImageSupprime : Integer ;
     // Propriété autre liste
-    galv_AutreListe  : TDBGroupView ;
+    galv_OtherList  : TDBGroupView ;
     gb_SelfOpen ,
     gb_NoScroll      ,
-    // Panier
-    gb_Panier        : Boolean ;
+    // Basket
+    gb_Basket        : Boolean ;
     {$IFNDEF FPC}
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     {$ENDIF}
@@ -242,25 +243,25 @@ type
     function  fb_OpenParamsQuery : Boolean; virtual;
     Procedure p_OpenQuery; virtual;
     procedure p_SetButtonsOther(const ab_Value: Boolean);  protected
-    procedure p_AffecteListImages ; virtual;
-    procedure p_AffecteEvenementsDatasource; override;
+    procedure p_SetListImages ; virtual;
+    procedure p_SetEventsDatasource; override;
     procedure EditingChanged; override;
     procedure p_SetDataSourceGroup( CONST a_Value: TDataSource); override;
     Procedure p_DataSetChanged; override;
     procedure p_LocateInit; virtual;
     procedure p_LocateRestore; virtual;
     procedure p_UndoRecord; virtual;
-    procedure p_AddOriginKey ( const avar_Ajoute : Variant );virtual;
+    procedure p_AddOriginKey ( const avar_Add : Variant );virtual;
     procedure p_ReinitialisePasTout; override;
     function  fb_Locate ( const avar_Records : Variant ): Boolean ;
-    procedure p_MajBoutons ( const ai_ItemsAjoutes : Integer ); override;
+    procedure p_UpdateButtons ( const ai_ItemsAjoutes : Integer ); override;
     procedure p_DesactiveGrille; virtual;
     procedure p_VerifieModifications; virtual;
-    function  fb_PeutAjouter          ( const adat_Dataset : TDataset ; const ab_AjouteItemPlus : Boolean) : Boolean ; override;
-    function  fb_ChangeEtatItem       ( const adat_Dataset : TDataset ; const ab_AjouteItemPlus : Boolean ) : Boolean ; override;
-    function  fb_RemplitEnregistrements ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean ; override;
-    function  fb_RemplitListe : Boolean ; override;
-    function  fb_PeutTrier  : Boolean ; override;
+    function  fb_CanAdd          ( const adat_Dataset : TDataset ; const ab_AddItemPlus : Boolean) : Boolean ; override;
+    function  fb_ChangeEtatItem       ( const adat_Dataset : TDataset ; const ab_AddItemPlus : Boolean ) : Boolean ; override;
+    function  fb_SetRecords ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean ; override;
+    function  fb_SetList : Boolean ; override;
+    function  fb_CanSort  : Boolean ; override;
     procedure DoSelectItem ( llsi_ItemsSelected : TListItem; ab_selected : Boolean ); {$IFNDEF FPC}virtual{$ELSE}override{$ENDIF};
     Procedure DataLinkScrolled; virtual;
     Procedure DataLinkClosed; virtual;
@@ -273,8 +274,8 @@ type
 
 
    public
-    gb_ListTotal,
-    gb_ListTotalReal    : Boolean ;
+    gb_OptionTotalList,
+    gb_TotalListReal    : Boolean ;
     // Clés hors de la liste
     // Clés exclues de cette liste : l'autre liste a les clés incluses
     gt_KeyOwners     : tt_TableauVarOption ;
@@ -283,23 +284,23 @@ type
     procedure p_LoadListView ; override;
     constructor Create ( acom_owner : TComponent ); override;
     destructor Destroy ; override;
-    Procedure p_AjouteEnregistrementsSynchrones; override;
+    Procedure p_AddSyncronousRecords; override;
     procedure p_Reinitialise ; override;
     procedure DragDrop ( aobj_Source : Tobject; ai_X, ai_Y : Integer ); override;
     procedure p_TransfertTotal ;
-    procedure p_VideListeTotal ;
+    procedure p_VideTotalList ;
     procedure Refresh ;
-    property AllList    : Boolean read gb_ListTotal ;
+    property AllList    : Boolean read gb_OptionTotalList ;
    published
-    procedure p_Abandonne  ( Sender : TObject ); virtual;
-    procedure p_Enregistre ( Sender : TObject ); virtual;
-    procedure p_VidePanier ( Sender : TObject ); virtual;
+    procedure p_Cancel  ( Sender : TObject ); virtual;
+    procedure p_Record ( Sender : TObject ); virtual;
+    procedure p_VideBasket ( Sender : TObject ); virtual;
     procedure p_ClickTransfertTotal ( Sender : TObject ); virtual;
     procedure p_ClickTransfert      ( Sender : TObject ); virtual;
     procedure p_InvertClick ( Sender : TObject ); virtual;
 
     // Table de l'association des groupes
-    property DataTableGroup : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_TableGroupe write p_setTableGroupe;
+    property DataTableGroup : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_GroupTable write p_setGroupTable;
     // Table du Datasource des groupes édités
     property DataTableOwner : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_TableOwner write gs_TableOwner;
     // Datasource d'un query
@@ -310,44 +311,44 @@ type
     property DataSourceOwner : TDataSource read fds_GetDatasourceGroupes write p_SetDataSourceGroupes;
     // clé du query
     // du Datasource des groupes édités
-    property DataKeyOwner : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_CleGroupe write p_setCleGroupe;
+    property DataKeyOwner : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_GroupKey write p_setGroupKey;
     // field des unités de l'association des groupes
-    property DataFieldUnit : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_ChampUnite write p_setChampUnite;
+    property DataFieldUnit : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_UnitsField write p_setUnitsField;
     // field des groupes de l'association des groupes
-    property DataFieldGroup : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_ChampGroupe write p_setChampGroupe;
+    property DataFieldGroup : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_GroupField write p_setGroupField;
     // La liste est-elle la liste principale : liste d'inclusion
     property DataListPrimary : Boolean read gb_EstPrincipale write gb_EstPrincipale default True;
     // Bouton de transfert total de la liste
-    property ButtonTotalIn : TWinControl read gBT_ListeTotal write p_setListetotal ;
+    property ButtonTotalIn : TWinControl read gBT_TotalList write p_setTotalList ;
     // Bouton de transfert de la liste
-    property ButtonIn : TWinControl read gBT_Liste write p_setBtnListe ;
+    property ButtonIn : TWinControl read gBT_List write p_setBtnList ;
     // Bouton de transfert entre deux listes
     property ButtonExchange : TWinControl read gbt_Exchange write gbt_Exchange ;
     // Bouton de transfert total de l'autre liste
-    property ButtonTotalOut : TWinControl read gBT_AutreTotal write p_setAutretotal ;
+    property ButtonTotalOut : TWinControl read gBT_OtherTotal write p_setAutretotal ;
     // Bouton de transfert de l'autre liste
-    property ButtonOut: TWinControl read gBT_Autre write p_setBtnAutreListe ;
+    property ButtonOut: TWinControl read gBT_Other write p_setOtherListBtn ;
     // autre liste : liste complémentaire et obligatoire
-    property DataListOpposite: TDBGroupView read galv_AutreListe write p_setAutreListe ;
+    property DataListOpposite: TDBGroupView read galv_OtherList write p_setOtherList ;
     // Bouton d'enregistrement
-    property ButtonRecord: TWinControl read gBT_enregistre write p_setEnregistre ;
+    property ButtonRecord: TWinControl read gBT_Record write p_setEnregistre ;
     // Bouton d'enregistrement
-    property ButtonOption: TWinControl read gBT_Optionnel write gBT_Optionnel ;
+    property ButtonOption: TWinControl read gBT_Optional write gBT_Optional ;
     // Bouton d'annulation de la composition
-    property ButtonCancel: TWinControl read gBT_abandonne write p_setAbandonne ;
+    property ButtonCancel: TWinControl read gBT_Cancel write p_setAbandonne ;
     // image ajoute de Imagelist
     property DataImgInsert : Integer read gi_ImageInsere write p_setImageInsere default 1;
     // image enlève de Imagelist
     property DataImgDelete : Integer read gi_ImageSupprime write p_SetImageSupprime default 0;
-    // Panier
-    property ButtonBasket : TWinControl read gBT_Panier write p_setBtnPanier ;
+    // Basket
+    property ButtonBasket : TWinControl read gBT_Basket write p_setBtnBasket ;
     // Récupération du trie des colonnes
     property DataSensitiveBug : Boolean read gb_CaseInSensitive write gb_CaseInSensitive default True ;
 
     //EVènements
-    property OnDataRecorded : TDatasetNotifyEvent read ge_enregistreEvent write ge_enregistreEvent ;
-    property OnDataCanceled : TDatasetNotifyEvent read ge_abandonneEvent write ge_abandonneEvent ;
-    property OnDataRecordError : TDatasetErrorEvent read ge_enregistreError write ge_enregistreError ;
+    property OnDataRecorded : TDatasetNotifyEvent read ge_RecordedEvent write ge_RecordedEvent ;
+    property OnDataCanceled : TDatasetNotifyEvent read ge_CancelledEvent write ge_CancelledEvent ;
+    property OnDataRecordError : TDatasetErrorEvent read ge_RecordError write ge_RecordError ;
     property OnDataFilter : TDatasetNotifyEvent read ge_FilterEvent write ge_FilterEvent ;
     property OnDataAllQuery : TDatasetNotifyEvent read ge_QueryAll write ge_QueryAll ;
 
@@ -420,11 +421,11 @@ Begin
    // Gestion non N-N
    with gdl_DataLink.DataSet do
      Begin
-       if ((  gs_TableGroupe <> DataTableUnit )
+       if ((  gs_GroupTable <> DataTableUnit )
        // Ou principale
             or  gb_EstPrincipale )
         // le champ groupe existe-t-il
-       and assigned ( gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ))
+       and assigned ( gdl_DataLink.DataSet.FindField ( gs_GroupField ))
        and assigned ( gdl_DataLinkOwner.DataSet )
         Then
           // Filtrage
@@ -438,11 +439,11 @@ Begin
             gb_SelfOpen := False ;
 
             // Filtrage
-            if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-            or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-            or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-             Then Filter := gs_ChampGroupe + ' = ''' + fs_stringdbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString ) + ''''
-             Else Filter := gs_ChampGroupe + ' = '   +                  ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString ) ;
+            if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+            or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+            or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
+             Then Filter := gs_GroupField + ' = ''' + fs_stringdbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString ) + ''''
+             Else Filter := gs_GroupField + ' = '   +                  ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString ) ;
              // Activation du filtrage
             Filtered := True ;
           Except
@@ -480,52 +481,52 @@ Begin
               // Alors Affectation du premier paramètre en tant que paramètre du groupe
               if assigned ( gprs_ParamSource ) Then
                 Begin
-                  gprs_ParamSource.Items [ 0 ].DataType := gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).DataType;
+                  gprs_ParamSource.Items [ 0 ].DataType := gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).DataType;
                   if gdl_DataLinkOwner.DataSet.IsEmpty
-                  or gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).IsNull
+                  or gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).IsNull
                    then
                     Begin
-                      if ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ) is TNumericField ) then
+                      if ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ) is TNumericField ) then
                        gprs_ParamSource.Items [ 0 ].Value    := 0
                       else
                        gprs_ParamSource.Items [ 0 ].Value    := '';
                     End
                   else
                    Begin
-                     gprs_ParamSource.Items [ 0 ].Value    := gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).Value
+                     gprs_ParamSource.Items [ 0 ].Value    := gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).Value
                    End;
                 End
         {$IFDEF EADO}
                else
                  Begin
                   gprt_ParameterSource.BeginUpdate;
-                  gprt_ParameterSource.Items [ 0 ].DataType := gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).DataType;
+                  gprt_ParameterSource.Items [ 0 ].DataType := gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).DataType;
 
                   if gdl_DataLinkOwner.DataSet.IsEmpty
-                  or gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).IsNull
+                  or gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).IsNull
                   then
                     Begin
-                      if ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ) is TNumericField ) then
+                      if ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ) is TNumericField ) then
                        gprt_ParameterSource.Items [ 0 ].Value    := 0
                       else
                        gprt_ParameterSource.Items [ 0 ].Value    := ' ';
                     End
                   else
                    Begin
-                     gprt_ParameterSource.Items [ 0 ].Value    := gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).Value
+                     gprt_ParameterSource.Items [ 0 ].Value    := gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).Value
                    End;
                   gprt_ParameterSource.EndUpdate;
                  End;
         {$ENDIF};
            // Gestion de relations N N
-              if ( not gb_Panier )
+              if ( not gb_Basket )
         /// Ou sur le groupview principal contenant la liste des enregistrements
               or gb_EstPrincipale
               // Ou vide
-              or (      ( assigned ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ))
-                    and ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).IsNull)))
-              or (      ( assigned ( gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ))
-                    and ( gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ).IsNull)))
+              or (      ( assigned ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ))
+                    and ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).IsNull)))
+              or (      ( assigned ( gdl_DataLink.DataSet.FindField ( gs_GroupField ))
+                    and ( gdl_DataLink.DataSet.FindField ( gs_GroupField ).IsNull)))
                 Then
                   if ( State = dsInactive ) Then
                     Begin
@@ -560,7 +561,7 @@ End;
 
 // Fonction : fb_WaitForLoadingFirstFetch
 // Mode asynchrone : Attente d'un chargement d'items dans la liste
-// A appeler avant de créer l'évènement ge_GroupFetchLoading et après tout ça mettre p_AjouteEnregistrementsSynchrones
+// A appeler avant de créer l'évènement ge_GroupFetchLoading et après tout ça mettre p_AddSyncronousRecords
 // Retour : Dataset actif ou pas
 Function  fb_WaitForLoadingFirstFetch : Boolean ;
 Begin
@@ -706,7 +707,7 @@ var li_i : Integer ;
 begin
   if not assigned ( ge_QueryAll )
   and assigned ( gdl_DataLink.DataSet )
-  and assigned ( gsts_ChampsListe )
+  and assigned ( gsts_FieldsList )
   and not ( gdl_DataLink.DataSet.Active )
   and (( assigned ( gsts_SQLSource ) and ( trim ( gsts_SQLSource.Text ) = '' ))
  {$IFDEF DELPHI_9_UP}
@@ -715,47 +716,47 @@ begin
     Begin
       // Création de la sélection ( SELECT ) du query de Datasource
       ls_Query := 'SELECT ' ;
-      if ( gsts_ChampsListe.Count > 0 ) then
+      if ( gsts_FieldsList.Count > 0 ) then
         Begin
-          ls_Query := ls_Query + gs_TableSource + CST_FIELD_DECLARE_SEPARATOR +gsts_ChampsListe [ 0 ] ;
-            for li_i := 1 to gsts_ChampsListe.Count - 1 do
+          ls_Query := ls_Query + gs_TableSource + CST_FIELD_DECLARE_SEPARATOR +gsts_FieldsList [ 0 ] ;
+            for li_i := 1 to gsts_FieldsList.Count - 1 do
               Begin
-                ls_Query := ls_Query + ', ' + gs_TableSource + CST_FIELD_DECLARE_SEPARATOR + gsts_ChampsListe [ li_i ] ;
+                ls_Query := ls_Query + ', ' + gs_TableSource + CST_FIELD_DECLARE_SEPARATOR + gsts_FieldsList [ li_i ] ;
               End ;
-          if assigned ( gstl_CleDataSource ) Then
-            if gt_ColonneCle [ 0 ] >= gsts_ChampsListe.Count Then
-              for li_i := 0 to gstl_CleDataSource.Count - 1 do
+          if assigned ( gstl_KeyDataSource ) Then
+            if gt_ColonneCle [ 0 ] >= gsts_FieldsList.Count Then
+              for li_i := 0 to gstl_KeyDataSource.Count - 1 do
                 Begin
-                  ls_Query := ls_Query + ', ' + gs_TableSource + CST_FIELD_DECLARE_SEPARATOR + gstl_CleDataSource [ li_i ] ;
+                  ls_Query := ls_Query + ', ' + gs_TableSource + CST_FIELD_DECLARE_SEPARATOR + gstl_KeyDataSource [ li_i ] ;
                 End ;
         End ;
 
         if gb_EstPrincipale Then
           Begin
-            if ( gs_TableGroupe = gs_TableSource ) Then
+            if ( gs_GroupTable = gs_TableSource ) Then
               Begin
                 ls_Query := ls_Query + ' FROM ' + gs_TableSource ;
-                ls_Query := ls_Query + ' WHERE ' + gs_ChampGroupe + ' = :GroupKey' ;
+                ls_Query := ls_Query + ' WHERE ' + gs_GroupField + ' = :GroupKey' ;
               End
             Else
               Begin
-                  // Propriété DatasourceGroupTable : gs_TableGroupe
-                ls_Query := ls_Query + ' FROM ' + gs_TableGroupe + ' , ' + gs_TableSource  ;
-                ls_Query := ls_Query + ' WHERE ' + gs_TableSource + CST_FIELD_DECLARE_SEPARATOR + gs_CleUnite + ' = ' + gs_TableGroupe + '.' + gs_ChampUnite ;
-                ls_Query := ls_Query + ' AND ' + gs_TableGroupe + CST_FIELD_DECLARE_SEPARATOR + gs_ChampGroupe + ' = :GroupKey' ;
+                  // Propriété DatasourceGroupTable : gs_GroupTable
+                ls_Query := ls_Query + ' FROM ' + gs_GroupTable + ' , ' + gs_TableSource  ;
+                ls_Query := ls_Query + ' WHERE ' + gs_TableSource + CST_FIELD_DECLARE_SEPARATOR + gs_UnitsKey + ' = ' + gs_GroupTable + '.' + gs_UnitsField ;
+                ls_Query := ls_Query + ' AND ' + gs_GroupTable + CST_FIELD_DECLARE_SEPARATOR + gs_GroupField + ' = :GroupKey' ;
               End
           End
         Else
-          if ( gs_TableGroupe = gs_TableSource ) Then
+          if ( gs_GroupTable = gs_TableSource ) Then
             Begin
                 ls_Query := ls_Query + 'FROM ' + gs_TableSource ;
-              ls_Query := ls_Query + ' WHERE ' + gs_ChampGroupe + ' IS NULL' ;
+              ls_Query := ls_Query + ' WHERE ' + gs_GroupField + ' IS NULL' ;
             End
           Else
             Begin
               ls_Query := ls_Query + ' FROM ' + gs_TableSource  ;
-              ls_Query := ls_Query + ' WHERE ' + gs_CleUnite + ' NOT IN ( SELECT ' + gs_ChampUnite + ' FROM ' + gs_TableGroupe ;
-              ls_Query := ls_Query +                                     ' WHERE ' +  gs_ChampGroupe + ' = :GroupKey' + ' )' ;
+              ls_Query := ls_Query + ' WHERE ' + gs_UnitsKey + ' NOT IN ( SELECT ' + gs_UnitsField + ' FROM ' + gs_GroupTable ;
+              ls_Query := ls_Query +                                     ' WHERE ' +  gs_GroupField + ' = :GroupKey' + ' )' ;
             End ;
           if Assigned ( gsts_SQLSource ) then
            with gsts_SQLSource do
@@ -797,7 +798,7 @@ begin
   if not ( csDesigning in ComponentState )
   and  ( not assigned ( ds_DatasourceQuery )
     or   not assigned ( ds_DatasourceQuery )
-    or (  not assigned ( gdl_DataLink     .DataSet )and ( gb_EstPrincipale or ( gs_TableGroupe <> gs_TableSource )))
+    or (  not assigned ( gdl_DataLink     .DataSet )and ( gb_EstPrincipale or ( gs_GroupTable <> gs_TableSource )))
     or   not assigned ( gdl_DataLinkOwner.DataSet ))
   and  (    assigned ( gdl_DataLink     .DataSet )
          or assigned ( gdl_DataLinkOwner.DataSet )) Then
@@ -838,7 +839,7 @@ begin
           DatasourceQuery2 := gds_Query2 ;
         end ;
       if not assigned ( gdl_DataLink.DataSet )
-      and ( gb_EstPrincipale or ( gs_TableGroupe <> gs_TableSource )) Then
+      and ( gb_EstPrincipale or ( gs_GroupTable <> gs_TableSource )) Then
        Begin
         Datasource := gds_Querysource ;
        end
@@ -851,7 +852,7 @@ begin
 End;
 
 // Initialisation des images d'état
-procedure TDBGroupView.p_AffecteListImages ;
+procedure TDBGroupView.p_SetListImages ;
 var lbmp_Image : TBitmap ;
 Begin
   if not assigned ( {$IFDEF FPC}SmallImages{$ELSE}StateImages{$ENDIF} ) Then
@@ -888,7 +889,7 @@ Begin
     End;
 End;
 // Initialisation des variables en fonction des propriétés
-procedure TDBGroupView.p_AffecteEvenementsDatasource ;
+procedure TDBGroupView.p_SetEventsDatasource ;
 // Méthode évènement
 var
   {$IFNDEF FPC}
@@ -896,7 +897,7 @@ var
   {$ENDIF}
   lmet_MethodeDistribueeInvert ,
   lmet_MethodeDistribueeTransfert  ,
-  lmet_MethodeDistribueeVPanier  ,
+  lmet_MethodeDistribueeVBasket  ,
   lmet_MethodeDistribueeEnregistre  ,
   lmet_MethodeDistribueeAnnule  ,
   lmet_MethodeDistribueeTotal  : TMethod ;
@@ -907,18 +908,18 @@ begin
   lmet_MethodeDistribueeSelect .Data := Self ;
   lmet_MethodeDistribueeSelect.Code := MethodAddress ( 'DoSelectItem' );
   OnSelectItem := TLVSelectItemEvent ( lmet_MethodeDistribueeSelect );
-  p_AffecteListImages ;
+  p_SetListImages ;
   {$ENDIF}
   // Si on est en exécution
-  if assigned ( gBt_Panier )
-  and ( gs_TableGroupe = gs_TableSource ) Then
-    gb_Panier := True
+  if assigned ( gBt_Basket )
+  and ( gs_GroupTable = gs_TableSource ) Then
+    gb_Basket := True
   Else
-    gb_Panier := False ;
+    gb_Basket := False ;
 
   p_SetDatasources;
 
-  // Initialisation du panier si il y a un panier
+  // Initialisation du Basket si il y a un Basket
   If Hint = ''
    Then
     Begin
@@ -926,8 +927,8 @@ begin
        Then Hint := GS_GROUP_INCLUDE_LIST
        Else Hint := GS_GROUP_EXCLUDE_LIST ;
     End ;
-  p_ChampsVersListe ( gstl_CleGroupe, gs_CleGroupe, FieldDelimiter );
-  p_ChampsVersListe ( gstl_ChampGroupe, gs_ChampGroupe, FieldDelimiter );
+  p_ChampsVersListe ( gstl_GroupKey, gs_GroupKey, FieldDelimiter );
+  p_ChampsVersListe ( gstl_GroupField, gs_GroupField, FieldDelimiter );
 
   // Est-ce la liste d'enregistrement et d'abandon : liste principale
   if gb_EstPrincipale
@@ -935,19 +936,19 @@ begin
     Begin
 
     // Affectation de l'évènement onclick d'enregistre
-      if assigned ( gBt_Enregistre )
+      if assigned ( gBt_Record )
        Then
         Begin
           // affectation de la méthode du nouvel évènement
           lmet_MethodeDistribueeEnregistre .Data := Self ;
-          lmet_MethodeDistribueeEnregistre.Code := MethodAddress ( 'p_Enregistre' );
+          lmet_MethodeDistribueeEnregistre.Code := MethodAddress ( 'p_Record' );
           // récupération et Affectation
-          if  IsPublishedProp ( gBt_Enregistre, 'OnClick'           )
-          and PropIsType      ( gBt_Enregistre, 'OnClick', tkMethod )
+          if  IsPublishedProp ( gBt_Record, 'OnClick'           )
+          and PropIsType      ( gBt_Record, 'OnClick', tkMethod )
            Then
             try
-              ge_enregistreClick := TNotifyEvent ( GetMethodProp ( gBt_Enregistre, 'OnClick' ));
-              SetMethodProp ( gBt_Enregistre, 'OnClick', lmet_MethodeDistribueeEnregistre );
+              ge_RecordClick := TNotifyEvent ( GetMethodProp ( gBt_Record, 'OnClick' ));
+              SetMethodProp ( gBt_Record, 'OnClick', lmet_MethodeDistribueeEnregistre );
             Except
             End ;
         End ;
@@ -969,48 +970,48 @@ begin
             End ;
         End ;
     // Affectation de l'évènement onclick d'abandonne
-      if assigned ( gBt_Abandonne )
+      if assigned ( gBt_Cancel )
        Then
         Begin
           // affectation de la méthode du nouvel évènement
           lmet_MethodeDistribueeAnnule.Data := Self ;
-          lmet_MethodeDistribueeAnnule.Code := MethodAddress ( 'p_Abandonne' );
-          if  IsPublishedProp ( gBt_Abandonne, 'OnClick'           )
-          and PropIsType      ( gBt_Abandonne, 'OnClick', tkMethod )
+          lmet_MethodeDistribueeAnnule.Code := MethodAddress ( 'p_Cancel' );
+          if  IsPublishedProp ( gBt_Cancel, 'OnClick'           )
+          and PropIsType      ( gBt_Cancel, 'OnClick', tkMethod )
            Then
             try
           // récupération et Affectation
-              ge_abandonneClick := TNotifyEvent ( GetMethodProp ( gBt_Abandonne, 'OnClick' ));
-              SetMethodProp ( gBt_Abandonne, 'OnClick', lmet_MethodeDistribueeAnnule );
+              ge_CancelClick := TNotifyEvent ( GetMethodProp ( gBt_Cancel, 'OnClick' ));
+              SetMethodProp ( gBt_Cancel, 'OnClick', lmet_MethodeDistribueeAnnule );
             Except
             End ;
         End ;
       lvar_Valeur := Null ;
         // fin de l'affectation des évènements de la liste principale
-      if assigned ( gBt_Panier )
+      if assigned ( gBt_Basket )
        Then
         Begin
-          if gBt_Panier.Hint = '' Then
+          if gBt_Basket.Hint = '' Then
             Begin
-              if  IspublishedProp ( gBt_Panier, 'ParentShowHint' )
-              and PropIsType      ( gBt_Panier, 'OnEnter', tkEnumeration ) Then
-                lvar_Valeur := GetPropValue   (  gBt_Panier, 'ParentShowHint' );
+              if  IspublishedProp ( gBt_Basket, 'ParentShowHint' )
+              and PropIsType      ( gBt_Basket, 'OnEnter', tkEnumeration ) Then
+                lvar_Valeur := GetPropValue   (  gBt_Basket, 'ParentShowHint' );
               if  ( lvar_Valeur <> Null )
               and ( TVarData( lvar_Valeur ).VType = 256 ) Then
-                SetPropValue   (  gBt_Panier, 'ParentShowHint', False );
-              gBt_Panier.ShowHint := True ;
-              gBt_Panier.Hint := GS_GROUPE_RETOUR_ORIGINE ;
+                SetPropValue   (  gBt_Basket, 'ParentShowHint', False );
+              gBt_Basket.ShowHint := True ;
+              gBt_Basket.Hint := GS_GROUPE_RETOUR_ORIGINE ;
             End ;
           // affectation de la méthode du nouvel évènement
-          lmet_MethodeDistribueeVPanier.Data := Self ;
-          lmet_MethodeDistribueeVPanier.Code := MethodAddress ( 'p_VidePanier' );
+          lmet_MethodeDistribueeVBasket.Data := Self ;
+          lmet_MethodeDistribueeVBasket.Code := MethodAddress ( 'p_VideBasket' );
           // récupération et Affectation
-          if  IsPublishedProp ( gBt_Panier, 'OnClick'           )
-          and PropIsType      ( gBt_Panier, 'OnClick', tkMethod )
+          if  IsPublishedProp ( gBt_Basket, 'OnClick'           )
+          and PropIsType      ( gBt_Basket, 'OnClick', tkMethod )
            Then
             try
-              ge_PanierClick := TNotifyEvent ( GetMethodProp ( gBt_Panier, 'OnClick' ));
-              SetMethodProp ( gBt_Panier, 'OnClick', lmet_MethodeDistribueeVPanier );
+              ge_BasketClick := TNotifyEvent ( GetMethodProp ( gBt_Basket, 'OnClick' ));
+              SetMethodProp ( gBt_Basket, 'OnClick', lmet_MethodeDistribueeVBasket );
             Except
             End ;
         End ;
@@ -1018,69 +1019,69 @@ begin
 
   lvar_Valeur := Null ;
     // Affectation de l'évènement onclick du bouton de la liste
-  if assigned ( gBt_Liste )
+  if assigned ( gBt_List )
    Then
     Begin
-//          if gBt_Liste.Hint = '' Then
+//          if gBt_List.Hint = '' Then
         Begin
-          if  IspublishedProp ( gBt_Liste, 'ParentShowHint' )
-          and PropIsType      ( gBt_Liste, 'OnEnter', tkEnumeration ) Then
-            lvar_Valeur := GetPropValue   (  gBt_Liste, 'ParentShowHint' );
+          if  IspublishedProp ( gBt_List, 'ParentShowHint' )
+          and PropIsType      ( gBt_List, 'OnEnter', tkEnumeration ) Then
+            lvar_Valeur := GetPropValue   (  gBt_List, 'ParentShowHint' );
           if  ( lvar_Valeur <> Null )
           and ( TVarData( lvar_Valeur ).VType = 256 ) Then
-            SetPropValue   (  gBt_Liste, 'ParentShowHint', False );
-          gBt_Liste.ShowHint := True ;
+            SetPropValue   (  gBt_List, 'ParentShowHint', False );
+          gBt_List.ShowHint := True ;
           if gb_EstPrincipale tHEN
             Begin
-              gBt_Liste.Hint := GS_GROUPE_INCLURE ;
+              gBt_List.Hint := GS_GROUPE_INCLURE ;
             End
           Else
-            gBt_Liste.Hint := GS_GROUPE_EXCLURE ;
+            gBt_List.Hint := GS_GROUPE_EXCLURE ;
         End ;
           // affectation de la méthode du nouvel évènement
       lmet_MethodeDistribueeTransfert.Data := Self ;
       lmet_MethodeDistribueeTransfert.Code := MethodAddress ( 'p_ClickTransfert' );
-      if  IsPublishedProp ( gBt_Liste, 'OnClick'           )
-      and PropIsType      ( gBt_Liste, 'OnClick', tkMethod )
+      if  IsPublishedProp ( gBt_List, 'OnClick'           )
+      and PropIsType      ( gBt_List, 'OnClick', tkMethod )
        Then
         try
           // récupération et Affectation
-          ge_ListeClick := TNotifyEvent ( GetMethodProp ( gBt_Liste, 'OnClick' ));
-          SetMethodProp ( gBt_Liste, 'OnClick', lmet_MethodeDistribueeTransfert );
+          ge_ListClick := TNotifyEvent ( GetMethodProp ( gBt_List, 'OnClick' ));
+          SetMethodProp ( gBt_List, 'OnClick', lmet_MethodeDistribueeTransfert );
         Except
         End ;
     End ;
   lvar_Valeur := Null ;
     // Affectation de l'évènement onclick du bouton total de la liste
-  if assigned ( gBt_ListeTotal )
+  if assigned ( gBt_TotalList )
    Then
     Begin
-//          if gBt_ListeTotal.Hint = '' Then
+//          if gBt_TotalList.Hint = '' Then
         Begin
-          if  IspublishedProp ( gBt_ListeTotal, 'ParentShowHint' )
-          and PropIsType      ( gBt_ListeTotal, 'OnEnter', tkEnumeration ) Then
-            lvar_Valeur := GetPropValue   (  gBt_ListeTotal, 'ParentShowHint' );
+          if  IspublishedProp ( gBt_TotalList, 'ParentShowHint' )
+          and PropIsType      ( gBt_TotalList, 'OnEnter', tkEnumeration ) Then
+            lvar_Valeur := GetPropValue   (  gBt_TotalList, 'ParentShowHint' );
           if  ( lvar_Valeur <> Null )
           and ( TVarData( lvar_Valeur ).VType = 256 ) Then
-            SetPropValue   (  gBt_ListeTotal, 'ParentShowHint', False );
-          gBt_ListeTotal.ShowHint := True ;
+            SetPropValue   (  gBt_TotalList, 'ParentShowHint', False );
+          gBt_TotalList.ShowHint := True ;
           if gb_EstPrincipale Then
             Begin
-              gBt_ListeTotal.Hint := GS_GROUPE_TOUT_INCLURE ;
+              gBt_TotalList.Hint := GS_GROUPE_TOUT_INCLURE ;
             End
           Else
-            gBt_ListeTotal.Hint := GS_GROUPE_TOUT_EXCLURE ;
+            gBt_TotalList.Hint := GS_GROUPE_TOUT_EXCLURE ;
         End ;
           // affectation de la méthode du nouvel évènement
       lmet_MethodeDistribueeTotal.Data := Self ;
       lmet_MethodeDistribueeTotal.Code := MethodAddress ( 'p_ClickTransfertTotal' );
-      if  IsPublishedProp ( gBt_ListeTotal, 'OnClick'           )
-      and PropIsType      ( gBt_ListeTotal, 'OnClick', tkMethod )
+      if  IsPublishedProp ( gBt_TotalList, 'OnClick'           )
+      and PropIsType      ( gBt_TotalList, 'OnClick', tkMethod )
        Then
         try
           // récupération et Affectation
-          ge_ListeTotalClick := TNotifyEvent ( GetMethodProp ( gBt_ListeTotal, 'OnClick' ));
-          SetMethodProp ( gBt_ListeTotal, 'OnClick', lmet_MethodeDistribueeTotal );
+          ge_TotalListClick := TNotifyEvent ( GetMethodProp ( gBt_TotalList, 'OnClick' ));
+          SetMethodProp ( gBt_TotalList, 'OnClick', lmet_MethodeDistribueeTotal );
         Except
         End ;
     End ;
@@ -1162,8 +1163,8 @@ Begin
   if  assigned ( ButtonTotalIn     )
   and     ( csDesigning in ComponentState )
   and not ( csLoading   in ComponentState )
-  and assigned ( galv_AutreListe )
-  and ( ButtonTotalIn = galv_AutreListe.ButtonTotalIn )
+  and assigned ( galv_OtherList )
+  and ( ButtonTotalIn = galv_OtherList.ButtonTotalIn )
    Then
     Begin
       ShowMessage ( GS_GROUPE_MAUVAIS_BOUTONS );
@@ -1179,8 +1180,8 @@ Begin
   if  assigned ( ButtonIn     )
   and     ( csDesigning in ComponentState )
   and not ( csLoading   in ComponentState )
-  and assigned ( galv_AutreListe )
-  and ( ButtonIn = galv_AutreListe.ButtonIn )
+  and assigned ( galv_OtherList )
+  and ( ButtonIn = galv_OtherList.ButtonIn )
    Then
     Begin
       ShowMessage ( GS_GROUPE_MAUVAIS_BOUTONS );
@@ -1196,8 +1197,8 @@ Begin
   if  assigned ( ButtonTotalOut     )
   and     ( csDesigning in ComponentState )
   and not ( csLoading   in ComponentState )
-  and assigned ( galv_AutreListe )
-  and ( ButtonTotalOut = galv_AutreListe.ButtonTotalOut )
+  and assigned ( galv_OtherList )
+  and ( ButtonTotalOut = galv_OtherList.ButtonTotalOut )
    Then
     Begin
       ShowMessage ( GS_GROUPE_MAUVAIS_BOUTONS );
@@ -1213,8 +1214,8 @@ Begin
   if  assigned ( ButtonOut     )
   and     ( csDesigning in ComponentState )
   and not ( csLoading   in ComponentState )
-  and assigned ( galv_AutreListe )
-  and ( ButtonOut = galv_AutreListe.ButtonOut )
+  and assigned ( galv_OtherList )
+  and ( ButtonOut = galv_OtherList.ButtonOut )
    Then
     Begin
       ShowMessage ( GS_GROUPE_MAUVAIS_BOUTONS );
@@ -1264,15 +1265,15 @@ End ;
 }
 // Affectation du composant dans la propriété ButtonTotalIn
 // test si n'existe pas
-procedure TDBGroupView.p_SetListeTotal  ( const a_Value: TWinControl );
+procedure TDBGroupView.p_SetTotalList  ( const a_Value: TWinControl );
 begin
 {$IFNDEF FPC}
   ReferenceInterface ( ButtonTotalIn, opRemove ); // Gestion de la destruction
 {$ENDIF}
   // Affectation
-  if gBt_ListeTotal <> a_Value then
+  if gBt_TotalList <> a_Value then
   begin
-    gBt_ListeTotal := a_Value ;
+    gBt_TotalList := a_Value ;
   end;
 {$IFNDEF FPC}
   ReferenceInterface ( ButtonTotalIn, opInsert ); // Gestion de la destruction
@@ -1282,15 +1283,15 @@ end;
 
 // Affectation du composant dans la propriété ButtonIn
 // test si n'existe pas
-procedure TDBGroupView.p_SetBtnListe  ( const a_Value: TWinControl );
+procedure TDBGroupView.p_SetBtnList  ( const a_Value: TWinControl );
 begin
 {$IFNDEF FPC}
   ReferenceInterface ( ButtonIn, opRemove ); // Gestion de la destruction
 {$ENDIF}
   // Affectation
-  if gBt_Liste <> a_Value then
+  if gBt_List <> a_Value then
   begin
-    gBt_Liste := a_Value ;
+    gBt_List := a_Value ;
   end;
 {$IFNDEF FPC}
   ReferenceInterface ( ButtonIn, opInsert ); // Gestion de la destruction
@@ -1306,9 +1307,9 @@ begin
   ReferenceInterface ( ButtonTotalOut, opRemove ); // Gestion de la destruction
 {$ENDIF}
   // Affectation
-  if gBt_AutreTotal <> a_Value then
+  if gBt_OtherTotal <> a_Value then
   begin
-    gBt_AutreTotal := a_Value ;
+    gBt_OtherTotal := a_Value ;
   end;
 {$IFNDEF FPC}
   ReferenceInterface ( ButtonTotalOut, opInsert ); // Gestion de la destruction
@@ -1318,16 +1319,16 @@ end;
 
 // Affectation du composant dans la propriété ButtonOut
 // test si n'existe pas
-procedure TDBGroupView.p_SetBtnAutreListe  ( const a_Value: TWinControl );
+procedure TDBGroupView.p_SetOtherListBtn  ( const a_Value: TWinControl );
 begin
 {$IFNDEF FPC}
   ReferenceInterface ( ButtonOut, opRemove ); // Gestion de la destruction
 {$ENDIF}
   // Affectation
-  if gBt_Autre <> a_Value
+  if gBt_Other <> a_Value
    then
     begin
-      gBt_Autre := a_Value ;
+      gBt_Other := a_Value ;
     end;
 {$IFNDEF FPC}
   ReferenceInterface ( ButtonOut, opInsert ); // Gestion de la destruction
@@ -1335,21 +1336,21 @@ begin
   fb_ErreurBtnTotalOut ;
 end;
 
-procedure TDBGroupView.p_SetBtnPanier  ( const a_Value: TWinControl );
+procedure TDBGroupView.p_SetBtnBasket  ( const a_Value: TWinControl );
 begin
 {$IFNDEF FPC}
   ReferenceInterface ( ButtonBasket, opRemove ); // Gestion de la destruction
 {$ENDIF}
   // Affectation
-  if gBt_Panier <> a_Value
+  if gBt_Basket <> a_Value
    then
     begin
-      gBt_Panier := a_Value ;
+      gBt_Basket := a_Value ;
     end;
 {$IFNDEF FPC}
   ReferenceInterface ( ButtonBasket, opInsert ); // Gestion de la destruction
 {$ENDIF}
-  if assigned ( gBt_Panier )
+  if assigned ( gBt_Basket )
   and     ( csDesigning in ComponentState )
   and not ( csLoading   in ComponentState )
    Then
@@ -1358,23 +1359,23 @@ end;
 
 // Affectation du composant dans la propriété DataOtherList
 // test si n'existe pas
-procedure TDBGroupView.p_SetAutreListe  ( const a_Value: TDBGroupView );
+procedure TDBGroupView.p_SetOtherList  ( const a_Value: TDBGroupView );
 begin
 {$IFNDEF FPC}
   ReferenceInterface ( DataListOpposite, opRemove ); // Gestion de la destruction
 {$ENDIF}
   // Affectation
-  if  ( galv_AutreListe <> a_Value )
+  if  ( galv_OtherList <> a_Value )
   // La liste doit ne pas être elle même
   and ( a_Value         <> Self    )
    then
     begin
-      galv_AutreListe := a_Value ;
+      galv_OtherList := a_Value ;
     end;
 {$IFNDEF FPC}
   ReferenceInterface ( DataListOpposite, opInsert ); // Gestion de la destruction
 {$ENDIF}
-  if assigned ( galv_AutreListe )
+  if assigned ( galv_OtherList )
   and not fb_ErreurBtnTotalOut
   and not fb_ErreurBtnTotalIn
   and not fb_ErreurBtnOut
@@ -1390,10 +1391,10 @@ begin
   ReferenceInterface ( ButtonRecord, opRemove ); // Gestion de la destruction
 {$ENDIF}
   // Affectation
-  if gBt_Enregistre <> a_Value
+  if gBt_Record <> a_Value
    then
     begin
-      gBt_Enregistre := a_Value ;
+      gBt_Record := a_Value ;
     end;
 {$IFNDEF FPC}
   ReferenceInterface ( ButtonRecord, opInsert ); // Gestion de la destruction
@@ -1408,46 +1409,46 @@ begin
   ReferenceInterface ( ButtonCancel, opRemove ); // Gestion de la destruction
 {$ENDIF}
   // Affectation
-  if gBt_Abandonne <> a_Value
+  if gBt_Cancel <> a_Value
    then
     begin
-      gBt_Abandonne := a_Value ;
+      gBt_Cancel := a_Value ;
     end;
 {$IFNDEF FPC}
   ReferenceInterface ( ButtonCancel, opInsert ); // Gestion de la destruction
 {$ENDIF}
 end;
-// TRim sur la chaîne à l'affectation de gs_CleGroupe
+// TRim sur la chaîne à l'affectation de gs_GroupKey
 // a_Value : valeur avec peut-être des espaces
-procedure TDBGroupView.p_SetCleGroupe ( const a_Value: String );
+procedure TDBGroupView.p_SetGroupKey ( const a_Value: String );
 begin
   // Affectation
-  if gs_CleGroupe <> Trim ( a_Value )
+  if gs_GroupKey <> Trim ( a_Value )
    then
     begin
-      gs_CleGroupe := Trim ( a_Value );
+      gs_GroupKey := Trim ( a_Value );
     end;
 end;
-// TRim sur la chaîne à l'affectation de gs_ChampUnite
+// TRim sur la chaîne à l'affectation de gs_UnitsField
 // a_Value : valeur avec peut-être des espaces
-procedure TDBGroupView.p_SetChampUnite ( const a_Value: String );
+procedure TDBGroupView.p_SetUnitsField ( const a_Value: String );
 begin
   // Affectation
-  if gs_ChampUnite <> Trim ( a_Value )
+  if gs_UnitsField <> Trim ( a_Value )
    then
     begin
-      gs_ChampUnite := Trim ( a_Value ) ;
+      gs_UnitsField := Trim ( a_Value ) ;
     end;
 end;
-// TRim sur la chaîne à l'affectation de gs_ChampGroupe
+// TRim sur la chaîne à l'affectation de gs_GroupField
 // a_Value : valeur avec peut-être des espaces
-procedure TDBGroupView.p_SetChampGroupe ( const a_Value: String );
+procedure TDBGroupView.p_SetGroupField ( const a_Value: String );
 begin
   // Affectation
-  if gs_ChampGroupe <> Trim ( a_Value )
+  if gs_GroupField <> Trim ( a_Value )
    then
     begin
-      gs_ChampGroupe := Trim ( a_Value );
+      gs_GroupField := Trim ( a_Value );
     end;
 end;
 // Teste si la valeur de l'image d'insertion est égale à -1
@@ -1470,15 +1471,15 @@ begin
 
 end;
 
-// TRim sur la chaîne à l'affectation de gs_TableGroupe
+// TRim sur la chaîne à l'affectation de gs_GroupTable
 // a_Value : valeur avec peut-être des espaces
-procedure TDBGroupView.p_SetTableGroupe ( const a_Value: String );
+procedure TDBGroupView.p_SetGroupTable ( const a_Value: String );
 begin
   // Affectation
-  if gs_TableGroupe <> Trim ( a_Value )
+  if gs_GroupTable <> Trim ( a_Value )
    then
     begin
-      gs_TableGroupe := Trim ( a_Value );
+      gs_GroupTable := Trim ( a_Value );
     end;
 end;
 
@@ -1507,8 +1508,8 @@ begin
   gwst_SQLSource := nil ;
   gwst_SQLQuery := nil ;
 {$ENDIF DELPHI_9_UP}
-  gstl_CleGroupe     := nil ;
-  gstl_ChampGroupe   := nil ;
+  gstl_GroupKey     := nil ;
+  gstl_GroupField   := nil ;
 
   gdl_DataLinkOwner := TUltimListViewDatalink.Create ( Self );
   // initialisation
@@ -1517,15 +1518,15 @@ begin
 //  gb_ToutUneFois := True ;
 //  gadoc_maj_groupe  .Mode := cmWrite ;
 //  lw_NombrePages            := 0 ;
-  gvar_GroupeEnCours        := Null ;
+  gvar_WorkingGroup        := Null ;
   gb_CaseInSensitive        := True ;
   gb_EstPrincipale           := True ;
   gb_AllLoaded              := False ;
   gb_AllFetched             := True ;
-  gb_ListTotal              := False ;
-  gb_ListTotalReal          := False ;
+  gb_OptionTotalList              := False ;
+  gb_TotalListReal          := False ;
 //  gb_TrieAsc                := True ;
-  gb_Enregistre             := False ;
+  gb_Record             := False ;
   gi_ImageInsere            := 1;
   gi_ImageSupprime          := 0;
   // Aide
@@ -1545,10 +1546,10 @@ begin
   gdl_DataLinkOwner := nil ;
 
   // Libération des listes de champs
-  if assigned ( gstl_CleGroupe     ) Then  gstl_CleGroupe    .Free ;
-  if assigned ( gstl_ChampGroupe   ) Then  gstl_ChampGroupe  .Free ;
-  gstl_CleGroupe   := nil ;
-  gstl_ChampGroupe := nil ;
+  if assigned ( gstl_GroupKey     ) Then  gstl_GroupKey    .Free ;
+  if assigned ( gstl_GroupField   ) Then  gstl_GroupField  .Free ;
+  gstl_GroupKey   := nil ;
+  gstl_GroupField := nil ;
 //  gadoc_maj_groupe  est affecté à la liste : pas besoin de le détruire ;
   // Libération des composants utilisés dans les propriétés
 end;
@@ -1642,7 +1643,7 @@ begin
       p_Reinitialise ;
       Exit ;
     End ;
-  if not gb_Panier
+  if not gb_Basket
   and assigned ( gdl_DataLinkOwner.DataSet )
   and gdl_DataLinkOwner.DataSet.IsEmpty Then
     Begin
@@ -1650,20 +1651,20 @@ begin
       p_VerifieModifications ;
       Exit ;
     End ;
-  // Panier : il faut enregistrer ou abandonner avant de changer d'enregistrements
- if  gb_Panier
+  // Basket : il faut enregistrer ou abandonner avant de changer d'enregistrements
+ if  gb_Basket
  and gb_NoScroll
  and gb_EstPrincipale
- and assigned ( galv_AutreListe ) Then
+ and assigned ( galv_OtherList ) Then
  // Y-a-t-il des clés à enregistrer
    Begin
      // La clé de destination n'est plus celle en cours et on a affecté avant
-     if gvar_CleDestination <> gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).Value Then
+     if gvar_KeyDestination <> gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).Value Then
        Begin
          /// message d'Abandon
          MessageDlg ( GS_GROUPE_ABANDON , mtWarning, [mbOK], 0 );
          // retour
-         gdl_DataLinkOwner.DataSet.Locate ( gs_CleGroupe, gvar_CleDestination, [] );
+         gdl_DataLinkOwner.DataSet.Locate ( gs_GroupKey, gvar_KeyDestination, [] );
          /// Abandon
          Exit ;
        End
@@ -1674,15 +1675,15 @@ begin
         End ;
    End ;
  // On remet à jour la liste
- if  not gb_Enregistre
- // Gestion du panier : on ne vide pas le panier
- //and ( //not gb_Panier Or
+ if  not gb_Record
+ // Gestion du Basket : on ne vide pas le Basket
+ //and ( //not gb_Basket Or
  //      not assigned ( gdl_DataLinkOwner.DataSet )
  //       or  gb_EstPrincipale )
   Then
    Begin
-    if assigned ( galv_AutreListe ) Then
-       galv_AutreListe.gb_ListTotalReal := False ;
+    if assigned ( galv_OtherList ) Then
+       galv_OtherList.gb_TotalListReal := False ;
      Refresh ;
    End ;
   if assigned  ( AfterDataScroll )
@@ -1697,22 +1698,22 @@ var lb_VerifieModifs : Boolean ;
 Begin
   lb_VerifieModifs := False ;
   // Mise à zéro des boutons
-  if assigned ( gBt_Abandonne )
-  and gBt_Abandonne .enabled Then
+  if assigned ( gBt_Cancel )
+  and gBt_Cancel .enabled Then
     Begin
-      gBt_Abandonne .enabled := False;
+      gBt_Cancel .enabled := False;
       lb_VerifieModifs := True ;
     End ;
-  if assigned ( gBT_Optionnel )
-  and gBT_Optionnel .enabled Then
+  if assigned ( gBT_Optional )
+  and gBT_Optional .enabled Then
     Begin
-      gBT_Optionnel .enabled := False;
+      gBT_Optional .enabled := False;
       lb_VerifieModifs := True ;
     End ;
-  if assigned ( gBt_Enregistre )
-  and gBt_Enregistre.enabled Then
+  if assigned ( gBt_Record )
+  and gBt_Record.enabled Then
     Begin
-      gBt_Enregistre.enabled := False;
+      gBt_Record.enabled := False;
       lb_VerifieModifs := True ;
     End ;
   if lb_VerifieModifs Then
@@ -1720,18 +1721,18 @@ Begin
 End ;
 // Insertion d'un item : appelle fb_InsereEnregistremnts
 // Résultat      : A-t-on changé l'état
-function TDBGroupView.fb_RemplitListe:Boolean;
+function TDBGroupView.fb_SetList:Boolean;
 Begin
     // Gestion normale
     if not gb_AllSelect or gb_MontreTout
-    or ( gb_Panier and not gb_ListTotal )
+    or ( gb_Basket and not gb_OptionTotalList )
      Then
       with gdl_DataLink.DataSet do
       Begin
         // A-t-on changé d'enregistrement
-        if ( gvar_GroupeEnCours = null  )
+        if ( gvar_WorkingGroup = null  )
         or not assigned ( gdl_DataLinkOwner.DataSet )
-        or ( gvar_GroupeEnCours <> gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).Value )
+        or ( gvar_WorkingGroup <> gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).Value )
          Then
           begin
             p_UndoRecord ;
@@ -1757,24 +1758,24 @@ Begin
                 try
                   gb_SelfOpen := True ;
                    // Si tout a été transféré
-                   if  gb_ListTotal
+                   if  gb_OptionTotalList
                    and gb_AllSelect
                    and not gb_MontreTout
                     Then
                      Begin
                        // Assignation du sort du query
-                       if fb_AssignSort ( ds_DatasourceQuery.DataSet, gsts_ChampsListe [ SortColumn ] ) Then
+                       if fb_AssignSort ( ds_DatasourceQuery.DataSet, gsts_FieldsList [ SortColumn ] ) Then
                          First ;
                      End
                     Else
                       // Sinon assignation au sort du datasource.dataset
-                      if fb_AssignSort ( gdl_DataLink.DataSet, gsts_ChampsListe [ SortColumn ] ) Then
+                      if fb_AssignSort ( gdl_DataLink.DataSet, gsts_FieldsList [ SortColumn ] ) Then
                         First ;
 
                 finally
                   gb_SelfOpen := False ;
                 End ;
-                gvar_GroupeEnCours := gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).Value ;
+                gvar_WorkingGroup := gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).Value ;
                 gb_AllLoaded := False ;
               End ;
           End
@@ -1801,29 +1802,29 @@ Begin
 {        if gb_ToutUneFois
        Then
         Begin
-          if assigned ( gBt_Abandonne )
-          and gBt_Abandonne .enabled Then
+          if assigned ( gBt_Cancel )
+          and gBt_Cancel .enabled Then
             Begin
-              gBt_Abandonne .enabled := False;
+              gBt_Cancel .enabled := False;
               lb_VerifieModifs := True ;
             End ;
-          if assigned ( gBt_Enregistre )
-          and gBt_Enregistre.enabled Then
+          if assigned ( gBt_Record )
+          and gBt_Record.enabled Then
             Begin
-              gBt_Enregistre.enabled := False;
+              gBt_Record.enabled := False;
               lb_VerifieModifs := True ;
             End ;
-          if assigned ( gBT_Optionnel )
-          and gBT_Optionnel.enabled Then
+          if assigned ( gBT_Optional )
+          and gBT_Optional.enabled Then
             Begin
-              gBT_Optionnel.enabled := False;
+              gBT_Optional.enabled := False;
               lb_VerifieModifs := True ;
             End ;
 //            gb_AllLoaded     := False ; // Rien n'est chargé et il faut charger des enregistrements
 //            gbm_DernierEnregistrement := '';  // mise à nil du bookm
           // tri
 
-//            fb_PrepareTri ( gi_ColonneTrie )
+//            fb_PrepareSorting ( gi_ColonneTrie )
         End
        else
         Begin                           }
@@ -1831,13 +1832,13 @@ Begin
 //          End ;
 //      gb_ToutUneFois   := False ;  /// Plus de premier parcourt
     if gb_EstPrincipale
-    and gb_Panier
+    and gb_Basket
     and assigned ( gdl_DataLinkOwner.DataSet ) Then
-      gvar_CleOrigineEnCours := gdl_DataLinkOwner.DataSet.FieldValues [ gs_CleGroupe ];
+      gvar_WorkingOriginKey := gdl_DataLinkOwner.DataSet.FieldValues [ gs_GroupKey ];
         // Si gestion de transfert total dans la liste
     if gb_AllSelect
     and not gb_MontreTout
-    and ( not gb_Panier or gb_ListTotal )
+    and ( not gb_Basket or gb_OptionTotalList )
       // Ajoute à partir de tous les enregistrements que l'on paut ajouter
      Then
       Begin
@@ -1854,7 +1855,7 @@ Begin
         if assigned ( gsts_SQLQuery )
         and ( ds_DatasourceQuery.DataSet.State <> dsInactive ) Then
         {$ENDIF}
-          fb_RemplitEnregistrements ( ds_DatasourceQuery.DataSet, False )
+          fb_SetRecords ( ds_DatasourceQuery.DataSet, False )
       End
      // Sinon ajoute à partir du dataset en cours
      Else
@@ -1867,7 +1868,7 @@ Begin
             gdl_DataLink.DataSet.Bookmark := gbm_DernierEnregistrement ;
           except
           End;
-        Result := fb_RemplitEnregistrements ( gdl_DataLink.DataSet, False );
+        Result := fb_SetRecords ( gdl_DataLink.DataSet, False );
       End ;
   // Si l'état des enregistrements a changé
   if Result
@@ -1880,23 +1881,23 @@ Begin
         Begin
         // Si liste de transfert où il faut tout mettre
         /// Donc la liste sans les clés d'exclusion
-          if not ( gb_ListTotal )
+          if not ( gb_OptionTotalList )
            Then
             Begin
               // Activation du bouton de transfert total
-              if assigned ( gBt_ListeTotal )
+              if assigned ( gBt_TotalList )
               and Self.Enabled
                Then
-                gBt_ListeTotal.Enabled := True ;
+                gBt_TotalList.Enabled := True ;
             End
            Else
         // Si liste de transfert tout a été transféré
         /// Donc la liste avec les clés d'exclusion
             Begin
               // désactivation du bouton de transfert total
-              if assigned ( gBt_ListeTotal )
+              if assigned ( gBt_TotalList )
                Then
-                gBt_ListeTotal.Enabled := False ;
+                gBt_TotalList.Enabled := False ;
             End ;
         End ;
         // Activation des boutons d'enregistrement et d'abandon
@@ -1907,12 +1908,12 @@ Begin
 End ;
 
 // Mise à jour automatique : ajoute des items sur scroll ou quand on l'appelle
-procedure TDBGroupView.p_AjouteEnregistrementsSynchrones;
+procedure TDBGroupView.p_AddSyncronousRecords;
 begin
   // propriétés obligatoires à renseigner
   if not assigned ( gdl_DataLinkOwner.DataSet )
   or gb_SelfOpen
-  or not assigned ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ))
+  or not assigned ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ))
 //  or not ( ds_Groupes.DataSet is TCustomADODataset )
    Then
     Exit ;
@@ -1934,7 +1935,7 @@ end;
 
 // Peut-on ajouter un item dans la liste ?
 // adat_Dataset  : le dataset en cours
-function TDBGroupView.fb_PeutAjouter  ( const adat_Dataset : TDataset ; const ab_AjouteItemPlus : Boolean )  : Boolean ;
+function TDBGroupView.fb_CanAdd  ( const adat_Dataset : TDataset ; const ab_AddItemPlus : Boolean )  : Boolean ;
 // Item trouvé ou non
 //var
 //    li_Trouve : Integer ;
@@ -1943,11 +1944,11 @@ function TDBGroupView.fb_PeutAjouter  ( const adat_Dataset : TDataset ; const ab
 Begin
   // on peut ajouter par défaut
   Result := True ;
-  ls_ChampTest := gs_CleUnite;
+  ls_ChampTest := gs_UnitsKey;
 
 
   // Si on trouve l'enregistrement de groupe dans la liste d'exclusion
-  if not gb_Panier
+  if not gb_Basket
   and ( fi_findInList ( gstl_KeysListOut, adat_Dataset.FieldValues [ ls_ChampTest ], False ) <> -1 ) Then
      // on continue
     Begin
@@ -1956,9 +1957,9 @@ Begin
     End ;
     // si on n'a pas déplacé le total sur la sélection d'origine
     // on si on ajoute des items
-  if ab_AjouteItemPlus Then
+  if ab_AddItemPlus Then
     Begin
-      if ( fi_findInList ( galv_AutreListe.gstl_KeysListOut, adat_Dataset.FieldValues [ ls_ChampTest ], False ) <> -1 ) Then
+      if ( fi_findInList ( galv_OtherList.gstl_KeysListOut, adat_Dataset.FieldValues [ ls_ChampTest ], False ) <> -1 ) Then
          // on continue
         Begin
           Result := True ;
@@ -1973,11 +1974,11 @@ Begin
 
     End
   Else
-    // Gestion panier
-    if ( gb_EstPrincipale and gb_Panier ) Then
+    // Gestion Basket
+    if ( gb_EstPrincipale and gb_Basket ) Then
       Begin
         // Si la clé n'a pas été ajoutée totalement
-        if  ( fi_findInListVarBool ( gt_CleOrigine, gvar_CleOrigineEnCours, False, True, [CST_GROUPE_TRANS_SIMPLE] ) <> -1 ) Then
+        if  ( fi_findInListVarBool ( gt_OriginKey, gvar_WorkingOriginKey, False, True, [CST_GROUPE_TRANS_SIMPLE] ) <> -1 ) Then
           Begin
             // alors certaines clés ont été ajoutées dans la liste d'exclusion de la liste principale
             if ( fi_findInList        ( gstl_KeysListOut, adat_Dataset.FieldValues [ ls_ChampTest ], False ) <> -1 ) Then
@@ -1988,14 +1989,14 @@ Begin
           End
         // Si la clé a été ajoutée totalement
         else
-          if not gb_ListTotal
-          and ( fi_findInListVarBool ( gt_CleOrigine, gvar_CleOrigineEnCours, False, True, [CST_GROUPE_TRANS_TOTAL] ) <> -1 ) Then
+          if not gb_OptionTotalList
+          and ( fi_findInListVarBool ( gt_OriginKey, gvar_WorkingOriginKey, False, True, [CST_GROUPE_TRANS_TOTAL] ) <> -1 ) Then
                // on continue
             Begin
               // alors certaines clés peuvent avoir été enlevées après l'ajout total
               Result := False ;
                   // si la clé est exclue de la liste
-              if ( fi_findInList        ( galv_AutreListe.gstl_KeysListOut, adat_Dataset.FieldValues [ ls_ChampTest ], False ) <> -1 ) Then
+              if ( fi_findInList        ( galv_OtherList.gstl_KeysListOut, adat_Dataset.FieldValues [ ls_ChampTest ], False ) <> -1 ) Then
                 // on ne l'ajoute pas
                 Begin
                   Result := True ;
@@ -2008,28 +2009,28 @@ End ;
 
 // Lorsqu'on déplace tout dans la liste : gestion des états
 // adat_Dataset  : le dataset en cours
-function TDBGroupView.fb_ChangeEtatItem ( const adat_Dataset : TDataset ; const ab_AjouteItemPlus : Boolean )  : Boolean ;
+function TDBGroupView.fb_ChangeEtatItem ( const adat_Dataset : TDataset ; const ab_AddItemPlus : Boolean )  : Boolean ;
 Begin
   // Par défaut : pas de changement d'état
   Result := False ;
-  if trim ( gs_CleUnite ) = ''
+  if trim ( gs_UnitsKey ) = ''
    Then
     Exit ;
   // Si gestion de transfert total
 //  if gb_AllSelect
 //   Then
-	if not assigned ( galv_AutreListe )
-	or (( gws_RecordValue = '' ) and ( galv_AutreListe.gws_RecordValue = '' )) Then
+	if not assigned ( galv_OtherList )
+	or (( gws_RecordValue = '' ) and ( galv_OtherList.gws_RecordValue = '' )) Then
 		Begin
 	 // Si est principale
 			if gb_EstPrincipale
 			 Then
 				Begin
 					// Si on ne localise pas l'enregistrement en cours dans le dataset d'inclusion
-					if ab_AjouteItemPlus Then
+					if ab_AddItemPlus Then
 						Begin
-							if ( gb_CaseInSensitive     and not fb_Locate (  adat_Dataset.FieldValues [ gs_CleUnite ] ))
-							or ( not gb_CaseInSensitive and not gdl_DataLink.DataSet.Locate ( gs_CleUnite, adat_Dataset.FieldValues [ gs_CleUnite ], [] ))
+							if ( gb_CaseInSensitive     and not fb_Locate (  adat_Dataset.FieldValues [ gs_UnitsKey ] ))
+							or ( not gb_CaseInSensitive and not gdl_DataLink.DataSet.Locate ( gs_UnitsKey, adat_Dataset.FieldValues [ gs_UnitsKey ], [] ))
 							 Then
 								Begin
 									// C'est qu'il est à insérer
@@ -2040,16 +2041,16 @@ Begin
 						End ;
 				End
 			 Else
-				 // pour changer l'état de l'item en effacement il faut pas de panier
-				if not gb_Panier
+				 // pour changer l'état de l'item en effacement il faut pas de Basket
+				if not gb_Basket
 				and assigned ( gdl_DataLink.Datasource ) then
 		 // Si n'est pas principale
 					Begin
 						// Si on ne localise pas l'enregistrement en cours dans le dataset d'exclusion
-						if ab_AjouteItemPlus Then
+						if ab_AddItemPlus Then
 							Begin
-								if ( gb_CaseInSensitive     and not fb_Locate (  adat_Dataset.FieldValues [ gs_CleUnite ] ))
-								or ( not gb_CaseInSensitive and not gdl_DataLink.DataSet.Locate ( gs_CleUnite, adat_Dataset.FieldValues [ gs_CleUnite ], [] ))
+								if ( gb_CaseInSensitive     and not fb_Locate (  adat_Dataset.FieldValues [ gs_UnitsKey ] ))
+								or ( not gb_CaseInSensitive and not gdl_DataLink.DataSet.Locate ( gs_UnitsKey, adat_Dataset.FieldValues [ gs_UnitsKey ], [] ))
 								 Then
 									Begin
 										// C'est qu'il est à supprimer
@@ -2064,7 +2065,7 @@ Begin
 		Begin
 			if gws_RecordValue = '' Then
 				Begin
-					if not adat_Dataset.FieldByName ( gs_ChampGroupe ).IsNull Then
+					if not adat_Dataset.FieldByName ( gs_GroupField ).IsNull Then
 						if gb_EstPrincipale Then
 							Begin
 								// C'est qu'il est à insérer
@@ -2082,7 +2083,7 @@ Begin
 				End
 			else
 				Begin
-					if fb_ValueToValid ( adat_Dataset.FieldByName ( gs_ChampGroupe )) Then
+					if fb_ValueToValid ( adat_Dataset.FieldByName ( gs_GroupField )) Then
 						if gb_EstPrincipale Then
 							Begin
 								// C'est qu'il est à insérer
@@ -2119,21 +2120,21 @@ End ;
 // Insère un enregistrement dans la liste : surchargée
 // adat_Dataset  : le dataset en cours
 // Résultat      : A-t-on changé l'état
-function TDBGroupView.fb_RemplitEnregistrements ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean;
+function TDBGroupView.fb_SetRecords ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean;
 var lb_CaseInsensitive : Boolean ;
 begin
    // Par défaut : pas d'item changé
   Result := False ;
   // PAs de liste associée : on quitte
-  if not assigned ( galv_AutreListe )
+  if not assigned ( galv_OtherList )
    Then
     Exit ;
-  lb_CaseInsensitive := gb_CaseInSensitive and assigned ( gdl_DataLink.DataSet ) and ( ab_InsereCles or gb_AllSelect ) and ( not assigned ( galv_AutreListe ) or ( gws_RecordValue = '' ) or ( galv_AutreListe.gws_RecordValue = '' ));
+  lb_CaseInsensitive := gb_CaseInSensitive and assigned ( gdl_DataLink.DataSet ) and ( ab_InsereCles or gb_AllSelect ) and ( not assigned ( galv_OtherList ) or ( gws_RecordValue = '' ) or ( galv_OtherList.gws_RecordValue = '' ));
   if lb_CaseInSensitive Then
     p_LocateInit;
    // héritage
   try
-    Result := inherited fb_RemplitEnregistrements ( adat_Dataset, ab_InsereCles );
+    Result := inherited fb_SetRecords ( adat_Dataset, ab_InsereCles );
   finally
     if lb_CaseInSensitive Then
       p_LocateRestore;
@@ -2165,14 +2166,14 @@ begin
    Begin
      try
        Close ;
-       if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-       or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TMemoField )
-       or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING )) Then
+       if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+       or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TMemoField )
+       or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING )) Then
          begin
-           ls_SQLCommands := 'SELECT * FROM ' + gs_TableOwner + ' WHERE ' + gs_CleGroupe + '=''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).AsString ) + '''' ;
+           ls_SQLCommands := 'SELECT * FROM ' + gs_TableOwner + ' WHERE ' + gs_GroupKey + '=''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).AsString ) + '''' ;
          End
        Else
-         ls_SQLCommands := 'SELECT * FROM ' + gs_TableOwner + ' WHERE ' + gs_CleGroupe + '='   +                   gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).AsString ;
+         ls_SQLCommands := 'SELECT * FROM ' + gs_TableOwner + ' WHERE ' + gs_GroupKey + '='   +                   gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).AsString ;
        if Assigned ( gsts_SQLCommand ) then
          Begin
            gsts_SQLCommand.Text := ls_SQLCommands ;
@@ -2194,41 +2195,41 @@ begin
          Result := False;
        End ;
      except
-       ShowMessage ( GS_PAS_GROUPES + ' ( ' + gs_TableOwner + ', ' + gs_CleGroupe + ' )'  );
+       ShowMessage ( GS_PAS_GROUPES + ' ( ' + gs_TableOwner + ', ' + gs_GroupKey + ' )'  );
        Result := False;
      End ;
     End;
 end;
 
-// Evènement onclick du bouton vide panier
+// Evènement onclick du bouton vide Basket
 // Sender : obligatoire
-procedure TDBGroupView.p_VidePanier ( Sender : TObject );
+procedure TDBGroupView.p_VideBasket ( Sender : TObject );
 //var //ls_Compare : String ;
 //    li_i       : Integer ;
 Begin
-  if assigned ( ge_PanierClick ) Then
-    ge_PanierClick ( Sender );
-  if gb_Panier
+  if assigned ( ge_BasketClick ) Then
+    ge_BasketClick ( Sender );
+  if gb_Basket
    Then
     Begin
       Finalize ( gstl_KeysListOut );
       Finalize ( gt_KeyOwners     );
-      Finalize ( gt_CleOrigine    );
+      Finalize ( gt_OriginKey    );
 //      gb_AllSelect := False ;
       p_Reinitialise ;
-      if Assigned ( galv_AutreListe ) Then
+      if Assigned ( galv_OtherList ) Then
         Begin
-          Finalize ( galv_AutreListe.gt_CleOrigine    );
-          Finalize ( galv_AutreListe.gstl_KeysListOut );
-          Finalize ( galv_AutreListe.gt_KeyOwners );
-          galv_AutreListe.p_Reinitialise ;
-          galv_AutreListe.p_AjouteEnregistrements ;
+          Finalize ( galv_OtherList.gt_OriginKey    );
+          Finalize ( galv_OtherList.gstl_KeysListOut );
+          Finalize ( galv_OtherList.gt_KeyOwners );
+          galv_OtherList.p_Reinitialise ;
+          galv_OtherList.p_AddRecords ;
         End ;
-      p_AjouteEnregistrements ;
+      p_AddRecords ;
     End ;
-  if assigned ( gBt_Panier )
+  if assigned ( gBt_Basket )
    Then
-    gBt_Panier.Enabled := False ;
+    gBt_Basket.Enabled := False ;
 End ;
 // function TDBGroupView.fb_ExecuteQueryLinkedAllSelectTotal
 // execute the query in N-N relationship when different group and owner table
@@ -2239,49 +2240,49 @@ Begin
   Result := False;
   ls_TexteSQL := '';
   // Il faut ajouter les champs avec l'état ajoute si on est sur la liste en dehors du tout
-  if( not gb_AllSelect or not gb_ListTotal or gb_MontreTout )
-  and  assigned ( galv_AutreListe )
-  and fb_TableauVersSQL ( ls_TexteSQL, galv_AutreListe.gstl_KeysListOut, nil, Null ) Then
+  if( not gb_AllSelect or not gb_OptionTotalList or gb_MontreTout )
+  and  assigned ( galv_OtherList )
+  and fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, nil, Null ) Then
    with  ds_DataSourceQuery2.DataSet do
      Begin
-      ls_SQLCommands := 'INSERT INTO ' + gs_TableGroupe + ' ( ' + gs_ChampGroupe + ', ' + gs_ChampUnite + ' ) ( SELECT ' ;
+      ls_SQLCommands := 'INSERT INTO ' + gs_GroupTable + ' ( ' + gs_GroupField + ', ' + gs_UnitsField + ' ) ( SELECT ' ;
         // lien groupe
-      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-      or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-         Then ls_SQLCommands := ls_SQLCommands + ' ''' + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString + ''','
-         Else ls_SQLCommands := ls_SQLCommands + ' '   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString +   ',' ;
+      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+      or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
+         Then ls_SQLCommands := ls_SQLCommands + ' ''' + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString + ''','
+         Else ls_SQLCommands := ls_SQLCommands + ' '   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString +   ',' ;
         // lien unité
-        ls_SQLCommands := ls_SQLCommands +  gs_CleUnite + ' FROM ' + gs_TableSource + ' WHERE ' + gs_CleUnite + ' IN ( ' + ls_TexteSQL + ')'
+        ls_SQLCommands := ls_SQLCommands +  gs_UnitsKey + ' FROM ' + gs_TableSource + ' WHERE ' + gs_UnitsKey + ' IN ( ' + ls_TexteSQL + ')'
          // Il se peut que quelqu'un ait effacé une unité
-    				                    + ' AND NOT EXISTS ( SELECT '  + gs_ChampUnite + ' FROM ' + gs_TableGroupe + ' WHERE ' + gs_TableGroupe + '.' + gs_ChampUnite + '=' + gs_TableSource + '.' + gs_CleUnite
-      + ' AND ' + gs_ChampGroupe + '=';
-      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-      or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-         Then ls_SQLCommands := ls_SQLCommands +  ' ''' + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString + '''))'
-         Else ls_SQLCommands := ls_SQLCommands +  ' '   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString +   '))' ;
+    				                    + ' AND NOT EXISTS ( SELECT '  + gs_UnitsField + ' FROM ' + gs_GroupTable + ' WHERE ' + gs_GroupTable + '.' + gs_UnitsField + '=' + gs_TableSource + '.' + gs_UnitsKey
+      + ' AND ' + gs_GroupField + '=';
+      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+      or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
+         Then ls_SQLCommands := ls_SQLCommands +  ' ''' + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString + '''))'
+         Else ls_SQLCommands := ls_SQLCommands +  ' '   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString +   '))' ;
       p_ExecuteSQLQuery ( ds_DataSourceQuery2.DataSet, ls_SQLCommands );
       Result := True;
     End ;
   // Suppression Autre liste non principale
-  if  assigned ( galv_AutreListe )
-  and not      ( galv_AutreListe.DataListPrimary )
-  and assigned ( galv_AutreListe.Datasource )
-  and assigned ( galv_AutreListe.Datasource.DataSet )
+  if  assigned ( galv_OtherList )
+  and not      ( galv_OtherList.DataListPrimary )
+  and assigned ( galv_OtherList.Datasource )
+  and assigned ( galv_OtherList.Datasource.DataSet )
   // Il faut supprimer les champs avec l'état supprime si on est sur la liste en dehors du tout
-  and ( not gb_AllSelect or not galv_AutreListe.gb_ListTotal or gb_MontreTout )
+  and ( not gb_AllSelect or not galv_OtherList.gb_OptionTotalList or gb_MontreTout )
   and fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, nil, Null ) Then
     with ds_DataSourceQuery2.DataSet do
       Begin
-        ls_SQLCommands := 'DELETE FROM ' + gs_TableGroupe + ' where ' + gs_ChampGroupe + ' =  ' ;
+        ls_SQLCommands := 'DELETE FROM ' + gs_GroupTable + ' where ' + gs_GroupField + ' =  ' ;
         // lien groupe
-        if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-        or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-        or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-         Then ls_SQLCommands := ls_SQLCommands +  ' ''' + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString + ''''
-         Else ls_SQLCommands := ls_SQLCommands +  ' '   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString +   '' ;
-         ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_ChampUnite + ' IN (' + ls_TexteSQL + ')' ;
+        if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+        or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+        or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
+         Then ls_SQLCommands := ls_SQLCommands +  ' ''' + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString + ''''
+         Else ls_SQLCommands := ls_SQLCommands +  ' '   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString +   '' ;
+         ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_UnitsField + ' IN (' + ls_TexteSQL + ')' ;
           // lien groupe
         p_ExecuteSQLQuery ( ds_DataSourceQuery2.DataSet, ls_SQLCommands );
         Result := True;
@@ -2298,16 +2299,16 @@ Begin
    Begin
      Result := False;
      // Mise à jour en une seule : la requête se met en place avant les boucles
-     if  assigned ( gdl_DataLinkOwner.DataSet.FindField ( gs_ChampGroupe ))
+     if  assigned ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupField ))
       Then ls_SQLCommands :=  'UPDATE ' + gs_TableOwner  + ' SET '
-      Else ls_SQLCommands :=  'UPDATE ' + gs_TableGroupe + ' SET ' ;
+      Else ls_SQLCommands :=  'UPDATE ' + gs_GroupTable + ' SET ' ;
      // affecter le lien groupe ( affectation ou groupe )
-     if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-     or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-     or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-      Then ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '=''' + VarToStr ( gvar_CleDestination ) + ''''
-      Else ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '='   + VarToStr ( gvar_CleDestination )        ;
-     if fb_BuildWhereBasket ( Self, ls_TexteSQL, assigned ( galv_AutreListe.gdl_DataLinkOwner.DataSet ), False ) Then
+     if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+     or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+     or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
+      Then ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '=''' + VarToStr ( gvar_KeyDestination ) + ''''
+      Else ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '='   + VarToStr ( gvar_KeyDestination )        ;
+     if fb_BuildWhereBasket ( Self, ls_TexteSQL, assigned ( galv_OtherList.gdl_DataLinkOwner.DataSet ), False ) Then
        Begin
          ls_SQLCommands := ls_SQLCommands +  ls_TexteSQL ;
          p_ExecuteSQLQuery ( ds_DataSourceQuery2.DataSet, ls_SQLCommands );
@@ -2324,41 +2325,41 @@ Begin
   Result := False;
   ls_TexteSQL := '';
   // Il faut ajouter les champs avec l'état ajoute si on est sur la liste en dehors du tout
-  if( not gb_AllSelect or not gb_ListTotal or gb_MontreTout )
-  and  assigned ( galv_AutreListe )
-  and fb_TableauVersSQL ( ls_TexteSQL, galv_AutreListe.gstl_KeysListOut, nil, Null ) Then
+  if( not gb_AllSelect or not gb_OptionTotalList or gb_MontreTout )
+  and  assigned ( galv_OtherList )
+  and fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, nil, Null ) Then
    with ds_DataSourceQuery2.DataSet do
     Begin
-      // Propriété DatasourceGroupTable : gs_TableGroupe
-      ls_SQLCommands := 'UPDATE ' + gs_TableGroupe + ' SET ' ;
+      // Propriété DatasourceGroupTable : gs_GroupTable
+      ls_SQLCommands := 'UPDATE ' + gs_GroupTable + ' SET ' ;
       // lien groupe
-      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-      or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-       Then ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '=''' + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe  ).AsString + ''''
-       Else ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '='   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe  ).AsString        ;
+      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+      or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
+       Then ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '=''' + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey  ).AsString + ''''
+       Else ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '='   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey  ).AsString        ;
       // lien unité
-      ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_ChampUnite + ' IN (' + ls_TexteSQL + ')' ;
+      ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_UnitsField + ' IN (' + ls_TexteSQL + ')' ;
       p_ExecuteSQLQuery ( ds_DataSourceQuery2.DataSet, ls_SQLCommands );
       Result := True;
     end;
 
   // Suppression Autre liste non principale
-  if  assigned ( galv_AutreListe )
-  and not      ( galv_AutreListe.DataListPrimary )
-  and assigned ( galv_AutreListe.Datasource )
-  and assigned ( galv_AutreListe.Datasource.DataSet )
+  if  assigned ( galv_OtherList )
+  and not      ( galv_OtherList.DataListPrimary )
+  and assigned ( galv_OtherList.Datasource )
+  and assigned ( galv_OtherList.Datasource.DataSet )
   // Il faut supprimer les champs avec l'état supprime si on est sur la liste en dehors du tout
-  and ( not gb_AllSelect or not galv_AutreListe.gb_ListTotal or gb_MontreTout )
+  and ( not gb_AllSelect or not galv_OtherList.gb_OptionTotalList or gb_MontreTout )
   and fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, nil, Null ) Then
     with ds_DataSourceQuery2.DataSet do
       begin
-        // Propriété DatasourceGroupTable : gs_TableGroupe
-        ls_SQLCommands :=  'UPDATE ' + gs_TableGroupe + ' SET ' ;
+        // Propriété DatasourceGroupTable : gs_GroupTable
+        ls_SQLCommands :=  'UPDATE ' + gs_GroupTable + ' SET ' ;
         // lien groupe à null
-        ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + ' = NULL'  ;
+        ls_SQLCommands := ls_SQLCommands +  gs_GroupField + ' = NULL'  ;
         // lien unité
-        ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_ChampUnite + ' IN (' + ls_TexteSQL + ')' ;
+        ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_UnitsField + ' IN (' + ls_TexteSQL + ')' ;
         p_ExecuteSQLQuery ( ds_DataSourceQuery2.DataSet, ls_SQLCommands );
         Result := True;
       end;
@@ -2373,29 +2374,29 @@ Begin
   ls_TexteSQL := '';
   with ds_DataSourceQuery2.DataSet do
     Begin
-      // Propriété DatasourceGroupTable : gs_TableGroupe
-      ls_SQLCommands :=  'INSERT INTO ' + gs_TableGroupe + ' ( ' + gs_ChampGroupe + ', ' + gs_ChampUnite + ' ) ' + ' select ' ;
+      // Propriété DatasourceGroupTable : gs_GroupTable
+      ls_SQLCommands :=  'INSERT INTO ' + gs_GroupTable + ' ( ' + gs_GroupField + ', ' + gs_UnitsField + ' ) ' + ' select ' ;
       // lien groupe à insérer globalement
-      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-      or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-       Then ls_SQLCommands := ls_SQLCommands +  '''' + fs_StringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe  ).AsString  ) + ''''
-       Else ls_SQLCommands := ls_SQLCommands +                             gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe  ).AsString          ;
+      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+      or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
+       Then ls_SQLCommands := ls_SQLCommands +  '''' + fs_StringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey  ).AsString  ) + ''''
+       Else ls_SQLCommands := ls_SQLCommands +                             gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey  ).AsString          ;
               // lien des unités à ajouter globalement
-      ls_SQLCommands := ls_SQLCommands +  ', ' + gs_CleUnite + ' FROM ' + gs_TableSource
+      ls_SQLCommands := ls_SQLCommands +  ', ' + gs_UnitsKey + ' FROM ' + gs_TableSource
                     // Champ unité déjà dans le grouê
-                     + ' WHERE ' + gs_CleUnite + ' NOT IN ( SELECT ' + gs_TableGroupe + '.' + gs_ChampUnite + ' FROM ' + gs_TableSource + ',' + gs_TableGroupe
-                     + ' WHERE ' + gs_TableGroupe + '.' + gs_ChampUnite + '=' + gs_TableSource + '.' + gs_CleUnite ;
-      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-      or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
+                     + ' WHERE ' + gs_UnitsKey + ' NOT IN ( SELECT ' + gs_GroupTable + '.' + gs_UnitsField + ' FROM ' + gs_TableSource + ',' + gs_GroupTable
+                     + ' WHERE ' + gs_GroupTable + '.' + gs_UnitsField + '=' + gs_TableSource + '.' + gs_UnitsKey ;
+      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+      or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
               // lien groupe déjà dans le groupe
-       then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_TableGroupe + '.' + gs_ChampGroupe + ' = ''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).AsString ) + ''')'
-       Else ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_TableGroupe + '.' + gs_ChampGroupe + ' = '   +                    gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).AsString   +   ')' ;
+       then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_GroupTable + '.' + gs_GroupField + ' = ''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).AsString ) + ''')'
+       Else ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_GroupTable + '.' + gs_GroupField + ' = '   +                    gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).AsString   +   ')' ;
        // et liste d'exclusion car il y a peut-être eu un transfert dans l'autre sens
-      if fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gstl_CleGroupe, Null )
+      if fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gstl_GroupKey, Null )
        Then
-        ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_TableSource + '.' + gs_CleUnite + ' NOT IN (' + ls_TexteSQL + ')' ;
+        ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_TableSource + '.' + gs_UnitsKey + ' NOT IN (' + ls_TexteSQL + ')' ;
       // exécution
       ls_SQLCommands := ls_SQLCommands +  fws_GetExistingFilter ;
       p_ExecuteSQLQuery ( ds_DataSourceQuery2.DataSet, ls_SQLCommands );
@@ -2414,21 +2415,21 @@ Begin
   if fb_TableauVersSQL ( ls_TexteSQL, astl_KeysListOut, nil, Null ) Then
    with ds_DataSourceQuery2.DataSet do
     begin
-      // Propriété DatasourceGroupTable : gs_TableGroupe
-      ls_SQLCommands := 'UPDATE ' + gs_TableGroupe + ' SET ' ;
+      // Propriété DatasourceGroupTable : gs_GroupTable
+      ls_SQLCommands := 'UPDATE ' + gs_GroupTable + ' SET ' ;
       // valeur à affecter uniquement
       if gws_RecordValue = ''
        Then
       // lien groupe à null
-        ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '=NULL'
+        ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '=NULL'
        Else
-        if ((gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ) is TStringField )
-        or (gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ) is TMemoField )
-        or ( gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-         Then ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '=''' + gws_RecordValue + ''''
-         Else ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '='   + gws_RecordValue        ;
+        if ((gdl_DataLink.DataSet.FindField ( gs_GroupField ) is TStringField )
+        or (gdl_DataLink.DataSet.FindField ( gs_GroupField ) is TMemoField )
+        or ( gdl_DataLink.DataSet.FindField ( gs_GroupField ).DataType IN CST_DELPHI_FIELD_STRING ))
+         Then ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '=''' + gws_RecordValue + ''''
+         Else ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '='   + gws_RecordValue        ;
       // lien unité
-      ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_ChampUnite + ' IN (' + ls_TexteSQL + ')' ;
+      ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_UnitsField + ' IN (' + ls_TexteSQL + ')' ;
       p_ExecuteSQLQuery ( ds_DataSourceQuery2.DataSet, ls_SQLCommands );
       Result := True ;
     end;
@@ -2441,24 +2442,24 @@ var ls_TexteSQL, ls_SQLCommands : String;
 Begin
   Result:=False;
   ls_TexteSQL := '';
-  if  assigned ( galv_AutreListe )
-  and not      ( galv_AutreListe.DataListPrimary )
-  and          ( galv_AutreListe.gb_ListTotal    )
+  if  assigned ( galv_OtherList )
+  and not      ( galv_OtherList.DataListPrimary )
+  and          ( galv_OtherList.gb_OptionTotalList    )
    Then
     with ds_DataSourceQuery2.DataSet do
      Begin
-      // Propriété DatasourceGroupTable : gs_TableGroupe
-      ls_SQLCommands := 'DELETE FROM ' + gs_TableGroupe + ' WHERE ' ;
+      // Propriété DatasourceGroupTable : gs_GroupTable
+      ls_SQLCommands := 'DELETE FROM ' + gs_GroupTable + ' WHERE ' ;
       // lien groupe à insérer globalement
-      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-      or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-       Then ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + ' =  ''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString ) + ''''
-       Else ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + ' =  '   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString ;
+      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+      or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
+       Then ls_SQLCommands := ls_SQLCommands +  gs_GroupField + ' =  ''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString ) + ''''
+       Else ls_SQLCommands := ls_SQLCommands +  gs_GroupField + ' =  '   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString ;
         ///  sauf la liste d'excusion car il y a peut-être eu un transfert vars l'autre liste
-        if fb_TableauVersSQL ( ls_TexteSQL, galv_AutreListe.gstl_KeysListOut, gstl_CleGroupe, Null )
+        if fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gstl_GroupKey, Null )
          Then
-           ls_SQLCommands := ls_SQLCommands +  'and ' + gs_ChampUnite + ' NOT IN (' +  ls_TexteSQL + ')' ;
+           ls_SQLCommands := ls_SQLCommands +  'and ' + gs_UnitsField + ' NOT IN (' +  ls_TexteSQL + ')' ;
       //                  Showmessage ( CommandText );
       ls_SQLCommands := ls_SQLCommands +  fws_GetExistingFilter ;
       p_ExecuteSQLQuery ( ds_DataSourceQuery2.DataSet, ls_SQLCommands );
@@ -2475,20 +2476,20 @@ Begin
   ls_TexteSQL := '';
   with ds_DataSourceQuery2.DataSet do
     Begin
-      // Propriété DatasourceGroupTable : gs_TableGroupe
-      ls_SQLCommands := 'UPDATE ' + gs_TableGroupe + ' SET ' ;
+      // Propriété DatasourceGroupTable : gs_GroupTable
+      ls_SQLCommands := 'UPDATE ' + gs_GroupTable + ' SET ' ;
       // lien groupe à insérer globalement
-      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-      or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-       Then ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '=''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe  ).AsString ) + ''''
-       Else ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '='   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe  ).AsString         ;
+      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+      or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
+       Then ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '=''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey  ).AsString ) + ''''
+       Else ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '='   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey  ).AsString         ;
       // Le groupe doit être null
-      ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_ChampGroupe + ' IS NULL' ;
+      ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + ' IS NULL' ;
       // A garder
                // L'unité doit être hors de liste d'exclusion car transfert possible dans l'autre liste
-      if fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gstl_CleGroupe, Null )
-       Then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_ChampUnite + ' NOT IN (' + ls_TexteSQL + ')' ;
+      if fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gstl_GroupKey, Null )
+       Then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_UnitsField + ' NOT IN (' + ls_TexteSQL + ')' ;
       //                  Showmessage ( CommandText );
       ls_SQLCommands := ls_SQLCommands +  fws_GetExistingFilter ;
       p_ExecuteSQLQuery ( ds_DataSourceQuery2.DataSet, ls_SQLCommands );
@@ -2504,18 +2505,18 @@ Begin
   ls_TexteSQL := '';
   with ds_DataSourceQuery2.DataSet do
     Begin
-    // Propriété DatasourceGroupTable : gs_TableGroupe
-      ls_SQLCommands := 'UPDATE ' + gs_TableGroupe + ' SET ' ;
-      ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + ' = NULL'  ;
+    // Propriété DatasourceGroupTable : gs_GroupTable
+      ls_SQLCommands := 'UPDATE ' + gs_GroupTable + ' SET ' ;
+      ls_SQLCommands := ls_SQLCommands +  gs_GroupField + ' = NULL'  ;
       // lien groupe à supprimer
-      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-      or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-       Then ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_ChampGroupe + '=''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe  ).AsString ) + ''''
-       Else ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_ChampGroupe + '='   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe  ).AsString        ;
+      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+      or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
+       Then ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + '=''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey  ).AsString ) + ''''
+       Else ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + '='   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey  ).AsString        ;
       // L'unité doit être hors de liste d'exclusion car transfert possible dans l'autre liste
-      if fb_TableauVersSQL ( ls_TexteSQL, galv_AutreListe.gstl_KeysListOut, gstl_CleGroupe, Null )
-       Then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_ChampUnite + ' NOT IN (' + ls_TexteSQL + ')' ;
+      if fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gstl_GroupKey, Null )
+       Then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_UnitsField + ' NOT IN (' + ls_TexteSQL + ')' ;
       // exécution
       ls_SQLCommands := ls_SQLCommands +  fws_GetExistingFilter ;
       p_ExecuteSQLQuery ( ds_DataSourceQuery2.DataSet, ls_SQLCommands );
@@ -2532,33 +2533,33 @@ Begin
   ls_TexteSQL := '';
   with ds_DataSourceQuery2.DataSet do
    begin
-    // Propriété DatasourceGroupTable : gs_TableGroupe
-    ls_SQLCommands := 'UPDATE ' + gs_TableGroupe + ' SET ' ;
+    // Propriété DatasourceGroupTable : gs_GroupTable
+    ls_SQLCommands := 'UPDATE ' + gs_GroupTable + ' SET ' ;
     // lien groupe à modifier globalement
     if gws_RecordValue = ''
      Then
       // lien groupe à null
-      ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '=NULL'
+      ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '=NULL'
      Else
-      if ((gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ) is TStringField )
-      or (gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ) is TMemoField )
-      or ( gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-       Then ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '=''' + gws_RecordValue + ''''
-       Else ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '='   + gws_RecordValue        ;
+      if ((gdl_DataLink.DataSet.FindField ( gs_GroupField ) is TStringField )
+      or (gdl_DataLink.DataSet.FindField ( gs_GroupField ) is TMemoField )
+      or ( gdl_DataLink.DataSet.FindField ( gs_GroupField ).DataType IN CST_DELPHI_FIELD_STRING ))
+       Then ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '=''' + gws_RecordValue + ''''
+       Else ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '='   + gws_RecordValue        ;
     // Le groupe doit être null
-    if galv_AutreListe.gws_RecordValue = ''
+    if galv_OtherList.gws_RecordValue = ''
      Then
     // lien groupe à null
-      ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_ChampGroupe + ' IS NULL'
+      ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + ' IS NULL'
      Else
-      if ((gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ) is TStringField )
-      or (gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ) is TMemoField )
-      or ( gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-       Then ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_ChampGroupe + '=''' + galv_AutreListe.gws_RecordValue + ''''
-       Else ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_ChampGroupe + '='   + galv_AutreListe.gws_RecordValue        ;
+      if ((gdl_DataLink.DataSet.FindField ( gs_GroupField ) is TStringField )
+      or (gdl_DataLink.DataSet.FindField ( gs_GroupField ) is TMemoField )
+      or ( gdl_DataLink.DataSet.FindField ( gs_GroupField ).DataType IN CST_DELPHI_FIELD_STRING ))
+       Then ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + '=''' + galv_OtherList.gws_RecordValue + ''''
+       Else ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + '='   + galv_OtherList.gws_RecordValue        ;
      // L'unité doit être hors de liste d'exclusion car transfert possible dans l'autre liste
-    if fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gstl_CleGroupe, Null )
-     Then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_ChampUnite + ' NOT IN (' + ls_TexteSQL + ')' ;
+    if fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gstl_GroupKey, Null )
+     Then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_UnitsField + ' NOT IN (' + ls_TexteSQL + ')' ;
     //                  Showmessage ( CommandText );
     ls_SQLCommands := ls_SQLCommands +  fws_GetExistingFilter ;
     p_ExecuteSQLQuery ( ds_DataSourceQuery2.DataSet, ls_SQLCommands );
@@ -2574,31 +2575,31 @@ Begin
   ls_TexteSQL := '';
   with ds_DataSourceQuery2.DataSet do
    begin
-    // Propriété DatasourceGroupTable : gs_TableGroupe
-    ls_SQLCommands := 'UPDATE ' + gs_TableGroupe + ' SET ' ;
+    // Propriété DatasourceGroupTable : gs_GroupTable
+    ls_SQLCommands := 'UPDATE ' + gs_GroupTable + ' SET ' ;
       // lien groupe à modifier globalement
-    if galv_AutreListe.gws_RecordValue = ''
+    if galv_OtherList.gws_RecordValue = ''
      Then
     // lien groupe à null
-      ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '=NULL'
+      ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '=NULL'
      Else
-      if ((gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ) is TStringField )
-      or (gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ) is TMemoField )
-      or ( gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-       Then ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '=''' + galv_AutreListe.gws_RecordValue + ''''
-       Else ls_SQLCommands := ls_SQLCommands +  gs_ChampGroupe + '='   + galv_AutreListe.gws_RecordValue        ;
+      if ((gdl_DataLink.DataSet.FindField ( gs_GroupField ) is TStringField )
+      or (gdl_DataLink.DataSet.FindField ( gs_GroupField ) is TMemoField )
+      or ( gdl_DataLink.DataSet.FindField ( gs_GroupField ).DataType IN CST_DELPHI_FIELD_STRING ))
+       Then ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '=''' + galv_OtherList.gws_RecordValue + ''''
+       Else ls_SQLCommands := ls_SQLCommands +  gs_GroupField + '='   + galv_OtherList.gws_RecordValue        ;
       // lien groupe des listes à modifier uniquement
     if gws_RecordValue = '' Then
      // lien groupe à null
-     ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_ChampGroupe + ' IS NULL'
+     ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + ' IS NULL'
     Else
-    if ((gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ) is TStringField )
-    or (gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ) is TMemoField )
-    or ( gdl_DataLink.DataSet.FindField ( gs_ChampGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-     Then ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_ChampGroupe + '=''' + gws_RecordValue + ''''
-     Else ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_ChampGroupe + '='   + gws_RecordValue        ;
-    if fb_TableauVersSQL ( ls_TexteSQL, galv_AutreListe.gstl_KeysListOut, gstl_CleGroupe, Null )
-    Then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_ChampUnite + ' NOT IN (' + ls_TexteSQL + ')' ;
+    if ((gdl_DataLink.DataSet.FindField ( gs_GroupField ) is TStringField )
+    or (gdl_DataLink.DataSet.FindField ( gs_GroupField ) is TMemoField )
+    or ( gdl_DataLink.DataSet.FindField ( gs_GroupField ).DataType IN CST_DELPHI_FIELD_STRING ))
+     Then ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + '=''' + gws_RecordValue + ''''
+     Else ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + '='   + gws_RecordValue        ;
+    if fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gstl_GroupKey, Null )
+    Then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_UnitsField + ' NOT IN (' + ls_TexteSQL + ')' ;
     // exécution
      ls_SQLCommands := ls_SQLCommands +  fws_GetExistingFilter ;
     p_ExecuteSQLQuery ( ds_DataSourceQuery2.DataSet, ls_SQLCommands );
@@ -2607,19 +2608,19 @@ Begin
 End ;
 // Evènement enregistre du bouton enregistrer
 // Sender : obligatoire
-procedure TDBGroupView.p_Enregistre ( Sender : TObject );
+procedure TDBGroupView.p_Record ( Sender : TObject );
 var lb_Executee    : Boolean ;
     lda_Action     : TDataAction ;
 
 Begin
   // ancien évènement
-  if assigned ( ge_enregistreClick )
+  if assigned ( ge_RecordClick )
    Then
-    ge_enregistreClick ( Sender );
+    ge_RecordClick ( Sender );
    lb_Executee := False ;
 /// Variables obligatoires
   if not assigned ( gdl_DataLink.DataSet )
-  or not assigned ( gdl_DataLink.DataSet.FindField ( gs_CleUnite  ))
+  or not assigned ( gdl_DataLink.DataSet.FindField ( gs_UnitsKey  ))
   or not assigned ( ds_DatasourceQuery )
   or not assigned ( ds_DataSourceQuery2 )
   or ( not assigned ( gsts_SQLQuery)
@@ -2632,22 +2633,22 @@ Begin
   and not assigned ( gwst_SQLCommand)
  {$ENDIF}
  )
-  or ( gstl_CleDataSource.Count = 0 )
+  or ( gstl_KeyDataSource.Count = 0 )
    Then
     Exit ;
 
-  gb_Enregistre := True ;
-  if assigned ( galv_AutreListe )
+  gb_Record := True ;
+  if assigned ( galv_OtherList )
    Then
-    galv_AutreListe.gb_Enregistre := True ;
+    galv_OtherList.gb_Record := True ;
     // Mise à jour avant validation de la composition du groupe
   try
     p_PostDataSourceOwner;
   finally
-    if assigned ( galv_AutreListe )
+    if assigned ( galv_OtherList )
      Then
-      galv_AutreListe.gb_Enregistre := False ;
-    gb_Enregistre := False ;
+      galv_OtherList.gb_Record := False ;
+    gb_Record := False ;
   End ;
 
   // On a peut-être abandonné l'enregistrement de datasourceOwner
@@ -2661,34 +2662,34 @@ Begin
 
   try
     if  assigned ( gdl_DataLinkOwner.DataSet )
-    and assigned ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ))
-    and (   not assigned ( galv_AutreListe )
-    or (( gws_RecordValue = '' ) and ( galv_AutreListe.gws_RecordValue = '' ))) Then
+    and assigned ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ))
+    and (   not assigned ( galv_OtherList )
+    or (( gws_RecordValue = '' ) and ( galv_OtherList.gws_RecordValue = '' ))) Then
       /// gestion d'affectation ou gestion de groupe
       Begin
         if not fb_BeginOpen Then
          Exit;
 
-        if not gb_Panier Then
-          if ( gs_TableGroupe <> gs_TableSource )
+        if not gb_Basket Then
+          if ( gs_GroupTable <> gs_TableSource )
           // Insertion 1N 1N avec les items
            Then
             lb_Executee := fb_ExecuteQueryNotLinkedNNGroupSourceDifferent
            else
             lb_Executee := fb_ExecuteQueryNotLinkedNNGroupSourceSimilar;
 
-        // La gestion par panier a sa propre et unique requête
-        if  gb_Panier
-        and assigned ( galv_AutreListe ) Then
+        // La gestion par Basket a sa propre et unique requête
+        if  gb_Basket
+        and assigned ( galv_OtherList ) Then
           fb_ExecuteQuery1N
         Else
           if gb_AllSelect
           and not gb_MontreTout
            Then
-            if (  gs_TableGroupe <> gs_TableSource ) Then
+            if (  gs_GroupTable <> gs_TableSource ) Then
             // Gestion 1N 1N avec les exclusions
             Begin
-              if gb_ListTotal
+              if gb_OptionTotalList
                Then
                 Begin
                   lb_Executee := fb_ExecuteQueryNotLinkedNNGroupSourceDifferentTotal;
@@ -2697,14 +2698,14 @@ Begin
                  lb_Executee:=fb_ExecuteQueryNotLinkedNNGroupSourceDifferentTotalOut;
             End
            else
-        if gb_ListTotal
+        if gb_OptionTotalList
         and not gb_MontreTout Then
          lb_Executee:=fb_ExecuteQueryNotLinkedNNGroupSourceSimilarTotal
         Else
          Begin
-          if  not gb_Panier
-          and assigned ( galv_AutreListe )
-          and  ( galv_AutreListe.gb_ListTotal )
+          if  not gb_Basket
+          and assigned ( galv_OtherList )
+          and  ( galv_OtherList.gb_OptionTotalList )
           Then
             lb_Executee:=fb_ExecuteQueryNotLinkedNNGroupSourceSimilarTotalOut;
         End ;
@@ -2714,42 +2715,42 @@ Begin
     // Donc il faut une valeur à affecter à la place des données du scroll
      Begin
       // Il faut ajouter les champs avec l'état ajoute si on est sur la liste en dehors du tout
-      if( not gb_AllSelect or not gb_ListTotal or gb_MontreTout )
+      if( not gb_AllSelect or not gb_OptionTotalList or gb_MontreTout )
        Then
          lb_Executee:= fb_ExecuteQueryShowAllGroup ( gstl_KeysListOut );
       // Suppression Autre liste non principale
-      if  not      ( galv_AutreListe.DataListPrimary )
-      and assigned ( galv_AutreListe.Datasource )
-      and assigned ( galv_AutreListe.Datasource.DataSet )
+      if  not      ( galv_OtherList.DataListPrimary )
+      and assigned ( galv_OtherList.Datasource )
+      and assigned ( galv_OtherList.Datasource.DataSet )
       // Il faut supprimer les champs avec l'état supprime si on est sur la liste en dehors du tout
-      and ( not gb_AllSelect or not galv_AutreListe.gb_ListTotal or gb_MontreTout )
+      and ( not gb_AllSelect or not galv_OtherList.gb_OptionTotalList or gb_MontreTout )
        Then
-         lb_Executee:= fb_ExecuteQueryShowAllGroup ( galv_AutreListe.gstl_KeysListOut );
+         lb_Executee:= fb_ExecuteQueryShowAllGroup ( galv_OtherList.gstl_KeysListOut );
 
       if gb_AllSelect
       and not gb_MontreTout
        Then
         with ds_DataSourceQuery2.DataSet do
-         if gb_ListTotal
+         if gb_OptionTotalList
           Then
             lb_Executee:=fb_ExecuteQueryLinkedAllSelectTotal
           Else
-            if  not gb_Panier
-            and  ( galv_AutreListe.gb_ListTotal )
+            if  not gb_Basket
+            and  ( galv_OtherList.gb_OptionTotalList )
              Then
                lb_Executee:=fb_ExecuteQueryLinkedAllSelect;
     End ;
   Except
     on E: Exception do
      Begin
-      if assigned ( ge_enregistreError )
+      if assigned ( ge_RecordError )
       and ( E is EDataBaseError )
        Then
         Begin
          lda_Action := daFail ;
-         ge_enregistreError ( gdl_DataLink.DataSet, ( E as EDataBaseError ), lda_Action );
+         ge_RecordError ( gdl_DataLink.DataSet, ( E as EDataBaseError ), lda_Action );
          if lda_Action = daRetry Then
-          p_Enregistre ( Sender );
+          p_Record ( Sender );
         End
        Else
         f_GereException( e, ds_DataSourceQuery2.DataSet );
@@ -2758,11 +2759,11 @@ Begin
   // C'est un évènement alors on abandonne car enregistrement effectué
   if assigned ( Self )
    Then
-    p_Abandonne ( nil );
+    p_Cancel ( nil );
   if   lb_Executee
-  and assigned ( ge_enregistreEvent )
+  and assigned ( ge_RecordedEvent )
    Then
-    ge_enregistreEvent ( gdl_DataLink.DataSet );
+    ge_RecordedEvent ( gdl_DataLink.DataSet );
 End ;
 
 function fb_BuildWhereBasket ( const aalv_Primary : TDBGroupView ; var as_Result : String ; const ab_GetNull, ab_GetCurrent : Boolean ) : Boolean ;
@@ -2770,7 +2771,7 @@ Begin
   Result := fb_BuildWhereBasket ( aalv_Primary, as_Result, ab_GetNull, ab_GetCurrent, False );
 End ;
 // Fonction : fb_BuildWhereBasket
-// Description : Construction de la clause where du panier
+// Description : Construction de la clause where du Basket
 // aalv_Primary : Liste principale
 // aws_Result   : La requête si elle existe
 // Résultat     : existence de la requête
@@ -2780,7 +2781,7 @@ var //lb_PremiereFois ,
     ls_Tri : String ;
     li_i : Integer ;
     ls_TexteSQL : String ;
-    lvar_CleItems : Variant ;
+    lvar_KeyItems : Variant ;
     lt_Ins, lt_Outs : fonctions_variant.tt_TableauVariant ;
 Begin
   if assigned ( aalv_Primary.ge_BasketGetAll ) Then
@@ -2796,23 +2797,23 @@ Begin
 //  lb_PremiereFois := True ;
   with aalv_Primary do
     Begin
-      for li_i := 0 to high ( galv_AutreListe.gstl_KeysListOut ) do
-        if  ( galv_AutreListe.gstl_KeysListOut [ li_i ] <> Null ) Then
-          if ( not gb_EstPrincipale or ( galv_AutreListe.gt_KeyOwners [ li_i ].i_Option <= 1 )) Then
-            fi_AjouteListe ( lt_Ins , galv_AutreListe.gstl_KeysListOut [ li_i ], False )
+      for li_i := 0 to high ( galv_OtherList.gstl_KeysListOut ) do
+        if  ( galv_OtherList.gstl_KeysListOut [ li_i ] <> Null ) Then
+          if ( not gb_EstPrincipale or ( galv_OtherList.gt_KeyOwners [ li_i ].i_Option <= 1 )) Then
+            fi_AddListe ( lt_Ins , galv_OtherList.gstl_KeysListOut [ li_i ], False )
           Else
-            fi_AjouteListe ( lt_Outs, galv_AutreListe.gstl_KeysListOut [ li_i ], False );
-{      if gb_ListTotal Then
+            fi_AddListe ( lt_Outs, galv_OtherList.gstl_KeysListOut [ li_i ], False );
+{      if gb_OptionTotalList Then
         for li_i := 0 to high ( gstl_KeysListOut ) do
-          if  ( gt_KeyOwners [ li_i ].var_Cle <> Null ) Then
+          if  ( gt_KeyOwners [ li_i ].var_Key <> Null ) Then
             if ( gb_EstPrincipale or ( gt_KeyOwners [ li_i ].i_Option in [CST_GROUPE_TRANS_EXCLU,CST_GROUPE_TRANS_RETOUR] )) Then
-              fi_AjouteListe ( lt_Outs , gstl_KeysListOut [ li_i ], False ) ;}
+              fi_AddListe ( lt_Outs , gstl_KeysListOut [ li_i ], False ) ;}
       // Affectation aux clés d'exclusion de l'autre liste
       if fb_TableauVersSQL  ( ls_TexteSQL, lt_Ins, nil, Null )
         Then
           begin
-//            lvar_CleItems := galv_AutreListe.gstl_KeysListOut [ li_i ] ;
-            // Propriété DatasourceGroupTable : gs_TableGroupe
+//            lvar_KeyItems := galv_OtherList.gstl_KeysListOut [ li_i ] ;
+            // Propriété DatasourceGroupTable : gs_GroupTable
             // lien unité
             if Result Then
               as_Result := as_Result + ' OR '
@@ -2820,12 +2821,12 @@ Begin
               as_Result := as_Result + ' WHERE ( ' ;
             Result := True ;
 //            lb_PremiereFois := False ;
-            as_Result := as_Result + gs_ChampUnite + ' IN (' + ls_TexteSQL +')'  ;
+            as_Result := as_Result + gs_UnitsField + ' IN (' + ls_TexteSQL +')'  ;
           end;
       lb_Parentheses := False ;
       if ab_GetCurrent
       and assigned ( gdl_DataLinkOwner.DataSet )
-      and assigned ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe )) Then
+      and assigned ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey )) Then
         Begin
           if Result Then
             as_Result := as_Result + ' OR (('
@@ -2833,21 +2834,21 @@ Begin
             as_Result := as_Result + ' WHERE ((( ' ;
           lb_Parentheses := True ;
           Result := True ;
-          if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-          or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-          or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
+          if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+          or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+          or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
            Then
-            as_Result := as_Result + gs_ChampGroupe + ' =''' + gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).AsString + ''''
+            as_Result := as_Result + gs_GroupField + ' =''' + gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).AsString + ''''
           Else
-            as_Result := as_Result + gs_ChampGroupe + ' =' + gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).AsString ;
+            as_Result := as_Result + gs_GroupField + ' =' + gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).AsString ;
         End ;
       // mode Affectation : Affectation des groupements entièrement déplacés et des unités d'exclusion
-      if gb_ListTotal Then
-        for li_i := 0 to high ( gt_CleOrigine ) do
-         if ( gt_CleOrigine [ li_i ].i_Option = CST_GROUPE_TRANS_TOTAL )
-         and ( gt_CleOrigine [ li_i ].var_Cle <> Null ) Then
+      if gb_OptionTotalList Then
+        for li_i := 0 to high ( gt_OriginKey ) do
+         if ( gt_OriginKey [ li_i ].i_Option = CST_GROUPE_TRANS_TOTAL )
+         and ( gt_OriginKey [ li_i ].var_Key <> Null ) Then
            Begin
-            lvar_CleItems := gt_CleOrigine [ li_i ].var_Cle ;
+            lvar_KeyItems := gt_OriginKey [ li_i ].var_Key ;
             // lien groupe à null
             if Result Then
               Begin
@@ -2863,21 +2864,21 @@ Begin
             Result := True ;
             if gb_EstPrincipale Then
               Begin
-                if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-                or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-                or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-                 Then as_Result := as_Result + gs_ChampGroupe + '=''' + lvar_CleItems + ''''
-                 Else as_Result := as_Result + gs_ChampGroupe + '='   + lvar_CleItems
+                if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+                or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+                or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
+                 Then as_Result := as_Result + gs_GroupField + '=''' + lvar_KeyItems + ''''
+                 Else as_Result := as_Result + gs_GroupField + '='   + lvar_KeyItems
               End
               Else
-                if ((galv_AutreListe.gdl_DataLinkOwner.DataSet.FindField ( galv_AutreListe.gs_CleGroupe ) is TStringField )
-                or (galv_AutreListe.gdl_DataLinkOwner.DataSet.FindField ( galv_AutreListe.gs_CleGroupe ) is TBlobField )
-                or ( galv_AutreListe.gdl_DataLinkOwner.DataSet.FindField ( galv_AutreListe.gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
-                 Then as_Result := as_Result + gs_ChampGroupe + '=''' + lvar_CleItems + ''''
-                 Else as_Result := as_Result + gs_ChampGroupe + '='   + lvar_CleItems        ;
+                if ((galv_OtherList.gdl_DataLinkOwner.DataSet.FindField ( galv_OtherList.gs_GroupKey ) is TStringField )
+                or (galv_OtherList.gdl_DataLinkOwner.DataSet.FindField ( galv_OtherList.gs_GroupKey ) is TBlobField )
+                or ( galv_OtherList.gdl_DataLinkOwner.DataSet.FindField ( galv_OtherList.gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
+                 Then as_Result := as_Result + gs_GroupField + '=''' + lvar_KeyItems + ''''
+                 Else as_Result := as_Result + gs_GroupField + '='   + lvar_KeyItems        ;
            End ;
       if ab_GetNull and (( not gb_EstPrincipale and assigned ( gdl_DataLink.DataSet ))
-                        or ( gb_EstPrincipale and assigned ( galv_AutreListe.gdl_DataLink.DataSet ))) Then
+                        or ( gb_EstPrincipale and assigned ( galv_OtherList.gdl_DataLink.DataSet ))) Then
         Begin
 //          lb_PremiereFois := False ;
           // lien groupe à null
@@ -2893,7 +2894,7 @@ Begin
 //          lb_PremiereFois := False ;
           lb_Parentheses  := True ;
           Result := True ;
-          as_Result := as_Result + gs_ChampGroupe + ' IS NULL'  ;
+          as_Result := as_Result + gs_GroupField + ' IS NULL'  ;
         End ;
       if lb_Parentheses Then
         // Déplacement total effectué au moins une fois alors ...
@@ -2902,10 +2903,10 @@ Begin
           as_Result := as_Result + ')' ;
 
           if fb_TableauVersSQL  ( ls_TexteSQL, gstl_KeysListOut, nil, Null ) Then
-            as_Result := as_Result + ' AND ' + gs_ChampUnite + ' NOT IN (' + ls_TexteSQL + ')' ;
+            as_Result := as_Result + ' AND ' + gs_UnitsField + ' NOT IN (' + ls_TexteSQL + ')' ;
 
           if fb_TableauVersSQL  ( ls_TexteSQL, lt_Outs, nil, Null ) Then
-            as_Result := as_Result + ' AND ' + gs_ChampUnite + ' NOT IN (' + ls_TexteSQL + ')' ;
+            as_Result := as_Result + ' AND ' + gs_UnitsField + ' NOT IN (' + ls_TexteSQL + ')' ;
 
           as_Result := as_Result + ')' ;
         End ;
@@ -2914,9 +2915,9 @@ Begin
       if ( ab_Order )
       and Result Then
         Begin
-          ls_Tri := fs_PrepareTri ;
+          ls_Tri := fs_PrepareSorting ;
           if ls_Tri <> '' Then
-            as_Result := as_Result + ' ' +  CST_SQL_ORDER_BY + ' ' + fs_PrepareTri ;
+            as_Result := as_Result + ' ' +  CST_SQL_ORDER_BY + ' ' + fs_PrepareSorting ;
         End ;
     End ;
 //  showMessage ( as_Result );
@@ -2924,109 +2925,109 @@ End ;
 
 // Evènement abandonne du bouton abandonner
 // Sender : obligatoire
-Procedure TDBGroupView.p_Abandonne ( Sender : TObject );
-  // Si panier : on ne pas tout effacer
+Procedure TDBGroupView.p_Cancel ( Sender : TObject );
+  // Si Basket : on ne pas tout effacer
 var //lb_VerifieModifs ,
     lb_EffaceTout : Boolean ;
     li_Modifie    ,
     li_i          : Integer ;
-//    lvar_CleCompare : Variant ;
+//    lvar_KeyCompare : Variant ;
 
 Begin
   // Par défaut on efface tout
   gb_NoScroll := False ;
   lb_EffaceTout := True ;
   // Ancien évènement
-  if assigned ( ge_abandonneClick )
+  if assigned ( ge_CancelClick )
   and assigned ( Sender )
    Then
-    ge_abandonneClick ( Sender );
-    // Gestion panier : doit-on vraiment abandonner ?
-  if  gb_Panier
+    ge_CancelClick ( Sender );
+    // Gestion Basket : doit-on vraiment abandonner ?
+  if  gb_Basket
   and gb_EstPrincipale
-  and ( assigned ( Sender ) or ( galv_AutreListe.Items.Count > 0 )) Then
-  // Panier non vide
+  and ( assigned ( Sender ) or ( galv_OtherList.Items.Count > 0 )) Then
+  // Basket non vide
     Begin
       // sinon c'est qu'on a enregistré : on n'efface pas tout
       lb_EffaceTout := False ;
     End ;
-   // On peut utiliser le panier : réinitialisation complète
+   // On peut utiliser le Basket : réinitialisation complète
   if lb_EffaceTout Then
     Begin
-      Finalize ( gt_CleOrigine );
-      //  gstl_KeysListOut : clés du panier
+      Finalize ( gt_OriginKey );
+      //  gstl_KeysListOut : clés du Basket
       Finalize ( gstl_KeysListOut );
       Finalize ( gt_KeyOwners     );
     End ;
   // Réinitialise aussi l'autre liste
-  if assigned ( galv_AutreListe )
+  if assigned ( galv_OtherList )
    Then
     Begin
       if lb_EffaceTout
        Then
         Begin
-          Finalize ( galv_AutreListe.gt_CleOrigine     );
-          Finalize ( galv_AutreListe.gt_KeyOwners      );
-          Finalize ( galv_AutreListe.gstl_KeysListOut  );
-          galv_AutreListe.p_Reinitialise ;
-          // Gestion panier : liste secondaire vide à la réinitialisation
-          if not gb_Panier Then
-            galv_AutreListe.p_AjouteEnregistrements ;
+          Finalize ( galv_OtherList.gt_OriginKey     );
+          Finalize ( galv_OtherList.gt_KeyOwners      );
+          Finalize ( galv_OtherList.gstl_KeysListOut  );
+          galv_OtherList.p_Reinitialise ;
+          // Gestion Basket : liste secondaire vide à la réinitialisation
+          if not gb_Basket Then
+            galv_OtherList.p_AddRecords ;
         End
       // MAJ du 29-9-2004
       else
         if assigned ( Sender ) Then
           Begin
             //Réinitialisation si on n'a pas enregistré
-            galv_AutreListe.gb_ListTotal := gb_AllSelect ;
-            galv_AutreListe.gb_ListTotalReal := gb_AllSelect ;
-            gb_listTotal := False ;
-            gb_ListTotalReal := False ;
-            galv_AutreListe.gb_AllSelect := gb_AllSelect ;
+            galv_OtherList.gb_OptionTotalList := gb_AllSelect ;
+            galv_OtherList.gb_TotalListReal := gb_AllSelect ;
+            gb_OptionTotalList := False ;
+            gb_TotalListReal := False ;
+            galv_OtherList.gb_AllSelect := gb_AllSelect ;
             gb_AllLoaded := False ;
-            galv_AutreListe.gb_AllLoaded := False ;
+            galv_OtherList.gb_AllLoaded := False ;
 
-            // Clés à enlver lorsqu'on a renvoyé des éléments dans le panier et qu'ils sont dans un transfert total
+            // Clés à enlver lorsqu'on a renvoyé des éléments dans le Basket et qu'ils sont dans un transfert total
             for li_i := 0 to high ( gstl_KeysListOut ) do
               if  ( gstl_KeysListOut [ li_i ] <> Null )
-              and ( fi_findInListVarBool ( gt_CleOrigine, gt_KeyOwners     [ li_i ].var_Cle, False, True, [1] ) <> -1 ) Then
+              and ( fi_findInListVarBool ( gt_OriginKey, gt_KeyOwners     [ li_i ].var_Key, False, True, [1] ) <> -1 ) Then
                 Begin
                   gstl_KeysListOut [ li_i ] := Null ;
-                  gt_KeyOwners     [ li_i ].var_Cle := Null ;
+                  gt_KeyOwners     [ li_i ].var_Key := Null ;
                 End ;
 
-            // abandon : on replace les enregistrements à enregistrer dans le panier
-            for li_i := 0 to high ( galv_AutreListe.gstl_KeysListOut ) do
-              if  ( galv_AutreListe.gstl_KeysListOut [ li_i ] <> Null )
-              and ( galv_AutreListe.gt_KeyOwners     [ li_i ].i_Option = CST_GROUPE_TRANS_DESTI  ) Then
+            // abandon : on replace les enregistrements à enregistrer dans le Basket
+            for li_i := 0 to high ( galv_OtherList.gstl_KeysListOut ) do
+              if  ( galv_OtherList.gstl_KeysListOut [ li_i ] <> Null )
+              and ( galv_OtherList.gt_KeyOwners     [ li_i ].i_Option = CST_GROUPE_TRANS_DESTI  ) Then
                 Begin
-                  if fi_AjouteListe ( gstl_KeysListOut, galv_AutreListe.gstl_KeysListOut [ li_i ], True  ) <> - 1  Then
+                  if fi_AddListe ( gstl_KeysListOut, galv_OtherList.gstl_KeysListOut [ li_i ], True  ) <> - 1  Then
                     Begin
-                      li_Modifie := fi_AjouteListe  ( gt_KeyOwners     , galv_AutreListe.gt_KeyOwners     [ li_i ].var_Cle, False );
+                      li_Modifie := fi_AddListe  ( gt_KeyOwners     , galv_OtherList.gt_KeyOwners     [ li_i ].var_Key, False );
                       gt_KeyOwners [ li_Modifie ].i_Option := CST_GROUPE_TRANS_EXCLU ;
                     End ;
-                  galv_AutreListe.gstl_KeysListOut [ li_i ] := Null ;
-                  galv_AutreListe.gt_KeyOwners     [ li_i ].var_Cle := Null ;
+                  galv_OtherList.gstl_KeysListOut [ li_i ] := Null ;
+                  galv_OtherList.gt_KeyOwners     [ li_i ].var_Key := Null ;
                 End ;
 
-            // Les transferts sont effectués on met à jour le panier
-            galv_AutreListe.Refresh ;
-            if assigned ( gBt_Panier ) Then
-                gBt_Panier.Enabled := Self.Enabled and assigned ( gsts_SQLQuery )
+            // Les transferts sont effectués on met à jour le Basket
+            galv_OtherList.Refresh ;
+            if assigned ( gBt_Basket ) Then
+                gBt_Basket.Enabled := Self.Enabled and assigned ( gsts_SQLQuery )
                                                    and ds_DatasourceQuery.DataSet.Active
                                                    and not ds_DatasourceQuery.DataSet.IsEmpty ;
         End
       Else
         Begin
           // rafraichissement après enregistrement : On réinitialise ce qui doit être enregistré
-            for li_i := 0 to high ( galv_AutreListe.gstl_KeysListOut ) do
-              if  ( galv_AutreListe.gstl_KeysListOut [ li_i ] <> Null )
-              and ( galv_AutreListe.gt_KeyOwners      [ li_i ].i_Option = CST_GROUPE_TRANS_DESTI  ) Then
+            for li_i := 0 to high ( galv_OtherList.gstl_KeysListOut ) do
+              if  ( galv_OtherList.gstl_KeysListOut [ li_i ] <> Null )
+              and ( galv_OtherList.gt_KeyOwners      [ li_i ].i_Option = CST_GROUPE_TRANS_DESTI  ) Then
                 Begin
-                  galv_AutreListe.gstl_KeysListOut [ li_i ] := Null ;
-                  galv_AutreListe.gt_KeyOwners     [ li_i ].var_Cle := Null ;
+                  galv_OtherList.gstl_KeysListOut [ li_i ] := Null ;
+                  galv_OtherList.gt_KeyOwners     [ li_i ].var_Key := Null ;
                 End ;
-          galv_AutreListe.Refresh ;
+          galv_OtherList.Refresh ;
         End ;
     End ;
   // Réinitialisation sans sauvegarder
@@ -3038,18 +3039,18 @@ Begin
       p_ReinitialisePasTout ;
 //      gb_AllSelect := False ;
       // On va ajouter à nouveau des enregistrements
-      gvar_GroupeEnCours := Null ;
-      gb_ListTotal := False ;
-      gb_ListTotalReal := False ;
+      gvar_WorkingGroup := Null ;
+      gb_OptionTotalList := False ;
+      gb_TotalListReal := False ;
     End ;
   // ajoute à nouveau les enregistrements
-//  if not gb_Panier Then
-  p_AjouteEnregistrements ;
+//  if not gb_Basket Then
+  p_AddRecords ;
   p_UndoRecord;
-  if assigned ( ge_abandonneEvent )
+  if assigned ( ge_CancelledEvent )
   and assigned ( Sender )
    Then
-    ge_abandonneEvent ( gdl_DataLink.DataSet );
+    ge_CancelledEvent ( gdl_DataLink.DataSet );
 
 End ;
 
@@ -3069,7 +3070,7 @@ Begin
   inherited ;
   // Initialisation
   gb_LoadList := False ;
-  gvar_GroupeEnCours := Null ;
+  gvar_WorkingGroup := Null ;
 
   if gb_AllSelect
   and not gb_MontreTout
@@ -3077,26 +3078,26 @@ Begin
     Begin
       gb_AllSelect := False ;
       // On a peut-être trié le query dans la liste où tout a été transféré
-      if  gb_ListTotal
+      if  gb_OptionTotalList
       and assigned ( gdl_DataLink.Datasource         )
       and assigned ( gdl_DataLink.DataSet )
        Then
-         fb_PrepareTri ( SortColumn );
+         fb_PrepareSorting ( SortColumn );
     End ;
 
-  if  gb_Panier
+  if  gb_Basket
   and gb_EstPrincipale
-  and assigned ( galv_AutreListe ) Then
+  and assigned ( galv_OtherList ) Then
     Begin
-      if ( galv_AutreListe.Items.Count = 0 )
-      and assigned ( gBt_Panier ) Then
-        gBt_Panier.Enabled := False ;
+      if ( galv_OtherList.Items.Count = 0 )
+      and assigned ( gBt_Basket ) Then
+        gBt_Basket.Enabled := False ;
     End ;
 
-  if not gb_Panier Then
+  if not gb_Basket Then
     Finalize ( gstl_KeysListOut );
-  gb_ListTotalReal := False ;
-  gb_ListTotal := False ;
+  gb_TotalListReal := False ;
+  gb_OptionTotalList := False ;
 End ;
 
 
@@ -3111,8 +3112,8 @@ var
 ///  ls_Compare         : String ;
 Begin
   Result := Null ;
-  if gb_Panier Then
-    if ( high ( gt_CleOrigine ) >= 0 ) Then
+  if gb_Basket Then
+    if ( high ( gt_OriginKey ) >= 0 ) Then
         try
           if ( gt_ColonneCle [ 0 ] = 0   ) Then
             Begin
@@ -3122,13 +3123,13 @@ Begin
             Begin
               ls_CodeCherche := asi_ItemsSelected.SubItems [ gt_colonneCle [ 0 ] - 1 ];
             End ;
-          if ( aadoq_Dataset.FindField ( gs_CleUnite ).DataType in CST_DELPHI_FIELD_STRING ) Then
-            aadoq_Query.Filter := gs_CleUnite + ' = ''' + fs_stringDbQuote ( ls_CodeCherche ) + ''''
+          if ( aadoq_Dataset.FindField ( gs_UnitsKey ).DataType in CST_DELPHI_FIELD_STRING ) Then
+            aadoq_Query.Filter := gs_UnitsKey + ' = ''' + fs_stringDbQuote ( ls_CodeCherche ) + ''''
           Else
-            aadoq_Query.Filter := gs_CleUnite + ' = ' + ls_CodeCherche ;
+            aadoq_Query.Filter := gs_UnitsKey + ' = ' + ls_CodeCherche ;
           if aadoq_Query.RecordCount > 0 Then
             Begin
-              Result := aadoq_Query.FieldByName ( gs_ChampGroupe ).Value ;
+              Result := aadoq_Query.FieldByName ( gs_GroupField ).Value ;
             End ;
         finally
         End ;
@@ -3158,7 +3159,7 @@ end;
 
 
 // Supprime un item d'un tableau
-// at_Liste  : Tableau
+// at_List  : Tableau
 // alsi_Item : Item de la liste
 function TDBGroupView.fi_SupprimeItem ( var at_List : fonctions_variant.tt_TableauVariant ; const alsi_Item : TListItem ) : Integer ;
 // Index à supprimer
@@ -3186,25 +3187,25 @@ End ;
 // Sender : obligatoire
 procedure TDBGroupView.p_ClickTransfert(Sender: TObject);
 var
-  li_i, li_j , li_Ajoute,
+  li_i, li_j , li_Add,
   li_TotalSelection : integer;
   llsi_ItemsSelected : TListItem;
 
   lits_stateSelected : {$IFDEF FPC}TListItemStates{$ELSE} TItemStates{$ENDIF};
 
-  // pour l'instant ola dévalidation sert au panier
+  // pour l'instant ola dévalidation sert au Basket
   lb_ValideBoutons   ,
   lb_DeValideBoutons ,
   lb_DesactiveGrille ,
   lb_VerifieModifs   ,
   lb_VarIsString     ,
   lb_Continue        : Boolean ;
-  lvar_Ajoute        ,
-  lvar_AjouteTempo   : Variant ;
+  lvar_Add        ,
+  lvar_AddTempo   : Variant ;
   lws_SQL            : String ;
 //  lt_TableauTempo : tt_Tableau ;
 begin
-  if not assigned ( gBt_Liste )
+  if not assigned ( gBt_List )
   or ( not assigned ( gsts_SQLCommand)
  {$IFDEF DELPHI_9_UP}
   and not assigned ( gwst_SQLCommand)
@@ -3224,81 +3225,81 @@ begin
   /// Enregistrement des groupes avant transfert : paut annuler cet évènement
 //  p_PostDataSourceOwner;
   // Ne fonctionne qu'en complémentarité
-  if not assigned ( galv_AutreListe )
+  if not assigned ( galv_OtherList )
 //  or not assigned ( gdl_DataLinkOwner )
 //  or not assigned ( gdl_DataLinkOwner.DataSet )
   // Revérification : y-a-t-il maintenant des items sélectionnés
-  or ( galv_AutreListe.SelCount = 0 )
+  or ( galv_OtherList.SelCount = 0 )
    then
     exit;
 
   lws_SQL := '';
 
-  if gb_Panier Then
+  if gb_Basket Then
     Begin
       if gb_EstPrincipale Then
         Begin
           // Préparation mise à jour des plus et des clés d'origine
-          if fb_TableauVersSQL ( lws_SQL, gt_CleOrigine, False, [] ) Then
+          if fb_TableauVersSQL ( lws_SQL, gt_OriginKey, False, [] ) Then
             with ds_DataSourceQuery2.DataSet  do
               try
                 ds_DataSourceQuery2.DataSet.Close ;
-                lws_SQL := 'SELECT ' + gs_ChampGroupe + ',' + gs_ChampUnite + ' FROM ' + gs_TableGroupe + ' WHERE ' + gs_ChampGroupe + ' IN (' + lws_SQL + ')' ;
+                lws_SQL := 'SELECT ' + gs_GroupField + ',' + gs_UnitsField + ' FROM ' + gs_GroupTable + ' WHERE ' + gs_GroupField + ' IN (' + lws_SQL + ')' ;
                 p_OpenSQLQuery ( ds_DataSourceQuery2.DataSet, lws_SQL );
               Except
                 on e: Exception do
                   f_GereException ( e, ds_DataSourceQuery2.DataSet )
               End ;
 
-          lvar_Ajoute    := gdl_DataLinkOwner.DataSet.FieldValues [ gs_CleGroupe ] ;
-          lb_VarIsString := ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-                            or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-                            or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ));
+          lvar_Add    := gdl_DataLinkOwner.DataSet.FieldValues [ gs_GroupKey ] ;
+          lb_VarIsString := ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+                            or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+                            or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ));
 
           // Mise à jour des clés d'origine
-//          if assigned ( lrec_Enregistrements ) Then
-            for li_i := 0 to high ( gt_CleOrigine ) do
-              if  ( gt_CleOrigine [ li_i ].var_Cle <> Null ) Then
+//          if assigned ( lrec_Recordments ) Then
+            for li_i := 0 to high ( gt_OriginKey ) do
+              if  ( gt_OriginKey [ li_i ].var_Key <> Null ) Then
                 with ds_DataSourceQuery2.DataSet do
                   Begin
                     if lb_VarIsString Then
-                      Filter := gs_ChampGroupe + ' = ''' + fs_stringDbQuote ( VarToStr ( gt_CleOrigine [ li_i ].var_Cle ) ) + ''''
+                      Filter := gs_GroupField + ' = ''' + fs_stringDbQuote ( VarToStr ( gt_OriginKey [ li_i ].var_Key ) ) + ''''
                     Else
-                      Filter := gs_ChampGroupe + ' = ' + VarToStr ( gt_CleOrigine [ li_i ].var_Cle );
+                      Filter := gs_GroupField + ' = ' + VarToStr ( gt_OriginKey [ li_i ].var_Key );
                     if RecordCount = 0 Then
                       Begin
-                        gt_CleOrigine [ li_i ].var_Cle := Null ;
-                        galv_AutreListe.gt_CleOrigine [ li_i ].var_Cle := Null ;
+                        gt_OriginKey [ li_i ].var_Key := Null ;
+                        galv_OtherList.gt_OriginKey [ li_i ].var_Key := Null ;
                       End ;
                   End ;
 
         End
       Else
         Begin
-          lvar_Ajoute    := galv_AutreListe.gdl_DataLinkOwner.DataSet.FieldValues [ galv_AutreListe.gs_CleGroupe ];
+          lvar_Add    := galv_OtherList.gdl_DataLinkOwner.DataSet.FieldValues [ galv_OtherList.gs_GroupKey ];
         End ;
-      if gb_ListTotal Then
+      if gb_OptionTotalList Then
         Begin
-          gb_ListTotalReal := fi_findInListVarBool ( gt_CleOrigine, lvar_Ajoute, False, True, [CST_GROUPE_TRANS_TOTAL]) <> -1;
+          gb_TotalListReal := fi_findInListVarBool ( gt_OriginKey, lvar_Add, False, True, [CST_GROUPE_TRANS_TOTAL]) <> -1;
         End ;
-      p_AddOriginKey ( lvar_Ajoute );
+      p_AddOriginKey ( lvar_Add );
       // Eff
     End ;
 
   // Deuxième compteur : pour récupérer l'item suivant
-  li_j := galv_AutreListe.Selected.Index;
+  li_j := galv_OtherList.Selected.Index;
   // nombre d'éléments à ajouter
-  li_TotalSelection := galv_AutreListe.SelCount - 1;
+  li_TotalSelection := galv_OtherList.SelCount - 1;
   // Plus rapide avec Items.BeginUpdate et Items.EndUpdate
     // Items sélectionnés
   {$IFDEF FPC}
   BeginUpdate ;
-  galv_AutreListe.BeginUpdate ;
+  galv_OtherList.BeginUpdate ;
   {$ELSE}
   Items.BeginUpdate ;
-  galv_AutreListe.Items.BeginUpdate ;
+  galv_OtherList.Items.BeginUpdate ;
   {$ENDIF}
-  llsi_ItemsSelected := galv_AutreListe.Selected;
+  llsi_ItemsSelected := galv_OtherList.Selected;
   try
 
     for li_i := 0 to li_TotalSelection do
@@ -3310,77 +3311,77 @@ begin
           gVG_ListItem.Caption := llsi_ItemsSelected.Caption;
           gVG_ListItem.SubItems.addStrings ( llsi_ItemsSelected.SubItems );
           lb_Continue := True ;
-          if assigned ( galv_AutreListe )
+          if assigned ( galv_OtherList )
            Then
-            if  not gb_Panier or not gb_EstPrincipale  Then
+            if  not gb_Basket or not gb_EstPrincipale  Then
              /// Ajoute dans l'autre liste d'exclusion
               Begin
                   // L'item se trouve soit dans les sous-items soit dans le caption de l'item
                   if  ( gt_ColonneCle [ 0 ] >= llsi_ItemsSelected.SubItems.Count ) Then
                     Begin
-                      li_Ajoute := fi_AjouteListe ( galv_AutreListe.gstl_KeysListOut , llsi_ItemsSelected.SubItems [ llsi_ItemsSelected.SubItems.Count - 1 ], True );
+                      li_Add := fi_AddListe ( galv_OtherList.gstl_KeysListOut , llsi_ItemsSelected.SubItems [ llsi_ItemsSelected.SubItems.Count - 1 ], True );
                     End
                   Else
                     if gt_ColonneCle [ 0 ] = 0
                      Then
                       Begin
-                        li_Ajoute := fi_AjouteListe ( galv_AutreListe.gstl_KeysListOut ,  llsi_ItemsSelected.Caption, True );
+                        li_Add := fi_AddListe ( galv_OtherList.gstl_KeysListOut ,  llsi_ItemsSelected.Caption, True );
                       End
                      Else
                       Begin
-                        li_Ajoute := fi_AjouteListe ( galv_AutreListe.gstl_KeysListOut ,  llsi_ItemsSelected.SubItems [ gt_ColonneCle [ 0 ] - 1 ], True );
+                        li_Add := fi_AddListe ( galv_OtherList.gstl_KeysListOut ,  llsi_ItemsSelected.SubItems [ gt_ColonneCle [ 0 ] - 1 ], True );
                       End ;
-                if gb_Panier
-                and ( li_Ajoute <> -1 ) Then
+                if gb_Basket
+                and ( li_Add <> -1 ) Then
                   Begin
-                    li_Ajoute := fi_AjouteListe ( galv_AutreListe.gT_KeyOwners     ,  gt_CleOrigine [ high ( gt_CleOrigine )].var_Cle, False );
-                    galv_AutreListe.gT_KeyOwners [ li_Ajoute ].i_Option := CST_GROUPE_TRANS_EXCLU ;
+                    li_Add := fi_AddListe ( galv_OtherList.gT_KeyOwners     ,  gt_OriginKey [ high ( gt_OriginKey )].var_Key, False );
+                    galv_OtherList.gT_KeyOwners [ li_Add ].i_Option := CST_GROUPE_TRANS_EXCLU ;
                   End ;
               End
              Else
-             //Gestion type panier
+             //Gestion type Basket
               Begin
 
-                li_Ajoute := -1 ;
-                lvar_AjouteTempo := fvar_PeutMettrePlus ( gdl_DataLink.DataSet, ds_DataSourceQuery2.DataSet, llsi_ItemsSelected );
-                lb_Continue := ( VarCompareValue ( lvar_AjouteTempo, lvar_Ajoute ) <> vrEqual );
+                li_Add := -1 ;
+                lvar_AddTempo := fvar_PeutMettrePlus ( gdl_DataLink.DataSet, ds_DataSourceQuery2.DataSet, llsi_ItemsSelected );
+                lb_Continue := ( VarCompareValue ( lvar_AddTempo, lvar_Add ) <> vrEqual );
                 if lb_Continue or gb_AllSelect Then
                   if  ( gt_ColonneCle [ 0 ] >= llsi_ItemsSelected.SubItems.Count ) Then
                     Begin
-                      li_Ajoute := fi_AjouteListe ( galv_AutreListe.gstl_KeysListOut , llsi_ItemsSelected.SubItems [ llsi_ItemsSelected.SubItems.Count - 1 ], True );
+                      li_Add := fi_AddListe ( galv_OtherList.gstl_KeysListOut , llsi_ItemsSelected.SubItems [ llsi_ItemsSelected.SubItems.Count - 1 ], True );
                     End
                   Else
                     if gt_ColonneCle [ 0 ] = 0
                      Then
                       Begin
-                        li_Ajoute := fi_AjouteListe ( galv_AutreListe.gstl_KeysListOut ,  llsi_ItemsSelected.Caption, True );
+                        li_Add := fi_AddListe ( galv_OtherList.gstl_KeysListOut ,  llsi_ItemsSelected.Caption, True );
                       End
                      Else
                       Begin
-                        li_Ajoute := fi_AjouteListe ( galv_AutreListe.gstl_KeysListOut ,  llsi_ItemsSelected.SubItems [ gt_ColonneCle [ 0 ] - 1 ], True );
+                        li_Add := fi_AddListe ( galv_OtherList.gstl_KeysListOut ,  llsi_ItemsSelected.SubItems [ gt_ColonneCle [ 0 ] - 1 ], True );
                       End ;
-                if gb_Panier
-                and ( li_Ajoute <> - 1 ) Then
+                if gb_Basket
+                and ( li_Add <> - 1 ) Then
                   Begin
-                    if lvar_AjouteTempo = Null Then
-                      lvar_AjouteTempo := '' ;
-                    li_Ajoute := fi_AjouteListe ( galv_AutreListe.gT_KeyOwners, lvar_AjouteTempo, False );
+                    if lvar_AddTempo = Null Then
+                      lvar_AddTempo := '' ;
+                    li_Add := fi_AddListe ( galv_OtherList.gT_KeyOwners, lvar_AddTempo, False );
                     if gb_EstPrincipale and lb_Continue Then
-                      galv_AutreListe.gT_KeyOwners [ li_Ajoute ].i_Option := CST_GROUPE_TRANS_DESTI
+                      galv_OtherList.gT_KeyOwners [ li_Add ].i_Option := CST_GROUPE_TRANS_DESTI
                     Else
                       if gb_EstPrincipale Then
-                        galv_AutreListe.gT_KeyOwners [ li_Ajoute ].i_Option := CST_GROUPE_TRANS_RETOUR
+                        galv_OtherList.gT_KeyOwners [ li_Add ].i_Option := CST_GROUPE_TRANS_RETOUR
                       Else
-                        galv_AutreListe.gT_KeyOwners [ li_Ajoute ].i_Option := CST_GROUPE_TRANS_EXCLU ;
+                        galv_OtherList.gT_KeyOwners [ li_Add ].i_Option := CST_GROUPE_TRANS_EXCLU ;
                   End ;
               End ;
 
-          li_Ajoute := fi_SupprimeItem ( gstl_KeysListOut, llsi_ItemsSelected );
-          lb_DeValideBoutons :=  ( li_Ajoute <> -1 ) or ( gb_Panier and (( gb_EstPrincipale and gb_ListTotal ) or not assigned ( galv_AutreListe ) or ( not gb_EstPrincipale  and galv_AutreListe.gb_ListTotal ))) ;
-          if gb_Panier
-          and ( li_Ajoute <> -1 ) Then
+          li_Add := fi_SupprimeItem ( gstl_KeysListOut, llsi_ItemsSelected );
+          lb_DeValideBoutons :=  ( li_Add <> -1 ) or ( gb_Basket and (( gb_EstPrincipale and gb_OptionTotalList ) or not assigned ( galv_OtherList ) or ( not gb_EstPrincipale  and galv_OtherList.gb_OptionTotalList ))) ;
+          if gb_Basket
+          and ( li_Add <> -1 ) Then
             Begin
-              gt_KeyOwners [ li_Ajoute ].var_Cle := Null ;
+              gt_KeyOwners [ li_Add ].var_Key := Null ;
             End ;
 
             // si principale
@@ -3388,7 +3389,7 @@ begin
            Then
             Begin
             // alors état inséré
-              if not gb_Panier
+              if not gb_Basket
           // Plus tard gérer les clés en les enlevant complètement
               and ( llsi_ItemsSelected.{$IFDEF FPC}ImageIndex{$ELSE}StateIndex{$ENDIF} <> gi_ImageSupprime )
                Then
@@ -3399,7 +3400,7 @@ begin
                  End
                Else
                 Begin
-                  if (     gb_Panier
+                  if (     gb_Basket
                        and ( lb_Continue )) Then
                     Begin
                       gb_NoScroll := True ;
@@ -3411,7 +3412,7 @@ begin
             End
            Else
            // sinon état supprimé
-            if not gb_Panier
+            if not gb_Basket
           // Plus tard gérer les clés en les enlevant complètement
             and ( llsi_ItemsSelected.{$IFDEF FPC}ImageIndex{$ELSE}StateIndex{$ENDIF} <> gi_ImageInsere ) Then
               Begin
@@ -3422,8 +3423,8 @@ begin
           // Pas d'état insertion ou suppression : on supprime de la liste d'inclusion
           if  not gb_AllSelect
           and ( gVG_ListItem.{$IFDEF FPC}ImageIndex{$ELSE}StateIndex{$ENDIF} = -1 )
-          and not gb_Panier Then
-            fi_SupprimeItem ( galv_AutreListe.gstl_KeysListOut, llsi_ItemsSelected );
+          and not gb_Basket Then
+            fi_SupprimeItem ( galv_OtherList.gstl_KeysListOut, llsi_ItemsSelected );
 
           // Transfert finalisé
           llsi_ItemsSelected.Delete;
@@ -3435,7 +3436,7 @@ begin
              Begin
               li_j := llsi_ItemsSelected.index ;
               // Prochain item
-              llsi_ItemsSelected := galv_AutreListe.GetNextItem ( galv_AutreListe.Items [ li_j ] , lits_stateSelected);
+              llsi_ItemsSelected := galv_OtherList.GetNextItem ( galv_OtherList.Items [ li_j ] , lits_stateSelected);
              end
            else
            // Sinon on quitte
@@ -3446,30 +3447,30 @@ begin
   finally
     {$IFDEF FPC}
     EndUpdate ;
-    galv_AutreListe.EndUpdate ;
+    galv_OtherList.EndUpdate ;
     {$ELSE}
     Items.EndUpdate ;
-    galv_AutreListe.Items.EndUpdate ;
+    galv_OtherList.Items.EndUpdate ;
     {$ENDIF}
     Invalidate ;
-    galv_AutreListe.Invalidate ;
+    galv_OtherList.Invalidate ;
   End ;
   Invalidate ;
 //  Repaint ;
   // Dévalide les boutons si il faut dévalider
   if lb_DeValideBoutons
   and not lb_ValideBoutons  Then
-    if gb_Panier
-    and  assigned ( galv_AutreListe ) Then
+    if gb_Basket
+    and  assigned ( galv_OtherList ) Then
       Begin
         if  not gb_EstPrincipale Then
           Begin
             // scrute les clés ajoutées une à une
-            if not gb_AllSelect or not galv_AutreListe.gb_ListTotal Then
+            if not gb_AllSelect or not galv_OtherList.gb_OptionTotalList Then
               Begin
               for li_i := high ( gstl_KeysListOut ) downto 0 do
                 if  ( gstl_KeysListOut [ li_i ] <> Null )
-                and (( gt_KeyOwners [ li_i ].var_Cle = '' ) or ( VarCompareValue ( gt_KeyOwners [ li_i ].var_Cle, galv_AutreListe.gvar_CleDestination ) <> vrEqual ))
+                and (( gt_KeyOwners [ li_i ].var_Key = '' ) or ( VarCompareValue ( gt_KeyOwners [ li_i ].var_Key, galv_OtherList.gvar_KeyDestination ) <> vrEqual ))
                 and ( gt_KeyOwners [ li_i ].i_Option = CST_GROUPE_TRANS_DESTI ) Then
                   Begin
                     lb_DeValideBoutons := False ;
@@ -3478,22 +3479,22 @@ begin
               End
             Else
               Begin
-                if galv_AutreListe.Items.Count > 0 Then
+                if galv_OtherList.Items.Count > 0 Then
                   Begin
                     lb_DeValideBoutons := False ;
                   End
                 Else
-                  galv_AutreListe.gb_ListTotal := False ;
+                  galv_OtherList.gb_OptionTotalList := False ;
               End ;
           End
         Else
-          if not gb_AllSelect or not gb_ListTotal Then
+          if not gb_AllSelect or not gb_OptionTotalList Then
             Begin
-                for li_i := high ( galv_AutreListe.gstl_KeysListOut ) downto 0 do
-                  if  ( galv_AutreListe.gstl_KeysListOut [ li_i ] <> Null )
+                for li_i := high ( galv_OtherList.gstl_KeysListOut ) downto 0 do
+                  if  ( galv_OtherList.gstl_KeysListOut [ li_i ] <> Null )
                   // Comparaison de variants
-                  and (( galv_AutreListe.gt_KeyOwners [ li_i ].var_Cle = '' ) or ( VarCompareValue ( galv_AutreListe.gt_KeyOwners [ li_i ].var_Cle, gvar_CleDestination ) <> vrEqual ))
-                  and ( galv_AutreListe.gt_KeyOwners [ li_i ].i_Option = CST_GROUPE_TRANS_DESTI ) Then
+                  and (( galv_OtherList.gt_KeyOwners [ li_i ].var_Key = '' ) or ( VarCompareValue ( galv_OtherList.gt_KeyOwners [ li_i ].var_Key, gvar_KeyDestination ) <> vrEqual ))
+                  and ( galv_OtherList.gt_KeyOwners [ li_i ].i_Option = CST_GROUPE_TRANS_DESTI ) Then
                     Begin
                       lb_DeValideBoutons := False ;
                       Break ;
@@ -3506,15 +3507,15 @@ begin
                   lb_DeValideBoutons := False ;
                 End
               Else
-                gb_ListTotal := False ;
+                gb_OptionTotalList := False ;
             End ;
       End
     Else
       Begin
         // Plus tard gérer les clés en les enlevant complètement
         if gb_AllSelect
-        or fb_ListeAffectee (               gstl_KeysListOut )
-        or fb_ListeAffectee ( galv_AutreListe.gstl_KeysListOut ) Then
+        or fb_SettedList (               gstl_KeysListOut )
+        or fb_SettedList ( galv_OtherList.gstl_KeysListOut ) Then
           Begin
             lb_DeValideBoutons := False ;
           End
@@ -3524,144 +3525,144 @@ begin
 
   if  gb_EstPrincipale
   and gb_AllSelect
-  and ( galv_AutreListe.Items.Count = 0 ) Then
+  and ( galv_OtherList.Items.Count = 0 ) Then
     Begin
       if not lb_ValideBoutons
       and ( lb_DeValideBoutons
-           or ( assigned ( gBt_Enregistre ) and not gBt_Enregistre.Enabled )
-           or ( assigned ( gBT_abandonne ) and not gBT_abandonne.Enabled )
-           or ( not  assigned ( gBT_enregistre ) and  not assigned ( gBT_abandonne ) and assigned ( gBT_Optionnel ) and not gBT_Optionnel.Enabled )) Then
+           or ( assigned ( gBt_Record ) and not gBt_Record.Enabled )
+           or ( assigned ( gBT_Cancel ) and not gBT_Cancel.Enabled )
+           or ( not  assigned ( gBT_Record ) and  not assigned ( gBT_Cancel ) and assigned ( gBT_Optional ) and not gBT_Optional.Enabled )) Then
         Begin
-          Finalize ( gt_CleOrigine );
+          Finalize ( gt_OriginKey );
           Finalize ( gstl_KeysListOut );
           Finalize ( gt_KeyOwners );
-          Finalize ( galv_AutreListe.gt_KeyOwners );
-          Finalize ( galv_AutreListe.gstl_KeysListOut );
-          Finalize ( galv_AutreListe.gt_CleOrigine );
+          Finalize ( galv_OtherList.gt_KeyOwners );
+          Finalize ( galv_OtherList.gstl_KeysListOut );
+          Finalize ( galv_OtherList.gt_OriginKey );
         End
       Else
-        for li_i := 0 to high ( gt_CleOrigine ) do
-          if gt_CleOrigine [ li_i ].i_Option = 1 Then
+        for li_i := 0 to high ( gt_OriginKey ) do
+          if gt_OriginKey [ li_i ].i_Option = 1 Then
             Begin
-              gt_CleOrigine [ li_i ].i_Option := 0 ;
-              galv_AutreListe.gt_CleOrigine [ li_i ].i_Option := 0 ;
+              gt_OriginKey [ li_i ].i_Option := 0 ;
+              galv_OtherList.gt_OriginKey [ li_i ].i_Option := 0 ;
             End ;
       gb_AllSelect := False ;
-      gb_ListTotal := False ;
-      galv_AutreListe.gb_AllSelect := False ;
-      galv_AutreListe.gb_ListTotal := False ;
+      gb_OptionTotalList := False ;
+      galv_OtherList.gb_AllSelect := False ;
+      galv_OtherList.gb_OptionTotalList := False ;
     End ;
 
   if lb_DeValideBoutons Then
     Begin
       gb_NoScroll := False ;
-      if assigned ( galv_AutreListe ) Then
-        galv_AutreListe.gb_NoScroll := False ;
+      if assigned ( galv_OtherList ) Then
+        galv_OtherList.gb_NoScroll := False ;
     End ;
 
   // On peut enregistrer et abandonner ?
-  if assigned ( gBT_Optionnel ) Then
+  if assigned ( gBT_Optional ) Then
     if ( lb_ValideBoutons ) Then
       Begin
-        if not gBT_Optionnel.enabled Then
+        if not gBT_Optional.enabled Then
           Begin
             if Self.Enabled Then
-              gBT_Optionnel.enabled := True;
+              gBT_Optional.enabled := True;
             lb_DesactiveGrille       := True ;
           End ;
       End
     Else
       if  lb_DeValideBoutons
-      and gBT_Optionnel.enabled Then
+      and gBT_Optional.enabled Then
           Begin
-            gBT_Optionnel.enabled := False;
+            gBT_Optional.enabled := False;
             lb_VerifieModifs := True ;
           End ;
-  if assigned ( gBt_Enregistre ) Then
+  if assigned ( gBt_Record ) Then
   // On a un plus ou un moins
     if ( lb_ValideBoutons ) Then
       Begin
-        if not gBt_Enregistre.Enabled Then
+        if not gBt_Record.Enabled Then
           Begin
             if Self.Enabled Then
-              gBt_Enregistre  .Enabled := True ;
+              gBt_Record  .Enabled := True ;
             lb_DesactiveGrille       := True ;
           End ;
       End
     Else
       if  lb_DeValideBoutons
-      and gBt_Enregistre.Enabled Then
+      and gBt_Record.Enabled Then
         Begin
-          gBt_Enregistre.Enabled := False ;
+          gBt_Record.Enabled := False ;
           lb_VerifieModifs := True ;
         End ;
-  if assigned ( gBt_Abandonne ) Then
+  if assigned ( gBt_Cancel ) Then
   // On a un plus ou un moins
     if ( lb_ValideBoutons ) Then
       Begin
-        if not gBt_Abandonne.Enabled Then
+        if not gBt_Cancel.Enabled Then
           Begin
             if Self.Enabled Then
-              gBt_Abandonne.Enabled := True ;
+              gBt_Cancel.Enabled := True ;
             lb_DesactiveGrille := True ;
           End ;
       End
     Else
       if lb_DeValideBoutons
-      and gBt_Abandonne.Enabled Then
+      and gBt_Cancel.Enabled Then
         Begin
-          gBt_Abandonne.Enabled := False ;
+          gBt_Cancel.Enabled := False ;
           lb_VerifieModifs := True ;
         End ;
-  if assigned ( gBt_AutreTotal )
+  if assigned ( gBt_OtherTotal )
   and Self.Enabled Then
-    gBt_AutreTotal.Enabled := True ;
-  // Gestion du bouton panier
-  if  gb_Panier Then
+    gBt_OtherTotal.Enabled := True ;
+  // Gestion du bouton Basket
+  if  gb_Basket Then
   if  not gb_EstPrincipale Then
     Begin
       if ( Items.Count > 0 ) Then
         Begin
           if Self.Enabled Then
-           gBt_Panier.Enabled := True ;
+           gBt_Basket.Enabled := True ;
         End
        Else
-         gBt_Panier.Enabled := False ;
+         gBt_Basket.Enabled := False ;
     End
   Else
     Begin
-      if ( galv_AutreListe.Items.Count > 0 ) Then
+      if ( galv_OtherList.Items.Count > 0 ) Then
         Begin
           if Self.Enabled Then
-           gBt_Panier.Enabled := True ;
+           gBt_Basket.Enabled := True ;
         End
        Else
-         gBt_Panier.Enabled := False ;
+         gBt_Basket.Enabled := False ;
     End ;
-  if assigned ( gBt_Liste ) Then
-    gBT_Liste.Enabled := False ;
-  if ( galv_AutreListe.Items.Count = 0 )
-  and assigned ( gBt_ListeTotal ) Then
-    gBt_ListeTotal.Enabled := False ;
+  if assigned ( gBt_List ) Then
+    gBT_List.Enabled := False ;
+  if ( galv_OtherList.Items.Count = 0 )
+  and assigned ( gBt_TotalList ) Then
+    gBt_TotalList.Enabled := False ;
   if lb_DesactiveGrille Then
     p_DesactiveGrille ;
   if lb_VerifieModifs
    Then
     p_VerifieModifications ;
   // Ancien évènement
-  if assigned ( ge_ListeClick )
+  if assigned ( ge_ListClick )
   and assigned ( Sender )
    Then
-    ge_ListeClick ( Sender );
+    ge_ListClick ( Sender );
 
 end;
 //////////////////////////////////////////////////////////////////////////////////
 // Procédure : p_AddOriginKey
 // Description : Ajoute une clé d'origine de transfert
 // paramètres :
-// avar_Ajoute : La clé à ajouter dans la liste des clés d'origine
+// avar_Add : La clé à ajouter dans la liste des clés d'origine
 //////////////////////////////////////////////////////////////////////////////////
-procedure TDBGroupView.p_AddOriginKey ( const avar_Ajoute : Variant );
+procedure TDBGroupView.p_AddOriginKey ( const avar_Add : Variant );
 var li_Trouve : Integer ;
     lb_Test : Boolean ;
 Begin
@@ -3669,37 +3670,37 @@ Begin
     // transfert vers la liste principale
     Begin
       // nouvelle destination : on n'ajoute pas la clé mais on affecte la destination
-      gvar_CleDestination := gdl_DataLinkOwner.DataSet.FieldValues [ gs_CleGroupe ];
+      gvar_KeyDestination := gdl_DataLinkOwner.DataSet.FieldValues [ gs_GroupKey ];
     End
   Else
     Begin
       // La clé a peut-être été déjà ajoutée
-      li_Trouve := fi_findInListVarBool ( gt_CleOrigine, avar_Ajoute, False, False, [] );
+      li_Trouve := fi_findInListVarBool ( gt_OriginKey, avar_Add, False, False, [] );
       // pas trouvé
       if li_Trouve = -1 Then
         Begin
           // On ajoute
-          SetLength ( gt_CleOrigine, high ( gt_CleOrigine ) + 2 );
-          SetLength ( galv_AutreListe.gt_CleOrigine, high ( galv_AutreListe.gt_CleOrigine ) + 2 );
-          li_Trouve := high ( gt_CleOrigine );
-          gt_CleOrigine [ li_Trouve ].var_Cle     := avar_Ajoute ;
-          galv_AutreListe.gt_CleOrigine [ li_Trouve ].var_Cle     := avar_Ajoute ;
-          lb_Test := gb_ListTotalReal ;
+          SetLength ( gt_OriginKey, high ( gt_OriginKey ) + 2 );
+          SetLength ( galv_OtherList.gt_OriginKey, high ( galv_OtherList.gt_OriginKey ) + 2 );
+          li_Trouve := high ( gt_OriginKey );
+          gt_OriginKey [ li_Trouve ].var_Key     := avar_Add ;
+          galv_OtherList.gt_OriginKey [ li_Trouve ].var_Key     := avar_Add ;
+          lb_Test := gb_TotalListReal ;
         End
       Else
         // sinon on affectera un transfert total par défaut
-        lb_Test := gb_ListTotalReal or ( gt_CleOrigine [ li_Trouve ].i_Option > CST_GROUPE_TRANS_SIMPLE ) ;
+        lb_Test := gb_TotalListReal or ( gt_OriginKey [ li_Trouve ].i_Option > CST_GROUPE_TRANS_SIMPLE ) ;
       if lb_Test Then
         // transfert total
         Begin
-          gt_CleOrigine [ li_Trouve ].i_Option := CST_GROUPE_TRANS_TOTAL ;
-          galv_AutreListe.gt_CleOrigine [ li_Trouve ].i_Option := CST_GROUPE_TRANS_TOTAL ;
+          gt_OriginKey [ li_Trouve ].i_Option := CST_GROUPE_TRANS_TOTAL ;
+          galv_OtherList.gt_OriginKey [ li_Trouve ].i_Option := CST_GROUPE_TRANS_TOTAL ;
         End
       Else
         // transfert classique
         Begin
-          gt_CleOrigine [ li_Trouve ].i_Option := CST_GROUPE_TRANS_SIMPLE ;
-          galv_AutreListe.gt_CleOrigine [ li_Trouve ].i_Option := CST_GROUPE_TRANS_SIMPLE ;
+          gt_OriginKey [ li_Trouve ].i_Option := CST_GROUPE_TRANS_SIMPLE ;
+          galv_OtherList.gt_OriginKey [ li_Trouve ].i_Option := CST_GROUPE_TRANS_SIMPLE ;
         End ;
     End ;
 End ;
@@ -3713,95 +3714,95 @@ begin
   lb_DesactiveGrille := False ;
 
   // Il est possible qu'on ai juste à faire un transfert total item par item
-  if  assigned ( galv_AutreListe )
+  if  assigned ( galv_OtherList )
   and assigned ( Sender )
     // On montre tout dans la deux listes : tous les items sont présents
-  and (  ( gb_MontreTout  and galv_AutreListe.gb_MontreTout )
-    // Gestion panier : une seule liste est à considérer
-      or ( gb_Panier and ((( gb_AllLoaded or gb_EstPrincipale )  and galv_AutreListe.gb_AllLoaded ) or ( gb_EstPrincipale and ( fi_findInListVarBool( gt_CleOrigine, Null, False, True, [1]) = -1 )))))
+  and (  ( gb_MontreTout  and galv_OtherList.gb_MontreTout )
+    // Gestion Basket : une seule liste est à considérer
+      or ( gb_Basket and ((( gb_AllLoaded or gb_EstPrincipale )  and galv_OtherList.gb_AllLoaded ) or ( gb_EstPrincipale and ( fi_findInListVarBool( gt_OriginKey, Null, False, True, [1]) = -1 )))))
    Then
     Begin
       // sélection de tous les items
-      galv_AutreListe.SelectAll ;
+      galv_OtherList.SelectAll ;
       // transfert standard
       p_ClickTransfert ( nil );
       // evènement du bouton
-      if assigned ( ge_ListeTotalClick ) Then
-        ge_ListeTotalClick ( Sender );
+      if assigned ( ge_TotalListClick ) Then
+        ge_TotalListClick ( Sender );
       Exit ;
     End ;
-  if  assigned ( galv_AutreListe )
+  if  assigned ( galv_OtherList )
   // Test inutile mais on ne sait jamais
-  and  ( galv_AutreListe.Items.Count > 0 )
+  and  ( galv_OtherList.Items.Count > 0 )
    Then
     Begin
       // Ajoute tous les enregistrements dans la liste
       p_TransfertTotal ;
         // On vide l'autre liste
-      galv_AutreListe.p_VideListeTotal ;
+      galv_OtherList.p_VideTotalList ;
         /// Le transfert de tout dans la liste ne fonctionne qu'avec l'autre liste
-      if gb_Panier
+      if gb_Basket
       and gB_AllSelect Then
         Begin
           if not gb_EstPrincipale Then
             Begin
-              if fb_ListeAffectee ( gstl_KeysListOut )
-              or fb_ListeOrigineAffectee ( gt_CleOrigine, True, 1 ) Then
+              if fb_SettedList ( gstl_KeysListOut )
+              or fb_SettedOriginalList ( gt_OriginKey, True, 1 ) Then
                 Begin
-                  if assigned ( gbt_Panier ) then
+                  if assigned ( gbt_Basket ) then
                     Begin
                       if Self.Enabled Then
-                       gBt_Panier.Enabled := True ;
+                       gBt_Basket.Enabled := True ;
                     End
                 End ;
             End
           Else
-            if  assigned ( galv_AutreListe )
-            and (    fb_ListeAffectee        ( galv_AutreListe.gstl_KeysListOut )
-                  or fb_ListeOrigineAffectee ( galv_AutreListe.gt_CleOrigine, True, 1 )) Then
+            if  assigned ( galv_OtherList )
+            and (    fb_SettedList         ( galv_OtherList.gstl_KeysListOut )
+                  or fb_SettedOriginalList ( galv_OtherList.gt_OriginKey, True, 1 )) Then
                 Begin
-                  if assigned ( gbt_Panier ) then
+                  if assigned ( gbt_Basket ) then
                     Begin
                       if Self.Enabled Then
-                       gBt_Panier.Enabled := True ;
+                       gBt_Basket.Enabled := True ;
                     End
                 End ;
         End ;
-{     if  ( not gb_Panier or gb_EstPrincipale ) Then
+{     if  ( not gb_Basket or gb_EstPrincipale ) Then
        Begin
           // On peut enregistrer et abandonner
-          if assigned ( gBt_Enregistre )
-          and not gBt_Enregistre.Enabled Then
+          if assigned ( gBt_Record )
+          and not gBt_Record.Enabled Then
             Begin
-              gBt_Enregistre.Enabled := True ;
+              gBt_Record.Enabled := True ;
               lb_DesactiveGrille := True ;
             End ;
-          if assigned ( gBT_Optionnel )
-          and not gBT_Optionnel.Enabled Then
+          if assigned ( gBT_Optional )
+          and not gBT_Optional.Enabled Then
             Begin
-              gBT_Optionnel.Enabled := True ;
+              gBT_Optional.Enabled := True ;
               lb_DesactiveGrille := True ;
             End ;
-          if assigned ( gBt_Abandonne )
-          and not gBt_Abandonne.Enabled  Then
+          if assigned ( gBt_Cancel )
+          and not gBt_Cancel.Enabled  Then
             Begin
-              gBt_Abandonne.Enabled := True ;
+              gBt_Cancel.Enabled := True ;
               lb_DesactiveGrille := True ;
             End ;
         End ;}
     End ;
-  if assigned ( gBt_ListeTotal )
+  if assigned ( gBt_TotalList )
    Then
-    gBt_ListeTotal.Enabled := False ;
-  if assigned ( gBt_Liste )
+    gBt_TotalList.Enabled := False ;
+  if assigned ( gBt_List )
    Then
-    gBt_Liste.Enabled := False ;
+    gBt_List.Enabled := False ;
   if lb_DesactiveGrille Then
     p_DesactiveGrille ;
   //  ancien évènement
-  if assigned ( ge_ListeTotalClick )
+  if assigned ( ge_TotalListClick )
    Then
-    ge_ListeTotalClick ( Sender );
+    ge_TotalListClick ( Sender );
 end;
 
 // Sur edition des groupes on enregistre
@@ -3825,7 +3826,7 @@ End ;
 procedure TDBGroupView.p_TransfertTotal;
 var ls_TexteSQL : String ;
     li_i, li_Modifie : Integer ;
-    lvar_Cle : Variant ;
+    lvar_Key : Variant ;
 begin
    // Post du datasource des groupes si édition
 //  p_PostDataSourceOwner;
@@ -3837,52 +3838,52 @@ begin
   p_Reinitialise ;
 
 
-  if gb_Panier
-  and assigned ( galv_AutreListe ) Then
+  if gb_Basket
+  and assigned ( galv_OtherList ) Then
     Begin
-      gvar_GroupeEnCours := Null ;
+      gvar_WorkingGroup := Null ;
       gb_LoadList        := False ;
       if gb_EstPrincipale Then
-        lvar_Cle := gdl_DataLinkOwner.DataSet.FieldValues [ gs_CleGroupe ]
+        lvar_Key := gdl_DataLinkOwner.DataSet.FieldValues [ gs_GroupKey ]
       Else
-        lvar_Cle := galv_AutreListe.gdl_DataLinkOwner.DataSet.FieldValues [ galv_AutreListe.gs_CleGroupe ];
-      if  ( lvar_Cle <> Null ) Then
-        for li_i := 0 to high ( galv_AutreListe.gstl_KeysListOut ) do
-          if  ( galv_AutreListe.gt_KeyOwners [ li_i ].var_Cle <> Null )
-          and ( galv_AutreListe.gt_KeyOwners [ li_i ].var_Cle <> '' )
-          and (( VarCompareValue ( galv_AutreListe.gt_KeyOwners [ li_i ].var_Cle, lvar_Cle ) = vrEqual )
-                or ( gb_EstPrincipale and ( galv_AutreListe.gt_KeyOwners [ li_i ].i_Option = CST_GROUPE_TRANS_DESTI ))) Then
+        lvar_Key := galv_OtherList.gdl_DataLinkOwner.DataSet.FieldValues [ galv_OtherList.gs_GroupKey ];
+      if  ( lvar_Key <> Null ) Then
+        for li_i := 0 to high ( galv_OtherList.gstl_KeysListOut ) do
+          if  ( galv_OtherList.gt_KeyOwners [ li_i ].var_Key <> Null )
+          and ( galv_OtherList.gt_KeyOwners [ li_i ].var_Key <> '' )
+          and (( VarCompareValue ( galv_OtherList.gt_KeyOwners [ li_i ].var_Key, lvar_Key ) = vrEqual )
+                or ( gb_EstPrincipale and ( galv_OtherList.gt_KeyOwners [ li_i ].i_Option = CST_GROUPE_TRANS_DESTI ))) Then
             Begin
-              galv_AutreListe.gstl_KeysListOut [ li_i ] := Null ;
-              galv_AutreListe.gt_KeyOwners     [ li_i ].var_Cle := Null ;
+              galv_OtherList.gstl_KeysListOut [ li_i ] := Null ;
+              galv_OtherList.gt_KeyOwners     [ li_i ].var_Key := Null ;
             End ;
         for li_i := 0 to high ( gstl_KeysListOut ) do
           if  ( gstl_KeysListOut [ li_i ] <> Null )
-          and ( fi_findInListVarBool ( gt_CleOrigine, gt_KeyOwners [ li_i ].var_Cle, False, True, [CST_GROUPE_TRANS_SIMPLE] ) <> -1 ) Then
-//          and ( galv_AutreListe.fi_FindItem ( gstl_KeysListOut [ li_i ] ) <> -1  ) Then
+          and ( fi_findInListVarBool ( gt_OriginKey, gt_KeyOwners [ li_i ].var_Key, False, True, [CST_GROUPE_TRANS_SIMPLE] ) <> -1 ) Then
+//          and ( galv_OtherList.fi_FindItem ( gstl_KeysListOut [ li_i ] ) <> -1  ) Then
             Begin
-              if fi_AjouteListe  ( galv_AutreListe.gstl_KeysListOut, gstl_KeysListOut [ li_i ], True ) <> - 1  Then
+              if fi_AddListe  ( galv_OtherList.gstl_KeysListOut, gstl_KeysListOut [ li_i ], True ) <> - 1  Then
                 Begin
-                  li_Modifie := fi_AjouteListe  ( galv_AutreListe.gt_KeyOwners    , gt_KeyOwners [ li_i ].var_Cle, False );
+                  li_Modifie := fi_AddListe  ( galv_OtherList.gt_KeyOwners    , gt_KeyOwners [ li_i ].var_Key, False );
                   if gb_EstPrincipale Then
                     Begin
-                      galv_AutreListe.gt_KeyOwners [ li_Modifie ].i_Option := CST_GROUPE_TRANS_DESTI ;
+                      galv_OtherList.gt_KeyOwners [ li_Modifie ].i_Option := CST_GROUPE_TRANS_DESTI ;
                     End
                   Else
-                    galv_AutreListe.gt_KeyOwners [ li_Modifie ].i_Option := CST_GROUPE_TRANS_EXCLU ;
+                    galv_OtherList.gt_KeyOwners [ li_Modifie ].i_Option := CST_GROUPE_TRANS_EXCLU ;
                 End ;
               gstl_KeysListOut [ li_i ] := Null ;
-              gt_KeyOwners     [ li_i ].var_Cle := Null ;
+              gt_KeyOwners     [ li_i ].var_Key := Null ;
             End ;
       if gb_EstPrincipale Then
         Begin
-          li_Modifie := fi_findInListVarBool ( gt_CleOrigine, lvar_Cle, False, True, [1] );
+          li_Modifie := fi_findInListVarBool ( gt_OriginKey, lvar_Key, False, True, [1] );
           if li_Modifie <> -1 Then
             Begin
-              gt_CleOrigine [ li_Modifie ].var_Cle := Null ;
-              galv_AutreListe.gt_CleOrigine [ li_Modifie ].var_Cle := Null ;
-              if  not fb_ListeAffectee ( galv_AutreListe.gstl_KeysListOut )
-              and not fb_ListeAffectee ( gstl_KeysListOut ) Then
+              gt_OriginKey [ li_Modifie ].var_Key := Null ;
+              galv_OtherList.gt_OriginKey [ li_Modifie ].var_Key := Null ;
+              if  not fb_SettedList ( galv_OtherList.gstl_KeysListOut )
+              and not fb_SettedList ( gstl_KeysListOut ) Then
                 Begin
                   Refresh ;
                   Exit ;
@@ -3895,9 +3896,9 @@ begin
           gb_AllSelect := True ;
 
            // Mise à zéro des clés d'exclusion de la liste qui vont peut-être être transférée
-          gb_ListTotal := True ;
-          gb_ListTotalReal := True ;
-          p_AddOriginKey ( lvar_Cle );
+          gb_OptionTotalList := True ;
+          gb_TotalListReal := True ;
+          p_AddOriginKey ( lvar_Key );
         End ;
     End ;
       // fermeture du query
@@ -3905,19 +3906,19 @@ begin
   gb_AllSelect := True ;
 
    // Mise à zéro des clés d'exclusion de la liste qui vont peut-être être transférée
-  gb_ListTotal := True ;
-  gb_ListTotalReal := True ;
+  gb_OptionTotalList := True ;
+  gb_TotalListReal := True ;
   ls_TexteSQL := '';
   ds_DatasourceQuery.DataSet.Close();
   if assigned ( ge_QueryAll ) Then
     ge_QueryAll ( ds_DatasourceQuery.DataSet )
   Else
-    if gb_Panier Then
+    if gb_Basket Then
       Begin
         if not gb_EstPrincipale Then
           gb_NoScroll := False ;
         gsts_SQLQuery.BeginUpdate ;
-        gsts_SQLQuery.Text := 'SELECT * FROM ' + gs_TableGroupe ;
+        gsts_SQLQuery.Text := 'SELECT * FROM ' + gs_GroupTable ;
         if   fb_BuildWhereBasket ( Self, ls_TexteSQL, True, True, True ) Then
           Begin
             gsts_SQLQuery.Add ( ls_TexteSQL );
@@ -3925,12 +3926,12 @@ begin
         gsts_SQLQuery.EndUpdate ;
       End
     Else
-      if not assigned ( galv_AutreListe )
-      or (( gws_RecordValue = '' ) and ( galv_AutreListe.gws_RecordValue = '' )) Then
+      if not assigned ( galv_OtherList )
+      or (( gws_RecordValue = '' ) and ( galv_OtherList.gws_RecordValue = '' )) Then
         Begin
           //Mise à jour du query en fonction des propriétés
-          if ( not gb_Panier ) // Si assoce NN
-          or ( gs_TableGroupe = '' )
+          if ( not gb_Basket ) // Si assoce NN
+          or ( gs_GroupTable = '' )
           or ( gs_TableSource   = '' )
            Then
             Begin
@@ -3945,49 +3946,49 @@ begin
             Begin
               gsts_SQLQuery.BeginUpdate ;
               gsts_SQLQuery.Clear ;
-              gsts_SQLQuery.Add( 'SELECT '+ gs_TableSource+CST_FIELD_DECLARE_SEPARATOR +'* FROM ' + gs_TableGroupe + CST_TABLE_SEPARATOR+ gs_TableSource   );
-              for li_i := 0 to gstl_ChampGroupe.Count - 1 do
+              gsts_SQLQuery.Add( 'SELECT '+ gs_TableSource+CST_FIELD_DECLARE_SEPARATOR +'* FROM ' + gs_GroupTable + CST_TABLE_SEPARATOR+ gs_TableSource   );
+              for li_i := 0 to gstl_GroupField.Count - 1 do
                 if li_i = 0 Then
-                  gsts_SQLQuery.Add( 'WHERE (' + gs_TableGroupe + CST_FIELD_DECLARE_SEPARATOR + gstl_ChampGroupe [ li_i ] + ' IS NULL'   )
+                  gsts_SQLQuery.Add( 'WHERE (' + gs_GroupTable + CST_FIELD_DECLARE_SEPARATOR + gstl_GroupField [ li_i ] + ' IS NULL'   )
                 Else
-                  gsts_SQLQuery.Add( 'AND ' + gs_TableGroupe + CST_FIELD_DECLARE_SEPARATOR + gstl_ChampGroupe [ li_i ] + ' IS NULL'   );
+                  gsts_SQLQuery.Add( 'AND ' + gs_GroupTable + CST_FIELD_DECLARE_SEPARATOR + gstl_GroupField [ li_i ] + ' IS NULL'   );
               gsts_SQLQuery.Add( ')' );
-              if gb_Panier then
+              if gb_Basket then
                 begin
                   if gb_EstPrincipale then
-                    if fb_TableauVersSQL ( ls_TexteSQL, galv_AutreListe.gstl_KeysListOut, gstl_CleGroupe, Null )
-                     Then gsts_SQLQuery.Add( ' OR ' + gs_TableGroupe + CST_FIELD_DECLARE_SEPARATOR + gs_ChampUnite + ' IN (' + ls_TexteSQL + ')' );
+                    if fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gstl_GroupKey, Null )
+                     Then gsts_SQLQuery.Add( ' OR ' + gs_GroupTable + CST_FIELD_DECLARE_SEPARATOR + gs_UnitsField + ' IN (' + ls_TexteSQL + ')' );
                   gsts_SQLQuery.Add ( ' OR ' );
-                  fb_SetMultipleFieldToQuery ( gstl_ChampGroupe, gsts_SQLQuery, gt_CleOrigine, gdl_DataLink.DataSet, True , gs_TableGroupe );
-{                  for li_i := 0 to high ( gt_CleOrigine ) do
-                    if VarIsStr ( gt_CleOrigine [ li_i ].var_Cle ) Then
-                      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TStringField )
-                      or (gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ) is TBlobField )
-                      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_CleGroupe ).DataType IN CST_DELPHI_FIELD_STRING ))
+                  fb_SetMultipleFieldToQuery ( gstl_GroupField, gsts_SQLQuery, gt_OriginKey, gdl_DataLink.DataSet, True , gs_GroupTable );
+{                  for li_i := 0 to high ( gt_OriginKey ) do
+                    if VarIsStr ( gt_OriginKey [ li_i ].var_Key ) Then
+                      if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
+                      or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TBlobField )
+                      or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING ))
                        Then
-                        gsts_SQLQuery.Add ( ' OR ' + gs_ChampGroupe + '=''' + fs_stringDbQuote ( gt_CleOrigine [ li_i ].var_Cle ) + '''' )
+                        gsts_SQLQuery.Add ( ' OR ' + gs_GroupField + '=''' + fs_stringDbQuote ( gt_OriginKey [ li_i ].var_Key ) + '''' )
                       Else
-                        gsts_SQLQuery.Add ( ' OR ' + gs_ChampGroupe + '=' + fs_stringDbQuote ( gt_CleOrigine [ li_i ].var_Cle ));}
+                        gsts_SQLQuery.Add ( ' OR ' + gs_GroupField + '=' + fs_stringDbQuote ( gt_OriginKey [ li_i ].var_Key ));}
                 End ;
               gsts_SQLQuery.Add( ')' );
-              for li_i := 0 to gstl_CleGroupe.Count - 1 do
+              for li_i := 0 to gstl_GroupKey.Count - 1 do
                 if  assigned ( gdl_DataLinkOwner )
                 and assigned ( gdl_DataLinkOwner.DataSource )
                 and assigned ( gdl_DataLinkOwner.DataSet )
-                and assigned ( gdl_DataLinkOwner.DataSet.FindField ( gstl_CleGroupe [ li_i ] ))
+                and assigned ( gdl_DataLinkOwner.DataSet.FindField ( gstl_GroupKey [ li_i ] ))
                  Then
                   Begin
                    /// Et les groupes à null
                     if li_i = 0 Then
-                      gsts_SQLQuery.Add( 'OR (' + gs_TableGroupe + CST_FIELD_DECLARE_SEPARATOR + gstl_ChampGroupe [ li_i ]    )
+                      gsts_SQLQuery.Add( 'OR (' + gs_GroupTable + CST_FIELD_DECLARE_SEPARATOR + gstl_GroupField [ li_i ]    )
                     Else
-                      gsts_SQLQuery.Add( 'AND ' + gs_TableGroupe + CST_FIELD_DECLARE_SEPARATOR + gstl_ChampGroupe [ li_i ]    );
-                    if ((gdl_DataLinkOwner.DataSet.FindField ( gstl_CleGroupe [ li_i ] ) is TStringField )
-                    or (gdl_DataLinkOwner.DataSet.FindField ( gstl_CleGroupe [ li_i ] ) is TBlobField )
-                    or ( gdl_DataLinkOwner.DataSet.FindField ( gstl_CleGroupe [ li_i ] ).DataType IN CST_DELPHI_FIELD_STRING ))
-                     Then gsts_SQLQuery.Add (  '=''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gstl_CleGroupe [ li_i ] ).AsString ) + '''' )
-                     Else gsts_SQLQuery.Add (  '='   +                  ( gdl_DataLinkOwner.DataSet.FieldByName ( gstl_CleGroupe [ li_i ] ).AsString )        );
-                   if li_i = gstl_CleGroupe.Count - 1 Then
+                      gsts_SQLQuery.Add( 'AND ' + gs_GroupTable + CST_FIELD_DECLARE_SEPARATOR + gstl_GroupField [ li_i ]    );
+                    if ((gdl_DataLinkOwner.DataSet.FindField ( gstl_GroupKey [ li_i ] ) is TStringField )
+                    or (gdl_DataLinkOwner.DataSet.FindField ( gstl_GroupKey [ li_i ] ) is TBlobField )
+                    or ( gdl_DataLinkOwner.DataSet.FindField ( gstl_GroupKey [ li_i ] ).DataType IN CST_DELPHI_FIELD_STRING ))
+                     Then gsts_SQLQuery.Add (  '=''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gstl_GroupKey [ li_i ] ).AsString ) + '''' )
+                     Else gsts_SQLQuery.Add (  '='   +                  ( gdl_DataLinkOwner.DataSet.FieldByName ( gstl_GroupKey [ li_i ] ).AsString )        );
+                   if li_i = gstl_GroupKey.Count - 1 Then
                       gsts_SQLQuery.Add( ')' );
                   End  ;
               gsts_SQLQuery.Add ( fws_GetExistingFilter );
@@ -4000,37 +4001,37 @@ begin
           // On sélectionne tous les enregistrements
           gsts_SQLQuery.BeginUpdate ;
           gsts_SQLQuery.Clear ;
-          gsts_SQLQuery.Add( 'SELECT '+ gs_TableSource+CST_FIELD_DECLARE_SEPARATOR +'* FROM ' + gs_TableGroupe + CST_TABLE_SEPARATOR+ gs_TableSource );
+          gsts_SQLQuery.Add( 'SELECT '+ gs_TableSource+CST_FIELD_DECLARE_SEPARATOR +'* FROM ' + gs_GroupTable + CST_TABLE_SEPARATOR+ gs_TableSource );
           gsts_SQLQuery.Add ( ' WHERE (' );
-          fb_SetMultipleFieldToQuery ( gstl_ChampGroupe, gsts_SQLQuery, gws_RecordValue, gdl_DataLink.DataSet, True , gs_TableGroupe  );
+          fb_SetMultipleFieldToQuery ( gstl_GroupField, gsts_SQLQuery, gws_RecordValue, gdl_DataLink.DataSet, True , gs_GroupTable  );
           {
           if ( gws_RecordValue = '' ) Then
-            for li_i := 0 to gstl_ChampGroupe.Count - 1 do
+            for li_i := 0 to gstl_GroupField.Count - 1 do
               if li_i = 0 Then
-                gsts_SQLQuery.Add( 'WHERE ((' + gstl_ChampGroupe [ li_i ] + ' IS NULL'   )
+                gsts_SQLQuery.Add( 'WHERE ((' + gstl_GroupField [ li_i ] + ' IS NULL'   )
               Else
-                gsts_SQLQuery.Add( 'AND ' + gstl_ChampGroupe [ li_i ] + ' IS NULL'   )
+                gsts_SQLQuery.Add( 'AND ' + gstl_GroupField [ li_i ] + ' IS NULL'   )
           Else
-            for li_i := 0 to gstl_ChampGroupe.Count - 1 do
-                if ((gdl_DataLink.DataSet.FindField ( gstl_ChampGroupe [ li_i ] ) is TStringField )
-                or (gdl_DataLink.DataSet.FindField ( gstl_ChampGroupe [ li_i ] ) is TMemoField )
-                or ( gdl_DataLink.DataSet.FindField ( gstl_ChampGroupe [ li_i ] ).DataType IN CST_DELPHI_FIELD_STRING ))
+            for li_i := 0 to gstl_GroupField.Count - 1 do
+                if ((gdl_DataLink.DataSet.FindField ( gstl_GroupField [ li_i ] ) is TStringField )
+                or (gdl_DataLink.DataSet.FindField ( gstl_GroupField [ li_i ] ) is TMemoField )
+                or ( gdl_DataLink.DataSet.FindField ( gstl_GroupField [ li_i ] ).DataType IN CST_DELPHI_FIELD_STRING ))
                   Begin
                     if li_i = 0 Then
-                      gsts_SQLQuery.Add( ' WHERE ((' + gs_ChampGroupe + '=''' + gws_RecordValue + '''' )
+                      gsts_SQLQuery.Add( ' WHERE ((' + gs_GroupField + '=''' + gws_RecordValue + '''' )
                     Else
-                      gsts_SQLQuery.Add ( ' AND ' + gs_ChampGroupe + '=''' + gws_RecordValue + '''' )
+                      gsts_SQLQuery.Add ( ' AND ' + gs_GroupField + '=''' + gws_RecordValue + '''' )
                   End
                 Else
                   Begin
                     if li_i = 0 Then
-                      gsts_SQLQuery.Add( ' WHERE ((' + gs_ChampGroupe + '=' + gws_RecordValue )
+                      gsts_SQLQuery.Add( ' WHERE ((' + gs_GroupField + '=' + gws_RecordValue )
                     Else
-                      gsts_SQLQuery.Add ( ' AND ' + gs_ChampGroupe + '=' + gws_RecordValue )
+                      gsts_SQLQuery.Add ( ' AND ' + gs_GroupField + '=' + gws_RecordValue )
                   End ;
           gsts_SQLQuery.Add( ')' );}
           gsts_SQLQuery.Add( 'OR ' ); 
-          fb_SetMultipleFieldToQuery ( gstl_ChampGroupe, gsts_SQLQuery, galv_AutreListe.gws_RecordValue, gdl_DataLink.DataSet );
+          fb_SetMultipleFieldToQuery ( gstl_GroupField, gsts_SQLQuery, galv_OtherList.gws_RecordValue, gdl_DataLink.DataSet );
           gsts_SQLQuery.Add( '))' );
           gsts_SQLQuery.Add ( fws_GetExistingFilter );
           gsts_SQLQuery.EndUpdate ;
@@ -4041,16 +4042,16 @@ begin
     gb_AllLoaded := ds_DatasourceQuery.DataSet.IsEmpty ;
     if  gb_AllLoaded Then
       Begin
-        gb_ListTotal := False ;
+        gb_OptionTotalList := False ;
         gb_AllSelect := False ;
-        Finalize ( gt_CleOrigine );
+        Finalize ( gt_OriginKey );
         Finalize ( gt_KeyOwners  );
         Finalize ( gstl_KeysListOut );
-        Finalize ( galv_AutreListe.gt_CleOrigine );
-        Finalize ( galv_AutreListe.gt_KeyOwners  );
-        Finalize ( galv_AutreListe.gstl_KeysListOut );
-        galv_AutreListe.gb_ListTotal := False ;
-        galv_AutreListe.gb_AllSelect := False ;
+        Finalize ( galv_OtherList.gt_OriginKey );
+        Finalize ( galv_OtherList.gt_KeyOwners  );
+        Finalize ( galv_OtherList.gstl_KeysListOut );
+        galv_OtherList.gb_OptionTotalList := False ;
+        galv_OtherList.gb_AllSelect := False ;
       End ;
   Except
   End ;
@@ -4058,11 +4059,11 @@ begin
     Exit ;
 
     // Ajoute les enregistrements dans la liste
-  p_AjouteEnregistrements ;
+  p_AddRecords ;
 end;
 
 // gestion de l'Evènement transférer dans l'autre liste
-procedure TDBGroupView.p_VideListeTotal;
+procedure TDBGroupView.p_VideTotalList;
 begin
   // Initialisation
   p_Reinitialise ;
@@ -4071,7 +4072,7 @@ begin
 
   // On a tout transféré dans l'autre liste
   gb_AllLoaded := True ;
-  if gb_Panier
+  if gb_Basket
   and gb_EstPrincipale Then
     p_UndoRecord;
 end;
@@ -4079,7 +4080,7 @@ end;
 // peut-on trier les items ? : Gestion des changements sur la liste avant de trier
 // Résultat : Va-t-on quitter l'évènement de tri sur click
 // résultat : on peut trier ou pas
-function TDBGroupView.fb_PeutTrier  : Boolean ;
+function TDBGroupView.fb_CanSort  : Boolean ;
 Begin
   // par défaut : on peut trier
   Result := True ;
@@ -4093,28 +4094,28 @@ Begin
    Then
     Begin
       // Enregistrer est-il activé
-      if assigned ( gBt_Enregistre )
-      and gBt_Enregistre.Enabled
+      if assigned ( gBt_Record )
+      and gBt_Record.Enabled
        Then
          // Alors il faut demander si on enregistre
          if MessageDlg ( GS_CHANGEMENTS_SAUVER, mtWarning, mbOKcancel, GS_HELP_CHANGEMENTS_SAUVER ) = mrOK
          // Enregistre
-          Then p_Enregistre ( Nil )
+          Then p_Record ( Nil )
           // sinon On quitte
           Else Result := False ;
     End
    else
-    if assigned ( galv_AutreListe )
-    and galv_AutreListe.DataListPrimary
+    if assigned ( galv_OtherList )
+    and galv_OtherList.DataListPrimary
      Then
       Begin
-        if assigned ( galv_AutreListe.ButtonRecord )
-        and galv_AutreListe.ButtonRecord.Enabled
+        if assigned ( galv_OtherList.ButtonRecord )
+        and galv_OtherList.ButtonRecord.Enabled
          Then
          // Alors il faut demander si on enregistre
            if MessageDlg ( GS_CHANGEMENTS_SAUVER, mtWarning, mbOKcancel, GS_HELP_CHANGEMENTS_SAUVER ) = mrOK
          // Enregistre
-            Then galv_AutreListe.p_Enregistre ( Nil )
+            Then galv_OtherList.p_Record ( Nil )
           // sinon On quitte
             Else Result := False ;
       End ;}
@@ -4155,9 +4156,9 @@ begin
   if ( csDesigning in ComponentState ) Then
     Exit ;
   // Appel du transfert dasn l'autre liste
-  if assigned ( galv_AutreListe )
+  if assigned ( galv_OtherList )
    Then
-    galv_AutreListe.p_ClickTransfert ( galv_AutreListe );
+    galv_OtherList.p_ClickTransfert ( galv_OtherList );
 end;
 
 // Evènement sur déplacement de liste : méthode dynamique dans tlistview
@@ -4174,10 +4175,10 @@ begin
   if ( csDesigning in ComponentState ) Then
     Exit ;
   // appel de la fonction de test de mc_fonctions_groupes
-  if assigned ( galv_AutreListe )
+  if assigned ( galv_OtherList )
    Then
-    ab_Accepte := ( aobj_Source = galv_AutreListe );
-//    p_groupeDragOver ( aobj_Source, ab_Accepte, galv_AutreListe );
+    ab_Accepte := ( aobj_Source = galv_OtherList );
+//    p_groupeDragOver ( aobj_Source, ab_Accepte, galv_OtherList );
 end;
 
 // Evènement Drag and drop surchargé
@@ -4205,9 +4206,9 @@ begin
   if ( csDesigning in ComponentState ) Then
     Exit ;
   // Appel du test de sélection et de mise à jour du bouton
-  if assigned ( gBt_Autre )
+  if assigned ( gBt_Other )
    Then
-    p_groupeMouseDownDisableEnableFleche ( Self, gBt_Autre );
+    p_groupeMouseDownDisableEnableFleche ( Self, gBt_Other );
 end;
 
 procedure TDBGroupView.KeyUp(var Key: Word; Shift: TShiftState);
@@ -4216,10 +4217,10 @@ begin
   if ( csDesigning in ComponentState ) Then
     Exit ;
   // Appel du transfert dasn l'autre liste
-  if assigned ( galv_AutreListe )
+  if assigned ( galv_OtherList )
   and ( Key in [VK_LEFT, VK_RIGHT ])
    Then
-    galv_AutreListe.p_ClickTransfert ( galv_AutreListe );
+    galv_OtherList.p_ClickTransfert ( galv_OtherList );
 end;
 
 
@@ -4236,9 +4237,9 @@ begin
  {$ENDIF}
   //  Appel de la procédure de mc_fonctions_groupes
   // active le bouton si il y a des items
-  if assigned ( gBt_Autre )
+  if assigned ( gBt_Other )
    Then
-    p_groupeMouseDownDisableEnableFleche ( Self, gBt_Autre );
+    p_groupeMouseDownDisableEnableFleche ( Self, gBt_Other );
 end;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -4249,51 +4250,51 @@ end;
 function TDBGroupView.fb_ValideBoutons : Boolean;
 begin
   Result := False ;
-  if ( gb_EstPrincipale or not gb_Panier ) Then
+  if ( gb_EstPrincipale or not gb_Basket ) Then
     Begin
-      if assigned ( gBt_Abandonne )
-      and not gBt_Abandonne.Enabled
+      if assigned ( gBt_Cancel )
+      and not gBt_Cancel.Enabled
        Then
          Begin
            if Self.Enabled Then
-             gBt_Abandonne .enabled := True;
+             gBt_Cancel .enabled := True;
            Result := True ;
          End ;
-      if assigned ( gBt_Enregistre )
-      and not gBt_Enregistre.Enabled
+      if assigned ( gBt_Record )
+      and not gBt_Record.Enabled
        Then
          Begin
            if Self.Enabled Then
-             gBt_Enregistre.enabled := True;
+             gBt_Record.enabled := True;
            Result := True ;
          End ;
-      if assigned ( gBT_Optionnel )
-      and not gBT_Optionnel.Enabled Then
+      if assigned ( gBT_Optional )
+      and not gBT_Optional.Enabled Then
         Begin
           if Self.Enabled Then
-            gBT_Optionnel.Enabled := True ;
+            gBT_Optional.Enabled := True ;
           Result := True ;
         End ;
     End
   Else
-  if ( not gb_EstPrincipale and gb_Panier and gb_ListTotal ) Then
+  if ( not gb_EstPrincipale and gb_Basket and gb_OptionTotalList ) Then
     Begin
-      if assigned ( gBt_Abandonne )
-      and not gBt_Abandonne.Enabled
+      if assigned ( gBt_Cancel )
+      and not gBt_Cancel.Enabled
        Then
          Begin
-           gBt_Abandonne .enabled := False;
+           gBt_Cancel .enabled := False;
          End ;
-      if assigned ( gBt_Enregistre )
-      and not gBt_Enregistre.Enabled
+      if assigned ( gBt_Record )
+      and not gBt_Record.Enabled
        Then
          Begin
-           gBt_Enregistre.enabled := False;
+           gBt_Record.enabled := False;
          End ;
-      if assigned ( gBT_Optionnel )
-      and not gBT_Optionnel.Enabled Then
+      if assigned ( gBT_Optional )
+      and not gBT_Optional.Enabled Then
         Begin
-          gBT_Optionnel.Enabled := False;
+          gBT_Optional.Enabled := False;
         End ;
     End
 
@@ -4303,41 +4304,41 @@ end;
 procedure TDBGroupView.p_VerifieModifications;
 begin
   if Supports(Owner, IFWFormVerify) Then
-    ( Owner as IFWFormVerify ).p_VerifieModifications ;
+    ( Owner as IFWFormVerify ).VerifyModifying ;
 end;
 // désactive la grille de u_mcformdico
 procedure TDBGroupView.p_DesactiveGrille;
 begin
   if Supports(Owner, IFWFormVerify) Then
-    ( Owner as IFWFormVerify ).p_DesactiveGrille;
+    ( Owner as IFWFormVerify ).Modifying;
 end;
 
 //////////////////////////////////////////////////////////////////////////////
-// Procédure   : p_MajBoutons
+// Procédure   : p_UpdateButtons
 // Description : Rafraîchissement des boutons
 // ai_ItemsAjoutes : Nombre d'éléments ajoutés ( le items.count ne mache pas à tous les moments )
 //////////////////////////////////////////////////////////////////////////////
-procedure TDBGroupView.p_MajBoutons(const ai_ItemsAjoutes: Integer);
+procedure TDBGroupView.p_UpdateButtons(const ai_ItemsAjoutes: Integer);
 begin
-  if assigned ( gBt_AutreTotal )
+  if assigned ( gBt_OtherTotal )
    Then
     if ai_ItemsAjoutes > 0 Then
       Begin
        if Self.Enabled Then
-         gBt_AutreTotal.Enabled := True ;
+         gBt_OtherTotal.Enabled := True ;
       End
     Else
      /// alors si il y a des items
       If ( Items.Count > 0 )
       and Self.Enabled Then
         // activation du bouton de transfert
-       gBt_AutreTotal.Enabled := True
+       gBt_OtherTotal.Enabled := True
        // si il n'y en a pas alors pas d'activation
 {       else
          Begin
-           gBt_AutreTotal.Enabled := False;
-           if assigned ( gBt_Autre ) Then
-             gBt_Autre.Enabled := False;
+           gBt_OtherTotal.Enabled := False;
+           if assigned ( gBt_Other ) Then
+             gBt_Other.Enabled := False;
          End ;}
 end;
 
@@ -4377,10 +4378,10 @@ begin
     ls_Filter := gws_Oldfilter + ' AND '
   Else
     ls_Filter := '' ;
-  if gdl_DataLink.DataSet.FieldByName ( gs_CleUnite ).DataType in CST_DELPHI_FIELD_STRING Then
-    ls_Filter := ls_Filter + gs_CleUnite + ' = ''' + VarToStr ( avar_Records ) + ''''
+  if gdl_DataLink.DataSet.FieldByName ( gs_UnitsKey ).DataType in CST_DELPHI_FIELD_STRING Then
+    ls_Filter := ls_Filter + gs_UnitsKey + ' = ''' + VarToStr ( avar_Records ) + ''''
   Else
-    ls_Filter := ls_Filter + gs_CleUnite + ' = ' + VarToStr ( avar_Records );
+    ls_Filter := ls_Filter + gs_UnitsKey + ' = ' + VarToStr ( avar_Records );
   gdl_DataLink.DataSet.Filter := ls_Filter ;
   gdl_DataLink.DataSet.Filtered := True ;
   Result := gdl_DataLink.DataSet.RecordCount > 0 ;
@@ -4400,17 +4401,17 @@ procedure TDBGroupView.p_LocateInit;
 begin
   gws_Oldfilter := gdl_DataLink.DataSet.Filter ;
   gb_Oldfiltered := gdl_DataLink.DataSet.Filtered ;
-{  ls_Condition := gs_ChampUnite + '=' + gs_ChampUnite + ' AND ' ;
+{  ls_Condition := gs_UnitsField + '=' + gs_UnitsField + ' AND ' ;
 //  if ab_InPrimary Then
-    ls_Condition := ls_Condition + gs_ChampGroupe + '=' ;
+    ls_Condition := ls_Condition + gs_GroupField + '=' ;
 //  Else
-//    ls_Condition := ls_Condition + gs_ChampGroupe + ' NOT LIKE ';
-  if gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).DataType in CST_DELPHI_FIELD_STRING Then
-    ls_Condition := ls_Condition + '''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString ) + ''''
+//    ls_Condition := ls_Condition + gs_GroupField + ' NOT LIKE ';
+  if gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).DataType in CST_DELPHI_FIELD_STRING Then
+    ls_Condition := ls_Condition + '''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString ) + ''''
   Else
-    ls_Condition := ls_Condition + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString ;
-  if trim ( gs_TableSource ) <> Trim ( gs_TableGroupe ) Then
-    ls_Tables := gs_TableSource + ', ' + gs_TableGroupe
+    ls_Condition := ls_Condition + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString ;
+  if trim ( gs_TableSource ) <> Trim ( gs_GroupTable ) Then
+    ls_Tables := gs_TableSource + ', ' + gs_GroupTable
   Else
     ls_Tables := gs_TableSource ;
   fonctions_db.p_LocateInit ( gadoq_QueryLocate, ls_Tables, ls_Condition );}
@@ -4434,17 +4435,17 @@ begin
     gdl_DataLink.DataSet.Bookmark := lbkm_Bookmark ;
   Except
   End ;
-{  ls_Condition := gs_ChampUnite + '=' + gs_ChampUnite + ' AND ' ;
+{  ls_Condition := gs_UnitsField + '=' + gs_UnitsField + ' AND ' ;
 //  if ab_InPrimary Then
-    ls_Condition := ls_Condition + gs_ChampGroupe + '=' ;
+    ls_Condition := ls_Condition + gs_GroupField + '=' ;
 //  Else
-//    ls_Condition := ls_Condition + gs_ChampGroupe + ' NOT LIKE ';
-  if gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).DataType in CST_DELPHI_FIELD_STRING Then
-    ls_Condition := ls_Condition + '''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString ) + ''''
+//    ls_Condition := ls_Condition + gs_GroupField + ' NOT LIKE ';
+  if gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).DataType in CST_DELPHI_FIELD_STRING Then
+    ls_Condition := ls_Condition + '''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString ) + ''''
   Else
-    ls_Condition := ls_Condition + gdl_DataLinkOwner.DataSet.FieldByName ( gs_CleGroupe ).AsString ;
-  if trim ( gs_TableSource ) <> Trim ( gs_TableGroupe ) Then
-    ls_Tables := gs_TableSource + ', ' + gs_TableGroupe
+    ls_Condition := ls_Condition + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString ;
+  if trim ( gs_TableSource ) <> Trim ( gs_GroupTable ) Then
+    ls_Tables := gs_TableSource + ', ' + gs_GroupTable
   Else
     ls_Tables := gs_TableSource ;
   mc_fonctions_db.p_LocateInit ( gadoq_QueryLocate, ls_Tables, ls_Condition );}
@@ -4461,59 +4462,59 @@ begin
   // Transfert tout
   SelectAll;
   Finalize ( lt_Tempo );
-  if assigned ( galv_AutreListe ) Then
-    galv_AutreListe.SelectAll;
+  if assigned ( galv_OtherList ) Then
+    galv_OtherList.SelectAll;
   if (SelCount > 0) then
     p_ClickTransfert ( Self );
 
   // Inversion des tableaux
   for li_i := 0 to high ( gstl_KeysListOut ) do
     if gstl_KeysListOut [ li_i ] <> Null Then
-      fi_AjouteListe( lt_Tempo, gstl_KeysListOut [ li_i ], False );
+      fi_AddListe( lt_Tempo, gstl_KeysListOut [ li_i ], False );
 
   Finalize ( gstl_KeysListOut );
 
   // Inversion des propriétés
-  if assigned ( galv_AutreListe ) Then
+  if assigned ( galv_OtherList ) Then
     Begin
-      lb_Tempo := galv_AutreListe.gb_AllLoaded ;
-      galv_AutreListe.gb_AllLoaded := gb_AllLoaded ;
+      lb_Tempo := galv_OtherList.gb_AllLoaded ;
+      galv_OtherList.gb_AllLoaded := gb_AllLoaded ;
       gb_AllLoaded := lb_tempo ;
-      lb_Tempo := galv_AutreListe.gb_AllFetched ;
-      galv_AutreListe.gb_AllFetched := gb_AllFetched ;
+      lb_Tempo := galv_OtherList.gb_AllFetched ;
+      galv_OtherList.gb_AllFetched := gb_AllFetched ;
       gb_AllFetched := lb_tempo ;
-      lb_Tempo := galv_AutreListe.gb_AllSelect ;
-      galv_AutreListe.gb_AllSelect := gb_AllSelect ;
+      lb_Tempo := galv_OtherList.gb_AllSelect ;
+      galv_OtherList.gb_AllSelect := gb_AllSelect ;
       gb_AllSelect := lb_tempo ;
-      if (galv_AutreListe.SelCount > 0) then
-        galv_AutreListe.p_ClickTransfert ( Self );
+      if (galv_OtherList.SelCount > 0) then
+        galv_OtherList.p_ClickTransfert ( Self );
 
       // Inversion des tableaux
 
-      for li_i := 0 to high ( galv_AutreListe.gstl_KeysListOut ) do
-        fi_AjouteListe( gstl_KeysListOut, galv_AutreListe.gstl_KeysListOut [ li_i ], False );
-      Finalize ( galv_AutreListe.gstl_KeysListOut );
+      for li_i := 0 to high ( galv_OtherList.gstl_KeysListOut ) do
+        fi_AddListe( gstl_KeysListOut, galv_OtherList.gstl_KeysListOut [ li_i ], False );
+      Finalize ( galv_OtherList.gstl_KeysListOut );
       for li_i := 0 to high ( lt_Tempo ) do
-        fi_AjouteListe( galv_AutreListe.gstl_KeysListOut, lt_Tempo [ li_i ], False );
+        fi_AddListe( galv_OtherList.gstl_KeysListOut, lt_Tempo [ li_i ], False );
     End ;
 
   // Inversion des tableaux
   Finalize ( lt_Tempo );
 
   for li_i := 0 to high ( gt_KeyOwners ) do
-    if gt_KeyOwners [ li_i ].var_Cle <> Null Then
-      fi_AjouteListe( lt_Tempo, gt_KeyOwners [ li_i ].var_Cle, False );
+    if gt_KeyOwners [ li_i ].var_Key <> Null Then
+      fi_AddListe( lt_Tempo, gt_KeyOwners [ li_i ].var_Key, False );
 
   Finalize ( gt_KeyOwners );
 
   // Inversion des tableaux
-  if assigned ( galv_AutreListe ) Then
+  if assigned ( galv_OtherList ) Then
     Begin
-      for li_i := 0 to high ( galv_AutreListe.gt_KeyOwners ) do
-        fi_AjouteListe( gt_KeyOwners, galv_AutreListe.gt_KeyOwners [ li_i ].var_Cle, False );
-      Finalize ( galv_AutreListe.gt_KeyOwners );
+      for li_i := 0 to high ( galv_OtherList.gt_KeyOwners ) do
+        fi_AddListe( gt_KeyOwners, galv_OtherList.gt_KeyOwners [ li_i ].var_Key, False );
+      Finalize ( galv_OtherList.gt_KeyOwners );
       for li_i := 0 to high ( lt_Tempo ) do
-        fi_AjouteListe( galv_AutreListe.gt_KeyOwners, lt_Tempo [ li_i ], False );
+        fi_AddListe( galv_OtherList.gt_KeyOwners, lt_Tempo [ li_i ], False );
     End ;
 
   if assigned ( ge_BtnInvertClick ) Then
@@ -4534,14 +4535,14 @@ End ;
 procedure TDBGroupView.p_SetButtonsOther ( const ab_Value : Boolean );
 Begin
   // héritage de la réinitilisation
-  if assigned ( gBT_AutreTotal ) Then
+  if assigned ( gBT_OtherTotal ) Then
     Begin
-      gBT_AutreTotal.Enabled := ab_value ;
+      gBT_OtherTotal.Enabled := ab_value ;
     End ;
 
-  if assigned ( gBT_Autre ) Then
+  if assigned ( gBT_Other ) Then
     Begin
-      gBT_Autre.Enabled := ab_value ;
+      gBT_Other.Enabled := ab_value ;
     End ;
 End ;
 
@@ -4600,16 +4601,16 @@ var lb_PremiereFois : Boolean ;
     ls_TexteSQL   : String ;
 begin
   ls_TexteSQL := '' ;
-  if gb_Panier Then
+  if gb_Basket Then
     Begin
       if gb_EstPrincipale Then
         Begin
-          gb_ListTotalReal := False ;
-          gb_ListTotal     := False ;
+          gb_TotalListReal := False ;
+          gb_OptionTotalList     := False ;
           p_ReinitialisePasTout ;
-          gvar_GroupeEnCours := Null ;
+          gvar_WorkingGroup := Null ;
           gb_LoadList        := False ;
-          p_AjouteEnregistrements ;
+          p_AddRecords ;
         End
       Else
         if  assigned ( gsts_SQLQuery ) Then
@@ -4634,8 +4635,8 @@ begin
                     ds_DatasourceQuery.DataSet.Open ;
                     p_ReinitialisePasTout ;
                     gb_LoadList        := False ;
-                    gvar_GroupeEnCours := Null ;
-                    fb_RemplitEnregistrements ( ds_DatasourceQuery.DataSet, False );
+                    gvar_WorkingGroup := Null ;
+                    fb_SetRecords ( ds_DatasourceQuery.DataSet, False );
                   End ;
               End ;
           End ;
@@ -4643,7 +4644,7 @@ begin
   Else
     Begin
       p_Reinitialise ;
-      p_AjouteEnregistrements ;
+      p_AddRecords ;
     End ;
 End;
 
