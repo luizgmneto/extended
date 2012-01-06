@@ -29,7 +29,6 @@ uses
 {$IFDEF FPC}
    LCLIntf, LCLType,
    SQLDB, lmessages,
-   RxDBGrid,
    dbdateedit,
 {$ELSE}
    Windows, Mask, DBTables, ActnMan,
@@ -928,4 +927,4 @@ initialization
   p_ConcatVersion(gVer_framework_DBcomponents);
 {$ENDIF}
 end.
-
+

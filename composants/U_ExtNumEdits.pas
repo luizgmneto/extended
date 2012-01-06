@@ -221,11 +221,8 @@ type
     procedure UpdateData(Sender: TObject);
     procedure WMCut(var Message: TMessage); message {$IFDEF FPC} LM_CUT {$ELSE} WM_CUT {$ENDIF};
     procedure WMPaste(var Message: TMessage); message {$IFDEF FPC} LM_PASTE {$ELSE} WM_PASTE {$ENDIF};
-{$IFDEF FPC}
-    procedure Undo; override;
-{$ELSE}
+{$IFNDEF FPC}
     procedure WMUndo(var Message: TMessage); message WM_UNDO;
-
 {$ENDIF}
 {$IFDEF FPC}
     procedure WMEnter(var Message: TLMEnter); message LM_ENTER;
@@ -249,6 +246,9 @@ type
       Operation: TOperation); override;
     procedure Reset; override;
    public
+ {$IFDEF FPC}
+     procedure Undo; override;
+ {$ENDIF}
     procedure Loaded; override;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;

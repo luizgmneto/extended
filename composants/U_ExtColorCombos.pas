@@ -132,7 +132,7 @@ type
     // Propriétés gardées
       property AutoComplete;
       property AutoDropDown;
-{$IFDEF DELPHI}
+      {$IFDEF DELPHI}
       property AutoCloseUp;
       property BevelEdges;
       property BevelInner;
@@ -140,52 +140,50 @@ type
       property BevelOuter;
       property ImeMode;
       property ImeName;
-{$ENDIF}
+      property Ctl3D;
+      property ParentCtl3D;
+      {$ENDIF}
       property Style default CST_COLOR_COMBO_DEFAULT_STYLE; {Must be published before Items}
       property Anchors;
       property BiDiMode;
       property Color;
       property Constraints;
-    {$IFNDEF FPC}
-    property Ctl3D;
-    property ParentCtl3D;
-    {$ENDIF}
-    property DragCursor;
-    property DragKind;
-    property DragMode;
-    property DropDownCount;
-    property Enabled;
-    property Font;
-    property ItemHeight;
-    property ParentBiDiMode;
-    property ParentColor;
-    property ParentFont;
-    property ParentShowHint;
-    property PopupMenu;
-    property ShowHint;
-    property TabOrder;
-    property TabStop;
-    property Visible;
-    property OnChange;
-    property OnClick;
-    property OnCloseUp;
-    property OnContextPopup;
-    property OnDblClick;
-    property OnDragDrop;
-    property OnDragOver;
-    property OnDrawItem;
-    property OnDropDown;
-    property OnEndDock;
-    property OnEndDrag;
-    property OnEnter;
-    property OnExit;
-    property OnKeyDown;
-    property OnKeyPress;
-    property OnKeyUp;
-    property OnMeasureItem;
-    property OnSelect;
-    property OnStartDock;
-    property OnStartDrag;
+      property DragCursor;
+      property DragKind;
+      property DragMode;
+      property DropDownCount;
+      property Enabled;
+      property Font;
+      property ItemHeight;
+      property ParentBiDiMode;
+      property ParentColor;
+      property ParentFont;
+      property ParentShowHint;
+      property PopupMenu;
+      property ShowHint;
+      property TabOrder;
+      property TabStop;
+      property Visible;
+      property OnChange;
+      property OnClick;
+      property OnCloseUp;
+      property OnContextPopup;
+      property OnDblClick;
+      property OnDragDrop;
+      property OnDragOver;
+      property OnDrawItem;
+      property OnDropDown;
+      property OnEndDock;
+      property OnEndDrag;
+      property OnEnter;
+      property OnExit;
+      property OnKeyDown;
+      property OnKeyPress;
+      property OnKeyUp;
+      property OnMeasureItem;
+      property OnSelect;
+      property OnStartDock;
+      property OnStartDrag;
   end;
 
   TExtDBColorCombo  = class( TExtColorCombo )

@@ -29,7 +29,7 @@ interface
 
 uses
 {$IFDEF FPC}
-   LCLIntf, LCLType, lmessages, SQLDB, RxLookup, lresources,
+   LCLIntf, LCLType, lmessages, SQLDB, lresources,
 {$ELSE}
   Windows, DBTables, JvListView, SyncObjs,
 {$ENDIF}
@@ -55,12 +55,13 @@ const
                                                FileUnit : 'U_GroupView' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Liste chargeable au fur et à mesure.' ;
-                                               BugsStory : '1.0.0.3 : Integrating field delimiter from DBGroupView.' + #13#10 +
+                                               BugsStory : '1.1.0.0 : Traducing methods and variables to english.' + #13#10 +
+                                                           '1.0.0.3 : Integrating field delimiter from DBGroupView.' + #13#10 +
                                                            '1.0.0.2 : DBListView with better scrolling on LAZARUS.' + #13#10 +
                                                            '1.0.0.1 : DBListView working better on LAZARUS.' + #13#10 +
                                                            '1.0.0.0 : Chargement automatique OK.' ;
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 3 );
+                                               Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
 
 
 {$ENDIF}
@@ -133,14 +134,14 @@ type
     // ab_Defaut  : Obligtoire pour l'évènement
     procedure p_PaintFondItem ( aclv_Liste : TCustomListView ; alit_Item : TListItem ; acds_Etat : TCustomDrawState ; var ab_Defaut : Boolean );
     //function fb_ParentVisible(const awco_Control: TWinControl): Boolean;
-    procedure p_LibereCleDatasource;
-    procedure p_LibereChampsListe;
+    procedure p_FreeKeyDataSource;
+    procedure p_FreeFieldsList;
     //Affectation de DataFieldsDisplay
-    procedure p_SetChampsListe ( const Value: String );
+    procedure p_SetFieldsList ( const Value: String );
     //    procedure p_DatasourceOnOpen(Dataset: Tdataset);
    protected
     // On a transféré tous les items
-    gsts_ChampsListe : TStringList ;
+    gsts_FieldsList : TStringList ;
     gb_AllLoaded ,
     gb_AllFetched : Boolean ;
     gb_CaseInSensitive,
@@ -155,15 +156,12 @@ type
   // Clés  //
    ///////////
   // Clé primaire du datasource
-    gstl_CleDataSource : TStringlist ;
+    gstl_KeyDataSource : TStringlist ;
   // Panier : Liste des clés où on a mis des unités dans le panier
 //    lstl_KeysListOut      ,
-//    lt_CleOrigine2        ,
-    gt_CleOrigine         : tt_TableauVarOption ;
-    // Pour plus tard : à laisser
-    gvar_CleOrigineEnCours,
-    //
-    gvar_CleDestination : Variant ;
+//    lt_KeyOrigine2        ,
+    gt_OriginKey         : tt_TableauVarOption ;
+    gvar_KeyDestination : Variant ;
     // Lien de données avec mise à jour automatique
     gdl_DataLink : TUltimListViewDatalink ;
     // Item en cours
@@ -173,13 +171,13 @@ type
     // Sauvegarde de l'ancienne couleur
     gcol_AncienneCouleur   : TColor ;
     // Clé primaire de la table des unités
-    gs_CleUnite     ,
-    gs_CleUniteFieldValues,
+    gs_UnitsKey     ,
+    gs_UnitsKeyFieldValues,
     // Champs des sous-éléments ( colonne 1 à N )
     // Table de datasource pour la mise à jour
     gs_TableSource   : String;
-    gs_ChampsListeFieldValues : String;
-    gs_ChampsListe : String;
+    gs_FieldsListFieldValues : String;
+    gs_FieldsList : String;
     // Propriété Montre Tous les enregistrements : Annule l'utilité du composant
     gb_MontreTout    ,
 //    lb_DevalideInsert,
@@ -190,9 +188,9 @@ type
     procedure p_setSortOrder ( AValue : TSortOrder ); virtual;
     function fs_SortDataset(const adat_Dataset: TDataSet): String; virtual;
     procedure p_setSortColumn(AValue: Integer); virtual;
-    procedure p_SetClePrimaireListe(const a_Value: String);
-    procedure p_CreeListeChampsDisplay ( as_ChampsListe : String ); virtual;
-    procedure p_AffecteEvenementsDatasource; virtual;
+    procedure p_SetPrimaryPrimaryKeyList(const a_Value: String);
+    procedure p_CreateListFieldsDisplay ( as_FieldsList : String ); virtual;
+    procedure p_SetEventsDatasource; virtual;
     procedure EditingChanged; virtual;
     // Affectation du composant dans la propriété DataSource
     // test si n'existe pas
@@ -200,7 +198,7 @@ type
     // a_Value : Le datasource
     function GetNextItem(const StartItem: TListItem; const States: {$IFDEF FPC}TListItemStates{$ELSE} TItemStates{$ENDIF}): TListItem; virtual;
     procedure p_SetDataSourceGroup ( const a_Value: TDataSource ); virtual;
-    function fs_PrepareTri: String; virtual;
+    function fs_PrepareSorting: String; virtual;
     {$IFDEF EADO}
     procedure p_RefreshLoaded(DataSet: TCustomADODataSet; const Error: Error;
       var EventStatus: TEventStatus); virtual;
@@ -213,21 +211,21 @@ type
     Procedure p_DataSetChanged; virtual;
     function  fb_ScrollBarVisible(Code: Word): Boolean;
     procedure Resize; override;
-    procedure p_MajBoutons ( const ai_ItemsAjoutes : Integer ); virtual;
+    procedure p_UpdateButtons ( const ai_ItemsAjoutes : Integer ); virtual;
     procedure p_ReinitialisePasTout; dynamic;
-    function  fb_PeutTrier  : Boolean ; dynamic;
-    function  fb_PrepareTri ( const ai_column : Integer ) : Boolean;
-    function  fb_PeutAjouter  ( const adat_Dataset : TDataset ; const ab_AjouteItemPlus : Boolean)  : Boolean ; virtual;
-    function  fb_ChangeEtatItem  ( const adat_Dataset : TDataset  ; const ab_AjouteItemPlus : Boolean )  : Boolean ; virtual;
-    function  fb_RemplitEnregistrements ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean; dynamic;
-    function  fb_RemplitListe : Boolean ; virtual;
+    function  fb_CanSort  : Boolean ; dynamic;
+    function  fb_PrepareSorting ( const ai_column : Integer ) : Boolean;
+    function  fb_CanAdd  ( const adat_Dataset : TDataset ; const ab_AddItemPlus : Boolean)  : Boolean ; virtual;
+    function  fb_ChangeEtatItem  ( const adat_Dataset : TDataset  ; const ab_AddItemPlus : Boolean )  : Boolean ; virtual;
+    function  fb_SetRecords ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean; dynamic;
+    function  fb_SetList : Boolean ; virtual;
     {$IFDEF DELPHI}
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     {$ENDIF}
     Procedure DataLinkActiveChanged; virtual;
     procedure DoEnter ; override;
     procedure DoExit ; override;
-    procedure p_AssignColonnesSubitems;
+    procedure p_AssignColumnsSubitems;
     procedure p_AssignSort ( const as_ChampsOrdonner : String ) ; virtual;
     property HasLoad:Boolean read gb_HasLoaded ;
    public
@@ -239,15 +237,15 @@ type
     {$ENDIF}
     procedure p_LoadListView ; virtual;
     procedure p_UpdateListView ; virtual;
-    procedure p_LibereBookmark ; virtual;
+    procedure p_FreeBookmark ; virtual;
     // Met à jour le composant
     procedure p_MetAjour; virtual;
     Function  fb_FetchIsLoaded : Boolean ; virtual;
     procedure p_SetSortDirectionAsc(const ab_Ascendant: Boolean);
     constructor Create ( acom_owner : TComponent ); override;
     destructor Destroy ; override;
-    Procedure p_AjouteEnregistrements ; dynamic;
-    Procedure p_AjouteEnregistrementsSynchrones; dynamic;
+    Procedure p_AddRecords ; dynamic;
+    Procedure p_AddSyncronousRecords; dynamic;
     procedure p_Reinitialise ; dynamic;
     function  fi_FindItem ( const avar_TexteItem : Variant ) : Integer ; overload;
     procedure ColClick( alsc_colonne : TListColumn ); override;
@@ -267,9 +265,9 @@ type
     property Datasource : TDataSource read fds_GetDatasource write p_SetDataSourceGroup;
     // clé du query
     // du Datasource des groupes édités
-    property DataKeyUnit : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_CleUnite write p_SetClePrimaireListe;
+    property DataKeyUnit : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_UnitsKey write p_SetPrimaryPrimaryKeyList;
     // Champs supplémentaires affichés
-    property DataFieldsDisplay : String read gs_ChampsListe write p_SetChampsListe;
+    property DataFieldsDisplay : String read gs_FieldsList write p_SetFieldsList;
     property FieldDelimiter : Char read gc_FieldDelimiter write  gc_FieldDelimiter default ';';
     // la liste utilise-t-elle les couleurs de lecture ?
     property DataRowColors : Boolean read gb_CouleursLignes write gb_CouleursLignes default True;
@@ -311,7 +309,7 @@ implementation
 
 uses TypInfo, fonctions_string, fonctions_proprietes, Variants,  ExtCtrls,
      fonctions_erreurs,
-     fonctions_db, fonctions_init, unite_messages ;
+     fonctions_init, unite_messages ;
 
  ///////////////////////////////////////////////////////////////
 // TUltimListViewDatalink                                     //
@@ -341,7 +339,7 @@ procedure TDBListView.p_MetAjour ;
 
 Begin
   p_Reinitialise ;
-  p_AjouteEnregistrements;
+  p_AddRecords;
 End ;
 // non Utilisé : On change de groupe dans DataSetChanged
 {Procedure TUltimListViewDatalink.DataSetScrolled(Distance: Integer);
@@ -393,10 +391,10 @@ begin
   {$IFDEF EADO}
   ge_WaitForFetch := Nil ;
   {$ENDIF}
-  gsts_ChampsListe   := nil ;
-  gstl_CleDataSource := nil ;
+  gsts_FieldsList   := nil ;
+  gstl_KeyDataSource := nil ;
 
-  p_LibereBookmark ;
+  p_FreeBookmark ;
   gi_Fetch := 0 ;
   gb_fetched := False ;
   gi_FetchTotal := 0 ;
@@ -433,7 +431,7 @@ end;
 destructor TDBListView.destroy;
 begin
   // Libération du bookmark si il existe
-  p_LibereBookmark ;
+  p_FreeBookmark ;
   inherited;
   {$IFDEF EADO}
   if ( gdl_DataLink.DataSet is TCustomADODataset ) Then
@@ -449,26 +447,26 @@ begin
   gdl_DataLink := nil ;
 
   // Libération des listes de champs
-  p_LibereChampsListe;
-  p_LibereCleDatasource;
-  Finalize ( gt_CleOrigine     );
+  p_FreeFieldsList;
+  p_FreeKeyDataSource;
+  Finalize ( gt_OriginKey     );
     // Lien datasource à libérer ensuite : lien vers une propriété
 end;
 
 // destruction du composant : destruction des objets
-procedure TDBListView.p_LibereCleDatasource;
+procedure TDBListView.p_FreeKeyDataSource;
 begin
   // Libération du stringlist si il existe
-  gstl_CleDataSource.Free ;
-  gstl_CleDataSource := nil ;
+  gstl_KeyDataSource.Free ;
+  gstl_KeyDataSource := nil ;
 end;
 
 // destruction du composant : destruction des objets
-procedure TDBListView.p_LibereChampsListe;
+procedure TDBListView.p_FreeFieldsList;
 begin
   // Libération du stringlist si il existe
-  if assigned ( gsts_ChampsListe   ) Then  gsts_ChampsListe  .Free ;
-  gsts_ChampsListe   := nil ;
+  if assigned ( gsts_FieldsList   ) Then  gsts_FieldsList  .Free ;
+  gsts_FieldsList   := nil ;
 end;
 
 procedure TDBListView.EditingChanged;
@@ -478,7 +476,7 @@ end;
 {$IFDEF EADO}
 // Fonction : fb_WaitForLoadingFirstFetch
 // Mode asynchrone : Attente d'un chargement d'items dans la liste
-// A appeler avant de créer l'évènement ge_GroupFetchLoading et après tout ça mettre p_AjouteEnregistrementsSynchrones
+// A appeler avant de créer l'évènement ge_GroupFetchLoading et après tout ça mettre p_AddSyncronousRecords
 // Retour : Dataset actif ou pas
 Function  fb_WaitForLoadingFirstFetch : Boolean ;
 Begin
@@ -498,7 +496,7 @@ Begin
   gb_Fetched := Result ;
 End ;
 
-procedure TDBListView.p_MajBoutons(const ai_ItemsAjoutes: Integer);
+procedure TDBListView.p_UpdateButtons(const ai_ItemsAjoutes: Integer);
 begin
 End ;
 
@@ -509,7 +507,7 @@ Begin
 
   Items.Clear;
   Invalidate ;
-  p_LibereBookmark;
+  p_FreeBookmark;
   gb_AllLoaded := gb_AllFetched and not assigned ( gdl_DataLink.DataSet ) or not gdl_DataLink.DataSet.Active or gdl_DataLink.DataSet.IsEmpty ;
 End ;
 
@@ -532,8 +530,8 @@ begin
     Begin
       p_ReinitialisePasTout;
       FSortOrder := AValue ;
-      fb_PrepareTri ( FSortColumn );
-      p_AjouteEnregistrements;
+      fb_PrepareSorting ( FSortColumn );
+      p_AddRecords;
     End
 end;
 
@@ -542,8 +540,8 @@ begin
   if AValue <> FSortColumn then
     Begin
       p_ReinitialisePasTout;
-      fb_PrepareTri ( AValue );
-      p_AjouteEnregistrements;
+      fb_PrepareSorting ( AValue );
+      p_AddRecords;
     End
 end;
 
@@ -722,7 +720,7 @@ begin
   // Donc il n'y a pas assez des données présentes
     Begin
       // On rafraichit
-      p_AjouteEnregistrements ;
+      p_AddRecords ;
     End;
 
 end;
@@ -731,7 +729,7 @@ end;
 procedure TDBListView.Refresh;
 begin
   P_Reinitialise ;
-  p_AjouteEnregistrements ;
+  p_AddRecords ;
 End;
 
 // Gestion automatique du scrolling quand la liste n'est pas chargée
@@ -770,7 +768,7 @@ end;
 procedure TDBListView.p_scrolling;
 begin
   if fb_CanAddRecords > 0 Then
-    p_AjouteEnregistrements;
+    p_AddRecords;
 end;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -816,15 +814,15 @@ Begin
         // On n'est pas en multi-tâches sur un ordinateur avec un windows !
         fb_WaitForLoadingFirstFetch ;
 
-       // Cet évènement est créé avant p_AjouteEnregistrementsSynchrones : Il y a deux failles dans le passage du multi-tâche au mono-tâche : La procédure utilisée dans le multi-tâche et l'évènement multi-tâches
+       // Cet évènement est créé avant p_AddSyncronousRecords : Il y a deux failles dans le passage du multi-tâche au mono-tâche : La procédure utilisée dans le multi-tâche et l'évènement multi-tâches
        try
           ge_GroupFetchLoading := TEvent.Create ( nil, True, True, '' );
           ge_WaitForFetch.Free ;
           ge_WaitForFetch := Nil ;
 
-        // On ne peut appeler p_AjouteEnregistrementsSynchrones que si on a appelé fb_WaitForLoadingFirstFetch et créé ge_GroupFetchLoading
-          p_AjouteEnregistrementsSynchrones;
-          // L'évènement est mult-tâche et seul p_AjouteEnregistrementsSynchrones était mono-tâche : Libération de l'évènement de synchro
+        // On ne peut appeler p_AddSyncronousRecords que si on a appelé fb_WaitForLoadingFirstFetch et créé ge_GroupFetchLoading
+          p_AddSyncronousRecords;
+          // L'évènement est mult-tâche et seul p_AddSyncronousRecords était mono-tâche : Libération de l'évènement de synchro
         finally
           ge_GroupFetchLoading.Free ;
           ge_GroupFetchLoading := Nil ;
@@ -925,7 +923,7 @@ Begin
 End ;
 {$ENDIF}
 // Libère le bookmark en cours : Surchargé pour les autres descendants
-procedure TDBListView.p_LibereBookmark ;
+procedure TDBListView.p_FreeBookmark ;
 Begin
   // si le bookmark existe
 {  if  assigned ( gbm_DernierEnregistrement )
@@ -958,7 +956,7 @@ Begin
   {$IFDEF DELPHI}Items.{$ENDIF}EndUpdate ;
   Invalidate ;
   // Libération du bookmark en cours : surchargé
-  p_LibereBookmark ;
+  p_FreeBookmark ;
   // A faire à la fin : Mode normal par défaut
   gb_AllLoaded := False;
 End ;
@@ -1019,8 +1017,8 @@ begin
       // Plus de première fois
       gb_HasLoaded := True ;
 
-      p_CreeListeChampsDisplay ( gs_champsListe );
-      gs_ChampsListeFieldValues:=fs_RemplaceChar( gs_champsListe, gc_FieldDelimiter, ';' );
+      p_CreateListFieldsDisplay ( gs_FieldsList );
+      gs_FieldsListFieldValues:=fs_RemplaceChar( gs_FieldsList, gc_FieldDelimiter, ';' );
 
 {$IFDEF EADO}
 
@@ -1062,8 +1060,8 @@ begin
           im_FlecheBasse.Free ;
         End ;
       {$ENDIF}
-      p_AssignColonnesSubitems;
-      p_AffecteEvenementsDatasource ;
+      p_AssignColumnsSubitems;
+      p_SetEventsDatasource ;
       // Affectation des évènements
       gdip_OldOnDrawItemProp   := OnCustomdrawItem ;
       OnCustomdrawItem         := p_PaintFondItem ;
@@ -1072,35 +1070,35 @@ begin
     End ;
 end;
 
-procedure TDBListView.p_AffecteEvenementsDatasource ;
+procedure TDBListView.p_SetEventsDatasource ;
 Begin
 End;
 
 // Evènement click colonne pour le tri
 // alsc_colonne : la colonne à trier
-procedure TDBListView.p_AssignColonnesSubitems;
+procedure TDBListView.p_AssignColumnsSubitems;
 var
    li_i, li_j : Integer;
 begin
-  if  ( assigned ( gsts_ChampsListe ))
-  and ( assigned ( gstl_CleDataSource ))
+  if  ( assigned ( gsts_FieldsList ))
+  and ( assigned ( gstl_KeyDataSource ))
     Then
       Begin
-        if gstl_CleDataSource.Count > 0
+        if gstl_KeyDataSource.Count > 0
          Then
-          SetLength ( gt_ColonneCle, gstl_CleDataSource.Count );
+          SetLength ( gt_ColonneCle, gstl_KeyDataSource.Count );
         for li_i := 0 to high ( gt_ColonneCle ) do
           gt_ColonneCle [ li_i ] := -1  ;
         // Gestion des subitems de la ListView
-        for li_i := 0 to gsts_ChampsListe.Count - 1 do
-          for li_j := 0 to gstl_CleDataSource.Count - 1 do
-            if gstl_CleDataSource [ li_j ] = gsts_ChampsListe [ li_i ] Then
+        for li_i := 0 to gsts_FieldsList.Count - 1 do
+          for li_j := 0 to gstl_KeyDataSource.Count - 1 do
+            if gstl_KeyDataSource [ li_j ] = gsts_FieldsList [ li_i ] Then
               gt_ColonneCle [ li_j ] := li_i ;
         li_j := 0 ;
         for li_i := 0 to high ( gt_ColonneCle ) do
           if gt_ColonneCle [ li_i ] < 0 Then
             Begin
-              gt_ColonneCle [ li_i ] := gsts_ChampsListe.Count + li_j ;
+              gt_ColonneCle [ li_i ] := gsts_FieldsList.Count + li_j ;
               inc ( li_j );
             End ;
       End ;
@@ -1143,13 +1141,13 @@ end;
 
 // Préparation du tri des items de la liste
 // ai_Index : Le no de colonne à trier
-function TDBListView.fb_PrepareTri ( const ai_column : Integer ) : Boolean;
+function TDBListView.fb_PrepareSorting ( const ai_column : Integer ) : Boolean;
 var ls_ChampsOrdonner : String ;
 begin
   FSortColumn := ai_column ; 
-  ls_ChampsOrdonner := fs_PrepareTri ;
+  ls_ChampsOrdonner := fs_PrepareSorting ;
     // On ne peut pas trier : quitter
-   Result := fb_PeutTrier ;
+   Result := fb_CanSort ;
   // Le sort va de toute façon se faire dans le AdvListView
    if Result
     Then
@@ -1160,7 +1158,7 @@ End ;
 
 // Préparation du tri des items de la liste
 // ai_Index : Le no de colonne à trier
-function TDBListView.fs_PrepareTri ( ) : String;
+function TDBListView.fs_PrepareSorting ( ) : String;
 begin
   // Le sort va de toute façon se faire dans le AdvListView
   // On donne donc la possibilité de trier par défaut
@@ -1175,7 +1173,7 @@ begin
     // SI on cache la clé dans la liste
       // On récupère directement la colonne de DataFieldDiplay
     // On récupère le bon champ
-   Result := fs_stringChamp ( gs_ChampsListe, gc_FieldDelimiter, SortColumn + 1 );
+   Result := fs_stringChamp ( gs_FieldsList, gc_FieldDelimiter, SortColumn + 1 );
     // Rien : on quitte
    if Result = ''
     Then
@@ -1193,7 +1191,7 @@ End ;
 
 // Peut-on trier ? : méthode surchargée dans le descendant
 // Résultat : vrai
-function TDBListView.fb_PeutTrier  : Boolean ;
+function TDBListView.fb_CanSort  : Boolean ;
 Begin
   Result := True ;
 End ;
@@ -1201,7 +1199,7 @@ End ;
 // Peut-on ajouter des items ? Utilisé par le composant MCAdvGroupView
 // adat_Dataset : Le dataset à ajouter dans la liste
 // Résultat : Vrai
-function TDBListView.fb_PeutAjouter ( const adat_Dataset : TDataset ; const ab_AjouteItemPlus : Boolean)  : Boolean ;
+function TDBListView.fb_CanAdd ( const adat_Dataset : TDataset ; const ab_AddItemPlus : Boolean)  : Boolean ;
 Begin
   Result := True ;
 End ;
@@ -1209,7 +1207,7 @@ End ;
 // Mettre à jour l'état de l'item : Utilisé par le composant MCAdvGroupView pour tout mettre dans le listview
 // adat_Dataset : Le dataset à ajouter dans la liste
 // Résultat : Vrai
-function TDBListView.fb_ChangeEtatItem  ( const adat_Dataset : TDataset  ; const ab_AjouteItemPlus : Boolean ) : Boolean ;
+function TDBListView.fb_ChangeEtatItem  ( const adat_Dataset : TDataset  ; const ab_AddItemPlus : Boolean ) : Boolean ;
 Begin
   Result := True ;
 End ;
@@ -1217,7 +1215,7 @@ End ;
 // Ajoute les enregistrements : Surchargé pour les autres descendants
 // adat_Dataset : Le dataset à ajouter dans la liste
 // Résultat     : A-t-on changé l'état de certains items ?
-function TDBListView.fb_RemplitEnregistrements ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean;
+function TDBListView.fb_SetRecords ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean;
 // Compteurs
 var li_i   , li_j, li_RecordsToAdd : Integer ;
 //  Valeurs des champs supplémentaires à afficher
@@ -1227,8 +1225,8 @@ begin
   Result := False ;
 
   // Pas de champ clé : quitte
-  if assigned ( gstl_CleDataSource )
-  and ( gstl_CleDataSource.Count = 0 )
+  if assigned ( gstl_KeyDataSource )
+  and ( gstl_KeyDataSource.Count = 0 )
 //  or not assigned ( DataOtherList )
    Then
     Exit ;
@@ -1252,7 +1250,7 @@ begin
     while not eof do
       begin
 	// si on ne peut pas ajouter le champ en cours on passe au suivant
-	 if not fb_PeutAjouter  ( adat_Dataset, ab_InsereCles )
+	 if not fb_CanAdd  ( adat_Dataset, ab_InsereCles )
 	    Then
 	     Begin
 	       Next;
@@ -1263,11 +1261,11 @@ begin
 		// Ajout d'un item
 	gVG_ListItem         := Items.Add ;
 	 // Affectation de la clé si on la montre
-	if ( gs_ChampsListe <> '' )
+	if ( gs_FieldsList <> '' )
 	 Then
 	    Begin
 	      // Récupération des champs
-	      lvar_AAfficher  := FieldValues [ gs_ChampsListeFieldValues ];
+	      lvar_AAfficher  := FieldValues [ gs_FieldsListFieldValues ];
 	      // C'est plusieurs champs
 	      if VarIsArray ( lvar_AAfficher )
 	       Then
@@ -1287,10 +1285,10 @@ begin
 	 // Il n' a qu'un champ
 		Else gVG_ListItem.Caption := lvar_AAfficher ;
 	    End ;
-	if ( gs_CleUnite <> '' )  and ( FindField ( gs_CleUnite ) <> nil )
+	if ( gs_UnitsKey <> '' )  and ( FindField ( gs_UnitsKey ) <> nil )
 	 Then
 	    Begin
-	      lvar_AAfficher  := FieldValues [ gs_CleUniteFieldValues ];
+	      lvar_AAfficher  := FieldValues [ gs_UnitsKeyFieldValues ];
 	      if VarIsArray ( lvar_AAfficher )
 	       Then
 		  Begin
@@ -1364,7 +1362,7 @@ begin
   try
     Screen.Cursor := crDefault ;
     Invalidate ;
-    p_MajBoutons ( li_i );
+    p_UpdateButtons ( li_i );
   Finally
   End ;
 End ;
@@ -1398,7 +1396,7 @@ begin
       // Initialisation
       p_Reinitialise;
       // Ajout des items
-      p_AjouteEnregistrements ;
+      p_AddRecords ;
     End;
 
 end;
@@ -1454,7 +1452,7 @@ Begin
      // Il faut initialiser le sort
       Begin
         // Colonne 0
-        Result := fs_PrepareTri ( );
+        Result := fs_PrepareSorting ( );
       End
       // Si il y a quelque chose on garde la valeur
      Else Result := ls_Sort ;
@@ -1463,9 +1461,9 @@ Begin
 End ;
 
 
-// Insertion des items appelle fb_RemplitEnregistrements : Surchargé pour les autres descendants
-// Résultat   : celui de fb_RemplitEnregistrements : A-t-on changé l'état de certains items ?
-function TDBListView.fb_RemplitListe:Boolean;
+// Insertion des items appelle fb_SetRecords : Surchargé pour les autres descendants
+// Résultat   : celui de fb_SetRecords : A-t-on changé l'état de certains items ?
+function TDBListView.fb_SetList:Boolean;
 var ls_Sort : String;
 Begin
   Result := False ;
@@ -1502,12 +1500,12 @@ Begin
     End ;
 //   ShowMessage ( ( gdl_DataLink.DataSet as TCustomADODataset ).Sort );
 // Insère les enregistrements dans la liste
-  Result := fb_RemplitEnregistrements ( gdl_DataLink.DataSet, False );
+  Result := fb_SetRecords ( gdl_DataLink.DataSet, False );
   Screen.Cursor := crDefault ;
 End ;
 // Ajoute automatiquement n pages d'enregistrements ou tout
 // Appelle fb_insere
-procedure TDBListView.p_AjouteEnregistrements;
+procedure TDBListView.p_AddRecords;
 begin
   // La liste n'est pas encore complètement chargée pour pouvoir insérer les enregistrements
   if not gb_HasLoaded
@@ -1529,7 +1527,7 @@ begin
     {$ENDIF}
     {$ENDIF}
   // On ne peut appeler Synchrones que si on a appelé fb_WaitForLoadingFirstFetch et créé ge_GroupFetchLoading
-    p_AjouteEnregistrementsSynchrones;
+    p_AddSyncronousRecords;
 
   // Libération : Permet de faire un fetch
   finally
@@ -1541,7 +1539,7 @@ begin
 End ;
 // Ajoute automatiquement n pages d'enregistrements ou tout
 // Appelle fb_insere
-procedure TDBListView.p_AjouteEnregistrementsSynchrones;
+procedure TDBListView.p_AddSyncronousRecords;
 begin
 
   // Vérification de l'existence des propriétés
@@ -1552,14 +1550,14 @@ begin
      // Si elles n'existent pas on quitte
     Exit ;
 
-  fb_PrepareTri ( FSortColumn );
+  fb_PrepareSorting ( FSortColumn );
   gb_LoadList   := True ;
     // Curseur d'attente SQL
   screen.Cursor := crSQLWait    ;
   // Cette instruction optimise la rapidité d'ajouts
   try
     // Insertion des enreigstrements dans la liste
-    fb_RemplitListe;
+    fb_SetList;
     // Un endupdate suit toujours un beginupdate : Mise à jour du composant
   finally
     Invalidate ;
@@ -1610,28 +1608,28 @@ begin
 end;
 
 
-// Procédure p_SetChampsListe
+// Procédure p_SetFieldsList
 // Affectation de DataFieldsDisplay
 // chaîne a_Value : La valeur à affecter
-procedure TDBListView.p_SetChampsListe(const Value: String);
+procedure TDBListView.p_SetFieldsList(const Value: String);
 begin
-  if ( gs_ChampsListe <> Value ) Then
+  if ( gs_FieldsList <> Value ) Then
     Begin
-      gs_ChampsListe := Value ;
+      gs_FieldsList := Value ;
 
     End ;
 end;
-// Procédure p_SetChampsListe
+// Procédure p_SetFieldsList
 // Affectation de DataFieldsDisplay
 // chaîne a_Value : La valeur à affecter
-procedure TDBListView.p_CreeListeChampsDisplay ( as_ChampsListe : String );
+procedure TDBListView.p_CreateListFieldsDisplay ( as_FieldsList : String );
 begin
-  p_LibereChampsListe;
+  p_FreeFieldsList;
   // Séparation des champs
-  if ( as_ChampsListe <> '' ) Then
-    p_ChampsVersListe ( gsts_ChampsListe, as_ChampsListe, gc_FieldDelimiter )
+  if ( as_FieldsList <> '' ) Then
+    p_ChampsVersListe ( gsts_FieldsList, as_FieldsList, gc_FieldDelimiter )
    Else
-    gsts_ChampsListe := TStringList.Create ;
+    gsts_FieldsList := TStringList.Create ;
 end;
 
 function TDBListView.GetNextItem(const StartItem: TListItem; const States: {$IFDEF FPC}TListItemStates{$ELSE} TItemStates{$ENDIF}): TListItem;
@@ -1665,17 +1663,17 @@ end;
 
 // Affectation de la propriété DataKeyUnit
 // a_Value : valeur à tester : test si égale à zéro
-procedure TDBListView.p_SetClePrimaireListe(const a_Value: String );
+procedure TDBListView.p_SetPrimaryPrimaryKeyList(const a_Value: String );
 begin
-  if ( gs_CleUnite <> a_Value ) Then
+  if ( gs_UnitsKey <> a_Value ) Then
     Begin
-      gs_CleUnite := Trim ( a_Value );
-      p_LibereCleDatasource;
-      if ( trim (gs_CleUnite) <> '' ) // Il ne faut pas que ça soit égal '' pour la création cde la liste
+      gs_UnitsKey := Trim ( a_Value );
+      p_FreeKeyDataSource;
+      if ( trim (gs_UnitsKey) <> '' ) // Il ne faut pas que ça soit égal '' pour la création cde la liste
        Then
          Begin
-           p_ChampsVersListe ( gstl_CleDataSource, trim(gs_CleUnite), gc_FieldDelimiter );
-           gs_CleUniteFieldValues:= fs_RemplaceChar( gs_CleUnite, gc_FieldDelimiter, ';' );
+           p_ChampsVersListe ( gstl_KeyDataSource, trim(gs_UnitsKey), gc_FieldDelimiter );
+           gs_UnitsKeyFieldValues:= fs_RemplaceChar( gs_UnitsKey, gc_FieldDelimiter, ';' );
          End;
     end;
 end;
@@ -1697,20 +1695,20 @@ var lt_TailleTableau : Array [ 0..1 ] of Integer ;
     li_i : Integer ;
 Begin
   Result := Null ;
-  if gstl_CleDataSource.Count = 1
+  if gstl_KeyDataSource.Count = 1
    Then
      Begin
        Result := alsi_Item.Caption ;
      End
    Else
-    if gstl_CleDataSource.Count > 1
+    if gstl_KeyDataSource.Count > 1
      Then
       Begin
         lt_TailleTableau [ 0 ] := 0 ;
-        lt_TailleTableau [ 1 ] := gstl_CleDataSource.Count ;
+        lt_TailleTableau [ 1 ] := gstl_KeyDataSource.Count ;
         Result := VarArrayCreate( lt_TailleTableau, varString );
         Result [ 0 ] := alsi_Item.Caption ;
-        for li_i := 1 to gstl_CleDataSource.Count - 1 do
+        for li_i := 1 to gstl_KeyDataSource.Count - 1 do
          Result [ li_i ] := alsi_Item.SubItems [ li_i - 1 ] ;
       End ;
 End ;}
