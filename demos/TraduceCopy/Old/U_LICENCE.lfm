@@ -1,0 +1,144 @@
+object F_Licence: TF_Licence
+  Left = 336
+  Height = 473
+  Top = 314
+  Width = 496
+  HorzScrollBar.Page = 495
+  VertScrollBar.Page = 472
+  ActiveControl = re_Licence
+  BorderStyle = bsDialog
+  Caption = 'A propos'
+  ClientHeight = 473
+  ClientWidth = 496
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnShow = FormShow
+  Position = poScreenCenter
+  object lb_Langage: TLabel
+    Left = 30
+    Height = 20
+    Top = 538
+    Width = 56
+    Caption = 'Langage'
+    ParentColor = False
+  end
+  object re_Licence: TRichView
+    Height = 432
+    Width = 496
+    TabStop = True
+    TabOrder = 0
+    Align = alClient
+    Tracking = True
+    VScrollVisible = True
+    Style = RVStyle
+    LeftMargin = 5
+    RightMargin = 5
+    Delimiters = ' .;,:(){}"'
+    AllowSelection = True
+  end
+  object Panel1: TPanel
+    Height = 41
+    Top = 432
+    Width = 496
+    Align = alBottom
+    ClientHeight = 41
+    ClientWidth = 496
+    TabOrder = 1
+    object Label1: TLabel
+      Left = 272
+      Height = 20
+      Top = 13
+      Width = 64
+      Caption = 'Language'
+      ParentColor = False
+    end
+    object bt_Accepter: TJvXPButton
+      Left = 8
+      Height = 27
+      Top = 8
+      Width = 104
+      Caption = 'bt_Accepter'
+      TabOrder = 0
+      UseDockManager = False
+      OnClick = bt_AccepterClick
+    end
+    object cb_Langage: TComboBox
+      Left = 344
+      Height = 25
+      Top = 8
+      Width = 152
+      AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      MaxLength = 0
+      TabOrder = 1
+      Text = 'English'
+    end
+  end
+  object bt_Refuser: TJvXPButton
+    Left = 152
+    Height = 27
+    Top = 440
+    Width = 104
+    Caption = 'Refuse'
+    TabOrder = 2
+    UseDockManager = False
+    OnClick = bt_RefuserClick
+  end
+  object OnFormInfoIni: TOnFormInfoIni
+    SauveEditObjets = []
+    left = 68
+    top = 135
+  end
+  object RVStyle: TRVStyle
+    TextStyles = <    
+      item
+        CharSet = DEFAULT_CHARSET
+        FontName = 'Arial'
+        Size = 10
+        Color = clWindowText
+      end    
+      item
+        CharSet = DEFAULT_CHARSET
+        FontName = 'Arial'
+        Size = 10
+        Color = clBlue
+        Style = [fsBold]
+      end    
+      item
+        CharSet = DEFAULT_CHARSET
+        FontName = 'Arial'
+        Size = 10
+        Color = clNavy
+        Style = [fsBold]
+      end    
+      item
+        CharSet = DEFAULT_CHARSET
+        FontName = 'Arial'
+        Size = 10
+        Color = clMaroon
+        Style = [fsItalic]
+      end    
+      item
+        CharSet = DEFAULT_CHARSET
+        FontName = 'Arial'
+        Size = 10
+        Color = clGreen
+        Style = [fsUnderline]
+      end    
+      item
+        CharSet = DEFAULT_CHARSET
+        FontName = 'Arial'
+        Size = 10
+        Color = clGreen
+        Style = [fsUnderline]
+      end>
+    JumpCursor = crHandPoint
+    Color = clWindow
+    HoverColor = clNone
+    SelColor = clHighlight
+    SelTextColor = clHighlightText
+    left = 134
+    top = 122
+  end
+end
