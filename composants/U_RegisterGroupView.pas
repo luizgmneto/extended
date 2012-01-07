@@ -11,9 +11,8 @@
 
 unit U_RegisterGroupView;
 
-{$I ..\DLCompilers.inc}
 {$IFDEF FPC}
-{$mode objfpc}{$H+}
+{$mode Delphi}{$H+}
 {$ENDIF}
 
 interface
@@ -50,7 +49,7 @@ procedure Register;
 
 implementation
 
-uses U_GroupView, unite_messages  ;
+uses U_GroupView, U_DBListView, unite_messages  ;
 
  ///////////////////////////////////////////////////////////////
 // TDataFieldOwnerProperty                                   //
@@ -61,14 +60,13 @@ var
   DataSource: TDataSource;
 begin
   DataSource := GetObjectProp(GetComponent(0), 'DataSourceOwner') as TDataSource;
-  if (DataSource is TDataSource) and Assigned(DataSource.DataSet) then
+  if ( DataSource <> nil ) and Assigned(DataSource.DataSet) then
     DataSource.DataSet.GetFieldNames(Values);
 
 {$ELSE}
 function TDataFieldOwnerProperty.GetDataSourcePropName: string;
 begin
   Result := 'DataSourceOwner';
-
 {$ENDIF}
 end;
 
@@ -78,10 +76,13 @@ end;
 
 procedure Register;
 begin
-  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TDBGroupView]);
-  RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBGroupView, 'DataFieldGroup', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
-  RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBGroupView, 'DataFieldUnit' , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
-  RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBGroupView, 'DataKeyOwner'  , TDataFieldOwnerProperty);
+  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TDBListView,TDBGroupView]);
+  RegisterPropertyEditor ( TypeInfo(String), TDBListView , 'DataKeyUnit'      , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
+  RegisterPropertyEditor ( TypeInfo(String), TDBListView , 'DataSort'         , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
+  RegisterPropertyEditor ( TypeInfo(string), TDBListView , 'DataFieldsDisplay', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
+  RegisterPropertyEditor ( TypeInfo(String), TDBGroupView, 'DataFieldGroup'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
+  RegisterPropertyEditor ( TypeInfo(String), TDBGroupView, 'DataFieldUnit'    , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
+  RegisterPropertyEditor ( TypeInfo(String), TDBGroupView, 'DataKeyOwner'     , TDataFieldOwnerProperty);
 end;
 
 end.

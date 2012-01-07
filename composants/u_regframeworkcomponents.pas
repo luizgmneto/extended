@@ -21,7 +21,7 @@ procedure Register;
 
 implementation
 
-uses unite_messages, U_DBListView, U_ExtDBNavigator,
+uses unite_messages, U_ExtDBNavigator,
      u_framework_dbcomponents, u_framework_components,
      U_OnFormInfoIni,U_ExtNumEdits,U_ExtColorCombos,
      u_extsearchedit, U_ExtComboInsert,
@@ -42,7 +42,7 @@ begin
                                                 TFWDBDateEdit, {$IFNDEF FPC}TFWDBDateTimePicker,{$ENDIF}
                                                 TFWDBEdit, TExtDBGrid,
                                                 TExtDBImage,TExtDBImageList,
-                                                TDBListView,TFWDBLookupCombo,
+                                                TFWDBLookupCombo,
                                                 TFWDBMemo, TExtDBNavigator,
                                                 TExtDBNumEdit,TExtDBPictCombo,
                                                 TExtSearchDBEdit,TFWDBSpinEdit]);
@@ -51,9 +51,6 @@ begin
                                                 TFWLabel,TFWMemo,
                                                 {$IFDEF MENUBAR}TExtMenuToolBar,{$ENDIF}
                                                 TExtNumEdit,TExtPictCombo,TFWSpinEdit]);
-  RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataKeyUnit'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
-  RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TDBListView, 'DataSort'      , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
-  RegisterPropertyEditor ( TypeInfo(string), TDBListView, 'DataFieldsDisplay'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo(string), TExtSearchDBEdit, 'FieldKey'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
 end;

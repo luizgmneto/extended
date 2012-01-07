@@ -7,7 +7,8 @@ unit lazregisterextcomp;
 interface
 
 uses
-  u_regframeworkcomponents, U_RegisterGroupView, LazarusPackageIntf;
+    u_regframeworkcomponents, U_RegisterGroupView, u_regextfilecopy, 
+  LazarusPackageIntf;
 
 implementation
 
@@ -15,6 +16,7 @@ procedure Register;
 begin
   RegisterUnit('u_regframeworkcomponents', @u_regframeworkcomponents.Register); 
   RegisterUnit('U_RegisterGroupView', @U_RegisterGroupView.Register); 
+  RegisterUnit('u_regextfilecopy', @u_regextfilecopy.Register); 
 end; 
 
 initialization

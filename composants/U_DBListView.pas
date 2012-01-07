@@ -183,7 +183,7 @@ type
 //    lb_DevalideInsert,
   // Propriété Couleurs de lignes automatiques
     gb_CouleursLignes: Boolean;
-    function fb_CanAddRecords: Integer; virtual;
+    function fb_CanAddRecords: Cardinal; virtual;
     procedure p_scrolling ; virtual;
     procedure p_setSortOrder ( AValue : TSortOrder ); virtual;
     function fs_SortDataset(const adat_Dataset: TDataSet): String; virtual;
@@ -265,7 +265,7 @@ type
     property Datasource : TDataSource read fds_GetDatasource write p_SetDataSourceGroup;
     // clé du query
     // du Datasource des groupes édités
-    property DataKeyUnit : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_UnitsKey write p_SetPrimaryPrimaryKeyList;
+    property DataKeyUnit : String read gs_UnitsKey write p_SetPrimaryPrimaryKeyList;
     // Champs supplémentaires affichés
     property DataFieldsDisplay : String read gs_FieldsList write p_SetFieldsList;
     property FieldDelimiter : Char read gc_FieldDelimiter write  gc_FieldDelimiter default ';';
@@ -278,7 +278,7 @@ type
     property BeforeDataScroll : EListScrollEvent  read ge_BeforeScroll write ge_BeforeScroll ;
     property AfterDataScroll  : TDatasetNotifyEvent read ge_AfterScroll  write ge_AfterScroll ;
     // Table du Datasource principal édité
-    property DataTableUnit : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_TableSource write gs_TableSource;
+    property DataTableUnit : String read gs_TableSource write gs_TableSource;
     property SortColumn : Integer read FSortColumn write p_setSortColumn default 0;
     property SortOrder : TSortOrder read FSortOrder write p_setSortOrder default soAscending;
    end;
@@ -733,7 +733,7 @@ begin
 End;
 
 // Gestion automatique du scrolling quand la liste n'est pas chargée
-function TDBListView.fb_CanAddRecords : Integer ;
+function TDBListView.fb_CanAddRecords : Cardinal ;
 var
   lSI_infos        : TScrollInfo ; // Infos supplémentaires de scroll
   li_NPage         : Cardinal ;
@@ -997,7 +997,6 @@ Begin
 End ;}
 // Fin du chargement du composant
 procedure TDBListView.Loaded;
-var li_i : LongInt;
 begin
   inherited Loaded;
   {$IFDEF FPC}

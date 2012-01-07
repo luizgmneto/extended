@@ -41,6 +41,7 @@ uses U_ExtFileCopy,
      DBReg, Designintf,
 {$ENDIF}
      u_traducefile,
+     unite_messages,
      u_extractfile;
 
 {TExtFileCopy}
@@ -48,8 +49,8 @@ uses U_ExtFileCopy,
 
 procedure Register;
 begin
-  RegisterComponents('Extended', [TExtFileCopy, TTraduceFile, TExtractFile]);
-  RegisterPropertyEditor ( TypeInfo({$IFDEF FPC}ShortString {$ELSE}string{$ENDIF}), TExtractFile, 'FieldName'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
+  RegisterComponents ( CST_PALETTE_COMPOSANTS_INVISIBLE, [TExtFileCopy, TTraduceFile, TExtractFile]);
+  RegisterPropertyEditor ( TypeInfo(string), TExtractFile, 'FieldName'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
 
 end;
 
