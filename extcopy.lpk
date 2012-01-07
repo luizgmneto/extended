@@ -19,8 +19,8 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Minor="1"/>
-    <Files Count="10">
+    <Version Minor="9"/>
+    <Files Count="9">
       <Item1>
         <Filename Value="composants/u_traducefile.lrs"/>
         <Type Value="LRS"/>
@@ -38,30 +38,25 @@
         <UnitName Value="U_ExtFileCopy"/>
       </Item4>
       <Item5>
-        <Filename Value="composants/u_regextfilecopy.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="u_regextfilecopy"/>
-      </Item5>
-      <Item6>
         <Filename Value="fonctions/fonctions_file.pas"/>
         <UnitName Value="fonctions_file"/>
-      </Item6>
-      <Item7>
+      </Item5>
+      <Item6>
         <Filename Value="composants/u_extabscopy.pas"/>
         <UnitName Value="u_extabscopy"/>
-      </Item7>
-      <Item8>
+      </Item6>
+      <Item7>
         <Filename Value="composants/u_extractfile.lrs"/>
         <Type Value="LRS"/>
-      </Item8>
-      <Item9>
+      </Item7>
+      <Item8>
         <Filename Value="composants/u_extractfile.pas"/>
         <UnitName Value="u_extractfile"/>
-      </Item9>
-      <Item10>
+      </Item8>
+      <Item9>
         <Filename Value="fonctions/unit_messagescopy.pas"/>
         <UnitName Value="unit_messagescopy"/>
-      </Item10>
+      </Item9>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="4">

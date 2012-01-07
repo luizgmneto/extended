@@ -44,8 +44,8 @@ type
     procedure SaveAMenuNode ( const AMenuItem : TMenuItem ; const ASaveLevel : Boolean ; const EndSection : String ); virtual;
   public
     constructor Create(TheOwner: TComponent); override;
-    function  LoadIni ( const EndSection : String = '' ): Boolean; virtual;
-    function  SaveIni ( const EndSection : String = '' ): Boolean; virtual;
+    function  LoadIni ( const EndSection : String = '' ) : Boolean; virtual;
+    function  SaveIni ( const EndSection : String = '' ) : Boolean; virtual;
     procedure Click; virtual;
   published
     property AutoIni : Boolean read FAutoIni write FAutoIni default True;

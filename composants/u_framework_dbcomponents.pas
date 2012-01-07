@@ -295,10 +295,10 @@ type
 //         procedure SetValue(const AValue: Double); override ;
          procedure KeyDown(var Key: Word; Shift: TShiftState); override;
          procedure KeyPress(var Key: Char); override;
-         procedure Loaded; override;
          procedure Notification(AComponent: TComponent;
          Operation: TOperation); override;
        public
+         procedure Loaded; override;
          procedure Change; override;
          constructor Create(AOwner: TComponent); override;
          destructor Destroy; override;
@@ -927,4 +927,4 @@ initialization
   p_ConcatVersion(gVer_framework_DBcomponents);
 {$ENDIF}
 end.
-
+

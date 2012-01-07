@@ -84,7 +84,7 @@ type
     procedure GetMenu(const AMenuItem: TMenuItem; var AMenuFound: TMenuItem;
       const MenuNameToFind: String);
     procedure p_ShowMenu(const ATree: TVirtualStringTree; const AMenu: TMenu ; const aSearchValidity : Boolean );
-    procedure vt_MenuNodeChange(const Sender: TVirtualStringTree);
+    procedure vt_MenuNodeChange(const AMenuItem: TMenuItem; const Sender: TVirtualStringTree);
     { private declarations }
   public
     procedure DoClose(var CloseAction: TCloseAction); override;
@@ -235,9 +235,8 @@ end;
 
 procedure TF_CustomizeMenu.vt_MainMenuClick(Sender: TObject);
 begin
-  vt_MenuNodeChange ( vt_MainMenu );
+  vt_MenuNodeChange ( MenuCustomize.MainMenu.Items, vt_MainMenu );
 end;
-
 
 procedure TF_CustomizeMenu.FormCreate(Sender: TObject);
 begin
@@ -246,10 +245,12 @@ end;
 
 procedure TF_CustomizeMenu.vt_MenuIniClick(Sender: TObject);
 begin
-  vt_MenuNodeChange(vt_MenuIni);
+  vt_MenuNodeChange ( MenuCustomize.MenuIni.Items, vt_MenuIni);
 end;
 
 
+// procedure TF_CustomizeMenu.GetMenu
+// AMenuItem : clicked MenuItem
 procedure TF_CustomizeMenu.GetMenu(const AMenuItem: TMenuItem; var AMenuFound : TMenuItem; const MenuNameToFind : String);
 var i : Integer;
 begin
@@ -268,7 +269,7 @@ begin
     end;
 end;
 
-procedure TF_CustomizeMenu.vt_MenuNodeChange ( const Sender: TVirtualStringTree );
+procedure TF_CustomizeMenu.vt_MenuNodeChange ( const AMenuItem: TMenuItem; const Sender: TVirtualStringTree );
 var  CustomerRecord : PCustMenuNode;
      lmenuItem : TMenuItem;
 begin
@@ -276,15 +277,14 @@ begin
   if assigned ( FocusedNode ) Then
     Begin
       lmenuItem := nil ;
-      if ( FocusedNode^.ChildCount = 0 )
-      and assigned ( MenuCustomize.MenuIni ) Then
+      if assigned ( AMenuItem ) Then
         Begin
           CustomerRecord := GetNodeData( FocusedNode );
-          GetMenu ( MenuCustomize.MenuIni.Items, lmenuItem, CustomerRecord^.Name );
+          GetMenu ( AMenuItem, lmenuItem, CustomerRecord^.Name );
         end;
       if Sender = vt_MainMenu Then
         Begin
-          FWInsert.Enabled := (lmenuItem = nil ) and (FocusedNode^.ChildCount = 0);
+          FWInsert.Enabled := (lmenuItem <> nil ) and (FocusedNode^.ChildCount=0);
         end
        else
          FWDelete.Enabled := lmenuItem <> nil;

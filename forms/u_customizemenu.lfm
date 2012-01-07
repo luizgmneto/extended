@@ -1,7 +1,7 @@
 object F_CustomizeMenu: TF_CustomizeMenu
-  Left = 313
+  Left = 314
   Height = 400
-  Top = 180
+  Top = 209
   Width = 600
   Caption = 'F_CustomizeMenu'
   ClientHeight = 400
@@ -24,10 +24,11 @@ object F_CustomizeMenu: TF_CustomizeMenu
       Left = 520
       Height = 30
       Top = 0
-      Width = 80
       Caption = 'Fermer'
       TabOrder = 0
       Align = alRight
+      Font.Color = 2171169
+      ParentFont = False
     end
   end
   object Panel2: TPanel
@@ -52,7 +53,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
         item
           Position = 0
           Text = 'Menu complet'
-          Width = 353
+          Width = 351
         end>
       Header.DefaultHeight = 22
       Header.Height = 22
@@ -82,6 +83,8 @@ object F_CustomizeMenu: TF_CustomizeMenu
         Enabled = False
         TabOrder = 0
         Align = alLeft
+        Font.Color = 2171169
+        ParentFont = False
         OnClick = FWDeleteClick
       end
       object FWInsert: TFWInsert
@@ -93,6 +96,8 @@ object F_CustomizeMenu: TF_CustomizeMenu
         Enabled = False
         TabOrder = 1
         Align = alRight
+        Font.Color = 2171169
+        ParentFont = False
         OnClick = FWInsertClick
       end
       object Panel4: TPanel
@@ -127,7 +132,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
         item
           Position = 0
           Text = 'Menu personnalisé'
-          Width = 238
+          Width = 236
         end>
       Header.DefaultHeight = 22
       Header.Height = 22

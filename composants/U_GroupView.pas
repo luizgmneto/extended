@@ -180,7 +180,7 @@ type
     // Clé primaire de la table des groupes
     gs_GroupKey    ,
     // Table d'association NN des groupes
-    gs_GroupTable  : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF};
+    gs_GroupTable  : String;
     // Propriété "est Datasource de List d'inclusion"
     gb_EstPrincipale : Boolean;
     // anciens evènements sur click des boutons
@@ -300,9 +300,9 @@ type
     procedure p_InvertClick ( Sender : TObject ); virtual;
 
     // Table de l'association des groupes
-    property DataTableGroup : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_GroupTable write p_setGroupTable;
+    property DataTableGroup : String read gs_GroupTable write p_setGroupTable;
     // Table du Datasource des groupes édités
-    property DataTableOwner : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_TableOwner write gs_TableOwner;
+    property DataTableOwner : String read gs_TableOwner write gs_TableOwner;
     // Datasource d'un query
     property DatasourceQuery : TDataSource read fds_GetDatasourceQuery write p_SetDataSourceQuery;
     // Datasource d'un deuxième query
@@ -311,11 +311,11 @@ type
     property DataSourceOwner : TDataSource read fds_GetDatasourceGroupes write p_SetDataSourceGroupes;
     // clé du query
     // du Datasource des groupes édités
-    property DataKeyOwner : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_GroupKey write p_setGroupKey;
+    property DataKeyOwner : String read gs_GroupKey write p_setGroupKey;
     // field des unités de l'association des groupes
-    property DataFieldUnit : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_UnitsField write p_setUnitsField;
+    property DataFieldUnit : String read gs_UnitsField write p_setUnitsField;
     // field des groupes de l'association des groupes
-    property DataFieldGroup : {$IFDEF FPC}AnsiString {$ELSE}string{$ENDIF} read gs_GroupField write p_setGroupField;
+    property DataFieldGroup : String read gs_GroupField write p_setGroupField;
     // La liste est-elle la liste principale : liste d'inclusion
     property DataListPrimary : Boolean read gb_EstPrincipale write gb_EstPrincipale default True;
     // Bouton de transfert total de la liste

@@ -62,7 +62,7 @@ function fcom_CloneObject ( const acom_AObject : TComponent ; const AOwner : TCo
 function fcom_CloneConnexion ( const acco_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
 function fb_GetParamsDataset (const adat_ADataset : Tdataset ;var aprs_ParamSource: TParams {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
 function fb_SetParamQuery(const adat_Dataset : TDataset ; const as_Param: String): Boolean;
-function fb_LocateSansFiltre ( const aado_Seeker : TDataset ; const as_Fields, as_Condition : String ; const avar_Records : Variant ; const ach_Separator : Char ): Boolean ;
+function fb_LocateSansFiltre ( const aado_Seeker : TDataset ; const as_Fields : String ; const avar_Records : Variant ; const ach_Separator : Char ): Boolean ;
 procedure p_LocateInit ( const aado_Seeker : TDataset ; const as_Table, as_Condition : String );
 function fb_AssignSort ( const adat_Dataset : TDataset ; const as_ChampsOrdonner : String ):Boolean;
 function fb_DatasetFilterLikeRecord ( const as_DatasetValue, as_FilterValue : String ; const ab_CaseInsensitive : Boolean ): Boolean ;
@@ -151,33 +151,33 @@ Begin
 
   p_SetConnexion ( Result, fobj_getComponentObjectProperty(adat_ADataset,'Connection') as TComponent);
   // ADO
-  if  VarIsStr( fvar_getComponentProperty(adat_ADataset,'ConnectionString')  )  Then
+  if  assigned ( GetPropInfo ( adat_ADataset, 'ConnectionString' ))  Then
     Begin
       p_SetComponentProperty( Result, 'ConnectionString', fvar_getComponentProperty(adat_ADataset,'ConnectionString'));
     End ;
 
   // LAZARUS
-  if  ( fobj_getComponentObjectProperty(adat_ADataset,'SQLConnection') <> nil )  Then
+  if  assigned ( GetPropInfo ( adat_ADataset,'SQLConnection'))  Then
     Begin
       p_SetComponentObjectProperty( Result, 'SQLConnection', fobj_getComponentObjectProperty(adat_ADataset,'SQLConnection'));
     End ;
-
-  if  ( fobj_getComponentObjectProperty(adat_ADataset,'Transaction') <> nil )  Then
+  // IBX
+  if assigned ( GetPropInfo ( adat_ADataset,'Transaction'))  Then
     Begin
       p_SetComponentObjectProperty( Result, 'Transaction', fobj_getComponentObjectProperty(adat_ADataset,'Transaction'));
     End ;
 
-  // DBEXPRESS LAZARUS
-  if  ( fobj_getComponentObjectProperty(adat_ADataset,'Database') <> nil )  Then
+  // DBEXPRESS IBX
+  if  assigned ( GetPropInfo ( adat_ADataset,'Database'))  Then
     Begin
       p_SetComponentObjectProperty( Result, 'Database', fobj_getComponentObjectProperty(adat_ADataset,'Database'));
     End ;
   // bDE
-  if  VarIsStr( fvar_getComponentProperty(adat_ADataset,'DatabaseName')  )  Then
+  if assigned ( GetPropInfo ( adat_ADataset,'DatabaseName'))  Then
     Begin
       p_SetComponentProperty( Result, 'DatabaseName', fvar_getComponentProperty(adat_ADataset,'DatabaseName'));
     End ;
-  if  VarIsStr( fvar_getComponentProperty(adat_ADataset,'SessionName')  )  Then
+  if assigned ( GetPropInfo ( adat_ADataset,'SessionName'))  Then
     Begin
       p_SetComponentProperty( Result, 'SessionName', fvar_getComponentProperty(adat_ADataset,'SessionName'));
     End ;
@@ -281,6 +281,12 @@ var lobj_Params1 :  TParams ;
     lprm_Parameter :  TParameter ;
 {$ENDIF}
 begin
+  lobj_Params1 := nil;
+  lprm_Param   := nil;
+  {$IFDEF EADO}
+  lobj_Params2   := nil;
+  lprm_Parameter := nil;
+  {$ENDIF}
   if fb_GetParamsDataset ( adat_ADataset, lobj_Params1{$IFDEF EADO}, lobj_Params2{$ENDIF} ) Then
     Begin
       if assigned ( lobj_Params1 ) then
@@ -610,7 +616,7 @@ begin
     End ;
 End ;
 
-function fb_LocateSansFiltre ( const aado_Seeker : TDataset ; const as_Fields, as_Condition : String ; const avar_Records : Variant ; const ach_Separator : Char ): Boolean ;
+function fb_LocateSansFiltre ( const aado_Seeker : TDataset ; const as_Fields : String ; const avar_Records : Variant ; const ach_Separator : Char ): Boolean ;
 var ls_Filter : String ;
 Begin
   Result := False ;
