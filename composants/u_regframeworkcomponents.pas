@@ -4,7 +4,6 @@ unit u_regframeworkcomponents;
 {$mode Delphi}
 {$ENDIF}
 
-
 {$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
