@@ -339,19 +339,19 @@ Begin
     Begin
       FImage := TBitmap.Create;
       FImages.GetBitmap(AIndex,FImage);
-      novorect:= rect(arect.Left+4, arect.Top+1, arect.bottom - 2, arect.bottom- 2);
+      novorect:= rect(arect.Left+4, arect.Top+1, arect.bottom - arect.Top - 2, arect.bottom - arect.Top- 2);
       if FImage.Width  < novorect.Right  Then novorect.Right  := FImage.Width;
       if FImage.Height < novorect.Bottom Then novorect.Bottom := FImage.Height;
       p_ChangeTailleBitmap(FImage,novorect.Right,novorect.Bottom,True);
-      Canvas.Draw ( novorect.Left+ ( arect.bottom - FImage.Width  ) div 2 - 1,
-                    novorect.Top + ( arect.bottom - FImage.Height ) div 2 - 1,FImage);
+      Canvas.Draw ( novorect.Left+ ( arect.bottom - arect.Top - FImage.Width  ) div 2 - 1,
+                    novorect.Top + ( arect.bottom - arect.Top - FImage.Height ) div 2 - 1,FImage);
       {$IFNDEF FPC}
       FImage.Dormant;
       {$ENDIF}
       FImage.FreeImage;
       FImage.Free;
     end;
- novoRect := rect(ARect.Left + arect.bottom + 2, arect.top, arect.right - 5, arect.bottom);
+ novoRect := rect(ARect.Left + arect.bottom - arect.Top + 6, arect.top, arect.right - 5, arect.bottom);
 end;
 
 procedure TExtPictCombo.DrawItem(Index: Integer;
@@ -626,4 +626,4 @@ initialization
   p_ConcatVersion ( gVer_TExtPictCombo   );
   p_ConcatVersion ( gVer_TExtDBPictCombo   );
 {$ENDIF}
-end.
+end.

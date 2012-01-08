@@ -421,12 +421,12 @@ begin
     begin
       safer:=Brush.Color;
       FillRect(ARect);
-      novorect:= rect(arect.Left+4, arect.Top+1, arect.Left + arect.bottom + 2, arect.bottom-1);
+      novorect:= rect(arect.Left+4, arect.Top+1, arect.Left + arect.bottom - arect.Top + 2, arect.bottom-1);
       Brush.Color := StringToColor(Items[Index]);
       FillRect(novorect);
       Pen.Color := clblack;
       Rectangle(Novorect.Left, Novorect.Top, Novorect.Right, Novorect.Bottom);
-      novoRect := rect(ARect.Left + arect.bottom + 4, arect.top, arect.right - 5, arect.bottom);
+      novoRect := rect(ARect.Left + arect.bottom - arect.Top + 4, arect.top, arect.right - 5, arect.bottom);
 
       // Couleur personnalisée
       if  ( FColorValue > -1 )
@@ -750,4 +750,4 @@ initialization
   p_ConcatVersion ( gVer_TExtColorCombo   );
   p_ConcatVersion ( gVer_TDBColorCombo );
 {$ENDIF}
-end.
+end.

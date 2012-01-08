@@ -5,7 +5,7 @@ inherited Myform: TMyform
   Width = 759
   ActiveControl = Panel1
   Caption = 'Myform'
-  ClientHeight = 561
+  ClientHeight = 570
   ClientWidth = 759
   Color = clBtnFace
   Font.Color = clWindowText
@@ -16,18 +16,18 @@ inherited Myform: TMyform
   OnShow = FormShow
   object Splitter1: TSplitter[0]
     Left = 240
-    Height = 561
+    Height = 570
     Top = 0
     Width = 5
   end
   object Panel1: TPanel[1]
     Left = 32
-    Height = 561
+    Height = 570
     Top = 0
     Width = 208
     Align = alLeft
     Caption = 'Panel1'
-    ClientHeight = 561
+    ClientHeight = 570
     ClientWidth = 208
     TabOrder = 0
     object ExtDBNavigator1: TExtDBNavigator
@@ -44,7 +44,7 @@ inherited Myform: TMyform
     end
     object Noms: TExtDBGrid
       Left = 1
-      Height = 539
+      Height = 548
       Top = 21
       Width = 206
       TitleButtons = False
@@ -87,7 +87,7 @@ inherited Myform: TMyform
     end
     object Prenom: TFWDBEdit
       Left = 7
-      Height = 22
+      Height = 21
       Top = 81
       Width = 221
       DataField = 'PRENOM'
@@ -101,7 +101,7 @@ inherited Myform: TMyform
     end
     object Nom: TFWDBEdit
       Left = 7
-      Height = 22
+      Height = 21
       Top = 121
       Width = 221
       DataField = 'NOM'
@@ -116,11 +116,11 @@ inherited Myform: TMyform
   end
   object Panel2: TPanel[2]
     Left = 245
-    Height = 561
+    Height = 570
     Top = 0
     Width = 514
     Align = alClient
-    ClientHeight = 561
+    ClientHeight = 570
     ClientWidth = 514
     TabOrder = 3
     object FWLabel1: TFWLabel
@@ -211,7 +211,7 @@ inherited Myform: TMyform
       AutoSize = False
       Caption = 'Surname'
       Color = clBtnFace
-      Font.Color = clMaroon
+      Font.Color = clBlack
       Font.Height = 14
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -223,7 +223,7 @@ inherited Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 313
+      Top = 322
       Width = 512
       Align = alBottom
       ResizeAnchor = akBottom
@@ -262,7 +262,7 @@ inherited Myform: TMyform
     end
     object ExtColorCombo: TExtColorCombo
       Left = 120
-      Height = 25
+      Height = 22
       Top = 78
       Width = 221
       Language = lgEnglish
@@ -276,7 +276,7 @@ inherited Myform: TMyform
     end
     object ExtNumEdit1: TExtNumEdit
       Left = 120
-      Height = 22
+      Height = 21
       Top = 108
       Width = 221
       EditMask = '#0,#9;0; '
@@ -296,7 +296,7 @@ inherited Myform: TMyform
     end
     object FWDateEdit1: TFWDateEdit
       Left = 120
-      Height = 22
+      Height = 21
       Top = 136
       Width = 221
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
@@ -351,7 +351,7 @@ inherited Myform: TMyform
     end
     object FWEdit: TFWEdit
       Left = 120
-      Height = 22
+      Height = 21
       Top = 160
       Width = 221
       Color = clMoneyGreen
@@ -363,18 +363,18 @@ inherited Myform: TMyform
     object DBListView: TDBListView
       Left = 1
       Height = 244
-      Top = 316
+      Top = 325
       Width = 512
       Align = alBottom
       Columns = <      
         item
           Caption = 'Nom'
           MinWidth = 120
-          Width = 120
+          Width = 10
         end      
         item
           Caption = 'Prenom'
-          Width = 369
+          Width = 10
         end>
       DragMode = dmAutomatic
       MultiSelect = True
@@ -398,12 +398,12 @@ inherited Myform: TMyform
     end
     object ExtDBComboInsert2: TExtDBComboInsert
       Left = 120
-      Height = 25
+      Height = 21
       Top = 211
       Width = 221
       AutoComplete = True
       Color = clMoneyGreen
-      DataField = 'IDDEPARTEMENT'
+      DataField = 'INTEGER'
       DataSource = Datasource
       KeyField = 'CLEP'
       ListField = 'NOM'
@@ -416,7 +416,7 @@ inherited Myform: TMyform
     end
     object ExtSearchDBEdit2: TExtSearchDBEdit
       Left = 120
-      Height = 22
+      Height = 21
       Top = 184
       Width = 221
       DataField = 'NOM'
@@ -446,7 +446,7 @@ inherited Myform: TMyform
     end
     object ExtDBPictCombo: TExtDBPictCombo
       Left = 121
-      Height = 25
+      Height = 22
       Top = 290
       Width = 219
       Images = ImageResources
@@ -463,7 +463,7 @@ inherited Myform: TMyform
       )
       ItemHeight = 16
       TabOrder = 9
-      DataField = 'IDDEPARTEMENT'
+      DataField = 'INTEGER'
       DataSource = Datasource
     end
     object FWLabel7: TFWLabel
@@ -485,7 +485,7 @@ inherited Myform: TMyform
     end
     object FWSpinEdit: TFWSpinEdit
       Left = 120
-      Height = 22
+      Height = 21
       Top = 240
       Width = 220
       Color = clMoneyGreen
@@ -513,19 +513,19 @@ inherited Myform: TMyform
       Height = 24
       Top = 152
       Width = 24
-      Datafield = 'IDDEPARTEMENT'
+      Datafield = 'INTEGER'
       Datasource = Datasource
       Images = ImageResources
       ImagesMap = MapImages
     end
     object FWDBSpinEdit: TFWDBSpinEdit
       Left = 120
-      Height = 22
+      Height = 21
       Top = 264
       Width = 219
       Color = clMoneyGreen
       TabOrder = 11
-      DataField = 'IDDEPARTEMENT'
+      DataField = 'INTEGER'
       DataSource = Datasource
     end
     object FWLabel9: TFWLabel
@@ -548,7 +548,7 @@ inherited Myform: TMyform
   end
   object FWDBEdit1: TFWDBEdit[3]
     Left = 368
-    Height = 22
+    Height = 21
     Top = 48
     Width = 221
     DataField = 'Nom'
@@ -562,7 +562,7 @@ inherited Myform: TMyform
   end
   object FWDBEdit2: TFWDBEdit[4]
     Left = 368
-    Height = 22
+    Height = 21
     Top = 16
     Width = 221
     DataField = 'Prenom'
@@ -577,7 +577,7 @@ inherited Myform: TMyform
   end
   object ExtMenuToolBar: TExtMenuToolBar[5]
     Left = 0
-    Height = 561
+    Height = 570
     Top = 0
     Width = 32
     Align = alLeft
@@ -1981,6 +1981,82 @@ inherited Myform: TMyform
       end
       object mu_apropos: TMenuItem
         Caption = '&A propos...'
+        Bitmap.Data = {
+          36090000424D3609000000000000360000002800000018000000180000000100
+          2000000000000009000064000000640000000000000000000000FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000000003818181319A9A9A85AEAC
+          ABC3CCC9C4EEEFEDEBFEEFEDEBFECCC9C4EEAEACABC39A9A9A85818181310000
+          0003FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00000000014A4A4A0EAAA9A6C1EBE8E5FFCABCACFFB297
+          78FF957045FF784912FF784912FF957045FFB29778FFCABCACFFEBE8E5FFAAA9
+          A6C14A4A4A0E00000001FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF000000000387878751D9D6D3F7C5B4A0FF77470FFF713D00FF733E
+          00FF733E00FF733E00FF723D00FF713C00FF6E3B00FF6E3B00FF77470FFFC4B3
+          9FFFD9D6D3F78787875100000003FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00000000039F9D9BA1E9E5E1FE9D784DFF763F00FF794100FF7B4200FF7D43
+          00FF7D4300FF7D4300FF7C4200FF7A4100FF774000FF733E00FF6F3C00FF6E3B
+          00FF9A764DFFE9E5E1FE9F9D9BA100000003FFFFFF00FFFFFF00FFFFFF000000
+          000187878751E9E5E1FE835016FF7C4200FF804500FF834600FF854800FF8748
+          00FF927757FFDAD9D7FFB9B2AAFF834E12FF804500FF7C4200FF774000FF723D
+          00FF6E3B00FF7B4C16FFE9E5E1FE8787875100000001FFFFFF00FFFFFF004A4A
+          4A0ED9D6D3F7A37B4DFF814500FF864800FF8A4A00FF8D4C00FF904D00FF9052
+          0AFFF3F3F3FFFFFFFFFFF9F9F9FFA39381FF884900FF844700FF7F4400FF7941
+          00FF723D00FF6E3B00FF9A764DFFD9D6D3F74A4A4A0EFFFFFF0000000003ABA9
+          A6C1C9B69FFF844700FF8A4A00FF8F4D00FF944F00FF975100FF9A5300FF9957
+          0CFFF4F4F4FFFFFFFFFFFAFAFAFFA89987FF914E00FF8C4B00FF864800FF7F44
+          00FF784100FF713D00FF6E3B00FFC4B39FFFAAA9A6C10000000381818131ECE9
+          E5FE8D530FFF8D4C00FF934F00FF995200FF9E5500FFA25700FFA45800FFA559
+          00FFA28768FFE8E7E6FFC8C3BDFF9A5D17FF995200FF934F00FF8D4B00FF8648
+          00FF7E4400FF763F00FF6E3B00FF77470FFFEBE8E5FE818181319A9A9A85D0C0
+          ACFF8E4C00FF965000FF9D5400FFA35700FFA85A00FFAC5C00FFAE5E00FFB05E
+          00FFAF5E00FFAD5D00FFAA5B00FFA65900FFA05600FF9A5300FF934F00FF8B4B
+          00FF834600FF7B4200FF723D00FF6E3B00FFCABCACFF9A9A9A85AEACABC3C2A0
+          78FF965100FF9E5500FFA55900FFAC5C00FFB15F00FFB66100FFB86300FFBA64
+          02FFB19E89FFCEC9C4FFC2BBB2FFA36E31FFA75A00FFA05600FF985200FF904D
+          00FF884900FF7F4400FF763F00FF6E3B00FFB29778FFAEACABC3CECAC4EEB27F
+          45FF9E5500FFA65900FFAE5D00FFB56100FFBB6400FFC06700FFC36800FFBC6C
+          10FFFFFFFFFFFFFFFFFFFFFFFFFFC0B7ADFFAE5D00FFA65900FF9D5400FF9450
+          00FF8B4B00FF824600FF794100FF6F3C00FF957045FFCCC9C4EEF0EEEBFEA360
+          12FFA55800FFAE5D00FFB66200FFBE6600FFC46900FFCA6C00FFCD6E00FFCE6E
+          00FFF0EFEFFFFFFFFFFFFFFFFFFFF3F3F3FFA57134FFAA5B00FFA15600FF9851
+          00FF8E4C00FF854700FF7B4200FF713C00FF784912FFEFEDEBFEF0EEEBFEA963
+          12FFAB5C00FFB56100FFBE6600FFC66A00FFCE6E00FFD37100FFD77300FFD774
+          00FFB4997AFFFFFFFFFFFFFFFFFFFFFFFFFFEFEEEEFFA26E32FFA45800FF9A53
+          00FF904D00FF864800FF7C4200FF723D00FF784912FFEFEDEBFECFCAC4EEBF86
+          45FFB15F00FFBA6400FFC46900FFCE6E00FFD67300FFDD7700FFE17900FFE179
+          00FFDB7701FFB8A58FFFFFFFFFFFFFFFFFFFFFFFFFFFF0EFEFFF9D6D35FF9B53
+          00FF914E00FF874800FF7C4300FF723D00FF957045FFCCC9C4EEAFACABC3D1A8
+          78FFB56100FFBF6700FFC96C00FFD37100FFDD7700FFBB8C57FFBAA082FFBC8D
+          57FFD27B17FFD97400FFB49C82FFFFFFFFFFFFFFFFFFFFFFFFFFEEEDEDFF9A54
+          05FF914E00FF864800FF7C4200FF723D00FFB29778FFAEACABC39A9A9A85DBC5
+          ACFFB86300FFC26800FFCD6E00FFD77300FFC1823AFFFFFFFFFFFFFFFFFFFFFF
+          FFFFC4B9ACFFD97500FFCE7001FFD2CEC9FFFFFFFFFFFFFFFFFFFFFFFFFF976E
+          3EFF904D00FF854700FF7B4200FF703C00FFCABCACFF9A9A9A8581818131EFEA
+          E5FEBD6C0FFFC46900FFCE6E00FFD87400FFD37B15FFFFFFFFFFFFFFFFFFFFFF
+          FFFFF8F8F8FFB48F64FFB37D3FFFE5E3E2FFFFFFFFFFFFFFFFFFFFFFFFFF9465
+          2EFF8E4C00FF834600FF794100FF77470FFFEBE8E5FE8181813100000003ADAA
+          A6C1DDC09FFFC36800FFCD6E00FFD67300FFDE7700FFC4B9ACFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE3E2E1FF9451
+          01FF8B4A00FF804500FF763F00FFC4B39FFFAAA9A6C100000003FFFFFF004A4A
+          4A0EDDD8D3F7D3954DFFC96C00FFD17000FFD77400FFD3780EFFD2CDC8FFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEAEAE9FF966328FF914E
+          00FF874800FF7D4300FF9D784DFFD9D6D3F74A4A4A0EFFFFFF00FFFFFF000000
+          000187878751EFE8E1FEC97616FFCA6D00FFCF6F00FFD27100FFD17101FFB089
+          5CFFBEB3A6FFD1CDC8FFDAD8D5FFC6C0B9FFA8937AFF9C5D13FF965000FF8C4B
+          00FF824600FF845016FFE9E5E1FE8787875100000001FFFFFF00FFFFFF00FFFF
+          FF0000000003A29F9BA1EFE8E1FED5964EFFC66A00FFC86B00FFC76B00FFC569
+          00FFC06700FFBA6400FFB36000FFAB5C00FFA25700FF995200FF904D00FF8748
+          00FFA57D4EFFE9E5E1FE9F9D9BA100000003FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF000000000387878751DDD9D3F7DFC2A1FFC27010FFBD6500FFBB64
+          00FFB66200FFB15F00FFAA5B00FFA35700FF9B5300FF924E00FF915510FFCBB7
+          A1FFDAD7D3F78787875100000003FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00000000014A4A4A0EAEAAA6C1EFEAE4FEDAC3A8FFD4A9
+          76FFC38843FFAD6511FFA76111FFB58043FFC4A076FFCFBDA8FFECE8E4FEABA9
+          A6C14A4A4A0E00000001FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000000003818181319A9A9A85AFAC
+          ABC3CFCBC4EEF1EEEBFEF0EEEBFECECAC4EEAEACABC39A9A9A85818181310000
+          0003FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        }
         HelpContext = 1420
         Hint = 'A propos|Afficher des informations sur le programme, le numéro de version et le copyright'
         ImageIndex = 15
@@ -1988,4 +2064,4 @@ inherited Myform: TMyform
       end
     end
   end
-end
+end
