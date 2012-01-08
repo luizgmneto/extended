@@ -292,7 +292,7 @@ type
          procedure UpdateData(Sender: TObject); virtual;
          function GetReadOnly: Boolean; {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
          procedure SetReadOnly(AValue: Boolean); {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
-//         procedure SetValue(const AValue: Double); override ;
+         procedure SetValue(const AValue: Double); override ;
          procedure KeyDown(var Key: Word; Shift: TShiftState); override;
          procedure KeyPress(var Key: Char); override;
          procedure Notification(AComponent: TComponent;
@@ -907,18 +907,17 @@ begin
   Result := inherited UpdateAction(AAction) {$IFDEF DELPHI}  or (FDataLink <> nil) and
     FDataLink.UpdateAction(AAction){$ENDIF};
 end;
-{
-procedure TFWDBSpinEdit.SetValue(const AColor: TColor);
+
+procedure TFWDBSpinEdit.SetValue(const AValue: Double);
 begin
- inherited p_SetColorValue ( AColor );
  if assigned ( FDataLink.Field )
- and ( FDataLink.Field.AsInteger <> AColor ) Then
+ and ( FDataLink.Field.AsInteger <> AValue ) Then
   Begin
     FDataLink.Dataset.Edit ;
-    FDataLink.Field.Value := AColor ;
+    FDataLink.Field.Value := AValue ;
   End ;
 end;
- }
+
 
 
 {$IFDEF VERSIONS}
