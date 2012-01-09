@@ -594,6 +594,7 @@ begin
   DC := Msg.DC;
   if DC = 0 then
     DC := BeginPaint(Handle, PS);
+  PaintWindow(DC);
   Canvas.Handle := DC;
   try
     // couleur de police

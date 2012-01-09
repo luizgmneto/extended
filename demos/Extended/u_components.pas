@@ -97,6 +97,7 @@ type
     procedure ExtDBImageClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure mc_CustomizeMenuChange(Sender: TObject);
     procedure mu_aproposClick(Sender: TObject);
     procedure mu_quitterClick(Sender: TObject);
     procedure QuitterClick(Sender: TObject);
@@ -126,8 +127,6 @@ end;
 
 procedure TMyForm.FormShow(Sender: TObject);
 begin
-  ExtMenuToolBar.Menu := nil;
-  ExtMenuToolBar.Menu := mc_Customize.MenuIni;
   Noms.Columns [ 0 ].SomeEdit := Nom;
   Noms.Columns [ 1 ].SomeEdit := Prenom;
   try
@@ -144,6 +143,13 @@ begin
        Exit;
       end;
   end;
+end;
+
+procedure TMyform.mc_CustomizeMenuChange(Sender: TObject);
+begin
+  ExtMenuToolBar.Menu := nil;
+  ExtMenuToolBar.Menu := mc_Customize.MenuIni;
+
 end;
 
 procedure TMyform.mu_aproposClick(Sender: TObject);
