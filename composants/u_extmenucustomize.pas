@@ -38,6 +38,7 @@ type
   private
     FAutoIni : Boolean;
     FMenuIni, FMainMenu : TMenu;
+    FOnMenuChange : TNotifyEvent;
   protected
     procedure Loaded; override;
     procedure LoadAMenuNode ( const AMenuItemToCopy, AMenuParent : TMenuItem ; const ALoadLevel : Boolean ; const EndSection : String ); virtual;
@@ -47,10 +48,12 @@ type
     function  LoadIni ( const EndSection : String = '' ) : Boolean; virtual;
     function  SaveIni ( const EndSection : String = '' ) : Boolean; virtual;
     procedure Click; virtual;
+    procedure MenuChange; virtual;
   published
     property AutoIni : Boolean read FAutoIni write FAutoIni default True;
     property MenuIni : TMenu read FMenuIni write FMenuIni;
     property MainMenu : TMenu read FMainMenu write FMainMenu;
+    property OnMenuChange : TNotifyEvent read FOnMenuChange write FOnMenuChange;
   end;
 
 implementation
@@ -121,6 +124,7 @@ begin
           Result := True;
           FMenuIni.Items.Clear;
           LoadAMenuNode(FMainMenu.Items, FMenuIni.Items, False, EndSection);
+          MenuChange;
         end;
     end;
 end;
@@ -150,10 +154,17 @@ begin
     F_CustomizeMenu := TF_CustomizeMenu.Create(Application);
   F_CustomizeMenu.MenuCustomize := Self;
   F_CustomizeMenu.ShowModal;
+  MenuChange;
   {$ENDIF}
   if FAutoIni
   and ( MenuIni.Items.Count > 0 ) Then
     SaveIni;
+end;
+
+procedure TExtMenuCustomize.MenuChange;
+begin
+  if Assigned(FOnMenuChange) Then
+   FOnMenuChange ( Self );
 end;
 
 {$IFDEF VERSIONS}

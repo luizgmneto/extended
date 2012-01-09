@@ -403,7 +403,6 @@ begin
      p_SetValue(FMapImages.Columns.Items[ItemIndex].Value)
     Else
      p_SetValue('');
-  inherited change;
 end;
 
 procedure TExtPictCombo.p_SetValue(const AValue: String);
@@ -465,13 +464,12 @@ end;
 procedure TExtDBPictCombo.Change;
 begin
   if not FDataLink.CanModify Then Exit;
-  inherited Change;
+  FDataLink.Modified;
   if assigned ( FDataLink.Field ) Then
     if FDataLink.Field.IsNull then
       p_SetValue ( '' )
     Else
       p_SetValue ( FDataLink.Field.AsString );
-  FDataLink.Modified;
 end;
 
 function TExtDBPictCombo.GetDataSource: TDataSource;

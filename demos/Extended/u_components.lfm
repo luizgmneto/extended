@@ -1863,6 +1863,7 @@ inherited Myform: TMyform
   object mc_Customize: TExtMenuCustomize[18]
     MenuIni = mu_MenuIni
     MainMenu = mu_MainMenu
+    OnMenuChange = mc_CustomizeMenuChange
     left = 160
     top = 96
   end
