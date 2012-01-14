@@ -32,7 +32,7 @@ uses unite_messages, U_ExtDBNavigator,
 {$ENDIF}
      {$IFDEF MENUBAR}u_extmenutoolbar,{$ENDIF}
      U_ExtDBImage, U_ExtDBImageList, U_ExtImage,
-     U_ExtPictCombo, U_ExtMapImageIndex,
+     U_ExtPictCombo, U_ExtDBPictCombo, U_ExtMapImageIndex,
      u_extdbgrid, u_extmenucustomize;
 
 procedure Register;

@@ -292,7 +292,7 @@ type
          procedure UpdateData(Sender: TObject); virtual;
          function GetReadOnly: Boolean; {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
          procedure SetReadOnly(AValue: Boolean); {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
-         procedure SetValue(const AValue: Double); override ;
+         procedure SetValue(const AValue: Double); {$IFNDEF FPC}override ;{$ENDIF}
          procedure KeyDown(var Key: Word; Shift: TShiftState); override;
          procedure KeyPress(var Key: Char); override;
          procedure Notification(AComponent: TComponent;
@@ -926,4 +926,4 @@ initialization
   p_ConcatVersion(gVer_framework_DBcomponents);
 {$ENDIF}
 end.
-
+

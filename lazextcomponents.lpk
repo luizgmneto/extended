@@ -20,7 +20,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Build="3"/>
-    <Files Count="25">
+    <Files Count="26">
       <Item1>
         <Filename Value="composants/U_OnFormInfoIni.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
@@ -123,6 +123,10 @@
         <Filename Value="composants/U_ExtDBImageList.pas"/>
         <UnitName Value="U_ExtDBImageList"/>
       </Item25>
+      <Item26>
+        <Filename Value="composants/u_extdbpictcombo.pas"/>
+        <UnitName Value="U_ExtDBPictCombo"/>
+      </Item26>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="10">
