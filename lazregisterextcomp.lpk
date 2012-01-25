@@ -30,7 +30,7 @@
         <UnitName Value="u_regextfilecopy"/>
       </Item3>
     </Files>
-    <Type Value="RunAndDesignTime"/>
+    <Type Value="DesignTime"/>
     <RequiredPkgs Count="3">
       <Item1>
         <PackageName Value="ExtCopy"/>
