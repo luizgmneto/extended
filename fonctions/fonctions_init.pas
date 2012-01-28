@@ -19,9 +19,6 @@ uses
 {$IFDEF EADO}
      ADODB, AdoConEd,
 {$ENDIF}
-{$IFDEF ZEOS}
-  ZConnection,
-{$ENDIF}
      IniFiles, Forms, sysUtils, classes, DB, ComCtrls,
 {$IFDEF VIRTUALTREES}
      VirtualTrees,
@@ -177,7 +174,7 @@ const
   function fb_iniWriteFile( const amem_Inifile : TCustomInifile ; const ab_Afficheerreur : Boolean  = False ):Boolean;
 
 {$IFDEF ZEOS}
-  function fb_IniSetZConnection ( const asqc_Connection : TZConnection ; const IniFile : TIniFile  ) : Boolean ;
+  function fb_IniSetZConnection ( const asqc_Connection : TComponent ; const IniFile : TIniFile  ) : Boolean ;
 {$ENDIF}
 {$IFDEF EADO}
   function fb_IniSetADOConnection ( const aacx_Connection : TADOConnection ) : Boolean ;
@@ -214,10 +211,10 @@ uses TypInfo, fonctions_string, fonctions_system,
 
 
 {$IFDEF ZEOS}
-function fb_IniSetZConnection ( const asqc_Connection : TZConnection; const IniFile : TIniFile ) : Boolean ;
+function fb_IniSetZConnection ( const asqc_Connection : TComponent; const IniFile : TIniFile ) : Boolean ;
 Begin
   Result := False ;
-  asqc_Connection.Connected:=False;
+  p_SetComponentBoolProperty ( asqc_Connection, CST_ZCONNECTED, False );
   fb_InitZConnection( asqc_Connection, IniFile, False );
 End;
 {$ENDIF}
@@ -255,9 +252,9 @@ Begin
     End;
 {$ENDIF}
 {$IFDEF ZEOS}
-  if accx_Connection is TZConnection then
+  if accx_Connection.ClassNameIs(CST_ZCONNECTION) then
     Begin
-      Result := fb_InitZConnection( accx_Connection as TZConnection, FIniFile, False );
+      Result := fb_InitZConnection( accx_Connection, FIniFile, False );
     End;
 {$ENDIF}
 {$IFDEF FPC}
@@ -574,9 +571,10 @@ end;
 function fs_GetIniDir: String;
 var ls_Dir : String;
 begin
+
+  Result := GetAppConfigDir ( False ) + DirectorySeparator ;
   if not Assigned(FIniFile) then
     begin
-      Result := GetAppConfigDir ( False ) + DirectorySeparator ;
       if not DirectoryExists(  Result )
       and not CreateDir (  Result ) Then
         Result := fs_getSoftDir;
@@ -609,6 +607,7 @@ begin
         if assigned ( ae_ReadSessionIni ) Then
           ae_ReadSessionIni ( acom_Owner, FIniFile );
       FIniFile.WriteString(INISEC_PAR, INIPAR_LANCEMENT , 'le '  + DateToStr(Date)  + ' ' + TimeToStr(Time));
+      ShowMessage(fs_GetIniDir);
     end
   else
     if assigned ( acom_Owner ) then
@@ -820,9 +819,9 @@ begin
       // Connexion à la base d'accès
       p_SetComponentBoolProperty ( acco_Conn, 'Connected', False );
 {$IFDEF ZEOS}
-      if ( acco_Conn is TZConnection ) Then
+      if acco_Conn.ClassNameIs(CST_ZCONNECTION ) Then
         Begin
-          fb_IniSetZConnection ( acco_Conn as TZConnection, amif_Init );
+          fb_IniSetZConnection ( acco_Conn, amif_Init );
           p_SetComponentBoolProperty ( acco_Conn, 'Connected', True );
         End ;
 {$ENDIF}
