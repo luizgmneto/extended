@@ -24,8 +24,9 @@ uses SysUtils,
   DBCtrls, ExtCtrls,
   Classes ;
 
-  {$IFDEF VERSIONS}
+
 const
+  {$IFDEF VERSIONS}
   gVer_fonctions_db_components : T_Version = ( Component : 'Gestion des données d''une fiche' ;
                                          FileUnit : 'fonctions_dbcomponents' ;
       			                 Owner : 'Matthieu Giroux' ;
@@ -38,6 +39,7 @@ const
       			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
 
   {$ENDIF}
+  CST_DBPROPERTY_SQL = 'SQL';
 function fb_InsereCompteur ( const adat_Dataset, adat_DatasetQuery : TDataset ;
                              const aslt_Cle : TStringlist ;
                              const as_ChampCompteur, as_Table, as_PremierLettrage : String ;
@@ -57,7 +59,7 @@ procedure p_ExecuteSQLQuery(const adat_Dataset: Tdataset; const as_Query : {$IFD
 function fdat_CloneDatasetWithoutSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithoutSQLWithDataSource ( const adat_ADataset : Tdataset ; const AOwner : TComponent ; var ads_Datasource : TDatasource  ) : Tdataset;
 function fds_GetOrCloneDataSource ( const acom_Component : TComponent ; const as_SourceProperty, as_Query : String ; const AOwner : TComponent ; const adat_ADatasetToCopy : Tdataset ) : Tdatasource;
-function fb_GetSQLStrings (const adat_ADataset : Tdataset ;var astl_SQLQuery : TStrings{$IFDEF DELPHI_9_UP}; var awst_SQLQuery : TWideStrings {$ENDIF}):Boolean;
+function fb_GetSQLStrings (const adat_ADataset : Tdataset ; var astl_SQLQuery : TStrings{$IFDEF DELPHI_9_UP}; var awst_SQLQuery : TWideStrings {$ENDIF}):Boolean;
 function fcom_CloneObject ( const acom_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
 function fcom_CloneConnexion ( const acco_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
 function fb_GetParamsDataset (const adat_ADataset : Tdataset ;var aprs_ParamSource: TParams {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
@@ -117,6 +119,11 @@ Begin
 
   Result.Create ( AOwner );
 End;
+
+function fb_GetSQLStrings (const adat_ADataset : Tdataset ; var astl_SQLQuery : TStrings{$IFDEF DELPHI_9_UP}; var awst_SQLQuery : TWideStrings {$ENDIF}):Boolean;
+Begin
+  Result := fb_GetStrings(adat_ADataset,CST_DBPROPERTY_SQL,astl_SQLQuery{$IFDEF DELPHI_9_UP}, awst_SQLQuery {$ENDIF});
+end;
 
 //////////////////////////////////////////////////////////////////////
 // Fonction retournant la connexion copiée avec le lien SGBD
@@ -213,24 +220,7 @@ Begin
     ads_Datasource := TDatasource.create ( AOwner );
   ads_Datasource.DataSet := Result;
 End;
-function fb_GetSQLStrings (const adat_ADataset : Tdataset ;var astl_SQLQuery : TStrings {$IFDEF DELPHI_9_UP}; var awst_SQLQuery : TWideStrings {$ENDIF}): Boolean;
-var lobj_SQL : TObject ;
-begin
- lobj_SQL := fobj_getComponentObjectProperty ( adat_ADataset, 'SQL' );
-  if assigned ( lobj_SQL ) Then
-    Begin
-      Result := True;
-      if ( lobj_SQL is TStrings ) Then
-        astl_SQLQuery  := lobj_SQL as TStrings
-{$IFDEF DELPHI_9_UP}
-        else if ( lobj_SQL is TWideStrings ) Then
-          awst_SQLQuery := lobj_SQL as TWideStrings
-{$ENDIF}
-        ;
-    End
-   else
-    Result := false;
-end;
+
 /////////////////////////////////////////////////////////////////////////
 // fonction fb_GetParamsDataset
 // Retourne les paramètre d'un query
@@ -419,7 +409,7 @@ var lobj_SQL : TObject ;
     lprm_Parameters : TParameters ;
     {$ENDIF}
 Begin
- lobj_SQL := fobj_getComponentObjectProperty ( adat_Dataset, 'SQL' );
+ lobj_SQL := fobj_getComponentObjectProperty ( adat_Dataset, CST_DBPROPERTY_SQL );
  if assigned ( lobj_SQL ) Then
    Begin
      fb_GetParamsDataset ( adat_Dataset, lprm_Params{$IFDEF EADO}, lprm_Parameters {$ENDIF});
@@ -459,7 +449,7 @@ End ;
 function fs_getSQLQuery ( const adat_Dataset : Tdataset ): String;
 var lobj_SQL : TObject ;
 Begin
- lobj_SQL := fobj_getComponentObjectProperty ( adat_Dataset, 'SQL' );
+ lobj_SQL := fobj_getComponentObjectProperty ( adat_Dataset, CST_DBPROPERTY_SQL );
  if assigned ( lobj_SQL ) Then
    Begin
      if ( lobj_SQL is TStrings ) Then
@@ -539,7 +529,7 @@ End ;
 procedure p_AddSQLQuery ( const adat_Dataset : Tdataset ; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
 var lobj_SQL : TObject ;
 Begin
- lobj_SQL := fobj_getComponentObjectProperty ( adat_Dataset, 'SQL' );
+ lobj_SQL := fobj_getComponentObjectProperty ( adat_Dataset, CST_DBPROPERTY_SQL );
  if assigned ( lobj_SQL ) Then
    Begin
      if ( lobj_SQL is TStrings ) Then

@@ -25,12 +25,11 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  zconnection,
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   StdCtrls, IniFiles;
 
-{$IFDEF VERSIONS}
 const
+{$IFDEF VERSIONS}
   gVer_zconnection : T_Version = ( Component : 'Connexion ZEOS' ; FileUnit : 'u_zconnection' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Fenetre de connexion ZEOS si pas dans l''INI.' ;
@@ -41,6 +40,15 @@ const
                         			                 Major : 0 ; Minor : 0 ; Release : 5 ; Build : 1 );
 {$ENDIF}
 
+      CST_ZCONNECTION = 'ZConnection';
+      CST_ZDATABASE   = 'Database';
+      CST_ZPROTOCOL   = 'Protocol';
+      CST_ZHOSTNAME   = 'HostName';
+      CST_ZCONNECTED  = 'Connected';
+      CST_ZPASSWORD   = 'Password';
+      CST_ZUSER       = 'User';
+      CST_ZCATALOG    = 'Catalog';
+      CST_ZPROPERTIES = 'Properties';
 
 type
 
@@ -77,14 +85,14 @@ type
     procedure ed_CatalogEnter(Sender: TObject);
     procedure ed_CollationEnter(Sender: TObject);
   private
-    Connexion : TZConnection ;
-    Inifile : TCustomInifile;
     { private declarations }
+    Connexion : TComponent ;
+    Inifile : TCustomInifile;
   public
-    constructor Create ( AOwner : TComponent ); override;
-    procedure DoShow; override;
     { public declarations }
-  end; 
+    constructor Create(AOwner: TComponent); override;
+    procedure DoShow; override;
+  end;
 
 var
   F_ZConnectionWindow: TF_ZConnectionWindow = nil;
@@ -100,31 +108,33 @@ var
   gs_DataProtocolIni : String = 'Protocol' ;
   gs_DataCollationIni : String = 'Collation Encode' ;
 
-procedure p_SetCaractersZEOSConnector(const azco_Connect : TZConnection ; const as_NonUtfChars : String );
-procedure p_ShowZConnectionWindow ( const Connexion : TZConnection ; const Inifile : TCustomInifile );
-function  fb_InitZConnection ( const Connexion : TZConnection ; const Inifile : TCustomInifile ; const Test : Boolean ) : String;
-procedure p_InitZConnection ( const Connexion : TZConnection ; const Inifile : TCustomInifile ; const Test : Boolean );
-function fb_TestZConnection ( const Connexion : TZConnection ; const lb_ShowMessage : Boolean ) : Boolean;
-function fs_CollationEncode ( const Connexion : TZConnection ) : String;
+procedure p_SetCaractersZEOSConnector(const azco_Connect : TComponent ; const as_NonUtfChars : String );
+procedure p_ShowZConnectionWindow ( const Connexion : TComponent ; const Inifile : TCustomInifile );
+function  fb_InitZConnection ( const Connexion : TComponent ; const Inifile : TCustomInifile ; const Test : Boolean ) : String;
+procedure p_IniTComponent ( const Connexion : TComponent ; const Inifile : TCustomInifile ; const Test : Boolean );
+function fb_TesTComponent ( const Connexion : TComponent ; const lb_ShowMessage : Boolean ) : Boolean;
+function fs_CollationEncode ( const Connexion : TComponent ) : String;
 
 implementation
 
-uses fonctions_init,zdbcintfs, zclasses, Types, fonctions_db,
-     fonctions_components;
+uses fonctions_init,Types, fonctions_db, fonctions_dbcomponents,
+     fonctions_components, ZClasses, ZDbcIntfs, fonctions_proprietes;
+
 
 { TF_ZConnectionWindow }
 
 // Test Mode
 procedure TF_ZConnectionWindow.TestClick(Sender: TObject);
 begin
-  Connexion.Database     := ed_Base     .Text ;
-  Connexion.Protocol     := cbx_Protocol.Text ;
-  Connexion.HostName     := ed_Host     .Text ;
-  Connexion.Password     := ed_Password .Text ;
-  Connexion.User         := ed_User     .Text ;
-  Connexion.Catalog      := ed_Catalog  .Text ;
-  fb_TestZConnection ( Connexion, True );
+  p_SetComponentProperty ( Connexion, CST_ZDATABASE, ed_Base     .Text );
+  p_SetComponentProperty ( Connexion, CST_ZPROTOCOL, cbx_Protocol.Text );
+  p_SetComponentProperty ( Connexion, CST_ZHOSTNAME, ed_Host     .Text );
+  p_SetComponentProperty ( Connexion, CST_ZPASSWORD, ed_Password .Text );
+  p_SetComponentProperty ( Connexion, CST_ZUSER    , ed_User     .Text );
+  p_SetComponentProperty ( Connexion, CST_ZCATALOG , ed_Catalog  .Text );
+  fb_TesTComponent ( Connexion, True );
 end;
+
 
 // Getting Drivers Names
 constructor TF_ZConnectionWindow.Create(AOwner: TComponent);
@@ -146,15 +156,12 @@ end;
 
 procedure TF_ZConnectionWindow.DoShow;
 begin
-  With Connexion do
-    Begin
-      ed_Base     .Text := Database;
-      cbx_Protocol.Text := Protocol;
-      ed_Host     .Text := HostName;
-      ed_Password .Text := Password;
-      ed_User     .Text := User;
-      ed_Catalog  .Text := Catalog;
-    end;
+  ed_Base     .Text := fs_getComponentProperty( Connexion, CST_ZDATABASE );
+  cbx_Protocol.Text := fs_getComponentProperty( Connexion, CST_ZPROTOCOL );
+  ed_Host     .Text := fs_getComponentProperty( Connexion, CST_ZHOSTNAME );
+  ed_Password .Text := fs_getComponentProperty( Connexion, CST_ZPASSWORD );
+  ed_User     .Text := fs_getComponentProperty( Connexion, CST_ZUSER     );
+  ed_Catalog  .Text := fs_getComponentProperty( Connexion, CST_ZCATALOG  );
   inherited DoShow;
 end;
 
@@ -193,11 +200,11 @@ end;
 // Procédures and functions
 
 // Open connexion and erros
-function fb_TestZConnection ( const Connexion : TZConnection ; const lb_ShowMessage : Boolean ) : Boolean;
+function fb_TesTComponent ( const Connexion : TComponent ; const lb_ShowMessage : Boolean ) : Boolean;
 Begin
   Result := False ;
   try
-    Connexion.Connected:=True;
+    p_SetComponentBoolProperty ( Connexion, CST_ZCONNECTED, True );
   Except
     on E: Exception do
       Begin
@@ -206,7 +213,7 @@ Begin
         Exit ;
       End ;
   End ;
-  if ( Connexion.Connected ) Then
+  if fb_getComponentBoolProperty( Connexion, CST_ZCONNECTED ) Then
     Begin
       Result := True ;
       if lb_ShowMessage Then
@@ -215,15 +222,18 @@ Begin
 End ;
 
 // Init connexion with inifile
-function fs_CollationEncode ( const Connexion : TZConnection ) : String;
+function fs_CollationEncode ( const Connexion : TComponent ) : String;
 var ls_Prop   : String ;
     li_i      ,
     li_equal  : Integer ;
+    astl_Strings : TStrings ;
+    {$IFDEF DELPHI_9_UP}awst_Strings : TWideStrings;{$ENDIF}
 Begin
   Result := 'utf8';
-  for li_i := 0 to Connexion.Properties.Count - 1 do
+  if  fb_GetStrings ( Connexion, CST_ZPROPERTIES, astl_Strings{$IFDEF DELPHI_9_UP}, awst_Strings {$ENDIF}) Then
+  for li_i := 0 to astl_Strings.Count - 1 do
     Begin
-      ls_Prop := Connexion.Properties [ li_i ];
+      ls_Prop := astl_Strings [ li_i ];
       li_equal := pos ( '=', ls_Prop);
       if  ( pos ( 'codepage', LowerCase(ls_Prop)) > 0 )
       and ( li_equal > 0 )
@@ -235,41 +245,41 @@ Begin
     End;
 End;
 // Init connexion with inifile
-function fb_InitZConnection ( const Connexion : TZConnection ; const Inifile : TCustomInifile ; const Test : Boolean ) : String;
+function fb_InitZConnection ( const Connexion : TComponent ; const Inifile : TCustomInifile ; const Test : Boolean ) : String;
 Begin
-  p_InitZConnection ( Connexion, Inifile, Test );
-  Result := gs_DataHostIni      + ' = ' +  Connexion.HostName  + #13#10
-          + gs_DataProtocolIni  + ' = ' +  Connexion.Protocol  + #13#10
-          + gs_DataBaseNameIni  + ' = ' +  Connexion.Database  + #13#10
-          + gs_DataUserNameIni  + ' = ' +  Connexion.User      + #13#10
-          + gs_DataPasswordIni  + ' = ' +  Connexion.Password  + #13#10
-          + gs_DataCatalogIni   + ' = ' +  Connexion.catalog   + #13#10
+  p_IniTComponent ( Connexion, Inifile, Test );
+  Result := gs_DataHostIni      + ' = ' +  fs_getComponentProperty( Connexion, CST_ZHOSTNAME )  + #13#10
+          + gs_DataProtocolIni  + ' = ' +  fs_getComponentProperty( Connexion, CST_ZPROTOCOL ) + #13#10
+          + gs_DataBaseNameIni  + ' = ' +  fs_getComponentProperty( Connexion, CST_ZDATABASE ) + #13#10
+          + gs_DataUserNameIni  + ' = ' +  fs_getComponentProperty( Connexion, CST_ZUSER     ) + #13#10
+          + gs_DataPasswordIni  + ' = ' +  fs_getComponentProperty( Connexion, CST_ZPASSWORD ) + #13#10
+          + gs_DataCatalogIni   + ' = ' +  fs_getComponentProperty( Connexion, CST_ZCATALOG  ) + #13#10
           + gs_DataCollationIni + ' = ' +  fs_CollationEncode ( Connexion )   + #13#10 ;
 End ;
 
 // Init connexion with inifile
-procedure p_InitZConnection ( const Connexion : TZConnection ; const Inifile : TCustomInifile ; const Test : Boolean );
+procedure p_IniTComponent ( const Connexion : TComponent ; const Inifile : TCustomInifile ; const Test : Boolean );
 Begin
   if assigned ( Inifile )
   and assigned ( Connexion ) Then
     Begin
-      Connexion.Database     := Inifile.ReadString ( gs_DataSectionIni, gs_DataBaseNameIni, '' ) ;
-      Connexion.Protocol     := Inifile.ReadString ( gs_DataSectionIni, gs_DataProtocolIni , '' ) ;
-      Connexion.HostName     := Inifile.ReadString ( gs_DataSectionIni, gs_DataHostIni    , '' ) ;
-      Connexion.Password     := Inifile.ReadString ( gs_DataSectionIni, gs_DataPasswordIni, '' ) ;
-      Connexion.User         := Inifile.ReadString ( gs_DataSectionIni, gs_DataUserNameIni, '' ) ;
-      Connexion.catalog      := Inifile.ReadString ( gs_DataSectionIni, gs_DataCatalogIni    , '' ) ;
+      p_SetComponentProperty ( Connexion, CST_ZDATABASE, Inifile.ReadString ( gs_DataSectionIni, gs_DataBaseNameIni, '' ));
+      p_SetComponentProperty ( Connexion, CST_ZPROTOCOL, Inifile.ReadString ( gs_DataSectionIni, gs_DataProtocolIni , '' ));
+      p_SetComponentProperty ( Connexion, CST_ZHOSTNAME, Inifile.ReadString ( gs_DataSectionIni, gs_DataHostIni    , '' ));
+      p_SetComponentProperty ( Connexion, CST_ZPASSWORD, Inifile.ReadString ( gs_DataSectionIni, gs_DataPasswordIni, '' ));
+      p_SetComponentProperty ( Connexion, CST_ZUSER    , Inifile.ReadString ( gs_DataSectionIni, gs_DataUserNameIni, '' ));
+      p_SetComponentProperty ( Connexion, CST_ZCATALOG , Inifile.ReadString ( gs_DataSectionIni, gs_DataCatalogIni    , '' ));
       p_SetCaractersZEOSConnector(Connexion, Inifile.ReadString ( gs_DataSectionIni, gs_DataCollationIni    , Inifile.ReadString ( gs_DataSectionIni, gs_DataCollationIni    , 'UTF8' )));
     End ;
-  if ( Connexion.Database = '' )
-  or not ( fb_TestZConnection ( Connexion, Test )) Then
+  if ( fs_getComponentProperty( Connexion, CST_ZDATABASE ) = '' )
+  or not ( fb_TesTComponent ( Connexion, Test )) Then
     Begin
       p_ShowZConnectionWindow ( Connexion, Inifile );
     End ;
 End ;
 
 // Show The Window ( automatic )
-procedure p_ShowZConnectionWindow ( const Connexion : TZConnection ; const Inifile : TCustomInifile );
+procedure p_ShowZConnectionWindow ( const Connexion : TComponent ; const Inifile : TCustomInifile );
 Begin
   if not assigned ( F_ZConnectionWindow )
     Then
@@ -314,10 +324,17 @@ begin
 
 end;
 
-procedure p_SetCaractersZEOSConnector(const azco_Connect : TZConnection ; const as_NonUtfChars : String );
-begin
-  azco_Connect.Properties.Clear;
-  azco_Connect.Properties.Add('codepage='+as_NonUtfChars);
+procedure p_SetCaractersZEOSConnector(const azco_Connect : TComponent ; const as_NonUtfChars : String );
+var
+    astl_Strings : TStrings ;
+    {$IFDEF DELPHI_9_UP}awst_Strings : TWideStrings;{$ENDIF}
+Begin
+  if  fb_GetStrings (azco_Connect, CST_ZPROPERTIES, astl_Strings{$IFDEF DELPHI_9_UP}, awst_Strings {$ENDIF}) Then
+    with  astl_Strings do
+      begin
+        Clear;
+        Add('codepage='+as_NonUtfChars);
+      end;
 end;
 
 initialization

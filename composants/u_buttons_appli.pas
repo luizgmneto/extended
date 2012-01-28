@@ -388,7 +388,7 @@ type
 
 implementation
 
-uses {$IFDEF FPC}ObjInspStrConsts,
+uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
      unite_messages,
      Forms ;
@@ -452,7 +452,7 @@ constructor TFWDelete.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
-  Caption := srVK_DELETE;
+  Caption := ifsVK_DELETE;
   {$ELSE}
 //  Caption := SDeleteRecord;
   {$ENDIF}
@@ -537,7 +537,7 @@ constructor TFWInsert.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
-  Caption := srVK_INSERT;
+  Caption := ifsVK_INSERT;
   {$ELSE}
   Caption := SInsertRecord;
   {$ENDIF}
@@ -616,7 +616,7 @@ constructor TFWPrint.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
-  Caption := srVK_PRINT;
+  Caption := ifsVK_PRINT;
   {$ENDIF}
 end;
 

@@ -11,12 +11,12 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   Font.Height = -11
   Font.Name = 'Tahoma'
   Position = poScreenCenter
-  LCLVersion = '0.9.28.2'
+  LCLVersion = '0.9.30'
   object Label1: TLabel
     Left = 24
-    Height = 14
+    Height = 15
     Top = 117
-    Width = 154
+    Width = 160
     Caption = 'Nom de la base de données'
     Color = clBtnFace
     Font.Color = clBlack
@@ -28,7 +28,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object Label2: TLabel
     Left = 24
-    Height = 14
+    Height = 15
     Top = 94
     Width = 27
     Caption = 'Hote'
@@ -42,9 +42,9 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object Label3: TLabel
     Left = 24
-    Height = 14
+    Height = 15
     Top = 166
-    Width = 74
+    Width = 76
     Caption = 'Mot de passe'
     Color = clBtnFace
     Font.Color = clBlack
@@ -56,9 +56,9 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object Label4: TLabel
     Left = 24
-    Height = 14
+    Height = 15
     Top = 190
-    Width = 57
+    Width = 58
     Caption = 'Catalogue'
     Color = clBtnFace
     Font.Color = clBlack
@@ -70,9 +70,9 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object Label5: TLabel
     Left = 24
-    Height = 14
+    Height = 15
     Top = 142
-    Width = 57
+    Width = 58
     Caption = 'Utilisateur'
     Color = clBtnFace
     Font.Color = clBlack
@@ -84,9 +84,9 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object Label6: TLabel
     Left = 24
-    Height = 14
+    Height = 15
     Top = 69
-    Width = 52
+    Width = 54
     Caption = 'Protocole'
     Color = clBtnFace
     Font.Color = clBlack
@@ -98,9 +98,9 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object Label7: TLabel
     Left = 136
-    Height = 33
+    Height = 34
     Top = 16
-    Width = 461
+    Width = 477
     Caption = 'Sauver une base dans le fichier INI'
     Color = clBtnFace
     Font.Color = clBlack
@@ -112,9 +112,9 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object lb_Collation: TLabel
     Left = 24
-    Height = 14
+    Height = 15
     Top = 214
-    Width = 135
+    Width = 141
     Caption = 'Caractères de l''interface'
     Color = clBtnFace
     Font.Color = clBlack
@@ -126,7 +126,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object ed_Base: TEdit
     Left = 284
-    Height = 23
+    Height = 22
     Top = 112
     Width = 376
     OnEnter = ed_BaseEnter
@@ -134,7 +134,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object ed_Host: TEdit
     Left = 284
-    Height = 23
+    Height = 22
     Top = 88
     Width = 376
     OnEnter = ed_HostEnter
@@ -143,7 +143,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object ed_Password: TEdit
     Left = 284
-    Height = 23
+    Height = 22
     Top = 160
     Width = 376
     OnEnter = ed_PasswordEnter
@@ -151,7 +151,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object ed_Catalog: TEdit
     Left = 284
-    Height = 23
+    Height = 22
     Top = 184
     Width = 376
     OnEnter = ed_CatalogEnter
@@ -159,7 +159,7 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
   end
   object ed_User: TEdit
     Left = 284
-    Height = 23
+    Height = 22
     Top = 136
     Width = 376
     OnEnter = ed_UserEnter
@@ -201,18 +201,17 @@ object F_ZConnectionWindow: TF_ZConnectionWindow
     OnClick = quitClick
     TabOrder = 8
   end
-  object cbx_Protocol: TComboBox
+  object cbx_Protocol: TCombBox
     Left = 284
-    Height = 27
+    Height = 22
     Top = 61
     Width = 376
-    ItemHeight = 0
     MaxLength = 65535
     TabOrder = 9
   end
   object ed_Collation: TEdit
     Left = 284
-    Height = 23
+    Height = 22
     Top = 208
     Width = 376
     OnEnter = ed_CollationEnter

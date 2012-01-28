@@ -41,7 +41,7 @@ uses
   TypInfo;
 
 const
-  gver_F_About : T_Version = ( Component : 'Fenêtre A propos' ; FileUnit : 'U_About' ;
+   gver_F_About : T_Version = ( Component : 'Fenêtre A propos' ; FileUnit : 'U_About' ;
                  Owner : 'Matthieu Giroux' ;
                  Comment : 'Répertorie les composants.' ;
                  BugsStory   : 'Version 1.0.0.2 : Mode Delphi on Lazarus.' + #13#10
@@ -566,7 +566,6 @@ end;
 
 initialization
   p_ConcatVersion ( gver_F_About );
-
 finalization
   if assigned ( gic_F_AboutIcon ) Then
     Begin

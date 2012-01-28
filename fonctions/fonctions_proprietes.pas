@@ -53,6 +53,7 @@ function fobj_getComponentStringsProperty ( const aComp_Component : TComponent ;
 function fobj_getComponentWideStringsProperty ( const aComp_Component : TComponent ; const as_PropertyName : String ) : TWideStrings ;
 {$ENDIF}
 procedure p_SetFontColor ( const acom_component : TComponent ; const acol_couleur : TColor );
+function fb_GetStrings (const acom_component : TComponent ;const as_propertyname : String ; var astl_Strings : TStrings {$IFDEF DELPHI_9_UP}; var awst_Strings : TWideStrings {$ENDIF}): Boolean;
 
 implementation
 
@@ -62,6 +63,24 @@ uses
 {$ENDIF}
      unite_messages ;
 
+function fb_GetStrings (const acom_component : TComponent ;const as_propertyname : String ; var astl_Strings : TStrings {$IFDEF DELPHI_9_UP}; var awst_Strings : TWideStrings {$ENDIF}): Boolean;
+var lobj_Strings : TObject ;
+begin
+ lobj_Strings := fobj_getComponentObjectProperty ( acom_component, as_propertyname );
+  if assigned ( lobj_Strings ) Then
+    Begin
+      Result := True;
+      if ( lobj_Strings is TStrings ) Then
+        astl_Strings  := lobj_Strings as TStrings
+{$IFDEF DELPHI_9_UP}
+        else if ( lobj_Strings is TWideStrings ) Then
+          awst_Strings := lobj_Strings as TWideStrings
+{$ENDIF}
+        ;
+    End
+   else
+    Result := false;
+end;
 function fb_getComponentBoolProperty ( const aComp_ComponentToSet : TComponent ; const as_PropertyName : String ) : Boolean ;
 Begin
   Result := False ;
