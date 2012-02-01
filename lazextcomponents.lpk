@@ -129,7 +129,7 @@
       </Item26>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="10">
+    <RequiredPkgs Count="7">
       <Item1>
         <PackageName Value="rxnew"/>
       </Item1>
@@ -152,15 +152,6 @@
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item7>
-      <Item8>
-        <PackageName Value="zcomponent"/>
-      </Item8>
-      <Item9>
-        <PackageName Value="IDEIntf"/>
-      </Item9>
-      <Item10>
-        <PackageName Value="SynEdit"/>
-      </Item10>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
