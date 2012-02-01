@@ -607,7 +607,6 @@ begin
         if assigned ( ae_ReadSessionIni ) Then
           ae_ReadSessionIni ( acom_Owner, FIniFile );
       FIniFile.WriteString(INISEC_PAR, INIPAR_LANCEMENT , 'le '  + DateToStr(Date)  + ' ' + TimeToStr(Time));
-      ShowMessage(fs_GetIniDir);
     end
   else
     if assigned ( acom_Owner ) then
