@@ -572,14 +572,13 @@ function fs_GetIniDir: String;
 var ls_Dir : String;
 begin
 
-  Result := GetAppConfigDir ( False ) + DirectorySeparator ;
+  Result := GetAppConfigDir ( False ) ;
   if not Assigned(FIniFile) then
     begin
       if not DirectoryExists(  Result )
       and not CreateDir (  Result ) Then
         Result := fs_getSoftDir;
    end;
-
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
