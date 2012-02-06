@@ -23,8 +23,10 @@ uses Variants, Controls, Classes,
      Messages, Windows,
      {$ENDIF}
      Graphics, Menus, DB,DBCtrls, u_framework_components,
-     u_extcomponent,
-     fonctions_version ;
+     {$IFDEF VERSIONS}
+     fonctions_version,
+     {$ENDIF}
+     u_extcomponent;
 
 {$IFDEF VERSIONS}
   const
