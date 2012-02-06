@@ -21,10 +21,11 @@ uses
 {$ENDIF}
   Dialogs, Math ;
 
-{$IFNDEF FPC}
 const
+{$IFNDEF FPC}
   DirectorySeparator = '\' ;
 {$ENDIF}
+  CST_ENDOFLINE = #10;
 
 {$IFDEF FPC}
   function ExtractFileDir ( const as_FilePath : String ) :String;
