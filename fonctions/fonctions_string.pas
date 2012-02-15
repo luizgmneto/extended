@@ -33,6 +33,7 @@ const
   function fs_Dos2Win( const aText: string): string;
   function fs_Win2Dos( const aText: string): string;
 {$ENDIF}
+  function fs_TextToFileName(Chaine:String):String;
   function fs_getCorrectString ( const as_string : String ): String ;
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
   function fs_EraseFirstDirectory ( const as_Path : String ) :String;
@@ -72,14 +73,15 @@ const
     gVer_fonction_string : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Fonctions de traduction et de formatage des chaînes.' ;
-                        			                 BugsStory : 'Version 1.0.2.1 : Optimising.' + #13#10 + #13#10 +
+                        			                 BugsStory : 'Version 1.0.2.2 : fs_TextToFileName of André Langlet.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.2.1 : Optimising.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.2.0 : Fonction fs_GetBinOfString.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.1.1 : Paramètres constantes plus rapides.' + #13#10 + #13#10 +
                         			                	     'Version 1.0.1.0 : Fonction fs_stringDbQuoteFilter qui ne fonctionne pas mais ne provoque pas d''erreur.' + #13#10 + #13#10 +
                         			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 1 );
+                        			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 2 );
 {$ENDIF}
     CST_ORD_GUILLEMENT = ord ( '''' );
     CST_ORD_POURCENT   = ord ( '%' );
@@ -775,6 +777,26 @@ Begin
       Result := Result + '_';
 
 End;
+
+// function TextToFileName
+// creating file name
+function fs_TextToFileName(Chaine:String):String;
+var
+  n:integer;
+  c:Char;
+begin
+{$IFDEF FPC}
+  Chaine:=Utf8ToAnsi(Chaine);
+{$ENDIF}
+  Result:=Chaine;
+  for n:=1 to Length(Chaine) do
+  begin
+    c:=Result[n];
+    if not ((c in ['0'..'9'])or(c in ['A'..'z'])) then
+      Result[n]:='_';
+  end;
+end;
+
 {$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gVer_fonction_string );
