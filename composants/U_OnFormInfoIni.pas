@@ -500,12 +500,14 @@ var
     and (lcom_Component.ClassNameIs(CST_ONFORMINI_JVDIRECTORY)
          or (lcom_Component is TDirectoryEdit)) Then
       Begin
-       if IsPublishedProp(lcom_Component, CST_ONFORMINI_TEXT )
-        Then ls_DirnameProp:=CST_ONFORMINI_TEXT
-        Else ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR;
+       if IsPublishedProp(lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR )
+        Then ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR
+        Else ls_DirnameProp:=CST_ONFORMINI_TEXT;
         ls_Temp := fs_ReadString(lcom_Component.Name, fs_getComponentProperty(lcom_Component, ls_DirnameProp));
         If DirectoryExists( ls_Temp ) Then
-          p_SetComponentProperty (lcom_Component, ls_DirnameProp, ls_temp );
+          Begin
+            p_SetComponentProperty (lcom_Component, ls_DirnameProp, ls_temp );
+          end;
         Result := True;
       End;
 
@@ -895,9 +897,9 @@ var
     and (lcom_Component.ClassNameIs(CST_ONFORMINI_JVDIRECTORY)
         or (lcom_Component is TDirectoryEdit)) then
       begin
-       if IsPublishedProp(lcom_Component, CST_ONFORMINI_TEXT )
-        Then ls_DirnameProp:=CST_ONFORMINI_TEXT
-        Else ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR;
+       if IsPublishedProp(lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR )
+        Then ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR
+        Else ls_DirnameProp:=CST_ONFORMINI_TEXT;
         p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component,ls_DirnameProp));
         Result := True;
       end;
