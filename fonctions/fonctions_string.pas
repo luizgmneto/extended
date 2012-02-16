@@ -770,7 +770,7 @@ function fs_EraseSpecialChars( const aText: string): string;
 var li_i : Longint ;
 Begin
   for li_i := 1 to length ( aText ) do
-    if  ( aText [ li_i ] in ['0'..'9','a'..'z','A'..'Z','-','_'] ) Then
+    if  ( aText [ li_i ] in ['0'..'9','A'..'z','-'] ) Then
       Result := Result + aText [ li_i ]
      else
     if  ( aText [ li_i ] in [' '] ) Then
@@ -792,7 +792,7 @@ begin
   for n:=1 to Length(Chaine) do
   begin
     c:=Result[n];
-    if not ((c in ['0'..'9'])or(c in ['A'..'z'])) then
+    if not (c in ['0'..'9','A'..'z','-']) then
       Result[n]:='_';
   end;
 end;
