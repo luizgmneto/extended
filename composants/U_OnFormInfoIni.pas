@@ -48,7 +48,6 @@ uses
 
 // Component properties
 const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text' {$ENDIF};
-      CST_ONFORMINI_TEXT        = 'Text' ;
       CST_ONFORMINI_FILENAME    = 'FileName' ;
       CST_ONFORMINI_VALUE       = 'Value' ;
       CST_ONFORMINI_DOT         = '.' ;
@@ -63,8 +62,6 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
       CST_ONFORMINI_FORMSTYLE   = 'FormStyle' ;
       CST_ONFORMINI_INDEX       = 'Index' ;
       CST_ONFORMINI_DATASOURCE  = 'Datasource'  ;
-      CST_ONFORMINI_ITEMINDEX   = 'ItemIndex'  ;
-      CST_ONFORMINI_COUNT       = 'Count'  ;
 
       // Components
       CST_ONFORMINI_EXTCOLOR    = 'TExtColorCombo' ;
@@ -188,46 +185,6 @@ uses TypInfo, Grids, U_ExtNumEdits,
 {$ENDIF}
      unite_messages,
      fonctions_proprietes;
-
-////////////////////////////////////////////////////////////////////////////////
-// permet de sauver dans un ini le contenu d'un mémo, d'un Combobox, d'un ListBox, d'un RichEdit
-// et d'un façon générale, le contenu des composants qui le stocke dans des TStrings
-////////////////////////////////////////////////////////////////////////////////
-procedure SauveTStringsDansIni(const FIni:TIniFile; SectionIni:string; const LeTStrings:TStrings; const ItemIndex:integer);
-var li_i: integer;
-begin
-  Fini.EraseSection(SectionIni); // on efface toute la section décrite par SectionIni
-  for li_i := 1 to LeTStrings.Count do // pour chaque ligne du Tstrings
-  begin
-    // on aura ainsi dans le fichier ini et dans la section considéré :
-    // L0= suivi du contenu de la première ligne du TStrings. puis L1= etc..
-    FIni.WriteString(SectionIni, 'L' + IntToStr(li_i), LeTStrings[li_i-1]);// écrit dans le fichier ini
-  end;
-  FIni.WriteInteger(SectionIni, CST_ONFORMINI_ITEMINDEX, ItemIndex);
-  FIni.WriteInteger(SectionIni, CST_ONFORMINI_COUNT, LeTStrings.Count);
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// permet de lire le contenu d'un ini qui a été sauvé par SauveTStringsDansIni
-////////////////////////////////////////////////////////////////////////////////
-procedure LitTstringsDeIni(const FIni: TIniFile; SectionIni: string; const LeTStrings: TStrings; var ItemIndex: integer);
-var li_i, li_count : integer;
-begin
-  ItemIndex := -1;
-  if FIni.SectionExists(SectionIni) then
-    begin
-      LeTStrings.Clear;
-      LeTStrings.BeginUpdate;
-      li_count:=FIni.ReadInteger(SectionIni, CST_ONFORMINI_COUNT, 0 );
-      for li_i := 1 to li_count do
-       if FIni.ValueExists(SectionIni, 'L' + IntToStr(li_i))
-        Then LeTStrings.Add(FIni.ReadString(SectionIni, 'L' + IntToStr(li_i), ''))
-        Else LeTStrings.Add('');
-      LeTStrings.EndUpdate;
-      ItemIndex := Fini.ReadInteger(SectionIni, CST_ONFORMINI_ITEMINDEX, 0);
-    end;
-end;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructeur de l'objet TOnFormInfoIni
@@ -359,7 +316,7 @@ end;
 procedure TOnFormInfoIni.p_ExecuteLecture(const aF_Form: TCustomForm);
 var
   mit: TMenuItem;
-  j, Rien, valItemIndex, li_Taille : integer;
+  j, Rien, li_Taille : integer;
   ls_Temp : String ;
   ab_continue : Boolean;
   lcom_Component : Tcomponent ;
@@ -481,8 +438,8 @@ var
         or lcom_Component.ClassNameIs ( 'TFileNameEdit' ))
       then
         Begin
-         if IsPublishedProp(lcom_Component, CST_ONFORMINI_TEXT )
-          Then ls_FilenameProp:=CST_ONFORMINI_TEXT
+         if IsPublishedProp(lcom_Component, CST_INI_TEXT )
+          Then ls_FilenameProp:=CST_INI_TEXT
           Else ls_FilenameProp:=CST_ONFORMINI_FILENAME;
            p_SetComponentProperty (lcom_Component, ls_FilenameProp,
                                     fs_ReadString( lcom_Component.Name,
@@ -502,7 +459,7 @@ var
       Begin
        if IsPublishedProp(lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR )
         Then ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR
-        Else ls_DirnameProp:=CST_ONFORMINI_TEXT;
+        Else ls_DirnameProp:=CST_INI_TEXT;
         ls_Temp := fs_ReadString(lcom_Component.Name, fs_getComponentProperty(lcom_Component, ls_DirnameProp));
         If DirectoryExists( ls_Temp ) Then
           Begin
@@ -563,10 +520,10 @@ var
     and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      then
       begin
-        if   assigned ( GetPropInfo ( lcom_Component, CST_ONFORMINI_TEXT ))
-        then SetPropValue    ( lcom_Component, CST_ONFORMINI_TEXT ,fs_ReadString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_TEXT,''))
-        Else if   assigned ( GetPropInfo ( lcom_Component, CST_ONFORMINI_ITEMINDEX ))
-        Then SetPropValue    ( lcom_Component, CST_ONFORMINI_ITEMINDEX ,fli_ReadInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_ITEMINDEX,0));
+        if   assigned ( GetPropInfo ( lcom_Component, CST_INI_TEXT ))
+        then SetPropValue    ( lcom_Component, CST_INI_TEXT ,fs_ReadString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_INI_TEXT,''))
+        Else if   assigned ( GetPropInfo ( lcom_Component, CST_INI_ITEMINDEX ))
+        Then SetPropValue    ( lcom_Component, CST_INI_ITEMINDEX ,fli_ReadInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_INI_ITEMINDEX,0));
       End;
     if (lcom_Component.CLassNameIs( CST_ONFORMINI_EXTCOLOR)) and GetfeSauveEdit(FSauveEditObjets ,feTColorCombo)
      then
@@ -596,17 +553,13 @@ var
 {$ENDIF}
     if (lcom_Component is TCustomComboBox) and GetfeSauveEdit(FSauveEditObjets ,feTComboBox)    then
       begin
-        valItemIndex := -1 ;
-        LitTstringsDeIni(FInifile, lcom_Component.Name,TCustomComboBox(lcom_Component).Items,valItemIndex);
-        if  ( valItemIndex>=0)
-        and ( valItemIndex<=TCustomComboBox(lcom_Component).Items.Count-1)
-         then
-          TCustomComboBox(lcom_Component).ItemIndex:=valItemIndex;
+        p_ReadComboBoxItems(lcom_Component, TCustomComboBox(lcom_Component).Items );
         Result := True;
       end;
   end;
 
   function fb_ReadListBoxes: Boolean;
+  var valItemIndex : Longint;
   Begin
     Result := False;
     if (lcom_Component is TListBox) and GetfeSauveEdit(FSauveEditObjets ,feTListBox)     then
@@ -899,7 +852,7 @@ var
       begin
        if IsPublishedProp(lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR )
         Then ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR
-        Else ls_DirnameProp:=CST_ONFORMINI_TEXT;
+        Else ls_DirnameProp:=CST_INI_TEXT;
         p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component,ls_DirnameProp));
         Result := True;
       end;
@@ -915,8 +868,8 @@ var
         or lcom_Component.ClassNameIs ( 'TFileNameEdit' ))
       then
         Begin
-         if IsPublishedProp(lcom_Component, CST_ONFORMINI_TEXT )
-          Then ls_FilenameProp:=CST_ONFORMINI_TEXT
+         if IsPublishedProp(lcom_Component, CST_INI_TEXT )
+          Then ls_FilenameProp:=CST_INI_TEXT
           Else ls_FilenameProp:=CST_ONFORMINI_FILENAME;
         p_WriteString( lcom_Component.Name,
                        fs_getComponentProperty (lcom_Component, ls_FilenameProp ));
@@ -958,10 +911,10 @@ var
     and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      Then
       begin
-        if   assigned ( GetPropInfo ( lcom_Component, CST_ONFORMINI_TEXT ))
-        then p_WriteString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_TEXT, GetPropValue    ( lcom_Component, CST_ONFORMINI_TEXT))
-        Else if   assigned ( GetPropInfo ( lcom_Component, CST_ONFORMINI_ITEMINDEX ))
-        Then p_WriteInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_ITEMINDEX, GetPropValue ( lcom_Component, CST_ONFORMINI_ITEMINDEX ));
+        if   assigned ( GetPropInfo ( lcom_Component, CST_INI_TEXT ))
+        then p_WriteString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_INI_TEXT, GetPropValue    ( lcom_Component, CST_INI_TEXT))
+        Else if   assigned ( GetPropInfo ( lcom_Component, CST_INI_ITEMINDEX ))
+        Then p_WriteInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_INI_ITEMINDEX, GetPropValue ( lcom_Component, CST_INI_ITEMINDEX ));
           // No continue : Maybe a customcombo
         Result := True;
       End;
@@ -988,7 +941,7 @@ var
   {$ENDIF}
     if (lcom_Component is TCustomComboBox)       and GetfeSauveEdit(FSauveEditObjets ,feTComboBox)        then
       begin
-        SauveTStringsDansIni(FInifile, lcom_Component.Name,TCustomComboBox(lcom_Component).Items,TCustomComboBox(lcom_Component).ItemIndex);
+        p_writeComboBoxItems(lcom_Component,TCustomComboBox(lcom_Component).Items);
         Result := True;
       end;
 

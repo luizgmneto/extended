@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Release="3" Build="2"/>
-    <Files Count="23">
+    <Files Count="24">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -115,6 +115,10 @@
         <Filename Value="forms/U_About.pas"/>
         <UnitName Value="U_About"/>
       </Item23>
+      <Item24>
+        <Filename Value="fonctions/fonctions_components.pas"/>
+        <UnitName Value="fonctions_components"/>
+      </Item24>
     </Files>
     <i18n>
       <OutDir Value="fonctions"/>

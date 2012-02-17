@@ -36,7 +36,8 @@ const
   gVer_fonctions_init : T_Version = ( Component : 'Gestion du fichier INI' ; FileUnit : 'fonctions_init' ;
                                       Owner     : 'Matthieu Giroux' ;
                                       Comment   : 'Première version de gestion du fichier INI.' + #13#10 + 'Certaines fonctions sont encore utilisées.' ;
-                                      BugsStory : 'Version 1.0.3.2 : ini can be cutomized' + #13#10 +
+                                      BugsStory : 'Version 1.0.4.0 : comboitems function.' + #13#10 +
+                                                  'Version 1.0.3.2 : ini can be cutomized' + #13#10 +
                                                   'Version 1.0.3.1 : Function fs_GetIniDir' + #13#10 +
                                                   'Version 1.0.3.0 : Fonction fb_iniWriteFile' + #13#10 +
                                                   'Version 1.0.2.0 : Fonctions ini pour les listview,dbgrid, et virtualtrees' + #13#10 +
@@ -44,7 +45,7 @@ const
                                                   'Version 1.0.0.0 : La gestion est en place.' + #13#10 +
                                                   'On utilise plus cette unité complètement mais Fenêtre principale puis plus tard Mc Form Main INI.';
                                      UnitType : 1 ;
-                                     Major : 1 ; Minor : 0 ; Release : 3 ; Build : 2 );
+                                     Major : 1 ; Minor : 0 ; Release : 4 ; Build : 0 );
 {$ENDIF}
   // Constantes des sections du fichier ini
   INISEC_PAR = 'parametres';
@@ -56,6 +57,11 @@ const
   INIPAR_QUITTE    = 'quitte';
   INIPAR_CONNEXION = 'String de connexion';
   INIPAR_ACCESS    = 'String d''acces';
+
+  CST_INI_TEXT        = 'Text' ;
+  CST_INI_ITEMS       = 'Items'  ;
+  CST_INI_ITEMINDEX   = 'ItemIndex'  ;
+  CST_INI_COUNT       = 'Count'  ;
 
   CST_MACHINE = 'MACHINE';
   CST_INI_DB   = 'db_';
@@ -184,6 +190,10 @@ const
 {$ENDIF}
 function fs_IniSetConnection ( const accx_Connection : TComponent ) : String ;
 procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ; {$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
+procedure p_ReadComboBoxItems ( const acom_combobox : TComponent ; const Astl_Items : TStrings  );
+procedure p_writeComboBoxItems (  const acom_combobox : TComponent ;const Astl_Items : TStrings );
+procedure SauveTStringsDansIni(const FIni:TCustomIniFile; SectionIni:string; const LeTStrings:TStrings; const ItemIndex:integer);
+procedure LitTstringsDeIni(const FIni: TCustomIniFile; SectionIni: string; const LeTStrings: TStrings; var ItemIndex: integer);
 
 var
   FIniFile: TIniFile = nil;
@@ -579,6 +589,65 @@ begin
       and not CreateDir (  Result ) Then
         Result := fs_getSoftDir;
    end;
+end;
+
+
+////////////////////////////////////////////////////////////////////////////////
+// permet de lire le contenu d'un ini qui a été sauvé par SauveTStringsDansIni
+////////////////////////////////////////////////////////////////////////////////
+procedure LitTstringsDeIni(const FIni: TCustomIniFile; SectionIni: string; const LeTStrings: TStrings; var ItemIndex: integer);
+var li_i, li_count : integer;
+begin
+  ItemIndex := -1;
+  if FIni.SectionExists(SectionIni) then
+    begin
+      LeTStrings.Clear;
+      LeTStrings.BeginUpdate;
+      li_count:=FIni.ReadInteger(SectionIni, CST_INI_COUNT, 0 );
+      for li_i := 1 to li_count do
+       if FIni.ValueExists(SectionIni, 'L' + IntToStr(li_i))
+        Then LeTStrings.Add(FIni.ReadString(SectionIni, 'L' + IntToStr(li_i), ''))
+        Else LeTStrings.Add('');
+      LeTStrings.EndUpdate;
+      ItemIndex := Fini.ReadInteger(SectionIni, CST_INI_ITEMINDEX, 0);
+    end;
+end;
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// permet de sauver dans un ini le contenu d'un mémo, d'un Combobox, d'un ListBox, d'un RichEdit
+// et d'un façon générale, le contenu des composants qui le stocke dans des TStrings
+////////////////////////////////////////////////////////////////////////////////
+procedure SauveTStringsDansIni(const FIni:TCustomIniFile; SectionIni:string; const LeTStrings:TStrings; const ItemIndex:integer);
+var li_i: integer;
+begin
+  Fini.EraseSection(SectionIni); // on efface toute la section décrite par SectionIni
+  for li_i := 1 to LeTStrings.Count do // pour chaque ligne du Tstrings
+  begin
+    // on aura ainsi dans le fichier ini et dans la section considéré :
+    // L0= suivi du contenu de la première ligne du TStrings. puis L1= etc..
+    FIni.WriteString(SectionIni, 'L' + IntToStr(li_i), LeTStrings[li_i-1]);// écrit dans le fichier ini
+  end;
+  FIni.WriteInteger(SectionIni, CST_INI_ITEMINDEX, ItemIndex);
+  FIni.WriteInteger(SectionIni, CST_INI_COUNT, LeTStrings.Count);
+end;
+
+procedure p_ReadComboBoxItems (  const acom_combobox : TComponent ;const Astl_Items : TStrings );
+var valItemIndex : Longint;
+Begin
+  valItemIndex := -1 ;
+  LitTstringsDeIni(FInifile, acom_combobox.Name,Astl_Items,valItemIndex);
+  if  ( valItemIndex>=0)
+  and ( valItemIndex<=Astl_Items.Count-1)
+   then
+    p_SetComponentProperty(acom_combobox,CST_INI_ITEMINDEX,valItemIndex);
+
+end;
+procedure p_writeComboBoxItems (  const acom_combobox : TComponent ;const Astl_Items : TStrings );
+Begin
+  SauveTStringsDansIni(FInifile, acom_combobox.Name,Astl_Items,flin_getComponentProperty(acom_combobox, CST_INI_ITEMINDEX));
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
