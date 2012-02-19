@@ -1,4 +1,4 @@
-﻿{*********************************************************************}
+{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             Matthieu Giroux                                         }
@@ -52,10 +52,11 @@ const
                                                FileUnit : 'u_extcomponent' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Interface réutilisée centralisant les composants FW.' ;
-                                               BugsStory : '1.0.0.0 : En place testée.' + #13#10
+                                               BugsStory : '1.0.0.1 : UTF 8.' + #13#10
+                                                         + '1.0.0.0 : En place testée.' + #13#10
                                                          + '0.9.0.0 : En place à tester.';
                                                UnitType : 1 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
 

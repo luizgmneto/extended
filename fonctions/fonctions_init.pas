@@ -1,4 +1,4 @@
-﻿// Unité de gestion du fichier INI dépendant de l'unité FormMainIni
+// Unité de gestion du fichier INI dépendant de l'unité FormMainIni
 // intégrant une form de gestion de fichier INI
 unit fonctions_init;
 
@@ -36,7 +36,8 @@ const
   gVer_fonctions_init : T_Version = ( Component : 'Gestion du fichier INI' ; FileUnit : 'fonctions_init' ;
                                       Owner     : 'Matthieu Giroux' ;
                                       Comment   : 'Première version de gestion du fichier INI.' + #13#10 + 'Certaines fonctions sont encore utilisées.' ;
-                                      BugsStory : 'Version 1.0.4.0 : comboitems function.' + #13#10 +
+                                      BugsStory : 'Version 1.0.4.1 : UTF 8.' + #13#10 +
+                                                  'Version 1.0.4.0 : comboitems function.' + #13#10 +
                                                   'Version 1.0.3.2 : ini can be cutomized' + #13#10 +
                                                   'Version 1.0.3.1 : Function fs_GetIniDir' + #13#10 +
                                                   'Version 1.0.3.0 : Fonction fb_iniWriteFile' + #13#10 +
@@ -45,7 +46,7 @@ const
                                                   'Version 1.0.0.0 : La gestion est en place.' + #13#10 +
                                                   'On utilise plus cette unité complètement mais Fenêtre principale puis plus tard Mc Form Main INI.';
                                      UnitType : 1 ;
-                                     Major : 1 ; Minor : 0 ; Release : 4 ; Build : 0 );
+                                     Major : 1 ; Minor : 0 ; Release : 4 ; Build : 1 );
 {$ENDIF}
   // Constantes des sections du fichier ini
   INISEC_PAR = 'parametres';

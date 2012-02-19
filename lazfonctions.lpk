@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Release="4"/>
-    <Files Count="24">
+    <Files Count="23">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -108,17 +108,13 @@
         <UnitName Value="fonctions_languages"/>
       </Item21>
       <Item22>
-        <Filename Value="forms/U_About.lfm"/>
-        <Type Value="LFM"/>
+        <Filename Value="fonctions/fonctions_components.pas"/>
+        <UnitName Value="fonctions_components"/>
       </Item22>
       <Item23>
         <Filename Value="forms/U_About.pas"/>
         <UnitName Value="U_About"/>
       </Item23>
-      <Item24>
-        <Filename Value="fonctions/fonctions_components.pas"/>
-        <UnitName Value="fonctions_components"/>
-      </Item24>
     </Files>
     <i18n>
       <OutDir Value="fonctions"/>

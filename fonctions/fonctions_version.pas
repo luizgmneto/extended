@@ -97,22 +97,10 @@ Begin
   Application.CreateForm(TF_About, F_About);
   F_About.gs_NomApli := as_NomAppli ;
   F_About.gs_Version := as_Version ;
-  if ( Lowercase ( Trim ( F_About.lb_Giroux.Caption )) <> '2006' )
-  or not F_About.lb_Giroux.Visible
-  or ( F_About.lb_Giroux.Parent <> F_About )
-  or ( F_About.lb_Giroux.Left + F_About.lb_Giroux.Width  > F_About.Width  )
-  or ( F_About.lb_Giroux.Top  + F_About.lb_Giroux.Height > F_About.Height )
-  or ( F_About.lb_Giroux.Left < 0 )
-  or ( F_About.lb_Giroux.Top  < 0 ) Then
-    ShowMessage ( 'La fenêtre "A Propos" est un  composant propriétaire.' + #13#10 + 'Elle ne peut être changée.' )
-  Else
-    Begin
-      if ab_Commentaires Then
-        F_About.gb_ShowComments := True ;
-      F_About.lb_Giroux.BringtoFront ;
-      if F_About.ShowModal<> mrOk then Result := True;
-      F_About.Destroy;
-    End ;
+  F_About.gb_ShowComments := ab_Commentaires ;
+  F_About.lb_Giroux.BringtoFront ;
+  if F_About.ShowModal<> mrOk then Result := True;
+  F_About.Destroy;
 {$ENDIF}
 End ;
 

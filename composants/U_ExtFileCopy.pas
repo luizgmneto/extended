@@ -47,10 +47,11 @@ uses
                                                FileUnit : 'U_ExtFileCopy' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Composant de copie multi-platformes.' ;
-                                               BugsStory : '1.0.0.0 : Testing alone.' +#13#10
+                                               BugsStory : '1.0.0.1 : Testing on linux.' +#13#10
+                                                         + '1.0.0.0 : Testing alone.' +#13#10
                                                          + '0.9.0.0 : En place testée.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
 
