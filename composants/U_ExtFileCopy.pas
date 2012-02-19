@@ -262,7 +262,14 @@ begin
          Result := fb_EraseDir(as_Destination, True);
       end
      Else
-      Result := fb_CreateDirectoryStructure ( as_Destination );
+      if cpDestinationIsFile in FFileOptions Then
+        Begin
+          if not DirectoryExists(ExtractFileDir(as_Destination))
+            Then Result := fb_CreateDirectoryStructure ( ExtractFileDir(as_Destination) )
+            else Result := True;
+        end
+       Else
+        Result := fb_CreateDirectoryStructure ( as_Destination );
 end;
 
 function TExtFileCopy.BeforeCopyBuffer(var li_SizeRead, li_BytesTotal : IntCopy ): Boolean;
@@ -445,8 +452,7 @@ function TExtFileCopy.fb_InternalCopyFile ( const as_Source, as_Destination : St
 var lsr_AttrSource      : TSearchRec ;
 
 begin
-  Result := True ;
-  Result := fb_CreateDirectoryStructure ( as_Destination );
+  Result := CreateDestination ( as_Destination );
   if FileExists ( as_Source ) Then
     Begin
       if ( DirectoryExists ( as_Destination )) Then
