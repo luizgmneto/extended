@@ -1,4 +1,4 @@
-﻿// unité contenant des fonctions de traitements de chaine
+// unité contenant des fonctions de traitements de chaine
 unit fonctions_system;
 
 interface
@@ -43,12 +43,13 @@ function GetWinDir ( const CSIDL : Integer ) : String ;
 {$ENDIF}
 {$IFDEF VERSIONS}
 const
-  gVer_fonction_system : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
+  gVer_fonction_system : T_Version = ( Component : 'Gestion système' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
-                        			                 Comment : 'Fonctions de traduction et de formatage des chaînes.' ;
-                        			                 BugsStory : 'Version 1.0.0.0 : Creating from fonctions_string.';
+                        			                 Comment : 'Fonctions systèmes, de traduction de chemins.' ;
+                        			                 BugsStory : 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
+                                                                           + 'Version 1.0.0.0 : Creating from fonctions_string.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                        			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 {$ENDIF}
 
 implementation

@@ -1,4 +1,4 @@
-﻿unit u_framework_components;
+unit u_framework_components;
 
 {$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
@@ -41,11 +41,12 @@ const
                                                FileUnit : 'u_framework_components' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Composants d''interactivité de U_CustomFrameWork.' ;
-                                               BugsStory : '0.9.0.1 : Working on Lazarus.'
+                                               BugsStory : '0.9.0.2 : UTF 8.'
+                                                         + '0.9.0.1 : Working on Lazarus.'
                                                          + '0.9.0.0 : Creating u_framework_dbcomponents.'
                                                          + '0.8.0.0 : Gestion à tester.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 1 );
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 2 );
 
 {$ENDIF}
 type

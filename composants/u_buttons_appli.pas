@@ -1,4 +1,4 @@
-﻿unit u_buttons_appli;
+unit u_buttons_appli;
 
 {$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
@@ -29,11 +29,12 @@ const
                                        FileUnit : 'u_buttons_appli' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Composants boutons personnalisés.' ;
-                                       BugsStory : '1.0.0.0 : Version OK.'+ #13#10
+                                       BugsStory : '1.0.0.1 : UTF 8.'+ #13#10
+                                                 + '1.0.0.0 : Version OK.'+ #13#10
                                                  + '0.8.0.1 : Group view buttons better.'+ #13#10
                                                  + '0.8.0.0 : Gestion à tester.';
                                        UnitType : 3 ;
-                                       Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                                       Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
 {$ENDIF}
    CST_FWCLOSE='TFWCLOSE';
    CST_FWCANCEL='TFWCANCEL';

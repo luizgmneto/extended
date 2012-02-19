@@ -12,7 +12,7 @@ uses
   fonctions_variant, fonctions_web, fonctions_array, u_zconnection, 
   fonctions_dbcomponents, fonctions_version, fonctions_objects, 
   u_buttons_appli, u_regfwbuttons, fonctions_system, fonctions_languages, 
-  U_About, fonctions_components, LazarusPackageIntf;
+  fonctions_components, U_About, LazarusPackageIntf;
 
 implementation
 

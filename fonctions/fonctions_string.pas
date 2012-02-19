@@ -1,9 +1,10 @@
-﻿// unité contenant des fonctions de traitements de chaine
+// unité contenant des fonctions de traitements de chaine
 unit fonctions_string;
 
 interface
 
 {$I ..\DLCompilers.inc}
+{$I ..\extends.inc}
 
 {$IFDEF FPC}
 {$mode Delphi}
@@ -73,7 +74,8 @@ const
     gVer_fonction_string : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Fonctions de traduction et de formatage des chaînes.' ;
-                        			                 BugsStory : 'Version 1.0.2.2 : fs_TextToFileName of André Langlet.' + #13#10 + #13#10 +
+                        			                 BugsStory : 'Version 1.0.2.3 : UTF 8.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.2.2 : fs_TextToFileName of André Langlet.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.2.1 : Optimising.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.2.0 : Fonction fs_GetBinOfString.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.1.1 : Paramètres constantes plus rapides.' + #13#10 + #13#10 +
@@ -81,7 +83,7 @@ const
                         			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 2 );
+                        			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 3 );
 {$ENDIF}
     CST_ORD_GUILLEMENT = ord ( '''' );
     CST_ORD_POURCENT   = ord ( '%' );

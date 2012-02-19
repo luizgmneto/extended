@@ -1,4 +1,4 @@
-﻿unit fonctions_images;
+unit fonctions_images;
 
 interface
 
@@ -28,7 +28,8 @@ const CST_EXTENSION_JPEG           = '.jpg' ;
   gVer_fonctions_images : T_Version = ( Component : 'Gestion des images' ; FileUnit : 'fonctions_images' ;
                         			             Owner : 'Matthieu Giroux' ;
                         			              Comment : 'Chargement des icônes et bitmap ( vérifier des erreurs éventuelles avec Memproof ).' + #13#10 + 'Gestion des images.' ;
-                        			              BugsStory : 'Version 1.0.1.1 : Improving p_ChangeTailleBitmap.' + #13#10 +
+                        			              BugsStory : 'Version 1.0.1.2 : UTF 8.' + #13#10 +
+                        			                	  'Version 1.0.1.1 : Improving p_ChangeTailleBitmap.' + #13#10 +
                         			                	  'Version 1.0.1.0 : Testing and saving to file.' + #13#10 +
                         			                	  'Version 1.0.0.5 : Testing Imaging.' + #13#10 +
                         			                	  'Version 1.0.0.4 : Bug couleur transparente en noir dans les imagelist.' + #13#10 +
@@ -37,7 +38,7 @@ const CST_EXTENSION_JPEG           = '.jpg' ;
                         			                	  'Version 1.0.0.1 : Meilleure gestion des images, problèmes de rafraichissement.' + #13#10 +
                         			                	  'Version 1.0.0.0 : La gestion est en place.' + #13#10 + 'Il faut utiliser les fonctions et vérifier les erreurs éventuellement produites avec Memproof.';
                         			              UnitType : 1 ;
-                        			              Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
+                        			              Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
 
 {$ENDIF}
 

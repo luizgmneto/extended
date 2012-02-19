@@ -1,4 +1,4 @@
-﻿unit U_FormMainIni;
+unit U_FormMainIni;
 // Unité de la Version 2 du projet FormMain
 // La version 1 TFormMain n'est pas sa fenêtre parente
 

@@ -1,4 +1,4 @@
-﻿unit u_extdbgrid;
+unit u_extdbgrid;
 
 {*********************************************************************}
 {                                                                     }
@@ -55,11 +55,12 @@ const
                                                FileUnit : 'U_ExtDBGrid' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Grille avec fonctions étendues.' ;
-                                               BugsStory : '1.0.0.0 : Tested, making comments.' + #13#10
+                                               BugsStory : '1.0.0.1 : UTF 8.' + #13#10
+                                                         + '1.0.0.0 : Tested, making comments.' + #13#10
                                                          + '0.9.9.9 : Tested OK on DELPHI, need new version of LAZARUS to be completed.' + #13#10
                                                          + '0.9.0.0 : Création à partir de u_framework_dbcomponents.' ;
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
 

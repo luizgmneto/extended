@@ -16,6 +16,7 @@ unit U_About;
 {$ENDIF}
 
 {$I ..\DLCompilers.inc}
+{$I ..\extends.inc}
 
 interface
 
@@ -41,14 +42,15 @@ uses
   TypInfo;
 
 const
-   gver_F_About : T_Version = ( Component : 'Fenêtre A propos' ; FileUnit : 'U_About' ;
+   gver_F_About : T_Version = ( Component : 'FenÃªtre A propos' ; FileUnit : 'U_About' ;
                  Owner : 'Matthieu Giroux' ;
-                 Comment : 'Répertorie les composants.' ;
-                 BugsStory   : 'Version 1.0.0.2 : Mode Delphi on Lazarus.' + #13#10
-                             + 'Version 1.0.0.1 : Bug sur icône à la réouverture.' + #13#10
+                 Comment : 'RÃ©pertorie les composants.' ;
+                 BugsStory   : 'Version 1.0.0.3 : Testing on Lazarus.' + #13#10
+                             + 'Version 1.0.0.2 : Mode Delphi on Lazarus.' + #13#10
+                             + 'Version 1.0.0.1 : Bug sur icÃ´ne Ã  la rÃ©ouverture.' + #13#10
                              + 'Version 1.0.0.0 : Gestion de versions.';
                  UnitType : CST_TYPE_UNITE_FICHE ;
-                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
+                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 3 );
 
 
       CST_NOEUDS_RACINES = 5 ;
@@ -126,7 +128,7 @@ end;
 
 procedure TF_About.bt_reinitClick(Sender: TObject);
 begin
-  if MessageDlg('La réinitialisation prendra effet au prochain démarrage de l''application.'
+  if MessageDlg('La rÃ©initialisation prendra effet au prochain dÃ©marrage de l''application.'
         			 + #13 + 'Voulez-vous continuer ?', mtConfirmation, mbOKCancel, 0) = mrOK then Close;
 end;
 
@@ -166,6 +168,7 @@ begin
   vt_Versioning.Clear;
   vt_Versioning.NodeDataSize := Sizeof(T_Version)+1;
   vt_Versioning.RootNodeCount := CST_NOEUDS_RACINES ;
+  vt_Versioning.Font.Color:=clWindowText;
   vt_Versioning.EndUpdate;
   with vt_Versioning.Header do
     Begin
@@ -180,11 +183,11 @@ begin
       Columns.Add;
       Columns[2].Position := 2;
       Columns[2].Width := 190;
-      Columns[2].Text := 'R'#233'dacteur';
+      Columns[2].Text := 'RÃ©dacteur';
       SortColumn := 0 ;
     End ;
   APopupMenu.PopupComponent := vt_Versioning;
-  APopupMenu.AutoPopup := True ;
+//  APopupMenu.AutoPopup := True ;
 
   while gi_Count2 <= high ( gt_Versioning ) do
     Begin
@@ -261,7 +264,7 @@ begin
      Initialize(CustomerRecord^);
      case gi_Count1 of
       0 : Begin
-     	    CustomerRecord^.Component := 'Base de données' ;
+     	    CustomerRecord^.Component := 'Base de donnÃ©es' ;
       	    CustomerRecord^.Owner       := 'Entreprise' ;
       	    gnod_bdd := Node ;
       	  End ;
@@ -270,7 +273,7 @@ begin
            gnod_Appli := Node ;
          End ;
       2 : Begin
-       	    CustomerRecord^.Component := 'Fenêtres' ;
+       	    CustomerRecord^.Component := 'FenÃªtres' ;
        	    gnod_Fenetres := Node ;
        	  End ;
       3 : Begin
@@ -322,7 +325,7 @@ procedure TF_About.vt_VersioningGetText(Sender: TBaseVirtualTree; Node: PVirtual
     TextType: TVSTTextType; var CellText: {$IFDEF DELPHI_7_UP}WideString{$ELSE}String{$ENDIF});
 
 Var
-  // Données du VirtualTreeView
+  // DonnÃ©es du VirtualTreeView
   CustomerRecord : PCustVersion;
 begin
   CustomerRecord    := Sender.GetNodeData   ( Node );
@@ -361,7 +364,7 @@ begin
   CustomerRecord := vt_Versioning.GetNodeData ( vt_Versioning.GetFirstSelected  );
 
   Showmessage ( 'Commentaires sur la composante ' + CustomerRecord^.Component + #13#10 + #13#10 +
-        				'Unité : ' + CustomerRecord^.FileUnit + #13#10 + #13#10 +
+        				'UnitÃ© : ' + CustomerRecord^.FileUnit + #13#10 + #13#10 +
         				CustomerRecord^.Comment );
 end;
 
@@ -370,8 +373,8 @@ var CustomerRecord : PCustVersion;
 begin
   CustomerRecord := vt_Versioning.GetNodeData ( vt_Versioning.GetFirstSelected  );
 
-  Showmessage ( 'Historique des bugs enlevés sur ' + CustomerRecord^.Component + #13#10 +
-        				'Unité : ' + CustomerRecord^.FileUnit + #13#10 + #13#10 +
+  Showmessage ( 'Historique des bugs enlevÃ©s sur ' + CustomerRecord^.Component + #13#10 +
+        				'UnitÃ© : ' + CustomerRecord^.FileUnit + #13#10 + #13#10 +
         				CustomerRecord^.BugsStory );
 
 end;
@@ -475,35 +478,37 @@ begin
   begin
     Name := 'Valider';
     if Valider.ClassType.InheritsFrom(TControl) then TControl(Valider).Parent := self;
-    if IsPublishedProp(Valider, 'Left') then SetOrdProp(Valider, 'Left', 528);
-    if IsPublishedProp(Valider, 'Top') then SetOrdProp(Valider, 'Top', 369);
+    SetOrdProp(Valider, 'Left', 528);
+    SetOrdProp(Valider, 'Top', 369);
     Caption := '&OK';
     TabOrder := 1;
     ModalResult := 1;
+    Visible:=True;
   end;
   
   with bt_reinit do
   begin
     Name := 'bt_reinit';
     if bt_reinit.ClassType.InheritsFrom(TControl) then TControl(bt_reinit).Parent := self;
-    if IsPublishedProp(bt_reinit, 'Left') then SetOrdProp(bt_reinit, 'Left', 16);
-    if IsPublishedProp(bt_reinit, 'Top') then SetOrdProp(bt_reinit, 'Top', 369);
+    SetOrdProp(bt_reinit, 'Left', 16);
+    SetOrdProp(bt_reinit, 'Top', 369);
     Hint := 'R'#233'initialisation des tailles';
     ParentShowHint := False;
     ShowHint := True;
     OnClick := bt_reinitClick;
     Caption := 'R'#233'initialiser';
     TabOrder := 2;
+    Visible:=True;
   end;
   
   with vt_Versioning do
   begin
     Name := 'vt_Versioning';
-    if vt_Versioning.ClassType.InheritsFrom(TControl) then TControl(vt_Versioning).Parent := self;
-    if IsPublishedProp(vt_Versioning, 'Left') then SetOrdProp(vt_Versioning, 'Left', 0);
-    if IsPublishedProp(vt_Versioning, 'Top') then SetOrdProp(vt_Versioning, 'Top', 48);
-    if IsPublishedProp(vt_Versioning, 'Width') then SetOrdProp(vt_Versioning, 'Width', 617);
-    if IsPublishedProp(vt_Versioning, 'Height') then SetOrdProp(vt_Versioning, 'Height', 313);
+    vt_Versioning.Parent := self;
+    SetOrdProp(vt_Versioning, 'Left', 0);
+    SetOrdProp(vt_Versioning, 'Top', 48);
+    SetOrdProp(vt_Versioning, 'Width', 617);
+    SetOrdProp(vt_Versioning, 'Height', 313);
     Header.AutoSizeIndex := 0;
     Header.Font.Charset := DEFAULT_CHARSET;
     Header.Font.Color := clWindowText;
@@ -561,6 +566,8 @@ begin
   Font.Style := [];
   Position := poScreenCenter;
   OnActivate := FormActivate;
+  Valider.Loaded;
+  bt_reinit.Loaded;
 end;
 {$ENDIF}
 

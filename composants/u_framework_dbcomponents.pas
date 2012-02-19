@@ -1,4 +1,4 @@
-﻿unit u_framework_dbcomponents;
+unit u_framework_dbcomponents;
 
 {*********************************************************************}
 {                                                                     }
@@ -58,13 +58,14 @@ const
                                                FileUnit : 'u_framework_dbcomponents' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Composants d''interactivité de U_CustomFrameWork.' ;
-                                               BugsStory : '0.9.0.4 : Added FWDBCombobox.'
+                                               BugsStory : '0.9.0.5 : UTF 8.'
+                                                         + '0.9.0.4 : Added FWDBCombobox.'
                                                          + '0.9.0.3 : Using RXLookupCombo on FPC.'
                                                          + '0.9.0.2 : Paint Edits or not on FWDBGrid.'
                                                          + '0.9.0.1 : FWDBGrid tested on Delphi, with Controls on Columns.'
                                                          + '0.9.0.0 : Création à partir de u_framework_components.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 4 );
+                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 5 );
 
 {$ENDIF}
 type

@@ -22,7 +22,7 @@
     <Version Major="1" Build="6"/>
     <Files Count="26">
       <Item1>
-        <Filename Value="composants/U_OnFormInfoIni.pas"/>
+        <Filename Value="composants/u_onforminfoini.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
       </Item1>
       <Item2>
@@ -48,7 +48,7 @@
         <UnitName Value="u_framework_components"/>
       </Item6>
       <Item7>
-        <Filename Value="composants/U_DBListView.pas"/>
+        <Filename Value="composants/u_dblistview.pas"/>
         <UnitName Value="U_DBListView"/>
       </Item7>
       <Item8>
@@ -56,15 +56,15 @@
         <UnitName Value="U_ExtNumEdits"/>
       </Item8>
       <Item9>
-        <Filename Value="composants/U_ExtDBNavigator.pas"/>
+        <Filename Value="composants/u_extdbnavigator.pas"/>
         <UnitName Value="U_ExtDBNavigator"/>
       </Item9>
       <Item10>
-        <Filename Value="composants/U_FormMainIni.pas"/>
+        <Filename Value="composants/u_formmainini.pas"/>
         <UnitName Value="U_FormMainIni"/>
       </Item10>
       <Item11>
-        <Filename Value="composants/U_ExtDBImage.pas"/>
+        <Filename Value="composants/u_extdbimage.pas"/>
         <UnitName Value="U_ExtDBImage"/>
       </Item11>
       <Item12>
@@ -120,7 +120,7 @@
         <UnitName Value="U_ExtMapImageIndex"/>
       </Item24>
       <Item25>
-        <Filename Value="composants/U_ExtDBImageList.pas"/>
+        <Filename Value="composants/u_extdbimagelist.pas"/>
         <UnitName Value="U_ExtDBImageList"/>
       </Item25>
       <Item26>
