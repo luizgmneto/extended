@@ -32,6 +32,7 @@ function fs_ExtractFileNameOnly ( const as_Path : String ): String;
 function fs_GetNameSoft : String;
 // Retourne le nom d'utilisateur (string) de la session WINDOWS
 function fs_GetUserSession: string;
+function fs_GetCorrectPath ( const as_Path :String ): string;
 
 // Retourne le nom d'ordinateur (string)
 function fs_GetComputerName: string;
@@ -55,11 +56,25 @@ implementation
 
 uses
 {$IFDEF FPC}
-  LCLType, FileUtil ;
+  LCLType, FileUtil,
 {$ELSE}
-  ShFolder, ShlObj;
+  ShFolder, ShlObj,
 {$ENDIF}
+  fonctions_string;
 
+function fs_GetCorrectPath ( const as_Path :String ): string;
+Begin
+  {$IFNDEF FPC}
+  Result := fs_RemplaceChar(as_Path,'/',DirectorySeparator);
+  {$ELSE}
+  {$IFDEF WINDOWS}
+  Result := fs_RemplaceChar(as_Path,'/',DirectorySeparator);
+  {$ELSE}
+  Result := fs_RemplaceChar(as_Path,'\',DirectorySeparator);
+  {$ENDIF}
+  {$ENDIF}
+
+end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Lit le nom de la session
