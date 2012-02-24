@@ -104,7 +104,7 @@ function fb_SettedList ( const at_Liste : tt_TableauVariant ) : Boolean ;
 
 implementation
 
-uses fonctions_string, SysUtils ;
+uses fonctions_string, SysUtils, fonctions_db ;
 
 // Cherche avar_ATrouver dans la liste alst_liste
 // alst_liste   : la liste de recherche
