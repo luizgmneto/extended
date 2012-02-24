@@ -43,7 +43,8 @@ const
   gVer_fonctions_db : T_Version =  ( Component : 'Gestion des données' ; FileUnit : 'fonctions_db' ;
                         	     Owner : 'Matthieu Giroux' ;
                         	     Comment : 'Fonctions gestion des données partagées.' ;
-                        	     BugsStory : 'Version 1.2.0.1 : Integrating Remote and CSV Dataset.' + #13#10 +
+                        	     BugsStory : 'Version 1.2.1.0 : Add DB functions from fonctions_string.' + #13#10 +
+                        			 'Version 1.2.0.1 : Integrating Remote and CSV Dataset.' + #13#10 +
                         			 'Version 1.2.0.0 : Fonctions sur les composants de données dans fonctions_dbcomponents.' + #13#10 +
                         			 'Version 1.1.0.1 : Changement de nom de procédures non utilisées, bug mode synchrone lent.' + #13#10 +
                         			 'Version 1.1.0.0 : Mode asynchrone.' + #13#10 +
@@ -58,7 +59,7 @@ const
                         			 'Version 1.0.1.0 : Deuxième fonction fb_Locate.' + #13#10 +
                         			 'Version 1.0.0.0 : La fonction fb_Locate a des limites sur plusieurs champs recherchés.';
                         	     UnitType : 1 ;
-                        	     Major : 1 ; Minor : 2 ; Release : 0 ; Build : 1 );
+                        	     Major : 1 ; Minor : 2 ; Release : 1 ; Build : 0 );
   {$ENDIF}
 
 function fs_AjouteRechercheClePrimaire ( const adat_Dataset         : TDataset    ;
@@ -80,6 +81,12 @@ function  fb_SortADataset ( const aDat_Dataset : TDataset; const as_NomChamp : S
 procedure p_UpdateBatch ( const adat_Dataset: Tdataset);
 function fb_SortLocalDataSet(aDat_Dataset: TDataSet;const as_NomChamp: String; const ab_Desc : Boolean): Boolean;
 function fvar_getKeyRecord ( const adat_Dataset : TDataset ; const aslt_Cle : TStringlist ): Variant;
+function fs_stringDbQuote ( const as_Texte: string): string;
+function fs_stringDbQuoteFilterLike ( const as_Texte: string): string;
+function fs_stringDbQuoteLikeSQLServer ( const as_Texte: string): string;
+function fs_AddDBString ( const as_Text : String ) : String;
+function fb_ListeVersSQL(var as_TexteAjoute: String; const astl_Liste: TStringList; const ab_EstChaine: Boolean): Boolean;
+
 
 var ge_DataSetErrorEvent : TDataSetErrorEvent = nil;
     ge_NilEvent : TDataSetErrorEvent = nil;
@@ -107,7 +114,108 @@ uses Variants,  Math, fonctions_erreurs, fonctions_string, unite_messages,
 {$ELSE}
      DBTables,
 {$ENDIF}
-   fonctions_proprietes, TypInfo, ExtCtrls;
+   fonctions_proprietes,StrUtils,
+   TypInfo, ExtCtrls;
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Fonction : fs_stringDbQuote
+// Description : Cette fonction permet de faire le doublement des ' dans une chaîne de caractères
+// as_Texte : Le texte avec des ' éventuels
+// Résultat : Le texte avec des '' à la place de '
+///////////////////////////////////////////////////////////////////////////////
+function fs_stringDbQuote ( const as_Texte: string): string;
+begin
+  result :=AnsiReplaceStr ( as_Texte, '''' , '''''' );
+end;
+
+
+function fs_AddDBString ( const as_Text : String ) : String;
+Begin
+  Result := '''' + fs_stringDbQuote(as_Text)+'''';
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+// fonction : fs_stringDbQuoteFilterLike
+// Description : création d'un filtrage ADO en fonction de caractères spéciaux
+//  Cette fonction permet de faire le doublement des ' dans une chaîne de caractères
+// as_Texte : Le texte qui va devenir filtre
+// Résultat : Le filtre du texte
+///////////////////////////////////////////////////////////////////////////////
+function fs_stringDbQuoteFilterLike ( const as_Texte: string): string;
+//var li_i : Integer ;
+begin
+  Result :=AnsiReplaceStr ( as_Texte, '''' , '''''' );
+  if  ( Result     <> ''  )
+  and ( Result [1] =  '%' )Then
+    Result := '*' + copy ( Result, 2, length ( Result ) - 1 );
+  if ( Result = '_' )
+  or ( Result = '_*' )
+  or ( Result = '*' )
+  or ( Result = '**' )
+  or ( Result = '%' ) Then
+    Result := '' ;
+{  for li_i := 1 to length ( as_Texte ) do
+    case ord ( as_Texte [ li_i ] ) of
+      CST_ORD_GUILLEMENT : Result := Result + '''''' ;
+      CST_ORD_ASTERISC   : Result := Result + '*' ;
+      CST_ORD_SOULIGNE   : Result := Result + '_' ;
+      CST_ORD_POURCENT   : Result := Result + '%' ;
+    Else
+      Result := Result + as_Texte [ li_i ] ;
+    End ;}
+end;
+
+function fs_stringDbQuoteLikeSQLServer ( const as_Texte: string): string;
+var li_i : Integer ;
+begin
+  Result := '' ;
+  for li_i := 1 to length ( as_Texte ) do
+    case ord ( as_Texte [ li_i ] ) of
+      CST_ORD_GUILLEMENT : Result := Result + '''''' ;
+      CST_ORD_OUVRECROCHET : Result := Result + '[[]' ;
+      CST_ORD_FERMECROCHET : Result := Result + '[]]' ;
+      CST_ORD_ASTERISC : Result := Result + '[*]' ;
+      CST_ORD_SOULIGNE : Result := Result + '[_]' ;
+      CST_ORD_POURCENT : Result := Result + '[%]' ;
+    Else
+      Result := Result + as_Texte [ li_i ] ;
+    End ;
+end;
+
+
+////////////////////////////////////////////////////////////////////////////////
+// fonction : fb_ListeVersSQL
+// Description : Fonction de transformation d'une string liste en SQL
+// as_TexteAjoute : Le texte de la liste séparé par des virgules
+// astl_Liste     : La liste
+// ab_EstChaine   : La liste de retour sera une liste de chaînes
+////////////////////////////////////////////////////////////////////////////////
+function fb_ListeVersSQL(var as_TexteAjoute: String; const astl_Liste: TStringList; const ab_EstChaine: Boolean): Boolean;
+var li_i: Integer;
+begin
+  // On a rien
+  Result := False;
+  // Pas de texte
+  as_TexteAjoute := '';
+  for li_i := 0 to astl_Liste.Count - 1 do
+    begin
+      // On a quelque chose
+      Result := True;
+      if li_i = 0 then // Première ligne
+        if ab_EstChaine then // Chaîne
+          as_TexteAjoute := '''' + fs_StringDBQuote(astl_Liste[li_i]) + ''''
+        else
+          as_TexteAjoute := astl_Liste[li_i] // Autre
+      else
+        if ab_EstChaine then
+          as_TexteAjoute := as_TexteAjoute + ',''' + fs_StringDBQuote(astl_Liste[li_i]) + ''''
+        else
+          as_TexteAjoute := as_TexteAjoute + ',' + astl_Liste[li_i];
+    end;
+end;
+
 
 
 function fb_LocateFilter ( const aado_Seeker : TDataset ; const as_oldFilter, as_Fields, as_Condition : String ; const avar_Records : Variant ; const ach_Separator : Char ): Boolean ;

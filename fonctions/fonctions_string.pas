@@ -42,9 +42,6 @@ const
   function fs_getSoftDir : String;
   function fs_ArgConnectString ( const as_connectstring, as_arg: string): string;
   function fb_stringVide ( const aTexte: string): Boolean;
-  function fs_stringDbQuote ( const as_Texte: string): string;
-  function fs_stringDbQuoteFilterLike ( const as_Texte: string): string;
-  function fs_stringDbQuoteLikeSQLServer ( const as_Texte: string): string;
   function fs_stringDate(): string;
   function fs_stringDateTime(const aDateTime: TDateTime; const aFormat: string): Ansistring;
   function fs_stringCrypte( const as_Text: string): string;
@@ -57,7 +54,6 @@ const
   function fe_distanceEntrePointsCoordLambert( const aLatitudeDep, aLongitudeDep, aLatitudeArr, aLongitudeArr: string): Extended;
   function fb_controleDistanceCoordLambert( const aLatitudeDep, aLongitudeDep, aLatitudeArr, aLongitudeArr: string; const aDistance: Extended): Boolean;
   procedure p_ChampsVersListe(var as_ChampsClePrimaire: TStringList; const aws_ClePrimaire : String ; ach_Separateur : Char );
-  function fb_ListeVersSQL(var as_TexteAjoute: String; const astl_Liste: TStringList; const ab_EstChaine: Boolean): Boolean;
   function fs_RemplaceMsg(const as_Texte: String; const aTs_arg: Array of String): String;
   function fs_RemplaceEspace ( const as_Texte : String ; const as_Remplace : String ): String ;
 
@@ -74,7 +70,8 @@ const
     gVer_fonction_string : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Fonctions de traduction et de formatage des chaînes.' ;
-                        			                 BugsStory : 'Version 1.0.2.3 : UTF 8.' + #13#10 + #13#10 +
+                        			                 BugsStory : 'Version 1.0.3.0 : Moving function to DB functions.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.2.3 : UTF 8.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.2.2 : fs_TextToFileName of André Langlet.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.2.1 : Optimising.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.2.0 : Fonction fs_GetBinOfString.' + #13#10 + #13#10 +
@@ -83,7 +80,7 @@ const
                         			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 3 );
+                        			                 Major : 1 ; Minor : 0 ; Release : 3 ; Build :  0);
 {$ENDIF}
     CST_ORD_GUILLEMENT = ord ( '''' );
     CST_ORD_POURCENT   = ord ( '%' );
@@ -167,66 +164,6 @@ function fb_stringVide( const aTexte: string): Boolean;
 begin
   Result := (Trim(aTexte) = '') or (aTexte = EmptyStr);
 end;
-
-///////////////////////////////////////////////////////////////////////////////
-// Fonction : fs_stringDbQuote
-// Description : Cette fonction permet de faire le doublement des ' dans une chaîne de caractères
-// as_Texte : Le texte avec des ' éventuels
-// Résultat : Le texte avec des '' à la place de '
-///////////////////////////////////////////////////////////////////////////////
-function fs_stringDbQuote ( const as_Texte: string): string;
-begin
-  result :=AnsiReplaceStr ( as_Texte, '''' , '''''' );
-end;
-
-///////////////////////////////////////////////////////////////////////////////
-// fonction : fs_stringDbQuoteFilterLike
-// Description : création d'un filtrage ADO en fonction de caractères spéciaux
-//  Cette fonction permet de faire le doublement des ' dans une chaîne de caractères
-// as_Texte : Le texte qui va devenir filtre
-// Résultat : Le filtre du texte
-///////////////////////////////////////////////////////////////////////////////
-function fs_stringDbQuoteFilterLike ( const as_Texte: string): string;
-//var li_i : Integer ;
-begin
-  Result :=AnsiReplaceStr ( as_Texte, '''' , '''''' );
-  if  ( Result     <> ''  )
-  and ( Result [1] =  '%' )Then
-    Result := '*' + copy ( Result, 2, length ( Result ) - 1 );
-  if ( Result = '_' )
-  or ( Result = '_*' )
-  or ( Result = '*' )
-  or ( Result = '**' )
-  or ( Result = '%' ) Then
-    Result := '' ;
-{  for li_i := 1 to length ( as_Texte ) do
-    case ord ( as_Texte [ li_i ] ) of
-      CST_ORD_GUILLEMENT : Result := Result + '''''' ;
-      CST_ORD_ASTERISC   : Result := Result + '*' ;
-      CST_ORD_SOULIGNE   : Result := Result + '_' ;
-      CST_ORD_POURCENT   : Result := Result + '%' ;
-    Else
-      Result := Result + as_Texte [ li_i ] ;
-    End ;}
-end;
-
-function fs_stringDbQuoteLikeSQLServer ( const as_Texte: string): string;
-var li_i : Integer ;
-begin
-  Result := '' ;
-  for li_i := 1 to length ( as_Texte ) do
-    case ord ( as_Texte [ li_i ] ) of
-      CST_ORD_GUILLEMENT : Result := Result + '''''' ;
-      CST_ORD_OUVRECROCHET : Result := Result + '[[]' ;
-      CST_ORD_FERMECROCHET : Result := Result + '[]]' ;
-      CST_ORD_ASTERISC : Result := Result + '[*]' ;
-      CST_ORD_SOULIGNE : Result := Result + '[_]' ;
-      CST_ORD_POURCENT : Result := Result + '[%]' ;
-    Else
-      Result := Result + as_Texte [ li_i ] ;
-    End ;
-end;
-
 
 ///////////////////////////////////////////////////////////////////////////////
 //  Cette fonction renvoie la date sous le format standard en string
@@ -518,37 +455,6 @@ begin
         end;
       // Ajout du dernier champ
       as_ChampsClePrimaire.Add(Trim(ls_TempoCles));
-    end;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// fonction : fb_ListeVersSQL
-// Description : Fonction de transformation d'une string liste en SQL
-// as_TexteAjoute : Le texte de la liste séparé par des virgules
-// astl_Liste     : La liste
-// ab_EstChaine   : La liste de retour sera une liste de chaînes
-////////////////////////////////////////////////////////////////////////////////
-function fb_ListeVersSQL(var as_TexteAjoute: String; const astl_Liste: TStringList; const ab_EstChaine: Boolean): Boolean;
-var li_i: Integer;
-begin
-  // On a rien
-  Result := False;
-  // Pas de texte
-  as_TexteAjoute := '';
-  for li_i := 0 to astl_Liste.Count - 1 do
-    begin
-      // On a quelque chose
-      Result := True;
-      if li_i = 0 then // Première ligne
-        if ab_EstChaine then // Chaîne
-          as_TexteAjoute := '''' + fs_StringDBQuote(astl_Liste[li_i]) + ''''
-        else
-          as_TexteAjoute := astl_Liste[li_i] // Autre
-      else
-        if ab_EstChaine then
-          as_TexteAjoute := as_TexteAjoute + ',''' + fs_StringDBQuote(astl_Liste[li_i]) + ''''
-        else
-          as_TexteAjoute := as_TexteAjoute + ',' + astl_Liste[li_i];
     end;
 end;
 
