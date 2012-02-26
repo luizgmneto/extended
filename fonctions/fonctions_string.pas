@@ -38,6 +38,7 @@ const
   function fs_getCorrectString ( const as_string : String ): String ;
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
   function fs_EraseFirstDirectory ( const as_Path : String ) :String;
+  function fb_isFileChar(AChar:Char):boolean;
   function fs_EraseSpecialChars( const aText: string): string;
   function fs_getSoftDir : String;
   function fs_ArgConnectString ( const as_connectstring, as_arg: string): string;
@@ -686,6 +687,11 @@ Begin
 
 End;
 
+function fb_isFileChar(AChar:Char):boolean;
+Begin
+  Result := AChar in ['0'..'9','A'..'z','-','.'];
+end;
+
 // function TextToFileName
 // creating file name
 function fs_TextToFileName(Chaine:String):String;
@@ -700,7 +706,7 @@ begin
   for n:=1 to Length(Chaine) do
   begin
     c:=Result[n];
-    if not (c in ['0'..'9','A'..'z','-']) then
+    if not (fb_isFileChar(c)) then
       Result[n]:='_';
   end;
 end;
