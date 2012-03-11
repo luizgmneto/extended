@@ -7,12 +7,12 @@ interface
 {$I ..\extends.inc}
 
 {$IFDEF FPC}
-{$mode Delphi}
+{$mode objfpc}{$H+}
 {$ENDIF}
 
 uses
 {$IFDEF FPC}
-        LCLIntf, MaskEdit,
+  LCLIntf, MaskEdit,
 {$ELSE}
   Windows, AdoConEd, MaskUtils,
 {$ENDIF}
@@ -34,7 +34,7 @@ const
   function fs_Dos2Win( const aText: string): string;
   function fs_Win2Dos( const aText: string): string;
 {$ENDIF}
-  function fs_TextToFileName(Chaine:String):String;
+  function fs_TextToFileName(Chaine:String; const ab_acccents :Boolean = True):AnsiString;
   function fs_getCorrectString ( const as_string : String ): String ;
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
   function fs_EraseFirstDirectory ( const as_Path : String ) :String;
@@ -71,7 +71,8 @@ const
     gVer_fonction_string : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Fonctions de traduction et de formatage des chaînes.' ;
-                        			                 BugsStory : 'Version 1.0.3.0 : Moving function to DB functions.' + #13#10 + #13#10 +
+                        			                 BugsStory : 'Version 1.0.3.1 : Upgrading fs_TextToFileName.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.3.0 : Moving function to DB functions.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.2.3 : UTF 8.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.2.2 : fs_TextToFileName of André Langlet.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.2.1 : Optimising.' + #13#10 + #13#10 +
@@ -81,7 +82,7 @@ const
                         			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 3 ; Build :  0);
+                        			                 Major : 1 ; Minor : 0 ; Release : 3 ; Build :  1);
 {$ENDIF}
     CST_ORD_GUILLEMENT = ord ( '''' );
     CST_ORD_POURCENT   = ord ( '%' );
@@ -97,7 +98,13 @@ uses LCLType, FileUtil ;
 uses JclStrings ;
 {$ENDIF}
 
-function fs_EraseFirstDirectory ( const as_Path : String ) :String;
+const SansAccents : array[AnsiChar] of Char
+             = #0#1#2#3#4#5#6#7#8#9#10#11#12#13#14#15#16#17#18#19#20#21#22#23#24#25#26#27#28#29#30#31#32#33#34#35#36#37#38#39#40#41#42#43#44#45#46#47#48#49#50#51#52#53#54#55#56#57#58#59#60#61#62#63#64#65#66#67#68#69#70#71#72#73#74#75#76#77#78#79#80#81#82#83#84#85#86#87#88#89#90#91#92#93#94#95#96#97#98#99#100#101#102#103#104#105#106#107#108#109#110#111#112#113#114#115#116#117#118#119#120#121#122#123#124#125#126 +
+                'AAAAAAACEEEEIIIIDNOOOOO×OUUUUYDB' +
+                'aaaaaaaceeeeiiiidnooooo÷ouuuuydy';
+
+
+ function fs_EraseFirstDirectory ( const as_Path : String ) :String;
 Begin
   Result := copy ( as_Path, pos ( DirectorySeparator, as_Path ) + 1, length ( as_Path ) - pos ( DirectorySeparator, as_Path ));
 end;
@@ -692,23 +699,32 @@ Begin
   Result := AChar in ['0'..'9','A'..'z','-','.'];
 end;
 
+
+
 // function TextToFileName
 // creating file name
-function fs_TextToFileName(Chaine:String):String;
-var
-  n:integer;
-  c:Char;
+function fs_TextToFileName(Chaine:String; const ab_acccents :Boolean = True ):AnsiString;
+var AChar :PChar;
+    EndChar : PChar;
 begin
-{$IFDEF FPC}
-  Chaine:=Utf8ToAnsi(Chaine);
-{$ENDIF}
-  Result:=Chaine;
-  for n:=1 to Length(Chaine) do
-  begin
-    c:=Result[n];
-    if not (fb_isFileChar(c)) then
-      Result[n]:='_';
-  end;
+  {$IFDEF FPC}
+  Result:=Utf8ToAnsi(chaine);
+  Result:=StringReplace(chaine,#195,'',[rfReplaceAll]);
+  {$ELSE}
+  Result:=chaine;
+  {$ENDIF}
+  if Result = '' Then
+    Exit;
+  AChar:=@Result[1];
+  EndChar:=@Result[Length(Result)];
+  while AChar<=EndChar do
+    begin
+      //if ord (AChar^ ) > 127 Then Appendstr ( s, AChar^ + ' ' + Inttostr(ord ( AChar^))+ #10);
+      if ab_acccents Then
+        AChar^:=SansAccents[AChar^]; // conversion of accents
+      if not fb_isFileChar(AChar^) Then AChar^:='_'; // if not a correct char so '_'
+      inc (Achar);
+    end;
 end;
 
 {$IFDEF VERSIONS}
