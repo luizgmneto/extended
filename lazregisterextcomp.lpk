@@ -13,7 +13,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="1"/>
-    <Files Count="3">
+    <Files Count="5">
       <Item1>
         <Filename Value="composants/u_regframeworkcomponents.pas"/>
         <HasRegisterProc Value="True"/>
@@ -29,6 +29,15 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regextfilecopy"/>
       </Item3>
+      <Item4>
+        <Filename Value="composants/U_RegisterIni.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="U_RegisterIni"/>
+      </Item4>
+      <Item5>
+        <Filename Value="composants/U_RegVersion.pas"/>
+        <UnitName Value="U_RegVersion"/>
+      </Item5>
     </Files>
     <Type Value="DesignTime"/>
     <RequiredPkgs Count="3">
