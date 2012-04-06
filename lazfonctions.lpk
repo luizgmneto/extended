@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Release="4" Build="2"/>
-    <Files Count="23">
+    <Files Count="21">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -67,82 +67,71 @@
         <UnitName Value="fonctions_array"/>
       </Item11>
       <Item12>
-        <Filename Value="forms/u_zconnection.lfm"/>
-        <Type Value="LFM"/>
-      </Item12>
-      <Item13>
-        <Filename Value="forms/u_zconnection.pas"/>
-        <UnitName Value="u_zconnection"/>
-      </Item13>
-      <Item14>
         <Filename Value="fonctions/fonctions_dbcomponents.pas"/>
         <UnitName Value="fonctions_dbcomponents"/>
-      </Item14>
-      <Item15>
+      </Item12>
+      <Item13>
         <Filename Value="fonctions/fonctions_version.pas"/>
         <UnitName Value="fonctions_version"/>
-      </Item15>
-      <Item16>
+      </Item13>
+      <Item14>
         <Filename Value="fonctions/fonctions_objects.pas"/>
         <UnitName Value="fonctions_objects"/>
-      </Item16>
-      <Item17>
+      </Item14>
+      <Item15>
         <Filename Value="composants/u_buttons_appli.lrs"/>
         <Type Value="LRS"/>
-      </Item17>
-      <Item18>
+      </Item15>
+      <Item16>
         <Filename Value="composants/u_buttons_appli.pas"/>
         <UnitName Value="u_buttons_appli"/>
-      </Item18>
-      <Item19>
+      </Item16>
+      <Item17>
         <Filename Value="composants/u_regfwbuttons.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regfwbuttons"/>
-      </Item19>
-      <Item20>
+      </Item17>
+      <Item18>
         <Filename Value="fonctions/fonctions_system.pas"/>
         <UnitName Value="fonctions_system"/>
-      </Item20>
-      <Item21>
+      </Item18>
+      <Item19>
         <Filename Value="fonctions/fonctions_languages.pas"/>
         <UnitName Value="fonctions_languages"/>
-      </Item21>
-      <Item22>
+      </Item19>
+      <Item20>
         <Filename Value="fonctions/fonctions_components.pas"/>
         <UnitName Value="fonctions_components"/>
-      </Item22>
-      <Item23>
+      </Item20>
+      <Item21>
         <Filename Value="forms/U_About.pas"/>
         <UnitName Value="U_About"/>
-      </Item23>
+      </Item21>
     </Files>
     <i18n>
       <OutDir Value="fonctions"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="7">
+    <RequiredPkgs Count="6">
       <Item1>
-        <PackageName Value="zcore"/>
+        <PackageName Value="lazflatstyle"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazflatstyle"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item2>
       <Item3>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item3>
       <Item4>
-        <PackageName Value="virtualtreeview_package"/>
+        <PackageName Value="VampyreImagingPackage"/>
       </Item4>
       <Item5>
-        <PackageName Value="VampyreImagingPackage"/>
+        <PackageName Value="LCL"/>
       </Item5>
       <Item6>
-        <PackageName Value="LCL"/>
-      </Item6>
-      <Item7>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item7>
+      </Item6>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
