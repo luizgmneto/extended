@@ -1,8 +1,12 @@
 ﻿unit unite_messages;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 interface
 
-{$I ..\DLCompilers.inc}
+{$I ../dlcompilers.inc}
 {$I ..\extends.inc}
 
 

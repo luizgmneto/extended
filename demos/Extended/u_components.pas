@@ -19,7 +19,7 @@ uses
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
   StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
-  u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, ZConnection,
+  u_framework_dbcomponents, U_ExtDBPictCombo, u_extsearchedit, U_ExtComboInsert,
   DBGrids, UIBDataSet, uib, Menus, u_extmenucustomize, ToolWin,
   menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage, U_ExtDBImageList, ImgList,
   ExtDlgs, U_ExtPictCombo, U_ExtMapImageIndex, fonctions_version  ;
