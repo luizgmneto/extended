@@ -5,7 +5,7 @@ inherited Myform: TMyform
   Width = 759
   ActiveControl = Panel1
   Caption = 'Myform'
-  ClientHeight = 570
+  ClientHeight = 564
   ClientWidth = 759
   Color = clBtnFace
   Font.Color = clWindowText
@@ -16,18 +16,18 @@ inherited Myform: TMyform
   OnShow = FormShow
   object Splitter1: TSplitter[0]
     Left = 240
-    Height = 570
+    Height = 564
     Top = 0
     Width = 5
   end
   object Panel1: TPanel[1]
     Left = 32
-    Height = 570
+    Height = 564
     Top = 0
     Width = 208
     Align = alLeft
     Caption = 'Panel1'
-    ClientHeight = 570
+    ClientHeight = 564
     ClientWidth = 208
     TabOrder = 0
     object ExtDBNavigator1: TExtDBNavigator
@@ -44,7 +44,7 @@ inherited Myform: TMyform
     end
     object Noms: TExtDBGrid
       Left = 1
-      Height = 548
+      Height = 542
       Top = 21
       Width = 206
       TitleButtons = False
@@ -87,7 +87,7 @@ inherited Myform: TMyform
     end
     object Prenom: TFWDBEdit
       Left = 7
-      Height = 21
+      Height = 24
       Top = 81
       Width = 221
       DataField = 'PRENOM'
@@ -101,7 +101,7 @@ inherited Myform: TMyform
     end
     object Nom: TFWDBEdit
       Left = 7
-      Height = 21
+      Height = 24
       Top = 121
       Width = 221
       DataField = 'NOM'
@@ -116,11 +116,11 @@ inherited Myform: TMyform
   end
   object Panel2: TPanel[2]
     Left = 245
-    Height = 570
+    Height = 564
     Top = 0
     Width = 514
     Align = alClient
-    ClientHeight = 570
+    ClientHeight = 564
     ClientWidth = 514
     TabOrder = 3
     object FWLabel1: TFWLabel
@@ -211,7 +211,7 @@ inherited Myform: TMyform
       AutoSize = False
       Caption = 'Surname'
       Color = clBtnFace
-      Font.Color = clBlack
+      Font.Color = clMaroon
       Font.Height = 14
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -223,7 +223,7 @@ inherited Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 322
+      Top = 316
       Width = 512
       Align = alBottom
       ResizeAnchor = akBottom
@@ -262,7 +262,7 @@ inherited Myform: TMyform
     end
     object ExtColorCombo: TExtColorCombo
       Left = 120
-      Height = 22
+      Height = 31
       Top = 78
       Width = 221
       Language = lgEnglish
@@ -276,7 +276,7 @@ inherited Myform: TMyform
     end
     object ExtNumEdit1: TExtNumEdit
       Left = 120
-      Height = 21
+      Height = 24
       Top = 108
       Width = 221
       EditMask = '#0,#9;0; '
@@ -296,7 +296,7 @@ inherited Myform: TMyform
     end
     object FWDateEdit1: TFWDateEdit
       Left = 120
-      Height = 21
+      Height = 24
       Top = 136
       Width = 221
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
@@ -351,7 +351,7 @@ inherited Myform: TMyform
     end
     object FWEdit: TFWEdit
       Left = 120
-      Height = 21
+      Height = 24
       Top = 160
       Width = 221
       Color = clMoneyGreen
@@ -363,24 +363,24 @@ inherited Myform: TMyform
     object DBListView: TDBListView
       Left = 1
       Height = 244
-      Top = 325
+      Top = 319
       Width = 512
       Align = alBottom
       Columns = <      
         item
           Caption = 'Nom'
           MinWidth = 120
-          Width = 10
+          Width = 120
         end      
         item
           Caption = 'Prenom'
-          Width = 10
+          Width = 374
         end>
       DragMode = dmAutomatic
       MultiSelect = True
       RowSelect = True
       TabOrder = 1
-      Datasource = Datasource2
+      Datasource = Datasource
       DataKeyUnit = 'Clep'
       DataFieldsDisplay = 'Nom'
       DataTableUnit = 'UTILISATEUR'
@@ -398,7 +398,7 @@ inherited Myform: TMyform
     end
     object ExtDBComboInsert2: TExtDBComboInsert
       Left = 120
-      Height = 21
+      Height = 27
       Top = 211
       Width = 221
       AutoComplete = True
@@ -416,7 +416,7 @@ inherited Myform: TMyform
     end
     object ExtSearchDBEdit2: TExtSearchDBEdit
       Left = 120
-      Height = 21
+      Height = 24
       Top = 184
       Width = 221
       DataField = 'NOM'
@@ -446,7 +446,7 @@ inherited Myform: TMyform
     end
     object ExtDBPictCombo: TExtDBPictCombo
       Left = 121
-      Height = 22
+      Height = 31
       Top = 290
       Width = 219
       Images = ImageResources
@@ -485,7 +485,7 @@ inherited Myform: TMyform
     end
     object FWSpinEdit: TFWSpinEdit
       Left = 120
-      Height = 21
+      Height = 24
       Top = 240
       Width = 220
       Color = clMoneyGreen
@@ -520,7 +520,7 @@ inherited Myform: TMyform
     end
     object FWDBSpinEdit: TFWDBSpinEdit
       Left = 120
-      Height = 21
+      Height = 24
       Top = 264
       Width = 219
       Color = clMoneyGreen
@@ -548,7 +548,7 @@ inherited Myform: TMyform
   end
   object FWDBEdit1: TFWDBEdit[3]
     Left = 368
-    Height = 21
+    Height = 24
     Top = 48
     Width = 221
     DataField = 'Nom'
@@ -562,7 +562,7 @@ inherited Myform: TMyform
   end
   object FWDBEdit2: TFWDBEdit[4]
     Left = 368
-    Height = 21
+    Height = 24
     Top = 16
     Width = 221
     DataField = 'Prenom'
@@ -577,7 +577,7 @@ inherited Myform: TMyform
   end
   object ExtMenuToolBar: TExtMenuToolBar[5]
     Left = 0
-    Height = 570
+    Height = 564
     Top = 0
     Width = 32
     Align = alLeft
@@ -2065,4 +2065,4 @@ inherited Myform: TMyform
       end
     end
   end
-end
+end

@@ -63,29 +63,24 @@ function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_T
 // at_Liste        : la liste à traduire en SQL
 // alst_Key        : le champ clé correspondant à la liste de clés
 // avar_option     : Rectification sur le champ
-function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Key : TStringList ; const avar_Option : Variant ) : Boolean ; overload ;
+function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Key : TStringList ; const avar_Option : Variant) : Boolean ; overload ;
 
 // Ajoute un variant à un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
-procedure p_AddListe ( var at_Liste : tt_TableauVariant ; const as_Valeur : String ); overload ;
+procedure p_AddListe ( var at_Liste : tt_TableauVariant ; const as_Valeur : String );
 
 // Ajoute un variant à un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
-procedure p_AddListe ( var at_Liste : tt_TableauVariant ; const avar_Valeur : Variant ); overload ;
+function fi_AddListe ( var at_Liste : tt_TableauVariant ; const as_Valeur : String ; const ab_VerifExiste : Boolean  = True ): Integer ; overload ;
 
 // Ajoute un variant à un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
-function fi_AddListe ( var at_Liste : tt_TableauVariant ; const as_Valeur : String ; const ab_VerifExiste : Boolean ): Integer ; overload ;
+function fi_AddListe ( var at_Liste : tt_TableauVariant ; const avar_Valeur : Variant ; const ab_VerifExiste : Boolean = True ): Integer ; overload ;
 
-// Ajoute un variant à un tableau de variants
-// at_Liste : Le tableau destination
-// as_Valeur : La valeur du variant en string
-function fi_AddListe ( var at_Liste : tt_TableauVariant ; const avar_Valeur : Variant ; const ab_VerifExiste : Boolean): Integer ; overload ;
-
-function fi_AddListe ( var at_Liste : tt_TableauVarOption ; const avar_Valeur : Variant ; const ab_VerifExiste : Boolean ):Integer;overload;
+function fi_AddListe ( var at_Liste : tt_TableauVarOption ; const avar_Valeur : Variant ; const ab_VerifExiste : Boolean = True ):Integer;overload;
 
 // Ajoute un variant à un tableau de variants
 // at_Liste : Le tableau destination
@@ -242,7 +237,7 @@ Begin
 End ;
 
 
-function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Key : TStringList ; const avar_Option : Variant ) : Boolean ;
+function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Key : TStringList ; const avar_Option : Variant) : Boolean ;
 var li_i : Integer ;
     lb_PremiereFois : Boolean ;
 Begin
@@ -300,7 +295,7 @@ End ;
 // Ajoute un variant à un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
-function fi_AddListe ( var at_Liste : tt_TableauVariant ; const as_Valeur : String ; const ab_VerifExiste : Boolean ):Integer;
+function fi_AddListe ( var at_Liste : tt_TableauVariant ; const as_Valeur : String ; const ab_VerifExiste : Boolean  = True ):Integer;
 Begin
   Result := -1 ;
    if  ab_VerifExiste
@@ -326,14 +321,7 @@ End ;
 // Ajoute un variant à un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
-procedure p_AddListe ( var at_Liste : tt_TableauVariant ; const avar_Valeur : Variant );
-begin
-  fi_AddListe ( at_Liste, avar_Valeur, True );
-End ;
-// Ajoute un variant à un tableau de variants
-// at_Liste : Le tableau destination
-// as_Valeur : La valeur du variant en string
-function fi_AddListe ( var at_Liste : tt_TableauVariant ; const avar_Valeur : Variant ; const ab_VerifExiste : Boolean ):Integer;
+function fi_AddListe ( var at_Liste : tt_TableauVariant ; const avar_Valeur : Variant ; const ab_VerifExiste : Boolean = True ):Integer;
 Begin
    if  ab_VerifExiste
    and ( fi_findInList ( at_Liste, avar_Valeur, False ) <> -1 )
@@ -365,7 +353,7 @@ End ;
 // Ajoute un variant à un tableau de variants
 // at_Liste : Le tableau destination
 // as_Valeur : La valeur du variant en string
-function fi_AddListe ( var at_Liste : tt_TableauVarOption ; const avar_Valeur : Variant ; const ab_VerifExiste : Boolean ):Integer;
+function fi_AddListe ( var at_Liste : tt_TableauVarOption ; const avar_Valeur : Variant ; const ab_VerifExiste : Boolean  = True ):Integer;
 Begin
    if  ab_VerifExiste
    and ( fi_findInListVarBool ( at_Liste, avar_Valeur, False, False, [] ) <> -1 )

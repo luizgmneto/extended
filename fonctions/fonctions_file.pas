@@ -43,7 +43,7 @@ function  fb_FindFiles( const astl_FilesList: TStrings; as_StartDir : String;
                         const ab_ListFiles : Boolean = True ; const ab_ListDirs : Boolean = True;
                         const ab_FullPath : Boolean = False;
                         const as_FileMask: String='*'; const as_DirMask: String='*'):Boolean;
-Function fb_CopyFile ( const as_Source, as_Destination : String ; const ab_AppendFile, ab_CreateBackup : Boolean ):Integer;
+Function fb_CopyFile ( const as_Source, as_Destination : String ; const ab_AppendFile : Boolean ; const ab_CreateBackup : Boolean = False ):Integer;
 function fb_CreateDirectoryStructure ( const as_DirectoryToCreate : String ) : Boolean ;
 procedure p_FileNameDivision ( const as_FileNameWithExtension : String ; var as_FileName, as_Extension : String );
 
@@ -181,7 +181,7 @@ begin
 end;
 
 
-Function fb_CopyFile ( const as_Source, as_Destination : String ; const ab_AppendFile, ab_CreateBackup : Boolean ):Integer;
+Function fb_CopyFile ( const as_Source, as_Destination : String ; const ab_AppendFile : Boolean ; const ab_CreateBackup : Boolean = False ):Integer;
 var
   li_SizeRead,li_SizeWrite,li_TotalW  : Longint;
   li_HandleSource,li_HandleDest, li_pos : integer;
