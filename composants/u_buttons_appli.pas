@@ -419,8 +419,8 @@ end;
 
 procedure TFWTrash.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWTRASH, Self );
+  inherited Loaded;
 end;
 
 { TFWLoad }
@@ -435,16 +435,16 @@ end;
 
 procedure TFWLoad.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWLOAD, Self );
+  inherited Loaded;
 end;
 
 { TFWDocument }
 
 procedure TFWDocument.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWDOCUMENT, Self );
+  inherited Loaded;
 end;
 
 { TFWDelete }
@@ -461,8 +461,8 @@ end;
 
 procedure TFWDelete.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWDELETE, Self );
+  inherited Loaded;
 end;
 
 { TFWClose }
@@ -490,9 +490,9 @@ end;
 
 procedure TFWClose.Loaded;
 begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWCLOSE, Self );
   inherited Loaded;
   Invalidate;
-  p_Load_Buttons_Appli ( Glyph, CST_FWCLOSE, Self );
 end;
 
 { TFWCancel }
@@ -509,8 +509,8 @@ end;
 
 procedure TFWCancel.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWCANCEL, Self );
+  inherited Loaded;
 end;
 
 
@@ -528,8 +528,8 @@ end;
 
 procedure TFWOK.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWOK, Self );
+  inherited Loaded;
 end;
 
 { TFWInsert }
@@ -546,8 +546,8 @@ end;
 
 procedure TFWInsert.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWINSERT, Self );
+  inherited Loaded;
 end;
 { TFWAdd }
 
@@ -558,8 +558,8 @@ end;
 
 procedure TFWAdd.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWINSERT, Self );
+  inherited Loaded;
 end;
 
 { TFWSaveAs }
@@ -574,8 +574,8 @@ end;
 
 procedure TFWSaveAs.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWSAVEAS, Self );
+  inherited Loaded;
 end;
 
 { TFWQuit }
@@ -588,8 +588,8 @@ end;
 
 procedure TFWQuit.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWQUIT, Self );
+  inherited Loaded;
 end;
 
 
@@ -607,8 +607,8 @@ end;
 
 procedure TFWErase.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWERASE, Self );
+  inherited Loaded;
 end;
 
 { TFWPrint }
@@ -623,63 +623,63 @@ end;
 
 procedure TFWPrint.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWPRINT, Self );
+  inherited Loaded;
 end;
 
 { TFWNext }
 
 procedure TFWNext.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWNEXT, Self );
+  inherited Loaded;
 end;
 { TFWPrior }
 
 procedure TFWPrior.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWPRIOR, Self );
+  inherited Loaded;
 end;
 
 { TFWPreview }
 
 procedure TFWPreview.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWPREVIEW, Self );
+  inherited Loaded;
 end;
 
 { TFWInit }
 
 procedure TFWInit.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWINIT, Self );
+  inherited Loaded;
 end;
 
 { TFWConfig }
 
 procedure TFWConfig.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWCONFIG, Self );
+  inherited Loaded;
 end;
 
 { TFWImport }
 
 procedure TFWImport.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWIMPORT, Self );
+  inherited Loaded;
 end;
 
 { TFWExport }
 
 procedure TFWExport.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWEXPORT, Self );
+  inherited Loaded;
 end;
 
 { TFWCopy }
@@ -694,8 +694,8 @@ end;
 
 procedure TFWCopy.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWCOPY, Self );
+  inherited Loaded;
 end;
 
 
@@ -705,8 +705,8 @@ end;
 
 procedure TFWOutSelect.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWOUTSELECT, Self );
+  inherited Loaded;
 end;
 
 { TFWBasket }
@@ -723,8 +723,8 @@ end;
 
 procedure TFWBasket.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWBASKET, Self );
+  inherited Loaded;
 end;
 
 { TFWRecord }
@@ -741,8 +741,8 @@ end;
 
 procedure TFWRecord.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWOK, Self );
+  inherited Loaded;
 end;
 
 
@@ -750,24 +750,24 @@ end;
 
 procedure TFWOutAll.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWOUTALL, Self );
+  inherited Loaded;
 end;
 
 { TFWInSelect }
 
 procedure TFWInSelect.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWINSELECT, Self );
+  inherited Loaded;
 end;
 
 { TFWInAll }
 
 procedure TFWInAll.Loaded;
 begin
-  inherited Loaded;
   p_Load_Buttons_Appli ( Glyph, CST_FWINALL, Self );
+  inherited Loaded;
 end;
 
 { TFWGroupButtonActions }
