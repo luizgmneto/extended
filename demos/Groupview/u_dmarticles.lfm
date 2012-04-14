@@ -4,18 +4,14 @@ object M_Article: TM_Article
   top = 65516
   Height = 823
   HorizontalOffset = 0
-  VerticalOffset = 85
+  VerticalOffset = 89
   Width = 1032
   object ds_article: TDatasource
     DataSet = zq_Article1
     left = 8
     top = 13
   end
-  object zq_artcoul: TZQuery
-    Connection = M_Donnees.Connection
-    BeforeInsert = zq_Article1BeforeEdit
-    BeforeEdit = zq_Article1BeforeEdit
-    BeforeDelete = zq_Article1BeforeEdit
+  object zq_artcoul: TUIBQuery
     SQL.Strings = (
       'select * '
       'from ARTICLE_FINITION'
@@ -30,13 +26,6 @@ object M_Article: TM_Article
       end>
     left = 88
     top = 61
-    ParamData = <    
-      item
-        DataType = ftUnknown
-        Name = 'article'
-        ParamType = ptUnknown
-        Size = -1
-      end>
   end
   object ds_ARCO: TDatasource
     DataSet = zq_artcoul
@@ -48,8 +37,7 @@ object M_Article: TM_Article
     left = 515
     top = 64
   end
-  object zq_GamTProIn: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_GamTProIn: TUIBQuery
     SQL.Strings = (
       'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT, GAMME_TYPR'
       'where TYPR_Clep = GATY__TYPR'
@@ -67,23 +55,13 @@ object M_Article: TM_Article
       end>
     left = 592
     top = 64
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 5
-      end>
   end
   object ds_GamTProOut: TDatasource
     DataSet = zq_GamTProOut
     left = 515
     top = 109
   end
-  object zq_GamTProOut: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_GamTProOut: TUIBQuery
     SQL.Strings = (
       'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT'
       'where TYPR_Clep NOT in (select GATY__TYPR from GAMME_TYPR'
@@ -99,16 +77,8 @@ object M_Article: TM_Article
       end>
     left = 592
     top = 109
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
   end
-  object zq_Gamme: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_Gamme: TUIBQuery
     SQL.Strings = (
       'SELECT * from GAMME'
     )
@@ -121,42 +91,7 @@ object M_Article: TM_Article
     left = 515
     top = 17
   end
-  object ds_TyPGamIn: TDatasource
-    DataSet = zq_TyPGamIn
-    left = 515
-    top = 204
-  end
-  object zq_TyPGamIn: TZQuery
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'select  GAMM_Clep, GAMM_Libelle FROM GAMME, GAMME_TYPR'
-      'where GAMM_Clep = GATY__GAMM'
-      'and GATY__TYPR = :groupe'
-      'ORDER BY GAMM_Libelle'
-    )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 12
-      end>
-    left = 592
-    top = 204
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 12
-      end>
-  end
-  object zq_TypProduit: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_TypProduit: TUIBQuery
     SQL.Strings = (
       'SELECT * from TYPE_PRODUIT'
     )
@@ -169,136 +104,7 @@ object M_Article: TM_Article
     left = 515
     top = 157
   end
-  object ds_TyPGamOut: TDatasource
-    DataSet = zq_TyPGamOut
-    left = 515
-    top = 252
-  end
-  object zq_TyPGamOut: TZQuery
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'select  GAMM_Clep, GAMM_Libelle FROM GAMME'
-      'where GAMM_Clep not in (select GATY__GAMM from GAMME_TYPR'
-      'where GATY__TYPR = :groupe)'
-      'ORDER BY GAMM_Libelle'
-    )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
-    left = 592
-    top = 252
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
-  end
-  object ds_TyPCaraIn: TDatasource
-    DataSet = zq_TyPCaraIn
-    left = 515
-    top = 300
-  end
-  object zq_TyPCaraIn: TZQuery
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'select  CARA_Clep, CARA_Libelle FROM CARACTERISTIQUE,TYPE_PRODUIT_CARA'
-      'where CARA_Clep =TYPC__CARA '
-      'and TYPC__TYPR = :groupe'
-      'ORDER BY CARA_Libelle'
-    )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 12
-      end>
-    left = 592
-    top = 300
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 12
-      end>
-  end
-  object ds_TyPCaraOut: TDatasource
-    DataSet = zq_TyPCaraOut
-    left = 515
-    top = 348
-  end
-  object zq_TyPCaraOut: TZQuery
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'select  CARA_Clep, CARA_Libelle FROM CARACTERISTIQUE'
-      'where CARA_Clep NOT in (select TYPC__CARA from TYPE_PRODUIT_CARA'
-      'where TYPC__TYPR = :groupe)'
-      'ORDER BY CARA_Libelle'
-    )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
-    left = 592
-    top = 348
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
-  end
-  object ds_CaraTPIn: TDatasource
-    DataSet = zq_CaraTPIn
-    left = 684
-    top = 308
-  end
-  object zq_CaraTPIn: TZQuery
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT, TYPE_PRODUIT_CARA'
-      'where TYPR_Clep = TYPC__TYPR '
-      'and TYPC__CARA = :groupe'
-      'ORDER BY TYPR_Libelle'
-    )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 20
-      end>
-    left = 779
-    top = 308
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 20
-      end>
-  end
-  object zq_Carac: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_Carac: TUIBQuery
     SQL.Strings = (
       'SELECT * from CARACTERISTIQUE'
     )
@@ -311,43 +117,12 @@ object M_Article: TM_Article
     left = 684
     top = 260
   end
-  object ds_CaraTPOut: TDatasource
-    DataSet = zq_CaraTPOut
-    left = 684
-    top = 356
-  end
-  object zq_CaraTPOut: TZQuery
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT'
-      'where TYPR_Clep not in (select TYPC__TYPR from TYPE_PRODUIT_CARA'
-      'where TYPC__CARA = :groupe)'
-      'ORDER BY TYPR_Libelle'
-    )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = 20
-      end>
-    left = 779
-    top = 356
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = 20
-      end>
-  end
   object ds_SelCarac: TDatasource
     DataSet = zq_SelCarac
     left = 688
     top = 113
   end
-  object zq_SelCarac: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_SelCarac: TUIBQuery
     SQL.Strings = (
       'select  * FROM CARACTERISTIQUE'
     )
@@ -355,10 +130,7 @@ object M_Article: TM_Article
     left = 768
     top = 113
   end
-  object zq_SelTypPro: TZQuery
-    Connection = M_Donnees.Connection
-    AfterOpen = zq_SelTypProAfterOpen
-    AfterScroll = zq_SelTypProAfterScroll
+  object zq_SelTypPro: TUIBQuery
     SQL.Strings = (
       'select * FROM TYPE_PRODUIT'
     )
@@ -371,10 +143,7 @@ object M_Article: TM_Article
     left = 688
     top = 61
   end
-  object zq_SelGamme: TZQuery
-    Connection = M_Donnees.Connection
-    AfterOpen = zq_SelGammeAfterOpen
-    AfterScroll = zq_SelGammeAfterScroll
+  object zq_SelGamme: TUIBQuery
     SQL.Strings = (
       'SELECT * from GAMME'
     )
@@ -392,8 +161,7 @@ object M_Article: TM_Article
     left = 688
     top = 208
   end
-  object zq_Sel1Carac: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_Sel1Carac: TUIBQuery
     SQL.Strings = (
       'select  CARA_Clep, CARA_Libelle FROM CARACTERISTIQUE, TYPE_PRODUIT_CARA'
       'where CARA_Clep = TYPC__CARA'
@@ -411,20 +179,8 @@ object M_Article: TM_Article
       end>
     left = 768
     top = 208
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 12
-      end>
   end
-  object zq_Sel1TypPro: TZQuery
-    Connection = M_Donnees.Connection
-    AfterOpen = zq_SelTypProAfterOpen
-    AfterScroll = zq_SelTypProAfterScroll
+  object zq_Sel1TypPro: TUIBQuery
     SQL.Strings = (
       'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT, GAMME_TYPR'
       'where TYPR_Clep = GATY__TYPR'
@@ -442,15 +198,6 @@ object M_Article: TM_Article
       end>
     left = 768
     top = 161
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 5
-      end>
   end
   object ds_Sel1TypPro: TDatasource
     DataSet = zq_Sel1TypPro
@@ -462,8 +209,7 @@ object M_Article: TM_Article
     left = 352
     top = 213
   end
-  object zq_SelCarac2: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_SelCarac2: TUIBQuery
     SQL.Strings = (
       'select  * FROM CARACTERISTIQUE'
     )
@@ -471,10 +217,7 @@ object M_Article: TM_Article
     left = 426
     top = 213
   end
-  object zq_SelTypPro2: TZQuery
-    Connection = M_Donnees.Connection
-    AfterOpen = zq_SelTypPro2AfterOpen
-    AfterScroll = zq_SelTypPro2AfterScroll
+  object zq_SelTypPro2: TUIBQuery
     SQL.Strings = (
       'select * FROM TYPE_PRODUIT'
     )
@@ -487,10 +230,7 @@ object M_Article: TM_Article
     left = 352
     top = 168
   end
-  object zq_GammeE: TZQuery
-    Connection = M_Donnees.Connection
-    AfterOpen = zq_GammeEAfterOpen
-    AfterScroll = zq_GammeEAfterScroll
+  object zq_GammeE: TUIBQuery
     SQL.Strings = (
       'SELECT * from GAMME'
     )
@@ -508,8 +248,7 @@ object M_Article: TM_Article
     left = 352
     top = 308
   end
-  object zq_Sel1Carac2: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_Sel1Carac2: TUIBQuery
     SQL.Strings = (
       'select  CARA_Clep, CARA_Libelle FROM CARACTERISTIQUE, TYPE_PRODUIT_CARA'
       'where CARA_Clep = TYPC__CARA'
@@ -527,20 +266,8 @@ object M_Article: TM_Article
       end>
     left = 426
     top = 308
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 12
-      end>
   end
-  object zq_Sel1TypPro2: TZQuery
-    Connection = M_Donnees.Connection
-    AfterOpen = zq_Sel1TypPro2AfterOpen
-    AfterScroll = zq_Sel1TypPro2AfterScroll
+  object zq_Sel1TypPro2: TUIBQuery
     SQL.Strings = (
       'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT, GAMME_TYPR'
       'where TYPR_Clep = GATY__TYPR'
@@ -558,15 +285,6 @@ object M_Article: TM_Article
       end>
     left = 426
     top = 261
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 5
-      end>
   end
   object ds_Sel1TypPro2: TDatasource
     DataSet = zq_Sel1TypPro2
@@ -578,10 +296,7 @@ object M_Article: TM_Article
     left = 8
     top = 161
   end
-  object zq_CocoCoul: TZQuery
-    Connection = M_Donnees.Connection
-    Filter = 'FINI_Clep=NULL'
-    Filtered = True
+  object zq_CocoCoul: TUIBQuery
     SQL.Strings = (
       'SELECT * FROM FINITION'
     )
@@ -594,8 +309,7 @@ object M_Article: TM_Article
     left = 8
     top = 208
   end
-  object zq_TyfiInFini: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_TyfiInFini: TUIBQuery
     SQL.Strings = (
       'select  TYFI_Clep, TYFI_Libelle FROM TYPE_FINITION,GROUPE_FINITION'
       'where TYFI_Clep= GRFI__TYFI'
@@ -611,21 +325,13 @@ object M_Article: TM_Article
       end>
     left = 88
     top = 253
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
   end
   object ds_TyfiInFini: TDatasource
     DataSet = zq_TyfiInFini
     left = 8
     top = 253
   end
-  object zq_TyfiOutFini: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_TyfiOutFini: TUIBQuery
     SQL.Strings = (
       'select  TYFI_Clep, TYFI_Libelle FROM TYPE_FINITION'
       'where TYFI_Clep not in (select GRFI__TYFI from GROUPE_FINITION'
@@ -641,23 +347,13 @@ object M_Article: TM_Article
       end>
     left = 88
     top = 301
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
   end
   object ds_TyfiOutFini: TDatasource
     DataSet = zq_TyfiOutFini
     left = 8
     top = 301
   end
-  object zq_FiniInTyFi: TZQuery
-    Connection = M_Donnees.Connection
-    Filter = 'FINI_Lib <> ''Integrite'' and FINI_Lib <> ''Intégrité'''
-    Filtered = True
+  object zq_FiniInTyFi: TUIBQuery
     SQL.Strings = (
       'select  FINI_Clep, FINI_Lib FROM FINITION,GROUPE_FINITION'
       'where FINI_Clep= GRFI__FINI'
@@ -673,23 +369,13 @@ object M_Article: TM_Article
       end>
     left = 88
     top = 348
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
   end
   object ds_FiniInTyFi: TDatasource
     DataSet = zq_FiniInTyFi
     left = 8
     top = 348
   end
-  object zq_FiniOutTyFi: TZQuery
-    Connection = M_Donnees.Connection
-    Filter = 'FINI_Lib <> ''Integrite'' and FINI_Lib <> ''Intégrité'''
-    Filtered = True
+  object zq_FiniOutTyFi: TUIBQuery
     SQL.Strings = (
       'select  FINI_Clep, FINI_Lib FROM FINITION'
       'where FINI_Clep not in (select GRFI__FINI from GROUPE_FINITION'
@@ -705,13 +391,6 @@ object M_Article: TM_Article
       end>
     left = 88
     top = 396
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
   end
   object ds_FiniOutTyFi: TDatasource
     DataSet = zq_FiniOutTyFi
@@ -723,8 +402,7 @@ object M_Article: TM_Article
     left = 170
     top = 61
   end
-  object zq_FiltreProduit: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_FiltreProduit: TUIBQuery
     SQL.Strings = (
       'SELECT * FROM FILTRE_PRODUIT'
     )
@@ -732,13 +410,7 @@ object M_Article: TM_Article
     left = 248
     top = 61
   end
-  object zq_Article1: TZQuery
-    Connection = M_Donnees.Connection
-    Filter = 'ARTI_Libcom <> ''Integrite'' and ARTI_Libcom <> ''Intégrité'''
-    Filtered = True
-    AfterInsert = zq_Article1AfterInsert
-    BeforeEdit = zq_Article1BeforeEdit
-    AfterPost = zq_Article1AfterPost
+  object zq_Article1: TUIBQuery
     SQL.Strings = (
       'select * '
       'from ARTICLE'
@@ -747,8 +419,7 @@ object M_Article: TM_Article
     left = 72
     top = 13
   end
-  object zq_prod_acces: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_prod_acces: TUIBQuery
     SQL.Strings = (
       'PRODUCTION_MC_ACCES_REPR'
       ':serveur_ref, :bdd_ref, :serveur, :bdd ,'
@@ -821,114 +492,18 @@ object M_Article: TM_Article
       end>
     left = 419
     top = 61
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'serveur_ref'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 32
-      end    
-      item
-        DataType = ftString
-        Name = 'bdd_ref'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 32
-      end    
-      item
-        DataType = ftString
-        Name = 'serveur'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 32
-      end    
-      item
-        DataType = ftString
-        Name = 'bdd'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 32
-      end    
-      item
-        DataType = ftString
-        Name = 'location'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 512
-      end    
-      item
-        DataType = ftString
-        Name = 'representant'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 15
-      end    
-      item
-        DataType = ftString
-        Name = 'bdd_acces'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 32
-      end    
-      item
-        DataType = ftString
-        Name = 'bdd_travail'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 32
-      end>
   end
   object ds_prod_acces: TDatasource
     DataSet = zq_prod_acces
     left = 338
     top = 61
   end
-  object ds_prodNonDeclasse: TDatasource
-    DataSet = zq_prodNonDeclasse
-    left = 160
-    top = 165
-  end
-  object zq_prodDeclasse: TZQuery
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'select ARTI_Clep, ARTI_Libcom, ARTI_Declasse'
-      'from ARTICLE'
-      'where  ARTI_Declasse = 1'
-      'ORDER BY ARTI_Libcom'
-    )
-    Params = <>
-    left = 248
-    top = 117
-  end
-  object zq_prodNonDeclasse: TZQuery
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'select ARTI_Clep, ARTI_Libcom, ARTI_Declasse'
-      'from ARTICLE'
-      'where  ARTI_Declasse = 0'
-      'ORDER BY ARTI_Libcom'
-    )
-    Params = <>
-    left = 248
-    top = 165
-  end
   object ds_ArbreArt: TDatasource
     DataSet = zq_ArbreArt
     left = 168
     top = 536
   end
-  object zq_ArbreArt: TZQuery
-    Connection = M_Donnees.Connection
-    AfterOpen = zq_ArbreArtAfterOpen
+  object zq_ArbreArt: TUIBQuery
     SQL.Strings = (
       'select ARDE_Table as ''ARDE_Table'', ARDE_Clep as ''ARDE_Clep'', ARDE_Parent as ''ARDE_Parent'','
       '(case when ARDE_Table = ''STRUCTURE_COMPOSANT'' then ARDE_Table_clep else '''' end) as ''ARDE_Table_clep'','
@@ -946,16 +521,8 @@ object M_Article: TM_Article
       end>
     left = 240
     top = 536
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'ArticleC'
-        ParamType = ptUnknown
-        Size = 20
-      end>
   end
-  object zq_code_copieart: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_code_copieart: TUIBQuery
     SQL.Strings = (
       'declare @clep1 varchar (12)'
       ''
@@ -976,16 +543,8 @@ object M_Article: TM_Article
       end>
     left = 456
     top = 536
-    ParamData = <    
-      item
-        DataType = ftUnknown
-        Name = 'clep1'
-        ParamType = ptUnknown
-        Size = -1
-      end>
   end
-  object zq_copieart: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_copieart: TUIBQuery
     SQL.Strings = (
       'exec ps_copie_selearticle :cle1, :cle2'
     )
@@ -1004,22 +563,8 @@ object M_Article: TM_Article
       end>
     left = 344
     top = 536
-    ParamData = <    
-      item
-        DataType = ftUnknown
-        Name = 'cle1'
-        ParamType = ptUnknown
-        Size = -1
-      end    
-      item
-        DataType = ftUnknown
-        Name = 'cle2'
-        ParamType = ptUnknown
-        Size = -1
-      end>
   end
-  object zq_ArFini: TZQuery
-    Connection = M_Donnees.Connection
+  object zq_ArFini: TUIBQuery
     SQL.Strings = (
       'select * '
       'from FINITION'
@@ -1034,21 +579,8 @@ object M_Article: TM_Article
       end>
     left = 88
     top = 164
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'finition'
-        ParamType = ptUnknown
-        Size = 200
-      end>
   end
-  object zq_Article2: TZQuery
-    Connection = M_Donnees.Connection
-    Filter = 'ARTI_Libcom <> ''Integrite'' and ARTI_Libcom <> ''Intégrité'''
-    Filtered = True
-    AfterInsert = zq_Article1AfterInsert
-    BeforeEdit = zq_Article1BeforeEdit
-    AfterPost = zq_Article1AfterPost
+  object zq_Article2: TUIBQuery
     SQL.Strings = (
       'SELECT '
       'ARTI_Clep,ARTI__FOUR,ARTI_Codecom,ARTI_Libcom,'
@@ -1068,21 +600,8 @@ object M_Article: TM_Article
       end>
     left = 144
     top = 13
-    ParamData = <    
-      item
-        DataType = ftInteger
-        Name = 'Tyde'
-        ParamType = ptUnknown
-        Size = -1
-      end>
   end
-  object zq_Article3: TZQuery
-    Connection = M_Donnees.Connection
-    Filter = 'ARTI_Libcom <> ''Integrite'' and ARTI_Libcom <> ''Intégrité'''
-    Filtered = True
-    AfterInsert = zq_Article1AfterInsert
-    BeforeEdit = zq_Article1BeforeEdit
-    AfterPost = zq_Article1AfterPost
+  object zq_Article3: TUIBQuery
     SQL.Strings = (
       'select * '
       'from ARTICLE '
@@ -1092,13 +611,7 @@ object M_Article: TM_Article
     left = 216
     top = 13
   end
-  object zq_Article4: TZQuery
-    Connection = M_Donnees.Connection
-    Filter = 'ARTI_Libcom <> ''Integrite'' and ARTI_Libcom <> ''Intégrité'''
-    Filtered = True
-    AfterInsert = zq_Article1AfterInsert
-    BeforeEdit = zq_Article1BeforeEdit
-    AfterPost = zq_Article1AfterPost
+  object zq_Article4: TUIBQuery
     SQL.Strings = (
       'SELECT '
       'ARTI_Clep,ARTI__FOUR,ARTI_Codecom,ARTI_Libcom,'
@@ -1118,21 +631,8 @@ object M_Article: TM_Article
       end>
     left = 288
     top = 13
-    ParamData = <    
-      item
-        DataType = ftInteger
-        Name = 'Tyde'
-        ParamType = ptUnknown
-        Size = -1
-      end>
   end
-  object zq_Article5: TZQuery
-    Connection = M_Donnees.Connection
-    Filter = 'ARTI_Libcom <> ''Integrite'' and ARTI_Libcom <> ''Intégrité'''
-    Filtered = True
-    AfterInsert = zq_Article1AfterInsert
-    BeforeEdit = zq_Article1BeforeEdit
-    AfterPost = zq_Article1AfterPost
+  object zq_Article5: TUIBQuery
     SQL.Strings = (
       'select * '
       'from ARTICLE '
@@ -1142,13 +642,7 @@ object M_Article: TM_Article
     left = 360
     top = 13
   end
-  object zq_Article6: TZQuery
-    Connection = M_Donnees.Connection
-    Filter = 'ARTI_Libcom <> ''Integrite'' and ARTI_Libcom <> ''Intégrité'''
-    Filtered = True
-    AfterInsert = zq_Article1AfterInsert
-    BeforeEdit = zq_Article1BeforeEdit
-    AfterPost = zq_Article1AfterPost
+  object zq_Article6: TUIBQuery
     SQL.Strings = (
       'SELECT '
       'ARTI_Clep,ARTI__FOUR,ARTI_Codecom,ARTI_Libcom,'
@@ -1168,17 +662,24 @@ object M_Article: TM_Article
       end>
     left = 432
     top = 13
-    ParamData = <    
-      item
-        DataType = ftInteger
-        Name = 'Tyde'
-        ParamType = ptUnknown
-        Size = -1
-      end>
   end
-  object ds_ProdDeclasse: TDatasource
-    DataSet = zq_prodDeclasse
-    left = 168
-    top = 117
+  object IBDatabase: TUIBDataBase
+    Params.Strings = (
+      'user_name=SYSDBA'
+      'password=masterkey'
+      'lc_ctype=UTF8'
+    )
+    DatabaseName = 'Exemple'
+    CharacterSet = csUTF8
+    UserName = 'SYSDBA'
+    PassWord = 'masterkey'
+    LibraryName = 'libfbembed.so.2.5'
+    left = 208
+    top = 432
+  end
+  object IBTransaction: TUIBTransaction
+    DataBase = IBDatabase
+    left = 312
+    top = 432
   end
 end
