@@ -7,84 +7,74 @@ unit U_DmArticles;
 interface
 
 uses
-  SysUtils,StrUtils, Classes, DB, ZDataset, Forms,Dialogs,controls,U_Donnees, fonctions_string, U_FormDico, U_ConstMessage ;
+  SysUtils, StrUtils, Classes, DB, ZDataset, Forms, Dialogs, controls,
+  U_Donnees, fonctions_string, U_FormDico, uib, U_ConstMessage ;
 type
+
+  { TM_Article }
+
   TM_Article = class(TDataModule)
     ds_article: TDataSource;
-    zq_artcoul: TZQuery;
+    IBDatabase: TUIBDataBase;
+    IBTransaction: TUIBTransaction;
+    zq_artcoul: TUIBQuery;
     ds_ARCO: TDataSource;
     ds_GamTProIn: TDataSource;
-    zq_GamTProIn: TZQuery;
+    zq_GamTProIn: TUIBQuery;
     ds_GamTProOut: TDataSource;
-    zq_GamTProOut: TZQuery;
-    zq_Gamme: TZQuery;
+    zq_GamTProOut: TUIBQuery;
+    zq_Gamme: TUIBQuery;
     ds_Gamme: TDataSource;
-    ds_TyPGamIn: TDataSource;
-    zq_TyPGamIn: TZQuery;
-    zq_TypProduit: TZQuery;
+    zq_TypProduit: TUIBQuery;
     ds_TypProduit: TDataSource;
-    ds_TyPGamOut: TDataSource;
-    zq_TyPGamOut: TZQuery;
-    ds_TyPCaraIn: TDataSource;
-    zq_TyPCaraIn: TZQuery;
-    ds_TyPCaraOut: TDataSource;
-    zq_TyPCaraOut: TZQuery;
-    ds_CaraTPIn: TDataSource;
-    zq_CaraTPIn: TZQuery;
-    zq_Carac: TZQuery;
+    zq_Carac: TUIBQuery;
     ds_Carac: TDataSource;
-    ds_CaraTPOut: TDataSource;
-    zq_CaraTPOut: TZQuery;
     ds_SelCarac: TDataSource;
-    zq_SelCarac: TZQuery;
-    zq_SelTypPro: TZQuery;
+    zq_SelCarac: TUIBQuery;
+    zq_SelTypPro: TUIBQuery;
     ds_SelTypPro: TDataSource;
-    zq_SelGamme: TZQuery;
+    zq_SelGamme: TUIBQuery;
     ds_SelGamme: TDataSource;
     ds_Sel1Carac: TDataSource;
-    zq_Sel1Carac: TZQuery;
-    zq_Sel1TypPro: TZQuery;
+    zq_Sel1Carac: TUIBQuery;
+    zq_Sel1TypPro: TUIBQuery;
     ds_Sel1TypPro: TDataSource;
     ds_SelCarac2: TDataSource;
-    zq_SelCarac2: TZQuery;
-    zq_SelTypPro2: TZQuery;
+    zq_SelCarac2: TUIBQuery;
+    zq_SelTypPro2: TUIBQuery;
     ds_SelTypPro2: TDataSource;
-    zq_GammeE: TZQuery;
+    zq_GammeE: TUIBQuery;
     ds_GammeE: TDataSource;
     ds_Sel1Carac2: TDataSource;
-    zq_Sel1Carac2: TZQuery;
-    zq_Sel1TypPro2: TZQuery;
+    zq_Sel1Carac2: TUIBQuery;
+    zq_Sel1TypPro2: TUIBQuery;
     ds_Sel1TypPro2: TDataSource;
     ds_ArFini: TDataSource;
-    zq_CocoCoul: TZQuery;
+    zq_CocoCoul: TUIBQuery;
     ds_CocoCoul: TDataSource;
-    zq_TyfiInFini: TZQuery;
+    zq_TyfiInFini: TUIBQuery;
     ds_TyfiInFini: TDataSource;
-    zq_TyfiOutFini: TZQuery;
+    zq_TyfiOutFini: TUIBQuery;
     ds_TyfiOutFini: TDataSource;
-    zq_FiniInTyFi: TZQuery;
+    zq_FiniInTyFi: TUIBQuery;
     ds_FiniInTyFi: TDataSource;
-    zq_FiniOutTyFi: TZQuery;
+    zq_FiniOutTyFi: TUIBQuery;
     ds_FiniOutTyFi: TDataSource;
     ds_FiltreProduit: TDataSource;
-    zq_FiltreProduit: TZQuery;
-    zq_Article1: TZQuery;
-    zq_prod_acces: TZQuery;
+    zq_FiltreProduit: TUIBQuery;
+    zq_Article1: TUIBQuery;
+    zq_prod_acces: TUIBQuery;
     ds_prod_acces: TDataSource;
-    ds_prodNonDeclasse: TDataSource;
-    zq_prodDeclasse: TZQuery;
-    zq_prodNonDeclasse: TZQuery;
     ds_ArbreArt: TDataSource;
-    zq_ArbreArt: TZQuery;
-    zq_code_copieart: TZQuery;
-    zq_copieart: TZQuery;
-    zq_ArFini: TZQuery;
-    zq_Article2: TZQuery;
-    zq_Article3: TZQuery;
-    zq_Article4: TZQuery;
-    zq_Article5: TZQuery;
-    zq_Article6: TZQuery;
-    ds_ProdDeclasse: TDataSource;
+    zq_ArbreArt: TUIBQuery;
+    zq_code_copieart: TUIBQuery;
+    zq_copieart: TUIBQuery;
+    zq_ArFini: TUIBQuery;
+    zq_Article2: TUIBQuery;
+    zq_Article3: TUIBQuery;
+    zq_Article4: TUIBQuery;
+    zq_Article5: TUIBQuery;
+    zq_Article6: TUIBQuery;
     procedure zq_articleAfterScroll(DataSet: TDataSet);
     procedure zq_articleNewRecord(DataSet: TDataSet);
     procedure zq_SelGammeAfterScroll(DataSet: TDataSet);
@@ -165,11 +155,11 @@ begin
          ds_article.DataSet := zq_Article2
     end ;
   if ( avar_Tyde <> Null )
-  and (( M_Article.ds_Article.DataSet as TZQuery ).Params.FindParam ( 'Tyde' ).Value <> avar_Tyde ) Then
+  and (( M_Article.ds_Article.DataSet as TUIBQuery ).Params.FindParam ( 'Tyde' ).Value <> avar_Tyde ) Then
     Begin
       //li_user =0 => TOUS LES ARTICLES; li_user =1 => LES ARTICLES NON DECLASSES
       ds_Article.Dataset.Close ;
-      ( ds_Article.Dataset as TZQuery ).Params.FindParam ( 'Tyde' ).Value := avar_Tyde ;
+      ( ds_Article.Dataset as TUIBQuery ).Params.FindParam ( 'Tyde' ).Value := avar_Tyde ;
     End ;
 
 End ;
