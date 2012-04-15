@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Menus,
   U_FormMainIni, U_Article, U_TypeArticle, U_Caracteristique,
-  U_Gamme;
+  U_Gamme, fonctions_version;
 
 type
 
@@ -16,11 +16,13 @@ type
   TFMain = class(TF_FormMainIni)
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
+    muapropos: TMenuItem;
     MuArticle: TMenuItem;
     MuCaract: TMenuItem;
     muGamme: TMenuItem;
     MuTypeArticle: TMenuItem;
     procedure MenuItem1Click(Sender: TObject);
+    procedure muaproposClick(Sender: TObject);
     procedure MuArticleClick(Sender: TObject);
     procedure MuCaractClick(Sender: TObject);
     procedure muGammeClick(Sender: TObject);
@@ -40,9 +42,9 @@ implementation
 
 { TFMain }
 
-procedure TFMain.MenuItem1Click(Sender: TObject);
+procedure TFMain.muaproposClick(Sender: TObject);
 begin
-
+  fb_AfficheApropos(True, CST_APPLI_NAME,'0.9.9.0');
 end;
 
 procedure TFMain.MuArticleClick(Sender: TObject);

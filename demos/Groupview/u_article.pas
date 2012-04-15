@@ -40,7 +40,6 @@ type
     lb_libelcateg: TFWLabel;
     ed_libelcateg: TFWDBEdit;
     ed_codecateg: TFWDBEdit;
-    chbx_valide: TDBCheckBox;
     gd_categ: TExtDBGrid;
     Panel1: TPanel;
     Panel11: TPanel;
@@ -96,12 +95,12 @@ begin
     case MessageDlg(U_CST_9602, mtConfirmation, mbYesNoCancel, 0) of
       mrCancel: CanClose := False;
       mrYes: begin
-               if (M_Article.zq_Article1.State in [dsInsert, dsEdit]) then
-                 M_Article.zq_Article1.Post;
+               if (M_Article.ib_Article1.State in [dsInsert, dsEdit]) then
+                 M_Article.IB_Article1.Post;
              end;
       mrNo: begin
-              if (M_Article.zq_Article1.State in [dsInsert, dsEdit]) then
-                M_Article.zq_Article1.Cancel;
+              if (M_Article.IB_Article1.State in [dsInsert, dsEdit]) then
+                M_Article.IB_Article1.Cancel;
          end;
     end;
 end;

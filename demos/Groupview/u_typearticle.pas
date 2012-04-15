@@ -244,11 +244,11 @@ procedure TF_TypeProduit.bt_GammeClick(Sender: TObject);
 begin
   ffor_ExecuteFonction ( 'M-17', True );
   if ( lsv_GammIn.Items.Count > 0 )
-  and M_Article.zq_Gamme.Active Then
+  and M_Article.IB_Gamme.Active Then
     If assigned ( lsv_GammIn.Selected ) Then
-      M_Article.zq_Gamme.Locate ( 'GAMM_Clep', lsv_GammIn.Selected.Caption, [] )
+      M_Article.IB_Gamme.Locate ( 'GAMM_Clep', lsv_GammIn.Selected.Caption, [] )
     Else
-      M_Article.zq_Gamme.Locate ( 'GAMM_Clep', lsv_GammIn.Items [0].Caption, [] )
+      M_Article.IB_Gamme.Locate ( 'GAMM_Clep', lsv_GammIn.Items [0].Caption, [] )
 
 end;
 
@@ -257,11 +257,11 @@ procedure TF_TypeProduit.bt_CaracClick(Sender: TObject);
 begin
   ffor_ExecuteFonction ( 'M-19', True );
   if ( lsv_CaracIn.Items.Count > 0 )
-  and M_Article.zq_Carac.Active Then
+  and M_Article.IB_Carac.Active Then
     If assigned ( lsv_CaracIn.Selected ) Then
-      M_Article.zq_Carac.Locate ( 'CARA_Clep', lsv_CaracIn.Selected.Caption, [] )
+      M_Article.IB_Carac.Locate ( 'CARA_Clep', lsv_CaracIn.Selected.Caption, [] )
     Else
-      M_Article.zq_Carac.Locate ( 'CARA_Clep', lsv_CaracIn.Items [0].Caption, [] )
+      M_Article.IB_Carac.Locate ( 'CARA_Clep', lsv_CaracIn.Items [0].Caption, [] )
 
 end;
 
@@ -299,7 +299,7 @@ end;
 
 procedure TF_TypeProduit.lv_artinDBOnRecorded(DataSet: TDataSet);
 begin
-zq_maj.ExecSQL;
+IB_maj.ExecSQL;
 end;
 
 procedure TF_TypeProduit.F_FormDicoCreate(Sender: TObject);

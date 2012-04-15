@@ -218,22 +218,17 @@ procedure TF_Gamme.bt_TypeProClick(Sender: TObject);
 begin
   ffor_ExecuteFonction ( 'M-18', True );
   if ( lsv_TypesIn.Items.Count > 0 )
-  and M_Article.zq_TypProduit.Active Then
+  and M_Article.IB_TypProduit.Active Then
     If assigned ( lsv_TypesIn.Selected ) Then
-      M_Article.zq_TypProduit.Locate ( 'TYPR_Clep', lsv_TypesIn.Selected.Caption, [] )
+      M_Article.IB_TypProduit.Locate ( 'TYPR_Clep', lsv_TypesIn.Selected.Caption, [] )
     Else
-      M_Article.zq_TypProduit.Locate ( 'TYPR_Clep', lsv_TypesIn.Items [0].Caption, [] )
+      M_Article.IB_TypProduit.Locate ( 'TYPR_Clep', lsv_TypesIn.Items [0].Caption, [] )
 end;
 
 procedure TF_Gamme.F_FormDicoShow(Sender: TObject);
 begin
 //M_Donn.ds_Gamme.DataSet.Open;
 //M_Donn.ds_article.DataSet.Open;
-end;
-
-procedure TF_Gamme.lv_artinDBOnRecorded(DataSet: TDataSet);
-begin
-zq_maj.ExecSQL;
 end;
 
 
@@ -270,9 +265,9 @@ For i:= 0 to lv_artin.SelCount - 1 do
  with lv_artin do
   begin
   codeart := startitem.Caption;
-  zq_desaffecte.Active := False;
-  zq_desaffecte.Params.ParamByName('codeart').Value := trim(codeart);
-  zq_desaffecte.ExecSQL;
+  IB_desaffecte.Active := False;
+  IB_desaffecte.Params.ParamByName('codeart').Value := trim(codeart);
+  IB_desaffecte.ExecSQL;
   SelectNext( lv_artin, True, False );
   startitem:= Selected;
   end;

@@ -11,19 +11,12 @@ object M_Article: TM_Article
     left = 8
     top = 13
   end
-  object zq_artcoul: TUIBDataset
+  object zq_artcoul: TUIBDataSet
     SQL.Strings = (
       'select * '
       'from ARTICLE_FINITION'
       'where ARFI__ARTI = :article'
     )
-    Params = <    
-      item
-        DataType = ftUnknown
-        Name = 'article'
-        ParamType = ptUnknown
-        Size = -1
-      end>
     left = 88
     top = 61
   end
@@ -37,22 +30,13 @@ object M_Article: TM_Article
     left = 515
     top = 64
   end
-  object zq_GamTProIn: TUIBDataset
+  object zq_GamTProIn: TUIBDataSet
     SQL.Strings = (
       'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT, GAMME_TYPR'
       'where TYPR_Clep = GATY__TYPR'
       'and GATY__GAMM = :groupe'
       'ORDER BY TYPR_Libelle'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 5
-      end>
     left = 592
     top = 64
   end
@@ -61,28 +45,20 @@ object M_Article: TM_Article
     left = 515
     top = 109
   end
-  object zq_GamTProOut: TUIBDataset
+  object zq_GamTProOut: TUIBDataSet
     SQL.Strings = (
       'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT'
       'where TYPR_Clep NOT in (select GATY__TYPR from GAMME_TYPR'
       'where GATY__GAMM = :groupe)'
       'ORDER BY TYPR_Libelle'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
     left = 592
     top = 109
   end
-  object zq_Gamme: TUIBDataset
+  object zq_Gamme: TUIBDataSet
     SQL.Strings = (
       'SELECT * from GAMME'
     )
-    Params = <>
     left = 592
     top = 17
   end
@@ -91,11 +67,10 @@ object M_Article: TM_Article
     left = 515
     top = 17
   end
-  object zq_TypProduit: TUIBDataset
+  object zq_TypProduit: TUIBDataSet
     SQL.Strings = (
       'SELECT * from TYPE_PRODUIT'
     )
-    Params = <>
     left = 592
     top = 157
   end
@@ -104,11 +79,10 @@ object M_Article: TM_Article
     left = 515
     top = 157
   end
-  object zq_Carac: TUIBDataset
+  object zq_Carac: TUIBDataSet
     SQL.Strings = (
       'SELECT * from CARACTERISTIQUE'
     )
-    Params = <>
     left = 779
     top = 260
   end
@@ -122,19 +96,17 @@ object M_Article: TM_Article
     left = 688
     top = 113
   end
-  object zq_SelCarac: TUIBDataset
+  object zq_SelCarac: TUIBDataSet
     SQL.Strings = (
       'select  * FROM CARACTERISTIQUE'
     )
-    Params = <>
     left = 768
     top = 113
   end
-  object zq_SelTypPro: TUIBDataset
+  object zq_SelTypPro: TUIBDataSet
     SQL.Strings = (
       'select * FROM TYPE_PRODUIT'
     )
-    Params = <>
     left = 768
     top = 61
   end
@@ -143,11 +115,10 @@ object M_Article: TM_Article
     left = 688
     top = 61
   end
-  object zq_SelGamme: TUIBDataset
+  object zq_SelGamme: TUIBDataSet
     SQL.Strings = (
       'SELECT * from GAMME'
     )
-    Params = <>
     left = 768
     top = 13
   end
@@ -161,41 +132,23 @@ object M_Article: TM_Article
     left = 688
     top = 208
   end
-  object zq_Sel1Carac: TUIBDataset
+  object zq_Sel1Carac: TUIBDataSet
     SQL.Strings = (
       'select  CARA_Clep, CARA_Libelle FROM CARACTERISTIQUE, TYPE_PRODUIT_CARA'
       'where CARA_Clep = TYPC__CARA'
       'AND TYPC__TYPR = :groupe'
       'ORDER BY CARA_Libelle'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 12
-      end>
     left = 768
     top = 208
   end
-  object zq_Sel1TypPro: TUIBDataset
+  object zq_Sel1TypPro: TUIBDataSet
     SQL.Strings = (
       'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT, GAMME_TYPR'
       'where TYPR_Clep = GATY__TYPR'
       'AND GATY__GAMM = :groupe'
       'ORDER BY TYPR_Libelle'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 5
-      end>
     left = 768
     top = 161
   end
@@ -209,19 +162,17 @@ object M_Article: TM_Article
     left = 352
     top = 213
   end
-  object zq_SelCarac2: TUIBDataset
+  object zq_SelCarac2: TUIBDataSet
     SQL.Strings = (
       'select  * FROM CARACTERISTIQUE'
     )
-    Params = <>
     left = 426
     top = 213
   end
-  object zq_SelTypPro2: TUIBDataset
+  object zq_SelTypPro2: TUIBDataSet
     SQL.Strings = (
       'select * FROM TYPE_PRODUIT'
     )
-    Params = <>
     left = 426
     top = 168
   end
@@ -230,11 +181,11 @@ object M_Article: TM_Article
     left = 352
     top = 168
   end
-  object zq_GammeE: TUIBDataset
+  object zq_GammeE: TUIBDataSet
+    Database = IBDatabase
     SQL.Strings = (
       'SELECT * from GAMME'
     )
-    Params = <>
     left = 426
     top = 121
   end
@@ -248,41 +199,23 @@ object M_Article: TM_Article
     left = 352
     top = 308
   end
-  object zq_Sel1Carac2: TUIBDataset
+  object zq_Sel1Carac2: TUIBDataSet
     SQL.Strings = (
       'select  CARA_Clep, CARA_Libelle FROM CARACTERISTIQUE, TYPE_PRODUIT_CARA'
       'where CARA_Clep = TYPC__CARA'
       'AND TYPC__TYPR = :groupe'
       'ORDER BY CARA_Libelle'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 12
-      end>
     left = 426
     top = 308
   end
-  object zq_Sel1TypPro2: TUIBDataset
+  object zq_Sel1TypPro2: TUIBDataSet
     SQL.Strings = (
       'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT, GAMME_TYPR'
       'where TYPR_Clep = GATY__TYPR'
       'AND GATY__GAMM = :groupe'
       'ORDER BY TYPR_Libelle'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 5
-      end>
     left = 426
     top = 261
   end
@@ -296,11 +229,10 @@ object M_Article: TM_Article
     left = 8
     top = 161
   end
-  object zq_CocoCoul: TUIBDataset
+  object zq_CocoCoul: TUIBDataSet
     SQL.Strings = (
       'SELECT * FROM FINITION'
     )
-    Params = <>
     left = 88
     top = 208
   end
@@ -309,20 +241,13 @@ object M_Article: TM_Article
     left = 8
     top = 208
   end
-  object zq_TyfiInFini: TUIBDataset
+  object zq_TyfiInFini: TUIBDataSet
     SQL.Strings = (
       'select  TYFI_Clep, TYFI_Libelle FROM TYPE_FINITION,GROUPE_FINITION'
       'where TYFI_Clep= GRFI__TYFI'
       'AND GRFI__FINI = :groupe'
       'ORDER BY TYFI_Libelle'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
     left = 88
     top = 253
   end
@@ -331,20 +256,13 @@ object M_Article: TM_Article
     left = 8
     top = 253
   end
-  object zq_TyfiOutFini: TUIBDataset
+  object zq_TyfiOutFini: TUIBDataSet
     SQL.Strings = (
       'select  TYFI_Clep, TYFI_Libelle FROM TYPE_FINITION'
       'where TYFI_Clep not in (select GRFI__TYFI from GROUPE_FINITION'
       'where GRFI__FINI = :groupe)'
       'ORDER BY TYFI_Libelle'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
     left = 88
     top = 301
   end
@@ -353,20 +271,13 @@ object M_Article: TM_Article
     left = 8
     top = 301
   end
-  object zq_FiniInTyFi: TUIBDataset
+  object zq_FiniInTyFi: TUIBDataSet
     SQL.Strings = (
       'select  FINI_Clep, FINI_Lib FROM FINITION,GROUPE_FINITION'
       'where FINI_Clep= GRFI__FINI'
       'AND GRFI__TYFI = :groupe'
       'ORDER BY FINI_Lib'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
     left = 88
     top = 348
   end
@@ -375,20 +286,13 @@ object M_Article: TM_Article
     left = 8
     top = 348
   end
-  object zq_FiniOutTyFi: TUIBDataset
+  object zq_FiniOutTyFi: TUIBDataSet
     SQL.Strings = (
       'select  FINI_Clep, FINI_Lib FROM FINITION'
       'where FINI_Clep not in (select GRFI__FINI from GROUPE_FINITION'
       'where GRFI__TYFI = :groupe)'
       'ORDER BY FINI_Lib'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'groupe'
-        ParamType = ptUnknown
-        Size = -1
-      end>
     left = 88
     top = 396
   end
@@ -402,94 +306,28 @@ object M_Article: TM_Article
     left = 170
     top = 61
   end
-  object zq_FiltreProduit: TUIBDataset
+  object zq_FiltreProduit: TUIBDataSet
     SQL.Strings = (
       'SELECT * FROM FILTRE_PRODUIT'
     )
-    Params = <>
     left = 248
     top = 61
   end
-  object zq_Article1: TUIBDataset
+  object zq_Article1: TUIBDataSet
+    Database = IBDatabase
     SQL.Strings = (
       'select * '
       'from ARTICLE'
     )
-    Params = <>
     left = 72
     top = 13
   end
-  object zq_prod_acces: TUIBDataset
+  object zq_prod_acces: TUIBDataSet
     SQL.Strings = (
       'PRODUCTION_MC_ACCES_REPR'
       ':serveur_ref, :bdd_ref, :serveur, :bdd ,'
       ':location, :representant, :bdd_acces, :bdd_travail'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'serveur_ref'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 32
-      end    
-      item
-        DataType = ftString
-        Name = 'bdd_ref'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 32
-      end    
-      item
-        DataType = ftString
-        Name = 'serveur'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 32
-      end    
-      item
-        DataType = ftString
-        Name = 'bdd'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 32
-      end    
-      item
-        DataType = ftString
-        Name = 'location'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 512
-      end    
-      item
-        DataType = ftString
-        Name = 'representant'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 15
-      end    
-      item
-        DataType = ftString
-        Name = 'bdd_acces'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 32
-      end    
-      item
-        DataType = ftString
-        Name = 'bdd_travail'
-        NumericScale = 255
-        ParamType = ptUnknown
-        Precision = 255
-        Size = 32
-      end>
     left = 419
     top = 61
   end
@@ -503,7 +341,7 @@ object M_Article: TM_Article
     left = 168
     top = 536
   end
-  object zq_ArbreArt: TUIBDataset
+  object zq_ArbreArt: TUIBDataSet
     SQL.Strings = (
       'select ARDE_Table as ''ARDE_Table'', ARDE_Clep as ''ARDE_Clep'', ARDE_Parent as ''ARDE_Parent'','
       '(case when ARDE_Table = ''STRUCTURE_COMPOSANT'' then ARDE_Table_clep else '''' end) as ''ARDE_Table_clep'','
@@ -512,17 +350,10 @@ object M_Article: TM_Article
       ', ARDE_Prixfutur, ARDE_Libelle, ARDE_Libcom, ARDE_Position'
       'from fn_mc_arbre_article_compose ( :ArticleC, 1 )'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'ArticleC'
-        ParamType = ptUnknown
-        Size = 20
-      end>
     left = 240
     top = 536
   end
-  object zq_code_copieart: TUIBDataset
+  object zq_code_copieart: TUIBDataSet
     SQL.Strings = (
       'declare @clep1 varchar (12)'
       ''
@@ -534,53 +365,26 @@ object M_Article: TM_Article
       'and len(@clep1) + 2 <= 12 '
       'order by 1 desc'
     )
-    Params = <    
-      item
-        DataType = ftUnknown
-        Name = 'clep1'
-        ParamType = ptUnknown
-        Size = -1
-      end>
     left = 456
     top = 536
   end
-  object zq_copieart: TUIBDataset
+  object zq_copieart: TUIBDataSet
     SQL.Strings = (
       'exec ps_copie_selearticle :cle1, :cle2'
     )
-    Params = <    
-      item
-        DataType = ftUnknown
-        Name = 'cle1'
-        ParamType = ptUnknown
-        Size = -1
-      end    
-      item
-        DataType = ftUnknown
-        Name = 'cle2'
-        ParamType = ptUnknown
-        Size = -1
-      end>
     left = 344
     top = 536
   end
-  object zq_ArFini: TUIBDataset
+  object zq_ArFini: TUIBDataSet
     SQL.Strings = (
       'select * '
       'from FINITION'
       'WHERE FINI_Clep = :finition'
     )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'finition'
-        ParamType = ptUnknown
-        Size = 200
-      end>
     left = 88
     top = 164
   end
-  object zq_Article2: TUIBDataset
+  object zq_Article2: TUIBDataSet
     SQL.Strings = (
       'SELECT '
       'ARTI_Clep,ARTI__FOUR,ARTI_Codecom,ARTI_Libcom,'
@@ -591,27 +395,19 @@ object M_Article: TM_Article
       'FROM ARTICLE, FOURNISSEUR_TYPE_DEVIS '
       'WHERE ARTI_Indicspe = 0 AND ARTI__FOUR = FOTD__FOUR AND FOTD__TYDE = :Tyde'
     )
-    Params = <    
-      item
-        DataType = ftInteger
-        Name = 'Tyde'
-        ParamType = ptUnknown
-        Size = -1
-      end>
     left = 144
     top = 13
   end
-  object zq_Article3: TUIBDataset
+  object zq_Article3: TUIBDataSet
     SQL.Strings = (
       'select * '
       'from ARTICLE '
       'where ARTI_Declasse = 0'
     )
-    Params = <>
     left = 216
     top = 13
   end
-  object zq_Article4: TUIBDataset
+  object zq_Article4: TUIBDataSet
     SQL.Strings = (
       'SELECT '
       'ARTI_Clep,ARTI__FOUR,ARTI_Codecom,ARTI_Libcom,'
@@ -622,27 +418,19 @@ object M_Article: TM_Article
       'FROM ARTICLE, FOURNISSEUR_TYPE_DEVIS '
       'WHERE ARTI_Indicspe = 0 AND ARTI__FOUR = FOTD__FOUR AND FOTD__TYDE = :Tyde and  ARTI_Declasse = 0'
     )
-    Params = <    
-      item
-        DataType = ftInteger
-        Name = 'Tyde'
-        ParamType = ptUnknown
-        Size = -1
-      end>
     left = 288
     top = 13
   end
-  object zq_Article5: TUIBDataset
+  object zq_Article5: TUIBDataSet
     SQL.Strings = (
       'select * '
       'from ARTICLE '
       'where ARTI_Declasse = 0 AND ARTI_Indicspe = 0'
     )
-    Params = <>
     left = 360
     top = 13
   end
-  object zq_Article6: TUIBDataset
+  object zq_Article6: TUIBDataSet
     SQL.Strings = (
       'SELECT '
       'ARTI_Clep,ARTI__FOUR,ARTI_Codecom,ARTI_Libcom,'
@@ -653,13 +441,6 @@ object M_Article: TM_Article
       'FROM ARTICLE, FOURNISSEUR_TYPE_DEVIS '
       'WHERE ARTI_Indicspe = 0 AND ARTI__FOUR = FOTD__FOUR AND FOTD__TYDE = :Tyde and  ARTI_Declasse = 0 AND ARTI_Indicspe = 0'
     )
-    Params = <    
-      item
-        DataType = ftInteger
-        Name = 'Tyde'
-        ParamType = ptUnknown
-        Size = -1
-      end>
     left = 432
     top = 13
   end
