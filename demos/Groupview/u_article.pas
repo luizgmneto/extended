@@ -26,7 +26,7 @@ uses
   u_framework_components, u_buttons_appli;
 
 type
-  TF_Categ = class(TF_FormDico)
+  TF_Article = class(TF_FormDico)
     nv_navigator: TExtDBNavigator;
     nv_saisie: TExtDBNavigator;
     pa_1: TPanel;
@@ -63,7 +63,7 @@ type
   end;
 
 var
-  F_Categ: TF_Categ;
+  F_Article: TF_Article;
 
 implementation
 
@@ -79,7 +79,7 @@ uses U_FenetrePrincipale, unite_variables, fonctions_tableauframework;
 // Procedure : bt_fermerClick
 // Description : Fermeture de la fiche sur le click du bouton fermer
 ///////////////////////////////////////////////////////////////////////
-procedure TF_Categ.bt_fermerClick(Sender: TObject);
+procedure TF_Article.bt_fermerClick(Sender: TObject);
 begin
   Close;
 end;
@@ -89,7 +89,7 @@ end;
 // Description : Fermeture de la fiche avec Contrôle de modification
 //        des données de la fiche
 ///////////////////////////////////////////////////////////////////////
-procedure TF_Categ.F_FormDicoCloseQuery(Sender: TObject;
+procedure TF_Article.F_FormDicoCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 begin
   if gb_SauverModifications then
@@ -110,9 +110,9 @@ end;
 // Procedure : F_FormDicoCreate
 // Description : à la création de la fiche, initialisation de variable
 ///////////////////////////////////////////////////////////////////////
-procedure TF_Categ.F_FormDicoCreate(Sender: TObject);
+procedure TF_Article.F_FormDicoCreate(Sender: TObject);
 begin
-  F_Categ := Self;
+  F_Article := Self;
 
   if  ( gi_niveau_priv <  U_CST_CONTROLEGESTION ) Then
   Begin

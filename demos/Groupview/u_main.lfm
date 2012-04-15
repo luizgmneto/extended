@@ -1,0 +1,33 @@
+object FMain: TFMain
+  Left = 345
+  Height = 422
+  Top = 284
+  Width = 592
+  Caption = 'Gestion d''articles'
+  Menu = MainMenu
+  LCLVersion = '0.9.30.4'
+  object MainMenu: TMainMenu
+    left = 141
+    top = 128
+    object MenuItem1: TMenuItem
+      Caption = 'Fenêtres'
+      OnClick = MenuItem1Click
+      object MuArticle: TMenuItem
+        Caption = 'Articles'
+        OnClick = MuArticleClick
+      end
+      object MuCaract: TMenuItem
+        Caption = 'Caractéristiques'
+        OnClick = MuCaractClick
+      end
+      object muGamme: TMenuItem
+        Caption = 'Gammes'
+        OnClick = muGammeClick
+      end
+      object MuTypeArticle: TMenuItem
+        Caption = 'Types d''articles'
+        OnClick = MuTypeArticleClick
+      end
+    end
+  end
+end

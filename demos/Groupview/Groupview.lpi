@@ -16,7 +16,7 @@
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
     <i18n>
-      <EnableI18N LFM="False"/>
+      <EnableI18N Value="True" LFM="False"/>
     </i18n>
     <VersionInfo>
       <StringTable ProductVersion=""/>
@@ -86,17 +86,16 @@
         <PackageName Value="LCL"/>
       </Item15>
     </RequiredPackages>
-    <Units Count="62">
+    <Units Count="63">
       <Unit0>
         <Filename Value="Groupview.dpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Groupview"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="4"/>
-        <CursorPos X="177" Y="23"/>
-        <UsageCount Value="37"/>
+        <CursorPos X="1" Y="44"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -115,14 +114,16 @@
       <Unit2>
         <Filename Value="u_article.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="F_Categ"/>
+        <ComponentName Value="F_Article"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Article"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="78"/>
-        <CursorPos X="38" Y="104"/>
-        <UsageCount Value="37"/>
+        <CursorPos X="46" Y="110"/>
+        <UsageCount Value="40"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
@@ -156,7 +157,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="49"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="40"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit5>
       <Unit6>
@@ -381,7 +382,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="6"/>
         <CursorPos X="54" Y="27"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="40"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit24>
       <Unit25>
@@ -406,7 +407,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="6"/>
         <CursorPos X="40" Y="27"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="40"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
@@ -732,10 +733,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="U_DmArticles"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="49"/>
-        <CursorPos X="40" Y="162"/>
-        <UsageCount Value="21"/>
+        <TopLine Value="1"/>
+        <CursorPos X="75" Y="11"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit58>
       <Unit59>
@@ -756,17 +760,86 @@
       </Unit60>
       <Unit61>
         <Filename Value="u_dmarticles.lfm"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="624"/>
+        <TopLine Value="564"/>
         <CursorPos X="123" Y="644"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit61>
+      <Unit62>
+        <Filename Value="u_main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FMain"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="U_Main"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="34" Y="67"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit62>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="12" HistoryIndex="11">
+      <Position1>
+        <Filename Value="u_dmarticles.pas"/>
+        <Caret Line="132" Column="55" TopLine="121"/>
+      </Position1>
+      <Position2>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="12" Column="32" TopLine="1"/>
+      </Position2>
+      <Position3>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="15" Column="32" TopLine="1"/>
+      </Position3>
+      <Position4>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="36" Column="3" TopLine="1"/>
+      </Position4>
+      <Position5>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="37" Column="3" TopLine="1"/>
+      </Position5>
+      <Position6>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="38" Column="3" TopLine="1"/>
+      </Position6>
+      <Position7>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="39" Column="3" TopLine="1"/>
+      </Position7>
+      <Position8>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="33" Column="102" TopLine="1"/>
+      </Position8>
+      <Position9>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="49" Column="1" TopLine="10"/>
+      </Position9>
+      <Position10>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="55" Column="1" TopLine="16"/>
+      </Position10>
+      <Position11>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="61" Column="28" TopLine="23"/>
+      </Position11>
+      <Position12>
+        <Filename Value="u_dmarticles.pas"/>
+        <Caret Line="12" Column="6" TopLine="13"/>
+      </Position12>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="9"/>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+    </SearchPaths>
     <Parsing>
       <SyntaxOptions>
         <SyntaxMode Value="Delphi"/>
@@ -780,6 +853,12 @@
     </Other>
   </CompilerOptions>
   <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Source Value="Groupview.dpr"/>
+        <Line Value="36"/>
+      </Item1>
+    </BreakPoints>
     <Exceptions Count="3">
       <Item1>
         <Name Value="EAbort"/>
