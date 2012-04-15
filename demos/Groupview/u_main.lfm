@@ -29,5 +29,9 @@ object FMain: TFMain
         OnClick = MuTypeArticleClick
       end
     end
+    object muapropos: TMenuItem
+      Caption = 'À propos'
+      OnClick = muaproposClick
+    end
   end
 end

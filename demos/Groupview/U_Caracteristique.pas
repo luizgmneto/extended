@@ -212,16 +212,16 @@ procedure TF_Caracteristique.bt_TypeProClick(Sender: TObject);
 begin
   ffor_ExecuteFonction ( 'M-18', True );
   if ( lv_CaracIn.Items.Count > 0 )
-  and M_Article.zq_TypProduit.Active Then
+  and M_Article.IB_TypProduit.Active Then
     If assigned ( lv_CaracIn.Selected ) Then
-      M_Article.zq_TypProduit.Locate ( 'TYPR_Clep', lv_CaracIn.Selected.Caption, [] )
+      M_Article.IB_TypProduit.Locate ( 'TYPR_Clep', lv_CaracIn.Selected.Caption, [] )
     Else
-      M_Article.zq_TypProduit.Locate ( 'TYPR_Clep', lv_CaracIn.Items [0].Caption, [] )
+      M_Article.IB_TypProduit.Locate ( 'TYPR_Clep', lv_CaracIn.Items [0].Caption, [] )
 end;
 
 procedure TF_Caracteristique.lv_artinDBOnRecorded(DataSet: TDataSet);
 begin
-zq_maj.ExecSQL;
+IB_maj.ExecSQL;
 end;
 
 procedure TF_Caracteristique.F_FormDicoCreate(Sender: TObject);

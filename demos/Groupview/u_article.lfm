@@ -80,7 +80,7 @@ inherited F_Article: TF_Article
         BevelOuter = bvNone
         ClientHeight = 32
         ClientWidth = 469
-        TabOrder = 3
+        TabOrder = 2
         object nv_saisie: TExtDBNavigator
           Left = 0
           Height = 32
@@ -116,6 +116,7 @@ inherited F_Article: TF_Article
         Height = 27
         Top = 64
         Width = 190
+        DataSource = M_Article.ds_article
         CharCase = ecNormal
         Color = clMoneyGreen
         Font.Color = clWindowText
@@ -139,20 +140,6 @@ inherited F_Article: TF_Article
         MaxLength = 0
         ParentFont = False
         TabOrder = 0
-      end
-      object chbx_valide: TDBCheckBox
-        Tag = 3
-        Left = 71
-        Height = 17
-        Top = 91
-        Width = 70
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        ParentFont = False
-        TabOrder = 2
-        ValueChecked = 'Vrai'
-        ValueUnchecked = 'Faux'
       end
     end
     object pa_2: TPanel
