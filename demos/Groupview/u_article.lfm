@@ -1,4 +1,4 @@
-inherited F_Categ: TF_Categ
+inherited F_Article: TF_Article
   Left = 540
   Height = 367
   Top = 227

@@ -8,7 +8,7 @@ interface
 
 uses
   SysUtils, StrUtils, Classes, DB, ZDataset, Forms, Dialogs, controls,
-  U_Donnees, fonctions_string, U_FormDico, uib, U_ConstMessage ;
+  U_Donnees, fonctions_string, U_FormDico, uib, U_ConstMessage, uibdataset;
 type
 
   { TM_Article }
@@ -17,64 +17,64 @@ type
     ds_article: TDataSource;
     IBDatabase: TUIBDataBase;
     IBTransaction: TUIBTransaction;
-    zq_artcoul: TUIBQuery;
+    zq_artcoul: TUIBDataset;
     ds_ARCO: TDataSource;
     ds_GamTProIn: TDataSource;
-    zq_GamTProIn: TUIBQuery;
+    zq_GamTProIn: TUIBDataset;
     ds_GamTProOut: TDataSource;
-    zq_GamTProOut: TUIBQuery;
-    zq_Gamme: TUIBQuery;
+    zq_GamTProOut: TUIBDataset;
+    zq_Gamme: TUIBDataset;
     ds_Gamme: TDataSource;
-    zq_TypProduit: TUIBQuery;
+    zq_TypProduit: TUIBDataset;
     ds_TypProduit: TDataSource;
-    zq_Carac: TUIBQuery;
+    zq_Carac: TUIBDataset;
     ds_Carac: TDataSource;
     ds_SelCarac: TDataSource;
-    zq_SelCarac: TUIBQuery;
-    zq_SelTypPro: TUIBQuery;
+    zq_SelCarac: TUIBDataset;
+    zq_SelTypPro: TUIBDataset;
     ds_SelTypPro: TDataSource;
-    zq_SelGamme: TUIBQuery;
+    zq_SelGamme: TUIBDataset;
     ds_SelGamme: TDataSource;
     ds_Sel1Carac: TDataSource;
-    zq_Sel1Carac: TUIBQuery;
-    zq_Sel1TypPro: TUIBQuery;
+    zq_Sel1Carac: TUIBDataset;
+    zq_Sel1TypPro: TUIBDataset;
     ds_Sel1TypPro: TDataSource;
     ds_SelCarac2: TDataSource;
-    zq_SelCarac2: TUIBQuery;
-    zq_SelTypPro2: TUIBQuery;
+    zq_SelCarac2: TUIBDataset;
+    zq_SelTypPro2: TUIBDataset;
     ds_SelTypPro2: TDataSource;
-    zq_GammeE: TUIBQuery;
+    zq_GammeE: TUIBDataset;
     ds_GammeE: TDataSource;
     ds_Sel1Carac2: TDataSource;
-    zq_Sel1Carac2: TUIBQuery;
-    zq_Sel1TypPro2: TUIBQuery;
+    zq_Sel1Carac2: TUIBDataset;
+    zq_Sel1TypPro2: TUIBDataset;
     ds_Sel1TypPro2: TDataSource;
     ds_ArFini: TDataSource;
-    zq_CocoCoul: TUIBQuery;
+    zq_CocoCoul: TUIBDataset;
     ds_CocoCoul: TDataSource;
-    zq_TyfiInFini: TUIBQuery;
+    zq_TyfiInFini: TUIBDataset;
     ds_TyfiInFini: TDataSource;
-    zq_TyfiOutFini: TUIBQuery;
+    zq_TyfiOutFini: TUIBDataset;
     ds_TyfiOutFini: TDataSource;
-    zq_FiniInTyFi: TUIBQuery;
+    zq_FiniInTyFi: TUIBDataset;
     ds_FiniInTyFi: TDataSource;
-    zq_FiniOutTyFi: TUIBQuery;
+    zq_FiniOutTyFi: TUIBDataset;
     ds_FiniOutTyFi: TDataSource;
     ds_FiltreProduit: TDataSource;
-    zq_FiltreProduit: TUIBQuery;
-    zq_Article1: TUIBQuery;
-    zq_prod_acces: TUIBQuery;
+    zq_FiltreProduit: TUIBDataset;
+    zq_Article1: TUIBDataset;
+    zq_prod_acces: TUIBDataset;
     ds_prod_acces: TDataSource;
     ds_ArbreArt: TDataSource;
-    zq_ArbreArt: TUIBQuery;
-    zq_code_copieart: TUIBQuery;
-    zq_copieart: TUIBQuery;
-    zq_ArFini: TUIBQuery;
-    zq_Article2: TUIBQuery;
-    zq_Article3: TUIBQuery;
-    zq_Article4: TUIBQuery;
-    zq_Article5: TUIBQuery;
-    zq_Article6: TUIBQuery;
+    zq_ArbreArt: TUIBDataset;
+    zq_code_copieart: TUIBDataset;
+    zq_copieart: TUIBDataset;
+    zq_ArFini: TUIBDataset;
+    zq_Article2: TUIBDataset;
+    zq_Article3: TUIBDataset;
+    zq_Article4: TUIBDataset;
+    zq_Article5: TUIBDataset;
+    zq_Article6: TUIBDataset;
     procedure zq_articleAfterScroll(DataSet: TDataSet);
     procedure zq_articleNewRecord(DataSet: TDataSet);
     procedure zq_SelGammeAfterScroll(DataSet: TDataSet);
@@ -155,11 +155,11 @@ begin
          ds_article.DataSet := zq_Article2
     end ;
   if ( avar_Tyde <> Null )
-  and (( M_Article.ds_Article.DataSet as TUIBQuery ).Params.FindParam ( 'Tyde' ).Value <> avar_Tyde ) Then
+  and (( M_Article.ds_Article.DataSet as TUIBDataset ).Params.FindParam ( 'Tyde' ).Value <> avar_Tyde ) Then
     Begin
       //li_user =0 => TOUS LES ARTICLES; li_user =1 => LES ARTICLES NON DECLASSES
       ds_Article.Dataset.Close ;
-      ( ds_Article.Dataset as TUIBQuery ).Params.FindParam ( 'Tyde' ).Value := avar_Tyde ;
+      ( ds_Article.Dataset as TUIBDataset ).Params.FindParam ( 'Tyde' ).Value := avar_Tyde ;
     End ;
 
 End ;

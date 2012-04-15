@@ -11,7 +11,7 @@ object M_Article: TM_Article
     left = 8
     top = 13
   end
-  object zq_artcoul: TUIBQuery
+  object zq_artcoul: TUIBDataset
     SQL.Strings = (
       'select * '
       'from ARTICLE_FINITION'
@@ -37,7 +37,7 @@ object M_Article: TM_Article
     left = 515
     top = 64
   end
-  object zq_GamTProIn: TUIBQuery
+  object zq_GamTProIn: TUIBDataset
     SQL.Strings = (
       'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT, GAMME_TYPR'
       'where TYPR_Clep = GATY__TYPR'
@@ -61,7 +61,7 @@ object M_Article: TM_Article
     left = 515
     top = 109
   end
-  object zq_GamTProOut: TUIBQuery
+  object zq_GamTProOut: TUIBDataset
     SQL.Strings = (
       'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT'
       'where TYPR_Clep NOT in (select GATY__TYPR from GAMME_TYPR'
@@ -78,7 +78,7 @@ object M_Article: TM_Article
     left = 592
     top = 109
   end
-  object zq_Gamme: TUIBQuery
+  object zq_Gamme: TUIBDataset
     SQL.Strings = (
       'SELECT * from GAMME'
     )
@@ -91,7 +91,7 @@ object M_Article: TM_Article
     left = 515
     top = 17
   end
-  object zq_TypProduit: TUIBQuery
+  object zq_TypProduit: TUIBDataset
     SQL.Strings = (
       'SELECT * from TYPE_PRODUIT'
     )
@@ -104,7 +104,7 @@ object M_Article: TM_Article
     left = 515
     top = 157
   end
-  object zq_Carac: TUIBQuery
+  object zq_Carac: TUIBDataset
     SQL.Strings = (
       'SELECT * from CARACTERISTIQUE'
     )
@@ -122,7 +122,7 @@ object M_Article: TM_Article
     left = 688
     top = 113
   end
-  object zq_SelCarac: TUIBQuery
+  object zq_SelCarac: TUIBDataset
     SQL.Strings = (
       'select  * FROM CARACTERISTIQUE'
     )
@@ -130,7 +130,7 @@ object M_Article: TM_Article
     left = 768
     top = 113
   end
-  object zq_SelTypPro: TUIBQuery
+  object zq_SelTypPro: TUIBDataset
     SQL.Strings = (
       'select * FROM TYPE_PRODUIT'
     )
@@ -143,7 +143,7 @@ object M_Article: TM_Article
     left = 688
     top = 61
   end
-  object zq_SelGamme: TUIBQuery
+  object zq_SelGamme: TUIBDataset
     SQL.Strings = (
       'SELECT * from GAMME'
     )
@@ -161,7 +161,7 @@ object M_Article: TM_Article
     left = 688
     top = 208
   end
-  object zq_Sel1Carac: TUIBQuery
+  object zq_Sel1Carac: TUIBDataset
     SQL.Strings = (
       'select  CARA_Clep, CARA_Libelle FROM CARACTERISTIQUE, TYPE_PRODUIT_CARA'
       'where CARA_Clep = TYPC__CARA'
@@ -180,7 +180,7 @@ object M_Article: TM_Article
     left = 768
     top = 208
   end
-  object zq_Sel1TypPro: TUIBQuery
+  object zq_Sel1TypPro: TUIBDataset
     SQL.Strings = (
       'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT, GAMME_TYPR'
       'where TYPR_Clep = GATY__TYPR'
@@ -209,7 +209,7 @@ object M_Article: TM_Article
     left = 352
     top = 213
   end
-  object zq_SelCarac2: TUIBQuery
+  object zq_SelCarac2: TUIBDataset
     SQL.Strings = (
       'select  * FROM CARACTERISTIQUE'
     )
@@ -217,7 +217,7 @@ object M_Article: TM_Article
     left = 426
     top = 213
   end
-  object zq_SelTypPro2: TUIBQuery
+  object zq_SelTypPro2: TUIBDataset
     SQL.Strings = (
       'select * FROM TYPE_PRODUIT'
     )
@@ -230,7 +230,7 @@ object M_Article: TM_Article
     left = 352
     top = 168
   end
-  object zq_GammeE: TUIBQuery
+  object zq_GammeE: TUIBDataset
     SQL.Strings = (
       'SELECT * from GAMME'
     )
@@ -248,7 +248,7 @@ object M_Article: TM_Article
     left = 352
     top = 308
   end
-  object zq_Sel1Carac2: TUIBQuery
+  object zq_Sel1Carac2: TUIBDataset
     SQL.Strings = (
       'select  CARA_Clep, CARA_Libelle FROM CARACTERISTIQUE, TYPE_PRODUIT_CARA'
       'where CARA_Clep = TYPC__CARA'
@@ -267,7 +267,7 @@ object M_Article: TM_Article
     left = 426
     top = 308
   end
-  object zq_Sel1TypPro2: TUIBQuery
+  object zq_Sel1TypPro2: TUIBDataset
     SQL.Strings = (
       'select  TYPR_Clep, TYPR_Libelle FROM TYPE_PRODUIT, GAMME_TYPR'
       'where TYPR_Clep = GATY__TYPR'
@@ -296,7 +296,7 @@ object M_Article: TM_Article
     left = 8
     top = 161
   end
-  object zq_CocoCoul: TUIBQuery
+  object zq_CocoCoul: TUIBDataset
     SQL.Strings = (
       'SELECT * FROM FINITION'
     )
@@ -309,7 +309,7 @@ object M_Article: TM_Article
     left = 8
     top = 208
   end
-  object zq_TyfiInFini: TUIBQuery
+  object zq_TyfiInFini: TUIBDataset
     SQL.Strings = (
       'select  TYFI_Clep, TYFI_Libelle FROM TYPE_FINITION,GROUPE_FINITION'
       'where TYFI_Clep= GRFI__TYFI'
@@ -331,7 +331,7 @@ object M_Article: TM_Article
     left = 8
     top = 253
   end
-  object zq_TyfiOutFini: TUIBQuery
+  object zq_TyfiOutFini: TUIBDataset
     SQL.Strings = (
       'select  TYFI_Clep, TYFI_Libelle FROM TYPE_FINITION'
       'where TYFI_Clep not in (select GRFI__TYFI from GROUPE_FINITION'
@@ -353,7 +353,7 @@ object M_Article: TM_Article
     left = 8
     top = 301
   end
-  object zq_FiniInTyFi: TUIBQuery
+  object zq_FiniInTyFi: TUIBDataset
     SQL.Strings = (
       'select  FINI_Clep, FINI_Lib FROM FINITION,GROUPE_FINITION'
       'where FINI_Clep= GRFI__FINI'
@@ -375,7 +375,7 @@ object M_Article: TM_Article
     left = 8
     top = 348
   end
-  object zq_FiniOutTyFi: TUIBQuery
+  object zq_FiniOutTyFi: TUIBDataset
     SQL.Strings = (
       'select  FINI_Clep, FINI_Lib FROM FINITION'
       'where FINI_Clep not in (select GRFI__FINI from GROUPE_FINITION'
@@ -402,7 +402,7 @@ object M_Article: TM_Article
     left = 170
     top = 61
   end
-  object zq_FiltreProduit: TUIBQuery
+  object zq_FiltreProduit: TUIBDataset
     SQL.Strings = (
       'SELECT * FROM FILTRE_PRODUIT'
     )
@@ -410,7 +410,7 @@ object M_Article: TM_Article
     left = 248
     top = 61
   end
-  object zq_Article1: TUIBQuery
+  object zq_Article1: TUIBDataset
     SQL.Strings = (
       'select * '
       'from ARTICLE'
@@ -419,7 +419,7 @@ object M_Article: TM_Article
     left = 72
     top = 13
   end
-  object zq_prod_acces: TUIBQuery
+  object zq_prod_acces: TUIBDataset
     SQL.Strings = (
       'PRODUCTION_MC_ACCES_REPR'
       ':serveur_ref, :bdd_ref, :serveur, :bdd ,'
@@ -503,7 +503,7 @@ object M_Article: TM_Article
     left = 168
     top = 536
   end
-  object zq_ArbreArt: TUIBQuery
+  object zq_ArbreArt: TUIBDataset
     SQL.Strings = (
       'select ARDE_Table as ''ARDE_Table'', ARDE_Clep as ''ARDE_Clep'', ARDE_Parent as ''ARDE_Parent'','
       '(case when ARDE_Table = ''STRUCTURE_COMPOSANT'' then ARDE_Table_clep else '''' end) as ''ARDE_Table_clep'','
@@ -522,7 +522,7 @@ object M_Article: TM_Article
     left = 240
     top = 536
   end
-  object zq_code_copieart: TUIBQuery
+  object zq_code_copieart: TUIBDataset
     SQL.Strings = (
       'declare @clep1 varchar (12)'
       ''
@@ -544,7 +544,7 @@ object M_Article: TM_Article
     left = 456
     top = 536
   end
-  object zq_copieart: TUIBQuery
+  object zq_copieart: TUIBDataset
     SQL.Strings = (
       'exec ps_copie_selearticle :cle1, :cle2'
     )
@@ -564,7 +564,7 @@ object M_Article: TM_Article
     left = 344
     top = 536
   end
-  object zq_ArFini: TUIBQuery
+  object zq_ArFini: TUIBDataset
     SQL.Strings = (
       'select * '
       'from FINITION'
@@ -580,7 +580,7 @@ object M_Article: TM_Article
     left = 88
     top = 164
   end
-  object zq_Article2: TUIBQuery
+  object zq_Article2: TUIBDataset
     SQL.Strings = (
       'SELECT '
       'ARTI_Clep,ARTI__FOUR,ARTI_Codecom,ARTI_Libcom,'
@@ -601,7 +601,7 @@ object M_Article: TM_Article
     left = 144
     top = 13
   end
-  object zq_Article3: TUIBQuery
+  object zq_Article3: TUIBDataset
     SQL.Strings = (
       'select * '
       'from ARTICLE '
@@ -611,7 +611,7 @@ object M_Article: TM_Article
     left = 216
     top = 13
   end
-  object zq_Article4: TUIBQuery
+  object zq_Article4: TUIBDataset
     SQL.Strings = (
       'SELECT '
       'ARTI_Clep,ARTI__FOUR,ARTI_Codecom,ARTI_Libcom,'
@@ -632,7 +632,7 @@ object M_Article: TM_Article
     left = 288
     top = 13
   end
-  object zq_Article5: TUIBQuery
+  object zq_Article5: TUIBDataset
     SQL.Strings = (
       'select * '
       'from ARTICLE '
@@ -642,7 +642,7 @@ object M_Article: TM_Article
     left = 360
     top = 13
   end
-  object zq_Article6: TUIBQuery
+  object zq_Article6: TUIBDataset
     SQL.Strings = (
       'SELECT '
       'ARTI_Clep,ARTI__FOUR,ARTI_Codecom,ARTI_Libcom,'
