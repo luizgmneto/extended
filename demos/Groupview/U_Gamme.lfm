@@ -1,7 +1,7 @@
 inherited F_Gamme: TF_Gamme
-  Left = 16
+  Left = 211
   Height = 592
-  Top = 108
+  Top = 187
   Width = 957
   Caption = 'Gamme d''article'
   ClientHeight = 592
@@ -10,7 +10,6 @@ inherited F_Gamme: TF_Gamme
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
-  OnCloseQuery = F_FormDicoCloseQuery
   OnCreate = F_FormDicoCreate
   OnShow = F_FormDicoShow
   Position = poMainFormCenter
@@ -25,15 +24,15 @@ inherited F_Gamme: TF_Gamme
     ClientWidth = 957
     TabOrder = 0
     object spl_1: TSplitter
-      Left = 279
+      Left = 281
       Height = 565
-      Top = 24
+      Top = 26
       Width = 5
     end
     object pa_3: TPanel
-      Left = 284
+      Left = 286
       Height = 565
-      Top = 24
+      Top = 26
       Width = 670
       Align = alClient
       BevelOuter = bvNone
@@ -57,6 +56,7 @@ inherited F_Gamme: TF_Gamme
           Top = 0
           Width = 670
           Flat = True
+          DataSource = M_Article.ds_Gamme
           DeleteQuestion = 'Confirmez-vous l''effacement de l''enregistrement ?'
           Align = alClient
           ParentShowHint = False
@@ -84,7 +84,7 @@ inherited F_Gamme: TF_Gamme
       object pa_6: TPanel
         Left = 0
         Height = 74
-        Top = 30
+        Top = 32
         Width = 670
         Align = alTop
         BevelOuter = bvNone
@@ -126,9 +126,11 @@ inherited F_Gamme: TF_Gamme
         object ed_libelle: TFWDBEdit
           Tag = 2
           Left = 102
-          Height = 27
+          Height = 25
           Top = 35
           Width = 460
+          DataField = 'GAMM_Libelle'
+          DataSource = M_Article.ds_Gamme
           CharCase = ecNormal
           Color = clMoneyGreen
           Font.Color = clWindowText
@@ -141,9 +143,11 @@ inherited F_Gamme: TF_Gamme
         object ed_code: TFWDBEdit
           Tag = 1
           Left = 102
-          Height = 27
+          Height = 25
           Top = 10
           Width = 73
+          DataField = 'GAMM_Clep'
+          DataSource = M_Article.ds_Gamme
           CharCase = ecUppercase
           Color = clMoneyGreen
           Font.Color = clWindowText
@@ -157,19 +161,19 @@ inherited F_Gamme: TF_Gamme
       object pc_Groupes: TPageControl
         Left = 0
         Height = 459
-        Top = 104
+        Top = 106
         Width = 670
-        ActivePage = ts_ssfam
+        ActivePage = TabSheet1
         Align = alClient
-        TabIndex = 0
+        TabIndex = 1
         TabOrder = 2
         object ts_ssfam: TTabSheet
           Caption = 'Types d''articles membres de la gamme'
-          ClientHeight = 428
+          ClientHeight = 425
           ClientWidth = 666
           object RbSplitter1: TSplitter
             Left = 321
-            Height = 401
+            Height = 398
             Top = 27
             Width = 5
           end
@@ -183,56 +187,56 @@ inherited F_Gamme: TF_Gamme
             ClientWidth = 666
             TabOrder = 0
             object Panel12: TPanel
-              Left = 222
+              Left = 224
               Height = 25
-              Top = 0
+              Top = 1
               Width = 13
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 0
             end
             object Panel13: TPanel
-              Left = 104
+              Left = 106
               Height = 25
-              Top = 0
+              Top = 1
               Width = 19
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 1
             end
             object Panel1: TPanel
-              Left = 0
+              Left = 1
               Height = 25
-              Top = 0
+              Top = 1
               Width = 13
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 2
             end
             object Panel5: TPanel
-              Left = 650
+              Left = 652
               Height = 25
-              Top = 0
+              Top = 1
               Width = 13
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 3
             end
             object bt_abandonner: TFWCancel
-              Left = 123
+              Left = 125
               Height = 25
               Hint = 'Abandonner les modifications'
-              Top = 0
+              Top = 1
               Width = 99
               Enabled = False
               TabOrder = 4
               Align = alLeft
             end
             object bt_enregistrer: TFWOK
-              Left = 12
+              Left = 14
               Height = 25
               Hint = 'Enregistrer les modifications'
-              Top = 0
+              Top = 1
               Width = 92
               Caption = 'Enregistrer'
               Enabled = False
@@ -254,18 +258,18 @@ inherited F_Gamme: TF_Gamme
           end
           object Panel6: TPanel
             Left = 0
-            Height = 401
+            Height = 398
             Top = 27
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 401
+            ClientHeight = 398
             ClientWidth = 321
             Constraints.MinWidth = 3
             TabOrder = 1
             object lsv_TypesIn: TDBGroupView
               Left = 0
-              Height = 401
+              Height = 398
               Hint = 'Liste des membres'
               Top = 0
               Width = 242
@@ -277,7 +281,7 @@ inherited F_Gamme: TF_Gamme
                 item
                   AutoSize = True
                   Caption = 'Types membres de la gamme'
-                  Width = 205
+                  Width = 227
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -289,7 +293,6 @@ inherited F_Gamme: TF_Gamme
               StateImages = im_images
               TabOrder = 0
               ViewStyle = vsReport
-              Datasource = M_Article.ds_GamTProIn
               DataKeyUnit = 'TYPR_Clep'
               DataTableUnit = 'TYPE_PRODUIT'
               DataTableGroup = 'GAMME_TYPR'
@@ -308,13 +311,13 @@ inherited F_Gamme: TF_Gamme
               DataAllFiltered = False
             end
             object Panel2: TPanel
-              Left = 240
-              Height = 401
+              Left = 242
+              Height = 398
               Top = 0
               Width = 79
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 401
+              ClientHeight = 398
               ClientWidth = 79
               TabOrder = 1
               object bt_in_item: TFWInSelect
@@ -359,7 +362,7 @@ inherited F_Gamme: TF_Gamme
           end
           object lsv_TypesOut: TDBGroupView
             Left = 326
-            Height = 401
+            Height = 398
             Hint = 'Liste d''exclusion'
             Top = 27
             Width = 340
@@ -371,7 +374,7 @@ inherited F_Gamme: TF_Gamme
               item
                 AutoSize = True
                 Caption = 'Types non membres de la gamme'
-                Width = 272
+                Width = 267
               end>
             Constraints.MinWidth = 3
             DragMode = dmAutomatic
@@ -384,7 +387,6 @@ inherited F_Gamme: TF_Gamme
             StateImages = im_images
             TabOrder = 2
             ViewStyle = vsReport
-            Datasource = M_Article.ds_GamTProOut
             DataKeyUnit = 'TYPR_Clep'
             DataTableUnit = 'TYPE_PRODUIT'
             DataTableGroup = 'GAMME_TYPR'
@@ -406,7 +408,7 @@ inherited F_Gamme: TF_Gamme
         end
         object TabSheet1: TTabSheet
           Caption = 'Articles affectés à la gamme'
-          ClientHeight = 428
+          ClientHeight = 425
           ClientWidth = 666
           ImageIndex = 1
           object Panel7: TPanel
@@ -419,46 +421,46 @@ inherited F_Gamme: TF_Gamme
             ClientWidth = 666
             TabOrder = 0
             object Panel8: TPanel
-              Left = 222
+              Left = 224
               Height = 25
-              Top = 0
+              Top = 1
               Width = 16
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 0
             end
             object Panel9: TPanel
-              Left = 104
+              Left = 106
               Height = 25
-              Top = 0
+              Top = 1
               Width = 19
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 1
             end
             object Panel11: TPanel
-              Left = 0
+              Left = 1
               Height = 25
-              Top = 0
+              Top = 1
               Width = 13
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 2
             end
             object Panel14: TPanel
-              Left = 650
+              Left = 652
               Height = 25
-              Top = 0
+              Top = 1
               Width = 13
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 3
             end
             object bt_Desaffecte: TJvXPButton
-              Left = 238
+              Left = 240
               Height = 25
               Hint = 'Supprimer l''article de la gamme'
-              Top = 0
+              Top = 1
               Width = 92
               Caption = 'Désaffecter'
               Enabled = False
@@ -467,10 +469,10 @@ inherited F_Gamme: TF_Gamme
               OnClick = bt_DesaffecteClick
             end
             object bt_EnrArt: TFWOK
-              Left = 12
+              Left = 14
               Height = 25
               Hint = 'Enregistrer les modifications'
-              Top = 0
+              Top = 1
               Width = 92
               Caption = 'Enregistrer'
               Enabled = False
@@ -478,10 +480,10 @@ inherited F_Gamme: TF_Gamme
               Align = alLeft
             end
             object bt_retour: TJvXPButton
-              Left = 558
+              Left = 560
               Height = 25
               Hint = 'Réaffectation aux Gammes de produits d''origine'
-              Top = 0
+              Top = 1
               Width = 92
               Caption = 'Retour origine'
               Enabled = False
@@ -491,10 +493,10 @@ inherited F_Gamme: TF_Gamme
               ShowHint = True
             end
             object bt_AbanArt: TFWCancel
-              Left = 123
+              Left = 125
               Height = 25
               Hint = 'Abandonner les modifications'
-              Top = 0
+              Top = 1
               Width = 99
               Enabled = False
               TabOrder = 7
@@ -503,33 +505,33 @@ inherited F_Gamme: TF_Gamme
           end
           object Panel17: TPanel
             Left = 0
-            Height = 401
+            Height = 398
             Top = 27
             Width = 666
             Align = alClient
-            ClientHeight = 401
+            ClientHeight = 398
             ClientWidth = 666
             TabOrder = 1
             object RbSplitter2: TSplitter
-              Left = 343
-              Height = 399
-              Top = 0
+              Left = 345
+              Height = 396
+              Top = 1
               Width = 5
             end
             object Panel15: TPanel
-              Left = 0
-              Height = 399
-              Top = 0
+              Left = 1
+              Height = 396
+              Top = 1
               Width = 344
               Align = alLeft
               BevelOuter = bvNone
-              ClientHeight = 399
+              ClientHeight = 396
               ClientWidth = 344
               Constraints.MinWidth = 3
               TabOrder = 0
               object lv_artin: TDBGroupView
                 Left = 0
-                Height = 399
+                Height = 396
                 Hint = 'Liste des membres'
                 Top = 0
                 Width = 265
@@ -541,7 +543,7 @@ inherited F_Gamme: TF_Gamme
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 197
+                    Width = 192
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -554,7 +556,6 @@ inherited F_Gamme: TF_Gamme
                 TabOrder = 0
                 ViewStyle = vsReport
                 OnClick = lv_artinClick
-                Datasource = ds_gammarti
                 DataKeyUnit = 'ARTI_Clep'
                 DataShowAll = True
                 DataTableUnit = 'ARTICLE'
@@ -576,13 +577,13 @@ inherited F_Gamme: TF_Gamme
                 DataAllFiltered = False
               end
               object Panel16: TPanel
-                Left = 263
-                Height = 399
+                Left = 265
+                Height = 396
                 Top = 0
                 Width = 79
                 Align = alRight
                 BevelOuter = bvNone
-                ClientHeight = 399
+                ClientHeight = 396
                 ClientWidth = 79
                 TabOrder = 1
                 object bt_in_art: TFWInSelect
@@ -628,10 +629,10 @@ inherited F_Gamme: TF_Gamme
               end
             end
             object lv_ArtOut: TDBGroupView
-              Left = 348
-              Height = 399
+              Left = 350
+              Height = 396
               Hint = 'A réaffecter'
-              Top = 0
+              Top = 1
               Width = 315
               Align = alClient
               Columns = <              
@@ -641,7 +642,7 @@ inherited F_Gamme: TF_Gamme
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 247
+                  Width = 242
                 end>
               Constraints.MinWidth = 3
               DragMode = dmAutomatic
@@ -680,9 +681,9 @@ inherited F_Gamme: TF_Gamme
       end
     end
     object pa_2: TPanel
-      Left = 0
+      Left = 1
       Height = 565
-      Top = 24
+      Top = 26
       Width = 280
       Align = alLeft
       BevelOuter = bvNone
@@ -706,6 +707,7 @@ inherited F_Gamme: TF_Gamme
           Top = 0
           Width = 280
           Flat = True
+          DataSource = M_Article.ds_Gamme
           DeleteQuestion = 'Confirmez-vous l''effacement de l''enregistrement ?'
           Align = alClient
           ParentShowHint = False
@@ -733,7 +735,7 @@ inherited F_Gamme: TF_Gamme
       object gd_famillevente: TExtDBGrid
         Left = 0
         Height = 533
-        Top = 30
+        Top = 32
         Width = 280
         TitleButtons = True
         AutoSort = False
@@ -745,6 +747,7 @@ inherited F_Gamme: TF_Gamme
         FocusColor = clRed
         SelectedColor = clHighlight
         GridLineStyle = psSolid
+        DataSource = M_Article.ds_Gamme
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
         ParentColor = False
         Scrollbars = ssHorizontal
@@ -755,9 +758,9 @@ inherited F_Gamme: TF_Gamme
       end
     end
     object Panel3: TPanel
-      Left = 0
+      Left = 1
       Height = 25
-      Top = 0
+      Top = 1
       Width = 955
       Align = alTop
       BevelOuter = bvNone
@@ -765,7 +768,7 @@ inherited F_Gamme: TF_Gamme
       ClientWidth = 955
       TabOrder = 2
       object bt_fermer: TFWClose
-        Left = 873
+        Left = 875
         Height = 25
         Top = 0
         Caption = 'Fermer'
@@ -863,77 +866,5 @@ inherited F_Gamme: TF_Gamme
       0000000000000000000000000000000000000000000000000000848400FF8484
       00FF000000000000000000000000
     }
-  end
-  object ds_gammarti: TDatasource[3]
-    DataSet = zq_gammarti
-    left = 32
-    top = 296
-  end
-  object zq_gammarti: TZQuery[4]
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'select ARTI_Clep, ARTI_Libcom'
-      'from ARTICLE'
-      'where ARTI__GAMM = :gamm'
-      'ORDER BY ARTI_Libcom'
-    )
-    Params = <    
-      item
-        DataType = ftString
-        Name = 'gamm'
-        ParamType = ptUnknown
-        Size = -1
-      end>
-    left = 104
-    top = 296
-    ParamData = <    
-      item
-        DataType = ftString
-        Name = 'gamm'
-        ParamType = ptUnknown
-        Size = -1
-      end>
-  end
-  object zq_maj: TZQuery[5]
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'INSERT GAMME_TYPR SELECT distinct ARTI__GAMM,ARTI__TYPR from ARTICLE'
-      'WHERE ARTI__TYPR NOT IN '
-      '(select GATY__TYPR from GAMME_TYPR where GATY__GAMM = ARTI__GAMM) and ARTI__TYPR is not null and ARTI__GAMM is not null'
-      ''
-      'INSERT TYPE_PRODUIT_CARA SELECT distinct ARTI__TYPR,ARTI__CARA from ARTICLE'
-      'WHERE ARTI__CARA NOT IN '
-      '(select TPCA__CARA from TYPR_CARA where TYPE_PRODUIT_CARA = ARTI__TYPR) and ARTI__CARA is not null and ARTI__TYPR is not null and ARTI__GAMM is not null'
-      ''
-      ''
-    )
-    Params = <>
-    left = 104
-    top = 344
-  end
-  object zq_desaffecte: TZQuery[6]
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'UPDATE ARTICLE SET ARTI__GAMM = null, ARTI__TYPR = null,ARTI__CARA = null'
-      'WHERE ARTI_Clep =:codeart'
-      ''
-      ''
-    )
-    Params = <    
-      item
-        DataType = ftUnknown
-        Name = 'codeart'
-        ParamType = ptUnknown
-        Size = -1
-      end>
-    left = 136
-    top = 344
-    ParamData = <    
-      item
-        DataType = ftUnknown
-        Name = 'codeart'
-        ParamType = ptUnknown
-        Size = -1
-      end>
   end
 end

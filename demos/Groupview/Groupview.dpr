@@ -10,12 +10,7 @@ uses
   {$ENDIF}{$ENDIF}
   Forms, Interfaces,
   U_FormMainIni,
-  U_FenetrePrincipale,
-  U_Splash,
-  fonctions_tableauframework,
-  u_customframework,
   LCLType,
-  U_FormDico,
   ZDataset,
   U_Article in 'U_Article.pas' {F_Categ},
   U_DmArticles in 'U_DmArticles.pas' {M_Donn},
@@ -29,17 +24,9 @@ uses
 {$R WindowsXP.res}
 {$ENDIF}
 
-const CST_APPLI_NAME =  'Article';
-
 begin
   Application.Initialize;
   Application.Title := CST_APPLI_NAME;
-
-  F_SplashForm := TF_SplashForm.Create(Application);
-  F_SplashForm.Label1.Caption := CST_APPLI_NAME;
-  F_SplashForm.Label1.Width   := F_SplashForm.Width ;
-  F_SplashForm.Show;   // Affichage de la fiche
-  F_SplashForm.Update; // Force la fiche à se dessiner complètement
 
   Application.CreateForm(TM_Article, M_Article);
   Application.CreateForm(TFMain, FMain);

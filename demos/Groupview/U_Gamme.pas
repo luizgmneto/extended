@@ -22,12 +22,13 @@ uses
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
   DBGrids, u_framework_dbcomponents, u_framework_components,
   ComCtrls, StdCtrls, SysUtils,  TypInfo,  Variants,
-  StrUtils, ToolEdit, U_FormDico, U_OnFormInfoIni,  JvXPButtons,
-  U_ExtDBGrid,U_Donnees, U_ConstMessage, u_buttons_appli,
+  StrUtils, ToolEdit, U_OnFormInfoIni,  JvXPButtons,
+  U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
+  CompSuperForm,
   U_GroupView, ImgList,fonctions_string, U_DmArticles, Menus ;
 
 type
-  TF_Gamme = class(TF_FormDico)
+  TF_Gamme = class(TSuperForm)
     nv_navigator: TExtDBNavigator;
     nv_saisie: TExtDBNavigator;
     lb_code: TFWLabel;
@@ -75,8 +76,6 @@ type
     bt_Desaffecte: TJvXpButton;
     bt_EnrArt: TFWOK;
     bt_retour: TJvXpButton;
-    ds_gammarti: TDataSource;
-    zq_gammarti: TZQuery;
     Panel17: TPanel;
     Panel15: TPanel;
     lv_artin: TDBGroupView;
@@ -87,17 +86,11 @@ type
     bt_out_totart: TFWOutSelect;
     lv_ArtOut: TDBGroupView;
     RbSplitter2: TSplitter;
-    zq_maj: TZQuery;
     bt_AbanArt: TFWCAncel;
-    zq_desaffecte: TZQuery;
     procedure bt_fermerClick(Sender: TObject);
-    procedure F_FormDicoCloseQuery(Sender: TObject;
-      var CanClose: Boolean);
-    procedure F_FormDicoDataOnSave(Sender: TObject);
     procedure F_FormDicoDataOnCancel(Sender: TObject);
     procedure bt_TypeProClick(Sender: TObject);
     procedure F_FormDicoShow(Sender: TObject);
-    procedure lv_artinDBOnRecorded(DataSet: TDataSet);
     procedure lv_artinClick(Sender: TObject);
     procedure lv_ArtOutClick(Sender: TObject);
     procedure bt_out_artClick(Sender: TObject);
@@ -117,8 +110,7 @@ var
 
 implementation
 
-uses U_FenetrePrincipale, fonctions_Objets_Data, unite_variables,
-     fonctions_tableauframework;
+uses U_Main, U_TypeArticle;
 {$IFNDEF FPC}
   {$R *.dfm}
 {$ELSE}
@@ -130,74 +122,7 @@ begin
   Close;
 end;
 
-///////////////////////////////////////////////////////////////////////
-// Procedure : F_FormDicoCloseQuery
-// Description : Controles effectués a la fermeture de la fenetre
-///////////////////////////////////////////////////////////////////////
-procedure TF_Gamme.F_FormDicoCloseQuery(Sender: TObject;
-  var CanClose: Boolean);
-begin
 
-  // en cas de modification de la fiche, message d'alerte pour enregistrer ou non
-  if gb_SauverModifications then
-    Case MessageDlg(U_CST_9602, mtConfirmation, mbYesNoCancel, 0) of
-      MrCancel:CanClose := false; // Cancel
-      MrYes: Try   // yes
-              if Sources[0].Datasource.DataSet.State in [dsEdit, dsInsert] then
-              begin
-                Sources[0].Datasource.DataSet.Post;
-                CanClose := TRUE;
-              end;
-
-              if bt_enregistrer.Enabled then
-                begin
-                  bt_enregistrer.Click;
-                  CanClose := TRUE;
-                end;
-             Except
-              on e:exception do
-                Begin
-                  fcla_GereException ( e, Sources[0].Datasource.DataSet );
-                  CanClose := False ;
-                End ;
-             end;
-      MrNo:Try // No
-            if Sources[0].Datasource.DataSet.State in [dsInsert,dsEdit] then
-               Sources[0].Datasource.DataSet.Cancel;
-
-            if bt_abandonner.Enabled then
-              begin
-                bt_abandonner.Click;
-                CanClose := TRUE;
-              end
-             Except
-              on e:exception do
-                Begin
-                  fcla_GereException ( e, Sources[0].Datasource.DataSet );
-                End ;
-             end;
-    end;
-end;
-
-///////////////////////////////////////////////////////////////////////
-// Procedure : F_FormDicoDataOnSave
-// Description : Donne l'acces aux objets selon que l'adoquery est
-//               en mode insertion ou modification
-///////////////////////////////////////////////////////////////////////
-procedure TF_Gamme.F_FormDicoDataOnSave(Sender: TObject);
-begin
-  if Sources[0].Datasource.DataSet.State in [dsInsert,dsEdit] then
-  begin
-      pc_Groupes.Enabled := FALSE;
-  end;
-  if bt_abandonner.Enabled then
-    begin
-      gd_famillevente.Enabled := FALSE;
-      nv_navigator.Enabled := FALSE;
-      nv_saisie.Enabled := FALSE;
-      pa_6.Enabled := FALSE;
-    end;
-end;
 
 ///////////////////////////////////////////////////////////////////////
 // Procedure :  F_FormDicoDataOnCancel
@@ -216,7 +141,7 @@ end;
 
 procedure TF_Gamme.bt_TypeProClick(Sender: TObject);
 begin
-  ffor_ExecuteFonction ( 'M-18', True );
+  FMain.ffor_CreateChild ( TF_TypeProduit, fsMDIChild, True, nil );
   if ( lsv_TypesIn.Items.Count > 0 )
   and M_Article.IB_TypProduit.Active Then
     If assigned ( lsv_TypesIn.Selected ) Then
@@ -265,9 +190,9 @@ For i:= 0 to lv_artin.SelCount - 1 do
  with lv_artin do
   begin
   codeart := startitem.Caption;
-  IB_desaffecte.Active := False;
-  IB_desaffecte.Params.ParamByName('codeart').Value := trim(codeart);
-  IB_desaffecte.ExecSQL;
+  M_Article.IB_desaffecte.Active := False;
+  M_Article.IB_desaffecte.Params.Values['codeart'].Value := trim(codeart);
+  M_Article.IB_desaffecte.ExecSQL;
   SelectNext( lv_artin, True, False );
   startitem:= Selected;
   end;
@@ -275,23 +200,7 @@ end;
 
 procedure TF_Gamme.F_FormDicoCreate(Sender: TObject);
 begin
-  if gi_niveau_priv < U_CST_CONTROLEGESTION Then
-    begin
-      p_SetAllReadOnly ( Self, nil );
-      bt_TypePro.Enabled := false;
-      lsv_TypesIn.Enabled := false;
-      lsv_TypesOut.Enabled := false;
-      bt_in_item.visible:=false;
-      bt_out_item.visible:=false;
-      bt_out_total.visible:=false;
-      bt_in_total.visible:=false;
-      lv_artin.Enabled := false;
-      lv_ArtOut.Enabled := false;
-      bt_in_art.visible:=false;
-      bt_out_art.visible:=false;
-      bt_out_totart.visible:=false;
-      bt_in_totart.visible:=false;
-    end;
+  M_Article.ds_Gamme.DataSet.open;
 end;
 
 end.

@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Menus,
-  U_FormMainIni, U_Article, U_TypeArticle, U_Caracteristique,
-  U_Gamme, fonctions_version;
+  U_FormMainIni, U_OnFormInfoIni, U_Article, U_TypeArticle, U_Caracteristique,
+  U_Gamme, fonctions_version, U_DmArticles;
 
 type
 
@@ -21,7 +21,9 @@ type
     MuCaract: TMenuItem;
     muGamme: TMenuItem;
     MuTypeArticle: TMenuItem;
-    procedure MenuItem1Click(Sender: TObject);
+    OnFormInfoIni1: TOnFormInfoIni;
+    ScrollBox: TScrollBox;
+    procedure FormCreate(Sender: TObject);
     procedure muaproposClick(Sender: TObject);
     procedure MuArticleClick(Sender: TObject);
     procedure MuCaractClick(Sender: TObject);
@@ -45,6 +47,11 @@ implementation
 procedure TFMain.muaproposClick(Sender: TObject);
 begin
   fb_AfficheApropos(True, CST_APPLI_NAME,'0.9.9.0');
+end;
+
+procedure TFMain.FormCreate(Sender: TObject);
+begin
+  BoxChilds := ScrollBox;
 end;
 
 procedure TFMain.MuArticleClick(Sender: TObject);
