@@ -13,6 +13,7 @@ inherited F_Gamme: TF_Gamme
   OnCreate = F_FormDicoCreate
   OnShow = F_FormDicoShow
   Position = poMainFormCenter
+  WindowState = wsMaximized
   object pa_1: TPanel[0]
     Left = 0
     Height = 592
@@ -148,8 +149,9 @@ inherited F_Gamme: TF_Gamme
           Width = 73
           DataField = 'GAMM_Clep'
           DataSource = M_Article.ds_Gamme
+          ReadOnly = True
           CharCase = ecUppercase
-          Color = clMoneyGreen
+          Color = clLime
           Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
@@ -281,7 +283,7 @@ inherited F_Gamme: TF_Gamme
                 item
                   AutoSize = True
                   Caption = 'Types membres de la gamme'
-                  Width = 227
+                  Width = 185
                 end>
               DragMode = dmAutomatic
               MultiSelect = True

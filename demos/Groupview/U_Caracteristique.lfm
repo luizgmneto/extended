@@ -12,6 +12,7 @@ inherited F_Caracteristique: TF_Caracteristique
   Font.Name = 'MS Sans Serif'
   OnCreate = F_FormDicoCreate
   Position = poMainFormCenter
+  WindowState = wsMaximized
   object pa_1: TPanel[0]
     Left = 0
     Height = 602
@@ -146,8 +147,9 @@ inherited F_Caracteristique: TF_Caracteristique
           Width = 201
           DataField = 'CARA_Clep'
           DataSource = M_Article.ds_Carac
+          ReadOnly = True
           CharCase = ecUppercase
-          Color = clMoneyGreen
+          Color = clLime
           Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
@@ -529,7 +531,7 @@ inherited F_Caracteristique: TF_Caracteristique
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 192
+                    Width = 208
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -624,7 +626,7 @@ inherited F_Caracteristique: TF_Caracteristique
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 253
+                  Width = 269
                 end>
               Constraints.MinWidth = 10
               DragMode = dmAutomatic

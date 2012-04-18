@@ -29,9 +29,9 @@ type
   { TMyform }
 
   TMyform = class(TF_FormMainIni)
-    Datasource: TDatasource;
-    Datasource2: TDatasource;
-    Datasource3: TDatasource;
+    ds_user: TDatasource;
+    ds_dep: TDatasource;
+    ds_dep2: TDatasource;
     ExtDBImage: TExtDBImage;
     ExtDBImageList: TExtDBImageList;
     ExtDBPictCombo: TExtDBPictCombo;
@@ -164,15 +164,19 @@ end;
 
 
 procedure TMyform.FormCreate(Sender: TObject);
+var lstl_conf : TStringList;
 begin
   IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
-  {$IFDEF WIN32}
-  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
   IBDatabase.LibraryName:= 'fbclient.dll';
-  {$ENDIF}
-  {$IFDEF WINDOWS}
-  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
-  IBDatabase.LibraryName:= 'fbclient.dll';
+  {$IFDEF LINUX}
+  try
+    lstl_conf := TStringList.Create;
+    lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName);
+    lstl_conf.SaveToFile(ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.conf');
+  finally
+    lstl_conf.Free;
+  end;
+  IBDatabase.LibraryName:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed.so';
   {$ENDIF}
 end;
 

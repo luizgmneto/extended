@@ -85,12 +85,10 @@
         <Filename Value="Groupview.dpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Groupview"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="14"/>
         <UsageCount Value="48"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -112,13 +110,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Article"/>
-        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="55"/>
+        <TopLine Value="54"/>
         <CursorPos X="109" Y="84"/>
         <UsageCount Value="48"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
@@ -374,13 +369,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Gamme"/>
-        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="70"/>
         <CursorPos X="1" Y="91"/>
         <UsageCount Value="48"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit24>
       <Unit25>
@@ -390,13 +382,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_TypeArticle"/>
-        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="194"/>
-        <CursorPos X="26" Y="232"/>
+        <CursorPos X="152" Y="210"/>
         <UsageCount Value="41"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit25>
       <Unit26>
@@ -406,13 +395,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Caracteristique"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="118"/>
-        <CursorPos X="135" Y="133"/>
+        <TopLine Value="117"/>
+        <CursorPos X="55" Y="128"/>
         <UsageCount Value="48"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
@@ -742,7 +728,7 @@
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="168"/>
-        <CursorPos X="115" Y="183"/>
+        <CursorPos X="1" Y="192"/>
         <UsageCount Value="32"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -778,7 +764,7 @@
         <ComponentName Value="FMain"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Main"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="33"/>
         <CursorPos X="41" Y="57"/>
@@ -852,7 +838,7 @@
       </Unit69>
       <Unit70>
         <Filename Value="/usr/lib/lazarus/0.9.30.4/lcl/include/control.inc"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3171"/>
         <CursorPos X="55" Y="3186"/>
@@ -875,12 +861,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_FormMainIni"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1084"/>
         <CursorPos X="53" Y="1098"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit72>
       <Unit73>
         <Filename Value="../../../UIB/source/uiblib.pas"/>
@@ -891,127 +875,43 @@
         <UsageCount Value="12"/>
       </Unit73>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="9" HistoryIndex="8">
       <Position1>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1381" Column="1" TopLine="1359"/>
-      </Position1>
-      <Position2>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1382" Column="1" TopLine="1371"/>
-      </Position2>
-      <Position3>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1385" Column="1" TopLine="1371"/>
-      </Position3>
-      <Position4>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1388" Column="1" TopLine="1371"/>
-      </Position4>
-      <Position5>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1391" Column="1" TopLine="1371"/>
-      </Position5>
-      <Position6>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1402" Column="1" TopLine="1371"/>
-      </Position6>
-      <Position7>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1429" Column="1" TopLine="1408"/>
-      </Position7>
-      <Position8>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1430" Column="1" TopLine="1408"/>
-      </Position8>
-      <Position9>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1093" Column="1" TopLine="1072"/>
-      </Position9>
-      <Position10>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1095" Column="1" TopLine="1084"/>
-      </Position10>
-      <Position11>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1096" Column="1" TopLine="1084"/>
-      </Position11>
-      <Position12>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1098" Column="1" TopLine="1084"/>
-      </Position12>
-      <Position13>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1099" Column="1" TopLine="1084"/>
-      </Position13>
-      <Position14>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1101" Column="1" TopLine="1084"/>
-      </Position14>
-      <Position15>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1102" Column="1" TopLine="1084"/>
-      </Position15>
-      <Position16>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1104" Column="1" TopLine="1084"/>
-      </Position16>
-      <Position17>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1105" Column="1" TopLine="1084"/>
-      </Position17>
-      <Position18>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1106" Column="1" TopLine="1084"/>
-      </Position18>
-      <Position19>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1109" Column="1" TopLine="1084"/>
-      </Position19>
-      <Position20>
         <Filename Value="u_main.pas"/>
         <Caret Line="51" Column="1" TopLine="32"/>
-      </Position20>
-      <Position21>
+      </Position1>
+      <Position2>
         <Filename Value="u_main.pas"/>
         <Caret Line="59" Column="112" TopLine="34"/>
-      </Position21>
-      <Position22>
+      </Position2>
+      <Position3>
         <Filename Value="u_main.pas"/>
         <Caret Line="53" Column="13" TopLine="32"/>
-      </Position22>
-      <Position23>
+      </Position3>
+      <Position4>
         <Filename Value="u_main.pas"/>
         <Caret Line="56" Column="41" TopLine="32"/>
-      </Position23>
-      <Position24>
+      </Position4>
+      <Position5>
         <Filename Value="u_main.pas"/>
         <Caret Line="57" Column="41" TopLine="33"/>
-      </Position24>
-      <Position25>
-        <Filename Value="u_typearticle.pas"/>
-        <Caret Line="232" Column="21" TopLine="195"/>
-      </Position25>
-      <Position26>
-        <Filename Value="u_typearticle.pas"/>
-        <Caret Line="195" Column="3" TopLine="193"/>
-      </Position26>
-      <Position27>
+      </Position5>
+      <Position6>
         <Filename Value="u_dmarticles.pas"/>
         <Caret Line="185" Column="121" TopLine="164"/>
-      </Position27>
-      <Position28>
+      </Position6>
+      <Position7>
         <Filename Value="u_dmarticles.pas"/>
         <Caret Line="181" Column="22" TopLine="164"/>
-      </Position28>
-      <Position29>
+      </Position7>
+      <Position8>
         <Filename Value="u_dmarticles.pas"/>
         <Caret Line="193" Column="1" TopLine="160"/>
-      </Position29>
-      <Position30>
+      </Position8>
+      <Position9>
         <Filename Value="u_dmarticles.pas"/>
         <Caret Line="190" Column="81" TopLine="168"/>
-      </Position30>
+      </Position9>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
