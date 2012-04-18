@@ -59,7 +59,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="139">
+    <Units Count="141">
       <Unit0>
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -68,7 +68,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="15"/>
-        <UsageCount Value="116"/>
+        <UsageCount Value="118"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -82,10 +82,12 @@
       </Unit1>
       <Unit2>
         <Filename Value="u_components.lfm"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="635"/>
-        <CursorPos X="27" Y="663"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="253"/>
+        <CursorPos X="24" Y="253"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit2>
       <Unit3>
@@ -161,11 +163,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="22"/>
-        <CursorPos X="46" Y="22"/>
-        <UsageCount Value="56"/>
+        <TopLine Value="121"/>
+        <CursorPos X="1" Y="138"/>
+        <UsageCount Value="58"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -1220,10 +1223,12 @@
       <Unit133>
         <Filename Value="../../composants/U_ExtComboInsert.pas"/>
         <UnitName Value="U_ExtComboInsert"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="571"/>
-        <CursorPos X="17" Y="597"/>
+        <TopLine Value="81"/>
+        <CursorPos X="27" Y="81"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit133>
       <Unit134>
         <Filename Value="../../../../../../lazarus/lcl/stdctrls.pp"/>
@@ -1261,29 +1266,153 @@
       <Unit138>
         <Filename Value="../FDV Demo/U_ComposeArticle.pas"/>
         <UnitName Value="U_ComposeArticle"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit138>
+      <Unit139>
+        <Filename Value="/usr/lib/lazarus/0.9.30.4/lcl/dbctrls.pp"/>
+        <UnitName Value="DbCtrls"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1423"/>
+        <CursorPos X="42" Y="1436"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit139>
+      <Unit140>
+        <Filename Value="/usr/lib/lazarus/0.9.30.4/lcl/include/dblookup.inc"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="213"/>
+        <CursorPos X="1" Y="234"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit140>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="u_components.pas"/>
-        <Caret Line="154" Column="64" TopLine="148"/>
+        <Caret Line="137" Column="1" TopLine="115"/>
       </Position1>
       <Position2>
         <Filename Value="u_components.pas"/>
-        <Caret Line="13" Column="45" TopLine="1"/>
+        <Caret Line="142" Column="19" TopLine="115"/>
       </Position2>
       <Position3>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="22" Column="64" TopLine="1"/>
+        <Filename Value="u_components.lfm"/>
+        <Caret Line="658" Column="31" TopLine="654"/>
       </Position3>
+      <Position4>
+        <Filename Value="u_components.lfm"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position4>
+      <Position5>
+        <Filename Value="u_components.lfm"/>
+        <Caret Line="253" Column="24" TopLine="219"/>
+      </Position5>
+      <Position6>
+        <Filename Value="u_components.lfm"/>
+        <Caret Line="406" Column="28" TopLine="372"/>
+      </Position6>
+      <Position7>
+        <Filename Value="u_components.lfm"/>
+        <Caret Line="606" Column="23" TopLine="572"/>
+      </Position7>
+      <Position8>
+        <Filename Value="u_components.lfm"/>
+        <Caret Line="634" Column="18" TopLine="600"/>
+      </Position8>
+      <Position9>
+        <Filename Value="u_components.lfm"/>
+        <Caret Line="639" Column="28" TopLine="605"/>
+      </Position9>
+      <Position10>
+        <Filename Value="u_components.lfm"/>
+        <Caret Line="643" Column="84" TopLine="620"/>
+      </Position10>
+      <Position11>
+        <Filename Value="u_components.lfm"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position11>
+      <Position12>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="136" Column="33" TopLine="115"/>
+      </Position12>
+      <Position13>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="22" Column="75" TopLine="13"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="96" Column="54" TopLine="85"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="114" Column="68" TopLine="85"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="222" Column="16" TopLine="188"/>
+      </Position16>
+      <Position17>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="305" Column="108" TopLine="271"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="307" Column="20" TopLine="273"/>
+      </Position18>
+      <Position19>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="339" Column="21" TopLine="305"/>
+      </Position19>
+      <Position20>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="344" Column="20" TopLine="310"/>
+      </Position20>
+      <Position21>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="353" Column="40" TopLine="319"/>
+      </Position21>
+      <Position22>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="354" Column="28" TopLine="320"/>
+      </Position22>
+      <Position23>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="414" Column="81" TopLine="380"/>
+      </Position23>
+      <Position24>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="479" Column="14" TopLine="445"/>
+      </Position24>
+      <Position25>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="480" Column="16" TopLine="446"/>
+      </Position25>
+      <Position26>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="484" Column="16" TopLine="450"/>
+      </Position26>
+      <Position27>
+        <Filename Value="../../composants/U_ExtComboInsert.pas"/>
+        <Caret Line="500" Column="141" TopLine="488"/>
+      </Position27>
+      <Position28>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="22" Column="75" TopLine="121"/>
+      </Position28>
+      <Position29>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="136" Column="1" TopLine="121"/>
+      </Position29>
+      <Position30>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="135" Column="141" TopLine="121"/>
+      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -1316,7 +1445,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="4">
+    <BreakPoints Count="3">
       <Item1>
         <Source Value="/usr/share/fpcsrc/2.4.4/packages/fcl-db/src/base/fields.inc"/>
         <Line Value="2586"/>
@@ -1329,10 +1458,6 @@
         <Source Value="../composants/u_extmenucustomize.pas"/>
         <Line Value="157"/>
       </Item3>
-      <Item4>
-        <Source Value="u_components.pas"/>
-        <Line Value="130"/>
-      </Item4>
     </BreakPoints>
     <Exceptions Count="4">
       <Item1>

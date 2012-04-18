@@ -12,6 +12,7 @@ inherited F_Article: TF_Article
   Font.Name = 'MS Sans Serif'
   OnCreate = F_FormDicoCreate
   Position = poMainFormCenter
+  WindowState = wsMaximized
   object pa_1: TPanel[0]
     Left = 0
     Height = 341

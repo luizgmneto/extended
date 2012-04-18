@@ -185,20 +185,11 @@ begin
   {$IFDEF LINUX}
   try
     lstl_conf := TStringList.Create;
-    lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName)+#13#10+
-                      'TempDirectories='+ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird';
+    lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName);
     lstl_conf.SaveToFile(ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.conf');
-    lstl_conf.Text := 'export LD_LIBRARY_PATH='''+ExtractFileDir(Application.ExeName)+''''+#10+
-                      'export FIREBIRD='''+ExtractFileDir(Application.ExeName)+'''';
-    lstl_conf.SaveToFile(ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.sh');
-    Process.CommandLine:='chmod 777 '''+ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.sh'+'''';
-    Process.Execute;
-    Process.CommandLine:=''''+ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.sh'+'''';
-    Process.Execute;
-
   finally
+    lstl_conf.Free;
   end;
-  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
   IBDatabase.LibraryName:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed.so';
   {$ENDIF}
   for li_i := 0 to ComponentCount - 1 do

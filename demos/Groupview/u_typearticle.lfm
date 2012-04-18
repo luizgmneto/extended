@@ -3,6 +3,7 @@ inherited F_TypeProduit: TF_TypeProduit
   Height = 500
   Top = 293
   Width = 871
+  Align = alClient
   Caption = 'Type d''article'
   ClientHeight = 500
   ClientWidth = 871
@@ -12,6 +13,7 @@ inherited F_TypeProduit: TF_TypeProduit
   Font.Name = 'MS Sans Serif'
   OnCreate = F_FormDicoCreate
   Position = poMainFormCenter
+  WindowState = wsMaximized
   object pa_1: TPanel[0]
     Left = 0
     Height = 500
@@ -147,8 +149,9 @@ inherited F_TypeProduit: TF_TypeProduit
           Width = 129
           DataField = 'TYPR_Clep'
           DataSource = M_Article.ds_TypProduit
+          ReadOnly = True
           CharCase = ecUppercase
-          Color = clMoneyGreen
+          Color = clLime
           Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
@@ -445,7 +448,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'Caractéristiques membres du type'
-                  Width = 265
+                  Width = 185
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -773,7 +776,7 @@ inherited F_TypeProduit: TF_TypeProduit
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 145
+                    Width = 161
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -868,7 +871,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 203
+                  Width = 219
                 end>
               Constraints.MinWidth = 4
               DragMode = dmAutomatic
