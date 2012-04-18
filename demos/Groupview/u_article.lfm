@@ -1,7 +1,7 @@
 inherited F_Article: TF_Article
-  Left = 540
+  Left = 485
   Height = 367
-  Top = 227
+  Top = 253
   Width = 772
   Caption = 'Catégorie'
   ClientHeight = 367
@@ -10,7 +10,6 @@ inherited F_Article: TF_Article
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
-  OnCloseQuery = F_FormDicoCloseQuery
   OnCreate = F_FormDicoCreate
   Position = poMainFormCenter
   object pa_1: TPanel[0]
@@ -87,6 +86,7 @@ inherited F_Article: TF_Article
           Top = 0
           Width = 469
           Flat = True
+          DataSource = M_Article.ds_article
           DeleteQuestion = 'Confirmez-vous l''effacement de l''enregistrement ?'
           Align = alClient
           ParentShowHint = False
@@ -113,9 +113,10 @@ inherited F_Article: TF_Article
       object ed_libelcateg: TFWDBEdit
         Tag = 2
         Left = 128
-        Height = 27
+        Height = 25
         Top = 64
         Width = 190
+        DataField = 'ARTI_Libcom'
         DataSource = M_Article.ds_article
         CharCase = ecNormal
         Color = clMoneyGreen
@@ -129,11 +130,14 @@ inherited F_Article: TF_Article
       object ed_codecateg: TFWDBEdit
         Tag = 1
         Left = 128
-        Height = 27
+        Height = 25
         Top = 39
         Width = 34
+        DataField = 'ARTI_Clep'
+        DataSource = M_Article.ds_article
+        ReadOnly = True
         CharCase = ecNormal
-        Color = clMoneyGreen
+        Color = clLime
         Font.Color = clWindowText
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
@@ -169,6 +173,7 @@ inherited F_Article: TF_Article
           Top = 0
           Width = 296
           Flat = True
+          DataSource = M_Article.ds_article
           DeleteQuestion = 'Confirmez-vous l''effacement de l''enregistrement ?'
           Align = alClient
           ParentShowHint = False
@@ -207,6 +212,7 @@ inherited F_Article: TF_Article
         FocusColor = clRed
         SelectedColor = clHighlight
         GridLineStyle = psSolid
+        DataSource = M_Article.ds_article
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
         ParentColor = False
         Scrollbars = ssHorizontal
@@ -293,13 +299,18 @@ inherited F_Article: TF_Article
       TabOrder = 3
     end
     object bt_fermer: TFWClose
-      Left = 692
+      Left = 676
       Height = 26
       Top = 0
+      Width = 96
       Caption = 'Fermer'
       TabOrder = 6
       Layout = blGlyphRight
       Align = alRight
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      ParentFont = False
       OnClick = bt_fermerClick
     end
   end

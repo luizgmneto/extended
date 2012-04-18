@@ -7,14 +7,18 @@ unit U_DmArticles;
 interface
 
 uses
-  SysUtils, StrUtils, Classes, DB, ZDataset, Forms, Dialogs, controls,
-  U_Donnees, fonctions_string, U_FormDico, uib, U_ConstMessage, uibdataset;
+  SysUtils, StrUtils, Classes, DB, process, ZDataset, Forms, Dialogs, controls,
+  fonctions_string, uib, U_ConstMessage, uibdataset;
+const CST_APPLI_NAME =  'Article';
 type
 
   { TM_Article }
 
   TM_Article = class(TDataModule)
     ds_article: TDataSource;
+    ds_caraarti: TDatasource;
+    ds_gammarti: TDatasource;
+    ds_typearti: TDatasource;
     IBDatabase: TUIBDataBase;
     IBTransaction: TUIBTransaction;
     IB_artcoul: TUIBDataset;
@@ -75,6 +79,48 @@ type
     IB_Article4: TUIBDataset;
     IB_Article5: TUIBDataset;
     IB_Article6: TUIBDataset;
+    Process: TProcess;
+    zq_ArbreArt: TUIBDataSet;
+    zq_ArFini: TUIBDataSet;
+    zq_artcoul: TUIBDataSet;
+    zq_Article: TUIBDataSet;
+    zq_Article2: TUIBDataSet;
+    zq_Article3: TUIBDataSet;
+    zq_Article4: TUIBDataSet;
+    zq_Article5: TUIBDataSet;
+    zq_Article6: TUIBDataSet;
+    ib_caraarti: TUIBDataSet;
+    zq_Carac: TUIBDataSet;
+    zq_CocoCoul: TUIBDataSet;
+    zq_code_copieart: TUIBDataSet;
+    zq_copieart: TUIBDataSet;
+    ib_desaffecte: TUIBDataSet;
+    zq_FiltreProduit: TUIBDataSet;
+    zq_FiniInTyFi: TUIBDataSet;
+    zq_FiniOutTyFi: TUIBDataSet;
+    ib_gammarti: TUIBDataSet;
+    zq_Gamme: TUIBDataSet;
+    zq_GammeE: TUIBDataSet;
+    zq_GamTProIn: TUIBDataSet;
+    zq_GamTProOut: TUIBDataSet;
+    ib_majTypArt: TUIBDataSet;
+    ib_majGamme: TUIBDataSet;
+    ib_majcara: TUIBDataSet;
+    zq_prod_acces: TUIBDataSet;
+    zq_Sel1Carac: TUIBDataSet;
+    zq_Sel1Carac2: TUIBDataSet;
+    zq_Sel1TypPro: TUIBDataSet;
+    zq_Sel1TypPro2: TUIBDataSet;
+    zq_SelCarac: TUIBDataSet;
+    zq_SelCarac2: TUIBDataSet;
+    zq_SelGamme: TUIBDataSet;
+    zq_SelTypPro: TUIBDataSet;
+    zq_SelTypPro2: TUIBDataSet;
+    zq_TyfiInFini: TUIBDataSet;
+    zq_TyfiOutFini: TUIBDataSet;
+    ib_typearti: TUIBDataSet;
+    zq_TypProduit: TUIBDataSet;
+    procedure DataModuleCreate(Sender: TObject);
     procedure IB_articleAfterScroll(DataSet: TDataSet);
     procedure IB_articleNewRecord(DataSet: TDataSet);
     procedure IB_SelGammeAfterScroll(DataSet: TDataSet);
@@ -94,15 +140,12 @@ type
     procedure IB_Article1AfterInsert(DataSet: TDataSet);
     procedure IB_Article1AfterPost(DataSet: TDataSet);
     procedure IB_ArbreArtAfterOpen(DataSet: TDataSet);
-    procedure IB_Article1BeforeEdit(DataSet: TDataSet);
 
   private
     { D?clarations priv?es }
   public
     gi_AccesProduits : Integer ;
     { D?clarations publiques }
-    procedure p_AccesArticles ( const avar_Tyde : Variant );
-    procedure p_TousLesProduits;
   end;
 
 var
@@ -110,64 +153,13 @@ var
 
 implementation
 
-uses Variants , fonctions_dbcomponents,
-   unite_variables;
+uses Variants , fonctions_dbcomponents;
 
 {$IFNDEF FPC}
   {$R *.dfm}
 {$ELSE}
   {$R *.lfm}
 {$ENDIF}
-
-/////////////////////////////////////////////////////////////////////////////////////
-// Proc?dure   : p_TousLesProduits
-// Description : Enl?ve le filtre de la requ?te des articles
-/////////////////////////////////////////////////////////////////////////////////////
-procedure TM_Article.p_AccesArticles ( const avar_Tyde : Variant );
-begin
-  ds_article.DataSet := Nil ;
-
-  if ( gi_niveau_priv <= U_CST_REPRESENTANT ) Then
-    begin
-
-       gi_AccesProduits := 2;
-       if avar_Tyde = Null Then
-         ds_article.DataSet := IB_Article5
-       Else
-         ds_article.DataSet := IB_Article6
-    end
-  else if ( gi_niveau_priv <= U_CST_ASSISTANT ) Then
-    begin
-
-       gi_AccesProduits := 1;
-       if avar_Tyde = Null Then
-         ds_article.DataSet := IB_Article3
-       Else
-         ds_article.DataSet := IB_Article4
-    end
-    Else
-    begin
-
-       gi_AccesProduits := 0;
-       if avar_Tyde = Null Then
-         ds_article.DataSet := IB_Article1
-       Else
-         ds_article.DataSet := IB_Article2
-    end ;
-  if ( avar_Tyde <> Null )
-  and (( M_Article.ds_Article.DataSet as TUIBDataset ).Params.Values[ 'Tyde' ].Value <> avar_Tyde ) Then
-    Begin
-      //li_user =0 => TOUS LES ARTICLES; li_user =1 => LES ARTICLES NON DECLASSES
-      ds_Article.Dataset.Close ;
-      ( ds_Article.Dataset as TUIBDataset ).Params.Values[ 'Tyde' ].Value := avar_Tyde ;
-    End ;
-
-End ;
-
-procedure TM_Article.p_TousLesProduits;
-begin
-  p_AccesArticles ( Null );
-end;
 
 procedure TM_Article.IB_articleAfterScroll(DataSet: TDataSet);
 begin
@@ -182,6 +174,40 @@ begin
     F_SeleArticle.lb_datecreation.Caption := FormatDateTime('d/mm/yyyy',M_Article.IB_Article.FieldByName('ARTI_Datecrea').AsDateTime);}
 
   TDateField(M_Article.ds_article.DataSet.FieldByName('ARTI_Datecrea')).DisplayFormat := U_CST_format_date_2;    
+end;
+
+procedure TM_Article.DataModuleCreate(Sender: TObject);
+var li_i : Integer;
+    lstl_conf : TStringList;
+begin
+  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
+  IBDatabase.LibraryName:= 'fbclient.dll';
+  {$IFDEF LINUX}
+  try
+    lstl_conf := TStringList.Create;
+    lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName)+#13#10+
+                      'TempDirectories='+ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird';
+    lstl_conf.SaveToFile(ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.conf');
+    lstl_conf.Text := 'export LD_LIBRARY_PATH='''+ExtractFileDir(Application.ExeName)+''''+#10+
+                      'export FIREBIRD='''+ExtractFileDir(Application.ExeName)+'''';
+    lstl_conf.SaveToFile(ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.sh');
+    Process.CommandLine:='chmod 777 '''+ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.sh'+'''';
+    Process.Execute;
+    Process.CommandLine:=''''+ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.sh'+'''';
+    Process.Execute;
+
+  finally
+  end;
+  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
+  IBDatabase.LibraryName:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed.so';
+  {$ENDIF}
+  for li_i := 0 to ComponentCount - 1 do
+    if Components[li_i] is TUIBDataSet Then
+     with Components[li_i] as TUIBDataSet do
+      Begin
+        Database:=IBDatabase;
+        Transaction:=IBTransaction;
+      end;
 end;
 
 
@@ -289,11 +315,6 @@ begin
   DataSet.FieldByName ( 'ARTI_Declasse' ).Value := 0;
   DataSet.FieldByName ( 'ARTI_Compose'  ).Value := 0;
 
-  if gi_niveau_priv = U_CST_ASSISTANT then
-    Dataset.FieldByName ('ARTI_Indicspe').Value := 1
-  else
-    DataSet.FieldByName ( 'ARTI_Indicspe' ).Value := 0;
-
 end;
 
 
@@ -316,27 +337,6 @@ end;
 procedure TM_Article.IB_ArbreArtAfterOpen(DataSet: TDataSet);
 begin
   TNumericField(IB_ArbreArt.FieldByName('ARDE_Prix')).DisplayFormat := U_CST_format_money_1 ;
-end;
-
-///////////////////////////////////////////////////////////////////////
-// Procedure : IB_ArticleBeforeEdit
-// Description : controle du profil, car une assitante ne peut modifier
-//    que les articles speciaux (donc pas de creation ni suppr ni modif
-//    de l'article ou de ses finitions)
-///////////////////////////////////////////////////////////////////////
-// ATTENTION CETTE PROCEDURE EST EGALEMENT UTILISE dans
-//  IB_artcoulbeforeEdit, IB_artcoulbeforeInsert,IB_artcoulbeforedelete
-///////////////////////////////////////////////////////////////////////
-procedure TM_Article.IB_Article1BeforeEdit(DataSet: TDataSet);
-begin
-  if gi_niveau_priv = U_CST_ASSISTANT then
-  begin
-    if not ds_article.DataSet.FieldByName ('ARTI_Indicspe').Asboolean then
-    begin
-      MessageDlg(U_CST_9032,mtWarning,[mbOk],0);
-      Abort;
-    end;
-  end;
 end;
 
 

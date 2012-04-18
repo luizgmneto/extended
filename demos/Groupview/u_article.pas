@@ -21,12 +21,12 @@ uses
   LCLType, Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
   DBGrids, u_framework_dbcomponents, ComCtrls, StdCtrls, SysUtils,  TypInfo,
-  Variants, StrUtils, ToolEdit, U_FormDico, U_OnFormInfoIni,
+  Variants, StrUtils, ToolEdit, U_OnFormInfoIni, CompSuperForm,
   JvXPButtons, U_ExtDBGrid,U_ConstMessage, U_DmArticles,
   u_framework_components, u_buttons_appli;
 
 type
-  TF_Article = class(TF_FormDico)
+  TF_Article = class(TSuperForm)
     nv_navigator: TExtDBNavigator;
     nv_saisie: TExtDBNavigator;
     pa_1: TPanel;
@@ -50,8 +50,6 @@ type
     Panel6: TPanel;
     bt_fermer: TFWClose;
     procedure bt_fermerClick(Sender: TObject);
-    procedure F_FormDicoCloseQuery(Sender: TObject;
-      var CanClose: Boolean);
     procedure F_FormDicoCreate(Sender: TObject);
 
   private
@@ -65,8 +63,6 @@ var
   F_Article: TF_Article;
 
 implementation
-
-uses U_FenetrePrincipale, unite_variables, fonctions_tableauframework;
 
 {$IFNDEF FPC}
   {$R *.dfm}
@@ -83,27 +79,6 @@ begin
   Close;
 end;
 
-///////////////////////////////////////////////////////////////////////
-// Procedure : F_FormDicoCloseQuery
-// Description : Fermeture de la fiche avec Contrôle de modification
-//        des données de la fiche
-///////////////////////////////////////////////////////////////////////
-procedure TF_Article.F_FormDicoCloseQuery(Sender: TObject;
-  var CanClose: Boolean);
-begin
-  if gb_SauverModifications then
-    case MessageDlg(U_CST_9602, mtConfirmation, mbYesNoCancel, 0) of
-      mrCancel: CanClose := False;
-      mrYes: begin
-               if (M_Article.ib_Article1.State in [dsInsert, dsEdit]) then
-                 M_Article.IB_Article1.Post;
-             end;
-      mrNo: begin
-              if (M_Article.IB_Article1.State in [dsInsert, dsEdit]) then
-                M_Article.IB_Article1.Cancel;
-         end;
-    end;
-end;
 
 ///////////////////////////////////////////////////////////////////////
 // Procedure : F_FormDicoCreate
@@ -113,10 +88,8 @@ procedure TF_Article.F_FormDicoCreate(Sender: TObject);
 begin
   F_Article := Self;
 
-  if  ( gi_niveau_priv <  U_CST_CONTROLEGESTION ) Then
-  Begin
-    p_SetAllReadOnly ( Self, nil );
-  End ;
+  M_Article.ds_article.DataSet.Open;
+
 end;
 
 end.

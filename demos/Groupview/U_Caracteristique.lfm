@@ -1,7 +1,7 @@
 inherited F_Caracteristique: TF_Caracteristique
   Left = 16
   Height = 602
-  Top = 91
+  Top = 92
   Width = 968
   Caption = 'Caractéristiques d''articles'
   ClientHeight = 602
@@ -10,7 +10,6 @@ inherited F_Caracteristique: TF_Caracteristique
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
-  OnCloseQuery = F_FormDicoCloseQuery
   OnCreate = F_FormDicoCreate
   Position = poMainFormCenter
   object pa_1: TPanel[0]
@@ -24,15 +23,15 @@ inherited F_Caracteristique: TF_Caracteristique
     ClientWidth = 968
     TabOrder = 0
     object spl_1: TSplitter
-      Left = 279
+      Left = 281
       Height = 574
-      Top = 25
+      Top = 27
       Width = 5
     end
     object pa_3: TPanel
-      Left = 284
+      Left = 286
       Height = 574
-      Top = 25
+      Top = 27
       Width = 681
       Align = alClient
       BevelOuter = bvNone
@@ -56,6 +55,7 @@ inherited F_Caracteristique: TF_Caracteristique
           Top = 0
           Width = 681
           Flat = True
+          DataSource = M_Article.ds_Carac
           DeleteQuestion = 'Confirmez-vous l''effacement de l''enregistrement ?'
           Align = alClient
           ParentShowHint = False
@@ -83,7 +83,7 @@ inherited F_Caracteristique: TF_Caracteristique
       object pa_6: TPanel
         Left = 0
         Height = 74
-        Top = 30
+        Top = 32
         Width = 681
         Align = alTop
         BevelOuter = bvNone
@@ -124,9 +124,11 @@ inherited F_Caracteristique: TF_Caracteristique
         object ed_libelle: TFWDBEdit
           Tag = 2
           Left = 102
-          Height = 27
+          Height = 25
           Top = 35
           Width = 460
+          DataField = 'CARA_Libelle'
+          DataSource = M_Article.ds_Carac
           CharCase = ecNormal
           Color = clMoneyGreen
           Font.Color = clWindowText
@@ -139,9 +141,11 @@ inherited F_Caracteristique: TF_Caracteristique
         object ed_code: TFWDBEdit
           Tag = 1
           Left = 102
-          Height = 27
+          Height = 25
           Top = 10
           Width = 201
+          DataField = 'CARA_Clep'
+          DataSource = M_Article.ds_Carac
           CharCase = ecUppercase
           Color = clMoneyGreen
           Font.Color = clWindowText
@@ -155,7 +159,7 @@ inherited F_Caracteristique: TF_Caracteristique
       object pc_Groupes: TPageControl
         Left = 0
         Height = 468
-        Top = 104
+        Top = 106
         Width = 681
         ActivePage = ts_ssfam
         Align = alClient
@@ -163,11 +167,11 @@ inherited F_Caracteristique: TF_Caracteristique
         TabOrder = 2
         object ts_ssfam: TTabSheet
           Caption = 'Types dont cette caractéristique est membre'
-          ClientHeight = 437
+          ClientHeight = 434
           ClientWidth = 677
           object RbSplitter1: TSplitter
             Left = 321
-            Height = 412
+            Height = 409
             Top = 25
             Width = 5
           end
@@ -181,56 +185,56 @@ inherited F_Caracteristique: TF_Caracteristique
             ClientWidth = 677
             TabOrder = 0
             object Panel12: TPanel
-              Left = 235
+              Left = 237
               Height = 23
-              Top = 0
+              Top = 1
               Width = 13
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 0
             end
             object Panel13: TPanel
-              Left = 104
+              Left = 106
               Height = 23
-              Top = 0
+              Top = 1
               Width = 19
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 1
             end
             object Panel1: TPanel
-              Left = 0
+              Left = 1
               Height = 23
-              Top = 0
+              Top = 1
               Width = 13
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 2
             end
             object Panel5: TPanel
-              Left = 661
+              Left = 663
               Height = 23
-              Top = 0
+              Top = 1
               Width = 13
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 3
             end
             object bt_abandonner: TFWCancel
-              Left = 123
+              Left = 125
               Height = 23
               Hint = 'Abandonner les modifications'
-              Top = 0
+              Top = 1
               Width = 112
               Enabled = False
               TabOrder = 4
               Align = alLeft
             end
             object bt_enregistrer: TFWOK
-              Left = 12
+              Left = 14
               Height = 23
               Hint = 'Enregistrer les modifications'
-              Top = 0
+              Top = 1
               Width = 92
               Caption = 'Enregistrer'
               Enabled = False
@@ -238,10 +242,10 @@ inherited F_Caracteristique: TF_Caracteristique
               Align = alLeft
             end
             object bt_TypePro: TJvXPButton
-              Left = 248
+              Left = 250
               Height = 23
               Hint = 'Accéder à la fiche Type de produit'
-              Top = 0
+              Top = 1
               Width = 22
               Caption = '...'
               TabOrder = 6
@@ -253,18 +257,18 @@ inherited F_Caracteristique: TF_Caracteristique
           end
           object Panel6: TPanel
             Left = 0
-            Height = 412
+            Height = 409
             Top = 25
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 412
+            ClientHeight = 409
             ClientWidth = 321
             Constraints.MinWidth = 10
             TabOrder = 1
             object lv_CaracIn: TDBGroupView
               Left = 0
-              Height = 412
+              Height = 409
               Hint = 'Liste des membres'
               Top = 0
               Width = 242
@@ -276,7 +280,7 @@ inherited F_Caracteristique: TF_Caracteristique
                 item
                   AutoSize = True
                   Caption = 'Types dont cette caractéristique est membre'
-                  Width = 311
+                  Width = 342
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -288,7 +292,6 @@ inherited F_Caracteristique: TF_Caracteristique
               StateImages = im_images
               TabOrder = 0
               ViewStyle = vsReport
-              Datasource = M_Article.ds_CaraTPIn
               DataKeyUnit = 'TYPR_Clep'
               DataTableUnit = 'TYPE_PRODUIT'
               DataTableGroup = 'TYPE_PRODUIT_CARA'
@@ -307,13 +310,13 @@ inherited F_Caracteristique: TF_Caracteristique
               DataAllFiltered = False
             end
             object Panel2: TPanel
-              Left = 240
-              Height = 412
+              Left = 242
+              Height = 409
               Top = 0
               Width = 79
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 412
+              ClientHeight = 409
               ClientWidth = 79
               TabOrder = 1
               object bt_in_item: TFWInSelect
@@ -358,7 +361,7 @@ inherited F_Caracteristique: TF_Caracteristique
           end
           object lv_transfert: TDBGroupView
             Left = 326
-            Height = 412
+            Height = 409
             Hint = 'A réaffecter'
             Top = 25
             Width = 351
@@ -370,7 +373,7 @@ inherited F_Caracteristique: TF_Caracteristique
               item
                 AutoSize = True
                 Caption = 'Types dont cette caractéristique n''est pas membre'
-                Width = 350
+                Width = 386
               end>
             Constraints.MinWidth = 10
             DragMode = dmAutomatic
@@ -383,7 +386,6 @@ inherited F_Caracteristique: TF_Caracteristique
             StateImages = im_images
             TabOrder = 2
             ViewStyle = vsReport
-            Datasource = M_Article.ds_CaraTPOut
             DataKeyUnit = 'TYPR_Clep'
             DataTableUnit = 'TYPE_PRODUIT'
             DataTableGroup = 'TYPE_PRODUIT_CARA'
@@ -405,59 +407,59 @@ inherited F_Caracteristique: TF_Caracteristique
         end
         object TabSheet1: TTabSheet
           Caption = 'Articles affectés à la caractéristique'
-          ClientHeight = 437
+          ClientHeight = 434
           ClientWidth = 677
           ImageIndex = 1
           object Panel7: TPanel
             Left = 0
             Height = 25
             Top = 0
-            Width = 665
+            Width = 677
             Align = alTop
             ClientHeight = 25
-            ClientWidth = 665
+            ClientWidth = 677
             TabOrder = 0
             object Panel18: TPanel
-              Left = 215
+              Left = 217
               Height = 23
-              Top = 0
+              Top = 1
               Width = 13
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 0
             end
             object Panel19: TPanel
-              Left = 104
+              Left = 106
               Height = 23
-              Top = 0
+              Top = 1
               Width = 19
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 1
             end
             object Panel20: TPanel
-              Left = 0
+              Left = 1
               Height = 23
-              Top = 0
+              Top = 1
               Width = 13
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 2
             end
             object Panel21: TPanel
-              Left = 649
+              Left = 663
               Height = 23
-              Top = 0
+              Top = 1
               Width = 13
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 3
             end
             object bt_AbanArt: TJvXPButton
-              Left = 123
+              Left = 125
               Height = 23
               Hint = 'Abandonner les modifications'
-              Top = 0
+              Top = 1
               Width = 92
               Caption = 'Abandonner'
               Enabled = False
@@ -465,10 +467,10 @@ inherited F_Caracteristique: TF_Caracteristique
               Align = alLeft
             end
             object bt_EnrArt: TFWOK
-              Left = 12
+              Left = 14
               Height = 23
               Hint = 'Enregistrer les modifications'
-              Top = 0
+              Top = 1
               Width = 92
               Caption = 'Enregistrer'
               Enabled = False
@@ -476,10 +478,10 @@ inherited F_Caracteristique: TF_Caracteristique
               Align = alLeft
             end
             object bt_retour: TJvXPButton
-              Left = 557
+              Left = 571
               Height = 23
               Hint = 'Réaffectation aux Directions opérationnelles d''origine'
-              Top = 0
+              Top = 1
               Width = 92
               Caption = 'Retour origine'
               Enabled = False
@@ -489,33 +491,33 @@ inherited F_Caracteristique: TF_Caracteristique
           end
           object Panel22: TPanel
             Left = 0
-            Height = 384
+            Height = 409
             Top = 25
-            Width = 665
+            Width = 677
             Align = alClient
-            ClientHeight = 384
-            ClientWidth = 665
+            ClientHeight = 409
+            ClientWidth = 677
             TabOrder = 1
             object RbSplitter3: TSplitter
-              Left = 343
-              Height = 382
-              Top = 0
+              Left = 345
+              Height = 407
+              Top = 1
               Width = 5
             end
             object Panel23: TPanel
-              Left = 0
-              Height = 382
-              Top = 0
+              Left = 1
+              Height = 407
+              Top = 1
               Width = 344
               Align = alLeft
               BevelOuter = bvNone
-              ClientHeight = 382
+              ClientHeight = 407
               ClientWidth = 344
               Constraints.MinWidth = 10
               TabOrder = 0
               object lv_artin: TDBGroupView
                 Left = 0
-                Height = 382
+                Height = 407
                 Hint = 'Liste des membres'
                 Top = 0
                 Width = 265
@@ -527,7 +529,7 @@ inherited F_Caracteristique: TF_Caracteristique
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 208
+                    Width = 192
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -539,7 +541,6 @@ inherited F_Caracteristique: TF_Caracteristique
                 StateImages = im_images
                 TabOrder = 0
                 ViewStyle = vsReport
-                Datasource = ds_caraarti
                 DataKeyUnit = 'ARTI_Clep'
                 DataShowAll = True
                 DataTableUnit = 'ARTICLE'
@@ -560,13 +561,13 @@ inherited F_Caracteristique: TF_Caracteristique
                 DataAllFiltered = False
               end
               object Panel24: TPanel
-                Left = 263
-                Height = 382
+                Left = 265
+                Height = 407
                 Top = 0
                 Width = 79
                 Align = alRight
                 BevelOuter = bvNone
-                ClientHeight = 382
+                ClientHeight = 407
                 ClientWidth = 79
                 TabOrder = 1
                 object bt_in_art: TFWInSelect
@@ -610,11 +611,11 @@ inherited F_Caracteristique: TF_Caracteristique
               end
             end
             object lv_ArtOut: TDBGroupView
-              Left = 348
-              Height = 382
+              Left = 350
+              Height = 407
               Hint = 'A réaffecter'
-              Top = 0
-              Width = 314
+              Top = 1
+              Width = 326
               Align = alClient
               Columns = <              
                 item
@@ -623,7 +624,7 @@ inherited F_Caracteristique: TF_Caracteristique
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 257
+                  Width = 253
                 end>
               Constraints.MinWidth = 10
               DragMode = dmAutomatic
@@ -660,9 +661,9 @@ inherited F_Caracteristique: TF_Caracteristique
       end
     end
     object pa_2: TPanel
-      Left = 0
+      Left = 1
       Height = 574
-      Top = 25
+      Top = 27
       Width = 280
       Align = alLeft
       BevelOuter = bvNone
@@ -686,6 +687,7 @@ inherited F_Caracteristique: TF_Caracteristique
           Top = 0
           Width = 280
           Flat = True
+          DataSource = M_Article.ds_Carac
           DeleteQuestion = 'Confirmez-vous l''effacement de l''enregistrement ?'
           Align = alClient
           ParentShowHint = False
@@ -713,7 +715,7 @@ inherited F_Caracteristique: TF_Caracteristique
       object gd_famillevente: TExtDBGrid
         Left = 0
         Height = 542
-        Top = 30
+        Top = 32
         Width = 280
         TitleButtons = True
         AutoSort = False
@@ -725,6 +727,7 @@ inherited F_Caracteristique: TF_Caracteristique
         FocusColor = clRed
         SelectedColor = clHighlight
         GridLineStyle = psSolid
+        DataSource = M_Article.ds_Carac
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
         ParentColor = False
         Scrollbars = ssVertical
@@ -735,9 +738,9 @@ inherited F_Caracteristique: TF_Caracteristique
       end
     end
     object Panel3: TPanel
-      Left = 0
+      Left = 1
       Height = 26
-      Top = 0
+      Top = 1
       Width = 966
       Align = alTop
       BevelOuter = bvNone
@@ -745,7 +748,7 @@ inherited F_Caracteristique: TF_Caracteristique
       ClientWidth = 966
       TabOrder = 2
       object bt_fermer: TFWClose
-        Left = 884
+        Left = 886
         Height = 26
         Top = 0
         Caption = 'Fermer'
@@ -843,53 +846,5 @@ inherited F_Caracteristique: TF_Caracteristique
       0000000000000000000000000000000000000000000000000000848400FF8484
       00FF000000000000000000000000
     }
-  end
-  object ds_caraarti: TDatasource[3]
-    DataSet = zq_caraarti
-    left = 32
-    top = 296
-  end
-  object zq_caraarti: TZQuery[4]
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'select ARTI_Clep, ARTI_Libcom'
-      'from ARTICLE'
-      'where ARTI__CARA = :cara'
-      'ORDER BY ARTI_Libcom'
-    )
-    Params = <    
-      item
-        DataType = ftUnknown
-        Name = 'cara'
-        ParamType = ptUnknown
-        Size = -1
-      end>
-    left = 104
-    top = 296
-    ParamData = <    
-      item
-        DataType = ftUnknown
-        Name = 'cara'
-        ParamType = ptUnknown
-        Size = -1
-      end>
-  end
-  object zq_maj: TZQuery[5]
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'INSERT GAMME_TYPR SELECT distinct ARTI__GAMM,ARTI__TYPR from ARTICLE'
-      'WHERE ARTI__TYPR NOT IN '
-      '(select GATY__TYPR from GAMME_TYPR where GATY__GAMM = ARTI__GAMM) and ARTI__TYPR is not null and ARTI__GAMM is not null'
-      ''
-      'INSERT TYPE_PRODUIT_CARA SELECT distinct ARTI__TYPR,ARTI__CARA from ARTICLE'
-      'WHERE ARTI__CARA NOT IN '
-      '(select TYPC__CARA from TYPE_PRODUIT_CARA where TYPC__TYPR = ARTI__TYPR) and ARTI__CARA is not null '
-      'and ARTI__TYPR is not null and ARTI__GAMM is not null'
-      ''
-      ''
-    )
-    Params = <>
-    left = 104
-    top = 344
   end
 end

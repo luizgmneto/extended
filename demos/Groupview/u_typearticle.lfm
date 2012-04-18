@@ -1,7 +1,7 @@
 inherited F_TypeProduit: TF_TypeProduit
-  Left = 205
+  Left = 386
   Height = 500
-  Top = 187
+  Top = 293
   Width = 871
   Caption = 'Type d''article'
   ClientHeight = 500
@@ -10,7 +10,6 @@ inherited F_TypeProduit: TF_TypeProduit
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
-  OnCloseQuery = F_FormDicoCloseQuery
   OnCreate = F_FormDicoCreate
   Position = poMainFormCenter
   object pa_1: TPanel[0]
@@ -56,6 +55,7 @@ inherited F_TypeProduit: TF_TypeProduit
           Top = 0
           Width = 584
           Flat = True
+          DataSource = M_Article.ds_TypProduit
           DeleteQuestion = 'Confirmez-vous l''effacement de l''enregistrement ?'
           Align = alClient
           ParentShowHint = False
@@ -125,9 +125,11 @@ inherited F_TypeProduit: TF_TypeProduit
         object ed_libelle: TFWDBEdit
           Tag = 2
           Left = 102
-          Height = 27
+          Height = 25
           Top = 35
           Width = 460
+          DataField = 'TYPR_Libelle'
+          DataSource = M_Article.ds_TypProduit
           CharCase = ecNormal
           Color = clMoneyGreen
           Font.Color = clWindowText
@@ -140,9 +142,11 @@ inherited F_TypeProduit: TF_TypeProduit
         object ed_code: TFWDBEdit
           Tag = 1
           Left = 102
-          Height = 27
+          Height = 25
           Top = 10
           Width = 129
+          DataField = 'TYPR_Clep'
+          DataSource = M_Article.ds_TypProduit
           CharCase = ecUppercase
           Color = clMoneyGreen
           Font.Color = clWindowText
@@ -166,11 +170,11 @@ inherited F_TypeProduit: TF_TypeProduit
         OnChanging = pc_GroupesChanging
         object ts_Gamme: TTabSheet
           Caption = 'Gammes dont ce type est membre'
-          ClientHeight = 331
-          ClientWidth = 578
+          ClientHeight = 333
+          ClientWidth = 580
           object RbSplitter1: TSplitter
             Left = 321
-            Height = 304
+            Height = 306
             Top = 27
             Width = 5
           end
@@ -178,10 +182,10 @@ inherited F_TypeProduit: TF_TypeProduit
             Left = 0
             Height = 27
             Top = 0
-            Width = 578
+            Width = 580
             Align = alTop
             ClientHeight = 27
-            ClientWidth = 578
+            ClientWidth = 580
             TabOrder = 0
             object Panel13: TPanel
               Left = 225
@@ -202,7 +206,7 @@ inherited F_TypeProduit: TF_TypeProduit
               TabOrder = 1
             end
             object Panel5: TPanel
-              Left = 564
+              Left = 566
               Height = 25
               Top = 1
               Width = 13
@@ -257,18 +261,18 @@ inherited F_TypeProduit: TF_TypeProduit
           end
           object Panel6: TPanel
             Left = 0
-            Height = 304
+            Height = 306
             Top = 27
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 304
+            ClientHeight = 306
             ClientWidth = 321
             Constraints.MinWidth = 4
             TabOrder = 1
             object lsv_GammIn: TDBGroupView
               Left = 0
-              Height = 304
+              Height = 306
               Hint = 'Liste des membres'
               Top = 0
               Width = 251
@@ -296,6 +300,7 @@ inherited F_TypeProduit: TF_TypeProduit
               DataTableUnit = 'GAMME'
               DataTableGroup = 'GAMME_TYPR'
               DataTableOwner = 'TYPE_PRODUIT'
+              DataSourceOwner = M_Article.ds_TypProduit
               DataKeyOwner = 'TYPR_Clep'
               DataFieldUnit = 'GATY__GAMM'
               DataFieldGroup = 'GATY__TYPR'
@@ -310,12 +315,12 @@ inherited F_TypeProduit: TF_TypeProduit
             end
             object Panel2: TPanel
               Left = 251
-              Height = 304
+              Height = 306
               Top = 0
               Width = 70
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 304
+              ClientHeight = 306
               ClientWidth = 70
               TabOrder = 1
               object bt_in_item: TFWInSelect
@@ -360,10 +365,10 @@ inherited F_TypeProduit: TF_TypeProduit
           end
           object lsv_GammOut: TDBGroupView
             Left = 326
-            Height = 304
+            Height = 306
             Hint = 'A réaffecter'
             Top = 27
-            Width = 252
+            Width = 254
             Align = alClient
             Columns = <            
               item
@@ -389,6 +394,7 @@ inherited F_TypeProduit: TF_TypeProduit
             DataTableUnit = 'GAMME'
             DataTableGroup = 'GAMMR_TYPR'
             DataTableOwner = 'TYPE_PRODUIT'
+            DataSourceOwner = M_Article.ds_TypProduit
             DataKeyOwner = 'TYPR_Clep'
             DataFieldUnit = 'GATY__GAMM'
             DataFieldGroup = 'GATY__TYPR'
@@ -405,29 +411,29 @@ inherited F_TypeProduit: TF_TypeProduit
         end
         object ts_Caracteristique: TTabSheet
           Caption = 'Caractéristiques membres du type'
-          ClientHeight = 331
-          ClientWidth = 578
+          ClientHeight = 333
+          ClientWidth = 580
           ImageIndex = 1
           object RbSplitter2: TSplitter
             Left = 321
-            Height = 304
+            Height = 306
             Top = 27
             Width = 5
           end
           object Panel7: TPanel
             Left = 0
-            Height = 304
+            Height = 306
             Top = 27
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 304
+            ClientHeight = 306
             ClientWidth = 321
             Constraints.MinWidth = 4
             TabOrder = 0
             object lsv_CaracIn: TDBGroupView
               Left = 0
-              Height = 304
+              Height = 306
               Hint = 'Liste des membres'
               Top = 0
               Width = 242
@@ -455,6 +461,7 @@ inherited F_TypeProduit: TF_TypeProduit
               DataTableUnit = 'CARACTERISTIQUE'
               DataTableGroup = 'TYPE_PRODUIT_CARA'
               DataTableOwner = 'TYPE_PRODUIT'
+              DataSourceOwner = M_Article.ds_TypProduit
               DataKeyOwner = 'TYPR_Clep'
               DataFieldUnit = 'TYPC__CARA'
               DataFieldGroup = 'TYPC__TYPR'
@@ -469,12 +476,12 @@ inherited F_TypeProduit: TF_TypeProduit
             end
             object Panel8: TPanel
               Left = 242
-              Height = 304
+              Height = 306
               Top = 0
               Width = 79
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 304
+              ClientHeight = 306
               ClientWidth = 79
               TabOrder = 1
               object bt_in_carac: TFWInSelect
@@ -521,10 +528,10 @@ inherited F_TypeProduit: TF_TypeProduit
             Left = 0
             Height = 27
             Top = 0
-            Width = 578
+            Width = 580
             Align = alTop
             ClientHeight = 27
-            ClientWidth = 578
+            ClientWidth = 580
             TabOrder = 1
             object Panel14: TPanel
               Left = 106
@@ -545,7 +552,7 @@ inherited F_TypeProduit: TF_TypeProduit
               TabOrder = 1
             end
             object Panel16: TPanel
-              Left = 564
+              Left = 566
               Height = 25
               Top = 1
               Width = 13
@@ -599,10 +606,10 @@ inherited F_TypeProduit: TF_TypeProduit
           end
           object lsv_CaracOut: TDBGroupView
             Left = 326
-            Height = 304
+            Height = 306
             Hint = 'A réaffecter'
             Top = 27
-            Width = 252
+            Width = 254
             Align = alClient
             Columns = <            
               item
@@ -628,6 +635,7 @@ inherited F_TypeProduit: TF_TypeProduit
             DataTableUnit = 'CARACTERISTIQUE'
             DataTableGroup = 'TYPE_PRODUIT_CARA'
             DataTableOwner = 'TYPE_PRODUIT'
+            DataSourceOwner = M_Article.ds_TypProduit
             DataKeyOwner = 'TYPR_Clep'
             DataFieldUnit = 'TYPC__CARA'
             DataFieldGroup = 'TYPC__TYPR'
@@ -644,17 +652,17 @@ inherited F_TypeProduit: TF_TypeProduit
         end
         object TabSheet1: TTabSheet
           Caption = 'Articles affectés au type'
-          ClientHeight = 331
-          ClientWidth = 578
+          ClientHeight = 333
+          ClientWidth = 580
           ImageIndex = 2
           object Panel12: TPanel
             Left = 0
             Height = 27
             Top = 0
-            Width = 578
+            Width = 580
             Align = alTop
             ClientHeight = 27
-            ClientWidth = 578
+            ClientWidth = 580
             TabOrder = 0
             object Panel18: TPanel
               Left = 233
@@ -684,7 +692,7 @@ inherited F_TypeProduit: TF_TypeProduit
               TabOrder = 2
             end
             object Panel21: TPanel
-              Left = 564
+              Left = 566
               Height = 25
               Top = 1
               Width = 13
@@ -714,7 +722,7 @@ inherited F_TypeProduit: TF_TypeProduit
               Align = alLeft
             end
             object bt_retour: TJvXPButton
-              Left = 472
+              Left = 474
               Height = 25
               Hint = 'Réaffectation aux Directions opérationnelles d''origine'
               Top = 1
@@ -727,33 +735,33 @@ inherited F_TypeProduit: TF_TypeProduit
           end
           object Panel22: TPanel
             Left = 0
-            Height = 304
+            Height = 306
             Top = 27
-            Width = 578
+            Width = 580
             Align = alClient
-            ClientHeight = 304
-            ClientWidth = 578
+            ClientHeight = 306
+            ClientWidth = 580
             TabOrder = 1
             object RbSplitter3: TSplitter
               Left = 298
-              Height = 302
+              Height = 304
               Top = 1
               Width = 5
             end
             object Panel23: TPanel
               Left = 1
-              Height = 302
+              Height = 304
               Top = 1
               Width = 297
               Align = alLeft
               BevelOuter = bvNone
-              ClientHeight = 302
+              ClientHeight = 304
               ClientWidth = 297
               Constraints.MinWidth = 4
               TabOrder = 0
               object lv_artin: TDBGroupView
                 Left = 0
-                Height = 302
+                Height = 304
                 Hint = 'Liste des membres'
                 Top = 0
                 Width = 218
@@ -765,7 +773,7 @@ inherited F_TypeProduit: TF_TypeProduit
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 148
+                    Width = 145
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -777,12 +785,12 @@ inherited F_TypeProduit: TF_TypeProduit
                 StateImages = im_images
                 TabOrder = 0
                 ViewStyle = vsReport
-                Datasource = ds_typearti
                 DataKeyUnit = 'ARTI_Clep'
                 DataShowAll = True
                 DataTableUnit = 'ARTICLE'
                 DataTableGroup = 'ARTICLE'
                 DataTableOwner = 'TYPE_PRODUIT'
+                DataSourceOwner = M_Article.ds_TypProduit
                 DataKeyOwner = 'TYPR_Clep'
                 DataFieldUnit = 'ARTI_Clep'
                 DataFieldGroup = 'ARTI__TYPR'
@@ -798,12 +806,12 @@ inherited F_TypeProduit: TF_TypeProduit
               end
               object Panel24: TPanel
                 Left = 218
-                Height = 302
+                Height = 304
                 Top = 0
                 Width = 79
                 Align = alRight
                 BevelOuter = bvNone
-                ClientHeight = 302
+                ClientHeight = 304
                 ClientWidth = 79
                 TabOrder = 1
                 object bt_in_art: TFWInSelect
@@ -848,10 +856,10 @@ inherited F_TypeProduit: TF_TypeProduit
             end
             object lv_ArtOut: TDBGroupView
               Left = 303
-              Height = 302
+              Height = 304
               Hint = 'A réaffecter'
               Top = 1
-              Width = 274
+              Width = 276
               Align = alClient
               Columns = <              
                 item
@@ -860,7 +868,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 204
+                  Width = 203
                 end>
               Constraints.MinWidth = 4
               DragMode = dmAutomatic
@@ -922,6 +930,7 @@ inherited F_TypeProduit: TF_TypeProduit
           Top = 0
           Width = 280
           Flat = True
+          DataSource = M_Article.ds_TypProduit
           DeleteQuestion = 'Confirmez-vous l''effacement de l''enregistrement ?'
           Align = alClient
           ParentShowHint = False
@@ -961,6 +970,7 @@ inherited F_TypeProduit: TF_TypeProduit
         FocusColor = clRed
         SelectedColor = clHighlight
         GridLineStyle = psSolid
+        DataSource = M_Article.ds_TypProduit
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
         ParentColor = False
         Scrollbars = ssVertical
@@ -1079,51 +1089,5 @@ inherited F_TypeProduit: TF_TypeProduit
       0000000000000000000000000000000000000000000000000000848400FF8484
       00FF000000000000000000000000
     }
-  end
-  object ds_typearti: TDatasource[3]
-    DataSet = zq_typearti
-    left = 32
-    top = 296
-  end
-  object zq_typearti: TZQuery[4]
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'select ARTI_Clep, ARTI_Libcom'
-      'from ARTICLE'
-      'where ARTI__TYPR = :type'
-      'ORDER BY ARTI_Libcom'
-    )
-    Params = <    
-      item
-        DataType = ftUnknown
-        Name = 'type'
-        ParamType = ptUnknown
-        Size = -1
-      end>
-    left = 104
-    top = 296
-    ParamData = <    
-      item
-        DataType = ftUnknown
-        Name = 'type'
-        ParamType = ptUnknown
-        Size = -1
-      end>
-  end
-  object zq_maj: TZQuery[5]
-    Connection = M_Donnees.Connection
-    SQL.Strings = (
-      'INSERT GAMME_TYPR SELECT distinct ARTI__GAMM,ARTI__TYPR from ARTICLE'
-      'WHERE ARTI__TYPR NOT IN '
-      '(select GATY__TYPR from GAMME_TYPR where GATY__GAMM = ARTI__GAMM) and ARTI__TYPR is not null and ARTI__GAMM is not null'
-      ''
-      'INSERT TYPE_PRODUIT_CARA SELECT distinct ARTI__TYPR,ARTI__CARA from ARTICLE'
-      'WHERE ARTI__CARA NOT IN '
-      '(select TYPC__CARA from TYPE_PRODUIT_CARA where TYPC__TYPR = ARTI__TYPR) and ARTI__CARA is not null '
-      'and ARTI__TYPR is not null and ARTI__GAMM is not null'
-    )
-    Params = <>
-    left = 104
-    top = 344
   end
 end
