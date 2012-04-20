@@ -22,11 +22,35 @@ uses
 {$ENDIF}
   Dialogs, Math ;
 
-const
+
+const  SansAccents : TCharToUTF8Table
+             = (#0,#1,#2,#3,#4,#5,#6,#7,#8,#9,#10,#11,#12,#13,#14,#15,#16,#17,#18,#19,#20,#21,#22,#23,#24,#25,#26,#27,#28,#29,#30,#31,#32,#33,#34,#35,#36,#37,#38,#39,#40,#41,#42,#43,#44,#45,#46,#47,#48,#49,#50,#51,#52,#53,#54,#55,#56,#57,#58,#59,#60,#61,#62,#63,#64,
+                'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',#91,#92,#93,#94,#95,#96,
+                'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',#123,#124,#125,#126,#127,
+                'A','A','A','A','A','A','A','C','E','E','E','E','I','I','I','I','D','N','O','O','O','O','O','×','O','U','U','U','U','Y','D','B',
+                'a','a','a','a','a','a','a','c','e','e','e','e','i','i','i','i','o','n','o','o','o','o','o','÷','o','u','u','u','u','y','d','y',
+                #192,#193,#194,#195,#196,#197,#198,#199,#200,#201,#202,#203,#204,#205,#206,#207,#208,#209,#210,#211,#212,#213,#214,#215,#216,#217,#218,#219,#220,#221,#222,#223,#224,#225,#226,#227,#228,#229,#230,#231,#232,#233,#234,#235,#236,#237,#238,#239,#240,#241,#242,#243,#244,#245,#246,#247,#248,#249,#250,#251,#252,#253,#254,#255);
+      Minuscules : TCharToUTF8Table
+      = (#0,#1,#2,#3,#4,#5,#6,#7,#8,#9,#10,#11,#12,#13,#14,#15,#16,#17,#18,#19,#20,#21,#22,#23,#24,#25,#26,#27,#28,#29,#30,#31,#32,#33,#34,#35,#36,#37,#38,#39,#40,#41,#42,#43,#44,#45,#46,#47,#48,#49,#50,#51,#52,#53,#54,#55,#56,#57,#58,#59,#60,#61,#62,#63,#64,
+         'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',#91,#92,#93,#94,#95,#96,
+         'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',#123,#124,#125,#126,#127,
+                   'à','á','â','ã','ä','å','æ','ç','è','é','ê','ë','ì','í','î','ï','ð','ñ','ò','ó','ô','õ','ö','÷','ø','ù','ú','û','ü','ý','d','b',
+                   'à','á','â','ã','ä','å','æ','ç','è','é','ê','ë','ì','í','î','ï','ð','ñ','ò','ó','ô','õ','ö','÷','ø','ù','ú','û','ü','ý','d','ÿ',
+                   #192,#193,#194,#195,#196,#197,#198,#199,#200,#201,#202,#203,#204,#205,#206,#207,#208,#209,#210,#211,#212,#213,#214,#215,#216,#217,#218,#219,#220,#221,#222,#223,#224,#225,#226,#227,#228,#229,#230,#231,#232,#233,#234,#235,#236,#237,#238,#239,#240,#241,#242,#243,#244,#245,#246,#247,#248,#249,#250,#251,#252,#253,#254,#255);
+      Majuscules :TCharToUTF8Table
+      = (#0,#1,#2,#3,#4,#5,#6,#7,#8,#9,#10,#11,#12,#13,#14,#15,#16,#17,#18,#19,#20,#21,#22,#23,#24,#25,#26,#27,#28,#29,#30,#31,#32,#33,#34,#35,#36,#37,#38,#39,#40,#41,#42,#43,#44,#45,#46,#47,#48,#49,#50,#51,#52,#53,#54,#55,#56,#57,#58,#59,#60,#61,#62,#63,#64,
+         'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',#91,#92,#93,#94,#95,#96,
+        'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',#123,#124,#125,#126,#127,
+               'À','Á','Â','Ã','Ä','Å','Æ','Ç','È','É','Ê','Ë','Ì','Í','Î','Ï','Ð','Ñ','Ò','Ó','Ô','Õ','Ö','×','Ø','Ù','Ú','Û','Ü','Ý','D','B',
+               'À','Á','Â','Ã','Ä','Å','Æ','Ç','È','É','Ê','Ë','Ì','Í','Î','Ï','Ð','Ñ','Ò','Ó','Ô','Õ','Ö','×','Ø','Ù','Ú','Û','Ü','Ý','D','Y',
+      #192,#193,#194,#195,#196,#197,#198,#199,#200,#201,#202,#203,#204,#205,#206,#207,#208,#209,#210,#211,#212,#213,#214,#215,#216,#217,#218,#219,#220,#221,#222,#223,#224,#225,#226,#227,#228,#229,#230,#231,#232,#233,#234,#235,#236,#237,#238,#239,#240,#241,#242,#243,#244,#245,#246,#247,#248,#249,#250,#251,#252,#253,#254,#255);
+
 {$IFNDEF FPC}
   DirectorySeparator = '\' ;
 {$ENDIF}
   CST_ENDOFLINE = #10;
+type
+  TUArray = Array of Array [ 0.. 2 ] of Integer;
 
 {$IFDEF FPC}
   function ExtractFileDir ( const as_FilePath : String ) :String;
@@ -34,8 +58,9 @@ const
   function fs_Dos2Win( const aText: string): string;
   function fs_Win2Dos( const aText: string): string;
 {$ENDIF}
-  function fs_TextToFileName(Chaine:String; const ab_acccents :Boolean = True):AnsiString;
+  function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True):AnsiString;
   function fs_getCorrectString ( const as_string : String ): String ;
+  function fs_FormatText(Chaine:String; const ab_NoAccents:Boolean = True ; const ab_AllIsMaj:Boolean = False; const ab_AllIsMin:Boolean = False; const ab_FirstISMaj :Boolean = False ):String;
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
   function fs_EraseFirstDirectory ( const as_Path : String ) :String;
   function fb_isFileChar(AChar:Char):boolean;
@@ -50,6 +75,7 @@ const
   function fs_stringDecoupe( const aTexte: Tstrings; const aSep: string): string;
   function fs_stringChamp( const aString, aSep: string; aNum: Word): string;
   function ft_stringConstruitListe( const aTexte, aSep: string): TStrings;
+  function fb_stringConstruitListe( const aTexte: string ; var aa_Result : TUArray ):Boolean;
   function fs_convertionCoordLambertDMS( const aPosition: string; aLongitude: Boolean): string;
   function fe_convertionCoordLambertDD( const aPosition: string): Extended;
   function fe_distanceEntrePointsCoordLambert( const aLatitudeDep, aLongitudeDep, aLatitudeArr, aLongitudeArr: string): Extended;
@@ -93,15 +119,11 @@ const
 implementation
 
 {$IFDEF FPC}
-uses LCLType, FileUtil ;
+uses LCLType, LCLProc, FileUtil, UTF8Process ;
 {$ELSE}
 uses JclStrings ;
 {$ENDIF}
 
-const SansAccents : array[AnsiChar] of Char
-             = #0#1#2#3#4#5#6#7#8#9#10#11#12#13#14#15#16#17#18#19#20#21#22#23#24#25#26#27#28#29#30#31#32#33#34#35#36#37#38#39#40#41#42#43#44#45#46#47#48#49#50#51#52#53#54#55#56#57#58#59#60#61#62#63#64#65#66#67#68#69#70#71#72#73#74#75#76#77#78#79#80#81#82#83#84#85#86#87#88#89#90#91#92#93#94#95#96#97#98#99#100#101#102#103#104#105#106#107#108#109#110#111#112#113#114#115#116#117#118#119#120#121#122#123#124#125#126 +
-                'AAAAAAACEEEEIIIIDNOOOOO×OUUUUYDB' +
-                'aaaaaaaceeeeiiiidnooooo÷ouuuuydy';
 
 
  function fs_EraseFirstDirectory ( const as_Path : String ) :String;
@@ -271,6 +293,7 @@ begin
   t_liste.Free;
   t_chaine.Free;
 end;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //Fonction ramenant le Nieme champ d'une chaîne avec séparateur.
@@ -682,6 +705,67 @@ Begin
 End;
 {$ENDIF}
 
+function fs_ReplaceUTF8Table ( const s : String ; const Table : TCharToUTF8Table ):String;
+var
+  len: Integer;
+  i: Integer;
+  Src: PChar;
+  Dest: PChar;
+  p: PChar;
+  c: Char;
+begin
+  if s='' then begin
+    Result:=s;
+    exit;
+  end;
+  len:=length(s);
+  SetLength(Result,len*4);// UTF-8 is at most 4 bytes
+  Src:=PChar(s);
+  Dest:=PChar(Result);
+  for i:=1 to len do begin
+    c:=Src^;
+    inc(Src);
+    if ord(c)<128 then begin
+      Dest^:=c;
+      inc(Dest);
+    end else begin
+      if c=#195 Then
+        inc ( c );
+      p := Table [c];
+      if p<>nil then begin
+        while p^<>#0 do begin
+          Dest^:=p^;
+          inc(p);
+          inc(Dest);
+        end;
+      end;
+    end;
+  end;
+  SetLength(Result,PtrUInt(Dest)-PtrUInt(Result));
+end;
+
+
+// function fs_TextWithoutAccent
+// text with no special caracters
+function fs_FormatText(Chaine:String; const ab_NoAccents:Boolean = True ; const ab_AllIsMaj:Boolean = False; const ab_AllIsMin:Boolean = False; const ab_FirstISMaj :Boolean = False ):String;
+var AChar :PChar;
+    EndChar : PChar;
+    RChar : Char;
+begin
+  Result:='';
+  if Chaine = '' Then
+    Exit;
+  if ab_NoAccents
+   Then Result := fs_ReplaceUTF8Table (Chaine,SansAccents) // conversion of accents
+   Else Result := Chaine;
+  //if ord (AChar^ ) > 127 Then Appendstr ( s, AChar^ + ' ' + Inttostr(ord ( AChar^))+ #10);
+  if ab_AllIsMaj or (ab_FirstISMaj and (AChar=@Result[1]))
+   Then Result := fs_ReplaceUTF8Table (Result,Majuscules)
+  else if ab_AllIsMin or ab_FirstISMaj
+   Then Result:=fs_ReplaceUTF8Table (Result,Minuscules);
+end;
+
+
 function fs_EraseSpecialChars( const aText: string): string;
 var li_i : Longint ;
 Begin
@@ -703,28 +787,88 @@ end;
 
 // function TextToFileName
 // creating file name
-function fs_TextToFileName(Chaine:String; const ab_acccents :Boolean = True ):AnsiString;
+function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True ):AnsiString;
 var AChar :PChar;
     EndChar : PChar;
 begin
-  {$IFDEF FPC}
-  Result:=Utf8ToAnsi(chaine);
-  Result:=StringReplace(chaine,#195,'',[rfReplaceAll]);
-  {$ELSE}
   Result:=chaine;
-  {$ENDIF}
   if Result = '' Then
     Exit;
+  Result:=fs_ReplaceUTF8Table (Result,SansAccents);
   AChar:=@Result[1];
   EndChar:=@Result[Length(Result)];
   while AChar<=EndChar do
     begin
       //if ord (AChar^ ) > 127 Then Appendstr ( s, AChar^ + ' ' + Inttostr(ord ( AChar^))+ #10);
-      if ab_acccents Then
-        AChar^:=SansAccents[AChar^]; // conversion of accents
+//      if ab_NoAccents Then
+//        AChar^:=SansAccents[AChar^]; // conversion of accents
       if not fb_isFileChar(AChar^) Then AChar^:='_'; // if not a correct char so '_'
       inc (Achar);
     end;
+end;
+
+function fs_EraseChar(const AChaine:String; const ACharToErase : Char ):String;
+var AChar :PChar;
+    EndChar : PChar;
+begin
+  Result:='';
+  if AChaine = '' Then
+    Exit;
+  AChar:=@AChaine[1];
+  EndChar:=@AChaine[Length(AChaine)];
+  while AChar<=EndChar do
+    begin
+      if AChar^ <> ACharToErase Then AppendStr( Result, AChar^ ); // if not a correct char so ''
+      inc (Achar);
+    end;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//Fonction ramenant une liste de string en supprimant le séparateur
+///////////////////////////////////////////////////////////////////////////////
+function fb_stringConstruitListe( const aTexte: string ; var aa_Result : TUArray ):Boolean;
+var AChar :PAnsiChar;
+    EndChar : PAnsiChar;
+    AInt:^Byte;
+    li_texte : Pointer ;
+    procedure p_add;
+    Begin
+      SetLength(aa_Result,high(aa_Result)+2);
+      aa_Result [ High(aa_Result)] [0] := li_texte - @aTexte[1] ;
+      aa_Result [ High(aa_Result)] [1] := AChar - li_texte + 1;
+      aa_Result [ High(aa_Result)] [2] := 0;
+    end;
+
+begin
+  Result := False;
+  if aTexte = '' Then
+    Exit;
+  AChar:=@aTexte[1];
+  li_texte:=@aTexte[1];
+  EndChar:=@aTexte[Length(aTexte)];
+  repeat
+      if not ( AChar^ in ['A'..'Z','a'..'z'] ) Then
+       Begin
+         AInt := Pointer ( AChar );
+         if AInt^= 195 Then //  on utf8 the char 195 is accent
+           Begin
+             inc (Achar);
+           End
+          else
+           Begin
+            if li_texte < AChar Then
+              Begin
+                p_add;
+                aa_Result [ High(aa_Result)] [2] := ord(AChar^);
+                Result := True;
+                li_texte := AChar+1;
+              end;
+           end;
+       End ;
+      inc (Achar);
+  until ( AChar=EndChar ) or (Achar^ = #0);
+  if li_texte < AChar Then
+    p_add;
 end;
 
 {$IFDEF VERSIONS}
