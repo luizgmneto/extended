@@ -76,7 +76,8 @@ const
     gVer_fonction_string : T_Version = ( Component : 'Gestion des chaînes' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Fonctions de traduction et de formatage des chaînes.' ;
-                        			                 BugsStory : 'Version 1.0.3.1 : Upgrading fs_TextToFileName.' + #13#10 + #13#10 +
+                        			                 BugsStory : 'Version 1.0.4.0 : fs_FormatText and other.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.3.1 : Upgrading fs_TextToFileName.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.3.0 : Moving function to DB functions.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.2.3 : UTF 8.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.2.2 : fs_TextToFileName of André Langlet.' + #13#10 + #13#10 +
@@ -87,7 +88,7 @@ const
                         			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 3 ; Build :  1);
+                        			                 Major : 1 ; Minor : 0 ; Release : 4 ; Build :  0);
 {$ENDIF}
     CST_ORD_GUILLEMENT = ord ( '''' );
     CST_ORD_POURCENT   = ord ( '%' );
