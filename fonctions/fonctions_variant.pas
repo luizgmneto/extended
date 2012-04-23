@@ -63,7 +63,7 @@ function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_T
 // at_Liste        : la liste à traduire en SQL
 // alst_Key        : le champ clé correspondant à la liste de clés
 // avar_option     : Rectification sur le champ
-function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Key : TStringList ; const avar_Option : Variant) : Boolean ; overload ;
+function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const ab_IsNumeric : Boolean) : Boolean ; overload ;
 
 // Ajoute un variant à un tableau de variants
 // at_Liste : Le tableau destination
@@ -237,7 +237,7 @@ Begin
 End ;
 
 
-function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const alst_Key : TStringList ; const avar_Option : Variant) : Boolean ;
+function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const ab_IsNumeric : Boolean) : Boolean ;
 var li_i : Integer ;
     lb_PremiereFois : Boolean ;
 Begin
@@ -263,24 +263,16 @@ Begin
         if lb_PremiereFois // Première ligne
          Then
            Begin
-             if VarIsNumeric ( avar_Option ) and VarIsStr ( at_Liste [ li_i ] ) Then
-               as_TexteAjoute :=  VarToStr ( StrToInt64 ( at_Liste [ li_i ] ) -  avar_Option )// option
-             Else if VarIsStr ( at_Liste [ li_i ] ) // Chaîne
-               Then as_TexteAjoute := '''' + fs_StringDBQuote ( at_Liste [ li_i ]) + ''''
-               Else if VarIsNumeric ( avar_Option ) and VarIsNumeric ( at_Liste [ li_i ] ) Then
-                 as_TexteAjoute :=  VarToStr ( at_Liste [ li_i ] -  avar_Option )// option
-               Else
-                 as_TexteAjoute :=  VarToStr ( at_Liste [ li_i ]) ; // AUTRE
+             if ab_IsNumeric Then
+               as_TexteAjoute :=         fs_StringDBQuote ( at_Liste [ li_i ])// option
+             Else  // Chaîne
+               as_TexteAjoute := '''' + fs_StringDBQuote ( at_Liste [ li_i ]) + '''';
            End
          Else
-         if VarIsNumeric ( avar_Option ) and VarIsStr ( at_Liste [ li_i ] ) Then
-           as_TexteAjoute := as_TexteAjoute + ','   +         VarToStr ( StrToInt64 ( at_Liste [ li_i ] ) -  avar_Option )// option
-         Else if VarIsStr ( at_Liste [ li_i ] ) // Chaîne
-           Then as_TexteAjoute := as_TexteAjoute + ',''' + fs_StringDBQuote ( at_Liste [ li_i ]) + ''''
-           Else if VarIsNumeric ( avar_Option ) and VarIsNumeric ( at_Liste [ li_i ] ) Then
-             as_TexteAjoute := as_TexteAjoute + ','   +         VarToStr ( at_Liste [ li_i ] -  avar_Option )// option
-           Else
-             as_TexteAjoute := as_TexteAjoute + ','   +         VarToStr ( at_Liste [ li_i ]) ; // AUTRE
+         if ab_IsNumeric Then
+           as_TexteAjoute := as_TexteAjoute + ','   +        fs_StringDBQuote ( at_Liste [ li_i ])// option
+         Else  // Chaîne
+           as_TexteAjoute := as_TexteAjoute + ','   + '''' + fs_StringDBQuote ( at_Liste [ li_i ]) + '''' ;
         lb_PremiereFois := False ;
       End ;
 End ;

@@ -157,6 +157,7 @@ resourcestring
   GS_PB_CONNEXION = 'La connexion a échouée.' + #13 + #10
                       + 'Veuillez contacter votre administrateur.';
   GS_DECONNECTER_ANNULE = 'Annulation de la déconnexion';
+  GS_PLEASE_SET_PROPERTY = 'Veuillez renseigner cette propriété : ';
 var
   gb_MainFormIniOneUserOnServer : Boolean = False ;
 {$IFDEF EADO}

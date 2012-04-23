@@ -17,6 +17,9 @@ uses SysUtils,
 {$IFDEF EADO}
   ADODB,
 {$ENDIF}
+  {$IFDEF IBX}
+  IBQuery,
+  {$ENDIF}
   {$IFDEF VERSIONS}
   fonctions_version,
   {$ENDIF}
@@ -55,7 +58,7 @@ procedure p_AddSQLQuery(const adat_Dataset: Tdataset; const as_Query : {$IFDEF D
 procedure p_SetConnexion ( const acom_ADataset : TComponent ; acco_Connexion : TComponent );
 procedure p_SetComponentsConnexions ( const acom_Form : TComponent ; acco_Connexion : TComponent );
 function  fb_RefreshDatasetIfEmpty ( const adat_Dataset : TDataset ) : Boolean ;
-procedure p_ExecuteSQLQuery(const adat_Dataset: Tdataset; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
+procedure p_ExecuteSQLQuery(const adat_Dataset: Tdataset; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF}; const ab_ShowException : boolean = True );
 function fdat_CloneDatasetWithoutSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithoutSQLWithDataSource ( const adat_ADataset : Tdataset ; const AOwner : TComponent ; var ads_Datasource : TDatasource  ) : Tdataset;
 function fds_GetOrCloneDataSource ( const acom_Component : TComponent ; const as_SourceProperty, as_Query : String ; const AOwner : TComponent ; const adat_ADatasetToCopy : Tdataset ) : Tdatasource;
@@ -66,7 +69,8 @@ function fb_GetParamsDataset (const adat_ADataset : Tdataset ;var aprs_ParamSour
 function fb_SetParamQuery(const adat_Dataset : TDataset ; const as_Param: String): Boolean;
 function fb_LocateSansFiltre ( const aado_Seeker : TDataset ; const as_Fields : String ; const avar_Records : Variant ; const ach_Separator : Char ): Boolean ;
 procedure p_LocateInit ( const aado_Seeker : TDataset ; const as_Table, as_Condition : String );
-function fb_AssignSort ( const adat_Dataset : TDataset ; const as_ChampsOrdonner : String ):Boolean;
+function fb_AssignSort ( const adat_Dataset : TDataset ; const as_ChampsOrdonner : String ):Boolean; overload;
+function fb_AssignSort ( const adat_Dataset : TDataset ; const astl_list : TStrings ; const ai_ChampsOrdonner : Integer ):Boolean; overload;
 function fb_DatasetFilterLikeRecord ( const as_DatasetValue, as_FilterValue : String ; const ab_CaseInsensitive : Boolean ): Boolean ;
 procedure p_setParamDataset (const adat_ADataset : Tdataset ; const as_ParamName : String ; const avar_Value : Variant );
 function fb_InsereCompteurAlpha  ( const adat_Dataset, adat_DatasetQuery : TDataset ;
@@ -103,8 +107,9 @@ uses Variants,  fonctions_erreurs, fonctions_string, unite_messages,
 {$IFDEF EDBEXPRESS}
      SQLExpr,
  {$ENDIF}
-     fonctions_proprietes, TypInfo, fonctions_db,
-     fonctions_init;
+   fonctions_proprietes, TypInfo, fonctions_db,
+   Dialogs,
+   fonctions_init;
 
 
 //////////////////////////////////////////////////////////////////////
@@ -358,39 +363,53 @@ Begin
     p_SetConnexion( acom_Form.Components [ li_i ], acco_Connexion );
 End;
 
+procedure p_ShowSQLError ( const AException, ASQL : String );
+Begin
+  Showmessage ( AException + ':' +#13#10+ ASQL );
+End;
 
-
-procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
+procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
 Begin
   p_SetSQLQuery ( adat_Dataset, as_Query );
-  {$IFDEF FPC}
-  if ( adat_Dataset is TCustomSQLQuery ) Then
-    Begin
-    ( adat_Dataset as TCustomSQLQuery ).ExecSQL;
-  {$ELSE}
-  if ( adat_Dataset is TQuery ) Then
-    Begin
-    ( adat_Dataset as TQuery ).ExecSQL;
-  {$ENDIF}
-  {$IFDEF EADO}
-    End
-  else if ( adat_Dataset is TADOQuery ) Then
-    Begin
-    ( adat_Dataset as TADOQuery ).ExecSQL
-  {$ENDIF}
-  {$IFDEF ZEOS}
-    End
-  else if ( adat_Dataset is TZAbstractRODataset ) Then
-    Begin
-    ( adat_Dataset as TZAbstractRODataset ).ExecSQL
-  {$ENDIF}
-  {$IFDEF EDBEXPRESS}
-    End
-  else if ( adat_Dataset is TSQLQuery ) Then
-    Begin
-    ( adat_Dataset as TSQLQuery ).ExecSQL ;
-  {$ENDIF}
-    End;
+  try
+    {$IFDEF FPC}
+    if ( adat_Dataset is TCustomSQLQuery ) Then
+      Begin
+      ( adat_Dataset as TCustomSQLQuery ).ExecSQL;
+    {$ELSE}
+    if ( adat_Dataset is TQuery ) Then
+      Begin
+      ( adat_Dataset as TQuery ).ExecSQL;
+    {$ENDIF}
+    {$IFDEF EADO}
+      End
+    else if ( adat_Dataset is TADOQuery ) Then
+      Begin
+      ( adat_Dataset as TADOQuery ).ExecSQL
+    {$ENDIF}
+    {$IFDEF ZEOS}
+      End
+    else if ( adat_Dataset is TZAbstractRODataset ) Then
+      Begin
+      ( adat_Dataset as TZAbstractRODataset ).ExecSQL
+    {$ENDIF}
+    {$IFDEF IBX}
+      End
+    else if ( adat_Dataset is TIBQuery ) Then
+      Begin
+      ( adat_Dataset as TIBQuery ).ExecSQL
+    {$ENDIF}
+    {$IFDEF EDBEXPRESS}
+      End
+    else if ( adat_Dataset is TSQLQuery ) Then
+      Begin
+      ( adat_Dataset as TSQLQuery ).ExecSQL ;
+    {$ENDIF}
+      End;
+  Except
+    on E:Exception do
+     p_ShowSQLError(E.Message,as_Query);
+  end;
 End ;
 
 
@@ -901,6 +920,14 @@ Begin
 //  Showmessage (( gdl_DataLink.DataSet as TCustomADODataset ).Sort );
 End ;
 
+
+function fb_AssignSort ( const adat_Dataset : TDataset ; const astl_list : TStrings ; const ai_ChampsOrdonner : Integer ):Boolean;
+Begin
+  if  ( ai_ChampsOrdonner >= 0 )
+  and ( ai_ChampsOrdonner < astl_list.count )
+   Then Result := fonctions_dbcomponents.fb_AssignSort(adat_Dataset, astl_list [ai_ChampsOrdonner])
+   Else Result := False;
+end;
 
 /////////////////////////////////////////////////////////////////////////////////
 // Fonction : fb_KeyRecordExists

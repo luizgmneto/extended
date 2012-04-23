@@ -20,9 +20,10 @@ uses
   StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
   u_framework_dbcomponents, U_ExtDBPictCombo, u_extsearchedit, U_ExtComboInsert,
-  DBGrids, UIBDataSet, uib, Menus, u_extmenucustomize, ToolWin,
-  menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage, U_ExtDBImageList, ImgList,
-  ExtDlgs, U_ExtPictCombo, U_ExtMapImageIndex, fonctions_version  ;
+  DBGrids, Menus, u_extmenucustomize, ToolWin, IBDatabase, IBQuery, IBIntf,
+  IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage,
+  U_ExtDBImageList, ImgList, ExtDlgs, U_ExtPictCombo, U_ExtMapImageIndex,
+  fonctions_version  ;
 
 type
 
@@ -37,17 +38,18 @@ type
     ExtDBPictCombo: TExtDBPictCombo;
     ExtMapImages: TExtMapImages;
     ExtMenuToolBar: TExtMenuToolBar;
+    IBUpdateUtilisateur: TIBUpdateSQL;
     MapImages: TExtMapImages;
     FWDBSpinEdit: TFWDBSpinEdit;
     FWLabel7: TFWLabel;
     FWLabel8: TFWLabel;
     FWLabel9: TFWLabel;
     FWSpinEdit: TFWSpinEdit;
-    IBDatabase: TUIBDatabase;
-    IBDepartement: TUIBDataSet;
-    IBDepSearch: TUIBDataSet;
-    IBTransaction: TUIBTransaction;
-    IBUtilisateur: TUIBDataSet;
+    IBDatabase: TIBDatabase;
+    IBDepartement: TIBQuery;
+    IBDepSearch: TIBQuery;
+    IBTransaction: TIBTransaction;
+    IBUtilisateur: TIBQuery;
     DBListView: TDBListView;
     ExtDBNavigator1: TExtDBNavigator;
     ImageResources: TImageList;
@@ -97,6 +99,7 @@ type
     procedure ExtDBImageClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure IBDatabaseBeforeConnect(Sender: TObject);
     procedure mc_CustomizeMenuChange(Sender: TObject);
     procedure mu_aproposClick(Sender: TObject);
     procedure mu_quitterClick(Sender: TObject);
@@ -108,7 +111,7 @@ type
   public
     { public declarations }
     constructor Create ( AOwner : TComponent ); override;
-  end; 
+  end;
 
 var
   Myform: TMyform;
@@ -145,6 +148,11 @@ begin
   end;
 end;
 
+procedure TMyform.IBDatabaseBeforeConnect(Sender: TObject);
+begin
+
+end;
+
 procedure TMyform.mc_CustomizeMenuChange(Sender: TObject);
 begin
   ExtMenuToolBar.Menu := nil;
@@ -162,12 +170,18 @@ begin
   Close;
 end;
 
+procedure p_setLibrary (var libname: string);
+Begin
+  libname:= 'fbclient.dll';
+  {$IFDEF LINUX}
+  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed.so';
+  {$ENDIF}
+end;
 
 procedure TMyform.FormCreate(Sender: TObject);
 var lstl_conf : TStringList;
-begin
+Begin
   IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
-  IBDatabase.LibraryName:= 'fbclient.dll';
   {$IFDEF LINUX}
   try
     lstl_conf := TStringList.Create;
@@ -176,7 +190,6 @@ begin
   finally
     lstl_conf.Free;
   end;
-  IBDatabase.LibraryName:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed.so';
   {$ENDIF}
 end;
 
@@ -201,4 +214,6 @@ begin
   inherited Create(AOwner);
 end;
 
+initialization
+  OnGetLibraryName:= TOnGetLibraryName( p_setLibrary);
 end.

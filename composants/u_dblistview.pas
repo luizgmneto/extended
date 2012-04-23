@@ -190,7 +190,7 @@ type
     procedure p_setSortColumn(AValue: Integer); virtual;
     procedure p_SetPrimaryPrimaryKeyList(const a_Value: String);
     procedure p_CreateListFieldsDisplay ( as_FieldsList : String ); virtual;
-    procedure p_SetEventsDatasource; virtual;
+    procedure p_ListLoaded; virtual;
     procedure EditingChanged; virtual;
     // Affectation du composant dans la propriété DataSource
     // test si n'existe pas
@@ -1060,7 +1060,7 @@ begin
         End ;
       {$ENDIF}
       p_AssignColumnsSubitems;
-      p_SetEventsDatasource ;
+      p_ListLoaded ;
       // Affectation des évènements
       gdip_OldOnDrawItemProp   := OnCustomdrawItem ;
       OnCustomdrawItem         := p_PaintFondItem ;
@@ -1069,7 +1069,7 @@ begin
     End ;
 end;
 
-procedure TDBListView.p_SetEventsDatasource ;
+procedure TDBListView.p_ListLoaded ;
 Begin
 End;
 
@@ -1507,8 +1507,7 @@ End ;
 procedure TDBListView.p_AddRecords;
 begin
   // La liste n'est pas encore complètement chargée pour pouvoir insérer les enregistrements
-  if not gb_HasLoaded
-  or (not ( Owner is TControl ) or not ( Owner as TControl ).Visible ) Then
+  if not gb_HasLoaded Then
     Exit;
 
   // Gestion du fetch en mode asynchrone

@@ -18,7 +18,7 @@ uses
 {$ELSE}
   MaskEdit,
 {$ENDIF}
-  LCLType, Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
+  LCLType, Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
   DBGrids, u_framework_dbcomponents, u_framework_components,
   ComCtrls, StdCtrls, SysUtils,  TypInfo,  Variants,
@@ -75,7 +75,7 @@ type
     Panel19: TPanel;
     Panel20: TPanel;
     Panel21: TPanel;
-    bt_AbanArt: TJvXpButton;
+    bt_AbanArt: TFWCancel;
     bt_EnrArt: TFWOK;
     bt_retour: TJvXpButton;
     Panel22: TPanel;
@@ -84,9 +84,9 @@ type
     lv_artin: TDBGroupView;
     Panel24: TPanel;
     bt_in_art: TFWInSelect;
-    bt_in_totart: TFWInSelect;
+    bt_in_totart: TFWInAll;
     bt_out_art: TFWOutSelect;
-    bt_out_totart: TFWOutSelect;
+    bt_out_totart: TFWOutAll;
     lv_ArtOut: TDBGroupView;
     procedure bt_fermerClick(Sender: TObject);
     procedure F_FormDicoDataOnCancel(Sender: TObject);
@@ -152,7 +152,7 @@ end;
 
 procedure TF_Caracteristique.F_FormDicoCreate(Sender: TObject);
 begin
-  M_Article.ds_caraarti.DataSet.Open;
+  M_Article.ds_Carac.DataSet.Open;
 end;
 
 end.

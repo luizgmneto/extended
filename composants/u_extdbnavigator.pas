@@ -172,7 +172,7 @@ type
     property DragCursor;
     property DragKind;
     property DragMode;
-    property Enabled;
+    property Enabled default True;
     {$IFNDEF FPC}
     property Ctl3D;
     property ParentCtl3D;
@@ -542,6 +542,7 @@ var
   W, H: Integer;
 begin
   inherited Create(AOwner);
+  Enabled:=True;
   FDatalink := TExtNavDataLink.Create ( Self );
   ControlStyle:=ControlStyle-[csAcceptsControls,csSetCaption]+[csOpaque];
 
