@@ -251,8 +251,8 @@ type
     procedure p_SetListImages ; virtual;
     procedure p_ListLoaded; override;
     procedure EditingChanged; override;
-    procedure p_SetDataSourceGroup( CONST a_Value: TDataSource); override;
     Procedure p_DataSetChanged; override;
+    procedure p_SetDataSourceGroup( CONST a_Value: TDataSource); override;
     procedure p_LocateInit; virtual;
     procedure p_LocateRestore; virtual;
     procedure p_UndoRecord; virtual;
@@ -268,7 +268,8 @@ type
     function  fb_SetList : Boolean ; override;
     function  fb_CanSort  : Boolean ; override;
     procedure DoSelectItem ( llsi_ItemsSelected : TListItem; ab_selected : Boolean ); {$IFNDEF FPC}virtual{$ELSE}override{$ENDIF};
-    Procedure DataLinkScrolled; virtual;
+    procedure LoadList; virtual;
+    procedure DataLinkScrolled; override;
     Procedure DataLinkClosed; virtual;
     procedure DblClick ; override;
     procedure DragOver ( aobj_Source : Tobject; ai_X, ai_Y : Integer ; ads_Etat : TDragState ; var ab_Accepte : Boolean ); override;
@@ -286,7 +287,7 @@ type
     gt_KeyOwners     : tt_TableauVarOption ;
     gstl_KeysListOut : tt_TableauVariant ;
 
-    procedure p_LoadListView ; override;
+    procedure DataLinkLoadList ; override;
     constructor Create ( acom_owner : TComponent ); override;
     destructor Destroy ; override;
     Procedure p_AddSyncronousRecords; override;
@@ -416,7 +417,7 @@ Begin
       {$ENDIF}
       Then
          // Mise A Jour de la liste
-        DataLinkScrolled ;
+        LoadList ;
 
     End ;
 End;
@@ -1094,8 +1095,7 @@ begin
   // Fin de l'affectation des propriétés au premier chargement
 End;
 
-
-procedure TDBGroupView.p_LoadListView;
+procedure TDBGroupView.DataLinkLoadList;
 begin
 
   // et si il est actif
@@ -1109,7 +1109,7 @@ begin
         p_SetFetchLoaded ;
         {$ENDIF}
         gb_Open := True ;
-        DataLinkScrolled ;
+        LoadList ;
         gb_Open := False ;
       finally
       End;
@@ -1626,6 +1626,11 @@ end;
 
 // Le groupe a changé : méthode virtuelle
 procedure TDBGroupView.DataLinkScrolled;
+Begin
+  DataLinkLoadList;
+end;
+
+procedure TDBGroupView.LoadList;
 var lb_LoadList : Boolean ;
 begin
   if (csDestroying In ComponentState) Then
@@ -3180,7 +3185,7 @@ begin
 //           or ( Datasource.DataSet.State = dsBrowse ))
        Then
          // Mise A Jour de la liste
-        DataLinkScrolled ;
+        LoadList ;
 
     End ;
 end;

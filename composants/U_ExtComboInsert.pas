@@ -438,7 +438,7 @@ begin
         // Taille maxi
         MaxLength := Field.Size;
     {$ENDIF}
-    if FFocused and Field.DataSet.CanModify then
+    if Field.DataSet.CanModify then
       Begin
         // récupération des données de la liste en mode lecture
         if  ( not ( Field.DataSet.State in [dsEdit, dsInsert]) or FUpdate) Then
@@ -468,9 +468,9 @@ begin
   // auto-insertion spécifique de ce composant
   InsertLookup ( False );
   // Validation de l'édition
-//  ValidateEdit;
+  {$IFDEF FPC}Inherited;{$ELSE}ValidateEdit;{$ENDIF}
   // affectation
-//  KeyValue := {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.Dataset.FindField ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF} ).Value;
+  KeyValue := {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.Dataset.FindField ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF} ).Value;
 end;
 
 procedure TExtDBComboInsert.ValidateSearch;
