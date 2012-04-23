@@ -81,9 +81,9 @@ type
     lv_artin: TDBGroupView;
     Panel16: TPanel;
     bt_in_art: TFWInSelect;
-    bt_in_totart: TFWInSelect;
+    bt_in_totart: TFWInAll;
     bt_out_art: TFWOutSelect;
-    bt_out_totart: TFWOutSelect;
+    bt_out_totart: TFWOutAll;
     lv_ArtOut: TDBGroupView;
     RbSplitter2: TSplitter;
     bt_AbanArt: TFWCAncel;
@@ -191,7 +191,7 @@ For i:= 0 to lv_artin.SelCount - 1 do
   begin
   codeart := startitem.Caption;
   M_Article.IB_desaffecte.Active := False;
-  M_Article.IB_desaffecte.Params.Values['codeart'].Value := trim(codeart);
+  M_Article.IB_desaffecte.ParamByName('codeart').Value := trim(codeart);
   M_Article.IB_desaffecte.ExecSQL;
   SelectNext( lv_artin, True, False );
   startitem:= Selected;

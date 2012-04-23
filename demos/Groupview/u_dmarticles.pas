@@ -8,7 +8,7 @@ interface
 
 uses
   SysUtils, StrUtils, Classes, DB, process, ZDataset, Forms, Dialogs, controls,
-  fonctions_string, uib, U_ConstMessage, uibdataset;
+  fonctions_string, IBIntf, U_ConstMessage, IBDatabase, IBQuery, IBUpdateSQL;
 const CST_APPLI_NAME =  'Article';
 type
 
@@ -16,110 +16,63 @@ type
 
   TM_Article = class(TDataModule)
     ds_article: TDataSource;
-    ds_caraarti: TDatasource;
     ds_gammarti: TDatasource;
     ds_typearti: TDatasource;
-    IBDatabase: TUIBDataBase;
-    IBTransaction: TUIBTransaction;
-    IB_artcoul: TUIBDataset;
-    ds_ARCO: TDataSource;
-    ds_GamTProIn: TDataSource;
-    IB_GamTProIn: TUIBDataset;
-    ds_GamTProOut: TDataSource;
-    IB_GamTProOut: TUIBDataset;
-    IB_Gamme: TUIBDataset;
+    IBDatabase: TIBDatabase;
+    IBTransaction: TIBTransaction;
+    IBU_Article: TIBUpdateSQL;
+    IBU_Gamme: TIBUpdateSQL;
+    IBU_TypProd: TIBUpdateSQL;
+    IBU_Carac: TIBUpdateSQL;
+    IB_artcoul: TIBQuery;
+    IB_GamTProIn: TIBQuery;
+    IB_GamTProOut: TIBQuery;
+    IB_Gamme: TIBQuery;
     ds_Gamme: TDataSource;
-    IB_TypProduit: TUIBDataset;
+    IB_TypProduit: TIBQuery;
     ds_TypProduit: TDataSource;
-    IB_Carac: TUIBDataset;
+    IB_Carac: TIBQuery;
     ds_Carac: TDataSource;
-    ds_SelCarac: TDataSource;
-    IB_SelCarac: TUIBDataset;
-    IB_SelTypPro: TUIBDataset;
-    ds_SelTypPro: TDataSource;
-    IB_SelGamme: TUIBDataset;
-    ds_SelGamme: TDataSource;
-    ds_Sel1Carac: TDataSource;
-    IB_Sel1Carac: TUIBDataset;
-    IB_Sel1TypPro: TUIBDataset;
-    ds_Sel1TypPro: TDataSource;
-    ds_SelCarac2: TDataSource;
-    IB_SelCarac2: TUIBDataset;
-    IB_SelTypPro2: TUIBDataset;
-    ds_SelTypPro2: TDataSource;
-    IB_GammeE: TUIBDataset;
-    ds_GammeE: TDataSource;
-    ds_Sel1Carac2: TDataSource;
-    IB_Sel1Carac2: TUIBDataset;
-    IB_Sel1TypPro2: TUIBDataset;
-    ds_Sel1TypPro2: TDataSource;
-    ds_ArFini: TDataSource;
-    IB_CocoCoul: TUIBDataset;
-    ds_CocoCoul: TDataSource;
-    IB_TyfiInFini: TUIBDataset;
-    ds_TyfiInFini: TDataSource;
-    IB_TyfiOutFini: TUIBDataset;
-    ds_TyfiOutFini: TDataSource;
-    IB_FiniInTyFi: TUIBDataset;
-    ds_FiniInTyFi: TDataSource;
-    IB_FiniOutTyFi: TUIBDataset;
-    ds_FiniOutTyFi: TDataSource;
+    IB_SelCarac: TIBQuery;
+    IB_SelTypPro: TIBQuery;
+    IB_SelGamme: TIBQuery;
+    IB_Sel1Carac: TIBQuery;
+    IB_Sel1TypPro: TIBQuery;
+    IB_SelCarac2: TIBQuery;
+    IB_SelTypPro2: TIBQuery;
+    IB_GammeE: TIBQuery;
+    IB_Sel1Carac2: TIBQuery;
+    IB_Sel1TypPro2: TIBQuery;
+    IB_CocoCoul: TIBQuery;
+    IB_TyfiInFini: TIBQuery;
+    IB_TyfiOutFini: TIBQuery;
+    IB_FiniInTyFi: TIBQuery;
+    IB_FiniOutTyFi: TIBQuery;
     ds_FiltreProduit: TDataSource;
-    IB_FiltreProduit: TUIBDataset;
-    IB_Article1: TUIBDataset;
-    IB_prod_acces: TUIBDataset;
-    ds_prod_acces: TDataSource;
-    ds_ArbreArt: TDataSource;
-    IB_ArbreArt: TUIBDataset;
-    IB_code_copieart: TUIBDataset;
-    IB_copieart: TUIBDataset;
-    IB_ArFini: TUIBDataset;
-    IB_Article2: TUIBDataset;
-    IB_Article3: TUIBDataset;
-    IB_Article4: TUIBDataset;
-    IB_Article5: TUIBDataset;
-    IB_Article6: TUIBDataset;
+    IB_FiltreProduit: TIBQuery;
+    IB_Article1: TIBQuery;
+    IB_prod_acces: TIBQuery;
+    IB_ArbreArt: TIBQuery;
+    IB_code_copieart: TIBQuery;
+    IB_copieart: TIBQuery;
+    IB_ArFini: TIBQuery;
+    IB_Article2: TIBQuery;
+    IB_Article3: TIBQuery;
+    IB_Article4: TIBQuery;
+    IB_Article5: TIBQuery;
+    IB_Article6: TIBQuery;
     Process: TProcess;
-    zq_ArbreArt: TUIBDataSet;
-    zq_ArFini: TUIBDataSet;
-    zq_artcoul: TUIBDataSet;
-    zq_Article: TUIBDataSet;
-    zq_Article2: TUIBDataSet;
-    zq_Article3: TUIBDataSet;
-    zq_Article4: TUIBDataSet;
-    zq_Article5: TUIBDataSet;
-    zq_Article6: TUIBDataSet;
-    ib_caraarti: TUIBDataSet;
-    zq_Carac: TUIBDataSet;
-    zq_CocoCoul: TUIBDataSet;
-    zq_code_copieart: TUIBDataSet;
-    zq_copieart: TUIBDataSet;
-    ib_desaffecte: TUIBDataSet;
-    zq_FiltreProduit: TUIBDataSet;
-    zq_FiniInTyFi: TUIBDataSet;
-    zq_FiniOutTyFi: TUIBDataSet;
-    ib_gammarti: TUIBDataSet;
-    zq_Gamme: TUIBDataSet;
-    zq_GammeE: TUIBDataSet;
-    zq_GamTProIn: TUIBDataSet;
-    zq_GamTProOut: TUIBDataSet;
-    ib_majTypArt: TUIBDataSet;
-    ib_majGamme: TUIBDataSet;
-    ib_majcara: TUIBDataSet;
-    zq_prod_acces: TUIBDataSet;
-    zq_Sel1Carac: TUIBDataSet;
-    zq_Sel1Carac2: TUIBDataSet;
-    zq_Sel1TypPro: TUIBDataSet;
-    zq_Sel1TypPro2: TUIBDataSet;
-    zq_SelCarac: TUIBDataSet;
-    zq_SelCarac2: TUIBDataSet;
-    zq_SelGamme: TUIBDataSet;
-    zq_SelTypPro: TUIBDataSet;
-    zq_SelTypPro2: TUIBDataSet;
-    zq_TyfiInFini: TUIBDataSet;
-    zq_TyfiOutFini: TUIBDataSet;
-    ib_typearti: TUIBDataSet;
-    zq_TypProduit: TUIBDataSet;
+    zq_Article: TIBQuery;
+    zq_Carac: TIBQuery;
+    ib_desaffecte: TIBQuery;
+    zq_FiltreProduit: TIBQuery;
+    ib_gammarti: TIBQuery;
+    zq_Gamme: TIBQuery;
+    ib_majTypArt: TIBQuery;
+    ib_majGamme: TIBQuery;
+    ib_majcara: TIBQuery;
+    ib_typearti: TIBQuery;
+    zq_TypProduit: TIBQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure IB_articleAfterScroll(DataSet: TDataSet);
     procedure IB_articleNewRecord(DataSet: TDataSet);
@@ -161,6 +114,14 @@ uses Variants , fonctions_dbcomponents;
   {$R *.lfm}
 {$ENDIF}
 
+procedure p_setLibrary (var libname: string);
+Begin
+  libname:= 'fbclient.dll';
+  {$IFDEF LINUX}
+  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed.so';
+  {$ENDIF}
+end;
+
 procedure TM_Article.IB_articleAfterScroll(DataSet: TDataSet);
 begin
  { with  IB_artfinition do
@@ -181,24 +142,29 @@ var li_i : Integer;
     lstl_conf : TStringList;
 begin
   IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
-  IBDatabase.LibraryName:= 'fbclient.dll';
   {$IFDEF LINUX}
   try
     lstl_conf := TStringList.Create;
     lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName);
     lstl_conf.SaveToFile(ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.conf');
+    lstl_conf.Clear;
+    lstl_conf.Text := 'Exemple='+ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemble.fdb'+#13#10
+                    + 'security2='+ExtractFileDir(Application.ExeName)+DirectorySeparator+'security2.fdb'+#13#10
+                    + 'Exemple.fdb='+ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemble.fdb'+#13#10
+                    + 'security2.fdb='+ExtractFileDir(Application.ExeName)+DirectorySeparator+'security2.fdb';
+    lstl_conf.SaveToFile(ExtractFileDir(Application.ExeName)+DirectorySeparator+'aliases.conf');
   finally
     lstl_conf.Free;
   end;
-  IBDatabase.LibraryName:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed.so';
   {$ENDIF}
   for li_i := 0 to ComponentCount - 1 do
-    if Components[li_i] is TUIBDataSet Then
-     with Components[li_i] as TUIBDataSet do
+    if Components[li_i] is TIBQuery Then
+     with Components[li_i] as TIBQuery do
       Begin
         Database:=IBDatabase;
         Transaction:=IBTransaction;
       end;
+  IBDatabase.Connected := True;
 end;
 
 
@@ -211,14 +177,14 @@ end;
 procedure TM_Article.IB_SelGammeAfterScroll(DataSet: TDataSet);
 begin
   IB_Sel1TypPro.Close ;
-  IB_Sel1TypPro.Params.Values[ 'groupe' ].Value := DATaset.FieldByName ( 'GAMM_Clep' ).Value;
+  IB_Sel1TypPro.ParamByName( 'groupe' ).Value := DATaset.FieldByName ( 'GAMM_Clep' ).Value;
   IB_Sel1TypPro.Open ;
 end;
 
 procedure TM_Article.IB_SelTypProAfterScroll(DataSet: TDataSet);
 begin
   IB_Sel1Carac.Close ;
-  IB_Sel1Carac.Params.Values[ 'groupe' ].Value := DATaset.FieldByName ( 'TYPR_Clep' ).Value;
+  IB_Sel1Carac.ParamByName( 'groupe' ).Value := DATaset.FieldByName ( 'TYPR_Clep' ).Value;
   IB_Sel1Carac.Open ;
 
 end;
@@ -266,7 +232,7 @@ end;
 procedure TM_Article.IB_GammeEAfterScroll(DataSet: TDataSet);
 begin
   IB_Sel1TypPro2.Close ;
-  IB_Sel1TypPro2.Params.Values[ 'groupe' ].Value := DATaset.FieldByName ( 'GAMM_Clep' ).Value;
+  IB_Sel1TypPro2.ParamByName( 'groupe' ).Value := DATaset.FieldByName ( 'GAMM_Clep' ).Value;
   IB_Sel1TypPro2.Open ;
 
 end;
@@ -280,7 +246,7 @@ end;
 procedure TM_Article.IB_SelTypPro2AfterScroll(DataSet: TDataSet);
 begin
   IB_Sel1Carac2.Close ;
-  IB_Sel1Carac2.Params.Values[ 'groupe' ].Value := DATaset.FieldByName ( 'TYPR_Clep' ).Value;
+  IB_Sel1Carac2.ParamByName( 'groupe' ).Value := DATaset.FieldByName ( 'TYPR_Clep' ).Value;
   IB_Sel1Carac2.Open ;
 
 end;
@@ -294,7 +260,7 @@ end;
 procedure TM_Article.IB_Sel1TypPro2AfterScroll(DataSet: TDataSet);
 begin
   IB_Sel1Carac2.Close ;
-  IB_Sel1Carac2.Params.Values[ 'groupe' ].Value := DATaset.FieldByName ( 'TYPR_Clep' ).Value;
+  IB_Sel1Carac2.ParamByName( 'groupe' ).Value := DATaset.FieldByName ( 'TYPR_Clep' ).Value;
   IB_Sel1Carac2.Open ;
 
 end;
@@ -330,5 +296,8 @@ begin
   TNumericField(IB_ArbreArt.FieldByName('ARDE_Prix')).DisplayFormat := U_CST_format_money_1 ;
 end;
 
+
+initialization
+  OnGetLibraryName:= TOnGetLibraryName( p_setLibrary);
 
 end.

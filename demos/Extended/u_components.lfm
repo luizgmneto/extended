@@ -1,7 +1,7 @@
 inherited Myform: TMyform
-  Left = 405
+  Left = 492
   Height = 589
-  Top = 230
+  Top = 256
   Width = 759
   ActiveControl = Panel1
   Caption = 'Myform'
@@ -607,52 +607,68 @@ inherited Myform: TMyform
     left = 56
     top = 432
   end
-  object IBDatabase: TUIBDataBase[9]
+  object IBDatabase: TIBDatabase[9]
+    Connected = False
+    LoginPrompt = False
+    BeforeConnect = IBDatabaseBeforeConnect
+    AllowStreamedConnected = False
+    DatabaseName = 'Exemple'
     Params.Strings = (
       'user_name=SYSDBA'
       'password=masterkey'
       'lc_ctype=UTF8'
     )
-    DatabaseName = 'Exemple'
-    CharacterSet = csUTF8
-    UserName = 'SYSDBA'
-    PassWord = 'masterkey'
-    LibraryName = 'libfbembed.so.2.5'
+    DefaultTransaction = IBTransaction
+    IdleTimer = 0
+    TraceFlags = []
     left = 56
     top = 289
   end
-  object IBUtilisateur: TUIBDataSet[10]
-    Transaction = IBTransaction
+  object IBUtilisateur: TIBQuery[10]
     Database = IBDatabase
-    UniDirectional = True
+    Transaction = IBTransaction
+    BufferChunks = 1000
+    CachedUpdates = False
+    GeneratorField.ApplyOnEvent = gaeOnNewRecord
     SQL.Strings = (
       'SELECT * FROM UTILISATEUR'
     )
+    Params = <>
+    UniDirectional = True
+    UpdateObject = IBUpdateUtilisateur
     left = 160
     top = 360
   end
-  object IBDepartement: TUIBDataSet[11]
-    Transaction = IBTransaction
+  object IBDepartement: TIBQuery[11]
     Database = IBDatabase
-    UniDirectional = True
+    Transaction = IBTransaction
+    BufferChunks = 1000
+    CachedUpdates = False
+    GeneratorField.ApplyOnEvent = gaeOnNewRecord
     SQL.Strings = (
       'SELECT * FROM DEPARTEMENT'
     )
+    Params = <>
+    UniDirectional = True
     left = 160
     top = 433
   end
-  object IBTransaction: TUIBTransaction[12]
-    DataBase = IBDatabase
+  object IBTransaction: TIBTransaction[12]
+    Active = False
     left = 160
     top = 289
   end
-  object IBDepSearch: TUIBDataSet[13]
-    Transaction = IBTransaction
+  object IBDepSearch: TIBQuery[13]
     Database = IBDatabase
-    UniDirectional = True
+    Transaction = IBTransaction
+    BufferChunks = 1000
+    CachedUpdates = False
+    GeneratorField.ApplyOnEvent = gaeOnNewRecord
     SQL.Strings = (
       'SELECT * FROM DEPARTEMENT'
     )
+    Params = <>
+    UniDirectional = True
     left = 160
     top = 488
   end
@@ -2064,5 +2080,30 @@ inherited Myform: TMyform
         OnClick = mu_aproposClick
       end
     end
+  end
+  object IBUpdateUtilisateur: TIBUpdateSQL[21]
+    ModifySQL.Strings = (
+      'UPDATE UTILISATEUR SET NOM=:NOM,'
+      '  PRENOM=:PRENOM,'
+      '  IDDEPARTEMENT=:IDDEPARTEMENT,'
+      '  PHOTO=:PHOTO, '
+      '  ENTIER=:ENTIER'
+      'WHERE CLEP=:CLEP'
+    )
+    InsertSQL.Strings = (
+      'INSERT INTO UTILISATEUR (NOM,'
+      '  PRENOM,'
+      '  IDDEPARTEMENT,'
+      '  PHOTO, ENTIER) VALUES'
+      '(:NOM,'
+      '  :PRENOM,'
+      '  :IDDEPARTEMENT,'
+      '  :PHOTO, :ENTIER)'
+    )
+    DeleteSQL.Strings = (
+      'DELETE FROM UTILISATEUR WHERE CLEP = :CLEP'
+    )
+    left = 264
+    top = 360
   end
 end

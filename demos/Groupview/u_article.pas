@@ -23,10 +23,19 @@ uses
   DBGrids, u_framework_dbcomponents, ComCtrls, StdCtrls, SysUtils,  TypInfo,
   Variants, StrUtils, ToolEdit, U_OnFormInfoIni, CompSuperForm,
   JvXPButtons, U_ExtDBGrid,U_ConstMessage, U_DmArticles,
-  u_framework_components, u_buttons_appli;
+  u_framework_components, u_buttons_appli, U_ExtComboInsert;
 
 type
+
+  { TF_Article }
+
   TF_Article = class(TSuperForm)
+    cb_Categ: TExtDBComboInsert;
+    cb_Categ1: TExtDBComboInsert;
+    cb_Categ2: TExtDBComboInsert;
+    lb_gamme: TFWLabel;
+    lb_typart: TFWLabel;
+    lb_libelcateg3: TFWLabel;
     nv_navigator: TExtDBNavigator;
     nv_saisie: TExtDBNavigator;
     pa_1: TPanel;
@@ -88,7 +97,10 @@ procedure TF_Article.F_FormDicoCreate(Sender: TObject);
 begin
   F_Article := Self;
 
-  M_Article.ds_article.DataSet.Open;
+  M_Article.ds_article .DataSet.Open;
+  M_Article.ds_typearti.DataSet.Open;
+  M_Article.ds_Carac   .DataSet.Open;
+  M_Article.ds_Gamme   .DataSet.Open;
 
 end;
 

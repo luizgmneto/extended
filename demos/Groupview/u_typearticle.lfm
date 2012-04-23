@@ -282,9 +282,6 @@ inherited F_TypeProduit: TF_TypeProduit
               Align = alClient
               Columns = <              
                 item
-                  Caption = 'Code'
-                end              
-                item
                   AutoSize = True
                   Caption = 'Gammes dont ce type est membre'
                   Width = 267
@@ -295,11 +292,11 @@ inherited F_TypeProduit: TF_TypeProduit
               ReadOnly = True
               RowSelect = True
               ShowHint = True
-              SortColumn = 1
               StateImages = im_images
               TabOrder = 0
               ViewStyle = vsReport
               DataKeyUnit = 'GAMM_Clep'
+              DataFieldsDisplay = 'GAMM_Libelle'
               DataTableUnit = 'GAMME'
               DataTableGroup = 'GAMME_TYPR'
               DataTableOwner = 'TYPE_PRODUIT'
@@ -375,9 +372,6 @@ inherited F_TypeProduit: TF_TypeProduit
             Align = alClient
             Columns = <            
               item
-                Caption = 'Code'
-              end            
-              item
                 AutoSize = True
                 Caption = 'Gammes dont ce type n''est pas membre'
                 Width = 311
@@ -389,13 +383,13 @@ inherited F_TypeProduit: TF_TypeProduit
             ReadOnly = True
             RowSelect = True
             ShowHint = True
-            SortColumn = 1
             StateImages = im_images
             TabOrder = 2
             ViewStyle = vsReport
             DataKeyUnit = 'GAMM_Clep'
+            DataFieldsDisplay = 'GAMM_Libelle'
             DataTableUnit = 'GAMME'
-            DataTableGroup = 'GAMMR_TYPR'
+            DataTableGroup = 'GAMME_TYPR'
             DataTableOwner = 'TYPE_PRODUIT'
             DataSourceOwner = M_Article.ds_TypProduit
             DataKeyOwner = 'TYPR_Clep'
@@ -443,12 +437,9 @@ inherited F_TypeProduit: TF_TypeProduit
               Align = alClient
               Columns = <              
                 item
-                  Caption = 'Code'
-                end              
-                item
                   AutoSize = True
                   Caption = 'Caractéristiques membres du type'
-                  Width = 185
+                  Width = 265
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -456,11 +447,11 @@ inherited F_TypeProduit: TF_TypeProduit
               ReadOnly = True
               RowSelect = True
               ShowHint = True
-              SortColumn = 1
               StateImages = im_images
               TabOrder = 0
               ViewStyle = vsReport
               DataKeyUnit = 'CARA_Clep'
+              DataFieldsDisplay = 'CARA_Libelle'
               DataTableUnit = 'CARACTERISTIQUE'
               DataTableGroup = 'TYPE_PRODUIT_CARA'
               DataTableOwner = 'TYPE_PRODUIT'
@@ -616,9 +607,6 @@ inherited F_TypeProduit: TF_TypeProduit
             Align = alClient
             Columns = <            
               item
-                Caption = 'Code'
-              end            
-              item
                 AutoSize = True
                 Caption = 'Caractéristiques non membres du type'
                 Width = 297
@@ -630,11 +618,11 @@ inherited F_TypeProduit: TF_TypeProduit
             ReadOnly = True
             RowSelect = True
             ShowHint = True
-            SortColumn = 1
             StateImages = im_images
             TabOrder = 2
             ViewStyle = vsReport
             DataKeyUnit = 'CARA_Clep'
+            DataFieldsDisplay = 'CARA_Libelle'
             DataTableUnit = 'CARACTERISTIQUE'
             DataTableGroup = 'TYPE_PRODUIT_CARA'
             DataTableOwner = 'TYPE_PRODUIT'
@@ -771,12 +759,9 @@ inherited F_TypeProduit: TF_TypeProduit
                 Align = alClient
                 Columns = <                
                   item
-                    Caption = ' '
-                  end                
-                  item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 161
+                    Width = 195
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -784,11 +769,11 @@ inherited F_TypeProduit: TF_TypeProduit
                 ReadOnly = True
                 RowSelect = True
                 ShowHint = True
-                SortColumn = 1
                 StateImages = im_images
                 TabOrder = 0
                 ViewStyle = vsReport
                 DataKeyUnit = 'ARTI_Clep'
+                DataFieldsDisplay = 'ARTI_Libcom'
                 DataShowAll = True
                 DataTableUnit = 'ARTICLE'
                 DataTableGroup = 'ARTICLE'
@@ -866,12 +851,9 @@ inherited F_TypeProduit: TF_TypeProduit
               Align = alClient
               Columns = <              
                 item
-                  Caption = ' '
-                end              
-                item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 219
+                  Width = 253
                 end>
               Constraints.MinWidth = 4
               DragMode = dmAutomatic
@@ -880,10 +862,10 @@ inherited F_TypeProduit: TF_TypeProduit
               ReadOnly = True
               RowSelect = True
               ShowHint = True
-              SortColumn = 1
               TabOrder = 1
               ViewStyle = vsReport
               DataKeyUnit = 'ARTI_Clep'
+              DataFieldsDisplay = 'ARTI_Libcom'
               DataShowAll = True
               DataTableUnit = 'ARTICLE'
               DataTableGroup = 'ARTICLE'

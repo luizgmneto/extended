@@ -1,7 +1,7 @@
 inherited F_Article: TF_Article
-  Left = 485
+  Left = 492
   Height = 367
-  Top = 253
+  Top = 315
   Width = 772
   Caption = 'Catégorie'
   ClientHeight = 367
@@ -47,9 +47,9 @@ inherited F_Article: TF_Article
         Top = 46
         Width = 83
         AutoSize = False
-        Caption = 'lb_codecateg'
+        Caption = 'Clé'
         Font.Color = clBlack
-        Font.Height = -13
+        Font.Height = 12
         Font.Name = 'MS Sans Serif'
         ParentBidiMode = False
         ParentColor = False
@@ -63,9 +63,9 @@ inherited F_Article: TF_Article
         Top = 68
         Width = 77
         AutoSize = False
-        Caption = 'lb_libelcateg'
+        Caption = 'Libellé'
         Font.Color = clBlack
-        Font.Height = -13
+        Font.Height = 12
         Font.Name = 'MS Sans Serif'
         ParentColor = False
         ParentFont = False
@@ -145,6 +145,97 @@ inherited F_Article: TF_Article
         MaxLength = 0
         ParentFont = False
         TabOrder = 0
+      end
+      object cb_Categ: TExtDBComboInsert
+        Left = 128
+        Height = 25
+        Top = 93
+        Width = 218
+        DataField = 'ARTI__GAMM'
+        DataSource = M_Article.ds_article
+        KeyField = 'GAMM_Clep'
+        ListField = 'GAMM_Libelle'
+        ListFieldIndex = 0
+        ListSource = M_Article.ds_Gamme
+        LookupCache = False
+        TabOrder = 3
+        MyLabel = lb_gamme
+      end
+      object lb_gamme: TFWLabel
+        Tag = 1002
+        Left = 32
+        Height = 16
+        Top = 96
+        Width = 77
+        AutoSize = False
+        Caption = 'Gamme'
+        Font.Color = clBlack
+        Font.Height = 12
+        Font.Name = 'MS Sans Serif'
+        ParentColor = False
+        ParentFont = False
+        ColorFocus = clMaroon
+      end
+      object cb_Categ1: TExtDBComboInsert
+        Left = 128
+        Height = 25
+        Top = 121
+        Width = 218
+        Color = clMoneyGreen
+        DataField = 'ARTI__TYPR'
+        DataSource = M_Article.ds_article
+        KeyField = 'TYPR_LIBELLE'
+        ListField = 'TYPR_LIBELLE'
+        ListFieldIndex = 0
+        ListSource = M_Article.ds_typearti
+        LookupCache = False
+        TabOrder = 4
+        MyLabel = lb_typart
+      end
+      object lb_typart: TFWLabel
+        Tag = 1002
+        Left = 32
+        Height = 16
+        Top = 124
+        Width = 77
+        AutoSize = False
+        Caption = 'Type d''article'
+        Font.Color = clBlack
+        Font.Height = 11
+        Font.Name = 'MS Sans Serif'
+        ParentColor = False
+        ParentFont = False
+        ColorFocus = clMaroon
+      end
+      object cb_Categ2: TExtDBComboInsert
+        Left = 128
+        Height = 25
+        Top = 149
+        Width = 218
+        Color = clMoneyGreen
+        DataField = 'ARTI__CARA'
+        DataSource = M_Article.ds_article
+        KeyField = 'CARA_Clep'
+        ListField = 'CARA_Libelle'
+        ListFieldIndex = 0
+        ListSource = M_Article.ds_Carac
+        LookupCache = False
+        TabOrder = 5
+      end
+      object lb_libelcateg3: TFWLabel
+        Tag = 1002
+        Left = 32
+        Height = 16
+        Top = 152
+        Width = 77
+        AutoSize = False
+        Caption = 'Catégonie'
+        Font.Color = clBlack
+        Font.Height = 12
+        Font.Name = 'MS Sans Serif'
+        ParentColor = False
+        ParentFont = False
+        ColorFocus = clMaroon
       end
     end
     object pa_2: TPanel
