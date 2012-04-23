@@ -235,8 +235,8 @@ type
     {$IFDEF FPC}
     procedure SelectAll ; dynamic;
     {$ENDIF}
-    procedure p_LoadListView ; virtual;
-    procedure p_UpdateListView ; virtual;
+    procedure DataLinkLoadList ; virtual;
+    procedure DataLinkScrolled ; virtual;
     procedure p_FreeBookmark ; virtual;
     // Met à jour le composant
     procedure p_MetAjour; virtual;
@@ -331,7 +331,7 @@ Begin
   if not assigned ( Dataset )
   or not ( Dataset.State in [dsBrowse,dsInsert ] ) Then
     Exit ;
-  glst_View.p_LoadListView ;
+  glst_View.DataLinkLoadList ;
 End;
 
 // Mise à jour du composant
@@ -354,7 +354,7 @@ Begin
   if not assigned ( Dataset )
   or not ( Dataset.State in [dsBrowse,dsInsert ] ) Then
     Exit ;
-  glst_View.p_UpdateListView;
+  glst_View.DataLinkScrolled;
 End;
 
 
@@ -675,11 +675,11 @@ begin
   lw_NPage := lSI_infos.nPage ;
   Result := ( lw_NPage > 0 ) and ( lSI_infos.nMin >= 0 ) and ( lSI_infos.nMax > 0 ) and ( lSI_infos.nMin < lSI_infos.nMax ) and ( lSI_infos.nMax div lw_NPage > 0 );
 end;
-procedure TDBListView.p_UpdateListView;
+procedure TDBListView.DataLinkScrolled;
 begin
 End;
 
-procedure TDBListView.p_LoadListView;
+procedure TDBListView.DataLinkLoadList;
 begin
   // Si il existe
   if assigned ( gdl_DataLink.DataSet )
@@ -740,8 +740,7 @@ var
 //  lw_PagesACharger : Word        ; // Variable temporaire de test de page
 begin
   Result := 0;
-  if not Visible
-  or (not ( Owner is TControl ) or not ( Owner as TControl ).Visible ) Then
+  if not Visible Then
     Exit;
   // Tout n'est pas chargé
   if not gb_AllLoaded
@@ -783,8 +782,6 @@ end;
 procedure TDBListView.p_FetchProgressLoaded(DataSet: TCustomADODataSet; ProGress, MaxProgress : Integer; var EventStatus: TEventStatus);
 Begin
   if not assigned ( Owner )
-  or not ( Owner is TWinControl )
-  or not ( Owner as TWinControl ).Visible
 //  or not ( Dataset.Active )
 //  or ( DataSet <> gdl_DataLink.DataSet ) Then
    Then
@@ -870,9 +867,7 @@ Begin
   // Plus de fetch sur ce composant : Les données sont chargées
   gb_AllFetched := True ;
 {
-  if not assigned ( Owner )
-  or not ( Owner is TWinControl )
-  or not ( Owner as TWinControl ).Visible Then
+  if not assigned ( Owner ) Then
     Begin
       Exit ;
     End ;
@@ -1406,8 +1401,7 @@ function TDBListView.fb_ParentVisible ( const awco_Control : TWinControl ): Bool
 var lwco_Parent : TWinControl ;
 begin
   Result := True ;
-  if not assigned ( awco_Control )
-  or not awco_Control.Visible Then
+  if not assigned ( awco_Control ) Then
     Begin
       Result := False ;
       Exit ;
@@ -1417,8 +1411,7 @@ begin
   while assigned ( lwco_Parent ) do
 //  and not ( lwco_Parent is TCustomForm ) do
     Begin
-      if not ( lwco_Parent is TTabSheet )
-      and not lwco_Parent.Visible Then
+      if not ( lwco_Parent is TTabSheet ) Then
         Begin
           Result := False ;
           Exit ;

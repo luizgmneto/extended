@@ -3,6 +3,7 @@ inherited F_Article: TF_Article
   Height = 367
   Top = 315
   Width = 772
+  Align = alClient
   Caption = 'Catégorie'
   ClientHeight = 367
   ClientWidth = 772
@@ -151,6 +152,7 @@ inherited F_Article: TF_Article
         Height = 25
         Top = 93
         Width = 218
+        Color = clMoneyGreen
         DataField = 'ARTI__GAMM'
         DataSource = M_Article.ds_article
         KeyField = 'GAMM_Clep'
@@ -184,7 +186,7 @@ inherited F_Article: TF_Article
         Color = clMoneyGreen
         DataField = 'ARTI__TYPR'
         DataSource = M_Article.ds_article
-        KeyField = 'TYPR_LIBELLE'
+        KeyField = 'TYPR_CLEP'
         ListField = 'TYPR_LIBELLE'
         ListFieldIndex = 0
         ListSource = M_Article.ds_typearti
