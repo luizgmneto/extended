@@ -39,6 +39,7 @@ type
     ExtMapImages: TExtMapImages;
     ExtMenuToolBar: TExtMenuToolBar;
     IBUpdateUtilisateur: TIBUpdateSQL;
+    IBUpdateDepartem: TIBUpdateSQL;
     MapImages: TExtMapImages;
     FWDBSpinEdit: TFWDBSpinEdit;
     FWLabel7: TFWLabel;

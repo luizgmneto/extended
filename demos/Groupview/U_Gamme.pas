@@ -28,6 +28,9 @@ uses
   U_GroupView, ImgList,fonctions_string, U_DmArticles, Menus ;
 
 type
+
+  { TF_Gamme }
+
   TF_Gamme = class(TSuperForm)
     nv_navigator: TExtDBNavigator;
     nv_saisie: TExtDBNavigator;
@@ -41,13 +44,14 @@ type
     pa_4: TPanel;
     pa_5: TPanel;
     pa_6: TPanel;
+    Splitter1: TSplitter;
     SvgFormInfoIni: TOnFormInfoIni;
     spl_1: TSplitter;
     Panel3: TPanel;
     bt_fermer: TFWClose;
     Panel4: TPanel;
     gd_famillevente: TExtDBGrid;
-    pc_Groupes: TPageControl;
+    pc_GroupesGamme: TPageControl;
     ts_ssfam: TTabSheet;
     Panel10: TPanel;
     Panel12: TPanel;
@@ -73,7 +77,6 @@ type
     Panel9: TPanel;
     Panel11: TPanel;
     Panel14: TPanel;
-    bt_Desaffecte: TJvXpButton;
     bt_EnrArt: TFWOK;
     bt_retour: TJvXpButton;
     Panel17: TPanel;
@@ -91,11 +94,6 @@ type
     procedure F_FormDicoDataOnCancel(Sender: TObject);
     procedure bt_TypeProClick(Sender: TObject);
     procedure F_FormDicoShow(Sender: TObject);
-    procedure lv_artinClick(Sender: TObject);
-    procedure lv_ArtOutClick(Sender: TObject);
-    procedure bt_out_artClick(Sender: TObject);
-    procedure bt_out_totartClick(Sender: TObject);
-    procedure bt_DesaffecteClick(Sender: TObject);
     procedure F_FormDicoCreate(Sender: TObject);
 
   private
@@ -131,7 +129,7 @@ end;
 procedure TF_Gamme.F_FormDicoDataOnCancel(Sender: TObject);
 begin
   // on remet accessible les objets
-  pc_Groupes.Enabled := TRUE;
+  pc_GroupesGamme.Enabled := TRUE;
 
   gd_famillevente.Enabled := TRUE;
   nv_navigator.Enabled := TRUE;
@@ -156,47 +154,6 @@ begin
 //M_Donn.ds_article.DataSet.Open;
 end;
 
-
-procedure TF_Gamme.lv_artinClick(Sender: TObject);
-begin
-lv_artout.Selected := nil;
-bt_Desaffecte.Enabled := (lv_artin.SelCount > 0);
-end;
-
-procedure TF_Gamme.lv_ArtOutClick(Sender: TObject);
-begin
-lv_artin.Selected := nil;
-bt_Desaffecte.Enabled := False;
-end;
-
-procedure TF_Gamme.bt_out_artClick(Sender: TObject);
-begin
-bt_Desaffecte.Enabled := False;
-end;
-
-procedure TF_Gamme.bt_out_totartClick(Sender: TObject);
-begin
-bt_Desaffecte.Enabled := False;
-end;
-
-procedure TF_Gamme.bt_DesaffecteClick(Sender: TObject);
-var
-i : integer;
-startitem : TlistItem;
-codeart : string;
-begin
-startitem := lv_artin.Selected;
-For i:= 0 to lv_artin.SelCount - 1 do
- with lv_artin do
-  begin
-  codeart := startitem.Caption;
-  M_Article.IB_desaffecte.Active := False;
-  M_Article.IB_desaffecte.ParamByName('codeart').Value := trim(codeart);
-  M_Article.IB_desaffecte.ExecSQL;
-  SelectNext( lv_artin, True, False );
-  startitem:= Selected;
-  end;
-end;
 
 procedure TF_Gamme.F_FormDicoCreate(Sender: TObject);
 begin

@@ -44,6 +44,7 @@ type
     pa_4: TPanel;
     pa_5: TPanel;
     pa_6: TPanel;
+    Splitter1: TSplitter;
     SvgFormInfoIni: TOnFormInfoIni;
     spl_1: TSplitter;
     Panel3: TPanel;
@@ -114,7 +115,6 @@ type
     procedure bt_CaracClick(Sender: TObject);
     procedure pc_GroupesChange(Sender: TObject);
     procedure pc_GroupesChanging(Sender: TObject; var AllowChange: Boolean);
-    procedure lv_artinDBOnRecorded(DataSet: TDataSet);
     procedure F_FormDicoCreate(Sender: TObject);
 
   private
@@ -220,11 +220,6 @@ begin
         mrCancel : AllowChange := False ;
       End;
     End;
-end;
-
-procedure TF_TypeProduit.lv_artinDBOnRecorded(DataSet: TDataSet);
-begin
-  M_Article.ib_majTypArt.ExecSQL;
 end;
 
 procedure TF_TypeProduit.F_FormDicoCreate(Sender: TObject);

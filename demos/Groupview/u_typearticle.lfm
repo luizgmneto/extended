@@ -159,6 +159,15 @@ inherited F_TypeProduit: TF_TypeProduit
           ParentFont = False
           TabOrder = 0
         end
+        object Splitter1: TSplitter
+          Cursor = crVSplit
+          Left = 0
+          Height = 5
+          Top = 69
+          Width = 584
+          Align = alBottom
+          ResizeAnchor = akBottom
+        end
       end
       object pc_Groupes: TPageControl
         Left = 0
@@ -439,7 +448,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'Caractéristiques membres du type'
-                  Width = 265
+                  Width = 235
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -761,7 +770,7 @@ inherited F_TypeProduit: TF_TypeProduit
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 195
+                    Width = 211
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -853,7 +862,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 253
+                  Width = 269
                 end>
               Constraints.MinWidth = 4
               DragMode = dmAutomatic

@@ -159,8 +159,17 @@ inherited F_Gamme: TF_Gamme
           ParentFont = False
           TabOrder = 0
         end
+        object Splitter1: TSplitter
+          Cursor = crVSplit
+          Left = 0
+          Height = 5
+          Top = 69
+          Width = 670
+          Align = alBottom
+          ResizeAnchor = akBottom
+        end
       end
-      object pc_Groupes: TPageControl
+      object pc_GroupesGamme: TPageControl
         Left = 0
         Height = 459
         Top = 106
@@ -453,18 +462,6 @@ inherited F_Gamme: TF_Gamme
               BevelOuter = bvNone
               TabOrder = 3
             end
-            object bt_Desaffecte: TJvXPButton
-              Left = 240
-              Height = 25
-              Hint = 'Supprimer l''article de la gamme'
-              Top = 1
-              Width = 92
-              Caption = 'Désaffecter'
-              Enabled = False
-              TabOrder = 4
-              Align = alLeft
-              OnClick = bt_DesaffecteClick
-            end
             object bt_EnrArt: TFWOK
               Left = 14
               Height = 25
@@ -473,7 +470,7 @@ inherited F_Gamme: TF_Gamme
               Width = 92
               Caption = 'Enregistrer'
               Enabled = False
-              TabOrder = 5
+              TabOrder = 4
               Align = alLeft
             end
             object bt_retour: TJvXPButton
@@ -484,7 +481,7 @@ inherited F_Gamme: TF_Gamme
               Width = 92
               Caption = 'Retour origine'
               Enabled = False
-              TabOrder = 6
+              TabOrder = 5
               Align = alRight
               ParentShowHint = False
               ShowHint = True
@@ -496,7 +493,7 @@ inherited F_Gamme: TF_Gamme
               Top = 1
               Width = 99
               Enabled = False
-              TabOrder = 7
+              TabOrder = 6
               Align = alLeft
             end
           end
@@ -537,7 +534,7 @@ inherited F_Gamme: TF_Gamme
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 242
+                    Width = 258
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -548,7 +545,6 @@ inherited F_Gamme: TF_Gamme
                 StateImages = im_images
                 TabOrder = 0
                 ViewStyle = vsReport
-                OnClick = lv_artinClick
                 DataKeyUnit = 'ARTI_Clep'
                 DataFieldsDisplay = 'ARTI_Libcom'
                 DataShowAll = True
@@ -565,7 +561,6 @@ inherited F_Gamme: TF_Gamme
                 ButtonOut = bt_out_art
                 DataListOpposite = lv_ArtOut
                 ButtonRecord = bt_EnrArt
-                ButtonOption = bt_Desaffecte
                 ButtonCancel = bt_AbanArt
                 ButtonBasket = bt_retour
                 DataAllFiltered = False
@@ -608,7 +603,6 @@ inherited F_Gamme: TF_Gamme
                   Width = 49
                   Enabled = False
                   TabOrder = 2
-                  OnClick = bt_out_artClick
                 end
                 object bt_out_totart: TFWOutAll
                   Left = 14
@@ -618,7 +612,6 @@ inherited F_Gamme: TF_Gamme
                   Width = 49
                   Enabled = False
                   TabOrder = 3
-                  OnClick = bt_out_totartClick
                 end
               end
             end
@@ -633,7 +626,7 @@ inherited F_Gamme: TF_Gamme
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 292
+                  Width = 308
                 end>
               Constraints.MinWidth = 3
               DragMode = dmAutomatic
@@ -644,7 +637,6 @@ inherited F_Gamme: TF_Gamme
               ShowHint = True
               TabOrder = 1
               ViewStyle = vsReport
-              OnClick = lv_ArtOutClick
               DataKeyUnit = 'ARTI_Clep'
               DataFieldsDisplay = 'ARTI_Libcom'
               DataShowAll = True
@@ -662,7 +654,6 @@ inherited F_Gamme: TF_Gamme
               ButtonOut = bt_in_art
               DataListOpposite = lv_artin
               ButtonRecord = bt_enregistrer
-              ButtonOption = bt_Desaffecte
               ButtonCancel = bt_AbanArt
               ButtonBasket = bt_retour
               DataAllFiltered = False

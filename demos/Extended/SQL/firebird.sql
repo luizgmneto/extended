@@ -10,7 +10,7 @@ CREATE TABLE DEPARTEMENT
 (
   CLEP integer NOT NULL,
   NOM varchar(100),
-  CONSTRAINT INTEG_2 PRIMARY KEY (CLEP)
+  PRIMARY KEY (CLEP)
 );
 CREATE TABLE UTILISATEUR
 (
@@ -20,7 +20,7 @@ CREATE TABLE UTILISATEUR
   IDDEPARTEMENT integer,
   PHOTO blob sub_type 0,
   ENTIER integer,
-  CONSTRAINT INTEG_4 PRIMARY KEY (CLEP)
+  PRIMARY KEY (CLEP)
 );
 /********************* VIEWS **********************/
 /******************* EXCEPTIONS *******************/

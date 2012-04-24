@@ -740,7 +740,8 @@ var
 //  lw_PagesACharger : Word        ; // Variable temporaire de test de page
 begin
   Result := 0;
-  if not Visible Then
+  if not Visible
+   Then
     Exit;
   // Tout n'est pas chargé
   if not gb_AllLoaded
@@ -1325,7 +1326,7 @@ begin
 	     // A-t-on chargé suffisamment d'enregistrements
              if li_RecordsToAdd <= 0 Then
                li_RecordsToAdd:=fb_CanAddRecords;
-             if ( li_RecordsToAdd <= 0 )
+             if ( li_RecordsToAdd < 0 )
              and not Eof
 	       Then
 		  Begin
