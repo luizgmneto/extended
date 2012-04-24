@@ -7,11 +7,8 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, U_Components, LResources, DBFLaz, lazextcomponents, lazregisterextcomp,
+  Forms, U_Components, LResources, DBFLaz, lazextcomponents,
   ibexpress, virtualtreeview_package;
-
-{$IFDEF WINDOWS}{$R demo.rc}{$ENDIF}
-
 begin
   {$I demo.lrs}
   Application.Initialize;

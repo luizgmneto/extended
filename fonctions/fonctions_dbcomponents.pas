@@ -14,9 +14,9 @@ uses SysUtils,
      WideStrings,
   {$ENDIF}
   DB,
-{$IFDEF EADO}
-  ADODB,
-{$ENDIF}
+  {$IFDEF EADO}
+    ADODB,
+  {$ENDIF}
   {$IFDEF IBX}
   IBQuery,
   {$ENDIF}
