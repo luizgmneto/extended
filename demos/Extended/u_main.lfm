@@ -1,0 +1,52 @@
+inherited FMain: TFMain
+  Left = 345
+  Height = 422
+  Top = 284
+  Width = 592
+  Caption = 'Gestion d''articles'
+  ClientHeight = 394
+  ClientWidth = 592
+  Menu = MainMenu
+  OnCreate = FormCreate
+  object ScrollBox: TScrollBox[0]
+    Left = 0
+    Height = 394
+    Top = 0
+    Width = 592
+    Align = alClient
+    TabOrder = 0
+  end
+  object MainMenu: TMainMenu[1]
+    left = 141
+    top = 128
+    object MenuItem1: TMenuItem
+      Caption = 'Fenêtres'
+      object MuArticle: TMenuItem
+        Caption = 'Articles'
+        OnClick = MuArticleClick
+      end
+      object MuCaract: TMenuItem
+        Caption = 'Caractéristiques'
+        OnClick = MuCaractClick
+      end
+      object muGamme: TMenuItem
+        Caption = 'Gammes'
+        OnClick = muGammeClick
+      end
+      object MuTypeArticle: TMenuItem
+        Caption = 'Types d''articles'
+        OnClick = MuTypeArticleClick
+      end
+    end
+    object muapropos: TMenuItem
+      Caption = 'À propos'
+      OnClick = muaproposClick
+    end
+  end
+  object OnFormInfoIni1: TOnFormInfoIni[2]
+    SauveEditObjets = []
+    SauvePosForm = True
+    left = 96
+    top = 84
+  end
+end
