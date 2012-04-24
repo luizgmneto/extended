@@ -30,6 +30,9 @@ uses
 const CST_CARA_Clep = 'CARA_Clep' ; 
 
 type
+
+  { TF_Caracteristique }
+
   TF_Caracteristique = class(TSuperForm)
     nv_navigator: TExtDBNavigator;
     nv_saisie: TExtDBNavigator;
@@ -43,6 +46,7 @@ type
     pa_4: TPanel;
     pa_5: TPanel;
     pa_6: TPanel;
+    Splitter1: TSplitter;
     SvgFormInfoIni: TOnFormInfoIni;
     spl_1: TSplitter;
     Panel3: TPanel;
@@ -91,7 +95,6 @@ type
     procedure bt_fermerClick(Sender: TObject);
     procedure F_FormDicoDataOnCancel(Sender: TObject);
     procedure bt_TypeProClick(Sender: TObject);
-    procedure lv_artinDBOnRecorded(DataSet: TDataSet);
     procedure F_FormDicoCreate(Sender: TObject);
 
   private
@@ -143,11 +146,6 @@ begin
       M_Article.IB_TypProduit.Locate ( 'TYPR_Clep', lv_CaracIn.Selected.Caption, [] )
     Else
       M_Article.IB_TypProduit.Locate ( 'TYPR_Clep', lv_CaracIn.Items [0].Caption, [] )
-end;
-
-procedure TF_Caracteristique.lv_artinDBOnRecorded(DataSet: TDataSet);
-begin
-  M_Article.ib_majTypArt.ExecSQL;
 end;
 
 procedure TF_Caracteristique.F_FormDicoCreate(Sender: TObject);

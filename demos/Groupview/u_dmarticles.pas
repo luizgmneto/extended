@@ -24,6 +24,7 @@ type
     IBU_Gamme: TIBUpdateSQL;
     IBU_TypProd: TIBUpdateSQL;
     IBU_Carac: TIBUpdateSQL;
+    IBU_TypArt: TIBUpdateSQL;
     IB_artcoul: TIBQuery;
     IB_GamTProIn: TIBQuery;
     IB_GamTProOut: TIBQuery;
@@ -64,13 +65,9 @@ type
     Process: TProcess;
     zq_Article: TIBQuery;
     zq_Carac: TIBQuery;
-    ib_desaffecte: TIBQuery;
     zq_FiltreProduit: TIBQuery;
     ib_gammarti: TIBQuery;
     zq_Gamme: TIBQuery;
-    ib_majTypArt: TIBQuery;
-    ib_majGamme: TIBQuery;
-    ib_majcara: TIBQuery;
     ib_typearti: TIBQuery;
     zq_TypProduit: TIBQuery;
     procedure DataModuleCreate(Sender: TObject);

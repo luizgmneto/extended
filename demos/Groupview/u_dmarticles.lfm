@@ -20,7 +20,6 @@ object M_Article: TM_Article
       'SELECT * from GAMME'
     )
     Params = <>
-    UpdateObject = IBU_Gamme
     left = 477
     top = 13
   end
@@ -30,6 +29,8 @@ object M_Article: TM_Article
     top = 13
   end
   object zq_TypProduit: TIBQuery
+    Database = IBDatabase
+    Transaction = IBTransaction
     BufferChunks = 1000
     CachedUpdates = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
@@ -43,7 +44,7 @@ object M_Article: TM_Article
   end
   object ds_TypProduit: TDatasource
     DataSet = zq_TypProduit
-    left = 216
+    left = 217
     top = 128
   end
   object zq_Carac: TIBQuery
@@ -115,25 +116,9 @@ object M_Article: TM_Article
     left = 24
     top = 72
   end
-  object ib_majTypArt: TIBQuery
-    BufferChunks = 1000
-    CachedUpdates = False
-    GeneratorField.ApplyOnEvent = gaeOnNewRecord
-    SQL.Strings = (
-      'INSERT GAMME_TYPR SELECT distinct ARTI__GAMM,ARTI__TYPR from ARTICLE'
-      'WHERE ARTI__TYPR NOT IN '
-      '(select GATY__TYPR from GAMME_TYPR where GATY__GAMM = ARTI__GAMM) and ARTI__TYPR is not null and ARTI__GAMM is not null'
-      ''
-      'INSERT TYPE_PRODUIT_CARA SELECT distinct ARTI__TYPR,ARTI__CARA from ARTICLE'
-      'WHERE ARTI__CARA NOT IN '
-      '(select TYPC__CARA from TYPE_PRODUIT_CARA where TYPC__TYPR = ARTI__TYPR) and ARTI__CARA is not null '
-      'and ARTI__TYPR is not null and ARTI__GAMM is not null'
-    )
-    Params = <>
-    left = 88
-    top = 216
-  end
   object ib_typearti: TIBQuery
+    Database = IBDatabase
+    Transaction = IBTransaction
     BufferChunks = 1000
     CachedUpdates = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
@@ -142,6 +127,7 @@ object M_Article: TM_Article
       'from TYPE_PRODUIT'
     )
     Params = <>
+    UpdateObject = IBU_TypArt
     left = 88
     top = 160
   end
@@ -150,51 +136,9 @@ object M_Article: TM_Article
     left = 16
     top = 160
   end
-  object ib_desaffecte: TIBQuery
-    BufferChunks = 1000
-    CachedUpdates = False
-    GeneratorField.ApplyOnEvent = gaeOnNewRecord
-    SQL.Strings = (
-      'UPDATE ARTICLE SET ARTI__GAMM = null, ARTI__TYPR = null,ARTI__CARA = null'
-      'WHERE ARTI_Clep =:codeart'
-      ''
-      ''
-    )
-    Params = <    
-      item
-        DataType = ftUnknown
-        Name = 'codeart'
-        ParamType = ptInput
-      end>
-    left = 88
-    top = 352
-    ParamData = <    
-      item
-        DataType = ftUnknown
-        Name = 'codeart'
-        ParamType = ptInput
-      end>
-  end
-  object ib_majGamme: TIBQuery
-    BufferChunks = 1000
-    CachedUpdates = False
-    GeneratorField.ApplyOnEvent = gaeOnNewRecord
-    SQL.Strings = (
-      'INSERT GAMME_TYPR SELECT distinct ARTI__GAMM,ARTI__TYPR from ARTICLE'
-      'WHERE ARTI__TYPR NOT IN '
-      '(select GATY__TYPR from GAMME_TYPR where GATY__GAMM = ARTI__GAMM) and ARTI__TYPR is not null and ARTI__GAMM is not null'
-      ''
-      'INSERT TYPE_PRODUIT_CARA SELECT distinct ARTI__TYPR,ARTI__CARA from ARTICLE'
-      'WHERE ARTI__CARA NOT IN '
-      '(select TPCA__CARA from TYPR_CARA where TYPE_PRODUIT_CARA = ARTI__TYPR) and ARTI__CARA is not null and ARTI__TYPR is not null and ARTI__GAMM is not null'
-      ''
-      ''
-    )
-    Params = <>
-    left = 16
-    top = 352
-  end
   object ib_gammarti: TIBQuery
+    Database = IBDatabase
+    Transaction = IBTransaction
     BufferChunks = 1000
     CachedUpdates = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
@@ -210,6 +154,7 @@ object M_Article: TM_Article
         Name = 'gamm'
         ParamType = ptInput
       end>
+    UpdateObject = IBU_Gamme
     left = 88
     top = 288
     ParamData = <    
@@ -224,26 +169,6 @@ object M_Article: TM_Article
     left = 16
     top = 288
   end
-  object ib_majcara: TIBQuery
-    BufferChunks = 1000
-    CachedUpdates = False
-    GeneratorField.ApplyOnEvent = gaeOnNewRecord
-    SQL.Strings = (
-      'INSERT GAMME_TYPR SELECT distinct ARTI__GAMM,ARTI__TYPR from ARTICLE'
-      'WHERE ARTI__TYPR NOT IN '
-      '(select GATY__TYPR from GAMME_TYPR where GATY__GAMM = ARTI__GAMM) and ARTI__TYPR is not null and ARTI__GAMM is not null'
-      ''
-      'INSERT TYPE_PRODUIT_CARA SELECT distinct ARTI__TYPR,ARTI__CARA from ARTICLE'
-      'WHERE ARTI__CARA NOT IN '
-      '(select TYPC__CARA from TYPE_PRODUIT_CARA where TYPC__TYPR = ARTI__TYPR) and ARTI__CARA is not null '
-      'and ARTI__TYPR is not null and ARTI__GAMM is not null'
-      ''
-      ''
-    )
-    Params = <>
-    left = 280
-    top = 344
-  end
   object Process: TProcess
     Active = False
     Options = []
@@ -257,10 +182,13 @@ object M_Article: TM_Article
     WindowTop = 0
     WindowWidth = 0
     FillAttribute = 0
-    left = 536
-    top = 328
+    left = 336
+    top = 256
   end
   object IBU_Article: TIBUpdateSQL
+    RefreshSQL.Strings = (
+      'SELECT * FROM ARTICLE'
+    )
     ModifySQL.Strings = (
       'UPDATE ARTICLE SET'
       '     ARTI_Libcom=:ARTI_Libcom,'
@@ -288,6 +216,9 @@ object M_Article: TM_Article
     top = 8
   end
   object IBU_Gamme: TIBUpdateSQL
+    RefreshSQL.Strings = (
+      'SELECT * FROM GAMME'
+    )
     ModifySQL.Strings = (
       'UPDATE GAMME SET'
       '     GAMM_Libelle=:GAMM_Libelle '
@@ -306,6 +237,9 @@ object M_Article: TM_Article
     top = 13
   end
   object IBU_TypProd: TIBUpdateSQL
+    RefreshSQL.Strings = (
+      'SELECT * FROM TYPE_PRODUIT'
+    )
     ModifySQL.Strings = (
       'UPDATE TYPE_PRODUIT SET'
       '     TYPR_Libelle=:TYPR_Libelle '
@@ -324,6 +258,9 @@ object M_Article: TM_Article
     top = 128
   end
   object IBU_Carac: TIBUpdateSQL
+    RefreshSQL.Strings = (
+      'SELECT * FROM CARACTERISTIQUE'
+    )
     ModifySQL.Strings = (
       'UPDATE CARACTERISTIQUE SET'
       '     CARA_Libelle=:CARA_Libelle '
@@ -340,5 +277,26 @@ object M_Article: TM_Article
     )
     left = 432
     top = 184
+  end
+  object IBU_TypArt: TIBUpdateSQL
+    RefreshSQL.Strings = (
+      'SELECT * FROM TYPE_PRODUIT'
+    )
+    ModifySQL.Strings = (
+      'UPDATE TYPE_PRODUIT SET'
+      '     TYPR_Libelle=:TYPR_Libelle '
+      'WHERE TYPR_CLEP=:TYPR_CLEP'
+    )
+    InsertSQL.Strings = (
+      'INSERT INTO TYPE_PRODUIT'
+      '     (  TYPR_Libelle) '
+      'VALUES'
+      '     (  :TYPR_Libelle) '
+    )
+    DeleteSQL.Strings = (
+      'DELETE FROM TYPE_PRODUIT WHERE TYPR_CLEP = :TYPR_CLEP'
+    )
+    left = 48
+    top = 216
   end
 end

@@ -158,6 +158,15 @@ inherited F_Caracteristique: TF_Caracteristique
           ParentFont = False
           TabOrder = 0
         end
+        object Splitter1: TSplitter
+          Cursor = crVSplit
+          Left = 0
+          Height = 5
+          Top = 69
+          Width = 681
+          Align = alBottom
+          ResizeAnchor = akBottom
+        end
       end
       object pc_Groupes: TPageControl
         Left = 0
@@ -522,7 +531,7 @@ inherited F_Caracteristique: TF_Caracteristique
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 242
+                    Width = 258
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -614,7 +623,7 @@ inherited F_Caracteristique: TF_Caracteristique
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 303
+                  Width = 319
                 end>
               Constraints.MinWidth = 10
               DragMode = dmAutomatic

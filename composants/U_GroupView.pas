@@ -233,6 +233,8 @@ type
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     {$ENDIF}
     function fb_BeginOpen: Boolean; virtual;
+    procedure p_SetHintString ( const awin_Control : TWincontrol ; const as_Hint : String );
+    procedure p_SetClickEvent ( const awin_Control : TWincontrol ; const as_procedure : String ; const AOldEvent : TNotifyEvent );
     function fb_ExecuteQueryNotLinkedNNGroupSourceSimilar: Boolean; virtual;
     function fb_ExecuteQueryNotLinkedNNGroupSourceDifferent: Boolean; virtual;
     function fb_VerifyFields: Boolean; virtual;
@@ -895,20 +897,55 @@ Begin
       {$IFDEF FPC}SmallImages{$ELSE}StateImages{$ENDIF} := gim_GroupViewImageList;
     End;
 End;
+
+procedure TDBGroupView.p_SetHintString ( const awin_Control : TWincontrol ; const as_Hint : String );
+var lvar_Valeur : Variant ;
+Begin
+  if assigned ( awin_Control )
+   Then
+    Begin
+      if awin_Control.Hint = '' Then
+        Begin
+          if  IspublishedProp ( awin_Control, 'ParentShowHint' )
+          and PropIsType      ( awin_Control, 'OnEnter', tkEnumeration ) Then
+            lvar_Valeur := GetPropValue   (  awin_Control, 'ParentShowHint' );
+          if  ( lvar_Valeur <> Null )
+          and ( TVarData( lvar_Valeur ).VType = 256 ) Then
+            SetPropValue   (  awin_Control, 'ParentShowHint', False );
+          awin_Control.ShowHint := True ;
+          awin_Control.Hint := as_Hint ;
+        End ;
+    End ;
+end;
+
+procedure  TDBGroupView.p_SetClickEvent ( const awin_Control : TWincontrol ; const as_procedure : String ; const AOldEvent : TNotifyEvent );
+var lmet_MethodeDistribuee : TMethod ;
+Begin
+  if assigned ( awin_Control )
+   Then
+    Begin
+      // affectation de la méthode du nouvel évènement
+      lmet_MethodeDistribuee .Data := Self ;
+      lmet_MethodeDistribuee.Code := MethodAddress ( as_procedure );
+      // récupération et Affectation
+      if  IsPublishedProp ( awin_Control, 'OnClick'           )
+      and PropIsType      ( awin_Control, 'OnClick', tkMethod )
+       Then
+        try
+          ge_RecordClick := TNotifyEvent ( GetMethodProp ( awin_Control, 'OnClick' ));
+          SetMethodProp ( awin_Control, 'OnClick', lmet_MethodeDistribuee );
+        Except
+        End ;
+    End ;
+End;
 // Initialisation des variables en fonction des propriétés
 procedure TDBGroupView.p_ListLoaded ;
 // Méthode évènement
+{$IFNDEF FPC}
 var
-  {$IFNDEF FPC}
-  lmet_MethodeDistribueeSelect,
+  lmet_MethodeDistribueeSelect : TMethod ;
   {$ENDIF}
-  lmet_MethodeDistribueeInvert ,
-  lmet_MethodeDistribueeTransfert  ,
-  lmet_MethodeDistribueeVBasket  ,
-  lmet_MethodeDistribueeEnregistre  ,
-  lmet_MethodeDistribueeAnnule  ,
-  lmet_MethodeDistribueeTotal  : TMethod ;
-  lvar_Valeur : Variant ;
+
 begin
   {$IFNDEF FPC}
   ge_Onselectitem := OnSelectItem;
@@ -943,155 +980,27 @@ begin
     Begin
 
     // Affectation de l'évènement onclick d'enregistre
-      if assigned ( gBt_Record )
-       Then
-        Begin
-          // affectation de la méthode du nouvel évènement
-          lmet_MethodeDistribueeEnregistre .Data := Self ;
-          lmet_MethodeDistribueeEnregistre.Code := MethodAddress ( 'p_Record' );
-          // récupération et Affectation
-          if  IsPublishedProp ( gBt_Record, 'OnClick'           )
-          and PropIsType      ( gBt_Record, 'OnClick', tkMethod )
-           Then
-            try
-              ge_RecordClick := TNotifyEvent ( GetMethodProp ( gBt_Record, 'OnClick' ));
-              SetMethodProp ( gBt_Record, 'OnClick', lmet_MethodeDistribueeEnregistre );
-            Except
-            End ;
-        End ;
-      if assigned ( gbt_Exchange )
-       Then
-        Begin
-          // affectation de la méthode du nouvel évènement
-          lmet_MethodeDistribueeInvert.Data := Self ;
-          lmet_MethodeDistribueeInvert.Code := MethodAddress ( 'p_InvertClick' );
-          // récupération et Affectation
-          if  IsPublishedProp ( gbt_Exchange, 'OnClick'           )
-          and PropIsType      ( gbt_Exchange, 'OnClick', tkMethod )
-           Then
-            try
-              ge_BtnInvertClick := nil ;
-              ge_BtnInvertClick := TNotifyEvent ( GetMethodProp ( gbt_Exchange, 'OnClick' ));
-              SetMethodProp ( gbt_Exchange, 'OnClick', lmet_MethodeDistribueeInvert );
-            Except
-            End ;
-        End ;
-    // Affectation de l'évènement onclick d'abandonne
-      if assigned ( gBt_Cancel )
-       Then
-        Begin
-          // affectation de la méthode du nouvel évènement
-          lmet_MethodeDistribueeAnnule.Data := Self ;
-          lmet_MethodeDistribueeAnnule.Code := MethodAddress ( 'p_Cancel' );
-          if  IsPublishedProp ( gBt_Cancel, 'OnClick'           )
-          and PropIsType      ( gBt_Cancel, 'OnClick', tkMethod )
-           Then
-            try
-          // récupération et Affectation
-              ge_CancelClick := TNotifyEvent ( GetMethodProp ( gBt_Cancel, 'OnClick' ));
-              SetMethodProp ( gBt_Cancel, 'OnClick', lmet_MethodeDistribueeAnnule );
-            Except
-            End ;
-        End ;
-      lvar_Valeur := Null ;
-        // fin de l'affectation des évènements de la liste principale
-      if assigned ( gBt_Basket )
-       Then
-        Begin
-          if gBt_Basket.Hint = '' Then
-            Begin
-              if  IspublishedProp ( gBt_Basket, 'ParentShowHint' )
-              and PropIsType      ( gBt_Basket, 'OnEnter', tkEnumeration ) Then
-                lvar_Valeur := GetPropValue   (  gBt_Basket, 'ParentShowHint' );
-              if  ( lvar_Valeur <> Null )
-              and ( TVarData( lvar_Valeur ).VType = 256 ) Then
-                SetPropValue   (  gBt_Basket, 'ParentShowHint', False );
-              gBt_Basket.ShowHint := True ;
-              gBt_Basket.Hint := GS_GROUPE_RETOUR_ORIGINE ;
-            End ;
-          // affectation de la méthode du nouvel évènement
-          lmet_MethodeDistribueeVBasket.Data := Self ;
-          lmet_MethodeDistribueeVBasket.Code := MethodAddress ( 'p_VideBasket' );
-          // récupération et Affectation
-          if  IsPublishedProp ( gBt_Basket, 'OnClick'           )
-          and PropIsType      ( gBt_Basket, 'OnClick', tkMethod )
-           Then
-            try
-              ge_BasketClick := TNotifyEvent ( GetMethodProp ( gBt_Basket, 'OnClick' ));
-              SetMethodProp ( gBt_Basket, 'OnClick', lmet_MethodeDistribueeVBasket );
-            Except
-            End ;
-        End ;
-    End ;
+      p_SetClickEvent ( gBt_Record  , 'p_Record'     , ge_RecordClick    );
+      // Affectation de l'évènement onclick d'inversion
+      p_SetClickEvent ( gbt_Exchange, 'p_InvertClick', ge_BtnInvertClick );
+      // Affectation de l'évènement onclick d'abandonne
+      p_SetClickEvent ( gBT_Cancel  , 'p_Cancel'     , ge_CancelClick );
+      p_SetClickEvent ( gBT_Basket  , 'p_VideBasket' , ge_BasketClick );
+      p_SetHintString ( gBt_Basket, GS_GROUPE_RETOUR_ORIGINE );
+      p_SetHintString ( gBT_TotalList, GS_GROUPE_TOUT_INCLURE );
+      p_SetHintString ( gBT_List, GS_GROUPE_INCLURE );
+    End
+  // fin de l'affectation des évènements de la liste principale
+  Else
+   begin
+    p_SetHintString ( gBT_TotalList, GS_GROUPE_TOUT_EXCLURE );
+    p_SetHintString ( gBT_List, GS_GROUPE_EXCLURE );
+   End;
 
-  lvar_Valeur := Null ;
     // Affectation de l'évènement onclick du bouton de la liste
-  if assigned ( gBt_List )
-   Then
-    Begin
-//          if gBt_List.Hint = '' Then
-        Begin
-          if  IspublishedProp ( gBt_List, 'ParentShowHint' )
-          and PropIsType      ( gBt_List, 'OnEnter', tkEnumeration ) Then
-            lvar_Valeur := GetPropValue   (  gBt_List, 'ParentShowHint' );
-          if  ( lvar_Valeur <> Null )
-          and ( TVarData( lvar_Valeur ).VType = 256 ) Then
-            SetPropValue   (  gBt_List, 'ParentShowHint', False );
-          gBt_List.ShowHint := True ;
-          if gb_EstPrincipale tHEN
-            Begin
-              gBt_List.Hint := GS_GROUPE_INCLURE ;
-            End
-          Else
-            gBt_List.Hint := GS_GROUPE_EXCLURE ;
-        End ;
-          // affectation de la méthode du nouvel évènement
-      lmet_MethodeDistribueeTransfert.Data := Self ;
-      lmet_MethodeDistribueeTransfert.Code := MethodAddress ( 'p_ClickTransfert' );
-      if  IsPublishedProp ( gBt_List, 'OnClick'           )
-      and PropIsType      ( gBt_List, 'OnClick', tkMethod )
-       Then
-        try
-          // récupération et Affectation
-          ge_ListClick := TNotifyEvent ( GetMethodProp ( gBt_List, 'OnClick' ));
-          SetMethodProp ( gBt_List, 'OnClick', lmet_MethodeDistribueeTransfert );
-        Except
-        End ;
-    End ;
-  lvar_Valeur := Null ;
-    // Affectation de l'évènement onclick du bouton total de la liste
-  if assigned ( gBt_TotalList )
-   Then
-    Begin
-//          if gBt_TotalList.Hint = '' Then
-        Begin
-          if  IspublishedProp ( gBt_TotalList, 'ParentShowHint' )
-          and PropIsType      ( gBt_TotalList, 'OnEnter', tkEnumeration ) Then
-            lvar_Valeur := GetPropValue   (  gBt_TotalList, 'ParentShowHint' );
-          if  ( lvar_Valeur <> Null )
-          and ( TVarData( lvar_Valeur ).VType = 256 ) Then
-            SetPropValue   (  gBt_TotalList, 'ParentShowHint', False );
-          gBt_TotalList.ShowHint := True ;
-          if gb_EstPrincipale Then
-            Begin
-              gBt_TotalList.Hint := GS_GROUPE_TOUT_INCLURE ;
-            End
-          Else
-            gBt_TotalList.Hint := GS_GROUPE_TOUT_EXCLURE ;
-        End ;
-          // affectation de la méthode du nouvel évènement
-      lmet_MethodeDistribueeTotal.Data := Self ;
-      lmet_MethodeDistribueeTotal.Code := MethodAddress ( 'p_ClickTransfertTotal' );
-      if  IsPublishedProp ( gBt_TotalList, 'OnClick'           )
-      and PropIsType      ( gBt_TotalList, 'OnClick', tkMethod )
-       Then
-        try
-          // récupération et Affectation
-          ge_TotalListClick := TNotifyEvent ( GetMethodProp ( gBt_TotalList, 'OnClick' ));
-          SetMethodProp ( gBt_TotalList, 'OnClick', lmet_MethodeDistribueeTotal );
-        Except
-        End ;
-    End ;
+  p_SetClickEvent ( gBT_List      , 'p_ClickTransfert'      , ge_ListClick );
+  // Affectation de l'évènement onclick du bouton total de la liste
+  p_SetClickEvent ( gBT_TotalList , 'p_ClickTransfertTotal' , ge_TotalListClick );
   // Fin de l'affectation des propriétés au premier chargement
 End;
 
@@ -1110,8 +1019,8 @@ begin
         {$ENDIF}
         gb_Open := True ;
         LoadList ;
-        gb_Open := False ;
       finally
+        gb_Open := False ;
       End;
 
 End;
@@ -2028,87 +1937,87 @@ Begin
   // Si gestion de transfert total
 //  if gb_AllSelect
 //   Then
-	if not assigned ( galv_OtherList )
-	or (( gws_RecordValue = '' ) and ( galv_OtherList.gws_RecordValue = '' )) Then
-		Begin
-	 // Si est principale
-			if gb_EstPrincipale
-			 Then
-				Begin
-					// Si on ne localise pas l'enregistrement en cours dans le dataset d'inclusion
-					if ab_AddItemPlus Then
-						Begin
-							if ( gb_CaseInSensitive     and not fb_Locate (  adat_Dataset.FieldValues [ gs_UnitsKey ] ))
-							or ( not gb_CaseInSensitive and not gdl_DataLink.DataSet.Locate ( gs_UnitsKey, adat_Dataset.FieldValues [ gs_UnitsKey ], [] ))
-							 Then
-								Begin
-									// C'est qu'il est à insérer
-									gVG_ListItem.ImageIndex := gi_ImageInsere ;
+  if not assigned ( galv_OtherList )
+  or (( gws_RecordValue = '' ) and ( galv_OtherList.gws_RecordValue = '' )) Then
+    Begin
+// Si est principale
+      if gb_EstPrincipale
+       Then
+	  Begin
+	    // Si on ne localise pas l'enregistrement en cours dans le dataset d'inclusion
+	    if ab_AddItemPlus Then
+	      Begin
+		if ( gb_CaseInSensitive     and not fb_Locate (  adat_Dataset.FieldValues [ gs_UnitsKey ] ))
+		or ( not gb_CaseInSensitive and not gdl_DataLink.DataSet.Locate ( gs_UnitsKey, adat_Dataset.FieldValues [ gs_UnitsKey ], [] ))
+		 Then
+		  Begin
+		    // C'est qu'il est à insérer
+		    gVG_ListItem.ImageIndex := gi_ImageInsere ;
 //									gVG_ListItem.StateIndex := gi_ImageInsere ;
-									Result := True ;
-								End ;
-						End ;
-				End
-			 Else
-				 // pour changer l'état de l'item en effacement il faut pas de Basket
-				if not gb_Basket
-				and assigned ( gdl_DataLink.Datasource ) then
-		 // Si n'est pas principale
-					Begin
-						// Si on ne localise pas l'enregistrement en cours dans le dataset d'exclusion
-						if ab_AddItemPlus Then
-							Begin
-								if ( gb_CaseInSensitive     and not fb_Locate (  adat_Dataset.FieldValues [ gs_UnitsKey ] ))
-								or ( not gb_CaseInSensitive and not gdl_DataLink.DataSet.Locate ( gs_UnitsKey, adat_Dataset.FieldValues [ gs_UnitsKey ], [] ))
-								 Then
-									Begin
-										// C'est qu'il est à supprimer
-										gVG_ListItem.ImageIndex := gi_ImageSupprime ;
+		    Result := True ;
+		  End ;
+	      End ;
+	  End
+       Else
+	       // pour changer l'état de l'item en effacement il faut pas de Basket
+	      if not gb_Basket
+	      and assigned ( gdl_DataLink.Datasource ) then
+// Si n'est pas principale
+		      Begin
+			      // Si on ne localise pas l'enregistrement en cours dans le dataset d'exclusion
+			      if ab_AddItemPlus Then
+				      Begin
+					      if ( gb_CaseInSensitive     and not fb_Locate (  adat_Dataset.FieldValues [ gs_UnitsKey ] ))
+					      or ( not gb_CaseInSensitive and not gdl_DataLink.DataSet.Locate ( gs_UnitsKey, adat_Dataset.FieldValues [ gs_UnitsKey ], [] ))
+					       Then
+						      Begin
+							      // C'est qu'il est à supprimer
+							      gVG_ListItem.ImageIndex := gi_ImageSupprime ;
 //										gVG_ListItem.StateIndex := gi_ImageSupprime ;
-										Result := True ;
-									End ;
-							End ;
-					End ;
-		End
-	Else
-		Begin
-			if gws_RecordValue = '' Then
-				Begin
-					if not adat_Dataset.FieldByName ( gs_GroupField ).IsNull Then
-						if gb_EstPrincipale Then
-							Begin
-								// C'est qu'il est à insérer
-								gVG_ListItem.ImageIndex := gi_ImageInsere ;
+							      Result := True ;
+						      End ;
+				      End ;
+		      End ;
+    End
+Else
+    Begin
+	    if gws_RecordValue = '' Then
+		    Begin
+			    if not adat_Dataset.FieldByName ( gs_GroupField ).IsNull Then
+				    if gb_EstPrincipale Then
+					    Begin
+						    // C'est qu'il est à insérer
+						    gVG_ListItem.ImageIndex := gi_ImageInsere ;
 //								gVG_ListItem.StateIndex := gi_ImageInsere ;
-								Result := True ;
-							End
-						Else
-							Begin
-								// C'est qu'il est à supprimer
-								gVG_ListItem.ImageIndex := gi_ImageSupprime ;
+						    Result := True ;
+					    End
+				    Else
+					    Begin
+						    // C'est qu'il est à supprimer
+						    gVG_ListItem.ImageIndex := gi_ImageSupprime ;
 //								gVG_ListItem.StateIndex := gi_ImageSupprime ;
-								Result := True ;
-							End ;
-				End
-			else
-				Begin
-					if fb_ValueToValid ( adat_Dataset.FieldByName ( gs_GroupField )) Then
-						if gb_EstPrincipale Then
-							Begin
-								// C'est qu'il est à insérer
-								gVG_ListItem.ImageIndex := gi_ImageInsere ;
+						    Result := True ;
+					    End ;
+		    End
+	    else
+		    Begin
+			    if fb_ValueToValid ( adat_Dataset.FieldByName ( gs_GroupField )) Then
+				    if gb_EstPrincipale Then
+					    Begin
+						    // C'est qu'il est à insérer
+						    gVG_ListItem.ImageIndex := gi_ImageInsere ;
 //								gVG_ListItem.StateIndex := gi_ImageInsere ;
-								Result := True ;
-							End
-						Else
-							Begin
-								// C'est qu'il est à supprimer
-								gVG_ListItem.ImageIndex := gi_ImageSupprime ;
+						    Result := True ;
+					    End
+				    Else
+					    Begin
+						    // C'est qu'il est à supprimer
+						    gVG_ListItem.ImageIndex := gi_ImageSupprime ;
 //								gVG_ListItem.StateIndex := gi_ImageSupprime ;
-								Result := True ;
-							End ;
-				End ;
-		End ;
+						    Result := True ;
+					    End ;
+		    End ;
+    End ;
 End ;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -3580,9 +3489,7 @@ begin
               gt_OriginKey [ li_i ].i_Option := 0 ;
               galv_OtherList.gt_OriginKey [ li_i ].i_Option := 0 ;
             End ;
-      gb_AllSelect := False ;
       gb_OptionTotalList := False ;
-      galv_OtherList.gb_AllSelect := False ;
       galv_OtherList.gb_OptionTotalList := False ;
     End ;
 
@@ -3801,7 +3708,7 @@ begin
                     End
                 End ;
         End ;
-{     if  ( not gb_Basket or gb_EstPrincipale ) Then
+     if  ( not gb_Basket or gb_EstPrincipale ) Then
        Begin
           // On peut enregistrer et abandonner
           if assigned ( gBt_Record )
@@ -3822,7 +3729,7 @@ begin
               gBt_Cancel.Enabled := True ;
               lb_DesactiveGrille := True ;
             End ;
-        End ;}
+        End ;
     End ;
   if assigned ( gBt_TotalList )
    Then
@@ -3925,9 +3832,6 @@ begin
         End
       Else
         Begin
-          // on va tout transférer virtuellement dans la liste : pointe sur tous les enregistrements
-          gb_AllSelect := True ;
-
            // Mise à zéro des clés d'exclusion de la liste qui vont peut-être être transférée
           gb_OptionTotalList := True ;
           gb_TotalListReal := True ;
@@ -4076,7 +3980,6 @@ begin
     if  gb_AllLoaded Then
       Begin
         gb_OptionTotalList := False ;
-        gb_AllSelect := False ;
         Finalize ( gt_OriginKey );
         Finalize ( gt_KeyOwners  );
         Finalize ( gstl_KeysListOut );
@@ -4084,15 +3987,18 @@ begin
         Finalize ( galv_OtherList.gt_KeyOwners  );
         Finalize ( galv_OtherList.gstl_KeysListOut );
         galv_OtherList.gb_OptionTotalList := False ;
-        galv_OtherList.gb_AllSelect := False ;
       End ;
   Except
   End ;
   if not ds_DatasourceQuery.DataSet.Active Then
     Exit ;
-
+ gb_Open := True;
     // Ajoute les enregistrements dans la liste
-  p_AddRecords ;
+  try
+    p_AddRecords ;
+  finally
+     gb_Open := False;
+  end;
 end;
 
 // gestion de l'Evènement transférer dans l'autre liste

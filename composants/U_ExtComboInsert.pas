@@ -405,16 +405,21 @@ Begin
   Result := '' ;
     // Tests
   If  assigned ( Field )
-  and not Field.IsNull
+  and ( Field.Value <> Null )
   and assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF} )
   and assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
-  and assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ))
-  and assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF}   )) Then
-    Begin
-      if {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Locate ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF}, Field.AsString, [] ) Then
-        // récupération à partir de la listes
-        Result := {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString ;
-    End ;
+  Then
+    with {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet do
+     Begin
+      Open;
+      if  assigned ( FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ))
+      and assigned ( FindField ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF}   )) Then
+        Begin
+          if Locate ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF}, Field.Value, [] ) Then
+            // récupération à partir de la listes
+            Result := FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString ;
+        End ;
+     end;
 End ;
 
 
@@ -438,14 +443,12 @@ begin
         // Taille maxi
         MaxLength := Field.Size;
     {$ENDIF}
-    if Field.DataSet.CanModify then
+    // récupération des données de la liste en mode lecture
+    if  not ( Field.DataSet.State in [dsEdit, dsInsert]) Then
       Begin
-        // récupération des données de la liste en mode lecture
-        if  ( not ( Field.DataSet.State in [dsEdit, dsInsert]) or FUpdate) Then
-          Begin
-            {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := GetDisplayValue ;
-          End ;
-      End
+        {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := GetDisplayValue ;
+      End ;
+    FUpdate := False;
   end
   else
   begin
@@ -468,7 +471,7 @@ begin
   // auto-insertion spécifique de ce composant
   InsertLookup ( False );
   // Validation de l'édition
-  {$IFDEF FPC}Inherited;{$ELSE}ValidateEdit;{$ENDIF}
+  {$IFDEF FPC}Inherited UpdateData (Self);{$ELSE}ValidateEdit;{$ENDIF}
   // affectation
   KeyValue := {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.Dataset.FindField ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF} ).Value;
 end;
@@ -476,14 +479,14 @@ end;
 procedure TExtDBComboInsert.ValidateSearch;
 Begin
   if not FSet
-  and Flocated
-  and fb_Locate ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet, {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive, loPartialKey], True )
+  and Flocated Then
+  with {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF} do
+  if fb_Locate ( DataSet, {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive, loPartialKey], True )
    Then
-     with {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet do
       Begin
         Flocated  := True;
         FSet := True;
-        {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
+        {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := DataSet.FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
         if assigned ( FOnSet ) Then
           FOnSet ( Self )
       End ;
@@ -515,24 +518,34 @@ begin
   and assigned ( Field.Dataset )
   and assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF} )
   and assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet ) Then
+    with {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet do
     try
       if ( Text <> '' ) Then
+       Begin
         // Si du texte est présent
-        Begin
-          if not {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Locate ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive] ) Then
-            // Autoinsertion si pas dans la liste
-            Begin
-              {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Insert ;
-              {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FieldByName ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value := Text ;
-              {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.Post ;
-              Field.Dataset.Edit;
-              Field.Value := {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FieldByName ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
-              {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value ;
-              FUpdate := True ;
-              if assigned ( FOnSet ) Then
-                FOnSet ( Self );
-            End;
-        End
+        if not Locate ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive] ) Then
+              // Autoinsertion si pas dans la liste
+          Begin
+            Updating;
+            Insert ;
+            FieldByName ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value := Text ;
+            Post ;
+            Updated;
+            if Locate ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [] ) Then
+              Begin
+                Field.Dataset.Edit;
+                Field.Value := FieldByName ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
+                {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value ;
+                FUpdate := True ;
+                if assigned ( FOnSet ) Then
+                  FOnSet ( Self );
+              end;
+          End
+         Else
+          if assigned ( Field.DataSet )
+          and ( Field.DataSet.State in [dsEdit,dsInsert] ) Then
+           Field.Value := FieldByName ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
+       End
       Else
        if AUpdate
        and assigned (  Field ) Then
@@ -546,7 +559,6 @@ begin
       SetFocus;
       raise;
     end;
-  FUpdate := False ;
 End ;
 
 ////////////////////////////////////////////////////////////////////////////////
