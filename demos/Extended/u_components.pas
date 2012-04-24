@@ -100,7 +100,6 @@ type
     procedure ExtDBImageClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure IBDatabaseBeforeConnect(Sender: TObject);
     procedure mc_CustomizeMenuChange(Sender: TObject);
     procedure mu_aproposClick(Sender: TObject);
     procedure mu_quitterClick(Sender: TObject);
@@ -131,8 +130,6 @@ end;
 
 procedure TMyForm.FormShow(Sender: TObject);
 begin
-  Noms.Columns [ 0 ].SomeEdit := Nom;
-  Noms.Columns [ 1 ].SomeEdit := Prenom;
   try
   IBDatabase.Connected := True;
 //  IBTransaction.Active := True;
@@ -147,11 +144,6 @@ begin
        Exit;
       end;
   end;
-end;
-
-procedure TMyform.IBDatabaseBeforeConnect(Sender: TObject);
-begin
-
 end;
 
 procedure TMyform.mc_CustomizeMenuChange(Sender: TObject);
@@ -173,9 +165,10 @@ end;
 
 procedure p_setLibrary (var libname: string);
 Begin
-  libname:= 'fbclient.dll';
   {$IFDEF LINUX}
   libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed.so';
+  {$ELSE}
+  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbclient.dll';
   {$ENDIF}
 end;
 
@@ -183,7 +176,6 @@ procedure TMyform.FormCreate(Sender: TObject);
 var lstl_conf : TStringList;
 Begin
   IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
-  {$IFDEF LINUX}
   try
     lstl_conf := TStringList.Create;
     lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName);
@@ -191,7 +183,6 @@ Begin
   finally
     lstl_conf.Free;
   end;
-  {$ENDIF}
 end;
 
 procedure TMyform.ExtDBImageClick(Sender: TObject);
