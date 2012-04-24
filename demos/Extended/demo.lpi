@@ -6,7 +6,6 @@
       <MainUnit Value="0"/>
       <UseXPManifest Value="True"/>
       <Icon Value="0"/>
-      <ActiveWindowIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <Language Value=""/>
@@ -57,12 +56,10 @@
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="demo"/>
-        <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="31" Y="18"/>
         <UsageCount Value="125"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -155,10 +152,9 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="171"/>
-        <CursorPos X="1" Y="186"/>
+        <TopLine Value="125"/>
+        <CursorPos X="11" Y="130"/>
         <UsageCount Value="65"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -1258,23 +1254,18 @@
       <Unit136>
         <Filename Value="../../forms/U_About.pas"/>
         <UnitName Value="U_About"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="44"/>
         <CursorPos X="13" Y="56"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit136>
       <Unit137>
         <Filename Value="../../fonctions/fonctions_languages.pas"/>
         <UnitName Value="fonctions_languages"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="192"/>
         <CursorPos X="37" Y="202"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit137>
       <Unit138>
@@ -1350,8 +1341,8 @@
         <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
         <UnitName Value="IBDatabase"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1194"/>
-        <CursorPos X="1" Y="1204"/>
+        <TopLine Value="918"/>
+        <CursorPos X="1" Y="928"/>
         <UsageCount Value="12"/>
       </Unit146>
       <Unit147>
@@ -1460,9 +1451,10 @@
       <Unit160>
         <Filename Value="../../../ibx/runtime/IBSQLMonitor.pas"/>
         <UnitName Value="IBSQLMonitor"/>
+        <IsVisibleTab Value="True"/>
         <WindowIndex Value="0"/>
         <TopLine Value="364"/>
-        <CursorPos X="1" Y="379"/>
+        <CursorPos X="1" Y="371"/>
         <UsageCount Value="10"/>
       </Unit160>
       <Unit161>
@@ -1491,34 +1483,28 @@
       <Unit164>
         <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
         <UnitName Value="fonctions_dbcomponents"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="104"/>
         <CursorPos X="61" Y="113"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit164>
       <Unit165>
         <Filename Value="../../../ZEOSDBO/packages/lazarus/zcomponent.pas"/>
         <UnitName Value="zcomponent"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit165>
       <Unit166>
         <Filename Value="../../../ZEOSDBO/packages/lazarus/zcore.pas"/>
         <UnitName Value="zcore"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit166>
       <Unit167>
@@ -1528,70 +1514,10 @@
         <TopLine Value="56"/>
         <CursorPos X="10" Y="70"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit167>
     </Units>
-    <JumpHistory Count="15" HistoryIndex="14">
-      <Position1>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position1>
-      <Position2>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="302" Column="12" TopLine="296"/>
-      </Position2>
-      <Position3>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="21" Column="13" TopLine="7"/>
-      </Position3>
-      <Position4>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="148" Column="6" TopLine="140"/>
-      </Position4>
-      <Position5>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="21" Column="7" TopLine="21"/>
-      </Position5>
-      <Position6>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="289" Column="78" TopLine="277"/>
-      </Position6>
-      <Position7>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="21" Column="23" TopLine="11"/>
-      </Position7>
-      <Position8>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="140" Column="25" TopLine="140"/>
-      </Position8>
-      <Position9>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="20" Column="1" TopLine="9"/>
-      </Position9>
-      <Position10>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="274" Column="13" TopLine="274"/>
-      </Position10>
-      <Position11>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="289" Column="24" TopLine="289"/>
-      </Position11>
-      <Position12>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position12>
-      <Position13>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="104" Column="1" TopLine="89"/>
-      </Position13>
-      <Position14>
-        <Filename Value="../../forms/U_About.pas"/>
-        <Caret Line="50" Column="81" TopLine="45"/>
-      </Position14>
-      <Position15>
-        <Filename Value="../../fonctions/fonctions_languages.pas"/>
-        <Caret Line="11" Column="21" TopLine="1"/>
-      </Position15>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="9"/>
@@ -1606,10 +1532,13 @@
     </Parsing>
     <CodeGeneration>
       <Optimizations>
-        <OptimizationLevel Value="0"/>
+        <OptimizationLevel Value="3"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>
+      <Debugging>
+        <UseLineInfoUnit Value="False"/>
+      </Debugging>
       <LinkSmart Value="True"/>
       <Options>
         <Win32>
@@ -1631,7 +1560,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="8">
+    <BreakPoints Count="6">
       <Item1>
         <Source Value="/usr/share/fpcsrc/2.4.4/packages/fcl-db/src/base/fields.inc"/>
         <Line Value="2586"/>
@@ -1653,17 +1582,9 @@
         <Line Value="143"/>
       </Item5>
       <Item6>
-        <Source Value="u_components.pas"/>
-        <Line Value="137"/>
-      </Item6>
-      <Item7>
-        <Source Value="u_components.pas"/>
-        <Line Value="134"/>
-      </Item7>
-      <Item8>
         <Source Value="../../../ibx/runtime/IBDatabase.pas"/>
         <Line Value="927"/>
-      </Item8>
+      </Item6>
     </BreakPoints>
     <Exceptions Count="4">
       <Item1>

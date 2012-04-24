@@ -1,8 +1,0 @@
-Sur WINDOWS
-Installez firebird 2.1, et mettez les DLL de firebird à côté de l'exécutable.
-Changez la database firebird vers Exemple.fdb.
-
-Sur LINUX
-Après avoir installé firebird 2.1 classic,
-Mettez Exemple.fdb dans /var/lib/firebird/2.1/data/, avec les droits de firebird.
-
