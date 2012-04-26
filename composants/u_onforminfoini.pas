@@ -1,4 +1,4 @@
-{*********************************************************************}
+﻿{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             Matthieu Giroux                                         }
@@ -33,7 +33,7 @@ uses
   LCLIntf, lresources,
 {$ELSE}
   RTLConsts,
-  Windows, Mask, Consts, ShellAPI, JvToolEdit, U_ExtPageControl,
+  Windows, Mask, Consts, ShellAPI, JvToolEdit,
 {$ENDIF}
 {$IFDEF RX}
   RxLookup,
@@ -48,6 +48,7 @@ uses
 
 // Component properties
 const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text' {$ENDIF};
+      CST_ONFORMINI_DIRECTORYEDIT      = 'TDirectoryEdit';
       CST_ONFORMINI_FILENAME    = 'FileName' ;
       CST_ONFORMINI_VALUE       = 'Value' ;
       CST_ONFORMINI_DOT         = '.' ;
@@ -456,7 +457,7 @@ var
     Result := False;
     if GetfeSauveEdit(FSauveEditObjets ,feTDirectoryEdit)
     and (lcom_Component.ClassNameIs(CST_ONFORMINI_JVDIRECTORY)
-         or (lcom_Component is TDirectoryEdit)) Then
+         or (lcom_Component.ClassNameIs ( CST_ONFORMINI_DirectoryEdit ))) Then
       Begin
        if IsPublishedProp(lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR )
         Then ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR
@@ -849,7 +850,7 @@ var
     Result := False;
     if  GetfeSauveEdit(FSauveEditObjets ,feTDirectoryEdit)
     and (lcom_Component.ClassNameIs(CST_ONFORMINI_JVDIRECTORY)
-        or (lcom_Component is TDirectoryEdit)) then
+        or (lcom_Component.ClassNameIs ( CST_ONFORMINI_DirectoryEdit ))) then
       begin
        if IsPublishedProp(lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR )
         Then ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR

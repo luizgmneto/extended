@@ -1,4 +1,4 @@
-// unité contenant des fonctions de traitements de chaine
+﻿// unité contenant des fonctions de traitements de chaine
 unit fonctions_string;
 
 interface
@@ -163,7 +163,8 @@ begin
       end;
     end;
   end;
-  SetLength(Result,PtrUInt(Dest)-PtrUInt(Result));
+  SetLength(Result,{$IFDEF FPC}PtrUInt{$ELSE}Integer{$ENDIF}(Dest)
+                  -{$IFDEF FPC}PtrUInt{$ELSE}Integer{$ENDIF}(Result));
 end;
 
 
@@ -749,9 +750,6 @@ End;
 // function fs_TextWithoutAccent
 // text with no special caracters
 function fs_FormatText(const Chaine:String; const ab_NoAccents:Boolean = True ; const ab_AllIsMaj:Boolean = False; const ab_AllIsMin:Boolean = False; const ab_FirstISMaj :Boolean = False ):String;
-var AChar :PChar;
-    EndChar : PChar;
-    RChar : Char;
 begin
   Result:='';
   if Chaine = '' Then
@@ -823,7 +821,7 @@ var AChar :PAnsiChar;
     procedure p_add;
     Begin
       SetLength(aa_Result,high(aa_Result)+2);
-      aa_Result [ High(aa_Result)] [0] := li_texte - @aTexte[1] + 1;
+      aa_Result [ High(aa_Result)] [0] := {$IFNDEF FPC}Integer{$ENDIF} ( li_texte ) - {$IFNDEF FPC}Integer{$ENDIF}(@aTexte[1]) + 1;
       aa_Result [ High(aa_Result)] [1] := lw_Char;
       aa_Result [ High(aa_Result)] [2] := 0;
     end;
