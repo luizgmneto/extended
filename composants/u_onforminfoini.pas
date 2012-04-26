@@ -498,7 +498,7 @@ var
   function fb_ReadMemos: Boolean;
   Begin
     Result := False;
-    if (lcom_Component is TMemo) and GetfeSauveEdit(FSauveEditObjets ,feTMemo)        then
+    if (lcom_Component is TCustomMemo) and GetfeSauveEdit(FSauveEditObjets ,feTMemo)        then
       begin
         LitTstringsDeIni(FInifile, aF_Form.Name + '-' + lcom_Component.Name,TCustomMemo(lcom_Component).Lines,rien );
         Result := True;
@@ -882,9 +882,9 @@ var
   function fb_WriteMemos : Boolean;
   Begin
     Result := False;
-    if (lcom_Component is TMemo)           and GetfeSauveEdit(FSauveEditObjets ,feTMemo)            then
+    if (lcom_Component is TCustomMemo)  and GetfeSauveEdit(FSauveEditObjets ,feTMemo)            then
       begin
-        SauveTStringsDansIni(FInifile, af_Form.Name + '-' +  lcom_Component.Name,TMemo(lcom_Component).Lines,0);
+        SauveTStringsDansIni(FInifile, af_Form.Name + '-' +  lcom_Component.Name,TCustomMemo(lcom_Component).Lines,0);
         Result := True;
       end;
     if {$IFDEF FPC}(lcom_Component.ClassNameIs(CST_ONFORMINI_RICHVIEW) or lcom_Component.ClassNameIs(CST_ONFORMINI_RICHMEMO) {$ELSE} (lcom_Component is  TCustomRichEdit {$ENDIF})
