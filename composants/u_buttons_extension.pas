@@ -1,4 +1,4 @@
-﻿unit u_buttons_extension;
+unit u_buttons_extension;
 
 {$IFDEF FPC}
 {$mode Delphi}
@@ -26,7 +26,7 @@ const
     gVer_buttons_ext : T_Version = ( Component : 'Buttons extension' ;
                                        FileUnit : 'u_buttons_extension' ;
                                        Owner : 'Matthieu Giroux' ;
-                                       Comment : 'Composants boutons étendus.' ;
+                                       Comment : 'Specialised buttons components' ;
                                        BugsStory : '0.8.0.0 : Not tested.';
                                        UnitType : 3 ;
                                        Major : 0 ; Minor : 8 ; Release : 0 ; Build : 0 );

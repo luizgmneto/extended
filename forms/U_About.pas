@@ -37,11 +37,14 @@ uses
   JvXPCore,
   JvXPButtons,
   Dialogs,
+{$IFDEF VERSIONS}
   fonctions_version,
+{$ENDIF}
   Menus,
   TypInfo;
 
 const
+{$IFDEF VERSIONS}
    gver_F_About : T_Version = ( Component : 'Fenêtre A propos' ; FileUnit : 'U_About' ;
                  Owner : 'Matthieu Giroux' ;
                  Comment : 'Répertorie les composants.' ;
@@ -52,6 +55,7 @@ const
                  UnitType : CST_TYPE_UNITE_FICHE ;
                  Major : 1 ; Minor : 0 ; Release : 0 ; Build : 3 );
 
+{$ENDIF}
 
       CST_NOEUDS_RACINES = 5 ;
       CST_TYPE_APPLI		= 5 ;
@@ -571,8 +575,10 @@ begin
 end;
 {$ENDIF}
 
+{$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gver_F_About );
+{$ENDIF}
 finalization
   if assigned ( gic_F_AboutIcon ) Then
     Begin
