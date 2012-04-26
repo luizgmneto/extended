@@ -25,7 +25,7 @@ const
     gVer_buttons_blue : T_Version = ( Component : 'Blue Buttons extension' ;
                                        FileUnit : 'u_buttons_blue' ;
                                        Owner : 'Matthieu Giroux' ;
-                                       Comment : 'Composants boutons étendus.' ;
+                                       Comment : 'Specialised buttons components' ;
                                        BugsStory : '0.8.0.0 : Not tested.';
                                        UnitType : 3 ;
                                        Major : 0 ; Minor : 8 ; Release : 0 ; Build : 0 );
