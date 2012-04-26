@@ -11,9 +11,13 @@ uses Variants, TypInfo, Classes,
 {$IFDEF DELPHI_9_UP}
      WideStrings ,
 {$ENDIF}
-     fonctions_version, Graphics ;
+  {$IFDEF VERSIONS}
+  fonctions_version,
+  {$ENDIF}
+  Graphics ;
 
 const
+  {$IFDEF VERSIONS}
     gVer_mc_fonction_proprietes : T_Version = ( Component : 'Gestion des propriétés de zones' ;
                                                FileUnit : 'fonctions_proprietes' ;
              Owner : 'Matthieu Giroux' ;
@@ -22,7 +26,14 @@ const
                                                             'Version 1.0.0.0 : Toutes les fonctions sont OK.';
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
-
+    {$ENDIF}
+    CST_PROPERTY_LISTFIELD      = 'ListField';
+    CST_PROPERTY_LOOKUPDISPLAY  = 'LookupDisplay';
+    CST_PROPERTY_LISTSOURCE     = 'ListSource';
+    CST_PROPERTY_LOOKUPSOURCE   = 'LookupSource';
+    CST_PROPERTY_SEARCHSOURCE   = 'SearchSource';
+    CST_PROPERTY_KEYFIELD       = 'KeyField';
+    CST_PROPERTY_LOOKUPFIELD    = 'LookupField';
 
 type
   // On utilise les tableaux de variant pour plus tard :
@@ -266,9 +277,9 @@ begin
     ( lfon_font as TFont ).Color := acol_couleur ;
 End ;
 
-
+{$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gVer_mc_fonction_proprietes );
-finalization
+  {$ENDIF}
 end.
 
