@@ -1,4 +1,4 @@
-
+﻿
 // ************************************************************************ //
 // Created with Dfm2Pas
 // -----------------
@@ -570,8 +570,10 @@ begin
   Font.Style := [];
   Position := poScreenCenter;
   OnActivate := FormActivate;
+{$IFDEF FPC}
   Valider.Loaded;
   bt_reinit.Loaded;
+{$ENDIF}
 end;
 {$ENDIF}
 

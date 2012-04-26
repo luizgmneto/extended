@@ -8,6 +8,7 @@
 {$ENDIF}
 
 
+{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 // Unit U_ZConnection
@@ -21,6 +22,9 @@ interface
 uses
 {$IFNDEF FPC}
   JvExControls,
+{$ENDIF}
+{$IFDEF DELPHI_9_UP}
+     WideStrings ,
 {$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,
