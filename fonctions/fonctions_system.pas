@@ -1,4 +1,4 @@
-// unité contenant des fonctions de traitements de chaine
+﻿// unité contenant des fonctions de traitements de chaine
 unit fonctions_system;
 
 interface
@@ -40,6 +40,8 @@ function fs_GetComputerName: string;
 function GetAppConfigDir ( const Global : Boolean ): string;
 function GetUserDir: string;
 function GetWinDir ( const CSIDL : Integer ) : String ;
+function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
+function FileExistsUTF8 ( const as_path : String ):Boolean;
 {$ENDIF}
 {$IFDEF VERSIONS}
 const
@@ -142,6 +144,14 @@ function GetWinDir ( const CSIDL : Integer ) : string;
     ShGetSpecialFolderPath(0, path, CSIDL, False) ;
     Result := Path;
  end;
+function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
+Begin
+  Result:= DirectoryExists ( as_path );
+End;
+function FileExistsUTF8 ( const as_path : String ):Boolean;
+Begin
+  Result:= FileExists ( as_path );
+End;
 {$ENDIF}
 
 function fs_GetNameSoft : String;

@@ -471,7 +471,7 @@ begin
   // auto-insertion spécifique de ce composant
   InsertLookup ( False );
   // Validation de l'édition
-  {$IFDEF FPC}Inherited UpdateData (Self);{$ELSE}ValidateEdit;{$ENDIF}
+  {$IFDEF FPC}Inherited UpdateData {$IFNDEF RXCOMBO}(Sender: TObject){$ENDIF}{$ELSE}DataLinkUpdateData{$ENDIF};
   // affectation
   KeyValue := {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.Dataset.FindField ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF} ).Value;
 end;

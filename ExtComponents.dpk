@@ -77,18 +77,20 @@ requires
   VampyreImagingPackage,
   dmenutoolbar,
   FlatStyle_AddOn,
-  FlatStyle_D6;
+  FlatStyle_D6,
+  ibxpress,
+  dsnap,
+  ExtCopyD10,
+  inet;
 
 contains
   U_ExtComboInsert in 'composants\U_ExtComboInsert.pas',
   U_OnFormInfoIni in 'composants\U_OnFormInfoIni.pas',
-  U_ExtScrollBox in 'composants\U_ExtScrollBox.pas',
   U_ExtColorCombos in 'composants\U_ExtColorCombos.pas',
   U_ExtNumEdits in 'composants\U_ExtNumEdits.pas',
   fonctions_numedit in 'fonctions\fonctions_numedit.pas',
   u_extcomponent in 'composants\u_extcomponent.pas',
   U_DBListView in 'composants\U_DBListView.pas',
-  U_ExtPageControl in 'composants\U_ExtPageControl.pas',
   u_regframeworkcomponents in 'composants\u_regframeworkcomponents.pas',
   U_ExtDBNavigator in 'composants\U_ExtDBNavigator.pas',
   u_framework_components in 'composants\u_framework_components.pas',
@@ -109,6 +111,10 @@ contains
   u_buttons_flat in 'composants\u_buttons_flat.pas',
   u_regbfsbuttons in 'composants\u_regbfsbuttons.pas',
   u_regfbbuttons in 'composants\u_regfbbuttons.pas',
-  u_regfsbuttons in 'composants\u_regfsbuttons.pas';
+  u_regfsbuttons in 'composants\u_regfsbuttons.pas',
+  u_extdbpictcombo in 'composants\u_extdbpictcombo.pas',
+  U_GroupView in 'composants\U_GroupView.pas',
+  U_RegisterGroupView in 'composants\U_RegisterGroupView.pas',
+  U_RegisterIni in 'composants\U_RegisterIni.pas';
 
 end.

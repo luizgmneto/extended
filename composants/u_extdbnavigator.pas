@@ -1,4 +1,4 @@
-{------------------------------------------------------------------------------}
+﻿{------------------------------------------------------------------------------}
 {                                                                              }
 {  TExtDBNavigator                                                     }
 {  by Matthieu GIROUX                                                          }
@@ -247,7 +247,7 @@ type
   private
     FMouseDragged : Boolean ;
     FIndex: TExtNavigateBtn;
-    FBtnStyle: TDBNavButtonStyle;
+    FBtnStyle:{$IFDEF FPC}TDBNavButtonStyle{$ELSE}TNavButtonStyle{$ENDIF};
     FRepeatTimer: TTimer;
     procedure TimerExpired(Sender: TObject);
     procedure WMSetFocus(var Message: {$IFDEF FPC}TLMSetFocus); message LM_SETFOCUS{$ELSE}TWMSetFocus); message WM_SETFOCUS{$ENDIF};
@@ -262,7 +262,7 @@ type
     property MouseDragged : Boolean read FMouseDragged write FMouseDragged ;
   public
     destructor Destroy; override;
-    property NavStyle: TDBNavButtonStyle read FBtnStyle write FBtnStyle;
+    property NavStyle: {$IFDEF FPC}TDBNavButtonStyle{$ELSE}TNavButtonStyle{$ENDIF} read FBtnStyle write FBtnStyle;
     property Index : TExtNavigateBtn read FIndex write FIndex;
   end;
 

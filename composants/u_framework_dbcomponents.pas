@@ -1,4 +1,4 @@
-unit u_framework_dbcomponents;
+﻿unit u_framework_dbcomponents;
 
 {*********************************************************************}
 {                                                                     }
@@ -293,7 +293,7 @@ type
          procedure UpdateData(Sender: TObject); virtual;
          function GetReadOnly: Boolean; {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
          procedure SetReadOnly(AValue: Boolean); {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
-         procedure SetValue(const AValue: Double); {$IFNDEF FPC}override ;{$ENDIF}
+         procedure SetValue({$IFDEF FPC}const {$ENDIF}AValue: {$IFDEF FPC}Double{$ELSE}Extended{$ENDIF}); {$IFNDEF FPC}override ;{$ENDIF}
          procedure KeyDown(var Key: Word; Shift: TShiftState); override;
          procedure KeyPress(var Key: Char); override;
          procedure Notification(AComponent: TComponent;
@@ -909,7 +909,7 @@ begin
     FDataLink.UpdateAction(AAction){$ENDIF};
 end;
 
-procedure TFWDBSpinEdit.SetValue(const AValue: Double);
+procedure TFWDBSpinEdit.SetValue({$IFDEF FPC}const {$ENDIF}AValue: {$IFDEF FPC}Double{$ELSE}Extended{$ENDIF});
 begin
  if assigned ( FDataLink.Field )
  and ( FDataLink.Field.AsInteger <> AValue ) Then
