@@ -59,7 +59,8 @@ requires
   JclVcl,
   Jcl,
   xmlrtl,
-  VampyreImagingPackage;
+  VampyreImagingPackage,
+  ibxpress;
 
 contains
   fonctions_version in 'fonctions\fonctions_version.pas',
