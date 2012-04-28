@@ -54,10 +54,10 @@ uses
 
 {$IFDEF VERSIONS}
 const
-    gVer_framework_DBcomponents : T_Version = ( Component : 'Composants d''interactivité de données' ;
+    gVer_framework_DBcomponents : T_Version = ( Component : 'Data interactivity components' ;
                                                FileUnit : 'u_framework_dbcomponents' ;
                                                Owner : 'Matthieu Giroux' ;
-                                               Comment : 'Composants d''interactivité de U_CustomFrameWork.' ;
+                                               Comment : 'U_CustomFrameWork Data interactivity.' ;
                                                BugsStory : '0.9.0.5 : UTF 8.'
                                                          + '0.9.0.4 : Added FWDBCombobox.'
                                                          + '0.9.0.3 : Using RXLookupCombo on FPC.'
