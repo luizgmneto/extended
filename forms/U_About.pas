@@ -45,9 +45,9 @@ uses
 
 const
 {$IFDEF VERSIONS}
-   gver_F_About : T_Version = ( Component : 'Fenêtre A propos' ; FileUnit : 'U_About' ;
+   gver_F_About : T_Version = ( Component : 'About Window' ; FileUnit : 'U_About' ;
                  Owner : 'Matthieu Giroux' ;
-                 Comment : 'Répertorie les composants.' ;
+                 Comment : 'Components versions showing.' ;
                  BugsStory   : 'Version 1.0.0.3 : Testing on Lazarus.' + #13#10
                              + 'Version 1.0.0.2 : Mode Delphi on Lazarus.' + #13#10
                              + 'Version 1.0.0.1 : Bug sur icône à la réouverture.' + #13#10
