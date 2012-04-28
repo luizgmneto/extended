@@ -20,7 +20,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Release="4" Build="4"/>
+    <Version Major="1" Release="4" Build="5"/>
     <Files Count="24">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
@@ -162,4 +162,4 @@
       <IgnoreBinaries Value="False"/>
     </PublishOptions>
   </Package>
-</CONFIG>
+</CONFIG>
