@@ -83,6 +83,7 @@ contains
   fonctions_objects in 'fonctions\fonctions_objects.pas',
   u_regfwbuttons in 'composants\u_regfwbuttons.pas',
   fonctions_system in 'fonctions\fonctions_system.pas',
-  fonctions_languages in 'fonctions\fonctions_languages.pas';
+  fonctions_languages in 'fonctions\fonctions_languages.pas',
+  type_string_delphi in 'fonctions\type_string_delphi.pas';
 
 end.

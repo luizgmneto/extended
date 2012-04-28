@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Release="4" Build="4"/>
-    <Files Count="23">
+    <Files Count="24">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -115,6 +115,10 @@
         <Filename Value="forms/u_zconnection.pas"/>
         <UnitName Value="u_zconnection"/>
       </Item23>
+      <Item24>
+        <Filename Value="fonctions/type_string.pas"/>
+        <UnitName Value="type_string"/>
+      </Item24>
     </Files>
     <i18n>
       <OutDir Value="fonctions"/>
@@ -158,4 +162,4 @@
       <IgnoreBinaries Value="False"/>
     </PublishOptions>
   </Package>
-</CONFIG>
+</CONFIG>

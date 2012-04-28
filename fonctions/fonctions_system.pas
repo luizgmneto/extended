@@ -45,9 +45,9 @@ function FileExistsUTF8 ( const as_path : String ):Boolean;
 {$ENDIF}
 {$IFDEF VERSIONS}
 const
-  gVer_fonction_system : T_Version = ( Component : 'Gestion système' ; FileUnit : 'fonctions_string' ;
+  gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
-                        			                 Comment : 'Fonctions systèmes, de traduction de chemins.' ;
+                        			                 Comment : 'System Functions, with traducing and path management.' ;
                         			                 BugsStory : 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
                                                                            + 'Version 1.0.0.0 : Creating from fonctions_string.';
                         			                 UnitType : 1 ;
