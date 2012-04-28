@@ -88,7 +88,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
       gVer_TSvgFormInfoIni : T_Version = ( Component : 'Composant TOnFormInfoIni' ;
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
-                                           Comment : 'Gestion de l''ini à mettre sur une fiche.' ;
+                                           Comment : 'Ini management tu put on a form.' ;
                                            BugsStory : '1.0.1.6 : UTF 8.' +#13#10 +
                                                        '1.0.1.5 : Testing Memo.' +#13#10 +
                                                        '1.0.1.4 : Freeing ini, erasing before saving.' +#13#10 +
