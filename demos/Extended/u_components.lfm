@@ -5,7 +5,7 @@ inherited Myform: TMyform
   Width = 759
   ActiveControl = Panel1
   Caption = 'Myform'
-  ClientHeight = 562
+  ClientHeight = 563
   ClientWidth = 759
   Color = clBtnFace
   Font.Color = clWindowText
@@ -16,18 +16,18 @@ inherited Myform: TMyform
   OnShow = FormShow
   object Splitter1: TSplitter[0]
     Left = 240
-    Height = 562
+    Height = 563
     Top = 0
     Width = 5
   end
   object Panel1: TPanel[1]
     Left = 32
-    Height = 562
+    Height = 563
     Top = 0
     Width = 208
     Align = alLeft
     Caption = 'Panel1'
-    ClientHeight = 562
+    ClientHeight = 563
     ClientWidth = 208
     TabOrder = 0
     object ExtDBNavigator1: TExtDBNavigator
@@ -44,7 +44,7 @@ inherited Myform: TMyform
     end
     object Noms: TExtDBGrid
       Left = 1
-      Height = 540
+      Height = 541
       Top = 21
       Width = 206
       TitleButtons = False
@@ -120,11 +120,11 @@ inherited Myform: TMyform
   end
   object Panel2: TPanel[2]
     Left = 245
-    Height = 562
+    Height = 563
     Top = 0
     Width = 514
     Align = alClient
-    ClientHeight = 562
+    ClientHeight = 563
     ClientWidth = 514
     TabOrder = 3
     object FWLabel1: TFWLabel
@@ -227,7 +227,7 @@ inherited Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 325
+      Top = 326
       Width = 512
       Align = alBottom
       ResizeAnchor = akBottom
@@ -367,7 +367,7 @@ inherited Myform: TMyform
     object DBListView: TDBListView
       Left = 1
       Height = 233
-      Top = 328
+      Top = 329
       Width = 512
       Align = alBottom
       Columns = <      
@@ -392,7 +392,7 @@ inherited Myform: TMyform
     object FWMemo: TFWMemo
       Left = 371
       Height = 128
-      Top = 16
+      Top = 48
       Width = 136
       Color = clMoneyGreen
       Lines.Strings = (
@@ -431,21 +431,6 @@ inherited Myform: TMyform
       SearchDisplay = 'NOM'
       SearchSource = ds_dep2
       MyLabel = Search
-    end
-    object ExtDBImage: TExtDBImage
-      Cursor = crHandPoint
-      Left = 371
-      Height = 106
-      Top = 152
-      Width = 106
-      BorderSpacing.Left = 1
-      BorderSpacing.Top = 1
-      BorderSpacing.Right = 1
-      BorderSpacing.Bottom = 1
-      OnClick = ExtDBImageClick
-      Stretch = True
-      Datafield = 'PHOTO'
-      Datasource = ds_user
     end
     object ExtDBPictCombo: TExtDBPictCombo
       Left = 120
@@ -514,7 +499,7 @@ inherited Myform: TMyform
     object ExtDBImageList: TExtDBImageList
       Left = 483
       Height = 24
-      Top = 152
+      Top = 185
       Width = 24
       Datafield = 'ENTIER'
       Datasource = ds_user
@@ -548,6 +533,40 @@ inherited Myform: TMyform
       Transparent = False
       ColorFocus = clMaroon
     end
+    object Panel3: TPanel
+      Left = 371
+      Height = 114
+      Top = 184
+      Width = 104
+      Caption = 'Panel3'
+      ClientHeight = 114
+      ClientWidth = 104
+      TabOrder = 12
+      object ExtDBImage: TExtDBImage
+        Cursor = crHandPoint
+        Left = 2
+        Height = 110
+        Top = 2
+        Width = 100
+        Align = alClient
+        BorderSpacing.Left = 1
+        BorderSpacing.Top = 1
+        BorderSpacing.Right = 1
+        BorderSpacing.Bottom = 1
+        OnClick = ExtDBImageClick
+        Stretch = True
+        Datafield = 'PHOTO'
+        Datasource = ds_user
+      end
+    end
+    object FWClose1: TFWClose
+      Left = 395
+      Height = 32
+      Top = 8
+      Width = 96
+      Caption = 'Close'
+      TabOrder = 13
+    end
   end
   object FWDBEdit1: TFWDBEdit[3]
     Left = 365
@@ -580,7 +599,7 @@ inherited Myform: TMyform
   end
   object ExtMenuToolBar: TExtMenuToolBar[5]
     Left = 0
-    Height = 562
+    Height = 563
     Top = 0
     Width = 32
     Align = alLeft
@@ -613,11 +632,11 @@ inherited Myform: TMyform
   object IBDatabase: TIBDatabase[9]
     Connected = False
     LoginPrompt = False
+    BeforeConnect = IBDatabaseBeforeConnect
     AllowStreamedConnected = False
     DatabaseName = 'Exemple'
     Params.Strings = (
       'user_name=SYSDBA'
-      'password=masterkey'
       'lc_ctype=UTF8'
     )
     DefaultTransaction = IBTransaction
@@ -632,11 +651,11 @@ inherited Myform: TMyform
     BufferChunks = 1000
     CachedUpdates = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
+    ParamCheck = False
     SQL.Strings = (
       'SELECT * FROM UTILISATEUR'
     )
     Params = <>
-    UniDirectional = True
     UpdateObject = IBUpdateUtilisateur
     left = 160
     top = 360
@@ -647,17 +666,18 @@ inherited Myform: TMyform
     BufferChunks = 1000
     CachedUpdates = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
+    ParamCheck = False
     SQL.Strings = (
       'SELECT * FROM DEPARTEMENT'
     )
     Params = <>
-    UniDirectional = True
     UpdateObject = IBUpdateDepartem
     left = 160
     top = 432
   end
   object IBTransaction: TIBTransaction[12]
     Active = False
+    DefaultDatabase = IBDatabase
     left = 160
     top = 289
   end
@@ -667,11 +687,11 @@ inherited Myform: TMyform
     BufferChunks = 1000
     CachedUpdates = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
+    ParamCheck = False
     SQL.Strings = (
       'SELECT * FROM DEPARTEMENT'
     )
     Params = <>
-    UniDirectional = True
     left = 160
     top = 488
   end

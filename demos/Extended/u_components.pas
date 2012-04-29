@@ -23,7 +23,7 @@ uses
   DBGrids, Menus, u_extmenucustomize, ToolWin, IBDatabase, IBQuery, IBIntf,
   IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage,
   U_ExtDBImageList, ImgList, ExtDlgs, U_ExtPictCombo, U_ExtMapImageIndex,
-  fonctions_version  ;
+  u_buttons_appli, fonctions_version  ;
 
 type
 
@@ -38,6 +38,7 @@ type
     ExtDBPictCombo: TExtDBPictCombo;
     ExtMapImages: TExtMapImages;
     ExtMenuToolBar: TExtMenuToolBar;
+    FWClose1: TFWClose;
     IBUpdateUtilisateur: TIBUpdateSQL;
     IBUpdateDepartem: TIBUpdateSQL;
     MapImages: TExtMapImages;
@@ -69,6 +70,7 @@ type
     OpenPictureDialog: TOpenPictureDialog;
     Panel1: TPanel;
     Panel2: TPanel;
+    Panel3: TPanel;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
     Prenom: TFWDBEdit;
@@ -100,6 +102,7 @@ type
     procedure ExtDBImageClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure IBDatabaseBeforeConnect(Sender: TObject);
     procedure mc_CustomizeMenuChange(Sender: TObject);
     procedure mu_aproposClick(Sender: TObject);
     procedure mu_quitterClick(Sender: TObject);
@@ -146,6 +149,20 @@ begin
   end;
 end;
 
+procedure TMyform.IBDatabaseBeforeConnect(Sender: TObject);
+var lstl_conf : TStringList;
+begin
+  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
+  try
+    lstl_conf := TStringList.Create;
+    lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName);
+    lstl_conf.SaveToFile(ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.conf');
+  finally
+    lstl_conf.Free;
+  end;
+
+end;
+
 procedure TMyform.mc_CustomizeMenuChange(Sender: TObject);
 begin
   ExtMenuToolBar.Menu := nil;
@@ -172,19 +189,6 @@ Begin
   {$ENDIF}
 end;
 
-procedure TMyform.FormCreate(Sender: TObject);
-var lstl_conf : TStringList;
-Begin
-  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
-  try
-    lstl_conf := TStringList.Create;
-    lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName);
-    lstl_conf.SaveToFile(ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.conf');
-  finally
-    lstl_conf.Free;
-  end;
-end;
-
 procedure TMyform.ExtDBImageClick(Sender: TObject);
 begin
   if IBUtilisateur.CanModify
@@ -193,6 +197,11 @@ begin
      IBUtilisateur.Edit;
      ExtDBImage.LoadFromFile(OpenPictureDialog.FileName);
    end;
+end;
+
+procedure TMyform.FormCreate(Sender: TObject);
+begin
+
 end;
 
 procedure TMyform.QuitterClick(Sender: TObject);

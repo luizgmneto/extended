@@ -44,6 +44,8 @@ begin
                                    TFWOK,TFWInsert,TFWInit,TFWDelete,TFWDocument,TFWCancel,TFWQuit,TFWErase,TFWSaveAs,TFWAdd,TFWImport,TFWExport,TFWPrint,TFWPreview,TFWCopy]);
 End ;
 
+{$IFDEF FPC}
 initialization
   {$I u_regFWXPButton.lrs}
+{$ENDIF}
 end.
