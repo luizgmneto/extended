@@ -37,10 +37,12 @@ function fs_GetCorrectPath ( const as_Path :String ): string;
 // Retourne le nom d'ordinateur (string)
 function fs_GetComputerName: string;
 function GetDocDir: string;
+{$IFDEF WINDOWS}
+function GetWinDir ( const CSIDL : Integer ) : String ;
+{$ENDIF}
 {$IFNDEF FPC}
 function GetAppConfigDir ( const Global : Boolean ): string;
 function GetUserDir: string;
-function GetWinDir ( const CSIDL : Integer ) : String ;
 function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
 function FileExistsUTF8 ( const as_path : String ):Boolean;
 {$ENDIF}
@@ -61,8 +63,9 @@ implementation
 uses
 {$IFDEF FPC}
   LCLType, FileUtil,
-{$ELSE}
-  ShFolder, ShlObj,
+{$ENDIF}
+{$IFDEF WINDOWS}
+  ShFolder,  ShlObj,
 {$ENDIF}
   fonctions_string;
 
@@ -133,6 +136,15 @@ Begin
   Result :=copy ( Result, 1 , length ( Result ) - length( ExtractFileExt(Result)));
 End;
 
+{$IFDEF WINDOWS}
+function GetWinDir ( const CSIDL : Integer ) : string;
+var
+  path: array[0..Max_Path] of Char;
+begin
+  ShGetSpecialFolderPath(0, path, CSIDL, False) ;
+  Result := Path;
+end;
+{$ENDIF}
 
 {$IFNDEF FPC}
 function GetAppConfigDir ( const Global : Boolean ): string;
@@ -148,13 +160,6 @@ function GetUserDir: string;
    Result := GetWinDir ( CSIDL_PERSONAL ) + DirectorySeparator;
  end;
 
-function GetWinDir ( const CSIDL : Integer ) : string;
- var
-    path: array[0..Max_Path] of Char;
- begin
-    ShGetSpecialFolderPath(0, path, CSIDL, False) ;
-    Result := Path;
- end;
 function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
 Begin
   Result:= DirectoryExists ( as_path );
