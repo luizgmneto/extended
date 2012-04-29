@@ -36,6 +36,7 @@ function fs_GetCorrectPath ( const as_Path :String ): string;
 
 // Retourne le nom d'ordinateur (string)
 function fs_GetComputerName: string;
+function GetDocDir: string;
 {$IFNDEF FPC}
 function GetAppConfigDir ( const Global : Boolean ): string;
 function GetUserDir: string;
@@ -75,6 +76,16 @@ Begin
   {$ELSE}
   Result := fs_RemplaceChar(as_Path,'\',DirectorySeparator);
   {$ENDIF}
+  {$ENDIF}
+
+end;
+
+function GetDocDir: string;
+Begin
+  {$IFDEF WINDOWS}
+  Result := GetWindir ( CSIDL_PERSONAL );
+  {$ELSE}
+  Result := GetUserDir + DirectorySeparator + 'Documents';
   {$ENDIF}
 
 end;

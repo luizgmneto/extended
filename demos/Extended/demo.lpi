@@ -6,6 +6,7 @@
       <MainUnit Value="0"/>
       <UseXPManifest Value="True"/>
       <Icon Value="0"/>
+      <ActiveWindowIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <Language Value=""/>
@@ -72,10 +73,13 @@
       </Unit1>
       <Unit2>
         <Filename Value="u_components.lfm"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="576"/>
-        <CursorPos X="33" Y="610"/>
+        <TopLine Value="35"/>
+        <CursorPos X="28" Y="45"/>
         <UsageCount Value="11"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit2>
       <Unit3>
@@ -151,10 +155,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
+        <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="125"/>
         <CursorPos X="11" Y="130"/>
         <UsageCount Value="65"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -1451,8 +1457,6 @@
       <Unit160>
         <Filename Value="../../../ibx/runtime/IBSQLMonitor.pas"/>
         <UnitName Value="IBSQLMonitor"/>
-        <IsVisibleTab Value="True"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="364"/>
         <CursorPos X="1" Y="371"/>
         <UsageCount Value="10"/>
@@ -1517,7 +1521,12 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit167>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="1" HistoryIndex="0">
+      <Position1>
+        <Filename Value="u_components.lfm"/>
+        <Caret Line="16" Column="68" TopLine="1"/>
+      </Position1>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="9"/>
