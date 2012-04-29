@@ -78,12 +78,31 @@ type
        procedure Paint;
    end;
 { TFWClose }
+
+    { TFWXPButton }
+
     TFWXPButton = class ( TJvXPButton, IFWButton )
+      private
+       FColor           ,
+       FColorFrameFocus : TColor;
+      protected
+       procedure MouseEnter; override;
+       procedure MouseLeave; override;
+     public
+      constructor Create ( AOwner : TComponent ) ; override;
+
+      published
+       property Glyph stored False;
+       property ColorFrameFocus : TColor read FColorFrameFocus write FColorFrameFocus default clCream;
+     End;
+    { TFWButton }
+
+    TFWButton = class ( TFWXPButton, IFWButton )
       published
        property Glyph stored False;
      End;
 
-   TFWClose = class ( TFWXPButton )
+   TFWClose = class ( TFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -95,7 +114,7 @@ type
      End;
 
 { TFWOK }
-   TFWOK = class ( TFWXPButton )
+   TFWOK = class ( TFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -105,7 +124,7 @@ type
      End;
 
 { TFWInsert }
-   TFWInsert = class ( TFWXPButton )
+   TFWInsert = class ( TFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -114,7 +133,7 @@ type
        
      End;
 { TFWAdd }
-   TFWAdd = class ( TFWXPButton )
+   TFWAdd = class ( TFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -124,7 +143,7 @@ type
      End;
 
 { TFWDelete }
-  TFWDelete = class ( TFWXPButton )
+  TFWDelete = class ( TFWButton )
      private
      public
       constructor Create ( AOwner : TComponent ) ; override;
@@ -134,7 +153,7 @@ type
     End;
 
 { TFWDocument }
-   TFWDocument = class ( TFWXPButton )
+   TFWDocument = class ( TFWButton )
       private
       public
        procedure Loaded; override;
@@ -143,7 +162,7 @@ type
      End;
 
 { TFWQuit }
-   TFWQuit = class ( TFWXPButton )
+   TFWQuit = class ( TFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -153,7 +172,7 @@ type
      End;
 
 { TFWErase }
-   TFWErase = class ( TFWXPButton )
+   TFWErase = class ( TFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -163,7 +182,7 @@ type
      End;
 
 { TFWSaveAs }
-   TFWSaveAs = class ( TFWXPButton )
+   TFWSaveAs = class ( TFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -174,7 +193,7 @@ type
      End;
 
    { TFWLoad }
-      TFWLoad = class ( TFWXPButton )
+      TFWLoad = class ( TFWButton )
          private
          public
           constructor Create ( AOwner : TComponent ) ; override;
@@ -185,7 +204,7 @@ type
         End;
 
 { TFWPrint }
-   TFWPrint = class ( TFWXPButton )
+   TFWPrint = class ( TFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -196,7 +215,7 @@ type
      End;
 
 { TFWCancel }
-   TFWCancel = class ( TFWXPButton )
+   TFWCancel = class ( TFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -209,7 +228,7 @@ type
 
 
 { TFWPreview }
-   TFWPreview = class ( TFWXPButton )
+   TFWPreview = class ( TFWButton )
       private
       public
        procedure Loaded; override;
@@ -219,7 +238,7 @@ type
      End;
 
 { TFWNext }
-   TFWNext = class ( TFWXPButton )
+   TFWNext = class ( TFWButton )
       private
       public
        procedure Loaded; override;
@@ -229,7 +248,7 @@ type
      End;
 
 { TFWPrior }
-   TFWPrior= class ( TFWXPButton )
+   TFWPrior= class ( TFWButton )
       private
       public
        procedure Loaded; override;
@@ -239,7 +258,7 @@ type
      End;
 
 { TFWCopy }
-   TFWCopy = class ( TFWXPButton )
+   TFWCopy = class ( TFWButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -249,7 +268,7 @@ type
      End;
 
 { TFWInit }
-   TFWInit = class ( TFWXPButton )
+   TFWInit = class ( TFWButton )
       private
       public
        procedure Loaded; override;
@@ -259,7 +278,7 @@ type
      End;
 
 { TFWConfig }
-   TFWConfig = class ( TFWXPButton )
+   TFWConfig = class ( TFWButton )
       private
       public
        procedure Loaded; override;
@@ -269,7 +288,7 @@ type
      End;
 
 { TFWImport }
-   TFWImport = class ( TFWXPButton )
+   TFWImport = class ( TFWButton )
       private
       public
        procedure Loaded; override;
@@ -278,7 +297,7 @@ type
        
      End;
 { TFWTrash }
-   TFWTrash = class ( TFWXPButton )
+   TFWTrash = class ( TFWButton )
       private
       public
        procedure Loaded; override;
@@ -288,7 +307,7 @@ type
      End;
 
 { TFWExport }
-   TFWExport = class ( TFWXPButton )
+   TFWExport = class ( TFWButton )
       private
       public
        procedure Loaded; override;
@@ -303,7 +322,7 @@ type
 
     { TFWGroupButtonActions }
 
-    TFWGroupButtonActions = class ( TFWXPButton )
+    TFWGroupButtonActions = class ( TFWButton )
      public
       constructor Create ( AOwner : TComponent ) ; override;
      published
@@ -340,7 +359,7 @@ type
 
    { TFWGroupButtonMoving }
 
-   TFWGroupButtonMoving = class ( TFWXPButton )
+   TFWGroupButtonMoving = class ( TFWButton )
    public
     constructor Create ( AOwner : TComponent ) ; override;
    published
@@ -413,7 +432,26 @@ Begin
   acon_control.Invalidate;
 end;
 
-{ TFWXPButton }
+procedure TFWXPButton.MouseEnter;
+begin
+  FColor:=Color;
+  Color := FColorFrameFocus;
+  inherited MouseEnter;
+end;
+
+procedure TFWXPButton.MouseLeave;
+begin
+  Color := FColor;
+  inherited MouseLeave;
+end;
+
+constructor TFWXPButton.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FColorFrameFocus:=clCream;
+end;
+
+{ TFWButton }
 
 { TFWTrash }
 
