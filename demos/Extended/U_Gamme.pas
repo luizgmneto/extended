@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////
 // Nom Unite: U_Famillevente
 // Description : Gestion des familles de vente
 // Créé par Microcelt le 11/08
@@ -14,18 +14,20 @@ interface
 
 uses
 {$IFNDEF FPC}
-  AdvListV, RbSplitter, RXSplit, Mask,
+  RXSplit, Mask,
 {$ELSE}
-  MaskEdit,
+  MaskEdit, LCLType, ToolEdit, 
 {$ENDIF}
-  LCLType, Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
+  Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
   DBGrids, u_framework_dbcomponents, u_framework_components,
   ComCtrls, StdCtrls, SysUtils,  TypInfo,  Variants,
-  StrUtils, ToolEdit, U_OnFormInfoIni,  JvXPButtons,
+  StrUtils, U_OnFormInfoIni,  JvXPButtons,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
   CompSuperForm,
-  U_GroupView, ImgList,fonctions_string, U_DmArticles, Menus ;
+  U_GroupView, ImgList,fonctions_string, U_DmArticles, Menus, JvExDBGrids,
+  JvDBGrid, JvDBUltimGrid, JvExComCtrls, JvListView, U_DBListView, JvExControls,
+  JvXPCore ;
 
 type
 

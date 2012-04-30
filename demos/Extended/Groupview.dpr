@@ -8,9 +8,11 @@ uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  Forms, Interfaces,
+{$IFDEF FPC}
+  Interfaces, LCLType,
+{$ENDIF}
+  Forms,
   U_FormMainIni,
-  LCLType,
   ZDataset,
   U_Article in 'U_Article.pas' {F_Categ},
   U_DmArticles in 'U_DmArticles.pas' {M_Donn},

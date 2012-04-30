@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////
 // Nom Unite: U_Categorie
 // Description : Gestion des Catégorie
 // Créé par Microcelt le 01/11/2004
@@ -14,16 +14,17 @@ interface
 
 uses
 {$IFNDEF FPC}
-  RbSplitter, UltimDBGrid, RXSplit, Mask,
+  RXSplit, Mask,
 {$ELSE}
-  MaskEdit,
+  MaskEdit, LCLType, ToolEdit,
 {$ENDIF}
-  LCLType, Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
+  Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
   DBGrids, u_framework_dbcomponents, ComCtrls, StdCtrls, SysUtils,  TypInfo,
-  Variants, StrUtils, ToolEdit, U_OnFormInfoIni, CompSuperForm,
+  Variants, StrUtils, U_OnFormInfoIni, CompSuperForm,
   JvXPButtons, U_ExtDBGrid,U_ConstMessage, U_DmArticles,
-  u_framework_components, u_buttons_appli, U_ExtComboInsert;
+  u_framework_components, u_buttons_appli, U_ExtComboInsert, JvXPCore,
+  JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvDBLookup;
 
 type
 

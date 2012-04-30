@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////
 // Nom Unite: U_Famillevente
 // Description : Gestion des familles de vente
 // Créé par Microcelt le 11/08
@@ -14,18 +14,19 @@ interface
 
 uses
 {$IFNDEF FPC}
-  AdvListV, RbSplitter, RXSplit, Mask,
+  RXSplit, Mask,
 {$ELSE}
-  MaskEdit,
+  MaskEdit, LCLType, ToolEdit, 
 {$ENDIF}
-  LCLType, Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
+  Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
   DBGrids, u_framework_dbcomponents, u_framework_components,
   ComCtrls, StdCtrls, SysUtils,  TypInfo,  Variants,
-  StrUtils, ToolEdit, U_OnFormInfoIni,  JvXPButtons,
+  StrUtils, U_OnFormInfoIni,  JvXPButtons,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
   CompSuperForm,
-  U_GroupView, ImgList,fonctions_string, U_DmArticles ;
+  U_GroupView, ImgList,fonctions_string, U_DmArticles, JvExDBGrids, JvDBGrid,
+  JvDBUltimGrid, JvExComCtrls, JvListView, U_DBListView, JvExControls, JvXPCore ;
 
 type
 
@@ -113,7 +114,6 @@ type
     procedure F_FormDicoDataOnCancel(Sender: TObject);
     procedure bt_GammeClick(Sender: TObject);
     procedure bt_CaracClick(Sender: TObject);
-    procedure pc_GroupesChange(Sender: TObject);
     procedure pc_GroupesChanging(Sender: TObject; var AllowChange: Boolean);
     procedure F_FormDicoCreate(Sender: TObject);
 
@@ -187,11 +187,6 @@ begin
       M_Article.IB_Carac.Locate ( 'CARA_Clep', lsv_CaracIn.Selected.Caption, [] )
     Else
       M_Article.IB_Carac.Locate ( 'CARA_Clep', lsv_CaracIn.Items [0].Caption, [] )
-
-end;
-
-procedure TF_TypeProduit.pc_GroupesChange(Sender: TObject);
-begin
 
 end;
 
