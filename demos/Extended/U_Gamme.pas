@@ -13,10 +13,11 @@ unit U_Gamme;
 interface
 
 uses
-{$IFNDEF FPC}
-  RXSplit, Mask,
+{$IFDEF FPC}
+  MaskEdit, LCLType, ToolEdit,
 {$ELSE}
-  MaskEdit, LCLType, ToolEdit, 
+  RXSplit, Mask, JvXPCore,
+  JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvDBLookup,
 {$ENDIF}
   Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
@@ -25,9 +26,7 @@ uses
   StrUtils, U_OnFormInfoIni,  JvXPButtons,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
   CompSuperForm,
-  U_GroupView, ImgList,fonctions_string, U_DmArticles, Menus, JvExDBGrids,
-  JvDBGrid, JvDBUltimGrid, JvExComCtrls, JvListView, U_DBListView, JvExControls,
-  JvXPCore ;
+  U_GroupView, ImgList,fonctions_string, U_DmArticles, Menus ;
 
 type
 

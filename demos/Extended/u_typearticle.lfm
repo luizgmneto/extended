@@ -178,7 +178,6 @@ inherited F_TypeProduit: TF_TypeProduit
         Align = alClient
         TabIndex = 0
         TabOrder = 2
-        OnChange = pc_GroupesChange
         OnChanging = pc_GroupesChanging
         object ts_Gamme: TTabSheet
           Caption = 'Gammes dont ce type est membre'
@@ -200,7 +199,7 @@ inherited F_TypeProduit: TF_TypeProduit
             ClientWidth = 580
             TabOrder = 0
             object Panel13: TPanel
-              Left = 225
+              Left = 249
               Height = 25
               Top = 1
               Width = 19
@@ -227,7 +226,7 @@ inherited F_TypeProduit: TF_TypeProduit
               TabOrder = 2
             end
             object bt_abandonner: TFWCancel
-              Left = 125
+              Left = 149
               Height = 25
               Hint = 'Abandonner les modifications'
               Top = 1
@@ -235,21 +234,25 @@ inherited F_TypeProduit: TF_TypeProduit
               Enabled = False
               TabOrder = 3
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
             end
             object bt_enregistrer: TFWOK
               Left = 14
               Height = 25
               Hint = 'Enregistrer les modifications'
               Top = 1
-              Width = 92
+              Width = 116
               Caption = 'Enregistrer'
               Enabled = False
               TabOrder = 4
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
               OnClick = bt_enregistrerClick
             end
             object Panel17: TPanel
-              Left = 106
+              Left = 130
               Height = 25
               Top = 1
               Width = 19
@@ -258,7 +261,7 @@ inherited F_TypeProduit: TF_TypeProduit
               TabOrder = 5
             end
             object bt_Gamme: TJvXPButton
-              Left = 244
+              Left = 268
               Height = 25
               Hint = 'Accéder à la fiche Gamme'
               Top = 1
@@ -266,6 +269,8 @@ inherited F_TypeProduit: TF_TypeProduit
               Caption = '...'
               TabOrder = 6
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
               ParentShowHint = False
               ShowHint = True
               OnClick = bt_GammeClick
@@ -341,6 +346,8 @@ inherited F_TypeProduit: TF_TypeProduit
                 Enabled = False
                 TabOrder = 0
                 ShowFocusRect = True
+                Font.Color = clMaroon
+                ParentFont = False
                 ParentShowHint = False
               end
               object bt_in_total: TFWInAll
@@ -351,6 +358,8 @@ inherited F_TypeProduit: TF_TypeProduit
                 Width = 57
                 Enabled = False
                 TabOrder = 1
+                Font.Color = clMaroon
+                ParentFont = False
               end
               object bt_out_item: TFWOutSelect
                 Left = 6
@@ -360,6 +369,8 @@ inherited F_TypeProduit: TF_TypeProduit
                 Width = 57
                 Enabled = False
                 TabOrder = 2
+                Font.Color = clMaroon
+                ParentFont = False
               end
               object bt_out_total: TFWOutAll
                 Left = 6
@@ -369,6 +380,8 @@ inherited F_TypeProduit: TF_TypeProduit
                 Width = 57
                 Enabled = False
                 TabOrder = 3
+                Font.Color = clMaroon
+                ParentFont = False
               end
             end
           end
@@ -448,7 +461,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'Caractéristiques membres du type'
-                  Width = 235
+                  Width = 265
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -496,6 +509,8 @@ inherited F_TypeProduit: TF_TypeProduit
                 Enabled = False
                 TabOrder = 0
                 ShowFocusRect = True
+                Font.Color = clMaroon
+                ParentFont = False
                 ParentShowHint = False
               end
               object bt_in_total_carac: TFWInAll
@@ -506,6 +521,8 @@ inherited F_TypeProduit: TF_TypeProduit
                 Width = 49
                 Enabled = False
                 TabOrder = 1
+                Font.Color = clMaroon
+                ParentFont = False
               end
               object bt_out_carac: TFWOutSelect
                 Left = 14
@@ -515,6 +532,8 @@ inherited F_TypeProduit: TF_TypeProduit
                 Width = 49
                 Enabled = False
                 TabOrder = 2
+                Font.Color = clMaroon
+                ParentFont = False
               end
               object bt_out_total_carac: TFWOutAll
                 Left = 14
@@ -524,6 +543,8 @@ inherited F_TypeProduit: TF_TypeProduit
                 Width = 49
                 Enabled = False
                 TabOrder = 3
+                Font.Color = clMaroon
+                ParentFont = False
               end
             end
           end
@@ -537,7 +558,7 @@ inherited F_TypeProduit: TF_TypeProduit
             ClientWidth = 580
             TabOrder = 1
             object Panel14: TPanel
-              Left = 106
+              Left = 146
               Height = 25
               Top = 1
               Width = 19
@@ -564,7 +585,7 @@ inherited F_TypeProduit: TF_TypeProduit
               TabOrder = 2
             end
             object bt_AbandonCarac: TFWCancel
-              Left = 125
+              Left = 165
               Height = 25
               Hint = 'Abandonner les modifications'
               Top = 1
@@ -572,20 +593,24 @@ inherited F_TypeProduit: TF_TypeProduit
               Enabled = False
               TabOrder = 3
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
             end
             object bt_EnrCarac: TFWOK
               Left = 14
               Height = 25
               Hint = 'Enregistrer les modifications'
               Top = 1
-              Width = 92
+              Width = 132
               Caption = 'Enregistrer'
               Enabled = False
               TabOrder = 4
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
             end
             object Panel11: TPanel
-              Left = 225
+              Left = 265
               Height = 25
               Top = 1
               Width = 19
@@ -594,7 +619,7 @@ inherited F_TypeProduit: TF_TypeProduit
               TabOrder = 5
             end
             object bt_Carac: TJvXPButton
-              Left = 244
+              Left = 284
               Height = 25
               Hint = 'Accéder à la fiche Caractéristiques'
               Top = 1
@@ -602,6 +627,8 @@ inherited F_TypeProduit: TF_TypeProduit
               Caption = '...'
               TabOrder = 6
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
               ParentShowHint = False
               ShowHint = True
               OnClick = bt_CaracClick
@@ -665,7 +692,7 @@ inherited F_TypeProduit: TF_TypeProduit
             ClientWidth = 580
             TabOrder = 0
             object Panel18: TPanel
-              Left = 233
+              Left = 273
               Height = 25
               Top = 1
               Width = 13
@@ -674,7 +701,7 @@ inherited F_TypeProduit: TF_TypeProduit
               TabOrder = 0
             end
             object Panel19: TPanel
-              Left = 106
+              Left = 146
               Height = 25
               Top = 1
               Width = 19
@@ -701,7 +728,7 @@ inherited F_TypeProduit: TF_TypeProduit
               TabOrder = 3
             end
             object bt_AbanArt: TFWCancel
-              Left = 125
+              Left = 165
               Height = 25
               Hint = 'Abandonner les modifications'
               Top = 1
@@ -709,17 +736,21 @@ inherited F_TypeProduit: TF_TypeProduit
               Enabled = False
               TabOrder = 4
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
             end
             object bt_EnrArt: TFWOK
               Left = 14
               Height = 25
               Hint = 'Enregistrer les modifications'
               Top = 1
-              Width = 92
+              Width = 132
               Caption = 'Enregistrer'
               Enabled = False
               TabOrder = 5
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
             end
             object bt_retour: TJvXPButton
               Left = 474
@@ -731,6 +762,8 @@ inherited F_TypeProduit: TF_TypeProduit
               Enabled = False
               TabOrder = 6
               Align = alRight
+              Font.Color = clMaroon
+              ParentFont = False
             end
           end
           object Panel22: TPanel
@@ -770,7 +803,7 @@ inherited F_TypeProduit: TF_TypeProduit
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 211
+                    Width = 195
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -820,6 +853,8 @@ inherited F_TypeProduit: TF_TypeProduit
                   Enabled = False
                   TabOrder = 0
                   ShowFocusRect = True
+                  Font.Color = clMaroon
+                  ParentFont = False
                   ParentShowHint = False
                 end
                 object bt_in_totart: TFWInAll
@@ -830,6 +865,8 @@ inherited F_TypeProduit: TF_TypeProduit
                   Width = 49
                   Enabled = False
                   TabOrder = 1
+                  Font.Color = clMaroon
+                  ParentFont = False
                 end
                 object bt_out_art: TFWOutSelect
                   Left = 14
@@ -839,6 +876,8 @@ inherited F_TypeProduit: TF_TypeProduit
                   Width = 49
                   Enabled = False
                   TabOrder = 2
+                  Font.Color = clMaroon
+                  ParentFont = False
                 end
                 object bt_out_totart: TFWOutAll
                   Left = 14
@@ -848,6 +887,8 @@ inherited F_TypeProduit: TF_TypeProduit
                   Width = 49
                   Enabled = False
                   TabOrder = 3
+                  Font.Color = clMaroon
+                  ParentFont = False
                 end
               end
             end
@@ -862,7 +903,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 269
+                  Width = 253
                 end>
               Constraints.MinWidth = 4
               DragMode = dmAutomatic
@@ -985,13 +1026,16 @@ inherited F_TypeProduit: TF_TypeProduit
       ClientWidth = 869
       TabOrder = 2
       object bt_fermer: TFWClose
-        Left = 789
+        Left = 773
         Height = 25
         Top = 0
+        Width = 96
         Caption = 'Fermer'
         TabOrder = 0
         Layout = blGlyphRight
         Align = alRight
+        Font.Color = clMaroon
+        ParentFont = False
         OnClick = bt_fermerClick
       end
       object Panel4: TPanel

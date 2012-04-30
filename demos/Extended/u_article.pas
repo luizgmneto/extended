@@ -13,18 +13,18 @@ unit U_Article;
 interface
 
 uses
-{$IFNDEF FPC}
-  RXSplit, Mask,
-{$ELSE}
+{$IFDEF FPC}
   MaskEdit, LCLType, ToolEdit,
+{$ELSE}
+  RXSplit, Mask, JvXPCore,
+  JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvDBLookup,
 {$ENDIF}
   Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
   DBGrids, u_framework_dbcomponents, ComCtrls, StdCtrls, SysUtils,  TypInfo,
   Variants, StrUtils, U_OnFormInfoIni, CompSuperForm,
   JvXPButtons, U_ExtDBGrid,U_ConstMessage, U_DmArticles,
-  u_framework_components, u_buttons_appli, U_ExtComboInsert, JvXPCore,
-  JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvDBLookup;
+  u_framework_components, u_buttons_appli, U_ExtComboInsert;
 
 type
 

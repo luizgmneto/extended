@@ -197,7 +197,7 @@ inherited F_Caracteristique: TF_Caracteristique
             ClientWidth = 677
             TabOrder = 0
             object Panel12: TPanel
-              Left = 237
+              Left = 261
               Height = 25
               Top = 1
               Width = 13
@@ -206,7 +206,7 @@ inherited F_Caracteristique: TF_Caracteristique
               TabOrder = 0
             end
             object Panel13: TPanel
-              Left = 106
+              Left = 130
               Height = 25
               Top = 1
               Width = 19
@@ -233,7 +233,7 @@ inherited F_Caracteristique: TF_Caracteristique
               TabOrder = 3
             end
             object bt_abandonner: TFWCancel
-              Left = 125
+              Left = 149
               Height = 25
               Hint = 'Abandonner les modifications'
               Top = 1
@@ -241,20 +241,24 @@ inherited F_Caracteristique: TF_Caracteristique
               Enabled = False
               TabOrder = 4
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
             end
             object bt_enregistrer: TFWOK
               Left = 14
               Height = 25
               Hint = 'Enregistrer les modifications'
               Top = 1
-              Width = 92
+              Width = 116
               Caption = 'Enregistrer'
               Enabled = False
               TabOrder = 5
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
             end
             object bt_TypePro: TJvXPButton
-              Left = 250
+              Left = 274
               Height = 25
               Hint = 'Accéder à la fiche Type de produit'
               Top = 1
@@ -262,6 +266,8 @@ inherited F_Caracteristique: TF_Caracteristique
               Caption = '...'
               TabOrder = 6
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
               ParentShowHint = False
               ShowHint = True
               OnClick = bt_TypeProClick
@@ -337,6 +343,8 @@ inherited F_Caracteristique: TF_Caracteristique
                 Enabled = False
                 TabOrder = 0
                 ShowFocusRect = True
+                Font.Color = clMaroon
+                ParentFont = False
                 ParentShowHint = False
               end
               object bt_in_total: TFWInAll
@@ -347,6 +355,8 @@ inherited F_Caracteristique: TF_Caracteristique
                 Width = 49
                 Enabled = False
                 TabOrder = 1
+                Font.Color = clMaroon
+                ParentFont = False
               end
               object bt_out_item: TFWOutSelect
                 Left = 14
@@ -356,6 +366,8 @@ inherited F_Caracteristique: TF_Caracteristique
                 Width = 49
                 Enabled = False
                 TabOrder = 2
+                Font.Color = clMaroon
+                ParentFont = False
               end
               object bt_out_total: TFWOutAll
                 Left = 14
@@ -365,6 +377,8 @@ inherited F_Caracteristique: TF_Caracteristique
                 Width = 49
                 Enabled = False
                 TabOrder = 3
+                Font.Color = clMaroon
+                ParentFont = False
               end
             end
           end
@@ -426,7 +440,7 @@ inherited F_Caracteristique: TF_Caracteristique
             ClientWidth = 677
             TabOrder = 0
             object Panel18: TPanel
-              Left = 232
+              Left = 280
               Height = 25
               Top = 1
               Width = 13
@@ -435,7 +449,7 @@ inherited F_Caracteristique: TF_Caracteristique
               TabOrder = 0
             end
             object Panel19: TPanel
-              Left = 106
+              Left = 154
               Height = 25
               Top = 1
               Width = 19
@@ -462,7 +476,7 @@ inherited F_Caracteristique: TF_Caracteristique
               TabOrder = 3
             end
             object bt_AbanArt: TFWCancel
-              Left = 125
+              Left = 173
               Height = 25
               Hint = 'Abandonner les modifications'
               Top = 1
@@ -470,28 +484,34 @@ inherited F_Caracteristique: TF_Caracteristique
               Enabled = False
               TabOrder = 4
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
             end
             object bt_EnrArt: TFWOK
               Left = 14
               Height = 25
               Hint = 'Enregistrer les modifications'
               Top = 1
-              Width = 92
+              Width = 140
               Caption = 'Enregistrer'
               Enabled = False
               TabOrder = 5
               Align = alLeft
+              Font.Color = clMaroon
+              ParentFont = False
             end
             object bt_retour: TJvXPButton
-              Left = 571
+              Left = 528
               Height = 25
               Hint = 'Réaffectation aux Directions opérationnelles d''origine'
               Top = 1
-              Width = 92
+              Width = 135
               Caption = 'Retour origine'
               Enabled = False
               TabOrder = 6
               Align = alRight
+              Font.Color = clMaroon
+              ParentFont = False
             end
           end
           object Panel22: TPanel
@@ -531,7 +551,7 @@ inherited F_Caracteristique: TF_Caracteristique
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 258
+                    Width = 242
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -581,6 +601,8 @@ inherited F_Caracteristique: TF_Caracteristique
                   Enabled = False
                   TabOrder = 0
                   ShowFocusRect = True
+                  Font.Color = clMaroon
+                  ParentFont = False
                   ParentShowHint = False
                 end
                 object bt_in_totart: TFWInAll
@@ -591,6 +613,8 @@ inherited F_Caracteristique: TF_Caracteristique
                   Width = 49
                   Enabled = False
                   TabOrder = 1
+                  Font.Color = clMaroon
+                  ParentFont = False
                 end
                 object bt_out_art: TFWOutSelect
                   Left = 14
@@ -600,6 +624,8 @@ inherited F_Caracteristique: TF_Caracteristique
                   Width = 49
                   Enabled = False
                   TabOrder = 2
+                  Font.Color = clMaroon
+                  ParentFont = False
                 end
                 object bt_out_totart: TFWOutAll
                   Left = 14
@@ -609,6 +635,8 @@ inherited F_Caracteristique: TF_Caracteristique
                   Width = 49
                   Enabled = False
                   TabOrder = 3
+                  Font.Color = clMaroon
+                  ParentFont = False
                 end
               end
             end
@@ -623,7 +651,7 @@ inherited F_Caracteristique: TF_Caracteristique
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 319
+                  Width = 303
                 end>
               Constraints.MinWidth = 10
               DragMode = dmAutomatic
@@ -747,13 +775,16 @@ inherited F_Caracteristique: TF_Caracteristique
       ClientWidth = 966
       TabOrder = 2
       object bt_fermer: TFWClose
-        Left = 886
+        Left = 862
         Height = 26
         Top = 0
+        Width = 104
         Caption = 'Fermer'
         TabOrder = 0
         Layout = blGlyphRight
         Align = alRight
+        Font.Color = clMaroon
+        ParentFont = False
         OnClick = bt_fermerClick
       end
       object Panel4: TPanel
