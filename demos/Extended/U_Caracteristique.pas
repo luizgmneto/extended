@@ -13,10 +13,11 @@ unit U_Caracteristique;
 interface
 
 uses
-{$IFNDEF FPC}
-  RXSplit, Mask,
+{$IFDEF FPC}
+  MaskEdit, LCLType, ToolEdit,
 {$ELSE}
-  MaskEdit, LCLType, ToolEdit, 
+  RXSplit, Mask, JvXPCore,
+  JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvDBLookup,
 {$ENDIF}
   Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
@@ -25,8 +26,7 @@ uses
   StrUtils, U_OnFormInfoIni,  JvXPButtons,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
   U_GroupView, ImgList,fonctions_string,
-  CompSuperForm, JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExComCtrls, JvListView,
-  U_DBListView, JvExControls, JvXPCore;
+  CompSuperForm;
 
 const CST_CARA_Clep = 'CARA_Clep' ; 
 

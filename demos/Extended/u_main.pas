@@ -26,6 +26,7 @@ type
     MuCaract: TMenuItem;
     muGamme: TMenuItem;
     MuTypeArticle: TMenuItem;
+    ScrollBox:TSCrollBox;
     OnFormInfoIni1: TOnFormInfoIni;
     procedure FormCreate(Sender: TObject);
     procedure muaproposClick(Sender: TObject);

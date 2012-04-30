@@ -169,22 +169,6 @@ object M_Article: TM_Article
     left = 16
     top = 288
   end
-  object Process: TProcess
-    Active = False
-    Options = []
-    Priority = ppNormal
-    StartupOptions = []
-    ShowWindow = swoNone
-    WindowColumns = 0
-    WindowHeight = 0
-    WindowLeft = 0
-    WindowRows = 0
-    WindowTop = 0
-    WindowWidth = 0
-    FillAttribute = 0
-    left = 336
-    top = 256
-  end
   object IBU_Article: TIBUpdateSQL
     RefreshSQL.Strings = (
       'SELECT * FROM ARTICLE'

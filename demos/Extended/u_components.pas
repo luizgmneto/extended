@@ -13,7 +13,7 @@ uses
 {$IFDEF FPC}
   FileUtil, LResources,
 {$ELSE}
-  DBCtrls, JvExControls, JvDBLookup,
+  DBCtrls, JvExControls, JvDBLookup, JvExMask, JvSpin, JvExDBGrids, JvDBGrid, JvDBUltimGrid,
   JvExComCtrls, JvListView, Mask, fonctions_system,
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
@@ -24,7 +24,7 @@ uses
   IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage,
   U_ExtDBImageList, ImgList, ExtDlgs, U_ExtPictCombo, U_ExtMapImageIndex,
   u_buttons_appli, fonctions_version, IBCustomDataSet, JvXPCore, JvXPButtons,
-  U_ExtImage, JvExMask, JvSpin, JvExDBGrids, JvDBGrid, JvDBUltimGrid  ;
+  U_ExtImage  ;
 
 type
 

@@ -61,7 +61,7 @@
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="demo"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="15"/>
@@ -82,13 +82,10 @@
         <ComponentName Value="Myform"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="2116"/>
-        <CursorPos X="31" Y="2127"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="15"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit2>
       <Unit3>
@@ -164,12 +161,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
-        <EditorIndex Value="0"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="131"/>
-        <CursorPos X="50" Y="141"/>
+        <TopLine Value="152"/>
+        <CursorPos X="3" Y="155"/>
         <UsageCount Value="66"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -1354,10 +1352,13 @@
       <Unit146>
         <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
         <UnitName Value="IBDatabase"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="908"/>
-        <CursorPos X="13" Y="928"/>
+        <TopLine Value="863"/>
+        <CursorPos X="1" Y="884"/>
         <UsageCount Value="12"/>
+        <Loaded Value="True"/>
       </Unit146>
       <Unit147>
         <Filename Value="../../../ibx/runtime/IBIntf.pas"/>
@@ -1575,43 +1576,15 @@
         <UsageCount Value="10"/>
       </Unit172>
     </Units>
-    <JumpHistory Count="9" HistoryIndex="8">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
         <Filename Value="u_components.pas"/>
-        <Caret Line="148" Column="8" TopLine="145"/>
+        <Caret Line="25" Column="21" TopLine="1"/>
       </Position1>
       <Position2>
         <Filename Value="u_components.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="155" Column="3" TopLine="152"/>
       </Position2>
-      <Position3>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="70" Column="29" TopLine="39"/>
-      </Position3>
-      <Position4>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="140" Column="21" TopLine="109"/>
-      </Position4>
-      <Position5>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="141" Column="21" TopLine="110"/>
-      </Position5>
-      <Position6>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="195" Column="11" TopLine="164"/>
-      </Position6>
-      <Position7>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="198" Column="34" TopLine="167"/>
-      </Position7>
-      <Position8>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position8>
-      <Position9>
-        <Filename Value="u_components.lfm"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position9>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
