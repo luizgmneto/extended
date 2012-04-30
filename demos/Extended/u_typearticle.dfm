@@ -1,9 +1,10 @@
-object F_Gamme: TF_Gamme
-  Left = 211
-  Top = 187
-  Caption = 'Gamme d'#39'article'
-  ClientHeight = 592
-  ClientWidth = 957
+object F_TypeProduit: TF_TypeProduit
+  Left = 386
+  Top = 293
+  Align = alClient
+  Caption = 'Type d'#39'article'
+  ClientHeight = 500
+  ClientWidth = 871
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,20 +15,21 @@ object F_Gamme: TF_Gamme
   Position = poMainFormCenter
   WindowState = wsMaximized
   OnCreate = F_FormDicoCreate
-  OnShow = F_FormDicoShow
   FormMode = sfmEdit
   AutoFillFieldsWhenShow = False
   IncrustMode = aicCenter
   AdaptParentSize = True
   ShowBevel = False
   AlreadyPassedInFirstActivate = True
+  ExplicitWidth = 320
+  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 13
   object pa_1: TPanel
     Left = 0
     Top = 0
-    Width = 957
-    Height = 592
+    Width = 871
+    Height = 500
     Align = alClient
     BevelOuter = bvLowered
     TabOrder = 0
@@ -35,21 +37,21 @@ object F_Gamme: TF_Gamme
       Left = 281
       Top = 26
       Width = 5
-      Height = 565
+      Height = 473
     end
     object pa_3: TPanel
       Left = 286
       Top = 26
-      Width = 670
-      Height = 565
+      Width = 584
+      Height = 473
       Align = alClient
       BevelOuter = bvNone
-      Constraints.MinWidth = 20
+      Constraints.MinWidth = 10
       TabOrder = 0
       object pa_5: TPanel
         Left = 0
         Top = 0
-        Width = 670
+        Width = 584
         Height = 32
         Align = alTop
         BevelOuter = bvNone
@@ -57,10 +59,10 @@ object F_Gamme: TF_Gamme
         object nv_saisie: TExtDBNavigator
           Left = 0
           Top = 0
-          Width = 670
+          Width = 584
           Height = 32
           Flat = True
-          DataSource = M_Article.ds_Gamme
+          DataSource = M_Article.ds_TypProduit
           DeleteQuestion = 'Confirmez-vous l'#39'effacement de l'#39'enregistrement ?'
           Align = alClient
           ParentShowHint = False
@@ -87,7 +89,7 @@ object F_Gamme: TF_Gamme
       object pa_6: TPanel
         Left = 0
         Top = 32
-        Width = 670
+        Width = 584
         Height = 74
         Align = alTop
         BevelOuter = bvNone
@@ -134,7 +136,7 @@ object F_Gamme: TF_Gamme
         object Splitter1: TSplitter
           Left = 0
           Top = 69
-          Width = 670
+          Width = 584
           Height = 5
           Cursor = crVSplit
           Align = alBottom
@@ -146,8 +148,8 @@ object F_Gamme: TF_Gamme
           Width = 460
           Height = 24
           Color = clMoneyGreen
-          DataField = 'GAMM_Libelle'
-          DataSource = M_Article.ds_Gamme
+          DataField = 'TYPR_Libelle'
+          DataSource = M_Article.ds_TypProduit
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -13
@@ -160,12 +162,12 @@ object F_Gamme: TF_Gamme
           Tag = 1
           Left = 102
           Top = 10
-          Width = 73
+          Width = 129
           Height = 24
           CharCase = ecUpperCase
           Color = clMoneyGreen
-          DataField = 'GAMM_Clep'
-          DataSource = M_Article.ds_Gamme
+          DataField = 'TYPR_Clep'
+          DataSource = M_Article.ds_TypProduit
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -13
@@ -176,16 +178,17 @@ object F_Gamme: TF_Gamme
           TabOrder = 0
         end
       end
-      object pc_GroupesGamme: TPageControl
+      object pc_Groupes: TPageControl
         Left = 0
         Top = 106
-        Width = 670
-        Height = 459
-        ActivePage = ts_ssfam
+        Width = 584
+        Height = 367
+        ActivePage = ts_Gamme
         Align = alClient
         TabOrder = 2
-        object ts_ssfam: TTabSheet
-          Caption = 'Types d'#39'articles membres de la gamme'
+        OnChanging = pc_GroupesChanging
+        object ts_Gamme: TTabSheet
+          Caption = 'Gammes dont ce type est membre'
           ExplicitLeft = 0
           ExplicitTop = 0
           ExplicitWidth = 0
@@ -194,33 +197,24 @@ object F_Gamme: TF_Gamme
             Left = 321
             Top = 27
             Width = 5
-            Height = 404
-            ExplicitHeight = 398
+            Height = 312
+            ExplicitHeight = 306
           end
           object Panel10: TPanel
             Left = 0
             Top = 0
-            Width = 662
+            Width = 576
             Height = 27
             Align = alTop
             TabOrder = 0
-            object Panel12: TPanel
-              Left = 224
-              Top = 1
-              Width = 13
-              Height = 25
-              Align = alLeft
-              BevelOuter = bvNone
-              TabOrder = 0
-            end
             object Panel13: TPanel
-              Left = 106
+              Left = 225
               Top = 1
               Width = 19
               Height = 25
               Align = alLeft
               BevelOuter = bvNone
-              TabOrder = 1
+              TabOrder = 0
             end
             object Panel1: TPanel
               Left = 1
@@ -229,25 +223,25 @@ object F_Gamme: TF_Gamme
               Height = 25
               Align = alLeft
               BevelOuter = bvNone
-              TabOrder = 2
+              TabOrder = 1
             end
             object Panel5: TPanel
-              Left = 648
+              Left = 562
               Top = 1
               Width = 13
               Height = 25
               Align = alRight
               BevelOuter = bvNone
-              TabOrder = 3
+              TabOrder = 2
             end
             object bt_abandonner: TFWCancel
               Left = 125
               Top = 1
-              Width = 99
+              Width = 100
               Height = 25
               Hint = 'Abandonner les modifications'
               Enabled = False
-              TabOrder = 4
+              TabOrder = 3
               Align = alLeft
             end
             object bt_enregistrer: TFWOK
@@ -258,43 +252,224 @@ object F_Gamme: TF_Gamme
               Hint = 'Enregistrer les modifications'
               Caption = 'Enregistrer'
               Enabled = False
-              TabOrder = 5
+              TabOrder = 4
               Align = alLeft
+              OnClick = bt_enregistrerClick
             end
-            object bt_TypePro: TJvXPButton
-              Left = 237
+            object Panel17: TPanel
+              Left = 106
               Top = 1
-              Width = 27
+              Width = 19
               Height = 25
-              Hint = 'Acc'#233'der '#224' la fiche Type de produit'
+              Align = alLeft
+              BevelOuter = bvNone
+              TabOrder = 5
+            end
+            object bt_Gamme: TJvXPButton
+              Left = 244
+              Top = 1
+              Width = 22
+              Height = 25
+              Hint = 'Acc'#233'der '#224' la fiche Gamme'
               Caption = '...'
               TabOrder = 6
               Align = alLeft
               ParentShowHint = False
               ShowHint = True
-              OnClick = bt_TypeProClick
+              OnClick = bt_GammeClick
             end
           end
           object Panel6: TPanel
             Left = 0
             Top = 27
             Width = 321
-            Height = 404
+            Height = 312
             Align = alLeft
             BevelOuter = bvNone
-            Constraints.MinWidth = 3
+            Constraints.MinWidth = 4
             TabOrder = 1
-            object lsv_TypesIn: TDBGroupView
+            object lsv_GammIn: TDBGroupView
               Left = 0
               Top = 0
-              Width = 242
-              Height = 404
+              Width = 251
+              Height = 312
               Hint = 'Liste des membres'
               Align = alClient
               Columns = <
                 item
                   AutoSize = True
-                  Caption = 'Types membres de la gamme'
+                  Caption = 'Gammes dont ce type est membre'
+                end>
+              DragMode = dmAutomatic
+              MultiSelect = True
+              ReadOnly = True
+              RowSelect = True
+              ParentShowHint = False
+              ShowHint = True
+              StateImages = im_images
+              TabOrder = 0
+              ViewStyle = vsReport
+              ColumnsOrder = '0=247'
+              Groups = <>
+              ExtendedColumns = <
+                item
+                end>
+              DataKeyUnit = 'GAMM_Clep'
+              DataFieldsDisplay = 'GAMM_Libelle'
+              DataTableUnit = 'GAMME'
+              DataTableGroup = 'GAMME_TYPR'
+              DataTableOwner = 'TYPE_PRODUIT'
+              DataSourceOwner = M_Article.ds_TypProduit
+              DataKeyOwner = 'TYPR_Clep'
+              DataFieldUnit = 'GATY__GAMM'
+              DataFieldGroup = 'GATY__TYPR'
+              ButtonTotalIn = bt_in_total
+              ButtonIn = bt_in_item
+              ButtonTotalOut = bt_out_total
+              ButtonOut = bt_out_item
+              DataListOpposite = lsv_GammOut
+              ButtonRecord = bt_enregistrer
+              ButtonCancel = bt_abandonner
+              DataAllFiltered = False
+            end
+            object Panel2: TPanel
+              Left = 251
+              Top = 0
+              Width = 70
+              Height = 312
+              Align = alRight
+              BevelOuter = bvNone
+              TabOrder = 1
+              object bt_in_item: TFWInSelect
+                Left = 5
+                Top = 22
+                Width = 58
+                Height = 41
+                Hint = 
+                  'Cette direction r'#233'gionale devient membre de cette direction op'#233'r' +
+                  'ationnelle'
+                Enabled = False
+                TabOrder = 0
+                ShowFocusRect = True
+                ParentShowHint = False
+                ShowHint = False
+              end
+              object bt_in_total: TFWInAll
+                Left = 5
+                Top = 72
+                Width = 57
+                Height = 48
+                Hint = 
+                  'Ces directions r'#233'gionales deviennent membre de cette direction o' +
+                  'p'#233'rationnelle'
+                Enabled = False
+                TabOrder = 1
+              end
+              object bt_out_item: TFWOutSelect
+                Left = 6
+                Top = 144
+                Width = 57
+                Height = 41
+                Hint = 
+                  'Cette direction r'#233'gionale va '#234'tre d'#233'saffect'#233'e de sa direction op' +
+                  #233'rationnelle'
+                Enabled = False
+                TabOrder = 2
+              end
+              object bt_out_total: TFWOutAll
+                Left = 6
+                Top = 189
+                Width = 57
+                Height = 43
+                Hint = 
+                  'Ces directions r'#233'gionales vont '#234'tre d'#233'saffect'#233'es de leur directi' +
+                  'on op'#233'rationnelle'
+                Enabled = False
+                TabOrder = 3
+              end
+            end
+          end
+          object lsv_GammOut: TDBGroupView
+            Left = 326
+            Top = 27
+            Width = 250
+            Height = 312
+            Hint = 'A r'#233'affecter'
+            Align = alClient
+            Columns = <
+              item
+                AutoSize = True
+                Caption = 'Gammes dont ce type n'#39'est pas membre'
+              end>
+            Constraints.MinWidth = 4
+            DragMode = dmAutomatic
+            MultiSelect = True
+            ReadOnly = True
+            RowSelect = True
+            ParentShowHint = False
+            ShowHint = True
+            StateImages = im_images
+            TabOrder = 2
+            ViewStyle = vsReport
+            ColumnsOrder = '0=246'
+            Groups = <>
+            ExtendedColumns = <
+              item
+              end>
+            DataKeyUnit = 'GAMM_Clep'
+            DataFieldsDisplay = 'GAMM_Libelle'
+            DataTableUnit = 'GAMME'
+            DataTableGroup = 'GAMME_TYPR'
+            DataTableOwner = 'TYPE_PRODUIT'
+            DataSourceOwner = M_Article.ds_TypProduit
+            DataKeyOwner = 'TYPR_Clep'
+            DataFieldUnit = 'GATY__GAMM'
+            DataFieldGroup = 'GATY__TYPR'
+            DataListPrimary = False
+            ButtonTotalIn = bt_out_total
+            ButtonIn = bt_out_item
+            ButtonTotalOut = bt_in_total
+            ButtonOut = bt_in_item
+            DataListOpposite = lsv_GammIn
+            ButtonRecord = bt_enregistrer
+            ButtonCancel = bt_abandonner
+            DataAllFiltered = False
+          end
+        end
+        object ts_Caracteristique: TTabSheet
+          Caption = 'Caract'#233'ristiques membres du type'
+          ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
+          object RbSplitter2: TSplitter
+            Left = 321
+            Top = 27
+            Width = 5
+            Height = 312
+            ExplicitHeight = 306
+          end
+          object Panel7: TPanel
+            Left = 0
+            Top = 27
+            Width = 321
+            Height = 312
+            Align = alLeft
+            BevelOuter = bvNone
+            Constraints.MinWidth = 4
+            TabOrder = 0
+            object lsv_CaracIn: TDBGroupView
+              Left = 0
+              Top = 0
+              Width = 242
+              Height = 312
+              Hint = 'Liste des membres'
+              Align = alClient
+              Columns = <
+                item
+                  AutoSize = True
+                  Caption = 'Caract'#233'ristiques membres du type'
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -310,37 +485,37 @@ object F_Gamme: TF_Gamme
               ExtendedColumns = <
                 item
                 end>
-              DataKeyUnit = 'TYPR_Clep'
-              DataFieldsDisplay = 'TYPR_Libelle'
-              DataTableUnit = 'TYPE_PRODUIT'
-              DataTableGroup = 'GAMME_TYPR'
-              DataTableOwner = 'GAMME'
-              DataSourceOwner = M_Article.ds_Gamme
-              DataKeyOwner = 'GAMM_Clep'
-              DataFieldUnit = 'GATY__TYPR'
-              DataFieldGroup = 'GATY__GAMM'
-              ButtonTotalIn = bt_in_total
-              ButtonIn = bt_in_item
-              ButtonTotalOut = bt_out_total
-              ButtonOut = bt_out_item
-              DataListOpposite = lsv_TypesOut
-              ButtonRecord = bt_enregistrer
-              ButtonCancel = bt_abandonner
+              DataKeyUnit = 'CARA_Clep'
+              DataFieldsDisplay = 'CARA_Libelle'
+              DataTableUnit = 'CARACTERISTIQUE'
+              DataTableGroup = 'TYPE_PRODUIT_CARA'
+              DataTableOwner = 'TYPE_PRODUIT'
+              DataSourceOwner = M_Article.ds_TypProduit
+              DataKeyOwner = 'TYPR_Clep'
+              DataFieldUnit = 'TYPC__CARA'
+              DataFieldGroup = 'TYPC__TYPR'
+              ButtonTotalIn = bt_in_total_carac
+              ButtonIn = bt_in_carac
+              ButtonTotalOut = bt_out_total_carac
+              ButtonOut = bt_out_carac
+              DataListOpposite = lsv_CaracOut
+              ButtonRecord = bt_EnrCarac
+              ButtonCancel = bt_AbandonCarac
               DataAllFiltered = False
             end
-            object Panel2: TPanel
+            object Panel8: TPanel
               Left = 242
               Top = 0
               Width = 79
-              Height = 404
+              Height = 312
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 1
-              object bt_in_item: TFWInSelect
+              object bt_in_carac: TFWInSelect
                 Left = 14
-                Top = 17
+                Top = 18
                 Width = 49
-                Height = 46
+                Height = 45
                 Hint = 
                   'Cette direction r'#233'gionale devient membre de cette direction op'#233'r' +
                   'ationnelle'
@@ -350,31 +525,33 @@ object F_Gamme: TF_Gamme
                 ParentShowHint = False
                 ShowHint = False
               end
-              object bt_in_total: TFWInAll
+              object bt_in_total_carac: TFWInAll
                 Left = 14
                 Top = 70
                 Width = 49
-                Height = 51
+                Height = 44
                 Hint = 
                   'Ces directions r'#233'gionales deviennent membre de cette direction o' +
                   'p'#233'rationnelle'
                 Enabled = False
                 TabOrder = 1
               end
-              object bt_out_item: TFWOutSelect
+              object bt_out_carac: TFWOutSelect
                 Left = 14
-                Top = 137
+                Top = 138
                 Width = 49
-                Height = 45
-                Hint = 'Cet article est temporairement inaffect'#233
+                Height = 44
+                Hint = 
+                  'Cette direction r'#233'gionale va '#234'tre d'#233'saffect'#233'e de sa direction op' +
+                  #233'rationnelle'
                 Enabled = False
                 TabOrder = 2
               end
-              object bt_out_total: TFWOutAll
+              object bt_out_total_carac: TFWOutAll
                 Left = 14
                 Top = 189
                 Width = 49
-                Height = 52
+                Height = 45
                 Hint = 
                   'Ces directions r'#233'gionales vont '#234'tre d'#233'saffect'#233'es de leur directi' +
                   'on op'#233'rationnelle'
@@ -383,104 +560,51 @@ object F_Gamme: TF_Gamme
               end
             end
           end
-          object lsv_TypesOut: TDBGroupView
-            Left = 326
-            Top = 27
-            Width = 336
-            Height = 404
-            Hint = 'Liste d'#39'exclusion'
-            Align = alClient
-            Columns = <
-              item
-                AutoSize = True
-                Caption = 'Types non membres de la gamme'
-              end>
-            Constraints.MinWidth = 3
-            DragMode = dmAutomatic
-            MultiSelect = True
-            ReadOnly = True
-            RowSelect = True
-            ParentShowHint = False
-            ShowHint = True
-            StateImages = im_images
-            TabOrder = 2
-            ViewStyle = vsReport
-            ColumnsOrder = '0=332'
-            Groups = <>
-            ExtendedColumns = <
-              item
-              end>
-            DataKeyUnit = 'TYPR_Clep'
-            DataFieldsDisplay = 'TYPR_Libelle'
-            DataTableUnit = 'TYPE_PRODUIT'
-            DataTableGroup = 'GAMME_TYPR'
-            DataTableOwner = 'GAMME'
-            DataSourceOwner = M_Article.ds_Gamme
-            DataKeyOwner = 'GAMM_Clep'
-            DataFieldUnit = 'GATY__TYPR'
-            DataFieldGroup = 'GATY__GAMM'
-            DataListPrimary = False
-            ButtonTotalIn = bt_out_total
-            ButtonIn = bt_out_item
-            ButtonTotalOut = bt_in_total
-            ButtonOut = bt_in_item
-            DataListOpposite = lsv_TypesIn
-            ButtonRecord = bt_enregistrer
-            ButtonCancel = bt_abandonner
-            DataAllFiltered = False
-          end
-        end
-        object TabSheet1: TTabSheet
-          Caption = 'Articles affect'#233's '#224' la gamme'
-          ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
-          object Panel7: TPanel
+          object Panel9: TPanel
             Left = 0
             Top = 0
-            Width = 662
+            Width = 576
             Height = 27
             Align = alTop
-            TabOrder = 0
-            object Panel8: TPanel
-              Left = 224
-              Top = 1
-              Width = 16
-              Height = 25
-              Align = alLeft
-              BevelOuter = bvNone
-              TabOrder = 0
-            end
-            object Panel9: TPanel
+            TabOrder = 1
+            object Panel14: TPanel
               Left = 106
               Top = 1
               Width = 19
               Height = 25
               Align = alLeft
               BevelOuter = bvNone
-              TabOrder = 1
+              TabOrder = 0
             end
-            object Panel11: TPanel
+            object Panel15: TPanel
               Left = 1
               Top = 1
               Width = 13
               Height = 25
               Align = alLeft
               BevelOuter = bvNone
-              TabOrder = 2
+              TabOrder = 1
             end
-            object Panel14: TPanel
-              Left = 648
+            object Panel16: TPanel
+              Left = 562
               Top = 1
               Width = 13
               Height = 25
               Align = alRight
               BevelOuter = bvNone
-              TabOrder = 3
+              TabOrder = 2
             end
-            object bt_EnrArt: TFWOK
+            object bt_AbandonCarac: TFWCancel
+              Left = 125
+              Top = 1
+              Width = 100
+              Height = 25
+              Hint = 'Abandonner les modifications'
+              Enabled = False
+              TabOrder = 3
+              Align = alLeft
+            end
+            object bt_EnrCarac: TFWOK
               Left = 14
               Top = 1
               Width = 92
@@ -491,58 +615,187 @@ object F_Gamme: TF_Gamme
               TabOrder = 4
               Align = alLeft
             end
-            object bt_retour: TJvXPButton
-              Left = 556
+            object Panel11: TPanel
+              Left = 225
               Top = 1
-              Width = 92
+              Width = 19
               Height = 25
-              Hint = 'R'#233'affectation aux Gammes de produits d'#39'origine'
-              Caption = 'Retour origine'
-              Enabled = False
+              Align = alLeft
+              BevelOuter = bvNone
               TabOrder = 5
-              Align = alRight
+            end
+            object bt_Carac: TJvXPButton
+              Left = 244
+              Top = 1
+              Width = 22
+              Height = 25
+              Hint = 'Acc'#233'der '#224' la fiche Caract'#233'ristiques'
+              Caption = '...'
+              TabOrder = 6
+              Align = alLeft
               ParentShowHint = False
               ShowHint = True
+              OnClick = bt_CaracClick
+            end
+          end
+          object lsv_CaracOut: TDBGroupView
+            Left = 326
+            Top = 27
+            Width = 250
+            Height = 312
+            Hint = 'A r'#233'affecter'
+            Align = alClient
+            Columns = <
+              item
+                AutoSize = True
+                Caption = 'Caract'#233'ristiques non membres du type'
+              end>
+            Constraints.MinWidth = 4
+            DragMode = dmAutomatic
+            MultiSelect = True
+            ReadOnly = True
+            RowSelect = True
+            ParentShowHint = False
+            ShowHint = True
+            StateImages = im_images
+            TabOrder = 2
+            ViewStyle = vsReport
+            ColumnsOrder = '0=246'
+            Groups = <>
+            ExtendedColumns = <
+              item
+              end>
+            DataKeyUnit = 'CARA_Clep'
+            DataFieldsDisplay = 'CARA_Libelle'
+            DataTableUnit = 'CARACTERISTIQUE'
+            DataTableGroup = 'TYPE_PRODUIT_CARA'
+            DataTableOwner = 'TYPE_PRODUIT'
+            DataSourceOwner = M_Article.ds_TypProduit
+            DataKeyOwner = 'TYPR_Clep'
+            DataFieldUnit = 'TYPC__CARA'
+            DataFieldGroup = 'TYPC__TYPR'
+            DataListPrimary = False
+            ButtonTotalIn = bt_out_total_carac
+            ButtonIn = bt_out_carac
+            ButtonTotalOut = bt_in_total_carac
+            ButtonOut = bt_in_carac
+            DataListOpposite = lsv_CaracIn
+            ButtonRecord = bt_EnrCarac
+            ButtonCancel = bt_AbandonCarac
+            DataAllFiltered = False
+          end
+        end
+        object TabSheet1: TTabSheet
+          Caption = 'Articles affect'#233's au type'
+          ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
+          object Panel12: TPanel
+            Left = 0
+            Top = 0
+            Width = 576
+            Height = 27
+            Align = alTop
+            TabOrder = 0
+            object Panel18: TPanel
+              Left = 233
+              Top = 1
+              Width = 13
+              Height = 25
+              Align = alLeft
+              BevelOuter = bvNone
+              TabOrder = 0
+            end
+            object Panel19: TPanel
+              Left = 106
+              Top = 1
+              Width = 19
+              Height = 25
+              Align = alLeft
+              BevelOuter = bvNone
+              TabOrder = 1
+            end
+            object Panel20: TPanel
+              Left = 1
+              Top = 1
+              Width = 13
+              Height = 25
+              Align = alLeft
+              BevelOuter = bvNone
+              TabOrder = 2
+            end
+            object Panel21: TPanel
+              Left = 562
+              Top = 1
+              Width = 13
+              Height = 25
+              Align = alRight
+              BevelOuter = bvNone
+              TabOrder = 3
             end
             object bt_AbanArt: TFWCancel
               Left = 125
               Top = 1
-              Width = 99
+              Width = 108
               Height = 25
               Hint = 'Abandonner les modifications'
               Enabled = False
-              TabOrder = 6
+              TabOrder = 4
               Align = alLeft
+            end
+            object bt_EnrArt: TFWOK
+              Left = 14
+              Top = 1
+              Width = 92
+              Height = 25
+              Hint = 'Enregistrer les modifications'
+              Caption = 'Enregistrer'
+              Enabled = False
+              TabOrder = 5
+              Align = alLeft
+            end
+            object bt_retour: TJvXPButton
+              Left = 470
+              Top = 1
+              Width = 92
+              Height = 25
+              Hint = 'R'#233'affectation aux Directions op'#233'rationnelles d'#39'origine'
+              Caption = 'Retour origine'
+              Enabled = False
+              TabOrder = 6
+              Align = alRight
             end
           end
-          object Panel17: TPanel
+          object Panel22: TPanel
             Left = 0
             Top = 27
-            Width = 662
-            Height = 404
+            Width = 576
+            Height = 312
             Align = alClient
             TabOrder = 1
-            object RbSplitter2: TSplitter
-              Left = 345
+            object RbSplitter3: TSplitter
+              Left = 298
               Top = 1
               Width = 5
-              Height = 402
-              ExplicitHeight = 396
+              Height = 310
+              ExplicitHeight = 304
             end
-            object Panel15: TPanel
+            object Panel23: TPanel
               Left = 1
               Top = 1
-              Width = 344
-              Height = 402
+              Width = 297
+              Height = 310
               Align = alLeft
               BevelOuter = bvNone
-              Constraints.MinWidth = 3
+              Constraints.MinWidth = 4
               TabOrder = 0
               object lv_artin: TDBGroupView
                 Left = 0
                 Top = 0
-                Width = 265
-                Height = 402
+                Width = 218
+                Height = 310
                 Hint = 'Liste des membres'
                 Align = alClient
                 Columns = <
@@ -559,7 +812,7 @@ object F_Gamme: TF_Gamme
                 StateImages = im_images
                 TabOrder = 0
                 ViewStyle = vsReport
-                ColumnsOrder = '0=261'
+                ColumnsOrder = '0=214'
                 Groups = <>
                 ExtendedColumns = <
                   item
@@ -569,11 +822,11 @@ object F_Gamme: TF_Gamme
                 DataShowAll = True
                 DataTableUnit = 'ARTICLE'
                 DataTableGroup = 'ARTICLE'
-                DataTableOwner = 'GAMME'
-                DataSourceOwner = M_Article.ds_Gamme
-                DataKeyOwner = 'GAMM_Clep'
+                DataTableOwner = 'TYPE_PRODUIT'
+                DataSourceOwner = M_Article.ds_TypProduit
+                DataKeyOwner = 'TYPR_Clep'
                 DataFieldUnit = 'ARTI_Clep'
-                DataFieldGroup = 'ARTI__GAMM'
+                DataFieldGroup = 'ARTI__TYPR'
                 ButtonTotalIn = bt_in_totart
                 ButtonIn = bt_in_art
                 ButtonTotalOut = bt_out_totart
@@ -584,19 +837,19 @@ object F_Gamme: TF_Gamme
                 ButtonBasket = bt_retour
                 DataAllFiltered = False
               end
-              object Panel16: TPanel
-                Left = 265
+              object Panel24: TPanel
+                Left = 218
                 Top = 0
                 Width = 79
-                Height = 402
+                Height = 310
                 Align = alRight
                 BevelOuter = bvNone
                 TabOrder = 1
                 object bt_in_art: TFWInSelect
                   Left = 14
-                  Top = 22
+                  Top = 17
                   Width = 49
-                  Height = 41
+                  Height = 46
                   Hint = 'Cet article devient membre de cette gamme'
                   Enabled = False
                   TabOrder = 0
@@ -608,7 +861,7 @@ object F_Gamme: TF_Gamme
                   Left = 14
                   Top = 70
                   Width = 49
-                  Height = 42
+                  Height = 49
                   Hint = 
                     'Ces directions r'#233'gionales deviennent membre de cette direction o' +
                     'p'#233'rationnelle'
@@ -617,9 +870,9 @@ object F_Gamme: TF_Gamme
                 end
                 object bt_out_art: TFWOutSelect
                   Left = 14
-                  Top = 141
+                  Top = 137
                   Width = 49
-                  Height = 41
+                  Height = 45
                   Hint = 
                     'Cette direction r'#233'gionale va '#234'tre d'#233'saffect'#233'e de sa direction op' +
                     #233'rationnelle'
@@ -630,7 +883,7 @@ object F_Gamme: TF_Gamme
                   Left = 14
                   Top = 189
                   Width = 49
-                  Height = 41
+                  Height = 44
                   Hint = 
                     'Ces directions r'#233'gionales vont '#234'tre d'#233'saffect'#233'es de leur directi' +
                     'on op'#233'rationnelle'
@@ -640,10 +893,10 @@ object F_Gamme: TF_Gamme
               end
             end
             object lv_ArtOut: TDBGroupView
-              Left = 350
+              Left = 303
               Top = 1
-              Width = 311
-              Height = 402
+              Width = 272
+              Height = 310
               Hint = 'A r'#233'affecter'
               Align = alClient
               Columns = <
@@ -651,7 +904,7 @@ object F_Gamme: TF_Gamme
                   AutoSize = True
                   Caption = 'A r'#233'affecter'
                 end>
-              Constraints.MinWidth = 3
+              Constraints.MinWidth = 4
               DragMode = dmAutomatic
               MultiSelect = True
               ReadOnly = True
@@ -660,7 +913,7 @@ object F_Gamme: TF_Gamme
               ShowHint = True
               TabOrder = 1
               ViewStyle = vsReport
-              ColumnsOrder = '0=307'
+              ColumnsOrder = '0=268'
               Groups = <>
               ExtendedColumns = <
                 item
@@ -670,18 +923,17 @@ object F_Gamme: TF_Gamme
               DataShowAll = True
               DataTableUnit = 'ARTICLE'
               DataTableGroup = 'ARTICLE'
-              DataTableOwner = 'GAMME'
-              DataSourceOwner = M_Article.ds_Gamme
-              DataKeyOwner = 'GAMM_Clep'
+              DataTableOwner = 'TYPE_PRODUIT'
+              DataKeyOwner = 'TYPR_Clep'
               DataFieldUnit = 'ARTI_Clep'
-              DataFieldGroup = 'ARTI__GAMM'
+              DataFieldGroup = 'ARTI__TYPR'
               DataListPrimary = False
               ButtonTotalIn = bt_out_totart
               ButtonIn = bt_out_art
               ButtonTotalOut = bt_in_totart
               ButtonOut = bt_in_art
               DataListOpposite = lv_artin
-              ButtonRecord = bt_enregistrer
+              ButtonRecord = bt_EnrArt
               ButtonCancel = bt_AbanArt
               ButtonBasket = bt_retour
               DataAllFiltered = False
@@ -694,7 +946,7 @@ object F_Gamme: TF_Gamme
       Left = 1
       Top = 26
       Width = 280
-      Height = 565
+      Height = 473
       Align = alLeft
       BevelOuter = bvNone
       Constraints.MinWidth = 10
@@ -713,7 +965,7 @@ object F_Gamme: TF_Gamme
           Width = 280
           Height = 32
           Flat = True
-          DataSource = M_Article.ds_Gamme
+          DataSource = M_Article.ds_TypProduit
           DeleteQuestion = 'Confirmez-vous l'#39'effacement de l'#39'enregistrement ?'
           Align = alClient
           ParentShowHint = False
@@ -741,7 +993,7 @@ object F_Gamme: TF_Gamme
         Left = 0
         Top = 32
         Width = 280
-        Height = 533
+        Height = 441
         Align = alClient
         BorderStyle = bsNone
         Columns = <
@@ -750,7 +1002,7 @@ object F_Gamme: TF_Gamme
             Visible = True
             FieldTag = 0
           end>
-        DataSource = M_Article.ds_Gamme
+        DataSource = M_Article.ds_TypProduit
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
@@ -777,13 +1029,13 @@ object F_Gamme: TF_Gamme
     object Panel3: TPanel
       Left = 1
       Top = 1
-      Width = 955
+      Width = 869
       Height = 25
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 2
       object bt_fermer: TFWClose
-        Left = 875
+        Left = 789
         Top = 0
         Height = 25
         Caption = 'Fermer'

@@ -13,8 +13,8 @@ uses
 {$IFDEF FPC}
   FileUtil, LResources,
 {$ELSE}
-  DBCtrls, TntDBCtrls, JvExControls, JvDBLookup, TntDBGrids,
-  JvExComCtrls, JvListView, TntStdCtrls, Mask,
+  DBCtrls, JvExControls, JvDBLookup,
+  JvExComCtrls, JvListView, Mask, fonctions_system,
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
   StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
@@ -23,7 +23,8 @@ uses
   DBGrids, Menus, u_extmenucustomize, ToolWin, IBDatabase, IBQuery, IBIntf,
   IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage,
   U_ExtDBImageList, ImgList, ExtDlgs, U_ExtPictCombo, U_ExtMapImageIndex,
-  u_buttons_appli, fonctions_version  ;
+  u_buttons_appli, fonctions_version, IBCustomDataSet, JvXPCore, JvXPButtons,
+  U_ExtImage, JvExMask, JvSpin, JvExDBGrids, JvDBGrid, JvDBUltimGrid  ;
 
 type
 
@@ -100,7 +101,6 @@ type
     Menu4: TMenuItem;
     Menu6: TMenuItem;
     procedure ExtDBImageClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure IBDatabaseBeforeConnect(Sender: TObject);
     procedure mc_CustomizeMenuChange(Sender: TObject);
@@ -199,11 +199,6 @@ begin
    end;
 end;
 
-procedure TMyform.FormCreate(Sender: TObject);
-begin
-
-end;
-
 procedure TMyform.QuitterClick(Sender: TObject);
 begin
   Close;
@@ -215,6 +210,8 @@ begin
   inherited Create(AOwner);
 end;
 
+{$IFDEF FPC}
 initialization
   OnGetLibraryName:= TOnGetLibraryName( p_setLibrary);
+{$ENDIF}
 end.

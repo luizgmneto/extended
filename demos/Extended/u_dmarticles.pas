@@ -7,8 +7,9 @@ unit U_DmArticles;
 interface
 
 uses
-  SysUtils, StrUtils, Classes, DB, process, ZDataset, Forms, Dialogs, controls,
-  fonctions_string, IBIntf, U_ConstMessage, IBDatabase, IBQuery, IBUpdateSQL;
+  SysUtils, StrUtils, Classes, DB, ZDataset, Forms, Dialogs, controls,
+  fonctions_string, IBIntf, U_ConstMessage, IBDatabase, IBQuery, IBUpdateSQL,
+  IBCustomDataSet;
 const CST_APPLI_NAME =  'Article';
 type
 
@@ -62,7 +63,6 @@ type
     IB_Article4: TIBQuery;
     IB_Article5: TIBQuery;
     IB_Article6: TIBQuery;
-    Process: TProcess;
     zq_Article: TIBQuery;
     zq_Carac: TIBQuery;
     zq_FiltreProduit: TIBQuery;
@@ -294,7 +294,8 @@ begin
 end;
 
 
+{$IFDEF FPC}
 initialization
   OnGetLibraryName:= TOnGetLibraryName( p_setLibrary);
-
+{$ENDIF}
 end.

@@ -1,11 +1,16 @@
 unit U_Main;
 
-{$mode delphi}
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
 
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Menus,
+{$IFDEF FPC}
+  FileUtil,
+{$ENDIF}
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus,
   U_FormMainIni, U_OnFormInfoIni, U_Article, U_TypeArticle, U_Caracteristique,
   U_Gamme, fonctions_version, U_DmArticles;
 
@@ -22,7 +27,6 @@ type
     muGamme: TMenuItem;
     MuTypeArticle: TMenuItem;
     OnFormInfoIni1: TOnFormInfoIni;
-    ScrollBox: TScrollBox;
     procedure FormCreate(Sender: TObject);
     procedure muaproposClick(Sender: TObject);
     procedure MuArticleClick(Sender: TObject);
@@ -40,7 +44,11 @@ var
 
 implementation
 
-{$R *.lfm}
+{$IFNDEF FPC}
+  {$R *.dfm}
+{$ELSE}
+  {$R *.lfm}
+{$ENDIF}
 
 { TFMain }
 
@@ -51,7 +59,9 @@ end;
 
 procedure TFMain.FormCreate(Sender: TObject);
 begin
+{$IFDEF FPC}
   BoxChilds := ScrollBox;
+{$ENDIF}
 end;
 
 procedure TFMain.MuArticleClick(Sender: TObject);
