@@ -307,11 +307,6 @@ end;
 constructor TFSDelete.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := srVK_DELETE;
-  {$ELSE}
-//  Caption := SDeleteRecord;
-  {$ENDIF}
   p_Load_Buttons_Appli ( Glyph, CST_FWDELETE, self );
 end;
 
@@ -382,11 +377,6 @@ end;
 constructor TFSInsert.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := srVK_INSERT;
-  {$ELSE}
-  Caption := SInsertRecord;
-  {$ENDIF}
   p_Load_Buttons_Appli ( Glyph, CST_FWINSERT, self );
 end;
 
@@ -436,9 +426,6 @@ end;
 constructor TFSPrint.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := srVK_PRINT;
-  {$ENDIF}
   p_Load_Buttons_Appli ( Glyph, CST_FWPRINT, self );
 end;
 
