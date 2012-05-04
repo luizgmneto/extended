@@ -16,15 +16,15 @@ uses
   DBCtrls, JvExControls, JvDBLookup, JvExMask, JvSpin, JvExDBGrids, JvDBGrid, JvDBUltimGrid,
   JvExComCtrls, JvListView, Mask, fonctions_system,
 {$ENDIF}
-  Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
-  StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
-  U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
-  u_framework_dbcomponents, U_ExtDBPictCombo, u_extsearchedit, U_ExtComboInsert,
-  DBGrids, Menus, u_extmenucustomize, ToolWin, IBDatabase, IBQuery, IBIntf,
-  IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage,
-  U_ExtDBImageList, ImgList, ExtDlgs, U_ExtPictCombo, U_ExtMapImageIndex,
-  u_buttons_appli, fonctions_version, IBCustomDataSet, JvXPCore, JvXPButtons,
-  U_ExtImage  ;
+  Classes, SysUtils, db, process, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+  Grids, StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos,
+  u_extdbgrid, U_ExtNumEdits, u_framework_components, U_ExtDBNavigator,
+  U_DBListView, u_framework_dbcomponents, U_ExtDBPictCombo, u_extsearchedit,
+  U_ExtComboInsert, DBGrids, Menus, u_extmenucustomize, ToolWin, IBDatabase,
+  IBQuery, IBIntf, IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar,
+  U_ExtDBImage, U_ExtDBImageList, ImgList, ExtDlgs, AsyncProcess,
+  U_ExtPictCombo, U_ExtMapImageIndex, u_buttons_appli, fonctions_version,
+  IBCustomDataSet, JvXPCore, JvXPButtons, U_ExtImage  ;
 
 type
 
@@ -100,6 +100,9 @@ type
     Menu5: TMenuItem;
     Menu4: TMenuItem;
     Menu6: TMenuItem;
+    {$IFDEF FPC}
+    Process: TProcess;
+    {$ENDIF}
     procedure ExtDBImageClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure IBDatabaseBeforeConnect(Sender: TObject);
@@ -153,6 +156,10 @@ procedure TMyform.IBDatabaseBeforeConnect(Sender: TObject);
 var lstl_conf : TStringList;
 begin
   IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
+  {$IFDEF LINUX}
+  Process.CommandLine:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'exec.sh';
+  Process.Execute;
+  {$ENDIF}
   try
     lstl_conf := TStringList.Create;
     lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName);

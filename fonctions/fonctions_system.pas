@@ -29,6 +29,7 @@ const
 
 
 function fs_ExtractFileNameOnly ( const as_Path : String ): String;
+procedure p_OpenFileOrDirectory ( const AFilePath : String );
 function fs_GetNameSoft : String;
 // Retourne le nom d'utilisateur (string) de la session WINDOWS
 function fs_GetUserSession: string;
@@ -62,7 +63,7 @@ implementation
 
 uses
 {$IFDEF FPC}
-  LCLType, FileUtil,
+  LCLType, FileUtil, process,
 {$ENDIF}
 {$IFDEF WINDOWS}
   ShFolder,  ShlObj,
@@ -181,6 +182,28 @@ Begin
         li_Pos := PosEx ( '.', Result, li_Pos + 1 );
       Result := Copy ( Result, 1, PosEx ( '.', Result, li_Pos )-1 );
     End;
+End;
+
+procedure p_OpenFileOrDirectory ( const AFilePath : String );
+{$IFDEF FPC}
+var Process : TProcess;
+{$ENDIF}
+Begin
+{$IFDEF FPC}
+  with Process do
+    Begin
+      CommandLine :=
+      {$IFDEF LINUX}
+      'xdg-open'
+      {$ELSE}
+      'explorer'
+      {$ENDIF}
+      +' "' + AFilePath + '"';
+      Execute;
+    end;
+{$ELSE}
+  ShellExecute(Handle,'open', PChar(AFilePath), nil, nil, SW_SHOWNORMAL) ;
+{$ENDIF}
 End;
 
 {$IFDEF VERSIONS}

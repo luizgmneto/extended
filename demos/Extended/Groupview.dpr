@@ -29,7 +29,6 @@ uses
 begin
   Application.Initialize;
   Application.Title := CST_APPLI_NAME;
-
   Application.CreateForm(TM_Article, M_Article);
   Application.CreateForm(TFMain, FMain);
   Application.Run;

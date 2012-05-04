@@ -5,7 +5,7 @@ object M_Article: TM_Article
   top = 65516
   Height = 508
   HorizontalOffset = 203
-  VerticalOffset = 42
+  VerticalOffset = 74
   Width = 771
   object ds_article: TDatasource
     DataSet = zq_Article
@@ -282,5 +282,21 @@ object M_Article: TM_Article
     )
     left = 48
     top = 216
+  end
+  object Process: TProcess
+    Active = False
+    Options = []
+    Priority = ppNormal
+    StartupOptions = []
+    ShowWindow = swoNone
+    WindowColumns = 0
+    WindowHeight = 0
+    WindowLeft = 0
+    WindowRows = 0
+    WindowTop = 0
+    WindowWidth = 0
+    FillAttribute = 0
+    left = 208
+    top = 288
   end
 end

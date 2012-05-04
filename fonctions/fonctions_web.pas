@@ -9,16 +9,16 @@ unit fonctions_web;
 
 interface
 {$IFDEF VERSIONS}
-uses fonctions_version ;
+uses fonctions_version, Grids ;
 
 const
   gVer_fonctions_web : T_Version = ( Component : 'Fonctions Web' ; FileUnit : 'fonctions_web' ;
-                        			                 Owner : 'Matthieu Giroux' ;
-                        			                 Comment : 'Fonctions de lien web.' ;
-                        			                 BugsStory : '0.0.4.1 : On peut aller sur FIREFOX sur FPC.'
-                                                         + '0.0.4.0 : Ne compile pas sur DELPHI.';
-                        			                 UnitType : 1 ;
-                        			                 Major : 0 ; Minor : 0 ; Release : 4 ; Build : 1 );
+                        	     Owner : 'Matthieu Giroux' ;
+                        	     Comment : 'Fonctions de lien web.' ;
+                        	     BugsStory : '0.0.4.1 : On peut aller sur FIREFOX sur FPC.'
+                                               + '0.0.4.0 : Ne compile pas sur DELPHI.';
+                        	     UnitType : 1 ;
+                        	     Major : 0 ; Minor : 0 ; Release : 4 ; Build : 1 );
 
 {$ENDIF}
 
@@ -28,6 +28,7 @@ procedure OpenURL(const URL: string);
 function SearchExecutable(const ShortFilename: string; var Filename: string ): boolean;
 procedure GetBrowser(var i:longint;out BrowserName, BrowserFilename, StartScriptFilename: string);
 {$ENDIF}
+procedure ExportGridToHTML(const AFileName; const AGrid : TCustomGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'html' );
 
 const ga_browsers : Array [ 0..7 ] of string = ( 'xdg-open', 'Firefox', 'Galeon', 'Konqueror', 'Mozilla', 'Netscape', 'Opera', 'Iexplorer' );
 implementation
@@ -40,6 +41,10 @@ uses
   Windows,
 {$ENDIF}
    Classes, Forms, Dialogs;
+
+procedure ExportGridToHTML(const AFileName; const AGrid : TCustomGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'html' );
+Begin
+End;
 
 {$IFDEF FPC}
 function SearchExecutable(const ShortFilename: string; var Filename: string

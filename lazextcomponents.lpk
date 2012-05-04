@@ -20,19 +20,17 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Release="1" Build="2"/>
-    <Files Count="26">
+    <Files Count="27">
       <Item1>
         <Filename Value="composants/u_onforminfoini.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
       </Item1>
       <Item2>
         <Filename Value="composants/PDBCheck.pas"/>
-        <HasRegisterProc Value="True"/>
         <UnitName Value="PDBCheck"/>
       </Item2>
       <Item3>
         <Filename Value="composants/PCheck.pas"/>
-        <HasRegisterProc Value="True"/>
         <UnitName Value="PCheck"/>
       </Item3>
       <Item4>
@@ -127,6 +125,10 @@
         <Filename Value="composants/u_extdbpictcombo.pas"/>
         <UnitName Value="U_ExtDBPictCombo"/>
       </Item26>
+      <Item27>
+        <Filename Value="composants/u_extradios.pas"/>
+        <UnitName Value="u_extradios"/>
+      </Item27>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="7">
