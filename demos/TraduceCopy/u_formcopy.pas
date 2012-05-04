@@ -2,6 +2,7 @@
 
 {$IFDEF FPC}
 {$mode Delphi}
+{$R *.lfm}
 {$ELSE}
 {$R *.dfm}
 {$ENDIF}
@@ -109,11 +110,11 @@ implementation
 
 uses fonctions_init, IniFiles, fonctions_file,
 {$IFDEF FPC}
-  LCLType,
+  LCLType, unit_messagescopy,
 {$ELSE}
-  Windows, ShellApi,
+  Windows, ShellApi, unit_messagescopy_delphi,
 {$ENDIF}
-  U_ABOUTBOX;
+  u_aboutbox;
 
 const
   CST_SITE_DONATE = 'http://matthieu.giroux.free.fr/html/donate.html';
@@ -387,8 +388,8 @@ begin
           FIniLangue.Free ;
         End;
    End;
-  FComboImages := nil ;
-  if fb_FindFiles( FComboImages,ExtractFilePath(Application.ExeName) + 'Languages', '*.lng', False  ) Then
+  FComboImages := TStringList.Create ;
+  if fb_FindFiles( FComboImages,ExtractFilePath(Application.ExeName) + 'Languages', True, False, False, '*.lng'  ) Then
     Begin
       if FComboImages.Count > 0 then
         Begin
@@ -440,6 +441,7 @@ begin
           F_AboutBox.OKButton.Caption := FIniLangue.ReadString ( 'F_About', 'OK', 'OK' );
           FTraduitVers := FIniLangue.ReadString ( 'Copy', 'Traduced to', 'traduced to' );
           FCopieVers   := FIniLangue.ReadString ( 'Copy', 'Copied to', 'copied to' );
+          {
           GS_COPYFILES_ERROR_DIRECTORY_CREATE := FIniLangue.ReadString ( 'Copy', 'COPYFILES_ERROR_DIRECTORY_CREATE', 'Error creating directory' ) + ' ' ;
           GS_COPYFILES_CONFIRM := FIniLangue.ReadString ( 'Copy', 'COPYFILES_CONFIRM', 'Confirm Box' );
           GS_COPYFILES_CONFIRM_FILE_DELETE := FIniLangue.ReadString ( 'Copy', 'COPYFILES_CONFIRM_FILE_DELETE', 'Do you really want to erase the file' ) + ' ' ;
@@ -452,6 +454,7 @@ begin
           GS_COPYFILES_ERROR_PARTIAL_COPY := FIniLangue.ReadString ( 'Copy', 'COPYFILES_ERROR_PARTIAL_COPY', 'Partial copy of file' ) + ' ' ;
           GS_COPYFILES_ERROR_PARTIAL_COPY := FIniLangue.ReadString ( 'Copy', 'COPYFILES_ERROR_CANT_COPY', 'Can''t copy file' ) + ' ' ;
           GS_COPYFILES_ERROR_IS_FILE := FIniLangue.ReadString ( 'Copy', 'COPYFILES_ERROR_IS_FILE', 'Can''t copy directory to file' ) + ' ' ;
+          }
           if FIniLangue.SectionExists ( 'ImagesCombo' ) then
             Begin
               cb_TypeDest.Items.Clear ;
@@ -518,13 +521,5 @@ begin
 
 end;
 
-initialization
-{$IFDEF FPC}
-  {$IFDEF LINUX}
-  DirectorySeparator := '/' ;
-  {$ENDIF}
-
-  {$i U_FormCopy.lrs}
-{$ENDIF}
 end.
 

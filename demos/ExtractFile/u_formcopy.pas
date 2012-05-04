@@ -2,6 +2,7 @@
 
 {$IFDEF FPC}
 {$mode Delphi}
+{$R *.lfm}
 {$ELSE}
 {$R *.dfm}
 {$ENDIF}
@@ -333,8 +334,8 @@ begin
           FIniLangue.Free ;
         End;
    End;
-  FComboImages := nil ;
-  if fb_FindFiles( FComboImages,ExtractFilePath(Application.ExeName) + 'Languages', '*.lng', False  ) Then
+  FComboImages := TStringList.Create ;
+  if fb_FindFiles( FComboImages,ExtractFilePath(Application.ExeName) + 'Languages', True, False, False, '*.lng'  ) Then
     Begin
       if FComboImages.Count > 0 then
         Begin
@@ -388,8 +389,8 @@ begin
           F_AboutBox.OKButton.Caption := FIniLangue.ReadString ( 'F_About', 'OK', 'OK' );
           FTraduitVers := FIniLangue.ReadString ( 'Copy', 'Traduced to', 'traduced to' );
           FCopieVers   := FIniLangue.ReadString ( 'Copy', 'Copied to', 'copied to' );
-          GS_COPYFILES_CONFIRM := FIniLangue.ReadString ( 'Copy', 'COPYFILES_CONFIRM', 'Confirm Box' );
-          GS_COPYFILES_CONFIRM_FILE_DELETE := FIniLangue.ReadString ( 'Copy', 'COPYFILES_CONFIRM_FILE_DELETE', 'Do you really want to erase the file' ) + ' ' ;
+         // GS_COPYFILES_CONFIRM := FIniLangue.ReadString ( 'Copy', 'COPYFILES_CONFIRM', 'Confirm Box' );
+         // GS_COPYFILES_CONFIRM_FILE_DELETE := FIniLangue.ReadString ( 'Copy', 'COPYFILES_CONFIRM_FILE_DELETE', 'Do you really want to erase the file' ) + ' ' ;
 
           FIniLangue.Free ;
         End;
@@ -443,13 +444,5 @@ begin
 
 end;
 
-initialization
-{$IFDEF FPC}
-  {$IFDEF LINUX}
-  DirectorySeparator := '/' ;
-  {$ENDIF}
-
-  {$i U_FormCopy.lrs}
-{$ENDIF}
 end.
 
