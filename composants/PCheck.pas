@@ -238,17 +238,12 @@ type
     property OnEndDock;
   {$ENDIF}
   end;
-  
-procedure Register;
+
 
 implementation
 
-   var
-Pattern: TBitmap = nil;
-procedure Register;
-begin
-  RegisterComponents('PDJ', [TPCheck]);
-end;
+var
+  Pattern: TBitmap = nil;
 
 procedure TPCustomCheck.SetShowFocused(value:boolean);
 begin
@@ -1056,7 +1051,6 @@ end;
 
 {$IFDEF FPC}
 initialization
-  {$i PCheck.lrs}
   {$i PCheck2.res}
 {$ENDIF}
 

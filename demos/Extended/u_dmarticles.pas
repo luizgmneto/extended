@@ -7,7 +7,7 @@ unit U_DmArticles;
 interface
 
 uses
-  SysUtils, StrUtils, Classes, DB, ZDataset, Forms, Dialogs, controls,
+  SysUtils, StrUtils, Classes, DB, process, ZDataset, Forms, Dialogs, controls,
   fonctions_string, IBIntf, U_ConstMessage, IBDatabase, IBQuery, IBUpdateSQL,
   IBCustomDataSet;
 const CST_APPLI_NAME =  'Article';
@@ -70,6 +70,9 @@ type
     zq_Gamme: TIBQuery;
     ib_typearti: TIBQuery;
     zq_TypProduit: TIBQuery;
+    {$IFDEF FPC}
+    Process: TProcess;
+    {$ENDIF}
     procedure DataModuleCreate(Sender: TObject);
     procedure IB_articleAfterScroll(DataSet: TDataSet);
     procedure IB_articleNewRecord(DataSet: TDataSet);
@@ -140,6 +143,8 @@ var li_i : Integer;
 begin
   IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
   {$IFDEF LINUX}
+  Process.CommandLine:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'exec.sh';
+  Process.Execute;
   try
     lstl_conf := TStringList.Create;
     lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName);

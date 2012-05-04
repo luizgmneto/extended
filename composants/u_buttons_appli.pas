@@ -21,7 +21,8 @@ uses
    fonctions_version,
 {$ENDIF}
   Controls,
-  JvXPButtons, Graphics;
+  JvXPButtons, Graphics,
+  Menus;
 
 const
 {$IFDEF VERSIONS}
@@ -85,6 +86,7 @@ type
       private
        FColor           ,
        FColorFrameFocus : TColor;
+       FDropDownMenu : TPopupMenu;
       protected
        procedure MouseEnter{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
        procedure MouseLeave{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
@@ -93,6 +95,7 @@ type
 
       published
        property ColorFrameFocus : TColor read FColorFrameFocus write FColorFrameFocus default clCream;
+       property DropDownMenu : TPopupMenu read FDropDownMenu write FDropDownMenu;
      End;
     { TFWButton }
 

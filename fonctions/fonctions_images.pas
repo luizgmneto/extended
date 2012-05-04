@@ -58,6 +58,8 @@ function fb_ChargeIcoBmp ( const aod_ChargerImage : TOpenDialog ;
                            const adxb_Image       : TBitmap     ) : Boolean ;
 
 function  fb_ImageFieldToFile ( const field : TField ; const afile: String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
+function  fb_FiletoImageField ( const afile: String; const field : TField ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
+function  fid_StreamToImaging ( const Stream : TStream ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ) : TImageData;
 function  fb_StreamToFile ( const Stream : TStream ; const afile : String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ; const ab_ShowError : Boolean = False ) : Boolean;
 procedure p_ImageFieldToStream ( const field : TField ; const ast_memory_stream: tMemoryStream ; const ab_ShowError : Boolean = False );
 procedure p_ImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean = False );
@@ -646,6 +648,27 @@ begin
 
 end;
 
+
+// Procédure de transfert d'un champ vers un fichier
+// field : Le champ image
+// afile : La destination
+function fb_FileToImageField ( const afile: String; const field : TField ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
+var l_c_memory_stream: tMemoryStream;
+    lid_ImageData : TImageData;
+begin
+  if FileExists ( afile )
+  and ( field is TBlobField )
+  and (( field as TBlobField ).BlobSize > 0 ) then
+    Begin
+      l_c_memory_stream := TMemoryStream.Create();
+      p_FileToStream ( afile, l_c_memory_stream, ab_ShowError );
+      Result := fb_StreamToFile ( l_c_memory_stream, afile, ali_newWidth, ali_newHeight, ab_KeepProportion, ab_ShowError );
+      l_c_memory_stream.Free;
+    End
+  Else
+    Result := False;
+end;
+
 // Procédure de transfert d'un champ vers un fichier
 // field : Le champ image
 // afile : La destination
@@ -712,17 +735,11 @@ function fb_StreamToFile ( const Stream : TStream ; const afile : String; const 
 var lid_imagedata : TImageData;
 begin
   Result := False;
-  Finalize ( lid_imagedata );
-  InitImage(lid_imagedata);
   try
     if ( Stream.Size = 0 ) then
       Exit;
     Stream.Position := 0;
-    LoadImageFromStream  ( Stream, lid_imagedata );
-    if ( lid_imagedata.Height = 0 )
-    or ( lid_imagedata.Width  = 0 ) then
-      Exit;
-    fb_ResizeImaging(lid_imagedata, ali_newWidth, ali_newHeight, ab_KeepProportion );
+    lid_imagedata := fid_StreamToImaging  ( Stream, ali_newWidth, ali_newHeight, ab_KeepProportion );
     SaveImageToFile( afile, lid_imagedata);
     Result := True;
   Except
@@ -731,6 +748,20 @@ begin
         ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
   end;
   FreeImage(lid_imagedata);
+end;
+
+function fid_StreamToImaging ( const Stream : TStream ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ) : TImageData;
+begin
+  Finalize ( Result );
+  InitImage( Result );
+  if ( Stream.Size = 0 ) then
+    Exit;
+  Stream.Position := 0;
+  LoadImageFromStream  ( Stream, Result );
+  if ( Result.Height = 0 )
+  or ( Result.Width  = 0 ) then
+    Exit;
+  fb_ResizeImaging(Result, ali_newWidth, ali_newHeight, ab_KeepProportion );
 end;
 
 /////////////////////////////////////////////////////////////////////////

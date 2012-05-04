@@ -14,7 +14,7 @@ uses SysUtils,
   fonctions_version,
   {$ENDIF}
   Controls, StdCtrls, 
-  Classes ;
+  Classes, Grids ;
 
   {$IFDEF VERSIONS}
 const
@@ -36,6 +36,7 @@ implementation
 
 uses Variants,  Math, fonctions_erreurs, fonctions_string, unite_messages,
      fonctions_proprietes, fonctions_init ;
+
 
 function fb_AutoComboInit ( const acom_Combo : TComponent ):Boolean;
 var astl_Items : TStrings;

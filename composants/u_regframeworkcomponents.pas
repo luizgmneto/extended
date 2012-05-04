@@ -33,12 +33,13 @@ uses unite_messages, U_ExtDBNavigator,
      {$IFDEF MENUBAR}u_extmenutoolbar,{$ENDIF}
      U_ExtDBImage, U_ExtDBImageList, U_ExtImage,
      U_ExtPictCombo, U_ExtDBPictCombo, U_ExtMapImageIndex,
-     u_extdbgrid, u_extmenucustomize;
+     u_extdbgrid, u_extmenucustomize, PDBCheck, PCheck,
+     u_extradios;
 
 procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMenuCustomize,TExtMapImages]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TExtDBColorCombo,TFWDBComboBox, TExtDBComboInsert,
+  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,TExtDBColorCombo,TFWDBComboBox, TExtDBComboInsert,
                                                 TFWDBDateEdit, {$IFNDEF FPC}TFWDBDateTimePicker,{$ENDIF}
                                                 TFWDBEdit, TExtDBGrid,
                                                 TExtDBImage,TExtDBImageList,
@@ -46,11 +47,11 @@ begin
                                                 TFWDBMemo, TExtDBNavigator,
                                                 TExtDBNumEdit,TExtDBPictCombo,
                                                 TExtSearchDBEdit,TFWDBSpinEdit]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtColorCombo, TFWDateEdit,
+  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,TExtColorCombo, TFWDateEdit,
                                                 TFWEdit,TFWGrid,TExtImage,
                                                 TFWLabel,TFWMemo,
                                                 {$IFDEF MENUBAR}TExtMenuToolBar,{$ENDIF}
-                                                TExtNumEdit,TExtPictCombo,TFWSpinEdit]);
+                                                TExtNumEdit,TExtPictCombo,TExtRadioGroup,TFWSpinEdit]);
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo(string), TExtSearchDBEdit, 'FieldKey'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
 end;
@@ -73,6 +74,8 @@ initialization
   {$i U_ExtDBImageList.lrs}
   {$i u_extmapimageindex.lrs}
   {$i u_extimage.lrs}
+  {$i PDBCheck.lrs}
+  {$i PCheck.lrs}
 {$ENDIF}
 end.
 

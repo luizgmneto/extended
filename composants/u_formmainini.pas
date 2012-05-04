@@ -119,7 +119,7 @@ type
 
   { TF_FormMainIni }
 
-  TF_FormMainIni = class({$IFDEF TNT}TTntForm{$ELSE}TForm{$ENDIF})
+  TF_FormMainIni = class({$IFDEF SFORM}TSuperForm{$ELSE}{$IFDEF TNT}TTntForm{$ELSE}TForm{$ENDIF}{$ENDIF})
   private
     {$IFDEF SFORM}
     FBoxChilds : TWinControl;

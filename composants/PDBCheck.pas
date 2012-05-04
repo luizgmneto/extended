@@ -151,14 +151,8 @@ type
   {$ENDIF}
    end;
 
-procedure Register;
-
 implementation
 
-procedure Register;
-begin
-  RegisterComponents('PDJ', [TPDBCheck]);
-end;
 
 constructor TPCustomDBCheck.Create (AOwner: TComponent);
 begin
@@ -290,8 +284,4 @@ begin
   inherited;
   UpdateData(Self);
 end;
-{$IFDEF FPC}
-initialization
-  {$i PDBCheck.lrs}
-{$ENDIF}
 end.
