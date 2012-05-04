@@ -9,7 +9,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, sdflaz
   { you can add units after this }, U_FormCopy, u_aboutbox,
-  lazrichview, JvXPBarLaz, lazextcomponents, ExtCopy, lazmanframes;
+  JvXPBarLaz, lazextcomponents, ExtCopy, lazmanframes;
 
 begin
   Application.Initialize;
