@@ -31,12 +31,22 @@ const
 
 procedure p_ComponentSelectAll ( const aobj_Component : TObject );
 function  fb_AutoComboInit ( const acom_Combo : TComponent ):Boolean;
+procedure ExportGridToHTML(const AFileName; const AGrid : TCustomGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'html' );
+procedure ExportGridToCSV (const AFileName; const AGrid : TCustomGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'csv'; const aseparate : Char = ';' );
 
 implementation
 
 uses Variants,  Math, fonctions_erreurs, fonctions_string, unite_messages,
      fonctions_proprietes, fonctions_init ;
 
+
+procedure ExportGridToCSV (const AFileName; const AGrid : TCustomGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'csv'; const aseparate : Char = ';' );
+Begin
+End;
+
+procedure ExportGridToHTML(const AFileName; const AGrid : TCustomGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'html' );
+Begin
+End;
 
 function fb_AutoComboInit ( const acom_Combo : TComponent ):Boolean;
 var astl_Items : TStrings;

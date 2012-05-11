@@ -78,7 +78,7 @@ const
 //  Fonctions à appeler pour la gestion des fichiers INI
 ////////////////////////////////////////////////////////////////////////////////
 
-  function fs_GetIniDir: String;
+  function fs_GetIniDir( const ab_Root : Boolean = False ): String;
   function fb_CreateCommonIni ( var amif_Init : TIniFile  ; const as_NomConnexion: string ) : Boolean ;
   // Lit la section des commandes et si elle existe la retourne dans donnees (TStrings)
   function Lecture_ini_sauvegarde_fonctions(sauvegarde: string; donnees: Tstrings): Boolean;
@@ -88,7 +88,7 @@ const
 
   // Retourne l'objet FIniFile représentant le fichier INI
   function f_GetMemIniFile(): TIniFile;
-  function f_GetMainMemIniFile( const ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ; const as_Ininame : String = '' ): TIniFile;
+  function f_GetMainMemIniFile( const ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ; const ab_Root : Boolean = False ; const as_Ininame : String = '' ): TIniFile;
 
   // Lecture du fichier SQL dans FSQLFile avec gestion du fichier SQL
   // et lecture de requête à partir de la section parent et de de la clé requete.
@@ -198,6 +198,7 @@ procedure LitTstringsDeIni(const FIni: TCustomIniFile; SectionIni: string; const
 
 var
   FIniFile: TIniFile = nil;
+  FIniRoot: TIniFile = nil;
   FSQLFile: TIniFile = nil;
 {$IFDEF EADO}
   gb_IniADOSetKeyset : Boolean = False ;
@@ -579,11 +580,11 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // Retourne le répertoire du fichier ini
 ////////////////////////////////////////////////////////////////////////////////
-function fs_GetIniDir: String;
+function fs_GetIniDir( const ab_Root : Boolean = False ): String;
 var ls_Dir : String;
 begin
 
-  Result := GetAppConfigDir ( False ) ;
+  Result := GetAppConfigDir ( ab_Root ) ;
   if not Assigned(FIniFile) then
     begin
       if not DirectoryExists(  Result )
@@ -654,33 +655,42 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // Retourne le nom du fichier ini
 ////////////////////////////////////////////////////////////////////////////////
-function f_GetMainMemIniFile( const ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ; const as_Ininame : String = '' ): TIniFile;
+function f_GetMainMemIniFile( const ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ; const ab_Root : Boolean = False  ;const as_Ininame : String = '' ): TIniFile;
+var ls_PathIni: String;
+    FIni : TIniFile;
 begin
-  if not Assigned(FIniFile) then
+  if ( not ab_Root and not Assigned(FIniFile))
+  or (     ab_Root and not Assigned(FIniRoot)) then
     begin
       if as_Ininame <> '' then
-      Begin
-        FIniFile := TIniFile.Create( fs_GetIniDir + CST_INI_SOFT  + as_Ininame + CST_EXTENSION_INI );
-      End
+        ls_PathIni := fs_GetIniDir ( ab_Root ) + CST_INI_SOFT  + as_Ininame + CST_EXTENSION_INI
       else if gs_ModeConnexion = CST_MACHINE then
-        FIniFile := TIniFile.Create(fs_GetIniDir + CST_INI_USERS  + fs_GetComputerName + CST_EXTENSION_INI )
+        ls_PathIni := fs_GetIniDir ( ab_Root ) + CST_INI_USERS  + fs_GetComputerName + CST_EXTENSION_INI
       else
-        FIniFile := TIniFile.Create(fs_GetIniDir + CST_INI_USERS + CST_EXTENSION_INI );
-      if not FIniFile.SectionExists(INISEC_PAR) then
+        ls_PathIni := fs_GetIniDir ( ab_Root ) + CST_INI_USERS + CST_EXTENSION_INI ;
+      if ab_Root
+       Then  Begin FIniRoot := TIniFile.Create( ls_PathIni ); FIni := FIniRoot; End
+       Else  Begin FIniFile := TIniFile.Create( ls_PathIni ); FIni := FIniFile; End;
+      if not FIni.SectionExists(INISEC_PAR) then
         Begin
-          FIniFile.WriteString(INISEC_PAR, INIPAR_CREATION, 'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time));
+          FIni.WriteString(INISEC_PAR, INIPAR_CREATION, 'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time));
           if assigned ( ae_WriteSessionIni ) Then
-            ae_WriteSessionIni ( acom_Owner, FIniFile );
+            ae_WriteSessionIni ( acom_Owner, FIni );
         End
       else
         if assigned ( ae_ReadSessionIni ) Then
-          ae_ReadSessionIni ( acom_Owner, FIniFile );
-      FIniFile.WriteString(INISEC_PAR, INIPAR_LANCEMENT , 'le '  + DateToStr(Date)  + ' ' + TimeToStr(Time));
+          ae_ReadSessionIni ( acom_Owner, FIni );
+      FIni.WriteString(INISEC_PAR, INIPAR_LANCEMENT , 'le '  + DateToStr(Date)  + ' ' + TimeToStr(Time));
     end
   else
+  Begin
+    if ab_Root
+     Then  FIni := FIniRoot
+     Else  FIni := FIniFile;
     if assigned ( acom_Owner ) then
-      FIniFile.WriteString(INISEC_PAR, INIPAR_LANCEMENT , 'le '  + DateToStr(Date)  + ' ' + TimeToStr(Time));
-  result := FIniFile;
+      FIni.WriteString(INISEC_PAR, INIPAR_LANCEMENT , 'le '  + DateToStr(Date)  + ' ' + TimeToStr(Time));
+  end;
+  result := FIni;
 end;
 function f_GetMemIniFile( ): TIniFile;
 begin
@@ -928,6 +938,8 @@ initialization
   p_ConcatVersion ( gVer_fonctions_init );
 {$ENDIF}
 finalization
+  FIniRoot.Free;
+  FIniRoot := nil ;
   FIniFile.Free;
   FIniFile := nil ;
   FSQLFile.Free;

@@ -30,6 +30,7 @@ const
 
 type
   TUArray = Array of Array [ 0.. 2 ] of Integer;
+  TModeFormatText = (mftNone,mftUpper,mftLower,mftFirstIsMaj);
 
 {$IFDEF FPC}
   function ExtractFileDir ( const as_FilePath : String ) :String;
@@ -40,7 +41,7 @@ type
   function fb_isFileChar(AChar:Char):boolean;
   function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True):AnsiString;
   function fs_getCorrectString ( const as_string : String ): String ;
-  function fs_FormatText(const Chaine:String; const ab_NoAccents:Boolean = True ; const ab_AllIsMaj:Boolean = False; const ab_AllIsMin:Boolean = False; const ab_FirstISMaj :Boolean = False ):String;
+  function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
   function fs_EraseFirstDirectory ( const as_Path : String ) :String;
   function fs_EraseSpecialChars( const aText: string): string;
@@ -724,25 +725,25 @@ End;
 
 // function fs_TextWithoutAccent
 // text with no special caracters
-function fs_FormatText(const Chaine:String; const ab_NoAccents:Boolean = True ; const ab_AllIsMaj:Boolean = False; const ab_AllIsMin:Boolean = False; const ab_FirstISMaj :Boolean = False ):String;
+function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
 begin
   Result:='';
   if Chaine = '' Then
     Exit;
   if ab_NoAccents
    Then Result :=  fs_ReplaceWithTable (StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]),SansAccents); // conversion of accents
-  if not ab_NoAccents and ( ab_AllIsMin or ab_AllIsMaj or ab_FirstISMaj ) Then
+  if not ab_NoAccents and ( amft_Mode <> mftNone ) Then
     Result := StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]);
-  if ab_AllIsMaj
-   Then Result := fs_ReplaceWithTable (Result,Majuscules)
-  else if ab_AllIsMin
-   Then Result:=fs_ReplaceWithTable (Result,Minuscules)
-  else if ab_FirstISMaj Then
+  case amft_Mode of
+   mftUpper : Result := fs_ReplaceWithTable (Result,Majuscules);
+   mftLower : Result:=fs_ReplaceWithTable (Result,Minuscules);
+   mftFirstIsMaj:
     Begin
       if Length(Result) > 1
       Then Result := fs_ReplaceWithTable (Result[1],Majuscules)+fs_ReplaceWithTable (Copy(Result,2,Length(Result)-1),Minuscules)
       else Result := fs_ReplaceWithTable (Result[1],Majuscules);
     end;
+  end;
 end;
 
 

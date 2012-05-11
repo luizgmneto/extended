@@ -75,6 +75,7 @@ type
      FAfterControlKeyPress : TKeyPressEvent;
      FControl : TWinControl ;
      FFieldTag : Integer ;
+     FSortOrder : TSortMarker;
    protected
      procedure SetControl ( const AValue : TWinControl ); virtual;
      function  fi_getFieldTag:Integer; virtual;
@@ -87,6 +88,7 @@ type
      procedure ControlKeyPress( ASender : TObject ; var Key: Char ); virtual;
      property SomeEdit : TWinControl read FControl       write SetControl;
      property FieldTag : Integer     read fi_getFieldTag write p_setFieldTag;
+     property SortOrder : TSortMarker     read FSortOrder write FSortOrder default smNone;
      property AfterControlKeyUp    : TKeyEvent      read FAfterControlKeyUp    write FAfterControlKeyUp;
      property AfterControlKeyDown  : TKeyEvent      read FAfterControlKeyDown  write FAfterControlKeyDown;
      property AfterControlKeyPress : TKeyPressEvent read FAfterControlKeyPress write FAfterControlKeyPress;
@@ -107,6 +109,7 @@ type
 
    TExtDBGrid = class ( {$IFDEF TNT}TTntDBGrid{$ELSE}{$IFDEF EXRX}TExRxDBGrid{$ELSE}{$IFDEF JEDI}TJvDBUltimGrid{$ELSE}TRXDBGrid{$ENDIF}{$ENDIF}{$ENDIF}, IFWComponent )
      private
+       FOldOnGetBtnParams: TGetBtnParamsEvent;
        FPaintEdits : Boolean;
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FColorEdit     ,
@@ -127,6 +130,9 @@ type
        function IsColumnsStored: boolean; virtual;
        procedure DrawCell(aCol,aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect; aState:TGridDrawState); override;
        function CanEditShow: Boolean; override;
+       procedure ExtGetBtnParams (Sender: TObject; Field: TField;
+    AFont: TFont; var Background: TColor; var SortMarker: TSortMarker;
+    IsDown: Boolean); virtual;
       public
        procedure KeyDown(var Key: Word; Shift: TShiftState); override;
        procedure KeyUp(var ach_Key: Word; ashi_Shift: TShiftState); override;
@@ -271,6 +277,7 @@ begin
   FOldControlKeyDown    := nil;
   FOldControlKeyPress   := nil;
   FOldControlKeyUp      := nil;
+  FSortOrder:=smNone;
   FControl := nil;
   FFieldTag := 0 ;
 end;
@@ -459,11 +466,27 @@ begin
 
 end;
 
+procedure TExtDBGrid.ExtGetBtnParams(Sender: TObject; Field: TField;
+  AFont: TFont; var Background: TColor; var SortMarker: TSortMarker;
+  IsDown: Boolean);
+var li_i : Integer;
+begin
+  for li_i := 0 to Columns.Count - 1  do
+    if Columns [ li_i ].FieldName = Field.FieldName Then
+      Begin
+        SortMarker:=Columns [ li_i ].SortOrder;
+        Break;
+      end;
+  if Assigned(FOldOnGetBtnParams) Then
+    FOldOnGetBtnParams ( Self, Field, AFont,Background,SortMarker,IsDown);
+end;
+
 // constructor TExtDBGrid.Create
 // Initing the dbgrid
 constructor TExtDBGrid.Create( AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FOldOnGetBtnParams := nil;
   FPaintEdits:=True;
   FAlwaysSame := True;
   FColorFocus := CST_GRILLE_SELECT;
@@ -482,6 +505,9 @@ begin
   if  FAlwaysSame
    Then
     FixedColor := gCol_Grid ;
+  if not Assigned(FOldOnGetBtnParams) Then
+   FOldOnGetBtnParams := OnGetBtnParams;
+  OnGetBtnParams:=ExtGetBtnParams;
 End;
 
 // procedure TExtDBGrid.MouseDown
