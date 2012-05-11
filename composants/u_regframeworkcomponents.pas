@@ -47,7 +47,7 @@ begin
                                                 TFWDBMemo, TExtDBNavigator,
                                                 TExtDBNumEdit,TExtDBPictCombo,
                                                 TExtSearchDBEdit,TFWDBSpinEdit]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,TExtColorCombo, TFWDateEdit,
+  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,TExtColorCombo, TFWComboBox, TFWDateEdit,
                                                 TFWEdit,TFWGrid,TExtImage,
                                                 TFWLabel,TFWMemo,
                                                 {$IFDEF MENUBAR}TExtMenuToolBar,{$ENDIF}

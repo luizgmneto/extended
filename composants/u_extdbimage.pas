@@ -58,7 +58,8 @@ TExtDBImage = class( TExtImage)
        procedure LoadFromStream ( const astream : TStream ); override;
        function  LoadFromFile   ( const afile   : String ):Boolean;  override;
        procedure SaveToStream ( const astream : TMemoryStream ); virtual;
-       function  SavetoFile   ( const afile   : String ;const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;  virtual;
+       function  SavetoFile   ( const afile   : String ;const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;  virtual;overload;
+       function  SavetoFile:Boolean;  virtual;overload;
        constructor Create(AOwner: TComponent); override;
        destructor Destroy ; override;
      published
@@ -69,7 +70,7 @@ TExtDBImage = class( TExtImage)
 
 implementation
 
-uses fonctions_images, Controls,sysutils;
+uses fonctions_images, Controls,sysutils,ExtDlgs;
 
 { TExtDBImage }
 
@@ -145,6 +146,15 @@ begin
     Begin
       fb_ImageFieldToFile ( FDataLink.Field, afile, ali_newWidth, ali_newHeight, ab_KeepProportion, ShowErrors );
     end;
+end;
+
+function TExtDBImage.SavetoFile: Boolean;
+var LSaveDialog : TSavePictureDialog;
+begin
+  LSaveDialog:=TSavePictureDialog.Create(Self);
+  if LSaveDialog.Execute
+   Then Result := SavetoFile(LSaveDialog.FileName,0,0,True)
+   Else Result := False;
 end;
 
 procedure TExtDBImage.LoadFromStream(const astream: TStream);

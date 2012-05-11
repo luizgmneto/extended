@@ -28,7 +28,6 @@ procedure OpenURL(const URL: string);
 function SearchExecutable(const ShortFilename: string; var Filename: string ): boolean;
 procedure GetBrowser(var i:longint;out BrowserName, BrowserFilename, StartScriptFilename: string);
 {$ENDIF}
-procedure ExportGridToHTML(const AFileName; const AGrid : TCustomGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'html' );
 
 const ga_browsers : Array [ 0..7 ] of string = ( 'xdg-open', 'Firefox', 'Galeon', 'Konqueror', 'Mozilla', 'Netscape', 'Opera', 'Iexplorer' );
 implementation
@@ -42,9 +41,6 @@ uses
 {$ENDIF}
    Classes, Forms, Dialogs;
 
-procedure ExportGridToHTML(const AFileName; const AGrid : TCustomGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'html' );
-Begin
-End;
 
 {$IFDEF FPC}
 function SearchExecutable(const ShortFilename: string; var Filename: string
