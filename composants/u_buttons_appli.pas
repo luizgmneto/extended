@@ -38,6 +38,7 @@ const
                                        Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
 {$ENDIF}
    CST_FWCLOSE='TFWCLOSE';
+   CST_FWDATE='TFWDATE';
    CST_FWCANCEL='TFWCANCEL';
    CST_FWBASKET='TFWBASKET';
    CST_FWOK='TFWOK';
@@ -54,6 +55,7 @@ const
    CST_FWDOCUMENT='TFWDOCUMENT';
    CST_FWPREVIEW='TFWPREVIEW';
    CST_FWNEXT='TFWNEXT';
+   CST_FWREFRESH='TFWREFRESH';
    CST_FWPRIOR='TFWPRIOR';
    CST_FWINIT='TFWINIT';
    CST_FWCONFIG='TFWCONFIG';
@@ -78,7 +80,6 @@ type
    ['{620AE27F-98C1-8A6D-E54F-FE57A16207E5}']
        procedure Paint;
    end;
-{ TFWClose }
 
     { TFWXPButton }
 
@@ -100,20 +101,38 @@ type
     { TFWButton }
 
     TFWButton = class ( TFWXPButton, IFWButton )
+      public
+       constructor Create ( AOwner : TComponent ) ; override;
       published
+       property Height default 25;
+       property Width default 25;
        property Glyph stored False;
      End;
 
-   TFWClose = class ( TFWButton )
-      private
+    { TFWMiniButton }
+
+    TFWMiniButton = class ( TFWXPButton, IFWButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
-       procedure Click; override;
       published
-
-       property Width default CST_FWWIDTH_CLOSE_BUTTON ;
+       property Height default 17;
+       property Width default 17;
+       property Glyph stored False;
      End;
+
+
+   { TFWClose }
+
+  TFWClose = class ( TFWButton )
+     private
+     public
+      constructor Create ( AOwner : TComponent ) ; override;
+      procedure Loaded; override;
+      procedure Click; override;
+     published
+
+      property Width default CST_FWWIDTH_CLOSE_BUTTON ;
+    End;
 
 { TFWOK }
    TFWOK = class ( TFWButton )
@@ -140,8 +159,6 @@ type
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
-      published
-       
      End;
 
 { TFWDelete }
@@ -151,20 +168,32 @@ type
       constructor Create ( AOwner : TComponent ) ; override;
       procedure Loaded; override;
      published
-      
+      property Height default 25;
+      property Width default 25;
+
     End;
 
-{ TFWDocument }
-   TFWDocument = class ( TFWButton )
-      private
-      public
-       procedure Loaded; override;
-      published
-       
-     End;
+  { TFWDocument }
+     TFWDocument = class ( TFWButton )
+        private
+        public
+         procedure Loaded; override;
+        published
+
+       End;
+
+
+   { TFWDate }
+      TFWDate = class ( TFWButton )
+         private
+         public
+          procedure Loaded; override;
+         published
+
+        End;
 
 { TFWQuit }
-   TFWQuit = class ( TFWButton )
+   TFWQuit = class ( TFWMiniButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -195,7 +224,7 @@ type
      End;
 
    { TFWLoad }
-      TFWLoad = class ( TFWButton )
+      TFWLoad = class ( TFWMiniButton )
          private
          public
           constructor Create ( AOwner : TComponent ) ; override;
@@ -206,7 +235,7 @@ type
         End;
 
 { TFWPrint }
-   TFWPrint = class ( TFWButton )
+   TFWPrint = class ( TFWMiniButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -230,7 +259,7 @@ type
 
 
 { TFWPreview }
-   TFWPreview = class ( TFWButton )
+   TFWPreview = class ( TFWMiniButton )
       private
       public
        procedure Loaded; override;
@@ -249,18 +278,27 @@ type
        
      End;
 
+   { TFWPrior }
+      TFWPrior= class ( TFWButton )
+         private
+         public
+          procedure Loaded; override;
+
+         published
+
+        End;
 { TFWPrior }
-   TFWPrior= class ( TFWButton )
+   TFWRefresh= class ( TFWButton )
       private
       public
        procedure Loaded; override;
 
       published
-       
+
      End;
 
 { TFWCopy }
-   TFWCopy = class ( TFWButton )
+   TFWCopy = class ( TFWMiniButton )
       private
       public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -434,6 +472,27 @@ Begin
   acon_control.Invalidate;
 end;
 
+{ TFWMiniButton }
+
+constructor TFWMiniButton.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Height:=17;
+  Width :=17;
+end;
+
+{ TFWButton }
+
+constructor TFWButton.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Height:=25;
+  Width :=25;
+end;
+
+
+{ TFWXPButton }
+
 procedure TFWXPButton.MouseEnter;
 begin
   FColor:=Color;
@@ -457,13 +516,21 @@ begin
   FColorFrameFocus:=clCream;
 end;
 
-{ TFWButton }
 
 { TFWTrash }
 
 procedure TFWTrash.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWTRASH, Self );
+  inherited Loaded;
+end;
+
+
+{ TFWDate }
+
+procedure TFWDate.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWDATE, Self );
   inherited Loaded;
 end;
 
@@ -536,7 +603,6 @@ procedure TFWClose.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWCLOSE, Self );
   inherited Loaded;
-  Invalidate;
 end;
 
 { TFWCancel }
@@ -686,11 +752,19 @@ begin
   inherited Loaded;
 end;
 
+{ TFWRefresh }
+
+procedure TFWRefresh.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWPRIOR, Self );
+  inherited Loaded;
+end;
+
 { TFWPreview }
 
 procedure TFWPreview.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWPREVIEW, Self );
+  p_Load_Buttons_Appli ( Glyph, CST_FWREFRESH, Self );
   inherited Loaded;
 end;
 
