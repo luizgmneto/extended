@@ -4,8 +4,8 @@ object M_Article: TM_Article
   left = 97
   top = 65516
   Height = 508
-  HorizontalOffset = 203
-  VerticalOffset = 74
+  HorizontalOffset = 279
+  VerticalOffset = 217
   Width = 771
   object ds_article: TDatasource
     DataSet = zq_Article

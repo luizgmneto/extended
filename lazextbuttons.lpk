@@ -20,7 +20,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="5" Build="2"/>
-    <Files Count="3">
+    <Files Count="4">
       <Item1>
         <Filename Value="composants/u_buttons_extension.pas"/>
         <UnitName Value="u_buttons_extension"/>
@@ -33,6 +33,10 @@
         <Filename Value="composants/u_buttons_flat.pas"/>
         <UnitName Value="u_buttons_flat"/>
       </Item3>
+      <Item4>
+        <Filename Value="composants/u_buttons_speed.pas"/>
+        <UnitName Value="u_buttons_speed"/>
+      </Item4>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="5">
