@@ -7,7 +7,8 @@ unit lazregisterextbuttons;
 interface
 
 uses
-  u_regfsbuttons, u_regfbbuttons, u_regbfsbuttons, LazarusPackageIntf;
+    u_regfsbuttons, u_regfbbuttons, u_regbfsbuttons, u_regsbbuttons, 
+  LazarusPackageIntf;
 
 implementation
 
@@ -16,6 +17,7 @@ begin
   RegisterUnit('u_regfsbuttons', @u_regfsbuttons.Register); 
   RegisterUnit('u_regfbbuttons', @u_regfbbuttons.Register); 
   RegisterUnit('u_regbfsbuttons', @u_regbfsbuttons.Register); 
+  RegisterUnit('u_regsbbuttons', @u_regsbbuttons.Register); 
 end; 
 
 initialization

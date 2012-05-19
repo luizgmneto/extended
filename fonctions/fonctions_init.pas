@@ -80,6 +80,7 @@ const
 
   function fs_GetIniDir( const ab_Root : Boolean = False ): String;
   function fb_CreateCommonIni ( var amif_Init : TIniFile  ; const as_NomConnexion: string ) : Boolean ;
+  function fb_iniWriteFile( const amem_Inifile : TCustomInifile ; const ab_Afficheerreur : Boolean  = False ):Boolean;
   // Lit la section des commandes et si elle existe la retourne dans donnees (TStrings)
   function Lecture_ini_sauvegarde_fonctions(sauvegarde: string; donnees: Tstrings): Boolean;
 
@@ -178,7 +179,6 @@ const
 
   // Retourne true si la section aSection existe.
   function f_SectionExiste(aSection: string): Boolean;
-  function fb_iniWriteFile( const amem_Inifile : TCustomInifile ; const ab_Afficheerreur : Boolean  = False ):Boolean;
 
 {$IFDEF ZEOS}
   function fb_IniSetZConnection ( const asqc_Connection : TComponent ; const IniFile : TIniFile  ) : Boolean ;
@@ -279,7 +279,7 @@ Begin
 End;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Lit le nom de toutes les sections d'un fichier INI dans une liste de chaînes
+// Force l'écriture du fichier ini
 ////////////////////////////////////////////////////////////////////////////////
 function fb_iniWriteFile( const amem_Inifile : TCustomInifile ; const ab_Afficheerreur : Boolean = False ):Boolean;
 var

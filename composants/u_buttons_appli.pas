@@ -91,6 +91,7 @@ type
       protected
        procedure MouseEnter{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
        procedure MouseLeave{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
+       procedure Click; override;
      public
       constructor Create ( AOwner : TComponent ) ; override;
 
@@ -124,7 +125,6 @@ type
    { TFWClose }
 
   TFWClose = class ( TFWButton )
-     private
      public
       constructor Create ( AOwner : TComponent ) ; override;
       procedure Loaded; override;
@@ -136,7 +136,6 @@ type
 
 { TFWOK }
    TFWOK = class ( TFWButton )
-      private
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
@@ -146,97 +145,82 @@ type
 
 { TFWInsert }
    TFWInsert = class ( TFWButton )
-      private
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
       published
        
      End;
-{ TFWAdd }
+   { TFWAdd }
    TFWAdd = class ( TFWButton )
-      private
       public
-       constructor Create ( AOwner : TComponent ) ; override;
+       procedure Loaded; override;
+     End;
+   { TFWMAdd }
+   TFWMAdd = class ( TFWButton )
+      public
        procedure Loaded; override;
      End;
 
-{ TFWDelete }
-  TFWDelete = class ( TFWButton )
-     private
-     public
-      constructor Create ( AOwner : TComponent ) ; override;
-      procedure Loaded; override;
-     published
-      property Height default 25;
-      property Width default 25;
 
-    End;
-
+ { TFWDelete }
+   TFWDelete = class ( TFWButton )
+      public
+       procedure Loaded; override;
+     End;
+ { TFWMDelete }
+   TFWMDelete = class ( TFWMiniButton )
+      public
+       procedure Loaded; override;
+     End;
   { TFWDocument }
      TFWDocument = class ( TFWButton )
-        private
         public
          procedure Loaded; override;
-        published
-
        End;
 
 
    { TFWDate }
-      TFWDate = class ( TFWButton )
-         private
-         public
-          procedure Loaded; override;
-         published
-
-        End;
+    TFWDate = class ( TFWButton )
+       public
+        procedure Loaded; override;
+      End;
+  { TFWMDate }
+   TFWMDate = class ( TFWButton )
+      public
+       procedure Loaded; override;
+     End;
 
 { TFWQuit }
    TFWQuit = class ( TFWMiniButton )
-      private
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
-      published
-       
      End;
 
 { TFWErase }
    TFWErase = class ( TFWButton )
-      private
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
-      published
-       
      End;
 
 { TFWSaveAs }
    TFWSaveAs = class ( TFWButton )
-      private
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
-
-      published
-       
      End;
 
    { TFWLoad }
       TFWLoad = class ( TFWMiniButton )
-         private
          public
           constructor Create ( AOwner : TComponent ) ; override;
           procedure Loaded; override;
-
-         published
-          
         End;
 
 { TFWPrint }
    TFWPrint = class ( TFWMiniButton )
-      private
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
@@ -247,113 +231,69 @@ type
 
 { TFWCancel }
    TFWCancel = class ( TFWButton )
-      private
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
-
-      published
-
-       property Caption stored False;
      End;
 
 
 { TFWPreview }
    TFWPreview = class ( TFWMiniButton )
-      private
       public
        procedure Loaded; override;
-
-      published
-       
      End;
 
 { TFWNext }
    TFWNext = class ( TFWButton )
-      private
       public
        procedure Loaded; override;
-
-      published
-       
      End;
 
    { TFWPrior }
       TFWPrior= class ( TFWButton )
-         private
          public
           procedure Loaded; override;
-
-         published
-
         End;
 { TFWPrior }
    TFWRefresh= class ( TFWButton )
-      private
       public
        procedure Loaded; override;
-
-      published
-
      End;
 
 { TFWCopy }
    TFWCopy = class ( TFWMiniButton )
-      private
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
-      published
-       
      End;
 
 { TFWInit }
    TFWInit = class ( TFWButton )
-      private
       public
        procedure Loaded; override;
-
-      published
-       
      End;
 
 { TFWConfig }
    TFWConfig = class ( TFWButton )
-      private
       public
        procedure Loaded; override;
-
-      published
-       
      End;
 
 { TFWImport }
    TFWImport = class ( TFWButton )
-      private
       public
        procedure Loaded; override;
-
-      published
-       
      End;
 { TFWTrash }
    TFWTrash = class ( TFWButton )
-      private
       public
        procedure Loaded; override;
-
-      published
-       
      End;
 
 { TFWExport }
    TFWExport = class ( TFWButton )
-      private
       public
        procedure Loaded; override;
-
-      published
-       
      End;
 
 {$IFDEF GROUPVIEW}
@@ -374,7 +314,6 @@ type
    { TFWBasket }
 
    TFWBasket = class ( TFWGroupButtonActions )
-      private
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
@@ -387,7 +326,6 @@ type
    { TFWRecord }
 
    TFWRecord = class ( TFWGroupButtonActions )
-      private
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
@@ -408,7 +346,6 @@ type
    end;
    { TFWOutSelect }
     TFWOutSelect = class ( TFWGroupButtonMoving )
-       private
        public
         procedure Loaded; override;
        published
@@ -419,7 +356,6 @@ type
 
 
    TFWOutAll = class ( TFWGroupButtonMoving )
-      private
       public
        procedure Loaded; override;
       published
@@ -428,7 +364,6 @@ type
 
 { TFWInSelect }
    TFWInSelect = class ( TFWGroupButtonMoving )
-      private
       public
        procedure Loaded; override;
       published
@@ -437,7 +372,6 @@ type
 
 { TFWInAll }
    TFWInAll = class ( TFWGroupButtonMoving )
-      private
       public
        procedure Loaded; override;
       published
@@ -450,7 +384,7 @@ implementation
 
 uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
-     unite_messages,
+     unite_messages, fonctions_images,
      Forms ;
 
 
@@ -510,6 +444,16 @@ begin
 {$ENDIF}
 end;
 
+procedure TFWXPButton.Click;
+begin
+  if Assigned(FDropDownMenu) Then
+  with Mouse.CursorPos do
+    Begin
+     FDropDownMenu.Popup(X, Y);
+    end;
+  inherited Click;
+end;
+
 constructor TFWXPButton.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -531,6 +475,15 @@ end;
 procedure TFWDate.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWDATE, Self );
+  inherited Loaded;
+end;
+
+{ TFWMDate }
+
+procedure TFWMDate.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWDATE, Self );
+  p_ChangeTailleBitmap ( Glyph.Bitmap,16,16,True);
   inherited Loaded;
 end;
 
@@ -560,19 +513,18 @@ end;
 
 { TFWDelete }
 
-constructor TFWDelete.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := ifsVK_DELETE;
-  {$ELSE}
-//  Caption := SDeleteRecord;
-  {$ENDIF}
-end;
-
 procedure TFWDelete.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWDELETE, Self );
+  inherited Loaded;
+end;
+
+{ TFWMDelete }
+
+procedure TFWMDelete.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWDELETE, Self );
+  p_ChangeTailleBitmap ( Glyph.Bitmap,16,16,True);
   inherited Loaded;
 end;
 
@@ -660,15 +612,16 @@ begin
   inherited Loaded;
 end;
 { TFWAdd }
-
-constructor TFWAdd.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-end;
-
 procedure TFWAdd.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWINSERT, Self );
+  inherited Loaded;
+end;
+{ TFWMAdd }
+procedure TFWMAdd.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWINSERT, Self );
+  p_ChangeTailleBitmap ( Glyph.Bitmap,16,16,True);
   inherited Loaded;
 end;
 
@@ -756,7 +709,7 @@ end;
 
 procedure TFWRefresh.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWPRIOR, Self );
+  p_Load_Buttons_Appli ( Glyph, CST_FWREFRESH, Self );
   inherited Loaded;
 end;
 
@@ -764,7 +717,7 @@ end;
 
 procedure TFWPreview.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWREFRESH, Self );
+  p_Load_Buttons_Appli ( Glyph, CST_FWPREVIEW, Self );
   inherited Loaded;
 end;
 

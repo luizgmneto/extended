@@ -264,7 +264,7 @@ var Buttons_Appli_ResInstance             : THandle      = 0 ;
 procedure TBFSTrash.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWTRASH, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWTRASH, self );
 
 end;
 
@@ -276,7 +276,7 @@ begin
   {$IFDEF FPC}
   caption := oiStdActFileOpenHint;
   {$ENDIF}
-  p_Load_Buttons_Appli ( Glyph, CST_FWLOAD, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWLOAD, self );
 end;
 
 { TBFSDocument }
@@ -284,7 +284,7 @@ end;
 procedure TBFSDocument.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWDOCUMENT, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWDOCUMENT, self );
 end;
 
 { TBFSDelete }
@@ -292,7 +292,7 @@ end;
 constructor TBFSDelete.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  p_Load_Buttons_Appli ( Glyph, CST_FWDELETE, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWDELETE, self );
 end;
 
 { TBFSClose }
@@ -321,7 +321,7 @@ end;
 procedure TBFSClose.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWCLOSE, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWCLOSE, self );
 end;
 
 { TBFSCancel }
@@ -334,7 +334,7 @@ begin
   {$ELSE}
   Caption := SMsgDlgCancel;
   {$ENDIF}
-  p_Load_Buttons_Appli ( Glyph, CST_FWCANCEL, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWCANCEL, self );
 end;
 
 { TBFSOK }
@@ -352,7 +352,7 @@ end;
 procedure TBFSOK.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWOK, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWOK, self );
 end;
 
 { TBFSInsert }
@@ -363,7 +363,7 @@ begin
   {$IFNDEF FPC}
   Caption := SInsertRecord;
   {$ENDIF}
-  p_Load_Buttons_Appli ( Glyph, CST_FWINSERT, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWINSERT, self );
 end;
 
 { TBFSAdd }
@@ -371,7 +371,7 @@ end;
 constructor TBFSAdd.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  p_Load_Buttons_Appli ( Glyph, CST_FWINSERT, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWINSERT, self );
 end;
 
 { TBFSSaveAs }
@@ -382,7 +382,7 @@ begin
   {$IFDEF FPC}
   caption := oiStdActFileSaveAsHint;
   {$ENDIF}
-  p_Load_Buttons_Appli ( Glyph, CST_FWSAVEAS, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWSAVEAS, self );
 end;
 
 { TBFSQuit }
@@ -391,7 +391,7 @@ constructor TBFSQuit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   Caption := SCloseButton {$IFDEF FPC}+ ' ' + oisAll{$ENDIF};
-  p_Load_Buttons_Appli ( Glyph, CST_FWQUIT, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWQUIT, self );
 end;
 
 { TBFSerase }
@@ -404,7 +404,7 @@ begin
   {$ELSE}
   //Caption := SDeleteRecord;
   {$ENDIF}
-  p_Load_Buttons_Appli ( Glyph, CST_FWERASE, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWERASE, self );
 end;
 
 { TBFSPrint }
@@ -412,7 +412,7 @@ end;
 constructor TBFSPrint.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  p_Load_Buttons_Appli ( Glyph, CST_FWPRINT, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWPRINT, self );
 end;
 
 { TBFSNext }
@@ -420,14 +420,14 @@ end;
 procedure TBFSNext.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWNEXT, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWNEXT, self );
 end;
 { TBFSPrior }
 
 procedure TBFSPrior.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWPRIOR, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWPRIOR, self );
 end;
 
 { TBFSPreview }
@@ -435,7 +435,7 @@ end;
 procedure TBFSPreview.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWPREVIEW, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWPREVIEW, self );
 end;
 
 { TBFSInit }
@@ -443,7 +443,7 @@ end;
 procedure TBFSInit.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWINIT, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWINIT, self );
 end;
 
 { TBFSConfig }
@@ -451,7 +451,7 @@ end;
 procedure TBFSConfig.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWCONFIG, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWCONFIG, self );
 end;
 
 { TBFSImport }
@@ -459,7 +459,7 @@ end;
 procedure TBFSImport.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWIMPORT, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWIMPORT, self );
 end;
 
 { TBFSExport }
@@ -467,7 +467,7 @@ end;
 procedure TBFSExport.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWEXPORT, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWEXPORT, self );
 end;
 
 { TBFSCopy }
@@ -478,7 +478,7 @@ begin
   {$IFDEF FPC}
   Caption := oiStdActEditCopyShortHint;
   {$ENDIF}
-  p_Load_Buttons_Appli ( Glyph, CST_FWCOPY, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWCOPY, self );
 end;
 
 {$IFDEF GROUPVIEW}
@@ -488,7 +488,7 @@ end;
 procedure TBFSOutSelect.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWOUTSELECT, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWOUTSELECT, self );
 
 end;
 
@@ -502,7 +502,7 @@ begin
   {$ELSE}
   Caption := Gs_GROUPVIEW_Basket;
   {$ENDIF}
-  p_Load_Buttons_Appli ( Glyph, CST_FWBASKET, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWBASKET, self );
 end;
 
 { TBFSRecord }
@@ -515,7 +515,7 @@ begin
   {$ELSE}
   Caption := Gs_GROUPVIEW_Record;
   {$ENDIF}
-  p_Load_Buttons_Appli ( Glyph, CST_FWOK, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWOK, self );
 end;
 
 { TBFSOutAll }
@@ -523,7 +523,7 @@ end;
 procedure TBFSOutAll.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWOUTALL, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWOUTALL, self );
 
 end;
 
@@ -532,7 +532,7 @@ end;
 procedure TBFSInSelect.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWINSELECT, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWINSELECT, self );
 
 end;
 
@@ -541,7 +541,7 @@ end;
 procedure TBFSInAll.Loaded;
 begin
   inherited Loaded;
-  p_Load_Buttons_Appli ( Glyph, CST_FWINALL, self );
+  p_Load_Bitmap_Appli ( Glyph, CST_FWINALL, self );
 
 end;
 
