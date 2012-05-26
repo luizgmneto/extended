@@ -69,7 +69,7 @@ procedure p_FileToStream ( const afile : String; const Stream : TStream ; const 
 procedure p_StreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean = False );
 procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean = False );
 procedure p_FileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean = False );
-procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TBitmap; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
+procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TCustomBitmap; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
 
 function fb_ResizeImaging ( var Fdata : TImageData; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
 
@@ -301,7 +301,7 @@ end ;
 // Transforme un bitmap en tout petit bitmap
 // Entrée : Le Bitmap source
 // Sortie : Le petit bitmap
-procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TBitmap; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
+procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TCustomBitmap; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
 
 var
   lrec_Rectangle      : TRect ;  // Nouvelle taille
@@ -329,7 +329,7 @@ Begin
       else
        Begin
          if  ( ali_newWidth > 0 )
-         and ( ali_newWidth <=  Width )
+         and ( ali_newWidth <  Width )
          // doit-on retailler en longueur ?
          and (( ali_newHeight = 0 ) or ( Width / ali_newWidth >= Height / ali_newHeight ))
           Then
@@ -345,7 +345,7 @@ Begin
            End
          else
            if  ( ali_newHeight > 0 )
-           and ( ali_newHeight <=  Height ) Then
+           and ( ali_newHeight <  Height ) Then
              Begin
                li_Size := ( ali_newHeight * Width ) div Height ;
                lbmp_Tempo.Width   := li_Size ;
@@ -357,9 +357,13 @@ Begin
                abmp_BitmapOrigine.Height  :=ali_newHeight ;
              End ;
       End ;
-   writeln(IntToStr(li_Size) + ' '+ IntToStr(lbmp_Tempo.Height) + ' '  + IntToStr(lbmp_Tempo.Width) + ' ' + IntToStr(ali_newHeight) + ' ' + IntToStr(ali_newWidth) + ' ' + IntToStr(abmp_BitmapOrigine.Width) + ' ' + IntToStr(abmp_BitmapOrigine.Height));
-  lbmp_Tempo.Transparent := True ;
+//   writeln(IntToStr(li_Size) + ' '+ IntToStr(lbmp_Tempo.Height) + ' '  + IntToStr(lbmp_Tempo.Width) + ' ' + IntToStr(ali_newHeight) + ' ' + IntToStr(ali_newWidth) + ' ' + IntToStr(abmp_BitmapOrigine.Width) + ' ' + IntToStr(abmp_BitmapOrigine.Height));
+  {$IFDEF FPC}
+  lbmp_Tempo.TransparentMode := tmAuto ;
+  {$ELSE}
   lbmp_Tempo.TransparentColor := clBlack ;
+  {$ENDIF}
+  lbmp_Tempo.Transparent := True ;
 {$IFDEF FPC}
   abmp_BitmapOrigine.Clear;
 {$ENDIF}
@@ -385,6 +389,7 @@ Begin
        lbmp_Tempo.Free;
   End ;
 end ;
+
 procedure p_RecuperePetitBitmap ( const abmp_BitmapOrigine : TBitmap );
 
 Begin

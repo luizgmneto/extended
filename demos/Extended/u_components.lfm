@@ -649,10 +649,9 @@ inherited Myform: TMyform
   object IBUtilisateur: TIBQuery[10]
     Database = IBDatabase
     Transaction = IBTransaction
-    BufferChunks = 1000
-    CachedUpdates = False
+    BufferChunks = 2
+    CachedUpdates = True
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
-    ParamCheck = False
     SQL.Strings = (
       'SELECT * FROM UTILISATEUR'
     )

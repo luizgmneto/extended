@@ -89,6 +89,7 @@ type
        FColorFrameFocus : TColor;
        FDropDownMenu : TPopupMenu;
       protected
+       procedure AdaptGlyph (const ASize : Integer ); virtual;
        procedure MouseEnter{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
        procedure MouseLeave{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
        procedure Click; override;
@@ -104,10 +105,10 @@ type
     TFWButton = class ( TFWXPButton, IFWButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
+       property Glyph stored False;
       published
        property Height default 25;
        property Width default 25;
-       property Glyph stored False;
      End;
 
     { TFWMiniButton }
@@ -115,10 +116,10 @@ type
     TFWMiniButton = class ( TFWXPButton, IFWButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
+       property Glyph stored False;
       published
        property Height default 17;
        property Width default 17;
-       property Glyph stored False;
      End;
 
 
@@ -157,7 +158,7 @@ type
        procedure Loaded; override;
      End;
    { TFWMAdd }
-   TFWMAdd = class ( TFWButton )
+   TFWMAdd = class ( TFWMiniButton )
       public
        procedure Loaded; override;
      End;
@@ -394,15 +395,31 @@ var Buttons_Appli_ResInstance             : THandle      = 0 ;
 
 
 procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; const as_Resource : String ; const acon_control :TControl);
-Begin
+var
+  Stream: TLazarusResourceStream;
+begin
+  with FGLyph do
+   Begin
   {$IFDEF FPC}
-    FGlyph.Clear;
-    FGlyph.LoadFromLazarusResource( as_Resource );
+    Clear;
+    Stream := TLazarusResourceStream.Create(as_Resource, nil);
+    try
+      if Bitmap.IsFileExtensionSupported(Stream.Res.ValueType) Then
+        Begin
+         Bitmap.LoadFromStream(Stream);
+        end
+      else if Pixmap.IsFileExtensionSupported(Stream.Res.ValueType) Then
+       Pixmap.LoadFromStream(Stream)
+    finally
+      Stream.Free;
+    end;
+    LoadFromLazarusResource(as_Resource);
   {$ELSE}
     if ( Buttons_Appli_ResInstance = 0 ) Then
       Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
-    FGlyph.Bitmap.LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
+    Bitmap.LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
   {$ENDIF}
+    End;
   acon_control.Invalidate;
 end;
 
@@ -426,6 +443,20 @@ end;
 
 
 { TFWXPButton }
+
+procedure TFWXPButton.AdaptGlyph(const ASize: Integer);
+begin
+  with Glyph.Bitmap do
+  if not Empty
+  and (( ASize < Height ) or ( ASize < Width )) Then
+    Begin
+      p_ChangeTailleBitmap(Glyph.Bitmap,ASize,Asize,True);
+      Modified:=True;
+      TransparentMode:=tmAuto;
+      Transparent:=True;
+    end;
+  Invalidate;
+end;
 
 procedure TFWXPButton.MouseEnter;
 begin
