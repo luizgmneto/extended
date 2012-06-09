@@ -116,9 +116,10 @@ uses Variants , fonctions_dbcomponents;
 
 procedure p_setLibrary (var libname: string);
 Begin
-  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbclient.dll';
-  {$IFDEF LINUX}
-  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed.so';
+  {$IFDEF WINDOWS}
+  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbclient'+CST_EXTENSION_LIBRARY;
+  {$ELSE}
+  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed'+CST_EXTENSION_LIBRARY;
   {$ENDIF}
 end;
 

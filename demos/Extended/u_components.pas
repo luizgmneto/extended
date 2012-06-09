@@ -189,10 +189,10 @@ end;
 
 procedure p_setLibrary (var libname: string);
 Begin
-  {$IFDEF LINUX}
-  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed.so';
+  {$IFDEF WINDOWS}
+  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbclient'+CST_EXTENSION_LIBRARY;
   {$ELSE}
-  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbclient.dll';
+  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed'+CST_EXTENSION_LIBRARY;
   {$ENDIF}
 end;
 

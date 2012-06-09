@@ -360,9 +360,8 @@ Begin
 //   writeln(IntToStr(li_Size) + ' '+ IntToStr(lbmp_Tempo.Height) + ' '  + IntToStr(lbmp_Tempo.Width) + ' ' + IntToStr(ali_newHeight) + ' ' + IntToStr(ali_newWidth) + ' ' + IntToStr(abmp_BitmapOrigine.Width) + ' ' + IntToStr(abmp_BitmapOrigine.Height));
   {$IFDEF FPC}
   lbmp_Tempo.TransparentMode := tmAuto ;
-  {$ELSE}
-  lbmp_Tempo.TransparentColor := clBlack ;
   {$ENDIF}
+  lbmp_Tempo.TransparentColor := clBlack ;
   lbmp_Tempo.Transparent := True ;
 {$IFDEF FPC}
   abmp_BitmapOrigine.Clear;
