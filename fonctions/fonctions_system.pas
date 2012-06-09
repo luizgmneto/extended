@@ -22,11 +22,22 @@ uses
 {$ENDIF}
   StrUtils, Classes ;
 
-{$IFDEF DELPHI}
 const
-  DirectorySeparator = '\' ;
+{$IFDEF VERSIONS}
+  gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_string' ;
+                        			                 Owner : 'Matthieu Giroux' ;
+                        			                 Comment : 'System Functions, with traducing and path management.' ;
+                        			                 BugsStory : 'Version 1.0.2.0 : fs_DocDir and library''s extension.' + #10
+                                                                           + 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
+                                                                           + 'Version 1.0.0.0 : Creating from fonctions_string.';
+                        			                 UnitType : 1 ;
+                        			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
 {$ENDIF}
+{$IFDEF DELPHI}
+  DirectorySeparator = '\' ;
 
+{$ENDIF}
+  CST_EXTENSION_LIBRARY = {$IFDEF WINDOWS}'.dll'{$ELSE}{$IFDEF LINUX}'.so'{$ELSE}'.dylib'{$ENDIF}{$ENDIF};
 
 function fs_ExtractFileNameOnly ( const as_Path : String ): String;
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
@@ -46,16 +57,6 @@ function GetAppConfigDir ( const Global : Boolean ): string;
 function GetUserDir: string;
 function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
 function FileExistsUTF8 ( const as_path : String ):Boolean;
-{$ENDIF}
-{$IFDEF VERSIONS}
-const
-  gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_string' ;
-                        			                 Owner : 'Matthieu Giroux' ;
-                        			                 Comment : 'System Functions, with traducing and path management.' ;
-                        			                 BugsStory : 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
-                                                                           + 'Version 1.0.0.0 : Creating from fonctions_string.';
-                        			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 {$ENDIF}
 
 implementation
