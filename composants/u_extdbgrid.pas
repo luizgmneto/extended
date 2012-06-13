@@ -73,11 +73,11 @@ type
      FAfterControlKeyUp , FAfterControlKeyDown : TKeyEvent;
      FOldControlKeyPress   ,
      FAfterControlKeyPress : TKeyPressEvent;
-     FControl : TWinControl ;
+     FControl : TControl ;
      FFieldTag : Integer ;
      FSortOrder : TSortMarker;
    protected
-     procedure SetControl ( const AValue : TWinControl ); virtual;
+     procedure SetControl ( const AValue : TControl ); virtual;
      function  fi_getFieldTag:Integer; virtual;
      procedure p_setFieldTag ( const avalue : Integer ); virtual;
    public
@@ -86,7 +86,7 @@ type
      procedure ControlKeyUp   ( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
      procedure ControlKeyDown ( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
      procedure ControlKeyPress( ASender : TObject ; var Key: Char ); virtual;
-     property SomeEdit : TWinControl read FControl       write SetControl;
+     property SomeEdit : TControl read FControl       write SetControl;
      property FieldTag : Integer     read fi_getFieldTag write p_setFieldTag;
      property SortOrder : TSortMarker     read FSortOrder write FSortOrder default smNone;
      property AfterControlKeyUp    : TKeyEvent      read FAfterControlKeyUp    write FAfterControlKeyUp;
@@ -171,7 +171,7 @@ uses
 // Procedure SetControl
 // Setting control of column
 // Parameter : AValue the control of property
-procedure TExtGridColumn.SetControl(const AValue: TWinControl);
+procedure TExtGridColumn.SetControl(const AValue: TControl);
 var lmet_MethodeDistribuee: TMethod;
 
 begin
@@ -538,11 +538,12 @@ end;
 // Cloning the Column Control on cell drawing
 procedure TExtDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect;
   aState: TGridDrawState);
-{$IFNDEF FPC}
 var OldActive : Integer;
+{$IFDEF FPC}
+    FBackground : TColor;
 {$ENDIF}
+
 begin
-  {$IFNDEF FPC}
   if  FPaintEdits
   and ( ACol > 0  )
   and ( ARow >= {$IFDEF FPC}1{$ELSE}IndicatorOffset{$ENDIF} )
@@ -571,7 +572,6 @@ begin
        Datalink.ActiveRecord := OldActive;
      end
     Else
-{$ENDIF}
       inherited DrawCell(aCol, aRow, aRect, aState);
 end;
 
