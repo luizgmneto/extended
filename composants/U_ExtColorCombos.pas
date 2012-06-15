@@ -105,7 +105,6 @@ type
     public
     { Public declarations }
       constructor Create(AOwner: TComponent); override;
-      procedure CreateWnd; override;
       procedure DoEnter; override;
       procedure DoExit; override;
       procedure Loaded; override;
@@ -221,6 +220,7 @@ type
       function ExecuteAction(AAction: TBasicAction): Boolean; override;
       function UpdateAction(AAction: TBasicAction): Boolean; override;
       property Field: TField read GetField;
+      property Items;
     published
       property HTMLcolor  stored False ;
       property Value stored False ;
@@ -254,6 +254,7 @@ const
 { TExtColorCombo }
 
 constructor TExtColorCombo.Create(AOwner: TComponent);
+var a : Integer;
 begin
   inherited Create(AOwner);
   Style := CST_COLOR_COMBO_DEFAULT_STYLE;
@@ -268,6 +269,12 @@ begin
   FColorEdit  := CST_EDIT_STD;
   FColorFocus := CST_EDIT_SELECT;
   FColorReadOnly := CST_EDIT_READ;
+  if ( Items.Count = 0 ) then
+   Begin
+     Items.BeginUpdate;
+     for a:=0 to CST_COLOR_COMBO_LastDefinedColor do Items.add(colortostring(CST_COLOR_COMBO_ActiveColors[a]));
+     Items.EndUpdate;
+   End;
 end;
 
 procedure TExtColorCombo.p_setLabel(const alab_Label: {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF});
@@ -331,19 +338,6 @@ Begin
   p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
   inherited;
 End;
-
-
-procedure TExtColorCombo.CreateWnd;
-var a :  Integer;
-begin
-  inherited;
-  if ( Items.Count = 0 ) then
-    Begin
-      Items.BeginUpdate;
-      for a:=0 to CST_COLOR_COMBO_LastDefinedColor do Items.add(colortostring(CST_COLOR_COMBO_ActiveColors[a]));
-      Items.EndUpdate;
-    End;
-end;
 
 procedure TExtColorCombo.MouseDown(Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
@@ -750,4 +744,4 @@ initialization
   p_ConcatVersion ( gVer_TExtColorCombo   );
   p_ConcatVersion ( gVer_TDBColorCombo );
 {$ENDIF}
-end.
+end.
