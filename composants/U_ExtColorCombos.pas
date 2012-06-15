@@ -117,7 +117,8 @@ type
         Shift: TShiftState; X, Y: Integer); override;
       procedure WMKeyDown(var Message: {$IFDEF FPC}TLMKeyDown{$ELSE}TWMKeyDown{$ENDIF}); message {$IFDEF FPC}LM_KEYDOWN{$ELSE}WM_KEYDOWN{$ENDIF};
     protected
-      function GetReadOnly: Boolean; virtual;
+      function  GetColorString ( const a : Integer ):String; virtual;
+      function  GetReadOnly: Boolean; virtual;
       procedure SetReadOnly(Value: Boolean); virtual;
     public
     { Public declarations }
@@ -244,7 +245,6 @@ type
       property DataSource: TDataSource read GetDataSource write SetDataSource stored True;
     end;
 
-
 implementation
 
 uses unite_messages, fonctions_proprietes, fonctions_languages;
@@ -254,8 +254,6 @@ const
   CST_COLOR_COMBO_ActiveColors: array [0..CST_COLOR_COMBO_LastDefinedColor] of TColor = (
   clBlack, clMaroon, clGreen, clMoneyGreen, clOlive, clNavy, clPurple, clTeal, clGray,
   clSilver, clRed, clLime, clYellow, clInfoBk, clBlue, clSkyBlue, clFuchsia, clAqua, clWhite, CST_COLOR_COMBO_DEFAULT_COLOR );
-var
-  GT_COLOR_COMBO_Colors: array [0..CST_COLOR_COMBO_LastDefinedColor] of String;
 
 
 { TExtColorCombo }
@@ -275,38 +273,40 @@ begin
   FColorEdit  := CST_EDIT_STD;
   FColorFocus := CST_EDIT_SELECT;
   FColorReadOnly := CST_EDIT_READ;
-  if ( Items.Count = 0 ) then
-   Begin
-     Items.BeginUpdate;
-     for a:=0 to CST_COLOR_COMBO_LastDefinedColor do
-        Begin
-          case a of
-            0  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Black;
-            1  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Maroon;
-            2  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Green;
-            3  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Mgreen;
-            4  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Olive;
-            5  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Navy;
-            6  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Purple;
-            7  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Teal;
-            8  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Gray;
-            9  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Silver;
-            10 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Red;
-            11 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Lime;
-            12 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Yellow;
-            13 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Pyellow;
-            14 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Blue;
-            15 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Sblue;
-            16 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Fuchsia;
-            17 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Aqua;
-            18 : GT_COLOR_COMBO_Colors [a] := Color_Combo_White;
-            else GT_COLOR_COMBO_Colors [a] := Color_Combo_None;
-          end;
-          Items.add(colortostring(CST_COLOR_COMBO_ActiveColors[a]));
-        end;
-     Items.EndUpdate;
-   End;
+  Items.BeginUpdate;
+  Items.Clear;
+  for a:=0 to CST_COLOR_COMBO_LastDefinedColor do
+    Items.add(colortostring(CST_COLOR_COMBO_ActiveColors[a]));
+  Items.EndUpdate;
 end;
+
+
+function TExtColorCombo.GetColorString ( const a : Integer ):String;
+Begin
+ case a of
+   0  : Result := Color_Combo_Black;
+   1  : Result := Color_Combo_Maroon;
+   2  : Result := Color_Combo_Green;
+   3  : Result := Color_Combo_Mgreen;
+   4  : Result := Color_Combo_Olive;
+   5  : Result := Color_Combo_Navy;
+   6  : Result := Color_Combo_Purple;
+   7  : Result := Color_Combo_Teal;
+   8  : Result := Color_Combo_Gray;
+   9  : Result := Color_Combo_Silver;
+   10 : Result := Color_Combo_Red;
+   11 : Result := Color_Combo_Lime;
+   12 : Result := Color_Combo_Yellow;
+   13 : Result := Color_Combo_Pyellow;
+   14 : Result := Color_Combo_Blue;
+   15 : Result := Color_Combo_Sblue;
+   16 : Result := Color_Combo_Fuchsia;
+   17 : Result := Color_Combo_Aqua;
+   18 : Result := Color_Combo_White;
+   else Result := Color_Combo_None;
+ end;
+End;
+
 
 procedure TExtColorCombo.p_setLabel(const alab_Label: {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF});
 begin
@@ -456,7 +456,7 @@ begin
         End
         // Couleur non personnalisée ou indéfnie
        else
-        StrPCopy(Texto, GT_COLOR_COMBO_Colors[Index]);
+        StrPCopy(Texto, GetColorString(Index));
       format := DT_SINGLELINE or DT_NOPREFIX;
       if ( BiDiMode = bdLeftToRight )
       or (( BiDiMode = bdRightToLeftReadingOnly ) and not DroppedDown ) Then
