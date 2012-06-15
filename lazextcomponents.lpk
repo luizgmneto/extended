@@ -131,6 +131,11 @@
         <UnitName Value="u_extradios"/>
       </Item27>
     </Files>
+    <i18n>
+      <EnableI18N Value="True"/>
+      <OutDir Value="LANG"/>
+      <EnableI18NForLFM Value="True"/>
+    </i18n>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="7">
       <Item1>

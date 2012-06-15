@@ -36,9 +36,6 @@ uses
   StdCtrls, DB, DBCtrls, fonctions_erreurs, fonctions_version,
   u_extcomponent ;
 
-type
-  TColorcomboLanguage = (lgEnglish, lgPortuguese, lgFrench);
-
 const
 {$IFDEF VERSIONS}
     gVer_TExtColorCombo : T_Version = ( Component : 'Composant TExtColorCombo' ;
@@ -63,8 +60,30 @@ const
     CST_COLOR_COMBO_DEFAULT_COLOR_VALUE = -1 ;
     CST_COLOR_COMBO_DEFAULT_COLOR       = clWhite ;
     CST_COLOR_COMBO_DEFAULT_COLOR_HTML  = '#FFFFFF' ;
-    CST_COLOR_COMBO_DEFAULT_LANGUAGE    = lgFrench ;
     CST_COLOR_COMBO_DEFAULT_STYLE       = csOwnerDrawFixed ;
+
+resourcestring
+  Color_Combo_Black   = 'Black';
+  Color_Combo_Maroon  = 'Maroon';
+  Color_Combo_Green   = 'Green';
+  Color_Combo_Mgreen  = 'Money green';
+  Color_Combo_Olive   = 'Olive';
+  Color_Combo_Navy    = 'Navy';
+  Color_Combo_Purple  = 'Purple';
+  Color_Combo_Teal    = 'Teal';
+  Color_Combo_Gray    = 'Gray';
+  Color_Combo_Silver  = 'Silver';
+  Color_Combo_Red     = 'Red';
+  Color_Combo_Lime    = 'Lime';
+  Color_Combo_Yellow  = 'Yellow';
+  Color_Combo_PYellow = 'Pale yellow';
+  Color_Combo_Blue    = 'Blue';
+  Color_Combo_SBlue   = 'Sky blue';
+  Color_Combo_Fuchsia = 'Fuchsia';
+  Color_Combo_Aqua    = 'Aqua';
+  Color_Combo_White   = 'White';
+  Color_Combo_None    = 'None';
+
 type
 
   TExtColorCombo = class(TCustomComboBox, IFWComponent, IFWComponentEdit)
@@ -81,11 +100,9 @@ type
       FReadOnly   ,
       FAlwaysSame : Boolean;
       FNotifyOrder : TNotifyEvent;
-      FLanguage : TColorComboLanguage;
       FColorValue : TColor;
       FHTMLColor: shortstring;
       procedure SetHTMLColor(Value: shortstring);
-      procedure SetLanguage(Lang: TColorcomboLanguage);
       procedure p_setLabel ( const alab_Label : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} );
       procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       procedure WMLButtonDown(var Message: {$IFDEF FPC}TLMLButtonDown{$ELSE}TWMLButtonDown{$ENDIF}); message {$IFDEF FPC}LM_LBUTTONDOWN{$ELSE}WM_LBUTTONDOWN{$ENDIF};
@@ -114,7 +131,6 @@ type
       function Focused : Boolean; override ;
     published
     { Published declarations }
-      property Language : TColorcomboLanguage read FLanguage write SetLanguage  default CST_COLOR_COMBO_DEFAULT_LANGUAGE;
       property HTMLcolor : shortString read FHTMLColor write SetHTMLColor stored True ;
       property Value : TColor read FColorValue write p_SetColorValue stored True default CST_COLOR_COMBO_DEFAULT_COLOR_VALUE ;
       property ReadOnly: Boolean read GetReadOnly write SetReadOnly stored True default False;
@@ -231,24 +247,15 @@ type
 
 implementation
 
-uses unite_messages, fonctions_proprietes;
+uses unite_messages, fonctions_proprietes, fonctions_languages;
 
 const
   CST_COLOR_COMBO_LastDefinedColor = 19;
   CST_COLOR_COMBO_ActiveColors: array [0..CST_COLOR_COMBO_LastDefinedColor] of TColor = (
   clBlack, clMaroon, clGreen, clMoneyGreen, clOlive, clNavy, clPurple, clTeal, clGray,
   clSilver, clRed, clLime, clYellow, clInfoBk, clBlue, clSkyBlue, clFuchsia, clAqua, clWhite, CST_COLOR_COMBO_DEFAULT_COLOR );
-
-  CST_COLOR_COMBO_Colors: array [lgEnglish..lgFrench,0..CST_COLOR_COMBO_LastDefinedColor ] of String=(
-  (
-  'Black','Maroon','Green','Money green', 'Olive', 'Navy', 'Purple', 'Teal', 'Gray',
-  'Silver', 'Red', 'Lime', 'Yellow', 'Pale yellow', 'Blue', 'Sky blue', 'Fuchsia', 'Aqua', 'White', 'None'),
-  (
-  'Preto','Marron','Verde', 'Dinheiro verde', 'Oliva', 'Azul Escuro', 'Roxo', 'Azul-petróleo', 'Cinza',
-  'Prata', 'Vermelho', 'Limão', 'Amarelo', 'Empalideça amarelo', 'Azul', 'Azul celeste', 'Rosa', 'Turquesa', 'Branco', 'Nada'),
-  (
-  'Noir','Marron','Vert','Vert argent', 'Olivier', 'Bleu marine', 'Pourpre', 'Bleu nuit', 'Gris',
-  'Argent', 'Rouge', 'Citron', 'Jaune', 'Jaune pâle', 'Bleu', 'Bleu ciel', 'Fuchsia', 'Eau', 'Blanc', 'Indéfini'));
+var
+  GT_COLOR_COMBO_Colors: array [0..CST_COLOR_COMBO_LastDefinedColor] of String;
 
 
 { TExtColorCombo }
@@ -260,7 +267,6 @@ begin
   Style := CST_COLOR_COMBO_DEFAULT_STYLE;
   FColorValue := CST_COLOR_COMBO_DEFAULT_COLOR_VALUE ;
   FHTMLColor  := CST_COLOR_COMBO_DEFAULT_COLOR_HTML  ;
-  FLanguage:= CST_COLOR_COMBO_DEFAULT_LANGUAGE ;
 
   //Visuel
   FReadOnly   := False;
@@ -272,7 +278,32 @@ begin
   if ( Items.Count = 0 ) then
    Begin
      Items.BeginUpdate;
-     for a:=0 to CST_COLOR_COMBO_LastDefinedColor do Items.add(colortostring(CST_COLOR_COMBO_ActiveColors[a]));
+     for a:=0 to CST_COLOR_COMBO_LastDefinedColor do
+        Begin
+          case a of
+            0  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Black;
+            1  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Maroon;
+            2  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Green;
+            3  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Mgreen;
+            4  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Olive;
+            5  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Navy;
+            6  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Purple;
+            7  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Teal;
+            8  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Gray;
+            9  : GT_COLOR_COMBO_Colors [a] := Color_Combo_Silver;
+            10 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Red;
+            11 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Lime;
+            12 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Yellow;
+            13 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Pyellow;
+            14 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Blue;
+            15 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Sblue;
+            16 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Fuchsia;
+            17 : GT_COLOR_COMBO_Colors [a] := Color_Combo_Aqua;
+            18 : GT_COLOR_COMBO_Colors [a] := Color_Combo_White;
+            else GT_COLOR_COMBO_Colors [a] := Color_Combo_None;
+          end;
+          Items.add(colortostring(CST_COLOR_COMBO_ActiveColors[a]));
+        end;
      Items.EndUpdate;
    End;
 end;
@@ -396,12 +427,6 @@ begin
     inherited;
 end;
 
-procedure TExtColorCombo.SetLanguage(Lang: TColorcomboLanguage);
-begin
-    FLanguage:=lang;
-    ItemIndex:=ItemIndex;
-end;
-
 
 procedure TExtColorCombo.DrawItem(Index: Integer;
   ARect: TRect; State: TOwnerDrawState);
@@ -431,7 +456,7 @@ begin
         End
         // Couleur non personnalisée ou indéfnie
        else
-        StrPCopy(Texto, CST_COLOR_COMBO_Colors[Flanguage,Index]);
+        StrPCopy(Texto, GT_COLOR_COMBO_Colors[Index]);
       format := DT_SINGLELINE or DT_NOPREFIX;
       if ( BiDiMode = bdLeftToRight )
       or (( BiDiMode = bdRightToLeftReadingOnly ) and not DroppedDown ) Then
