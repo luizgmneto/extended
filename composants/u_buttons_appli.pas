@@ -37,10 +37,11 @@ const
                                        UnitType : 3 ;
                                        Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
 {$ENDIF}
+   CST_FWBASKET='TFWBASKET';
+   CST_FWCANCEL='TFWCANCEL';
    CST_FWCLOSE='TFWCLOSE';
    CST_FWDATE='TFWDATE';
-   CST_FWCANCEL='TFWCANCEL';
-   CST_FWBASKET='TFWBASKET';
+   CST_FWFOLDER='TFWFOLDER';
    CST_FWOK='TFWOK';
    CST_FWINSERT='TFWINSERT';
    CST_FWDELETE='TFWDELETE';
@@ -175,10 +176,22 @@ type
        procedure Loaded; override;
      End;
   { TFWDocument }
-     TFWDocument = class ( TFWButton )
-        public
-         procedure Loaded; override;
-       End;
+   TFWDocument = class ( TFWButton )
+      public
+       procedure Loaded; override;
+     End;
+
+   { TFWFolder }
+    TFWFolder = class ( TFWButton )
+       public
+        procedure Loaded; override;
+      End;
+
+  { TFWMFolder }
+   TFWMFolder = class ( TFWMiniButton )
+      public
+       procedure Loaded; override;
+     End;
 
 
    { TFWDate }
@@ -187,7 +200,7 @@ type
         procedure Loaded; override;
       End;
   { TFWMDate }
-   TFWMDate = class ( TFWButton )
+   TFWMDate = class ( TFWMiniButton )
       public
        procedure Loaded; override;
      End;
@@ -423,6 +436,23 @@ begin
   acon_control.Invalidate;
 end;
 
+{ TFWFolder }
+
+procedure TFWFolder.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWFOLDER, Self );
+  inherited Loaded;
+end;
+
+{ TFWMFolder }
+
+procedure TFWMFolder.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWFOLDER, Self );
+  p_ChangeTailleBitmap ( Glyph.Bitmap,16,16,True);
+  inherited Loaded;
+end;
+
 { TFWMiniButton }
 
 constructor TFWMiniButton.Create(AOwner: TComponent);
@@ -452,8 +482,8 @@ begin
     Begin
       p_ChangeTailleBitmap(Glyph.Bitmap,ASize,Asize,True);
       Modified:=True;
-      TransparentMode:=tmAuto;
-      Transparent:=True;
+//      TransparentMode:=tmAuto;
+//      Transparent:=True;
     end;
   Invalidate;
 end;

@@ -197,7 +197,6 @@ end;
 procedure TExtDBImage.p_SetImage;
 begin
   if assigned ( FDataLink )
-  and FDataLink.CanModify
   and assigned ( FDataLink.Field )
   and not FDataLink.Field.IsNull
   and FPainted
