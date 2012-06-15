@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <CONFIG>
-  <Package Version="3">
+  <Package Version="4">
     <Name Value="lazfonctions"/>
+    <AddToProjectUsesSection Value="True"/>
     <CompilerOptions>
-      <Version Value="9"/>
+      <Version Value="11"/>
       <SearchPaths>
         <IncludeFiles Value="forms"/>
         <OtherUnitFiles Value="fonctions;forms;composants"/>
@@ -121,7 +122,9 @@
       </Item24>
     </Files>
     <i18n>
-      <OutDir Value="fonctions"/>
+      <EnableI18N Value="True"/>
+      <OutDir Value="LANG"/>
+      <EnableI18NForLFM Value="True"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="9">
@@ -161,5 +164,8 @@
       <Version Value="2"/>
       <IgnoreBinaries Value="False"/>
     </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
   </Package>
 </CONFIG>
