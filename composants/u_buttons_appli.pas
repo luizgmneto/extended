@@ -48,7 +48,6 @@ const
    CST_FWDELETE='TFWDELETE';
    CST_FWIMPORT='TFWIMPORT';
    CST_FWEXPORT='TFWEXPORT';
-   CST_FWTRASH='TFWTRASH';
    CST_FWCOPY='TFWCOPY';
    CST_FWQUIT='TFWQUIT';
    CST_FWERASE='TFWERASE';
@@ -63,6 +62,10 @@ const
    CST_FWCONFIG='TFWCONFIG';
    CST_FWWIDTH_CLOSE_BUTTON = 80 ;
    CST_FWLOAD='TFWLOAD';
+   CST_FWSEARCH='TFWSEARCH';
+   CST_FWZOOMIN='TFWZOOMIN';
+   CST_FWZOOMOUT='TFWZOOMOUT';
+   CST_FWTRASH='TFWTRASH';
 {$IFDEF GROUPVIEW}
    CST_FWOUTSELECT='TFWOUTSELECT';
    CST_FWINSELECT='TFWINSELECT';
@@ -282,34 +285,66 @@ type
        procedure Loaded; override;
      End;
 
-{ TFWInit }
+   { TFWInit }
    TFWInit = class ( TFWButton )
       public
        procedure Loaded; override;
      End;
 
-{ TFWConfig }
+   { TFWConfig }
    TFWConfig = class ( TFWButton )
       public
        procedure Loaded; override;
      End;
 
-{ TFWImport }
+   { TFWImport }
    TFWImport = class ( TFWButton )
       public
        procedure Loaded; override;
      End;
-{ TFWTrash }
+   { TFWTrash }
    TFWTrash = class ( TFWButton )
       public
        procedure Loaded; override;
      End;
 
-{ TFWExport }
-   TFWExport = class ( TFWButton )
+  { TFWExport }
+  TFWExport = class ( TFWButton )
+     public
+      procedure Loaded; override;
+    End;
+  { TFWSearch }
+   TFWSearch = class ( TFWButton )
       public
        procedure Loaded; override;
      End;
+  { TFWMSearch }
+   TFWMSearch = class ( TFWMiniButton )
+      public
+       procedure Loaded; override;
+     End;
+
+
+  { TFWZoomIn }
+   TFWZoomIn = class ( TFWButton )
+      public
+       procedure Loaded; override;
+     End;
+  { TFWMZoomIn }
+  TFWMZoomIn = class ( TFWMiniButton )
+     public
+      procedure Loaded; override;
+    End;
+  { TFWZoomOut }
+   TFWZoomOut = class ( TFWButton )
+      public
+       procedure Loaded; override;
+     End;
+   { TFWMZoomOut }
+  TFWMZoomOut = class ( TFWMiniButton )
+     public
+      procedure Loaded; override;
+    End;
 
 {$IFDEF GROUPVIEW}
 
@@ -437,6 +472,57 @@ begin
   acon_control.Invalidate;
 end;
 
+{ TFWMSearch }
+
+procedure TFWMSearch.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWSEARCH, Self );
+  AdaptGlyph(16);
+  inherited Loaded;
+end;
+
+{ TFWSearch }
+
+procedure TFWSearch.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWSEARCH, Self );
+  inherited Loaded;
+end;
+
+{ TFWMZoomOut }
+
+procedure TFWMZoomOut.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWZOOMOUT, Self );
+  AdaptGlyph(16);
+  inherited Loaded;
+end;
+
+{ TFWZoomOut }
+
+procedure TFWZoomOut.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWZOOMOUT, Self );
+  inherited Loaded;
+end;
+
+{ TFWMZoomIn }
+
+procedure TFWMZoomIn.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWZOOMIN, Self );
+  AdaptGlyph(16);
+  inherited Loaded;
+end;
+
+{ TFWZoomIn }
+
+procedure TFWZoomIn.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWZOOMIN, Self );
+  inherited Loaded;
+end;
+
 { TFWFolder }
 
 procedure TFWFolder.Loaded;
@@ -450,7 +536,7 @@ end;
 procedure TFWMFolder.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWFOLDER, Self );
-  p_ChangeTailleBitmap ( Glyph.Bitmap,16,16,True);
+  AdaptGlyph(16);
   inherited Loaded;
 end;
 
