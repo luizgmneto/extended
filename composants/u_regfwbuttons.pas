@@ -42,8 +42,9 @@ begin
   RegisterComponents('FWButtons', [TFWXPButton,TFWRefresh,TFWClose,TFWDate,TFWMDate,TFWFolder,TFWMFolder,
                                    TFWNext,TFWPrior,TFWLoad,TFWTrash,TFWConfig,
                                    {$IFDEF GROUPVIEW}TFWBasket,TFWInSelect,TFWInAll,TFWOutSelect,TFWOutAll,{$ENDIF}
-                                   TFWOK,TFWInsert,TFWInit,TFWDelete,TFWMDelete,TFWDocument,TFWCancel,TFWQuit,TFWErase,
-                                   TFWSaveAs,TFWAdd,TFWMAdd,TFWImport,TFWExport,TFWPrint,TFWPreview,TFWCopy]);
+                                   TFWOK,TFWInsert,TFWInit,TFWAdd,TFWMAdd,TFWDelete,TFWMDelete,TFWDocument,
+                                   TFWCancel,TFWQuit,TFWErase,
+                                   TFWSaveAs,TFWImport,TFWExport,TFWPrint,TFWPreview,TFWCopy]);
 End ;
 
 {$IFDEF FPC}
