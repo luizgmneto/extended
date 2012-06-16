@@ -17,8 +17,8 @@ uses
   {$IFDEF VERSIONS}
   fonctions_version,
   {$ENDIF}
-  u_buttons_appli,
-  Controls,
+  u_buttons_defs,
+  Controls, u_buttons_appli,
   TFlatSpeedButtonUnit, Graphics;
 
 {$IFDEF VERSIONS}

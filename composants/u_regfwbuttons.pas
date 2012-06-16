@@ -35,16 +35,11 @@ procedure Register;
 implementation
 
 uses
-    u_buttons_appli, unite_messages ;
+    u_buttons_defs, unite_messages ;
 
 procedure Register;
 begin
-  RegisterComponents('FWButtons', [TFWXPButton,TFWRefresh,TFWClose,TFWDate,TFWMDate,TFWFolder,TFWMFolder,
-                                   TFWNext,TFWPrior,TFWLoad,TFWTrash,TFWConfig,
-                                   {$IFDEF GROUPVIEW}TFWBasket,TFWInSelect,TFWInAll,TFWOutSelect,TFWOutAll,{$ENDIF}
-                                   TFWOK,TFWInsert,TFWInit,TFWAdd,TFWMAdd,TFWDelete,TFWMDelete,TFWDocument,
-                                   TFWCancel,TFWQuit,TFWErase,TFWImport,TFWExport,TFWPrint,TFWPreview,TFWCopy,
-                                   TFWSaveAs,TFWSearch,TFWMSearch,TFWZoomIn,TFWMZoomIn,TFWZoomOut,TFWMZoomOut]);
+  RegisterComponents('FWButtons', [TFWXPButton]);
 End ;
 
 {$IFDEF FPC}

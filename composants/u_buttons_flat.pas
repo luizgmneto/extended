@@ -17,7 +17,7 @@ uses
   {$IFDEF VERSIONS}
   fonctions_version,
   {$ENDIF}
-  u_buttons_appli, u_buttons_extension,
+  u_buttons_defs, u_buttons_extension,
   Graphics, TFlatButtonUnit;
 
 {$IFDEF VERSIONS}
@@ -249,7 +249,7 @@ implementation
 uses {$IFDEF FPC}ObjInspStrConsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
      unite_messages, Dialogs,
-     Forms ;
+     Forms, u_buttons_appli ;
 
 
 {$IFNDEF FPC}

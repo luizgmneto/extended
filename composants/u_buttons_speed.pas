@@ -20,7 +20,7 @@ uses
 {$IFDEF VERSIONS}
    fonctions_version,
 {$ENDIF}
-  Controls, u_buttons_appli,
+  Controls, u_buttons_defs,
   JvXPButtons, Graphics,
   u_buttons_extension,
   Menus, Buttons;
@@ -324,7 +324,7 @@ implementation
 uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
      unite_messages, fonctions_images,
-     Forms ;
+     Forms, u_buttons_appli ;
 
 
 {$IFNDEF FPC}

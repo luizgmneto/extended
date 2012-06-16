@@ -21,7 +21,7 @@ uses
    fonctions_version,
 {$ENDIF}
   Controls,
-  JvXPButtons, Graphics,
+  u_buttons_defs, Graphics,
   Menus;
 
 const
@@ -39,11 +39,8 @@ const
                                        Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
 {$ENDIF}
    CST_FWBASKET='TFWBASKET';
-   CST_FWCANCEL='TFWCANCEL';
-   CST_FWCLOSE='TFWCLOSE';
    CST_FWDATE='TFWDATE';
    CST_FWFOLDER='TFWFOLDER';
-   CST_FWOK='TFWOK';
    CST_FWINSERT='TFWINSERT';
    CST_FWDELETE='TFWDELETE';
    CST_FWIMPORT='TFWIMPORT';
@@ -60,7 +57,6 @@ const
    CST_FWPRIOR='TFWPRIOR';
    CST_FWINIT='TFWINIT';
    CST_FWCONFIG='TFWCONFIG';
-   CST_FWWIDTH_CLOSE_BUTTON = 80 ;
    CST_FWLOAD='TFWLOAD';
    CST_FWSEARCH='TFWSEARCH';
    CST_FWZOOMIN='TFWZOOMIN';
@@ -71,64 +67,11 @@ const
    CST_FWINSELECT='TFWINSELECT';
    CST_FWOUTALL='TFWOUTALL';
    CST_FWINALL='TFWINALL';
-   CST_WIDTH_BUTTONS_MOVING  = 60;
-   CST_HEIGHT_BUTTONS_MOVING = 40;
-   CST_WIDTH_BUTTONS_ACTIONS  = 120;
-   CST_HEIGHT_BUTTONS_ACTIONS = 20;
 {$ENDIF}
-
-procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; const as_Resource : String ; const acon_control :TControl);
 
 type
 
-   IFWButton = interface
-   ['{620AE27F-98C1-8A6D-E54F-FE57A16207E5}']
-       procedure Paint;
-   end;
-
-    { TFWXPButton }
-
-    TFWXPButton = class ( TJvXPButton, IFWButton )
-      private
-       FColor           ,
-       FColorFrameFocus : TColor;
-       FDropDownMenu : TPopupMenu;
-      protected
-       procedure AdaptGlyph (const ASize : Integer ); virtual;
-       procedure MouseEnter{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
-       procedure MouseLeave{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
-       procedure Click; override;
-     public
-      constructor Create ( AOwner : TComponent ) ; override;
-
-      published
-       property ColorFrameFocus : TColor read FColorFrameFocus write FColorFrameFocus default clCream;
-       property DropDownMenu : TPopupMenu read FDropDownMenu write FDropDownMenu;
-     End;
-    { TFWButton }
-
-    TFWButton = class ( TFWXPButton, IFWButton )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       property Glyph stored False;
-      published
-       property Height default 25;
-       property Width default 25;
-     End;
-
-    { TFWMiniButton }
-
-    TFWMiniButton = class ( TFWXPButton, IFWButton )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       property Glyph stored False;
-      published
-       property Height default 17;
-       property Width default 17;
-     End;
-
-
-   { TFWClose }
+  { TFWClose }
 
   TFWClose = class ( TFWButton )
      public
@@ -140,14 +83,23 @@ type
       property Width default CST_FWWIDTH_CLOSE_BUTTON ;
     End;
 
-{ TFWOK }
+  { TFWCancel }
+   TFWCancel = class ( TFWButton )
+      public
+       constructor Create ( AOwner : TComponent ) ; override;
+       procedure Loaded; override;
+     End;
+
+
+   { TFWOK }
    TFWOK = class ( TFWButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
       published
-       
+
      End;
+
 
 { TFWInsert }
    TFWInsert = class ( TFWButton )
@@ -246,14 +198,6 @@ type
       published
        
      End;
-
-{ TFWCancel }
-   TFWCancel = class ( TFWButton )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
-     End;
-
 
 { TFWPreview }
    TFWPreview = class ( TFWMiniButton )
@@ -443,33 +387,71 @@ var Buttons_Appli_ResInstance             : THandle      = 0 ;
 {$ENDIF}
 
 
-procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; const as_Resource : String ; const acon_control :TControl);
-var
-  Stream: TLazarusResourceStream;
+{ TFWClose }
+
+
+procedure TFWClose.Click;
 begin
-  with FGLyph do
-   Begin
+  if not assigned ( OnClick )
+  and ( Owner is TCustomForm ) then
+    with Owner as TCustomForm do
+     Begin
+      Close;
+      Exit;
+     End;
+  inherited;
+
+end;
+
+constructor TFWClose.Create(AOwner: TComponent);
+begin
+  inherited;
+  Caption := SCloseButton;
+  Width := CST_FWWIDTH_CLOSE_BUTTON;
+end;
+
+procedure TFWClose.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWCLOSE, Self );
+  inherited Loaded;
+end;
+
+
+{ TFWCancel }
+
+constructor TFWCancel.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
   {$IFDEF FPC}
-    Clear;
-    Stream := TLazarusResourceStream.Create(as_Resource, nil);
-    try
-      if Bitmap.IsFileExtensionSupported(Stream.Res.ValueType) Then
-        Begin
-         Bitmap.LoadFromStream(Stream);
-        end
-      else if Pixmap.IsFileExtensionSupported(Stream.Res.ValueType) Then
-       Pixmap.LoadFromStream(Stream)
-    finally
-      Stream.Free;
-    end;
-    LoadFromLazarusResource(as_Resource);
+  Caption := oiStdActDataSetCancel1Hint;
   {$ELSE}
-    if ( Buttons_Appli_ResInstance = 0 ) Then
-      Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
-    Bitmap.LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
+  Caption := SMsgDlgCancel;
   {$ENDIF}
-    End;
-  acon_control.Invalidate;
+end;
+
+procedure TFWCancel.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWCANCEL, Self );
+  inherited Loaded;
+end;
+
+
+{ TFWOK }
+
+constructor TFWOK.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  {$IFDEF FPC}
+  Caption := oisOk2;
+  {$ELSE}
+  Caption := SMsgDlgOK;
+  {$ENDIF}
+end;
+
+procedure TFWOK.Loaded;
+begin
+  p_Load_Buttons_Appli ( Glyph, CST_FWOK, Self );
+  inherited Loaded;
 end;
 
 { TFWMSearch }
@@ -540,75 +522,6 @@ begin
   inherited Loaded;
 end;
 
-{ TFWMiniButton }
-
-constructor TFWMiniButton.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  Height:=17;
-  Width :=17;
-end;
-
-{ TFWButton }
-
-constructor TFWButton.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  Height:=25;
-  Width :=25;
-end;
-
-
-{ TFWXPButton }
-
-procedure TFWXPButton.AdaptGlyph(const ASize: Integer);
-begin
-  with Glyph.Bitmap do
-  if not Empty
-  and (( ASize < Height ) or ( ASize < Width )) Then
-    Begin
-      p_ChangeTailleBitmap(Glyph.Bitmap,ASize,Asize,True);
-      Modified:=True;
-//      TransparentMode:=tmAuto;
-//      Transparent:=True;
-    end;
-  Invalidate;
-end;
-
-procedure TFWXPButton.MouseEnter;
-begin
-  FColor:=Color;
-  Color := FColorFrameFocus;
-{$IFDEF FPC}
-  inherited;
-{$ENDIF}
-end;
-
-procedure TFWXPButton.MouseLeave;
-begin
-  Color := FColor;
-{$IFDEF FPC}
-  inherited;
-{$ENDIF}
-end;
-
-procedure TFWXPButton.Click;
-begin
-  if Assigned(FDropDownMenu) Then
-  with Mouse.CursorPos do
-    Begin
-     FDropDownMenu.Popup(X, Y);
-    end;
-  inherited Click;
-end;
-
-constructor TFWXPButton.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  FColorFrameFocus:=clCream;
-end;
-
-
 { TFWTrash }
 
 procedure TFWTrash.Loaded;
@@ -673,72 +586,6 @@ procedure TFWMDelete.Loaded;
 begin
   p_Load_Buttons_Appli ( Glyph, CST_FWDELETE, Self );
   p_ChangeTailleBitmap ( Glyph.Bitmap,16,16,True);
-  inherited Loaded;
-end;
-
-{ TFWClose }
-
-
-procedure TFWClose.Click;
-begin
-  if not assigned ( OnClick )
-  and ( Owner is TCustomForm ) then
-    with Owner as TCustomForm do
-     Begin
-      Close;
-      Exit;
-     End;
-  inherited;
-
-end;
-
-constructor TFWClose.Create(AOwner: TComponent);
-begin
-  inherited;
-  Caption := SCloseButton;
-  Width := CST_FWWIDTH_CLOSE_BUTTON;
-end;
-
-procedure TFWClose.Loaded;
-begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWCLOSE, Self );
-  inherited Loaded;
-end;
-
-{ TFWCancel }
-
-constructor TFWCancel.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oiStdActDataSetCancel1Hint;
-  {$ELSE}
-  Caption := SMsgDlgCancel;
-  {$ENDIF}
-end;
-
-procedure TFWCancel.Loaded;
-begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWCANCEL, Self );
-  inherited Loaded;
-end;
-
-
-{ TFWOK }
-
-constructor TFWOK.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oisOk2;
-  {$ELSE}
-  Caption := SMsgDlgOK;
-  {$ENDIF}
-end;
-
-procedure TFWOK.Loaded;
-begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWOK, Self );
   inherited Loaded;
 end;
 
