@@ -22,7 +22,7 @@ uses
 {$ENDIF}
   Controls,
   u_buttons_defs, Graphics,
-  Menus;
+  Menus, JvXPButtons;
 
 const
 {$IFDEF VERSIONS}

@@ -22,7 +22,7 @@ uses
 {$ENDIF}
   Controls,
   JvXPButtons, Graphics,
-  Menus;
+  Menus, ImgList;
 
 
 const
@@ -78,25 +78,52 @@ type
      End;
     { TFWButton }
 
-    TFWButton = class ( TFWXPButton, IFWButton )
+    TFWButton = class ( TFWXPButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
-       property Glyph stored False;
       published
+       property Glyph stored False;
        property Height default 25;
        property Width default 25;
      End;
 
     { TFWMiniButton }
 
-    TFWMiniButton = class ( TFWXPButton, IFWButton )
+    TFWMiniButton = class ( TFWXPButton )
       public
        constructor Create ( AOwner : TComponent ) ; override;
-       property Glyph stored False;
       published
+       property Glyph stored False;
        property Height default 17;
        property Width default 17;
      End;
+
+    { TFWMiniButton }
+
+    { TFWMiniButtonList }
+
+    { TFWButtonList }
+
+    TFWButtonList = class ( TFWXPButton )
+      private
+       FImagesList : TCustomImageList;
+       FImageSize  ,
+       FImageIndex : Integer;
+       procedure p_setImagesList ( const AValue : TCustomImageList );
+       procedure p_setImageIndex ( const AValue : Integer );
+       procedure p_setImageSize  ( const AValue : Integer );
+      public
+       constructor Create ( AOwner : TComponent ) ; override;
+       procedure Loaded; override;
+       procedure LoadGlyph; virtual;
+      published
+       property Images: TCustomImageList read FImagesList write p_setImagesList;
+       property ImageIndex: Integer read FImageIndex write p_setImageIndex default -1;
+       property ImageSize : Integer read FImageSize  write p_setImageSize default 0;
+       property Glyph stored False;
+       property Height default 17;
+       property Width default 17;
+    End;
 
 implementation
 
@@ -138,6 +165,62 @@ begin
   {$ENDIF}
     End;
   acon_control.Invalidate;
+end;
+
+{ TFWButtonList }
+
+procedure TFWButtonList.p_setImagesList(const AValue: TCustomImageList);
+begin
+  if FImagesList <> AValue Then
+    Begin
+     FImagesList:=AValue;
+     LoadGlyph;
+    end;
+end;
+
+procedure TFWButtonList.p_setImageIndex(const AValue: Integer);
+begin
+  if FImageIndex <> AValue Then
+    Begin
+     FImageIndex:=AValue;
+     LoadGlyph;
+    end;
+end;
+
+procedure TFWButtonList.p_setImageSize(const AValue: Integer);
+begin
+  if FImageSize <> AValue Then
+    Begin
+     FImageSize:=AValue;
+     if FImageSize > 0 Then
+       AdaptGlyph(FImageSize);
+    end;
+end;
+
+constructor TFWButtonList.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FImageSize:=0;
+  FImageIndex:=-1;
+  FImagesList:=nil;
+  Height:=17;
+  Width :=17;
+end;
+
+procedure TFWButtonList.Loaded;
+begin
+  inherited Loaded;
+end;
+
+procedure TFWButtonList.LoadGlyph;
+begin
+  if assigned ( FImagesList )
+  and ( FImageIndex >= 0 )
+  and ( FImageIndex < FImagesList.Count )
+   then
+     FImagesList.GetBitmap ( FImageIndex , Glyph.Bitmap )
+   Else
+    Glyph.Bitmap.Assign(nil);
 end;
 
 { TFWMiniButton }

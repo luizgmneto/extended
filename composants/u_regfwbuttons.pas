@@ -39,7 +39,7 @@ uses
 
 procedure Register;
 begin
-  RegisterComponents('FWButtons', [TFWXPButton]);
+  RegisterComponents('FWButtons', [TFWXPButton,TFWButtonList]);
 End ;
 
 {$IFDEF FPC}
