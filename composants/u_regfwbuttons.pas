@@ -43,8 +43,8 @@ begin
                                    TFWNext,TFWPrior,TFWLoad,TFWTrash,TFWConfig,
                                    {$IFDEF GROUPVIEW}TFWBasket,TFWInSelect,TFWInAll,TFWOutSelect,TFWOutAll,{$ENDIF}
                                    TFWOK,TFWInsert,TFWInit,TFWAdd,TFWMAdd,TFWDelete,TFWMDelete,TFWDocument,
-                                   TFWCancel,TFWQuit,TFWErase,
-                                   TFWSaveAs,TFWImport,TFWExport,TFWPrint,TFWPreview,TFWCopy]);
+                                   TFWCancel,TFWQuit,TFWErase,TFWImport,TFWExport,TFWPrint,TFWPreview,TFWCopy,
+                                   TFWSaveAs,TFWSearch,TFWMSearch,TFWZoomIn,TFWMZoomIn,TFWZoomOut,TFWMZoomOut]);
 End ;
 
 {$IFDEF FPC}
