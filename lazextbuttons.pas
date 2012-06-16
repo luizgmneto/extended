@@ -2,20 +2,20 @@
   This source is only used to compile and install the package.
  }
 
-unit lazextbuttons; 
+unit lazextbuttons;
 
 interface
 
 uses
-    u_buttons_extension, u_buttons_blue, u_buttons_flat, u_buttons_speed, 
-  LazarusPackageIntf;
+  u_buttons_extension, u_buttons_blue, u_buttons_flat, u_buttons_speed, 
+  u_buttons_appli, LazarusPackageIntf;
 
 implementation
 
-procedure Register; 
+procedure Register;
 begin
-end; 
+end;
 
 initialization
-  RegisterPackage('lazextbuttons', @Register); 
+  RegisterPackage('lazextbuttons', @Register);
 end.

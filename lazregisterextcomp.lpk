@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <CONFIG>
-  <Package Version="3">
+  <Package Version="4">
     <Name Value="lazregisterextcomp"/>
+    <AddToProjectUsesSection Value="True"/>
     <CompilerOptions>
-      <Version Value="9"/>
+      <Version Value="11"/>
       <SearchPaths>
         <OtherUnitFiles Value="composants"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
@@ -13,7 +14,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="1"/>
-    <Files Count="5">
+    <Files Count="6">
       <Item1>
         <Filename Value="composants/u_regframeworkcomponents.pas"/>
         <HasRegisterProc Value="True"/>
@@ -38,6 +39,11 @@
         <Filename Value="composants/U_RegVersion.pas"/>
         <UnitName Value="U_RegVersion"/>
       </Item5>
+      <Item6>
+        <Filename Value="composants/u_regfwbuttons.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regfwbuttons"/>
+      </Item6>
     </Files>
     <Type Value="DesignTime"/>
     <RequiredPkgs Count="3">
@@ -58,5 +64,8 @@
     <PublishOptions>
       <Version Value="2"/>
     </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
   </Package>
 </CONFIG>
