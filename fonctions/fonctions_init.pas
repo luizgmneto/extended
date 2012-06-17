@@ -665,7 +665,7 @@ begin
       if as_Ininame <> '' then
         ls_PathIni := fs_GetIniDir ( ab_Root ) + CST_INI_SOFT  + as_Ininame + CST_EXTENSION_INI
       else if gs_ModeConnexion = CST_MACHINE then
-        ls_PathIni := fs_GetIniDir ( ab_Root ) + CST_INI_USERS  + fs_GetComputerName + CST_EXTENSION_INI
+        ls_PathIni := ExtractFileDir(Application.ExeName) + DirectorySeparator + CST_INI_USERS  + fs_GetComputerName + CST_EXTENSION_INI
       else
         ls_PathIni := fs_GetIniDir ( ab_Root ) + CST_INI_USERS + CST_EXTENSION_INI ;
       if ab_Root
