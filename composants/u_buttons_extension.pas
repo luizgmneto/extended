@@ -257,18 +257,23 @@ var Buttons_Appli_ResInstance             : THandle      = 0 ;
 {$ENDIF}
 
 procedure p_Load_Bitmap_Appli ( const FGLyph : TBitmap; const as_Resource : String ; const acon_control :TControl );
-Begin
-  {$IFDEF FPC}
-    FGLyph.BeginUpdate;
-    FGLyph.FreeImage;
-    FGlyph.LoadFromLazarusResource( as_Resource );
-    FGLyph.EndUpdate;
-    FGLyph.Modified:=True;
-  {$ELSE}
-    if ( Buttons_Appli_ResInstance = 0 ) Then
-      Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
-    FGlyph.LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
-  {$ENDIF}
+begin
+  if csDesigning in acon_control.ComponentState
+   Then
+    Begin
+    {$IFDEF FPC}
+      FGlyph.LoadFromLazarusResource( as_Resource );
+    {$ELSE}
+      if ( Buttons_Appli_ResInstance = 0 ) Then
+        Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
+      FGlyph.LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
+    {$ENDIF}
+    end
+   else
+    try
+      FGLyph.LoadFromFile( ExtractFileDir(Application.ExeName)+CST_SUBDIR_IMAGES_SOFT + as_Resource + CST_IMAGE_SOFT_BITMAP );
+    finally
+    end;
   if not ( csCreating in acon_control.ControlState ) then
     acon_control.Invalidate;
 end;

@@ -47,4 +47,8 @@ begin
                                    TFWSaveAs,TFWSearch,TFWZoomIn,TFWZoomOut]);
 End ;
 
+{$IFDEF FPC}
+initialization
+{$I u_buttons_appli.lrs}
+{$ENDIF}
 end.
