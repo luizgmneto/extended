@@ -39,12 +39,12 @@ uses
 
 procedure Register;
 begin
-  RegisterComponents('FWButtons', [TFWRefresh,TFWDate,TFWMDate,TFWFolder,TFWMFolder,
+  RegisterComponents('FWButtons', [TFWRefresh,TFWDate,TFWFolder,
                                    TFWNext,TFWPrior,TFWLoad,TFWTrash,TFWConfig, TFWClose, TFWCancel, TFWOK,
                                    {$IFDEF GROUPVIEW}TFWBasket,TFWInSelect,TFWInAll,TFWOutSelect,TFWOutAll,{$ENDIF}
-                                   TFWInsert,TFWInit,TFWAdd,TFWMAdd,TFWDelete,TFWMDelete,TFWDocument,
+                                   TFWInsert,TFWInit,TFWAdd,TFWDelete,TFWDocument,
                                    TFWQuit,TFWErase,TFWImport,TFWExport,TFWPrint,TFWPreview,TFWCopy,
-                                   TFWSaveAs,TFWSearch,TFWMSearch,TFWZoomIn,TFWMZoomIn,TFWZoomOut,TFWMZoomOut]);
+                                   TFWSaveAs,TFWSearch,TFWZoomIn,TFWZoomOut]);
 End ;
 
 end.
