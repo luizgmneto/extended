@@ -22,7 +22,7 @@ uses
   CompSuperForm,
 {$ENDIF}
 {$IFDEF FPC}
-        LCLIntf, LCLType, lmessages, SQLDB,
+  LCLIntf, LCLType, lmessages, SQLDB,
 {$ELSE}
   Windows, OleDb, Messages,
 {$ENDIF}
@@ -48,13 +48,14 @@ uses
                                        FileUnit : 'U_FormMainIni' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Fiche principale deuxième version.' ;
-                                       BugsStory : '1.1.1.0 : Changing fi_findForm to ffor_findForm.' + #13#10
+                                       BugsStory : '1.1.1.1 : Debuging.' + #13#10
+                                                 + '1.1.1.0 : Changing fi_findForm to ffor_findForm.' + #13#10
                                                  + '1.1.0.2 : Some fb_CreateChild to fp_CreateChild, Creating p_CloseForm from p_CloseMDI.' + #13#10
                                                  + '1.1.0.1 : No static method on protected and public.' + #13#10
                                                  + '1.1.0.0 : Passage en générique.' + #13#10
                                                  + '1.0.0.0 : Gestion INI, de fiches et du clavier.';
                                        UnitType : 3 ;
-                                       Major : 1 ; Minor : 1 ; Release : 1 ; Build : 0 );
+                                       Major : 1 ; Minor : 1 ; Release : 1 ; Build : 1 );
 
 {$ENDIF}
 type
