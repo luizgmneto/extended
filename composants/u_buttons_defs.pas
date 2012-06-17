@@ -79,28 +79,17 @@ type
     { TFWButton }
 
     TFWButton = class ( TFWXPButton )
+    private
+      FGlyphSize: Integer;
       public
        constructor Create ( AOwner : TComponent ) ; override;
+       procedure Loaded; override;
       published
        property Glyph stored False;
+       property GlyphSize : Integer read FGlyphSize write FGlyphSize default 24;
        property Height default 25;
        property Width default 25;
      End;
-
-    { TFWMiniButton }
-
-    TFWMiniButton = class ( TFWXPButton )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-      published
-       property Glyph stored False;
-       property Height default 17;
-       property Width default 17;
-     End;
-
-    { TFWMiniButton }
-
-    { TFWMiniButtonList }
 
     { TFWButtonList }
 
@@ -114,7 +103,6 @@ type
        procedure p_setImageSize  ( const AValue : Integer );
       public
        constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
        procedure LoadGlyph; virtual;
       published
        property Images: TCustomImageList read FImagesList write p_setImagesList;
@@ -207,29 +195,19 @@ begin
   Width :=17;
 end;
 
-procedure TFWButtonList.Loaded;
-begin
-  inherited Loaded;
-end;
-
 procedure TFWButtonList.LoadGlyph;
 begin
   if assigned ( FImagesList )
   and ( FImageIndex >= 0 )
   and ( FImageIndex < FImagesList.Count )
    then
-     FImagesList.GetBitmap ( FImageIndex , Glyph.Bitmap )
+    Begin
+     FImagesList.GetBitmap ( FImageIndex , Glyph.Bitmap );
+     if FImageSize > 0 Then
+       AdaptGlyph(FImageSize);
+    end
    Else
     Glyph.Bitmap.Assign(nil);
-end;
-
-{ TFWMiniButton }
-
-constructor TFWMiniButton.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  Height:=17;
-  Width :=17;
 end;
 
 { TFWButton }
@@ -237,8 +215,16 @@ end;
 constructor TFWButton.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FGlyphSize:=24;
   Height:=25;
   Width :=25;
+end;
+
+procedure TFWButton.Loaded;
+begin
+  if FGlyphSize >= 0 Then
+    AdaptGlyph(FGlyphSize);
+  inherited Loaded;
 end;
 
 
