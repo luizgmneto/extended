@@ -63,7 +63,6 @@ type
       private
        FColor           ,
        FColorFrameFocus : TColor;
-       FDropDownMenu : TPopupMenu;
       protected
        procedure AdaptGlyph (const ASize : Integer ); virtual;
        procedure MouseEnter{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
@@ -74,7 +73,6 @@ type
 
       published
        property ColorFrameFocus : TColor read FColorFrameFocus write FColorFrameFocus default clCream;
-       property DropDownMenu : TPopupMenu read FDropDownMenu write FDropDownMenu;
      End;
     { TFWButton }
 
@@ -118,7 +116,7 @@ implementation
 uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
      unite_messages, fonctions_images,
-     Forms ;
+     Forms, Math ;
 
 
 {$IFNDEF FPC}
@@ -262,11 +260,14 @@ begin
 end;
 
 procedure TFWXPButton.Click;
+var lp_pos : TPoint;
 begin
-  if Assigned(FDropDownMenu) Then
-  with Mouse.CursorPos do
+  if Assigned(PopUpMenu) Then
     Begin
-     FDropDownMenu.Popup(X, Y);
+     lp_pos.X := Left;
+     lp_pos.Y := Top ;
+     lp_pos := ClientToScreen( lp_pos );
+     PopUpMenu.Popup(lp_pos.X,lp_pos.Y);
     end;
   inherited Click;
 end;

@@ -191,6 +191,7 @@ var Process : TProcess;
 {$ENDIF}
 Begin
 {$IFDEF FPC}
+  Process := TProcess.Create(nil);
   with Process do
     Begin
       CommandLine :=
