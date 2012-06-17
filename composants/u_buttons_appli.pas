@@ -11,14 +11,12 @@
 interface
 
 uses
-{$IFDEF FPC}
-   lresources,
-{$ELSE}
-   Windows, Messages,
+{$IFNDEF FPC}
+  Windows, Messages,
 {$ENDIF}
   Classes,
 {$IFDEF VERSIONS}
-   fonctions_version,
+  fonctions_version,
 {$ENDIF}
   Controls,
   u_buttons_defs, Graphics,
@@ -26,324 +24,338 @@ uses
 
 const
 {$IFDEF VERSIONS}
-    gVer_buttons_appli : T_Version = ( Component : 'Customized Buttons' ;
-                                       FileUnit : 'u_buttons_appli' ;
-                                       Owner : 'Matthieu Giroux' ;
-                                       Comment : 'Customized Buttons components.' ;
-                                       BugsStory : '1.0.0.2 : Date and Folder Buttons.'+ #13#10
-                                                 + '1.0.0.1 : UTF 8.'+ #13#10
-                                                 + '1.0.0.0 : Version OK.'+ #13#10
-                                                 + '0.8.0.1 : Group view buttons better.'+ #13#10
-                                                 + '0.8.0.0 : To test.';
-                                       UnitType : 3 ;
-                                       Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
+  gVer_buttons_appli: T_Version = (Component: 'Customized Buttons';
+    FileUnit: 'u_buttons_appli';
+    Owner: 'Matthieu Giroux';
+    Comment: 'Customized Buttons components.';
+    BugsStory: '1.0.0.2 : Date and Folder Buttons.' +
+    #13#10 + '1.0.0.1 : UTF 8.' +
+    #13#10 + '1.0.0.0 : Version OK.' +
+    #13#10 +
+    '0.8.0.1 : Group view buttons better.' +
+    #13#10 + '0.8.0.0 : To test.';
+    UnitType: 3;
+    Major: 1; Minor: 0; Release: 0; Build: 2);
 {$ENDIF}
-   CST_FWBASKET='TFWBASKET';
-   CST_FWDATE='TFWDATE';
-   CST_FWFOLDER='TFWFOLDER';
-   CST_FWINSERT='TFWINSERT';
-   CST_FWDELETE='TFWDELETE';
-   CST_FWIMPORT='TFWIMPORT';
-   CST_FWEXPORT='TFWEXPORT';
-   CST_FWCOPY='TFWCOPY';
-   CST_FWQUIT='TFWQUIT';
-   CST_FWERASE='TFWERASE';
-   CST_FWSAVEAS='TFWSAVEAS';
-   CST_FWPRINT='TFWPRINT';
-   CST_FWDOCUMENT='TFWDOCUMENT';
-   CST_FWPREVIEW='TFWPREVIEW';
-   CST_FWNEXT='TFWNEXT';
-   CST_FWREFRESH='TFWREFRESH';
-   CST_FWPRIOR='TFWPRIOR';
-   CST_FWINIT='TFWINIT';
-   CST_FWCONFIG='TFWCONFIG';
-   CST_FWLOAD='TFWLOAD';
-   CST_FWSEARCH='TFWSEARCH';
-   CST_FWZOOMIN='TFWZOOMIN';
-   CST_FWZOOMOUT='TFWZOOMOUT';
-   CST_FWTRASH='TFWTRASH';
+  CST_FWCANCEL='tfwcancel';
+  CST_FWCLOSE='tfwclose';
+  CST_FWOK='tfwok';
+  CST_FWBASKET = 'tfwbasket';
+  CST_FWDATE = 'tfwdate';
+  CST_FWFOLDER = 'tfwfolder';
+  CST_FWINSERT = 'tfwinsert';
+  CST_FWDELETE = 'tfwdelete';
+  CST_FWIMPORT = 'tfwimport';
+  CST_FWEXPORT = 'tfwexport';
+  CST_FWCOPY = 'tfwcopy';
+  CST_FWQUIT = 'tfwquit';
+  CST_FWERASE = 'tfwerase';
+  CST_FWSAVEAS = 'tfwsaveas';
+  CST_FWPRINT = 'tfwprint';
+  CST_FWDOCUMENT = 'tfwdocument';
+  CST_FWPREVIEW = 'tfwpreview';
+  CST_FWNEXT = 'tfwnext';
+  CST_FWREFRESH = 'tfwrefrash';
+  CST_FWPRIOR = 'tfwprior';
+  CST_FWINIT = 'tfwinit';
+  CST_FWCONFIG = 'tfwconfig';
+  CST_FWLOAD = 'tfwload';
+  CST_FWSEARCH = 'tfwsearch';
+  CST_FWZOOMIN = 'tfwzoomin';
+  CST_FWZOOMOUT = 'tfwzoomout';
+  CST_FWTRASH = 'tfwTtrash';
 {$IFDEF GROUPVIEW}
-   CST_FWOUTSELECT='TFWOUTSELECT';
-   CST_FWINSELECT='TFWINSELECT';
-   CST_FWOUTALL='TFWOUTALL';
-   CST_FWINALL='TFWINALL';
+  CST_FWOUTSELECT = 'tfwoutselect';
+  CST_FWINSELECT = 'tfwinselect';
+  CST_FWOUTALL = 'tfwoutall';
+  CST_FWINALL = 'tfwinnall';
 {$ENDIF}
 
 type
 
   { TFWClose }
 
-  TFWClose = class ( TFWButton )
-     public
-      constructor Create ( AOwner : TComponent ) ; override;
-      procedure Loaded; override;
-      procedure Click; override;
-     published
+  TFWClose = class(TFWButton)
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
+    procedure Click; override;
+  published
 
-      property Width default CST_FWWIDTH_CLOSE_BUTTON ;
-    End;
+    property Width default CST_FWWIDTH_CLOSE_BUTTON;
+  end;
 
   { TFWCancel }
-   TFWCancel = class ( TFWButton )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
-     End;
+  TFWCancel = class(TFWButton)
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
+  end;
 
 
-   { TFWOK }
-   TFWOK = class ( TFWButton )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
-      published
+  { TFWOK }
+  TFWOK = class(TFWButton)
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
+  published
 
-     End;
+  end;
 
 
-{ TFWInsert }
-   TFWInsert = class ( TFWButton )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
-      published
-       
-     End;
-   { TFWAdd }
-   TFWAdd = class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
+  { TFWInsert }
+  TFWInsert = class(TFWButton)
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
+  published
 
- { TFWDelete }
-   TFWDelete = class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
+  end;
+
+  { TFWAdd }
+  TFWAdd = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
+
+  { TFWDelete }
+  TFWDelete = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
+
   { TFWDocument }
-   TFWDocument = class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
+  TFWDocument = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
 
-   { TFWFolder }
-    TFWFolder = class ( TFWButton )
-       public
-        procedure Loaded; override;
-      End;
+  { TFWFolder }
+  TFWFolder = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
 
-   { TFWDate }
-    TFWDate = class ( TFWButton )
-       public
-        procedure Loaded; override;
-      End;
-{ TFWQuit }
-   TFWQuit = class ( TFWButton )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
-     End;
+  { TFWDate }
+  TFWDate = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
 
-{ TFWErase }
-   TFWErase = class ( TFWButton )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
-     End;
+  { TFWQuit }
+  TFWQuit = class(TFWButton)
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
+  end;
 
-{ TFWSaveAs }
-   TFWSaveAs = class ( TFWButton )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
-     End;
+  { TFWErase }
+  TFWErase = class(TFWButton)
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
+  end;
 
-   { TFWLoad }
-      TFWLoad = class ( TFWButton )
-         public
-          constructor Create ( AOwner : TComponent ) ; override;
-          procedure Loaded; override;
-        End;
+  { TFWSaveAs }
+  TFWSaveAs = class(TFWButton)
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
+  end;
 
-{ TFWPrint }
-   TFWPrint = class ( TFWButton )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
+  { TFWLoad }
+  TFWLoad = class(TFWButton)
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
+  end;
 
-      published
-       
-     End;
+  { TFWPrint }
+  TFWPrint = class(TFWButton)
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
 
-{ TFWPreview }
-   TFWPreview = class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
+  published
 
-{ TFWNext }
-   TFWNext = class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
+  end;
 
-   { TFWPrior }
-      TFWPrior= class ( TFWButton )
-         public
-          procedure Loaded; override;
-        End;
-{ TFWPrior }
-   TFWRefresh= class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
+  { TFWPreview }
+  TFWPreview = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
 
-{ TFWCopy }
-   TFWCopy = class ( TFWButton )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
-     End;
+  { TFWNext }
+  TFWNext = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
 
-   { TFWInit }
-   TFWInit = class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
+  { TFWPrior }
+  TFWPrior = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
 
-   { TFWConfig }
-   TFWConfig = class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
+  { TFWPrior }
+  TFWRefresh = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
 
-   { TFWImport }
-   TFWImport = class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
-   { TFWTrash }
-   TFWTrash = class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
+  { TFWCopy }
+  TFWCopy = class(TFWButton)
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
+  end;
+
+  { TFWInit }
+  TFWInit = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
+
+  { TFWConfig }
+  TFWConfig = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
+
+  { TFWImport }
+  TFWImport = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
+
+  { TFWTrash }
+  TFWTrash = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
 
   { TFWExport }
-  TFWExport = class ( TFWButton )
-     public
-      procedure Loaded; override;
-    End;
+  TFWExport = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
+
   { TFWSearch }
-   TFWSearch = class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
+  TFWSearch = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
 
   { TFWZoomIn }
-   TFWZoomIn = class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
+  TFWZoomIn = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
+
   { TFWZoomOut }
-   TFWZoomOut = class ( TFWButton )
-      public
-       procedure Loaded; override;
-     End;
+  TFWZoomOut = class(TFWButton)
+  public
+    procedure Loaded; override;
+  end;
 
 {$IFDEF GROUPVIEW}
 
-{ TFWGroupButton }
+  { TFWGroupButton }
 
-    { TFWGroupButtonActions }
+  { TFWGroupButtonActions }
 
-    TFWGroupButtonActions = class ( TFWButton )
-     public
-      constructor Create ( AOwner : TComponent ) ; override;
-     published
-      property Width  default CST_WIDTH_BUTTONS_ACTIONS;
-      property Height default CST_HEIGHT_BUTTONS_ACTIONS;
-    end;
+  TFWGroupButtonActions = class(TFWButton)
+  public
+    constructor Create(AOwner: TComponent); override;
+  published
+    property Width default CST_WIDTH_BUTTONS_ACTIONS;
+    property Height default CST_HEIGHT_BUTTONS_ACTIONS;
+  end;
 
 
-   { TFWBasket }
+  { TFWBasket }
 
-   TFWBasket = class ( TFWGroupButtonActions )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
+  TFWBasket = class(TFWGroupButtonActions)
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
 
-      published
-       
-       property Caption stored False;
-     End;
+  published
 
-   { TFWRecord }
+    property Caption stored False;
+  end;
 
-   TFWRecord = class ( TFWGroupButtonActions )
-      public
-       constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
+  { TFWRecord }
 
-      published
-       
-       property Caption stored False;
-     End;
+  TFWRecord = class(TFWGroupButtonActions)
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
 
-   { TFWGroupButtonMoving }
+  published
 
-   TFWGroupButtonMoving = class ( TFWButton )
-   public
-    constructor Create ( AOwner : TComponent ) ; override;
-   published
-    property Width  default CST_WIDTH_BUTTONS_MOVING;
+    property Caption stored False;
+  end;
+
+  { TFWGroupButtonMoving }
+
+  TFWGroupButtonMoving = class(TFWButton)
+  public
+    constructor Create(AOwner: TComponent); override;
+  published
+    property Width default CST_WIDTH_BUTTONS_MOVING;
     property Height default CST_HEIGHT_BUTTONS_MOVING;
-   end;
-   { TFWOutSelect }
-    TFWOutSelect = class ( TFWGroupButtonMoving )
-       public
-        procedure Loaded; override;
-       published
-        
-      End;
+  end;
 
-   { TFWOutAll }
+  { TFWOutSelect }
+  TFWOutSelect = class(TFWGroupButtonMoving)
+  public
+    procedure Loaded; override;
+  published
+
+  end;
+
+  { TFWOutAll }
 
 
-   TFWOutAll = class ( TFWGroupButtonMoving )
-      public
-       procedure Loaded; override;
-      published
-       
-     End;
+  TFWOutAll = class(TFWGroupButtonMoving)
+  public
+    procedure Loaded; override;
+  published
 
-{ TFWInSelect }
-   TFWInSelect = class ( TFWGroupButtonMoving )
-      public
-       procedure Loaded; override;
-      published
-       
-     End;
+  end;
 
-{ TFWInAll }
-   TFWInAll = class ( TFWGroupButtonMoving )
-      public
-       procedure Loaded; override;
-      published
+  { TFWInSelect }
+  TFWInSelect = class(TFWGroupButtonMoving)
+  public
+    procedure Loaded; override;
+  published
 
-     End;
+  end;
+
+  { TFWInAll }
+  TFWInAll = class(TFWGroupButtonMoving)
+  public
+    procedure Loaded; override;
+  published
+
+  end;
 
 {$ENDIF}
 
 implementation
 
-uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts,
+uses {$IFDEF FPC}ObjInspStrConsts, lclstrconsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
-     unite_messages, fonctions_images,
-     Forms ;
+  unite_messages, fonctions_images,
+  Forms;
 
 
 {$IFNDEF FPC}
-var Buttons_Appli_ResInstance             : THandle      = 0 ;
+var
+  Buttons_Appli_ResInstance: THandle = 0;
+
 {$ENDIF}
 
 
@@ -352,13 +364,12 @@ var Buttons_Appli_ResInstance             : THandle      = 0 ;
 
 procedure TFWClose.Click;
 begin
-  if not assigned ( OnClick )
-  and ( Owner is TCustomForm ) then
+  if not assigned(OnClick) and (Owner is TCustomForm) then
     with Owner as TCustomForm do
-     Begin
+    begin
       Close;
       Exit;
-     End;
+    end;
   inherited;
 
 end;
@@ -372,7 +383,7 @@ end;
 
 procedure TFWClose.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWCLOSE, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWCLOSE, Self);
   inherited Loaded;
 end;
 
@@ -391,7 +402,7 @@ end;
 
 procedure TFWCancel.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWCANCEL, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWCANCEL, Self);
   inherited Loaded;
 end;
 
@@ -410,7 +421,7 @@ end;
 
 procedure TFWOK.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWOK, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWOK, Self);
   inherited Loaded;
 end;
 
@@ -418,7 +429,7 @@ end;
 
 procedure TFWSearch.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWSEARCH, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWSEARCH, Self);
   inherited Loaded;
 end;
 
@@ -426,7 +437,7 @@ end;
 
 procedure TFWZoomOut.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWZOOMOUT, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWZOOMOUT, Self);
   inherited Loaded;
 end;
 
@@ -434,7 +445,7 @@ end;
 
 procedure TFWZoomIn.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWZOOMIN, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWZOOMIN, Self);
   inherited Loaded;
 end;
 
@@ -442,7 +453,7 @@ end;
 
 procedure TFWFolder.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWFOLDER, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWFOLDER, Self);
   inherited Loaded;
 end;
 
@@ -450,7 +461,7 @@ end;
 
 procedure TFWTrash.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWTRASH, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWTRASH, Self);
   inherited Loaded;
 end;
 
@@ -459,7 +470,7 @@ end;
 
 procedure TFWDate.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWDATE, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWDATE, Self);
   inherited Loaded;
 end;
 
@@ -469,13 +480,13 @@ constructor TFWLoad.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
-  caption := oiStdActFileOpenHint;
+  Caption := oiStdActFileOpenHint;
   {$ENDIF}
 end;
 
 procedure TFWLoad.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWLOAD, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWLOAD, Self);
   inherited Loaded;
 end;
 
@@ -483,7 +494,7 @@ end;
 
 procedure TFWDocument.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWDOCUMENT, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWDOCUMENT, Self);
   inherited Loaded;
 end;
 
@@ -491,7 +502,7 @@ end;
 
 procedure TFWDelete.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWDELETE, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWDELETE, Self);
   inherited Loaded;
 end;
 
@@ -509,13 +520,14 @@ end;
 
 procedure TFWInsert.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWINSERT, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWINSERT, Self);
   inherited Loaded;
 end;
+
 { TFWAdd }
 procedure TFWAdd.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWINSERT, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWINSERT, Self);
   inherited Loaded;
 end;
 
@@ -525,13 +537,13 @@ constructor TFWSaveAs.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   {$IFDEF FPC}
-  caption := oiStdActFileSaveAsHint;
+  Caption := oiStdActFileSaveAsHint;
   {$ENDIF}
 end;
 
 procedure TFWSaveAs.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWSAVEAS, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWSAVEAS, Self);
   inherited Loaded;
 end;
 
@@ -540,12 +552,16 @@ end;
 constructor TFWQuit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  Caption := SCloseButton {$IFDEF FPC}+ ' ' + oisAll{$ENDIF};
+  Caption := SCloseButton
+{$IFDEF FPC}
+    + ' ' + oisAll
+{$ENDIF}
+  ;
 end;
 
 procedure TFWQuit.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWQUIT, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWQUIT, Self);
   inherited Loaded;
 end;
 
@@ -564,7 +580,7 @@ end;
 
 procedure TFWErase.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWERASE, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWERASE, Self);
   inherited Loaded;
 end;
 
@@ -580,7 +596,7 @@ end;
 
 procedure TFWPrint.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWPRINT, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWPRINT, Self);
   inherited Loaded;
 end;
 
@@ -588,14 +604,15 @@ end;
 
 procedure TFWNext.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWNEXT, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWNEXT, Self);
   inherited Loaded;
 end;
+
 { TFWPrior }
 
 procedure TFWPrior.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWPRIOR, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWPRIOR, Self);
   inherited Loaded;
 end;
 
@@ -603,7 +620,7 @@ end;
 
 procedure TFWRefresh.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWREFRESH, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWREFRESH, Self);
   inherited Loaded;
 end;
 
@@ -611,7 +628,7 @@ end;
 
 procedure TFWPreview.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWPREVIEW, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWPREVIEW, Self);
   inherited Loaded;
 end;
 
@@ -619,7 +636,7 @@ end;
 
 procedure TFWInit.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWINIT, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWINIT, Self);
   inherited Loaded;
 end;
 
@@ -627,7 +644,7 @@ end;
 
 procedure TFWConfig.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWCONFIG, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWCONFIG, Self);
   inherited Loaded;
 end;
 
@@ -635,7 +652,7 @@ end;
 
 procedure TFWImport.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWIMPORT, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWIMPORT, Self);
   inherited Loaded;
 end;
 
@@ -643,7 +660,7 @@ end;
 
 procedure TFWExport.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWEXPORT, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWEXPORT, Self);
   inherited Loaded;
 end;
 
@@ -659,7 +676,7 @@ end;
 
 procedure TFWCopy.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWCOPY, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWCOPY, Self);
   inherited Loaded;
 end;
 
@@ -670,7 +687,7 @@ end;
 
 procedure TFWOutSelect.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWOUTSELECT, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWOUTSELECT, Self);
   inherited Loaded;
 end;
 
@@ -688,7 +705,7 @@ end;
 
 procedure TFWBasket.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWBASKET, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWBASKET, Self);
   inherited Loaded;
 end;
 
@@ -706,7 +723,7 @@ end;
 
 procedure TFWRecord.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWOK, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWOK, Self);
   inherited Loaded;
 end;
 
@@ -715,7 +732,7 @@ end;
 
 procedure TFWOutAll.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWOUTALL, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWOUTALL, Self);
   inherited Loaded;
 end;
 
@@ -723,7 +740,7 @@ end;
 
 procedure TFWInSelect.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWINSELECT, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWINSELECT, Self);
   inherited Loaded;
 end;
 
@@ -731,7 +748,7 @@ end;
 
 procedure TFWInAll.Loaded;
 begin
-  p_Load_Buttons_Appli ( Glyph, CST_FWINALL, Self );
+  p_Load_Buttons_Appli(Glyph, CST_FWINALL, Self);
   inherited Loaded;
 end;
 
@@ -740,7 +757,7 @@ end;
 constructor TFWGroupButtonActions.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  Width  := CST_WIDTH_BUTTONS_ACTIONS;
+  Width := CST_WIDTH_BUTTONS_ACTIONS;
   Height := CST_HEIGHT_BUTTONS_ACTIONS;
 end;
 
@@ -748,24 +765,15 @@ end;
 
 constructor TFWGroupButtonMoving.Create(AOwner: TComponent);
 begin
-  inherited Create(AOwner);
-  Width  := CST_WIDTH_BUTTONS_MOVING;
-  Height := CST_HEIGHT_BUTTONS_MOVING;
   Caption := '';
+  Height := CST_HEIGHT_BUTTONS_MOVING;
+  Width := CST_WIDTH_BUTTONS_MOVING;
+  inherited Create(AOwner);
 end;
-
-
 {$ENDIF}
 
-
-
-initialization
 {$IFDEF VERSIONS}
-  p_ConcatVersion ( gVer_buttons_appli  );
+initialization
+p_ConcatVersion(gVer_buttons_appli);
 {$ENDIF}
-{$IFDEF FPC}
-  {$I u_buttons_appli.lrs}
-{$ENDIF}
-
 end.
-

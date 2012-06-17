@@ -11,10 +11,9 @@ unit u_buttons_defs;
 interface
 
 uses
-{$IFDEF FPC}
-   lresources,
-{$ELSE}
-   Windows, Messages,
+{$IFNDEF FPC}
+  Windows, Messages,
+  fonctions_system,
 {$ENDIF}
   Classes,
 {$IFDEF VERSIONS}
@@ -39,17 +38,17 @@ const
                                        UnitType : 3 ;
                                        Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
 {$ENDIF}
-  CST_FWCANCEL='TFWCANCEL';
-  CST_FWCLOSE='TFWCLOSE';
-  CST_FWOK='TFWOK';
   CST_FWWIDTH_CLOSE_BUTTON = 80 ;
   CST_WIDTH_BUTTONS_MOVING  = 60;
   CST_HEIGHT_BUTTONS_MOVING = 40;
   CST_WIDTH_BUTTONS_ACTIONS  = 120;
   CST_HEIGHT_BUTTONS_ACTIONS = 20;
+  CST_SUBDIR_IMAGES_SOFT = DirectorySeparator + 'Images'+DirectorySeparator;
+  CST_IMAGE_SOFT_BITMAP = '.bmp';
+  CST_IMAGES_SOFT_EXTENSIONS : array [ 0 .. 2 ] of String  = ('.xpm',CST_IMAGE_SOFT_BITMAP,'.png');
 
 
-procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; const as_Resource : String ; const acon_control :TControl);
+procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; as_Resource : String ; const acon_control :TControl);
 
 type
    IFWButton = interface
@@ -113,10 +112,10 @@ type
 
 implementation
 
-uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts,
+uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts, RtlConsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
      unite_messages, fonctions_images,
-     Forms, Math ;
+     Forms, Math, sysutils, FileUtil ;
 
 
 {$IFNDEF FPC}
@@ -124,31 +123,39 @@ var Buttons_Appli_ResInstance             : THandle      = 0 ;
 {$ENDIF}
 // procedure p_Load_Buttons_Appli
 // loads a picture into a Button with Picture
-procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; const as_Resource : String ; const acon_control :TControl);
-var
-  Stream: TLazarusResourceStream;
+procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; as_Resource : String ; const acon_control :TControl);
+var n : Integer;
+    lb_Found : Boolean;
 begin
-  with FGLyph do
+  with FGLyph{$IFNDEF FPC}.Bitmap{$ENDIF} do
    Begin
-  {$IFDEF FPC}
     Clear;
-    Stream := TLazarusResourceStream.Create(as_Resource, nil);
-    try
-      if Bitmap.IsFileExtensionSupported(Stream.Res.ValueType) Then
-        Begin
-         Bitmap.LoadFromStream(Stream);
-        end
-      else if Pixmap.IsFileExtensionSupported(Stream.Res.ValueType) Then
-       Pixmap.LoadFromStream(Stream)
-    finally
-      Stream.Free;
-    end;
-    LoadFromLazarusResource(as_Resource);
-  {$ELSE}
-    if ( Buttons_Appli_ResInstance = 0 ) Then
-      Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
-    Bitmap.LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
-  {$ENDIF}
+    if csDesigning in acon_control.ComponentState Then
+      Begin
+      {$IFDEF FPC}
+        LoadFromLazarusResource(as_Resource);
+      {$ELSE}
+        if ( Buttons_Appli_ResInstance = 0 ) Then
+          Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
+        LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
+      {$ENDIF}
+      end
+     Else
+      try
+        lb_Found := False;
+        as_Resource := ExtractFileDir(Application.ExeName)+CST_SUBDIR_IMAGES_SOFT + as_Resource;
+        for n := 0 to high ( CST_IMAGES_SOFT_EXTENSIONS ) do
+         if FileExistsUTF8( as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ n ] ) Then
+           Begin
+            LoadFromFile( as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ n ] );
+            lb_Found := True;
+            Break;
+           end;
+        if not lb_Found then raise EFOpenError.Createfmt(SFOpenError,[as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ 0 ]]);
+
+      finally
+      end;
+
     End;
   acon_control.Invalidate;
 end;

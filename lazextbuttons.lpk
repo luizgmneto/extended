@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="5" Build="2"/>
-    <Files Count="6">
+    <Files Count="5">
       <Item1>
         <Filename Value="composants/u_buttons_extension.pas"/>
         <UnitName Value="u_buttons_extension"/>
@@ -39,13 +39,9 @@
         <UnitName Value="u_buttons_speed"/>
       </Item4>
       <Item5>
-        <Filename Value="composants/u_buttons_appli.lrs"/>
-        <Type Value="LRS"/>
-      </Item5>
-      <Item6>
         <Filename Value="composants/u_buttons_appli.pas"/>
         <UnitName Value="u_buttons_appli"/>
-      </Item6>
+      </Item5>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="5">
