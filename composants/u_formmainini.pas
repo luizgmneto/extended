@@ -1504,9 +1504,6 @@ End ;
 // Renvoie un fichier INI (même si c'est pas très utile) !!!
 function TF_FormMainIni.f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TIniFile;
 begin
-  // On considère que par défaut les infos se trouvent dans un fichier INI dont
-  // le nom est dérivé du nom de la machine (paramètrable dans l'INI de connexion)
-  gs_ModeConnexion := CST_MACHINE;
   p_IniGetDBConfigFile ( gmif_MainFormIniInit,FConnection,acco_Conn,as_NomConnexion);
   p_WriteDescendantIni ( gmif_MainFormIniInit );
   if assigned ( ge_WriteMainIni ) Then
