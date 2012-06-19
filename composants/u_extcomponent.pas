@@ -32,15 +32,16 @@ uses Graphics,StdCtrls,
 
 const
   //////// Couleurs par défaut des composants de la form
-  CST_LBL_STD       = clBlack;
-  CST_LBL_ACTIVE    = clBlue;
-  CST_EDIT_SELECT   = clSkyBlue;
-  CST_EDIT_STD      = clMoneyGreen;
-  CST_EDIT_READ     = {$IFDEF FPC}clLime{$ELSE}clInfoBk{$ENDIF} ;
-  CST_GRILLE_SELECT = clSkyBlue;
-  CST_GRILLE_STD    = clBtnFace;
-  CST_TEXT_INACTIF  = clmEDGray;
-  CST_LBL_SELECT     = clMaroon;
+  CST_EXT_BACK    = TColor(clWindow and $00555555);
+  CST_LBL_STD       = clWindowText;
+  CST_LBL_SELECT    = clActiveText;
+  CST_LBL_ACTIVE    = clActiveBrightText;
+  CST_EDIT_SELECT   = TColor($00555544 + CST_EXT_BACK);
+  CST_EDIT_STD      = TColor($00555544 + CST_EXT_BACK);
+  CST_EDIT_READ     = TColor($00448844 + CST_EXT_BACK);
+  CST_GRID_SELECT   = TColor($00555544 + CST_EXT_BACK);
+  CST_GRID_STD      = TColor($00555544 + CST_EXT_BACK);
+  CST_TEXT_INACTIF  = clBtnText;
 
 
 // Le Ifwcomponent possède :
@@ -73,8 +74,8 @@ var
     gCol_EditSelect  : TColor = CST_EDIT_SELECT ;
     gCol_EditRead    : TColor = CST_EDIT_READ ;
     gCol_Edit        : TColor = CST_EDIT_STD ;
-    gCol_GridSelect  : TColor = CST_GRILLE_SELECT ;
-    gCol_Grid        : TColor = CST_GRILLE_STD ;
+    gCol_GridSelect  : TColor = CST_GRID_SELECT ;
+    gCol_Grid        : TColor = CST_GRID_STD ;
     gCol_TextInActive: TColor = CST_TEXT_INACTIF ;
   // Couleur du label
     gCol_Label       : TColor = CST_LBL_STD ;

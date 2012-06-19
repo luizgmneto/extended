@@ -150,9 +150,9 @@ type
        property Columns: TExtDbGridColumns read GetColumns write SetColumns stored IsColumnsStored;
        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
        property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
-       property ColorEdit : TColor read FColorEdit write FColorEdit default CST_GRILLE_STD ;
-       property FixedColor default CST_GRILLE_STD ;
-       property ColorFocus : TColor read FColorFocus write FColorFocus default CST_GRILLE_SELECT ;
+       property ColorEdit : TColor read FColorEdit write FColorEdit default CST_GRID_STD ;
+       property FixedColor default CST_GRID_STD ;
+       property ColorFocus : TColor read FColorFocus write FColorFocus default CST_GRID_SELECT ;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property PaintEdits : Boolean read FPaintEdits write p_SetPaintEdits default true;
      End;
@@ -489,9 +489,9 @@ begin
   FOldOnGetBtnParams := nil;
   FPaintEdits:=True;
   FAlwaysSame := True;
-  FColorFocus := CST_GRILLE_SELECT;
-  FColorEdit  := CST_GRILLE_STD;
-  FixedColor  := CST_GRILLE_STD;
+  FColorFocus := CST_GRID_SELECT;
+  FColorEdit  := CST_GRID_STD;
+  FixedColor  := CST_GRID_STD;
   FWBeforeEnter:=nil;
   FWBeforeExit :=nil;
 end;

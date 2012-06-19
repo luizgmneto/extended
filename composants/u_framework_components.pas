@@ -81,6 +81,7 @@ type
        property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
        property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
+       property Color stored False ;
        property MyLabel : TFWLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
@@ -115,6 +116,7 @@ type
           property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
           property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
           property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
+          property Color stored False ;
           property MyLabel : TFWLabel read FLabel write p_setLabel;
           property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
           property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
@@ -147,6 +149,7 @@ type
          property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
          property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
          property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
+         property Color stored False ;
          property MyLabel : TFWLabel read FLabel write p_setLabel;
          property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
          property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
@@ -178,6 +181,7 @@ type
        property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
        property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
+       property Color stored False ;
        property MyLabel : TFWLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
@@ -231,9 +235,10 @@ type
       published
        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
        property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
-       property ColorEdit : TColor read FColorEdit write FColorEdit default CST_GRILLE_STD ;
-       property FixedColor default CST_GRILLE_STD ;
-       property ColorFocus : TColor read FColorFocus write FColorFocus default CST_GRILLE_SELECT ;
+       property ColorEdit : TColor read FColorEdit write FColorEdit default CST_GRID_STD ;
+       property Color stored False ;
+       property FixedColor default CST_GRID_STD ;
+       property ColorFocus : TColor read FColorFocus write FColorFocus default CST_GRID_SELECT ;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
      End;
 
@@ -592,8 +597,8 @@ constructor TFWGrid.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FAlwaysSame := True;
-  FColorFocus := CST_GRILLE_SELECT;
-  FColorEdit  := CST_GRILLE_STD;
+  FColorFocus := CST_GRID_SELECT;
+  FColorEdit  := CST_GRID_STD;
 end;
 
 procedure TFWGrid.Loaded;

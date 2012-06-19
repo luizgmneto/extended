@@ -115,7 +115,8 @@ implementation
 uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts, RtlConsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
      unite_messages, fonctions_images,
-     Forms, Math, sysutils, FileUtil ;
+     Forms, Math, sysutils, FileUtil,
+     Dialogs;
 
 
 {$IFNDEF FPC}
@@ -151,7 +152,8 @@ begin
             lb_Found := True;
             Break;
            end;
-        if not lb_Found then raise EFOpenError.Createfmt(SFOpenError,[as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ 0 ]]);
+        if not lb_Found then ShowMessage( 'Image ' + as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ 0 ]+' not found'
+                                           +#13#10 + 'Please copy the ''Images'' Directories in your Executable Directory.');
 
       finally
       end;
