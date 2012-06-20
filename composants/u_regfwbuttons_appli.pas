@@ -47,8 +47,10 @@ begin
                                    TFWSaveAs,TFWSearch,TFWZoomIn,TFWZoomOut]);
 End ;
 
+{$IFNDEF MEMBUTTONS}
 {$IFDEF FPC}
 initialization
 {$I u_buttons_appli.lrs}
+{$ENDIF}
 {$ENDIF}
 end.

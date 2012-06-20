@@ -776,4 +776,10 @@ end;
 initialization
 p_ConcatVersion(gVer_buttons_appli);
 {$ENDIF}
+{$IFDEF MEMBUTTONS}
+{$IFDEF FPC}
+{$I u_buttons_appli.lrs}
+{$ENDIF}
+{$ENDIF}
+
 end.

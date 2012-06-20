@@ -49,6 +49,7 @@ const
 
 
 procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; as_Resource : String ; const acon_control :TControl);
+function fs_getSoftImages:String;
 
 type
    IFWButton = interface
@@ -116,12 +117,17 @@ uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts, RtlConsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
      unite_messages, fonctions_images,
      Forms, Math, sysutils, FileUtil,
-     Dialogs;
+     Dialogs, fonctions_string;
 
 
 {$IFNDEF FPC}
 var Buttons_Appli_ResInstance             : THandle      = 0 ;
 {$ENDIF}
+
+function fs_getSoftImages:String;
+Begin
+  Result := ExtractFileDir(Application.ExeName)+CST_SUBDIR_IMAGES_SOFT;
+End;
 // procedure p_Load_Buttons_Appli
 // loads a picture into a Button with Picture
 procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; as_Resource : String ; const acon_control :TControl);
@@ -131,8 +137,10 @@ begin
   with FGLyph{$IFNDEF FPC}.Bitmap{$ENDIF} do
    Begin
     Clear;
+    {$IFNDEF MEMBUTTONS}
     if csDesigning in acon_control.ComponentState Then
       Begin
+    {$ENDIF}
       {$IFDEF FPC}
         LoadFromLazarusResource(as_Resource);
       {$ELSE}
@@ -140,11 +148,12 @@ begin
           Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
         LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
       {$ENDIF}
+      {$IFNDEF MEMBUTTONS}
       end
      Else
       try
         lb_Found := False;
-        as_Resource := ExtractFileDir(Application.ExeName)+CST_SUBDIR_IMAGES_SOFT + as_Resource;
+        as_Resource := fs_getSoftImages + as_Resource;
         for n := 0 to high ( CST_IMAGES_SOFT_EXTENSIONS ) do
          if FileExistsUTF8( as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ n ] ) Then
            Begin
@@ -152,11 +161,11 @@ begin
             lb_Found := True;
             Break;
            end;
-        if not lb_Found then ShowMessage( 'Image ' + as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ 0 ]+' not found'
-                                           +#13#10 + 'Please copy the ''Images'' Directories in your Executable Directory.');
+        if not lb_Found then ShowMessage( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ 0 ]]));
 
       finally
       end;
+      {$ENDIF}
 
     End;
   acon_control.Invalidate;
