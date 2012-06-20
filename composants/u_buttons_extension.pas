@@ -32,7 +32,7 @@ const
                                        Major : 0 ; Minor : 8 ; Release : 0 ; Build : 0 );
 {$ENDIF}
 
-procedure p_Load_Bitmap_Appli ( const FGLyph : TBitmap; const as_Resource : String  ; const acon_control :TControl);
+procedure p_Load_Bitmap_Appli ( const FGLyph : TBitmap; as_Resource : String  ; const acon_control :TControl);
 
 type
     TFSSpeedButton = class ( TFlatSpeedButton, IFWButton )
@@ -249,18 +249,19 @@ implementation
 uses {$IFDEF FPC}ObjInspStrConsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
      unite_messages, Dialogs,
-     Forms ;
+     Forms, fonctions_string ;
 
 
 {$IFNDEF FPC}
 var Buttons_Appli_ResInstance             : THandle      = 0 ;
 {$ENDIF}
 
-procedure p_Load_Bitmap_Appli ( const FGLyph : TBitmap; const as_Resource : String ; const acon_control :TControl );
+procedure p_Load_Bitmap_Appli ( const FGLyph : TBitmap; as_Resource : String ; const acon_control :TControl );
 begin
-  if csDesigning in acon_control.ComponentState
-   Then
+  {$IFNDEF MEMBUTTONS}
+  if csDesigning in acon_control.ComponentState Then
     Begin
+  {$ENDIF}
     {$IFDEF FPC}
       FGlyph.LoadFromLazarusResource( as_Resource );
     {$ELSE}
@@ -268,12 +269,18 @@ begin
         Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
       FGlyph.LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
     {$ENDIF}
+    {$IFNDEF MEMBUTTONS}
     end
    else
     try
-      FGLyph.LoadFromFile( ExtractFileDir(Application.ExeName)+CST_SUBDIR_IMAGES_SOFT + as_Resource + CST_IMAGE_SOFT_BITMAP );
-    finally
+      as_Resource := fs_getSoftImages + as_Resource + CST_IMAGE_SOFT_BITMAP;
+      if FileExists( as_Resource )
+       then FGLyph.LoadFromFile( as_Resource )
+       Else ShowMessage( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [as_Resource]));
+
+    Except
     end;
+    {$ENDIF}
   if not ( csCreating in acon_control.ControlState ) then
     acon_control.Invalidate;
 end;
