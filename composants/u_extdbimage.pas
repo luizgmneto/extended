@@ -43,7 +43,6 @@ type
 TExtDBImage = class( TExtImage)
      private
        FDataLink: TFieldDataLink;
-       FPainted : Boolean;
        procedure p_SetDatafield  ( const Value : String );
        procedure p_SetDatasource ( const Value : TDatasource );
        function  fds_GetDatasource : TDatasource;
@@ -54,7 +53,6 @@ TExtDBImage = class( TExtImage)
        procedure p_DataChange(Sender: TObject); virtual;
        procedure p_UpdateData(Sender: TObject); virtual;
      public
-       procedure Paint; override;
        procedure LoadFromStream ( const astream : TStream ); override;
        function  LoadFromFile   ( const afile   : String ):Boolean;  override;
        procedure SaveToStream ( const astream : TMemoryStream ); virtual;
@@ -77,16 +75,11 @@ uses fonctions_images, Controls,sysutils,ExtDlgs;
 procedure TExtDBImage.p_ActiveChange(Sender: TObject);
 begin
   p_SetImage;
-  if assigned ( FDataLink.Field )
-  and not FDataLink.Field.IsNull
-   Then
-    FPainted:=False;
 end;
 
 constructor TExtDBImage.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FPainted:=True;
   FDataLink := TFieldDataLink.Create ;
   FDataLink.DataSource := nil ;
   FDataLink.FieldName  := '' ;
@@ -199,7 +192,6 @@ begin
   if assigned ( FDataLink )
   and assigned ( FDataLink.Field )
   and not FDataLink.Field.IsNull
-  and FPainted
    Then
     Begin
       p_FieldToImage ( FDataLink.Field, Self.Picture, ShowErrors );
@@ -211,12 +203,6 @@ end;
 procedure TExtDBImage.p_UpdateData(Sender: TObject);
 begin
   p_SetImage;
-end;
-
-procedure TExtDBImage.Paint;
-begin
-  FPainted:=True;
-  inherited Paint;
 end;
 
 {$IFDEF VERSIONS}
