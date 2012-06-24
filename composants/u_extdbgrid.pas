@@ -69,7 +69,7 @@ const
 
    { TExtGridColumn }
 type
-   TFieldEvent = function(const Sender: TObject; const Field : TField ) : Integer of Object;
+   TFieldIndexEvent = function(const Sender: TObject; const Field : TField ) : Integer of Object;
    TExtGridColumn = class({$IFDEF TNT}TTntColumn{$ELSE}{$IFDEF FPC}TRxColumn{$ELSE}TColumn{$ENDIF}{$ENDIF})
    private
      FOldControlKeyUp   , FOldControlKeyDown,
@@ -121,7 +121,7 @@ type
        FColorEdit     ,
        FColorFocus    ,
        FOldFixedColor : TColor;
-       FOnGetImageIndex : TFieldEvent;
+       FOnGetImageIndex : TFieldIndexEvent;
        FAlwaysSame : Boolean;
        function GetColumns: TExtDbGridColumns;
        procedure SetColumns(const AValue: TExtDbGridColumns);
@@ -157,7 +157,7 @@ type
        property Columns: TExtDbGridColumns read GetColumns write SetColumns stored IsColumnsStored;
        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
        property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
-       property OnGetImageIndex : TFieldEvent read FOnGetImageIndex write FOnGetImageIndex;
+       property OnGetImageIndex : TFieldIndexEvent read FOnGetImageIndex write FOnGetImageIndex;
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_GRID_STD ;
        property FixedColor default CST_GRID_STD ;
        property ColorFocus : TColor read FColorFocus write FColorFocus default CST_GRID_SELECT ;
