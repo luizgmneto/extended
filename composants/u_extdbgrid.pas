@@ -55,18 +55,21 @@ const
                                                FileUnit : 'U_ExtDBGrid' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Grille avec fonctions étendues.' ;
-                                               BugsStory : '1.0.0.1 : UTF 8.' + #13#10
+                                               BugsStory : '1.0.1.1 : ImageList''s Event.' + #13#10
+                                                         + '1.0.1.0 : ImageList with Field''s Index.' + #13#10
+                                                         + '1.0.0.1 : UTF 8.' + #13#10
                                                          + '1.0.0.0 : Tested, making comments.' + #13#10
                                                          + '0.9.9.9 : Tested OK on DELPHI, need new version of LAZARUS to be completed.' + #13#10
                                                          + '0.9.0.0 : Création à partir de u_framework_dbcomponents.' ;
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
 
 {$ENDIF}
 
 
    { TExtGridColumn }
 type
+   TFieldEvent = function(const Sender: TObject; const Field : TField ) : Integer of Object;
    TExtGridColumn = class({$IFDEF TNT}TTntColumn{$ELSE}{$IFDEF FPC}TRxColumn{$ELSE}TColumn{$ENDIF}{$ENDIF})
    private
      FOldControlKeyUp   , FOldControlKeyDown,
@@ -118,6 +121,7 @@ type
        FColorEdit     ,
        FColorFocus    ,
        FOldFixedColor : TColor;
+       FOnGetImageIndex : TFieldEvent;
        FAlwaysSame : Boolean;
        function GetColumns: TExtDbGridColumns;
        procedure SetColumns(const AValue: TExtDbGridColumns);
@@ -153,6 +157,7 @@ type
        property Columns: TExtDbGridColumns read GetColumns write SetColumns stored IsColumnsStored;
        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
        property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
+       property OnGetImageIndex : TFieldEvent read FOnGetImageIndex write FOnGetImageIndex;
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_GRID_STD ;
        property FixedColor default CST_GRID_STD ;
        property ColorFocus : TColor read FColorFocus write FColorFocus default CST_GRID_SELECT ;
@@ -546,7 +551,7 @@ end;
 // Cloning the Column Control on cell drawing
 procedure TExtDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect;
   aState: TGridDrawState);
-var OldActive : Integer;
+var Aindex : Integer;
 {$IFDEF FPC}
     FBackground : TColor;
     FBitmap : TBitmap;
@@ -577,41 +582,46 @@ begin
      with SomeEdit do
        Begin
          Prepare;
-         OldActive := Datalink.ActiveRecord;
+         Aindex := Datalink.ActiveRecord;
          Datalink.ActiveRecord := ARow {$IFDEF FPC}-1{$ELSE}-IndicatorOffset{$ENDIF};
          Width  := aRect.Right - aRect.Left;
          Height := ARect.Bottom - aRect.Top;
          ControlState := ControlState + [csPaintCopy];
          PaintTo(Self.Canvas.Handle,aRect.Left,aRect.Top);
          ControlState := ControlState - [csPaintCopy];
-         Datalink.ActiveRecord := OldActive;
+         Datalink.ActiveRecord := Aindex;
        end
      else
      if assigned ( FImages )
-     and ( Field is TNumericField )
-     and not ( Datalink.DataSet.State in [dsEdit, dsInsert])
-     and ( Field.AsInteger < FImages.Count)
-     and ( Field.AsInteger >= 0 ) then
-      begin
-        Prepare;
-        DrawCellGrid(aCol,aRow, aRect, aState);
-        FBitmap := TBitmap.Create;
-        FImages.GetBitmap(Field.AsInteger, FBitmap);
-        with FBitmap do
-         Begin
-           //Modified:=True;
-           p_ChangeTailleBitmap(FBitmap,aRect.Right-aRect.Left,arect.Bottom-aRect.Top,True);
-           TransparentMode:=tmAuto;
-           Transparent := True;
-           ControlState := ControlState + [csPaintCopy];
-           Self.Canvas.Draw(aRect.Left,aRect.Top, FBitmap );
-           ControlState := ControlState - [csPaintCopy];
-           {$IFNDEF FPC}
-           Dormant;
-           {$ENDIF}
-           FreeImage;
-           Free;
-         end;
+     and (( Field is TNumericField ) or Assigned(FOnGetImageIndex))
+     and not ( Datalink.DataSet.State in [dsEdit, dsInsert]) then
+      Begin
+        if Assigned(FOnGetImageIndex)
+         Then Aindex := FOnGetImageIndex ( Self, Field )
+         Else Aindex := Field.AsInteger;
+         if  ( Aindex < FImages.Count)
+         and ( Aindex >= 0 ) then
+          begin
+            Prepare;
+            DrawCellGrid(aCol,aRow, aRect, aState);
+            FBitmap := TBitmap.Create;
+            FImages.GetBitmap(Field.AsInteger, FBitmap);
+            with FBitmap do
+             Begin
+               //Modified:=True;
+               p_ChangeTailleBitmap(FBitmap,aRect.Right-aRect.Left,arect.Bottom-aRect.Top,True);
+               TransparentMode:=tmAuto;
+               Transparent := True;
+               ControlState := ControlState + [csPaintCopy];
+               Self.Canvas.Draw(aRect.Left,aRect.Top, FBitmap );
+               ControlState := ControlState - [csPaintCopy];
+               {$IFNDEF FPC}
+               Dormant;
+               {$ENDIF}
+               FreeImage;
+               Free;
+             end;
+          end;
        end
       Else
         inherited DrawCell(aCol, aRow, aRect, aState);
