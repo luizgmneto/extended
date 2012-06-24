@@ -9,65 +9,74 @@ interface
 
 uses Graphics,
 {$IFDEF TNT}
-     TntExtCtrls,
+  TntExtCtrls,
 {$ELSE}
-     ExtCtrls,
+  ExtCtrls,
 {$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,
+{$ENDIF}
+{$IFDEF FPC}
+  LCLType,
+{$ELSE}
+  Windows,
 {$ENDIF}
   DB, DBCtrls, ImgList,
   Classes, U_ExtImage, U_ExtMapImageIndex,
   u_extcomponent;
 
 {$IFDEF VERSIONS}
-  const
-    gVer_TExtDBImageList : T_Version = ( Component : 'Composant TExtDBImageList' ;
-                                               FileUnit : 'U_ExtDBImageList' ;
-                                               Owner : 'Matthieu Giroux' ;
-                                               Comment : 'Gestion de liste d''images dans les données.' ;
-                                               BugsStory : '0.9.9.1 : UTF 8.' + #13#10 +
-                                                           '0.9.9.0 : Tested and optimised.' + #13#10 +
-                                                           '0.9.0.0 : Non testée.';
-                                               UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 1 );
+const
+  gVer_TExtDBImageList: T_Version = (Component: 'Composant TExtDBImageList';
+    FileUnit: 'U_ExtDBImageList';
+    Owner: 'Matthieu Giroux';
+    Comment:
+    'Gestion de liste d''images dans les données.';
+    BugsStory: '0.9.9.1 : UTF 8.' +
+    #13#10 +
+    '0.9.9.0 : Tested and optimised.' + #13#10 +
+    '0.9.0.0 : Non testée.';
+    UnitType: 3;
+    Major: 0; Minor: 9;
+    Release: 9; Build: 1);
 
 {$ENDIF}
 
 type
-{ TExtDBImageList }
+  { TExtDBImageList }
 
-    TExtDBImageList = class( TExtImage, IFWComponent, IFWComponentEdit)
-     private
-       FDataLink: TFieldDataLink;
-       FNotifyOrder : TNotifyEvent;
-       FImages : TCustomImageList;
-       FMapImages : TExtMapImages;
-       procedure p_SetDatafield  ( const Value : String );
-       procedure p_SetDatasource ( const Value : TDatasource );
-       procedure p_SetImages    ( const Value : TCustomImageList );
-       procedure p_SetImagesMap ( const Value : TExtMapImages );
-       function  fds_GetDatasource : TDatasource;
-       function  fs_GetDatafield : String;
-     protected
-       procedure SetOrder ; virtual;
-       procedure p_SetImage; virtual;
-       procedure p_ActiveChange(Sender: TObject); virtual;
-       procedure p_DataChange(Sender: TObject); virtual;
-     public
-       constructor Create(AOwner: TComponent); override;
-       destructor Destroy ; override;
-     published
-       property Datafield : String read fs_GetDatafield write p_SetDatafield ;
-       property Datasource : TDatasource read fds_GetDatasource write p_SetDatasource ;
-       property Images : TCustomImageList read FImages write p_SetImages ;
-       property ImagesMap : TExtMapImages read FMapImages write p_SetImagesMap ;
-     end;
+  TExtDBImageList = class(TExtImage, IFWComponent, IFWComponentEdit)
+  private
+    FDataLink: TFieldDataLink;
+    FNotifyOrder: TNotifyEvent;
+    FImages: TCustomImageList;
+    FImageIndex: integer;
+    FMapImages: TExtMapImages;
+    procedure p_SetDatafield(const Value: string);
+    procedure p_SetDatasource(const Value: TDatasource);
+    procedure p_SetImages(const Value: TCustomImageList);
+    procedure p_SetImagesMap(const Value: TExtMapImages);
+    function fds_GetDatasource: TDatasource;
+    function fs_GetDatafield: string;
+  protected
+    procedure SetOrder; virtual;
+    procedure p_SetImage; virtual;
+    procedure p_ActiveChange(Sender: TObject); virtual;
+    procedure p_DataChange(Sender: TObject); virtual;
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+  published
+    property Datafield: string read fs_GetDatafield write p_SetDatafield;
+    property Datasource: TDatasource read fds_GetDatasource write p_SetDatasource;
+    property Images: TCustomImageList read FImages write p_SetImages;
+    property ImagesMap: TExtMapImages read FMapImages write p_SetImagesMap;
+  end;
 
 
 implementation
 
-uses sysutils;
+uses SysUtils;
 
 { TExtDBImageList }
 
@@ -79,9 +88,9 @@ end;
 constructor TExtDBImageList.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FDataLink := TFieldDataLink.Create ;
-  FDataLink.DataSource := nil ;
-  FDataLink.FieldName  := '' ;
+  FDataLink := TFieldDataLink.Create;
+  FDataLink.DataSource := nil;
+  FDataLink.FieldName := '';
   FDataLink.Control := Self;
   FDataLink.OnDataChange := p_DataChange;
   FDataLink.OnActiveChange := p_ActiveChange;
@@ -99,73 +108,71 @@ begin
   inherited;
 end;
 
-function TExtDBImageList.fs_GetDatafield: String;
+function TExtDBImageList.fs_GetDatafield: string;
 begin
-  if assigned ( FDataLink ) then
-    Begin
-      Result := FDataLink.FieldName ;
-    End
-   Else
+  if assigned(FDataLink) then
+  begin
+    Result := FDataLink.FieldName;
+  end
+  else
     Result := '';
 
 end;
 
 procedure TExtDBImageList.SetOrder;
 begin
-  if assigned ( FNotifyOrder ) then
-    FNotifyOrder ( Self );
+  if assigned(FNotifyOrder) then
+    FNotifyOrder(Self);
 end;
 
 function TExtDBImageList.fds_GetDatasource: TDatasource;
 begin
-  if assigned ( FDataLink ) then
-    Begin
-      Result := FDataLink.Datasource ;
-    End
-   Else
+  if assigned(FDataLink) then
+  begin
+    Result := FDataLink.Datasource;
+  end
+  else
     Result := Datasource;
 
 end;
 
-procedure TExtDBImageList.p_SetDatafield(const Value: String);
+procedure TExtDBImageList.p_SetDatafield(const Value: string);
 begin
-  if assigned ( FDataLink )
-  and ( Value <> FDataLink.FieldName ) then
-    Begin
-      FDataLink.FieldName := Value;
-    End;
+  if assigned(FDataLink) and (Value <> FDataLink.FieldName) then
+  begin
+    FDataLink.FieldName := Value;
+  end;
 end;
 
 procedure TExtDBImageList.p_SetDatasource(const Value: TDatasource);
 begin
-  if assigned ( FDataLink )
-  and ( Value <> FDataLink.Datasource ) then
-    Begin
-      FDataLink.Datasource := Value;
-    End;
+  if assigned(FDataLink) and (Value <> FDataLink.Datasource) then
+  begin
+    FDataLink.Datasource := Value;
+    FImageIndex:=-1;
+  end;
 end;
 
 procedure TExtDBImageList.p_SetImage;
-var li_i : Longint;
-    lb_Found : Boolean ;
+var
+  li_i: longint;
+  lb_Found: boolean;
 begin
-  lb_Found := False ;
-  if  assigned ( FDataLink )
-  and assigned ( FImages )
-  and assigned ( FMapImages )
-  and FDataLink.Active
-  and assigned ( FDataLink.Field )
-  and not FDataLink.Field.IsNull Then
-    Begin
-      for li_i := 0 to FMapImages.Columns.Count - 1 do
-      with FMapImages.Columns.Items [ li_i ] do
-        if  ( FDataLink.Field.AsString = Value )
-        and ( ImageIndex < FImages.Count )  then
-          Begin
-           FImages.GetBitmap ( ImageIndex , Picture.Bitmap );
-           lb_Found := True ;
-          End;
-    End;
+  lb_Found := False;
+  if assigned(FDataLink) and assigned(FImages) and assigned(
+    FMapImages) and FDataLink.Active and assigned(FDataLink.Field) and not
+    FDataLink.Field.IsNull then
+  begin
+    for li_i := 0 to FMapImages.Columns.Count - 1 do
+      with FMapImages.Columns.Items[li_i] do
+        if (FDataLink.Field.AsString = Value) and
+          (ImageIndex < FImages.Count)
+          and ( FImageIndex <> ImageIndex ) then
+        begin
+          FImages.GetBitmap(ImageIndex, Picture.Bitmap);
+          lb_Found := True;
+        end;
+  end;
   if not lb_Found then
     Picture.Bitmap.Assign(nil);
 end;
@@ -173,16 +180,18 @@ end;
 procedure TExtDBImageList.p_SetImages(const Value: TCustomImageList);
 begin
   FImages := Value;
+  FImageIndex:=-1;
 end;
 
 procedure TExtDBImageList.p_SetImagesMap(const Value: TExtMapImages);
 begin
-  FMapImages:=Value;
+  FMapImages := Value;
+  FImageIndex:=-1;
 end;
 
 
 {$IFDEF VERSIONS}
 initialization
-  p_ConcatVersion ( gVer_TExtDBImageList );
+  p_ConcatVersion(gVer_TExtDBImageList);
 {$ENDIF}
 end.
