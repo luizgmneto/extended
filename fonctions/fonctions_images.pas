@@ -28,7 +28,8 @@ const CST_EXTENSION_JPEG           = '.jpg' ;
   gVer_fonctions_images : T_Version = ( Component : 'Gestion des images' ; FileUnit : 'fonctions_images' ;
                         			             Owner : 'Matthieu Giroux' ;
                         			              Comment : 'Chargement des icônes et bitmap ( vérifier des erreurs éventuelles avec Memproof ).' + #13#10 + 'Gestion des images.' ;
-                        			              BugsStory : 'Version 1.0.1.2 : UTF 8.' + #13#10 +
+                        			              BugsStory : 'Version 1.0.1.3 : No Bitmap bug.' + #13#10 +
+                        			                	  'Version 1.0.1.2 : UTF 8.' + #13#10 +
                         			                	  'Version 1.0.1.1 : Improving p_ChangeTailleBitmap.' + #13#10 +
                         			                	  'Version 1.0.1.0 : Testing and saving to file.' + #13#10 +
                         			                	  'Version 1.0.0.5 : Testing Imaging.' + #13#10 +
@@ -38,7 +39,7 @@ const CST_EXTENSION_JPEG           = '.jpg' ;
                         			                	  'Version 1.0.0.1 : Meilleure gestion des images, problèmes de rafraichissement.' + #13#10 +
                         			                	  'Version 1.0.0.0 : La gestion est en place.' + #13#10 + 'Il faut utiliser les fonctions et vérifier les erreurs éventuellement produites avec Memproof.';
                         			              UnitType : 1 ;
-                        			              Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
+                        			              Major : 1 ; Minor : 0 ; Release : 1 ; Build : 3 );
 
 {$ENDIF}
 
@@ -307,17 +308,20 @@ var
   lrec_Rectangle      : TRect ;  // Nouvelle taille
   lbmp_Tempo          : TBitmap ;
   li_Size             : Longint ;
+  lb_Continue         : Boolean;
 Begin
   lbmp_Tempo := TBitmap.Create ; // Création petit bitmap
   lbmp_Tempo.Handle := 0 ;
   lrec_Rectangle.Left := 0 ;
   lrec_Rectangle.Top  := 0 ;
+  lb_Continue := False;
   with abmp_BitmapOrigine do
     if  (( ali_newWidth  < Width ) or ( ali_newHeight < Height ))
     and ( Width > 0 )
     and ( not ab_KeepProportion )
       Then
        Begin
+        lb_Continue := True;
         lbmp_Tempo.Width   := ali_newWidth ;
         lbmp_Tempo.Height  := ali_newWidth ;
         lrec_Rectangle.Right  := ali_newWidth ;
@@ -334,6 +338,7 @@ Begin
          and (( ali_newHeight = 0 ) or ( Width / ali_newWidth >= Height / ali_newHeight ))
           Then
            Begin
+             lb_Continue := True;
              li_Size := ( ali_newWidth * Height ) div Width;
              lbmp_Tempo.Width   := ali_newWidth ;
              lbmp_Tempo.Height  := li_Size ;
@@ -347,6 +352,7 @@ Begin
            if  ( ali_newHeight > 0 )
            and ( ali_newHeight <  Height ) Then
              Begin
+               lb_Continue := True;
                li_Size := ( ali_newHeight * Width ) div Height ;
                lbmp_Tempo.Width   := li_Size ;
                lbmp_Tempo.Height  := ali_newHeight ;
@@ -358,26 +364,29 @@ Begin
              End ;
       End ;
 //   writeln(IntToStr(li_Size) + ' '+ IntToStr(lbmp_Tempo.Height) + ' '  + IntToStr(lbmp_Tempo.Width) + ' ' + IntToStr(ali_newHeight) + ' ' + IntToStr(ali_newWidth) + ' ' + IntToStr(abmp_BitmapOrigine.Width) + ' ' + IntToStr(abmp_BitmapOrigine.Height));
-  {$IFDEF FPC}
-  lbmp_Tempo.TransparentMode := tmAuto ;
-  {$ENDIF}
-  lbmp_Tempo.TransparentColor := clBlack ;
-  lbmp_Tempo.Transparent := True ;
-{$IFDEF FPC}
-  abmp_BitmapOrigine.Clear;
-{$ENDIF}
+  if lb_Continue Then
+    Begin
+      {$IFDEF FPC}
+      lbmp_Tempo.TransparentMode := tmAuto ;
+      {$ENDIF}
+      lbmp_Tempo.TransparentColor := clBlack ;
+      lbmp_Tempo.Transparent := True ;
+    {$IFDEF FPC}
+      abmp_BitmapOrigine.Clear;
+    {$ENDIF}
 
-  // 2004-10-20 : MAJ destruction bitmap
-  with abmp_BitmapOrigine do
-    if Handle <> 0 Then
-      Begin
-{$IFDEF DELPHI}
-        Dormant ;
-{$ENDIF}
-        FreeImage ;
-        Handle := 0 ;
-      End ;
-  abmp_BitmapOrigine.Assign ( lbmp_Tempo );
+      // 2004-10-20 : MAJ destruction bitmap
+      with abmp_BitmapOrigine do
+        if Handle <> 0 Then
+          Begin
+    {$IFDEF DELPHI}
+            Dormant ;
+    {$ENDIF}
+            FreeImage ;
+            Handle := 0 ;
+          End ;
+      abmp_BitmapOrigine.Assign ( lbmp_Tempo );
+    end;
   try
 {$IFDEF DELPHI}
        lbmp_Tempo.Dormant ;

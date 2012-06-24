@@ -47,7 +47,7 @@ uses
     {$ENDIF}
   {$ENDIF}
 {$ENDIF}
-  DBGrids, Controls;
+  DBGrids, Controls, ImgList;
 
 {$IFDEF VERSIONS}
 const
@@ -73,11 +73,13 @@ type
      FAfterControlKeyUp , FAfterControlKeyDown : TKeyEvent;
      FOldControlKeyPress   ,
      FAfterControlKeyPress : TKeyPressEvent;
-     FControl : TControl ;
+     FControl : TWinControl ;
      FFieldTag : Integer ;
      FSortOrder : TSortMarker;
+     FImages : TCustomImageList;
    protected
-     procedure SetControl ( const AValue : TControl ); virtual;
+     procedure SetControl ( const AValue : TWinControl ); virtual;
+     procedure SetImages( const AValue : TCustomImageList ); virtual;
      function  fi_getFieldTag:Integer; virtual;
      procedure p_setFieldTag ( const avalue : Integer ); virtual;
    public
@@ -86,7 +88,8 @@ type
      procedure ControlKeyUp   ( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
      procedure ControlKeyDown ( ASender : TObject ; var Key: Word; Shift: TShiftState ); virtual;
      procedure ControlKeyPress( ASender : TObject ; var Key: Char ); virtual;
-     property SomeEdit : TControl read FControl       write SetControl;
+     property SomeEdit : TWinControl read FControl       write SetControl;
+     property Images : TCustomImageList read FImages       write SetImages;
      property FieldTag : Integer     read fi_getFieldTag write p_setFieldTag;
      property SortOrder : TSortMarker     read FSortOrder write FSortOrder default smNone;
      property AfterControlKeyUp    : TKeyEvent      read FAfterControlKeyUp    write FAfterControlKeyUp;
@@ -164,14 +167,14 @@ uses
 {$IFNDEF FPC}
    Forms,
 {$ENDIF}
-   fonctions_proprietes;
+   fonctions_proprietes, fonctions_images;
 
 { TExtGridColumn }
 
 // Procedure SetControl
 // Setting control of column
 // Parameter : AValue the control of property
-procedure TExtGridColumn.SetControl(const AValue: TControl);
+procedure TExtGridColumn.SetControl(const AValue: TWinControl);
 var lmet_MethodeDistribuee: TMethod;
 
 begin
@@ -211,6 +214,11 @@ begin
        p_SetComponentMethodProperty( FControl, 'OnKeyPress' , lmet_MethodeDistribuee );
       end;
    end;
+end;
+
+procedure TExtGridColumn.SetImages(const AValue: TCustomImageList);
+begin
+  FImages:=AValue;
 end;
 
 // function fi_getFieldTag
@@ -541,38 +549,75 @@ procedure TExtDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$END
 var OldActive : Integer;
 {$IFDEF FPC}
     FBackground : TColor;
+    FBitmap : TBitmap;
 {$ENDIF}
+   procedure Prepare;
+   Begin
+    {$IFDEF FPC}
+    PrepareCanvas(aCol, aRow, aState);
+    if Assigned(OnGetCellProps) and not (gdSelected in aState) then
+    begin
+      FBackground:=Canvas.Brush.Color;
+      OnGetCellProps(Self, GetFieldFromGridColumn(aCol), Canvas.Font, FBackground);
+      Canvas.Brush.Color:=FBackground;
+    end;
+    {$ELSE}
+    Canvas.Brush.Color := Color;
+    {$ENDIF}
+    Canvas.FillRect(aRect);
+   end;
 
 begin
   if  FPaintEdits
   and ( ACol > 0  )
-  and ( ARow >= {$IFDEF FPC}1{$ELSE}IndicatorOffset{$ENDIF} )
-  and assigned (( TExtGridColumn ( Columns [ ACol - 1 ])).SomeEdit ) Then
-   with ( TExtGridColumn ( Columns [ ACol - 1 ])).SomeEdit do
-     Begin
-       {$IFDEF FPC}
-       PrepareCanvas(aCol, aRow, aState);
-       if Assigned(OnGetCellProps) and not (gdSelected in aState) then
-       begin
-         FBackground:=Canvas.Brush.Color;
-         OnGetCellProps(Self, GetFieldFromGridColumn(aCol), Canvas.Font, FBackground);
-         Canvas.Brush.Color:=FBackground;
-       end;
-       {$ELSE}
-       Canvas.Brush.Color := Color;
-       {$ENDIF}
-       Self.Canvas.FillRect(aRect);
-       OldActive := Datalink.ActiveRecord;
-       Datalink.ActiveRecord := ARow {$IFDEF FPC}-1{$ELSE}-IndicatorOffset{$ENDIF};
-       Width  := aRect.Right - aRect.Left;
-       Height := ARect.Bottom - aRect.Top;
-       ControlState := ControlState + [csPaintCopy];
-       PaintTo(Self.Canvas.Handle,aRect.Left,aRect.Top);
-       ControlState := ControlState - [csPaintCopy];
-       Datalink.ActiveRecord := OldActive;
-     end
-    Else
-      inherited DrawCell(aCol, aRow, aRect, aState);
+  and ( ARow >= {$IFDEF FPC}1{$ELSE}IndicatorOffset{$ENDIF} ) then
+  with ( TExtGridColumn ( Columns [ ACol - 1 ])) do
+   Begin
+     if assigned ( SomeEdit ) Then
+     with SomeEdit do
+       Begin
+         Prepare;
+         OldActive := Datalink.ActiveRecord;
+         Datalink.ActiveRecord := ARow {$IFDEF FPC}-1{$ELSE}-IndicatorOffset{$ENDIF};
+         Width  := aRect.Right - aRect.Left;
+         Height := ARect.Bottom - aRect.Top;
+         ControlState := ControlState + [csPaintCopy];
+         PaintTo(Self.Canvas.Handle,aRect.Left,aRect.Top);
+         ControlState := ControlState - [csPaintCopy];
+         Datalink.ActiveRecord := OldActive;
+       end
+     else
+     if assigned ( FImages )
+     and ( Field is TNumericField )
+     and not ( Datalink.DataSet.State in [dsEdit, dsInsert])
+     and ( Field.AsInteger < FImages.Count)
+     and ( Field.AsInteger >= 0 ) then
+      begin
+        Prepare;
+        DrawCellGrid(aCol,aRow, aRect, aState);
+        FBitmap := TBitmap.Create;
+        FImages.GetBitmap(Field.AsInteger, FBitmap);
+        with FBitmap do
+         Begin
+           //Modified:=True;
+           p_ChangeTailleBitmap(FBitmap,aRect.Right-aRect.Left,arect.Bottom-aRect.Top,True);
+           TransparentMode:=tmAuto;
+           Transparent := True;
+           ControlState := ControlState + [csPaintCopy];
+           Self.Canvas.Draw(aRect.Left,aRect.Top, FBitmap );
+           ControlState := ControlState - [csPaintCopy];
+           {$IFNDEF FPC}
+           Dormant;
+           {$ENDIF}
+           FreeImage;
+           Free;
+         end;
+       end
+      Else
+        inherited DrawCell(aCol, aRow, aRect, aState);
+   end
+  Else
+    inherited DrawCell(aCol, aRow, aRect, aState);
 end;
 
 // function TExtDBGrid.IsColumnsStored
