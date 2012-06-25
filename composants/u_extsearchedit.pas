@@ -174,12 +174,12 @@ begin
     end;
   if not ( Key in [ VK_TAB, VK_BACK ])
   and ( Text    <> '' )
-  and ( SelText =  '' )
    Then
     with FSearchSource.DataSet do
       Begin
         Open ;
         FSet := False;
+        // Trouvé ?
         if not assigned ( FindField ( FSearchSource.FieldName )) Then Exit;
         if fb_Locate ( FSearchSource.DataSet, FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey], True )
          Then
@@ -187,7 +187,7 @@ begin
             Flocated  := True;
             li_pos    := SelStart ;
             ls_temp   := FindField ( FSearchSource.FieldName ).AsString;
-            Text      := ls_temp ;
+            Text      := ls_temp ; // c'est en affectant le texte que l'on passe en mode édition
             SelStart  := li_pos ;
             SelLength := length ( ls_temp ) - li_pos ;
             if ( SelText = '' )  Then
