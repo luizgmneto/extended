@@ -12,6 +12,10 @@
 
 unit u_extsearchedit;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
+
 {$I ..\DLCompilers.inc}
 
 interface
@@ -26,24 +30,44 @@ uses Variants, Controls, Classes,
      {$IFDEF VERSIONS}
      fonctions_version,
      {$ENDIF}
-     u_extcomponent;
+     u_extcomponent, DBGrids, StdCtrls;
 
+const
 {$IFDEF VERSIONS}
-  const
     gVer_TExtSearchDBEdit : T_Version = ( Component : 'Composant TExtSearchDBEdit' ;
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '0.9.0.4 : Making comments.'
+                                          BugsStory : '1.0.0.0 : Popup list.'
+                                                    + '0.9.0.4 : Making comments.'
                                                     + '0.9.0.3 : Tested.'
                                                     + '0.9.0.2 : Not tested, upgrading.'
                                                     + '0.9.0.1 : Not tested, compiling on DELPHI.'
                                                     + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 0 ; Minor : 9 ; Release : 0 ; Build : 4 );
+                                          Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
+  SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColumnMove, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
+  SEARCHEDIT_GRID_DEFAULT_SCROLL = ssAutoBoth;
 type
+
+  TExtSearchDBEdit = class;
+
+  { TListPopupEdit }
+
+  TListPopupEdit = class ( TDBGrid )
+    FEdit : TExtSearchDBEdit;
+  protected
+    procedure KeyUp(var Key: Word; Shift: TShiftState); override;
+  public
+    procedure Click; override;
+    constructor Create ( Aowner : TComponent ); override;
+    property Edit : TExtSearchDBEdit read FEdit;
+  published
+    property Options default SEARCHEDIT_GRID_DEFAULTS;
+    property Scrollbars default SEARCHEDIT_GRID_DEFAULT_SCROLL;
+  end;
 
 { TExtSearchDBEdit }
   TExtSearchDBEdit = class(TDBEdit)
@@ -62,15 +86,23 @@ type
     Flocated,
     FSet,
     FAlwaysSame : Boolean;
+    FListLines : Integer;
+    FSeparator : Char;
+    FSearchList : String;
+    FListUp : Boolean;
     FNotifyOrder : TNotifyEvent;
+    FPopup:TListPopupEdit;
     procedure p_setSearchDisplay ( AValue : String );
     function fs_getSearchDisplay : String ;
     procedure p_setSearchSource ( AValue : TDataSource );
     function fs_getSearchSource : TDataSource ;
     procedure p_setLabel ( const alab_Label : TFWLabel );
     procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
+    procedure WMSize(var Message: TLMSize); message LM_SIZE;
   protected
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
+    procedure CreatePopup; virtual;
+    procedure FreePopup; virtual;
     procedure DoEnter; override;
     procedure DoExit; override;
     procedure Loaded; override;
@@ -82,6 +114,10 @@ type
     property Located : Boolean read Flocated;
   published
     property SearchDisplay : String read fs_getSearchDisplay write p_setSearchDisplay ;
+    property SearchList : String read FSearchList write FSearchList ;
+    property DropDownRows : Integer read FListLines write FListLines default 5;
+    property DropUp : Boolean read FListUp write FListUp default False;
+    property FieldSeparator : Char read FSeparator write FSeparator default ',';
     property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
     property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
@@ -98,7 +134,36 @@ type
 
 implementation
 
-uses Dialogs, fonctions_db;
+uses Dialogs, fonctions_db, sysutils, fonctions_string;
+
+{ TListPopup }
+
+procedure TListPopupEdit.KeyUp(var Key: Word; Shift: TShiftState);
+begin
+  inherited KeyUp(Key, Shift);
+  case Key of
+    VK_ESCAPE : Visible:=False;
+    VK_RETURN : Click;
+    end;
+end;
+
+procedure TListPopupEdit.Click;
+begin
+  with FEdit do
+   Begin
+    Text := FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
+    ValidateSearch;
+   End;
+ Visible:=False;
+end;
+
+constructor TListPopupEdit.Create(Aowner: TComponent);
+begin
+  inherited Create(Aowner);
+  Options:= SEARCHEDIT_GRID_DEFAULTS;
+  ScrollBars:=SEARCHEDIT_GRID_DEFAULT_SCROLL;
+end;
+
 { TExtSearchDBEdit }
 
 // procedure TExtSearchDBEdit.p_setSearchDisplay
@@ -149,6 +214,67 @@ begin
   inherited;
 end;
 
+procedure TExtSearchDBEdit.WMSize(var Message: TLMSize);
+begin
+  if ( Message.Width <> Width ) or ( Message.Height <> Height ) Then
+    FreePopup;
+  Inherited;
+end;
+
+procedure TExtSearchDBEdit.CreatePopup;
+var Alist:TStringList;
+    i : Integer;
+Begin
+  with FSearchSource.DataSet do
+  if  ( RecordCount > 1 )
+  and ( FSearchList <> '' ) Then
+   Begin
+     if not Assigned( FPopup ) Then
+      Begin
+        Alist := TStringList.Create;
+        try
+          FPopup := TListPopupEdit.Create(Owner);
+          p_ChampsVersListe(Alist,FSearchList,FSeparator);
+          with FPopup do
+            Begin
+              FEdit:=Self;
+              Visible:=False;
+              Width := Self.Width;
+              Height := FListLines * Self.Height;
+              DataSource:=FSearchSource.DataSource;
+              Parent:=Self.Parent;
+              Color := Self.Color;
+              Font.Assign(Self.Font);
+              for i := 0 to Alist.Count-1 do
+                Begin
+                  with Columns.Add do
+                   Begin
+                    FieldName := Alist[i];
+                    Width     := Self.Width div Alist.Count;
+                   end;
+                end;
+            end;
+        finally
+          Alist.Free;
+        end;
+      end;
+     with FPopup do
+      Begin
+        Left := Self.Left;
+        if FListUp
+         Then Top := Self.Top - Self.Height - Height
+         Else Top := Self.Top + Self.Height;
+        Visible:=True;
+      end;
+
+   End;
+End;
+
+procedure TExtSearchDBEdit.FreePopup;
+begin
+  FreeAndNil(FPopup);
+end;
+
 // procedure TExtSearchDBEdit.KeyUp
 //  searching on key up
 procedure TExtSearchDBEdit.KeyUp(var Key: Word; Shift: TShiftState);
@@ -156,6 +282,9 @@ var li_pos : Integer;
     ls_temp : String;
 begin
   inherited KeyUp(Key, Shift);
+  if not Assigned ( FSearchSource.DataSet )
+  or ( FSearchSource.FieldName = '' ) then
+   Exit;
   case Key of
     VK_ESCAPE:
         SelectAll;
@@ -171,6 +300,13 @@ begin
       ValidateSearch;
       Exit;
     End;
+    VK_DOWN,VK_UP:
+    Begin
+      if assigned ( FPopup )
+      and FPopup.Visible Then
+       FPopup.SetFocus;
+      Exit;
+    End;
     end;
   if not ( Key in [ VK_TAB, VK_BACK ])
   and ( Text    <> '' )
@@ -181,16 +317,28 @@ begin
         FSet := False;
         // Trouvé ?
         if not assigned ( FindField ( FSearchSource.FieldName )) Then Exit;
-        if fb_Locate ( FSearchSource.DataSet, FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey], True )
+        Filter := 'UPPER('+ FSearchSource.FieldName+') LIKE ''' + UpperCase(fs_stringDbQuote(Text)) +'*''';
+        Filtered:=True;
+        if not IsEmpty
+        and fb_Locate ( FSearchSource.DataSet, FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey], True )
          Then
           Begin
+            if not BOF
+            and ( FieldByName ( FSearchSource.FieldName ).AsString = Text ) Then
+             Begin
+              while FieldByName ( FSearchSource.FieldName ).AsString = Text do
+               Next;
+              Prior;
+             End;
+            CreatePopup;
             Flocated  := True;
             li_pos    := SelStart ;
-            ls_temp   := FindField ( FSearchSource.FieldName ).AsString;
+            ls_temp   := FieldByName ( FSearchSource.FieldName ).AsString;
             Text      := ls_temp ; // c'est en affectant le texte que l'on passe en mode édition
             SelStart  := li_pos ;
             SelLength := length ( ls_temp ) - li_pos ;
-            if ( SelText = '' )  Then
+            if ( SelText = '' )
+            and ( FSearchList = '' ) Then
                 ValidateSearch
              else
                 if assigned ( FOnLocate ) Then
@@ -206,7 +354,6 @@ procedure TExtSearchDBEdit.ValidateSearch;
 Begin
   if not FSet
   and Flocated
-  and fb_Locate ( FSearchSource.DataSet, FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey], True )
    Then
      with FSearchSource.DataSet do
       Begin
@@ -242,6 +389,9 @@ begin
   ValidateSearch;
   if assigned ( FAfterExit ) Then
     FAfterExit ( Self );
+  if assigned ( FPopup )
+  and not FPopup.Focused Then
+    FreePopup;
 end;
 
 // procedure TExtSearchDBEdit.Loaded
@@ -268,6 +418,10 @@ end;
 constructor TExtSearchDBEdit.Create(Aowner: TComponent);
 begin
   inherited Create(Aowner);
+  FListUp := False;
+  FSeparator := ',';
+  FListLines := 5;
+  FPopup := nil;
   FSearchSource := TFieldDataLink.Create;
   Flocated:= False;
   FAlwaysSame := True;
