@@ -48,7 +48,7 @@ const
                                           Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
-  SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColumnMove, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
+  SEARCHEDIT_GRID_DEFAULTS = [ dgRowSelect, dgColLines, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
   SEARCHEDIT_GRID_DEFAULT_SCROLL = ssAutoBoth;
 type
 
@@ -88,21 +88,21 @@ type
     FAlwaysSame : Boolean;
     FListLines : Integer;
     FSeparator : Char;
-    FSearchList : String;
     FListUp : Boolean;
     FNotifyOrder : TNotifyEvent;
-    FPopup:TListPopupEdit;
+    FDropDownWidth : Word;
+    FPopupList:TListPopupEdit;
     procedure p_setSearchDisplay ( AValue : String );
     function fs_getSearchDisplay : String ;
     procedure p_setSearchSource ( AValue : TDataSource );
     function fs_getSearchSource : TDataSource ;
     procedure p_setLabel ( const alab_Label : TFWLabel );
     procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
-    procedure WMSize(var Message: TLMSize); message LM_SIZE;
+    procedure p_setSearchColumns ( const Avalue : TDBGridColumns );
+    function  f_getSearchColumns : TDBGridColumns ;
   protected
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
-    procedure CreatePopup; virtual;
-    procedure FreePopup; virtual;
+    procedure ShowList; virtual;
     procedure DoEnter; override;
     procedure DoExit; override;
     procedure Loaded; override;
@@ -114,8 +114,9 @@ type
     property Located : Boolean read Flocated;
   published
     property SearchDisplay : String read fs_getSearchDisplay write p_setSearchDisplay ;
-    property SearchList : String read FSearchList write FSearchList ;
+    property SearchColumns : TDBGridColumns read f_getSearchColumns write p_setSearchColumns ;
     property DropDownRows : Integer read FListLines write FListLines default 5;
+    property DropDownWidth : Word read FDropDownWidth write FDropDownWidth default 0;
     property DropUp : Boolean read FListUp write FListUp default False;
     property FieldSeparator : Char read FSeparator write FSeparator default ',';
     property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
@@ -185,6 +186,15 @@ end;
 procedure TExtSearchDBEdit.p_setSearchSource(AValue: TDataSource);
 begin
   FSearchSource.DataSource := AValue;
+  if Assigned(AValue) Then
+  with FPopupList do
+    Begin
+      DataSource:=FSearchSource.DataSource;
+      Parent:=Self.Parent;
+      Color := Self.Color;
+      Font.Assign(Self.Font);
+      Loaded;
+    end;
 end;
 
 // function TExtSearchDBEdit.fs_getSearchSource
@@ -214,53 +224,37 @@ begin
   inherited;
 end;
 
-procedure TExtSearchDBEdit.WMSize(var Message: TLMSize);
+procedure TExtSearchDBEdit.p_setSearchColumns(const Avalue: TDBGridColumns);
 begin
-  if ( Message.Width <> Width ) or ( Message.Height <> Height ) Then
-    FreePopup;
-  Inherited;
+  FPopupList.Columns.Assign(Avalue);
 end;
 
-procedure TExtSearchDBEdit.CreatePopup;
-var Alist:TStringList;
-    i : Integer;
+function TExtSearchDBEdit.f_getSearchColumns: TDBGridColumns;
+begin
+  Result := FPopupList.Columns;
+end;
+
+procedure TExtSearchDBEdit.ShowList;
+var i ,
+    AWidth : Integer;
 Begin
-  with FSearchSource.DataSet do
-  if  ( RecordCount > 1 )
-  and ( FSearchList <> '' ) Then
+  with FPopupList do
+  if  ( FSearchSource.DataSet.RecordCount > 1 )
+  and ( Columns.Count > 0 ) Then
    Begin
-     if not Assigned( FPopup ) Then
       Begin
-        Alist := TStringList.Create;
-        try
-          FPopup := TListPopupEdit.Create(Owner);
-          p_ChampsVersListe(Alist,FSearchList,FSeparator);
-          with FPopup do
-            Begin
-              FEdit:=Self;
-              Visible:=False;
-              Width := Self.Width;
-              Height := FListLines * Self.Height;
-              DataSource:=FSearchSource.DataSource;
-              Parent:=Self.Parent;
-              Color := Self.Color;
-              Font.Assign(Self.Font);
-              for i := 0 to Alist.Count-1 do
-                Begin
-                  with Columns.Add do
-                   Begin
-                    FieldName := Alist[i];
-                    Width     := Self.Width div Alist.Count;
-                   end;
-                end;
-            end;
-        finally
-          Alist.Free;
-        end;
-      end;
-     with FPopup do
-      Begin
+        if FDropDownWidth > 0
+         Then Width := FDropDownWidth
+         Else Width := Self.Width;
         Left := Self.Left;
+        Height := FListLines * Self.Height;
+        AWidth:=0;
+        for i := 0 to Columns.Count - 1 do
+         Begin
+           if i = Columns.Count-1
+           then Columns[i].Width:=Width-AWidth
+           Else inc ( AWidth, Columns[i].Width );
+         end;
         if FListUp
          Then Top := Self.Top - Self.Height - Height
          Else Top := Self.Top + Self.Height;
@@ -269,11 +263,6 @@ Begin
 
    End;
 End;
-
-procedure TExtSearchDBEdit.FreePopup;
-begin
-  FreeAndNil(FPopup);
-end;
 
 // procedure TExtSearchDBEdit.KeyUp
 //  searching on key up
@@ -302,9 +291,9 @@ begin
     End;
     VK_DOWN,VK_UP:
     Begin
-      if assigned ( FPopup )
-      and FPopup.Visible Then
-       FPopup.SetFocus;
+      if assigned ( FPopupList )
+      and FPopupList.Visible Then
+       FPopupList.SetFocus;
       Exit;
     End;
     end;
@@ -330,7 +319,7 @@ begin
                Next;
               Prior;
              End;
-            CreatePopup;
+            ShowList;
             Flocated  := True;
             li_pos    := SelStart ;
             ls_temp   := FieldByName ( FSearchSource.FieldName ).AsString;
@@ -338,7 +327,7 @@ begin
             SelStart  := li_pos ;
             SelLength := length ( ls_temp ) - li_pos ;
             if ( SelText = '' )
-            and ( FSearchList = '' ) Then
+            or ( FPopupList.Columns.Count = 0 ) Then
                 ValidateSearch
              else
                 if assigned ( FOnLocate ) Then
@@ -389,9 +378,6 @@ begin
   ValidateSearch;
   if assigned ( FAfterExit ) Then
     FAfterExit ( Self );
-  if assigned ( FPopup )
-  and not FPopup.Focused Then
-    FreePopup;
 end;
 
 // procedure TExtSearchDBEdit.Loaded
@@ -418,10 +404,17 @@ end;
 constructor TExtSearchDBEdit.Create(Aowner: TComponent);
 begin
   inherited Create(Aowner);
+  FPopupList := TListPopupEdit.Create(nil);
+  with FPopupList do
+    Begin
+      FEdit:=Self;
+      Visible:=False;
+      Parent:=Self.Parent;
+    end;
+  FDropDownWidth := 0;
   FListUp := False;
   FSeparator := ',';
   FListLines := 5;
-  FPopup := nil;
   FSearchSource := TFieldDataLink.Create;
   Flocated:= False;
   FAlwaysSame := True;
@@ -437,6 +430,7 @@ destructor TExtSearchDBEdit.Destroy;
 begin
   inherited Destroy;
   FSearchSource.Free;
+  FreeAndNil(FPopupList);
 end;
 
 {$IFDEF VERSIONS}
