@@ -9,7 +9,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '0.9.30'
+  LCLVersion = '0.9.31'
   object Panel1: TPanel
     Left = 0
     Height = 30
@@ -151,9 +151,9 @@ object F_CustomizeMenu: TF_CustomizeMenu
     end
   end
   object OnFormInfoIni: TOnFormInfoIni
-    SauvePosObjects = True
-    SauveEditObjets = [feTCheck]
-    SauvePosForm = True
+    SavePosObjects = True
+    SaveEdits = []
+    SavePosForm = True
     left = 145
     top = 140
   end
