@@ -55,7 +55,7 @@ const
   CST_FWDOCUMENT = 'tfwdocument';
   CST_FWPREVIEW = 'tfwpreview';
   CST_FWNEXT = 'tfwnext';
-  CST_FWREFRESH = 'tfwrefrash';
+  CST_FWREFRESH = 'tfwrefresh';
   CST_FWPRIOR = 'tfwprior';
   CST_FWINIT = 'tfwinit';
   CST_FWCONFIG = 'tfwconfig';
