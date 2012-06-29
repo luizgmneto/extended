@@ -132,14 +132,13 @@ type
        procedure ShowControlColumn;
        procedure p_SetPaintEdits ( const AValue : Boolean );
       protected
-       procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
-          X, Y: Integer); override;
        function IsColumnsStored: boolean; virtual;
        procedure DrawCell(aCol,aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect; aState:TGridDrawState); override;
        function CanEditShow: Boolean; override;
        procedure ExtGetBtnParams (Sender: TObject; Field: TField;
     AFont: TFont; var Background: TColor; var SortMarker: TSortMarker;
     IsDown: Boolean); virtual;
+       procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
       public
        procedure KeyDown(var Key: Word; Shift: TShiftState); override;
        procedure KeyUp(var ach_Key: Word; ashi_Shift: TShiftState); override;
@@ -527,7 +526,17 @@ End;
 // On MouseDown show eventually column control
 procedure TExtDBGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
+var P : TPoint;
 begin
+  if Assigned(PopUpMenu)
+  and (Button = mbRight) Then
+    Begin
+     with Mouse.CursorPos do
+       PopUpMenu.Popup(X,Y);
+     P:=MouseToCell(Point(X,Y));
+     if assigned ( Datalink.DataSet ) Then
+       Datalink.DataSet.MoveBy(P.Y - Row);
+    end;
   inherited;
   ShowControlColumn;
 end;
@@ -574,9 +583,9 @@ var Aindex : Integer;
 
 begin
   if  FPaintEdits
-  and ( ACol > 0  )
-  and ( ARow >= {$IFDEF FPC}1{$ELSE}IndicatorOffset{$ENDIF} ) then
-  with ( TExtGridColumn ( Columns [ ACol - 1 ])) do
+  and ( ACol >= FixedCols  )
+  and ( ARow >= {$IFDEF FPC}FixedRows{$ELSE}IndicatorOffset{$ENDIF} ) then
+  with ( TExtGridColumn ( Columns [ ACol - FixedCols ])) do
    Begin
      if assigned ( SomeEdit ) Then
      with SomeEdit do
