@@ -529,13 +529,19 @@ procedure TExtDBGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
 var P : TPoint;
 begin
   if Assigned(PopUpMenu)
-  and (Button = mbRight) Then
+  and (Button = mbRight)
+  and ( Shift = [] ) Then
     Begin
-     with Mouse.CursorPos do
-       PopUpMenu.Popup(X,Y);
      P:=MouseToCell(Point(X,Y));
-     if assigned ( Datalink.DataSet ) Then
-       Datalink.DataSet.MoveBy(P.Y - Row);
+     if ( p.Y >= FixedRows )
+     or ( p.X >= FixedCols ) Then
+      Begin
+       if assigned ( Datalink.DataSet ) Then
+         Datalink.DataSet.MoveBy(P.Y - Row);
+       with Mouse.CursorPos do
+         PopUpMenu.Popup(X,Y);
+       Exit;
+      end;
     end;
   inherited;
   ShowControlColumn;
