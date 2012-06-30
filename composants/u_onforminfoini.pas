@@ -123,6 +123,7 @@ type
   TOnFormInfoIni = class(TComponent)
   private
     FSaveEdits: TSaveEdits;
+    FSameMonitor,
     FFreeIni ,
     FSavePosObjects,
     FAutoUpdate,
@@ -139,11 +140,12 @@ type
     FormOldCreate   ,
     FormOldShow     : TNotifyEvent;
 //    procedure loaded; override;
-    function GetfeSauveEdit(aSauveObjet:TSaveEdits;aObjet :TSauveEditObjet):Boolean ;
+    function GetfeSauveEdit(const aSauveObjet:TSaveEdits;const aObjet :TSauveEditObjet):Boolean ;
     // traitement de la position de la af_Form mise dans le create
-    procedure p_LecturePositionFenetre(aFiche:TCustomForm);
+    procedure p_LecturePositionFenetre(const aFiche:TCustomForm);
     procedure p_EcriturePositionFenetre(const aFiche:TCustomForm);
     procedure p_Freeini; virtual;
+    procedure DoSameMonitor(const aForm: TCustomForm); virtual;
 
   public
     Constructor Create(AOwner:TComponent); override;
@@ -161,6 +163,7 @@ type
     property SaveEdits: TSaveEdits read FSaveEdits write FSaveEdits nodefault;
     // Propriété qui conserve la position(index) des objets PageControl (onglets)
     property SavePosForm: Boolean read FSavePosForm  write FSavePosForm default False;
+    property SameMonitor: Boolean read FSameMonitor  write FSameMonitor default False;
     property OnIniLoad  : TEventIni read FOnIniLoad write FOnIniLoad ;
     property OnIniWrite : TEventIni read FOnIniWrite write FOnIniWrite;
     property OnFormShow : TNotifyEvent read FOnFormShow write FOnFormShow;
@@ -197,6 +200,7 @@ Constructor TOnFormInfoIni.Create(AOwner:TComponent);
 var lmet_MethodToAdd  : TMethod;
 begin
   Inherited Create(AOwner);
+  FSameMonitor := False;
   FAutoChargeIni := True;
   FAutoUpdate    := True;
   FSavePosObjects := False;
@@ -267,6 +271,34 @@ begin
   if Assigned(FOnFormCreate) then FOnFormCreate(Sender);
 end;
 
+procedure TOnFormInfoIni.DoSameMonitor(const aForm:TCustomForm);
+var
+  RectMonitor:TRect;
+begin //Positionne et redimentionne éventuellement aForm sur le moniteur de FMain
+  if not FSameMonitor
+  or ( aForm = Application.MainForm )
+   Then Exit;
+
+  RectMonitor:=Application.MainForm.Monitor.WorkareaRect;
+  with aForm do
+   Begin
+    Position:=poDesigned;
+    WindowState:=wsNormal;
+    if Height>(RectMonitor.Bottom-RectMonitor.Top) then
+      Height:=RectMonitor.Bottom-RectMonitor.Top;
+    if Top<RectMonitor.Top then
+      Top:=RectMonitor.Top;
+    if (Top+Height)>RectMonitor.Bottom then
+      Top:=RectMonitor.Bottom-Height;
+    if Width>(RectMonitor.Right-RectMonitor.Left) then
+      Width:=RectMonitor.Right-RectMonitor.Left;
+    if Left<RectMonitor.Left then
+      Left:=RectMonitor.Left;
+    if (Left+Width)>RectMonitor.Right then
+      Left:=RectMonitor.Right-Width;
+   end;
+end;
+
 procedure TOnFormInfoIni.LaFormShow(Sender: TObject);
 
 begin
@@ -288,7 +320,7 @@ end;
 // Fonction qui regarde dans la propriété TSaveEdits de TOnFormInfoIni
 // et renvoie la valeur de sauvegarde d'un objet de la form
 ////////////////////////////////////////////////////////////////////////////////
-function TOnFormInfoIni.GetfeSauveEdit(aSauveObjet:TSaveEdits;aObjet :TSauveEditObjet):Boolean;
+function TOnFormInfoIni.GetfeSauveEdit(const aSauveObjet:TSaveEdits;const aObjet :TSauveEditObjet):Boolean;
 begin
   Result := False;
   if aObjet in aSauveObjet then
@@ -1065,7 +1097,7 @@ end;
 // Lecture des données dans le fichier INI concernant la fenêtre uniquement
 // traitement de la position de la af_Form mise dans le create
 ////////////////////////////////////////////////////////////////////////////////
-procedure TOnFormInfoIni.p_LecturePositionFenetre(aFiche: TCustomForm);
+procedure TOnFormInfoIni.p_LecturePositionFenetre(const aFiche: TCustomForm);
 var li_etat, li_top,li_left,li_next,li_previous: integer;
     lr_rect : TRect;
 begin
@@ -1161,6 +1193,8 @@ begin
     }
     end;
   End;
+  if Owner is TCustomForm then
+    DoSameMonitor(Owner as TCustomForm);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
