@@ -89,7 +89,8 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
                                            Comment : 'Ini management tu put on a form.' ;
-                                           BugsStory : '1.0.2.0 : To English, new management of forms not tested.' +#13#10 +
+                                           BugsStory : '1.0.3.0 : Optimising.' +#13#10 +
+                                                       '1.0.2.0 : To English, new management of forms not tested.' +#13#10 +
                                                        '1.0.1.6 : UTF 8.' +#13#10 +
                                                        '1.0.1.5 : Testing Memo.' +#13#10 +
                                                        '1.0.1.4 : Freeing ini, erasing before saving.' +#13#10 +
@@ -101,7 +102,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                                        '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
                                                        '1.0.0.0 : Gestion de beaucoup de composants.';
                                            UnitType : 3 ;
-                                           Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
+                                           Major : 1 ; Minor : 0 ; Release : 3 ; Build : 0 );
 
 {$ENDIF}
 
@@ -109,38 +110,40 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
 
 type
   // Liste des objets dont on veut conserver les donner dans le fichier INI
-  TSauveEditObjet = (feTEdit, feTCheck, feTComboValue, feTComboBox, feTColorCombo,feTCurrencyEdit,feTDateEdit,
+  TSaveEdit = (feTEdit, feTCheck, feTComboValue, feTComboBox, feTColorCombo,feTCurrencyEdit,feTDateEdit,
         {$IFDEF DELPHI}
         feTDateTimePicker,
         {$ENDIF}
-  feTDirectoryEdit,feTFileNameEdit,feTGrid,feTListBox, feTListView, feTMemo, feTPageControl, feTPopup, feTRadio, feTRadioGroup, feTRichEdit,feTSpinEdit,
-  feTVirtualTrees );
+        feTDirectoryEdit,feTFileNameEdit,feTGrid,feTListBox, feTListView, feTMemo, feTPageControl, feTPopup, feTRadio, feTRadioGroup, feTRichEdit,feTSpinEdit,
+        feTVirtualTrees );
+  TLoadOption = (loFreeIni,loAutoUpdate,loAutoLoad);
+  TLoadOptions = set of TLoadOption;
+  TSaveForm = (sfSavePos,sfSaveSizes,sfSameMonitor);
+  TSavesForm = set of TSaveForm;
   TEventIni = procedure ( const AInifile : TCustomInifile ; var Continue : Boolean ) of object;
-  TSaveEdits = set of TSauveEditObjet;
+  TSaveEdits = set of TSaveEdit;
+const CST_INI_OPTIONS_DEFAULT = [loFreeIni,loAutoUpdate,loAutoLoad];
 
+type
   { TOnFormInfoIni }
 
   TOnFormInfoIni = class(TComponent)
   private
     FSaveEdits: TSaveEdits;
-    FSameMonitor,
-    FFreeIni ,
-    FSavePosObjects,
-    FAutoUpdate,
-    FSavePosForm:      Boolean;
+    FSaveForm : TSavesForm;
+    FOptions : TLoadOptions;
     FOnFormDestroy,
     FOnFormShow   ,
     FOnFormCreate : TNotifyEvent ;
     FOnIniLoad, FOnIniWrite : TEventIni;
   protected
-    FUpdateAll ,
-    FAutoChargeIni: Boolean;
+    FUpdateAll : Boolean;
     FFormOwner:     TCustomForm;
     FormOldDestroy  ,
     FormOldCreate   ,
     FormOldShow     : TNotifyEvent;
 //    procedure loaded; override;
-    function GetfeSauveEdit(const aSauveObjet:TSaveEdits;const aObjet :TSauveEditObjet):Boolean ;
+    function GetfeSauveEdit(const aSauveObjet:TSaveEdits;const aObjet :TSaveEdit):Boolean ;
     // traitement de la position de la af_Form mise dans le create
     procedure p_LecturePositionFenetre(const aFiche:TCustomForm);
     procedure p_EcriturePositionFenetre(const aFiche:TCustomForm);
@@ -155,21 +158,24 @@ type
     procedure p_ExecuteEcriture(const aF_Form: TCustomForm); virtual;
     procedure p_LectureColonnes(const aF_Form: TCustomForm=nil); virtual;
   published
-    property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate default True;
-    property AutoLoad   : Boolean read FAutoChargeIni write FAutoChargeIni default True;
+//    property AutoUpdate : Boolean read FAutoUpdate write FAutoUpdate default True;
+//    property AutoLoad   : Boolean read FAutoChargeIni write FAutoChargeIni default True;
     // Propriété qui conserve la position des objets d'une form
-    property SavePosObjects: Boolean read FSavePosObjects write FSavePosObjects default False;
+//    property SavePosObjects: Boolean read FSavePosObjects write FSavePosObjects default False;
     // Propriété qui conserve les données des objets d'une form
-    property SaveEdits: TSaveEdits read FSaveEdits write FSaveEdits nodefault;
+    property SaveEdits: TSaveEdits read FSaveEdits write FSaveEdits default [];
+    property SaveForm : TSavesForm read FSaveForm write FSaveForm default [];
+    property Options  : TLoadOptions read FOptions write FOptions default CST_INI_OPTIONS_DEFAULT;
+
     // Propriété qui conserve la position(index) des objets PageControl (onglets)
-    property SavePosForm: Boolean read FSavePosForm  write FSavePosForm default False;
-    property SameMonitor: Boolean read FSameMonitor  write FSameMonitor default False;
+//    property SavePosForm: Boolean read FSavePosForm  write FSavePosForm default False;
+//    property SameMonitor: Boolean read FSameMonitor  write FSameMonitor default False;
     property OnIniLoad  : TEventIni read FOnIniLoad write FOnIniLoad ;
     property OnIniWrite : TEventIni read FOnIniWrite write FOnIniWrite;
     property OnFormShow : TNotifyEvent read FOnFormShow write FOnFormShow;
     property OnFormDestroy : TNotifyEvent read FOnFormDestroy write FOnFormDestroy;
     property OnFormCreate : TNotifyEvent read FOnFormCreate write FOnFormCreate;
-    property Freeini : Boolean read FFreeIni write FFreeIni default True;
+//    property Freeini : Boolean read FFreeIni write FFreeIni default True;
     procedure LaFormDestroy(Sender: TObject);
     procedure LaFormShow(Sender: TObject);
     procedure LaFormCreate(Sender: TObject);
@@ -200,12 +206,8 @@ Constructor TOnFormInfoIni.Create(AOwner:TComponent);
 var lmet_MethodToAdd  : TMethod;
 begin
   Inherited Create(AOwner);
-  FSameMonitor := False;
-  FAutoChargeIni := True;
-  FAutoUpdate    := True;
-  FSavePosObjects := False;
-  FSavePosForm  := False;
-  FFreeIni       := True;
+  FSaveForm      := [];
+  FOptions       := CST_INI_OPTIONS_DEFAULT;
   FOnIniLoad     := nil;
   FOnIniWrite    := nil;
   if not (csDesigning in ComponentState)  //si on est pas en mode conception
@@ -254,7 +256,6 @@ end;
 procedure TOnFormInfoIni.LaFormCreate ( Sender: TObject );
 begin
   FUpdateAll := False ;
-  FAutoUpdate := True ;
   if Assigned(FormOldCreate) then FormOldCreate(Sender);
   f_GetMemIniFile;
   if Assigned(FInifile) then
@@ -262,7 +263,7 @@ begin
     try
       Updating ;
           // Traitement de la position de la af_Form
-      if (TFormStyle ( flin_getComponentProperty ( FFormOwner, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild) and (FSavePosForm) then
+      if (TFormStyle ( flin_getComponentProperty ( FFormOwner, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild) and (sfSavePos in FSaveForm) then
         p_LecturePositionFenetre(FFormOwner);
 
     finally
@@ -275,7 +276,7 @@ procedure TOnFormInfoIni.DoSameMonitor(const aForm:TCustomForm);
 var
   RectMonitor:TRect;
 begin //Positionne et redimentionne éventuellement aForm sur le moniteur de FMain
-  if not FSameMonitor
+  if not ( sfSameMonitor in FSaveForm )
   or ( aForm = Application.MainForm )
    Then Exit;
 
@@ -308,7 +309,7 @@ begin
   Except
 
   end;
-  if FAutoChargeIni then
+  if loAutoUpdate in FOptions then
     p_ExecuteLecture(TForm(Self.Owner));
 
   if Assigned(FOnFormShow) then FOnFormShow(Sender);
@@ -320,7 +321,7 @@ end;
 // Fonction qui regarde dans la propriété TSaveEdits de TOnFormInfoIni
 // et renvoie la valeur de sauvegarde d'un objet de la form
 ////////////////////////////////////////////////////////////////////////////////
-function TOnFormInfoIni.GetfeSauveEdit(const aSauveObjet:TSaveEdits;const aObjet :TSauveEditObjet):Boolean;
+function TOnFormInfoIni.GetfeSauveEdit(const aSauveObjet:TSaveEdits;const aObjet :TSaveEdit):Boolean;
 begin
   Result := False;
   if aObjet in aSauveObjet then
@@ -400,7 +401,7 @@ var
         or (lcom_Component is TBaseVirtualTree  )
         {$ENDIF}
         or (lcom_Component is TCustomGrid ))
-    and FSavePosObjects then
+    and ( sfSaveSizes in FSaveForm ) then
       begin
         li_Taille := fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH, TControl (lcom_Component).Width);
         if li_Taille > 0 Then
@@ -635,11 +636,10 @@ var
   end;
 
 begin
-  FAutoChargeIni := False;
   Rien := 0;
   f_GetMemIniFile;
  {$IFDEF FPC}
-    if FSavePosObjects
+    if ( sfSaveSizes in FSaveForm )
     and assigned ( FFormOwner ) Then
       Begin
         FFormOwner.BeginUpdateBounds;
@@ -657,7 +657,7 @@ begin
 
       // traitement des composants de la af_Form
       if ab_continue
-      and ( FSavePosObjects or (FSaveEdits <> [])) Then
+      and ( ( sfSaveSizes in FSaveForm ) or (FSaveEdits <> [])) Then
       for j := 0 to af_Form.ComponentCount - 1 do
           begin
             try
@@ -703,7 +703,7 @@ begin
    {$IFDEF FPC}
       if ab_continue Then
         Begin
-          if FSavePosObjects
+          if ( sfSaveSizes in FSaveForm )
           and assigned ( FFormOwner ) Then
             FFormOwner.EndUpdateBounds;
         end;
@@ -717,7 +717,7 @@ end;
 
 procedure TOnFormInfoIni.p_Freeini;
 begin
-  if FFreeIni Then
+  if ( loFreeIni in FOptions ) Then
     Begin
       FIniFile.Free;
       FIniFile := nil;
@@ -747,7 +747,7 @@ begin
   finally
     FUpdateAll := False ;
 
-    if FAutoUpdate Then
+    if ( loAutoUpdate in FOptions ) Then
       Begin
         fb_iniWriteFile ( FInifile, False );
         Application.ProcessMessages ;
@@ -803,7 +803,7 @@ var
           end;
 
     // écriture des positions des objets Panels et RxSplitters
-   if FSavePosObjects Then
+   if ( sfSaveSizes in FSaveForm ) Then
     begin
       if      (lcom_Component is TPanel)
        {$IFDEF VIRTUALTREES}
@@ -1039,11 +1039,12 @@ begin
   if not Assigned(FInifile) then Exit;
 
       // traitement de la position de la af_Form
-  if (TFormStyle ( flin_getComponentProperty ( af_Form, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild) and (FSavePosForm)  then
+  if (TFormStyle ( flin_getComponentProperty ( af_Form, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild)
+  and ( sfSaveSizes in FSaveForm )  then
     p_EcriturePositionFenetre(af_Form);
 
       // Traitement des composants de la af_Form
-  if FSavePosObjects or (FSaveEdits <> []) Then
+  if ( sfSaveSizes in FSaveForm ) or (FSaveEdits <> []) Then
   For j:=0 to af_Form.ComponentCount-1 do
     begin
       lcom_Component := af_Form.Components[j];
@@ -1077,7 +1078,7 @@ begin
         end;
       end;
   if not FUpdateAll
-  and FAutoUpdate Then
+  and ( loAutoUpdate in FOptions ) Then
     Begin
       fb_iniWriteFile ( FInifile, False );
     End;

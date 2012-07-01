@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="3">
     <Name Value="lazextcomponents"/>
-    <AddToProjectUsesSection Value="True"/>
     <CompilerOptions>
-      <Version Value="11"/>
+      <Version Value="9"/>
       <SearchPaths>
         <IncludeFiles Value="composants;forms"/>
         <OtherUnitFiles Value="composants;fonctions;forms"/>
@@ -20,8 +19,8 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Release="2" Build="6"/>
-    <Files Count="27">
+    <Version Major="1" Release="3"/>
+    <Files Count="24">
       <Item1>
         <Filename Value="composants/u_onforminfoini.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
@@ -83,61 +82,48 @@
         <UnitName Value="u_extdbgrid"/>
       </Item15>
       <Item16>
-        <Filename Value="composants/u_extmenutoolbar.pas"/>
-        <UnitName Value="u_extmenutoolbar"/>
-      </Item16>
-      <Item17>
-        <Filename Value="forms/u_customizemenu.lfm"/>
-        <Type Value="LFM"/>
-      </Item17>
-      <Item18>
-        <Filename Value="forms/u_customizemenu.pas"/>
-        <UnitName Value="U_CustomizeMenu"/>
-      </Item18>
-      <Item19>
-        <Filename Value="composants/u_extmenucustomize.pas"/>
-        <UnitName Value="u_extmenucustomize"/>
-      </Item19>
-      <Item20>
         <Filename Value="composants/u_extimage.pas"/>
         <UnitName Value="U_ExtImage"/>
-      </Item20>
-      <Item21>
+      </Item16>
+      <Item17>
         <Filename Value="composants/U_GroupView.lrs"/>
         <Type Value="LRS"/>
-      </Item21>
-      <Item22>
+      </Item17>
+      <Item18>
         <Filename Value="composants/U_GroupView.pas"/>
         <UnitName Value="U_GroupView"/>
-      </Item22>
-      <Item23>
+      </Item18>
+      <Item19>
         <Filename Value="composants/U_ExtPictCombo.pas"/>
         <UnitName Value="U_ExtPictCombo"/>
-      </Item23>
-      <Item24>
+      </Item19>
+      <Item20>
         <Filename Value="composants/u_extmapimageindex.pas"/>
         <UnitName Value="U_ExtMapImageIndex"/>
-      </Item24>
-      <Item25>
+      </Item20>
+      <Item21>
         <Filename Value="composants/u_extdbimagelist.pas"/>
         <UnitName Value="U_ExtDBImageList"/>
-      </Item25>
-      <Item26>
+      </Item21>
+      <Item22>
         <Filename Value="composants/u_extdbpictcombo.pas"/>
         <UnitName Value="U_ExtDBPictCombo"/>
-      </Item26>
-      <Item27>
+      </Item22>
+      <Item23>
         <Filename Value="composants/u_extradios.pas"/>
         <UnitName Value="u_extradios"/>
-      </Item27>
+      </Item23>
+      <Item24>
+        <Filename Value="composants/u_buttons_defs.pas"/>
+        <UnitName Value="u_buttons_defs"/>
+      </Item24>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="LANG"/>
-      <EnableI18NForLFM Value="True"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="7">
+    <RequiredPkgs Count="6">
       <Item1>
         <PackageName Value="rxnew"/>
       </Item1>
@@ -145,21 +131,18 @@
         <PackageName Value="virtualtreeview_package"/>
       </Item2>
       <Item3>
-        <PackageName Value="toolbarmenupkg"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item3>
       <Item4>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="lazfonctions"/>
       </Item4>
       <Item5>
-        <PackageName Value="lazfonctions"/>
+        <PackageName Value="ExpertSuperForm"/>
       </Item5>
       <Item6>
-        <PackageName Value="ExpertSuperForm"/>
-      </Item6>
-      <Item7>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item7>
+      </Item6>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

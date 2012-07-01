@@ -151,10 +151,10 @@ object F_CustomizeMenu: TF_CustomizeMenu
     end
   end
   object OnFormInfoIni: TOnFormInfoIni
-    SavePosObjects = True
     SaveEdits = []
-    SavePosForm = True
     left = 145
     top = 140
+    SaveForm = [sfSaveSizes,sfSavePos]
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
 end

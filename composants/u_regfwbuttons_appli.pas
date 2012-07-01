@@ -35,11 +35,14 @@ procedure Register;
 implementation
 
 uses
-    u_buttons_appli, u_buttons_defs, unite_messages ;
+    u_buttons_appli,
+    {$IFDEF MENUBAR}u_extmenutoolbar,{$ENDIF} u_extmenucustomize,
+    u_buttons_defs, unite_messages ;
 
 procedure Register;
 begin
-  RegisterComponents('FWButtons', [TFWRefresh,TFWDate,TFWFolder,
+  RegisterComponents('FWButtons', [{$IFDEF MENUBAR}TExtMenuToolBar,{$ENDIF} TExtMenuCustomize,
+                                   TFWRefresh,TFWDate,TFWFolder,
                                    TFWNext,TFWPrior,TFWLoad,TFWTrash,TFWConfig, TFWClose, TFWCancel, TFWOK,
                                    {$IFDEF GROUPVIEW}TFWBasket,TFWInSelect,TFWInAll,TFWOutSelect,TFWOutAll,{$ENDIF}
                                    TFWInsert,TFWInit,TFWAdd,TFWDelete,TFWDocument,

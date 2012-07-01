@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="3">
     <Name Value="lazregisterextbuttons"/>
-    <AddToProjectUsesSection Value="True"/>
     <CompilerOptions>
-      <Version Value="11"/>
+      <Version Value="9"/>
       <SearchPaths>
         <IncludeFiles Value="composants"/>
         <OtherUnitFiles Value="composants"/>
@@ -51,17 +50,20 @@
       </Item7>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="4">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="lazextcomponents"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazextbuttons"/>
+        <PackageName Value="LCL"/>
       </Item2>
       <Item3>
+        <PackageName Value="lazextbuttons"/>
+      </Item3>
+      <Item4>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item3>
+      </Item4>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
