@@ -151,10 +151,12 @@ object F_CustomizeMenu: TF_CustomizeMenu
     end
   end
   object OnFormInfoIni: TOnFormInfoIni
-    SauvePosObjects = True
-    SauveEditObjets = [feTCheck]
-    SauvePosForm = True
+    SavePosObjects = True
+    SaveEdits = [feTCheck]
+    SavePosForm = True
     Left = 145
     Top = 140
+    SaveForm = ]
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
 end

@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="3">
     <Name Value="lazextbuttons"/>
-    <AddToProjectUsesSection Value="True"/>
     <CompilerOptions>
-      <Version Value="11"/>
+      <Version Value="9"/>
       <SearchPaths>
         <IncludeFiles Value="composants;forms"/>
         <OtherUnitFiles Value="composants;fonctions;forms"/>
@@ -21,7 +20,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="5" Build="2"/>
-    <Files Count="5">
+    <Files Count="9">
       <Item1>
         <Filename Value="composants/u_buttons_extension.pas"/>
         <UnitName Value="u_buttons_extension"/>
@@ -42,25 +41,44 @@
         <Filename Value="composants/u_buttons_appli.pas"/>
         <UnitName Value="u_buttons_appli"/>
       </Item5>
+      <Item6>
+        <Filename Value="composants/u_extmenucustomize.pas"/>
+        <UnitName Value="u_extmenucustomize"/>
+      </Item6>
+      <Item7>
+        <Filename Value="composants/u_extmenutoolbar.pas"/>
+        <UnitName Value="u_extmenutoolbar"/>
+      </Item7>
+      <Item8>
+        <Filename Value="forms/u_customizemenu.lfm"/>
+        <Type Value="LFM"/>
+      </Item8>
+      <Item9>
+        <Filename Value="forms/u_customizemenu.pas"/>
+        <UnitName Value="U_CustomizeMenu"/>
+      </Item9>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="5">
+    <RequiredPkgs Count="6">
       <Item1>
-        <PackageName Value="CompoPerso"/>
+        <PackageName Value="toolbarmenupkg"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazflatstyle"/>
+        <PackageName Value="lazextcomponents"/>
       </Item2>
       <Item3>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="CompoPerso"/>
       </Item3>
       <Item4>
-        <PackageName Value="lazfonctions"/>
+        <PackageName Value="lazflatstyle"/>
       </Item4>
       <Item5>
+        <PackageName Value="JvXPBarLaz"/>
+      </Item5>
+      <Item6>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item5>
+      </Item6>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="3">
     <Name Value="lazfonctions"/>
-    <AddToProjectUsesSection Value="True"/>
     <CompilerOptions>
-      <Version Value="11"/>
+      <Version Value="9"/>
       <SearchPaths>
-        <IncludeFiles Value="forms;composants"/>
-        <OtherUnitFiles Value="fonctions;forms;composants"/>
+        <IncludeFiles Value="forms"/>
+        <OtherUnitFiles Value="fonctions;forms"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -22,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Release="5"/>
-    <Files Count="22">
+    <Files Count="21">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -107,15 +106,10 @@
         <Filename Value="fonctions/type_string.pas"/>
         <UnitName Value="type_string"/>
       </Item21>
-      <Item22>
-        <Filename Value="composants/u_buttons_defs.pas"/>
-        <UnitName Value="u_buttons_defs"/>
-      </Item22>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="LANG"/>
-      <EnableI18NForLFM Value="True"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="9">
