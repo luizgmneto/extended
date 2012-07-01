@@ -124,6 +124,8 @@ var
 
 implementation
 
+uses fonctions_system;
+
 procedure TMyform.DbfNomsAfterPost(DataSet: TDataSet);
 begin
   DBListView.Refresh;
@@ -156,10 +158,6 @@ procedure TMyform.IBDatabaseBeforeConnect(Sender: TObject);
 var lstl_conf : TStringList;
 begin
   IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
-  {$IFDEF LINUX}
-  Process.CommandLine:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'exec.sh';
-  Process.Execute;
-  {$ENDIF}
   try
     lstl_conf := TStringList.Create;
     lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName);
@@ -188,11 +186,35 @@ begin
 end;
 
 procedure p_setLibrary (var libname: string);
+var AProcess : TProcess;
 Begin
   {$IFDEF WINDOWS}
   libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbclient'+CST_EXTENSION_LIBRARY;
+  if not FileExists(libname)
+    Then libname:='fbclient'+CST_EXTENSION_LIBRARY;
   {$ELSE}
   libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed'+CST_EXTENSION_LIBRARY;
+  if FileExists(libname) Then
+    Begin
+      AProcess := TProcess.Create(nil);
+      with AProcess do
+        try
+          CommandLine:='sh "'+ExtractFileDir(Application.ExeName)+DirectorySeparator+'exec.sh"';
+          Execute;
+          Exit;
+
+        finally
+        end;
+      AProcess.Free;
+    end;
+  if not FileExists(libname)
+    Then libname:='/usr/lib/libfbembed.so.2.5';
+  if not FileExists(libname)
+    Then libname:='/usr/lib/libfbembed.so';
+  if not FileExists(libname)
+    Then libname:='/usr/lib/i386-linux-gnu/libfbembed.so.2.5';
+  if not FileExists(libname)
+    Then libname:='/usr/lib/x86-linux-gnu/libfbembed.so.2.5';
   {$ENDIF}
 end;
 
