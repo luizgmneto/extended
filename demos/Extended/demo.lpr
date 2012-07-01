@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, U_Components, LResources, DBFLaz, lazextcomponents, lazfonctions,
-  ibexpress, virtualtreeview_package;
+  lazextbuttons, ibexpress, virtualtreeview_package;
 begin
   {$I demo.lrs}
   Application.Initialize;

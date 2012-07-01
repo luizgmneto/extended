@@ -5,7 +5,7 @@ inherited Myform: TMyform
   Width = 759
   ActiveControl = Panel1
   Caption = 'Myform'
-  ClientHeight = 554
+  ClientHeight = 557
   ClientWidth = 759
   Color = clBtnFace
   Font.Color = clWindowText
@@ -15,18 +15,18 @@ inherited Myform: TMyform
   OnShow = FormShow
   object Splitter1: TSplitter[0]
     Left = 240
-    Height = 554
+    Height = 557
     Top = 0
     Width = 5
   end
   object Panel1: TPanel[1]
     Left = 32
-    Height = 554
+    Height = 557
     Top = 0
     Width = 208
     Align = alLeft
     Caption = 'Panel1'
-    ClientHeight = 554
+    ClientHeight = 557
     ClientWidth = 208
     TabOrder = 0
     object ExtDBNavigator1: TExtDBNavigator
@@ -43,7 +43,7 @@ inherited Myform: TMyform
     end
     object Noms: TExtDBGrid
       Left = 1
-      Height = 532
+      Height = 535
       Top = 21
       Width = 206
       TitleButtons = False
@@ -88,13 +88,12 @@ inherited Myform: TMyform
     end
     object Prenom: TFWDBEdit
       Left = 7
-      Height = 22
+      Height = 24
       Top = 81
       Width = 221
       DataField = 'PRENOM'
       DataSource = ds_user
       CharCase = ecNormal
-      Color = clMoneyGreen
       MaxLength = 100
       TabOrder = 2
       Visible = False
@@ -103,13 +102,12 @@ inherited Myform: TMyform
     end
     object Nom: TFWDBEdit
       Left = 7
-      Height = 22
+      Height = 24
       Top = 121
       Width = 221
       DataField = 'NOM'
       DataSource = ds_user
       CharCase = ecNormal
-      Color = clMoneyGreen
       MaxLength = 100
       TabOrder = 3
       Visible = False
@@ -119,11 +117,11 @@ inherited Myform: TMyform
   end
   object Panel2: TPanel[2]
     Left = 245
-    Height = 554
+    Height = 557
     Top = 0
     Width = 514
     Align = alClient
-    ClientHeight = 554
+    ClientHeight = 557
     ClientWidth = 514
     TabOrder = 3
     object FWLabel1: TFWLabel
@@ -134,7 +132,7 @@ inherited Myform: TMyform
       AutoSize = False
       Caption = 'Color'
       Color = clBtnFace
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -150,7 +148,7 @@ inherited Myform: TMyform
       AutoSize = False
       Caption = 'NumEdit'
       Color = clBtnFace
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -166,7 +164,7 @@ inherited Myform: TMyform
       AutoSize = False
       Caption = 'Date'
       Color = clBtnFace
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -182,7 +180,7 @@ inherited Myform: TMyform
       AutoSize = False
       Caption = 'Edit'
       Color = clBtnFace
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -198,7 +196,7 @@ inherited Myform: TMyform
       AutoSize = False
       Caption = 'Name'
       Color = clBtnFace
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -214,7 +212,7 @@ inherited Myform: TMyform
       AutoSize = False
       Caption = 'Surname'
       Color = clBtnFace
-      Font.Color = clMaroon
+      Font.Color = clActiveText
       Font.Height = 14
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -226,7 +224,7 @@ inherited Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 317
+      Top = 320
       Width = 512
       Align = alBottom
       ResizeAnchor = akBottom
@@ -239,7 +237,7 @@ inherited Myform: TMyform
       AutoSize = False
       Caption = 'City'
       Color = clBtnFace
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 12
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -255,7 +253,7 @@ inherited Myform: TMyform
       AutoSize = False
       Caption = 'Department'
       Color = clBtnFace
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 10
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -265,21 +263,20 @@ inherited Myform: TMyform
     end
     object ExtColorCombo: TExtColorCombo
       Left = 120
-      Height = 26
+      Height = 28
       Top = 75
       Width = 221
-      Language = lgEnglish
       HTMLcolor = '#FFFFFF'
       ColorReadOnly = clInfoText
       MyLabel = FWLabel1
       AlwaysSame = False
-      Color = clMoneyGreen
+      Color = 5592388
       ItemHeight = 16
       TabOrder = 0
     end
     object ExtNumEdit1: TExtNumEdit
       Left = 120
-      Height = 22
+      Height = 24
       Top = 108
       Width = 221
       EditMask = '#0,#9;0; '
@@ -299,7 +296,7 @@ inherited Myform: TMyform
     end
     object FWDateEdit1: TFWDateEdit
       Left = 120
-      Height = 22
+      Height = 24
       Top = 134
       Width = 221
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
@@ -307,7 +304,6 @@ inherited Myform: TMyform
       CancelCaption = 'Cancel'
       DateOrder = doNone
       ButtonWidth = 0
-      Color = clMoneyGreen
       CharCase = ecNormal
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
@@ -354,10 +350,9 @@ inherited Myform: TMyform
     end
     object FWEdit: TFWEdit
       Left = 120
-      Height = 22
+      Height = 24
       Top = 160
       Width = 221
-      Color = clMoneyGreen
       TabOrder = 4
       Text = 'FWEdit'
       MyLabel = FWLabel4
@@ -366,7 +361,7 @@ inherited Myform: TMyform
     object DBListView: TDBListView
       Left = 1
       Height = 233
-      Top = 320
+      Top = 323
       Width = 512
       Align = alBottom
       Columns = <      
@@ -377,7 +372,7 @@ inherited Myform: TMyform
         end      
         item
           Caption = 'Prenom'
-          Width = 369
+          Width = 374
         end>
       DragMode = dmAutomatic
       MultiSelect = True
@@ -393,7 +388,7 @@ inherited Myform: TMyform
       Height = 128
       Top = 48
       Width = 136
-      Color = clMoneyGreen
+      Color = 5592388
       Lines.Strings = (
         'FWMemo'
       )
@@ -401,10 +396,9 @@ inherited Myform: TMyform
     end
     object ExtDBComboInsert2: TExtDBComboInsert
       Left = 120
-      Height = 25
+      Height = 27
       Top = 211
       Width = 221
-      Color = clMoneyGreen
       DataField = 'IDDEPARTEMENT'
       DataSource = ds_user
       KeyField = 'CLEP'
@@ -418,13 +412,13 @@ inherited Myform: TMyform
     end
     object ExtSearchDBEdit2: TExtSearchDBEdit
       Left = 120
-      Height = 22
+      Height = 24
       Top = 185
       Width = 221
       DataField = 'NOM'
       DataSource = ds_user
       CharCase = ecNormal
-      Color = clMoneyGreen
+      Color = 5592388
       MaxLength = 100
       TabOrder = 6
       SearchDisplay = 'NOM'
@@ -433,12 +427,12 @@ inherited Myform: TMyform
     end
     object ExtDBPictCombo: TExtDBPictCombo
       Left = 120
-      Height = 26
+      Height = 28
       Top = 290
       Width = 219
       Images = ImageResources
       ImagesMap = MapImages
-      Color = clMoneyGreen
+      Color = 5592388
       Items.Strings = (
         'Image'
         'Image'
@@ -462,7 +456,7 @@ inherited Myform: TMyform
       Caption = 'SpinEdit'
       Color = clBtnFace
       FocusControl = FWSpinEdit
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -472,10 +466,9 @@ inherited Myform: TMyform
     end
     object FWSpinEdit: TFWSpinEdit
       Left = 120
-      Height = 22
+      Height = 24
       Top = 240
       Width = 220
-      Color = clMoneyGreen
       TabOrder = 10
       MyLabel = FWLabel8
     end
@@ -487,7 +480,7 @@ inherited Myform: TMyform
       AutoSize = False
       Caption = 'PictCombo'
       Color = clBtnFace
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 12
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -507,10 +500,9 @@ inherited Myform: TMyform
     end
     object FWDBSpinEdit: TFWDBSpinEdit
       Left = 120
-      Height = 22
+      Height = 24
       Top = 265
       Width = 219
-      Color = clMoneyGreen
       TabOrder = 11
       DataField = 'ENTIER'
       DataSource = ds_user
@@ -524,7 +516,7 @@ inherited Myform: TMyform
       Caption = 'DBSpinEdit'
       Color = clBtnFace
       FocusControl = FWDBSpinEdit
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 11
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -558,9 +550,9 @@ inherited Myform: TMyform
       end
     end
     object FWClose1: TFWClose
-      Left = 395
+      Left = 387
       Height = 32
-      Top = 8
+      Top = 9
       Width = 96
       Caption = 'Close'
       TabOrder = 13
@@ -570,13 +562,12 @@ inherited Myform: TMyform
   end
   object FWDBEdit1: TFWDBEdit[3]
     Left = 365
-    Height = 22
+    Height = 24
     Top = 45
     Width = 221
     DataField = 'Nom'
     DataSource = ds_user
     CharCase = ecNormal
-    Color = clMoneyGreen
     MaxLength = 100
     TabOrder = 2
     MyLabel = FWLabel5
@@ -584,13 +575,12 @@ inherited Myform: TMyform
   end
   object FWDBEdit2: TFWDBEdit[4]
     Left = 364
-    Height = 22
+    Height = 24
     Top = 16
     Width = 221
     DataField = 'Prenom'
     DataSource = ds_user
     CharCase = ecNormal
-    Color = clMoneyGreen
     MaxLength = 100
     TabOrder = 1
     ColorReadOnly = clWhite
@@ -599,7 +589,7 @@ inherited Myform: TMyform
   end
   object ExtMenuToolBar: TExtMenuToolBar[5]
     Left = 0
-    Height = 554
+    Height = 557
     Top = 0
     Width = 32
     Align = alLeft
@@ -613,9 +603,8 @@ inherited Myform: TMyform
     OnClickCustomize = ExtMenuToolBarClickCustomize
   end
   object OnFormInfoIni: TOnFormInfoIni[6]
-    SauvePosObjects = True
-    SauveEditObjets = [feTEdit, feTComboValue, feTColorCombo, feTDateEdit, feTMemo, feTSpinEdit]
-    SauvePosForm = True
+    SaveEdits = [feTEdit, feTComboValue, feTDateEdit, feTSpinEdit]
+    SaveForm = [sfSavePos, sfSaveSizes]
     left = 56
     top = 216
   end
@@ -634,7 +623,6 @@ inherited Myform: TMyform
     LoginPrompt = False
     BeforeConnect = IBDatabaseBeforeConnect
     AllowStreamedConnected = False
-    DatabaseName = 'Exemple'
     Params.Strings = (
       'user_name=SYSDBA'
       'password=masterkey'
