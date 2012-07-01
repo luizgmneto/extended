@@ -164,6 +164,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="128"/>
@@ -1332,23 +1333,18 @@
       <Unit146>
         <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
         <UnitName Value="IBDatabase"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="864"/>
         <CursorPos X="1" Y="884"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit146>
       <Unit147>
         <Filename Value="../../../ibx/runtime/IBIntf.pas"/>
         <UnitName Value="IBIntf"/>
-        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="328"/>
         <CursorPos X="56" Y="328"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit147>
       <Unit148>
         <Filename Value="../../../ibx/runtime/IBHeader.pas"/>
@@ -1574,12 +1570,10 @@
       <Unit174>
         <Filename Value="../../composants/u_extcomponent.pas"/>
         <UnitName Value="u_extcomponent"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="25"/>
         <CursorPos X="1" Y="45"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit174>
       <Unit175>
         <Filename Value="../../composants/u_extmenutoolbar.pas"/>
@@ -1591,12 +1585,10 @@
       </Unit175>
       <Unit176>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/interfaces/gtk2/gtk2lclintf.inc"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1137"/>
         <CursorPos X="1" Y="1157"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit176>
       <Unit177>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/lresources.pp"/>
@@ -1607,26 +1599,26 @@
         <UsageCount Value="10"/>
       </Unit177>
     </Units>
-    <JumpHistory Count="14" HistoryIndex="13">
+    <JumpHistory Count="9" HistoryIndex="8">
       <Position1>
-        <Filename Value="../../../ibx/runtime/IBIntf.pas"/>
-        <Caret Line="365" Column="1" TopLine="333"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="161" Column="1" TopLine="143"/>
       </Position1>
       <Position2>
-        <Filename Value="../../../ibx/runtime/IBIntf.pas"/>
-        <Caret Line="366" Column="1" TopLine="334"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="238" Column="1" TopLine="208"/>
       </Position2>
       <Position3>
-        <Filename Value="../../../ibx/runtime/IBIntf.pas"/>
-        <Caret Line="372" Column="1" TopLine="340"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="196" Column="1" TopLine="177"/>
       </Position3>
       <Position4>
         <Filename Value="u_components.pas"/>
-        <Caret Line="161" Column="1" TopLine="143"/>
+        <Caret Line="159" Column="30" TopLine="129"/>
       </Position4>
       <Position5>
         <Filename Value="u_components.pas"/>
-        <Caret Line="238" Column="1" TopLine="208"/>
+        <Caret Line="196" Column="1" TopLine="129"/>
       </Position5>
       <Position6>
         <Filename Value="u_components.pas"/>
@@ -1634,36 +1626,16 @@
       </Position6>
       <Position7>
         <Filename Value="u_components.pas"/>
-        <Caret Line="159" Column="30" TopLine="129"/>
+        <Caret Line="196" Column="1" TopLine="177"/>
       </Position7>
       <Position8>
         <Filename Value="u_components.pas"/>
-        <Caret Line="196" Column="1" TopLine="129"/>
+        <Caret Line="142" Column="1" TopLine="123"/>
       </Position8>
       <Position9>
-        <Filename Value="../../composants/u_extcomponent.pas"/>
-        <Caret Line="45" Column="1" TopLine="25"/>
-      </Position9>
-      <Position10>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="196" Column="1" TopLine="177"/>
-      </Position10>
-      <Position11>
-        <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/interfaces/gtk2/gtk2lclintf.inc"/>
-        <Caret Line="1157" Column="1" TopLine="1137"/>
-      </Position11>
-      <Position12>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="196" Column="1" TopLine="177"/>
-      </Position12>
-      <Position13>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="142" Column="1" TopLine="123"/>
-      </Position13>
-      <Position14>
         <Filename Value="u_components.pas"/>
         <Caret Line="160" Column="1" TopLine="128"/>
-      </Position14>
+      </Position9>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
