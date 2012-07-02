@@ -91,6 +91,12 @@ object F_Licence: TF_Licence
     top = 135
     SaveForm = []
     Options = [loAutoUpdate,loAutoLoad,loFreeIni]
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object RVStyle: TRVStyle
     TextStyles = <    

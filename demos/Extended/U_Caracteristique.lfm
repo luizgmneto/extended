@@ -799,11 +799,11 @@ inherited F_Caracteristique: TF_Caracteristique
     end
   end
   object SvgFormInfoIni: TOnFormInfoIni[1]
-    SauvePosObjects = True
-    SauveEditObjets = [feTGrid, feTListView]
-    SauvePosForm = True
+    SaveEdits = [feTGrid, feTListView]
     left = 97
     top = 137
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object im_images: TImageList[2]
     BkColor = clForeground

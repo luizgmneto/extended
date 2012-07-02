@@ -204,8 +204,8 @@ Begin
           Exit;
 
         finally
+          AProcess.Free;
         end;
-      AProcess.Free;
     end;
   if not FileExists(libname)
     Then libname:='/usr/lib/libfbembed.so.2.5';

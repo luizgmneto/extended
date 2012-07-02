@@ -424,10 +424,12 @@ object F_Article: TF_Article
     end
   end
   object SvgFormInfoIni: TOnFormInfoIni
-    SauvePosObjects = True
-    SauveEditObjets = []
-    SauvePosForm = True
+    SavePosObjects = True
+    SaveEdits = []
+    SavePosForm = True
     Left = 97
     Top = 145
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
 end

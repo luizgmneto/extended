@@ -584,11 +584,13 @@ object Myform: TMyform
     OnClickCustomize = ExtMenuToolBarClickCustomize
   end
   object OnFormInfoIni: TOnFormInfoIni
-    SauvePosObjects = True
-    SauveEditObjets = [feTEdit, feTComboValue, feTColorCombo, feTDateEdit, feTMemo, feTSpinEdit]
-    SauvePosForm = True
+    SavePosObjects = True
+    SaveEdits = [feTEdit, feTComboValue, feTColorCombo, feTDateEdit, feTMemo, feTSpinEdit]
+    SavePosForm = True
     Left = 56
     Top = 216
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object ds_user: TDataSource
     DataSet = IBUtilisateur
