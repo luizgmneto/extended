@@ -342,11 +342,13 @@ object F_Copier: TF_Copier
     Top = 33
   end
   object OnFormInfoIni: TOnFormInfoIni
-    SauvePosObjects = True
-    SauveEditObjets = [feTEdit, feTCheck, feTDirectoryEdit, feTSpinEdit]
-    SauvePosForm = True
+    SavePosObjects = True
+    SaveEdits = [feTEdit, feTCheck, feTDirectoryEdit, feTSpinEdit]
+    SavePosForm = True
     Left = 83
     Top = 32
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object MainMenu: TMainMenu
     Left = 136
