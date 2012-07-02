@@ -86,9 +86,11 @@ object F_Licence: TF_Licence
     OnClick = bt_RefuserClick
   end
   object OnFormInfoIni: TOnFormInfoIni
-    SauveEditObjets = []
+    SaveEdits = []
     left = 68
     top = 135
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object RVStyle: TRVStyle
     TextStyles = <    

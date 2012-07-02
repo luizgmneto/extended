@@ -529,11 +529,13 @@ inherited F_Extract: TF_Extract
     top = 33
   end
   object OnFormInfoIni: TOnFormInfoIni[5]
-    SauvePosObjects = True
-    SauveEditObjets = [feTEdit, feTCheck, feTComboValue, feTDirectoryEdit, feTFileNameEdit, feTSpinEdit]
-    SauvePosForm = True
+    SavePosObjects = True
+    SaveEdits = [feTEdit, feTCheck, feTComboValue, feTDirectoryEdit, feTFileNameEdit, feTSpinEdit]
+    SavePosForm = True
     left = 120
     top = 32
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object MainMenu: TMainMenu[6]
     left = 208

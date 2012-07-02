@@ -6,6 +6,9 @@
 {$R *.DCR}
 {$ENDIF}
 
+{$I ..\DLCompilers.inc}
+{$I ..\extends.inc}
+
 interface
 
 uses

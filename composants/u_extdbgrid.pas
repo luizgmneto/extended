@@ -427,8 +427,8 @@ begin
   CalcDrawInfo(DrawInfo);
   with DrawInfo do
   {$ENDIF}
-    if  ( Row > 0 )
-    and ( Col > 0 )
+    if  ( Row >= FixedRows )
+    and ( Col >= FixedCols )
     and ( Columns [ SelectedIndex ].SomeEdit <> nil )  Then
       with Columns [ SelectedIndex ].SomeEdit do
         Begin
