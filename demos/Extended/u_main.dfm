@@ -44,9 +44,11 @@ object FMain: TFMain
     end
   end
   object OnFormInfoIni1: TOnFormInfoIni
-    SauveEditObjets = []
-    SauvePosForm = True
+    SaveEdits = []
+    SavePosForm = True
     Left = 96
     Top = 84
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
 end

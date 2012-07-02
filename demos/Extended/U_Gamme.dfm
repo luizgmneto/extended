@@ -804,11 +804,15 @@ object F_Gamme: TF_Gamme
     end
   end
   object SvgFormInfoIni: TOnFormInfoIni
-    SauvePosObjects = True
-    SauveEditObjets = [feTGrid, feTListView]
-    SauvePosForm = True
+    SaveEdits = [feTGrid, feTListView]
     Left = 97
     Top = 137
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
+    SaveForm = [sfSaveSizes,sfSavePos]
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object im_images: TImageList
     Left = 96

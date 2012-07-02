@@ -409,10 +409,10 @@ inherited F_Article: TF_Article
     end
   end
   object SvgFormInfoIni: TOnFormInfoIni[2]
-    SauvePosObjects = True
-    SauveEditObjets = []
-    SauvePosForm = True
+    SaveEdits = []
     left = 97
     top = 137
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
 end

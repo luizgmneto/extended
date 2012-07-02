@@ -805,11 +805,13 @@ object F_Caracteristique: TF_Caracteristique
     end
   end
   object SvgFormInfoIni: TOnFormInfoIni
-    SauvePosObjects = True
-    SauveEditObjets = [feTGrid, feTListView]
-    SauvePosForm = True
+    SavePosObjects = True
+    SaveEdits = [feTGrid, feTListView]
+    SavePosForm = True
     Left = 97
     Top = 137
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object im_images: TImageList
     Left = 96

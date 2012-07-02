@@ -49,9 +49,5 @@ begin
   Close;
 end;
 
-initialization
-{$IFDEF FPC}
-  {$i u_aboutbox.lrs}
-{$ENDIF}
 end.
  

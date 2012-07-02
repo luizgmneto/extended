@@ -6,7 +6,7 @@ inherited F_Extract: TF_Extract
   Width = 666
   ActiveControl = Splitter1
   Caption = 'Files Extract'
-  ClientHeight = 475
+  ClientHeight = 473
   ClientWidth = 666
   Font.Height = -11
   Font.Name = 'Tahoma'
@@ -260,7 +260,7 @@ inherited F_Extract: TF_Extract
   object Panel5: TPanel[1]
     Left = 0
     Height = 36
-    Top = 439
+    Top = 437
     Width = 666
     Align = alBottom
     ClientHeight = 36
@@ -286,7 +286,7 @@ inherited F_Extract: TF_Extract
       Height = 17
       Top = 9
       Width = 161
-      Caption = 'Sous-répertoires'
+      Caption = 'Sous-rÃ©pertoires'
       TabOrder = 2
       UseDockManager = False
       OnClick = ch_subdirsClick
@@ -294,7 +294,7 @@ inherited F_Extract: TF_Extract
   end
   object Result: TMemo[2]
     Left = 0
-    Height = 159
+    Height = 157
     Top = 280
     Width = 666
     Align = alClient
@@ -444,7 +444,7 @@ inherited F_Extract: TF_Extract
             TabOrder = 0
             object FDestination: TFileNameEdit
               Left = 0
-              Height = 24
+              Height = 22
               Top = 0
               Width = 200
               DialogOptions = []
@@ -458,14 +458,14 @@ inherited F_Extract: TF_Extract
           end
           object EBeginExtract: TEdit
             Left = 8
-            Height = 24
+            Height = 22
             Top = 48
             Width = 216
             TabOrder = 1
           end
           object EEndExtract: TEdit
             Left = 8
-            Height = 24
+            Height = 22
             Top = 96
             Width = 216
             TabOrder = 2
@@ -475,7 +475,7 @@ inherited F_Extract: TF_Extract
             Height = 15
             Top = 32
             Width = 105
-            Caption = 'Début d''extraction'
+            Caption = 'DÃ©but d''extraction'
             ParentColor = False
           end
           object Label2: TLabel
@@ -488,7 +488,7 @@ inherited F_Extract: TF_Extract
           end
           object EMiddleExtract: TEdit
             Left = 8
-            Height = 24
+            Height = 22
             Top = 144
             Width = 216
             TabOrder = 3
@@ -529,13 +529,10 @@ inherited F_Extract: TF_Extract
     top = 33
   end
   object OnFormInfoIni: TOnFormInfoIni[5]
-    SavePosObjects = True
     SaveEdits = [feTEdit, feTCheck, feTComboValue, feTDirectoryEdit, feTFileNameEdit, feTSpinEdit]
-    SavePosForm = True
+    SaveForm = [sfSavePos, sfSaveSizes]
     left = 120
     top = 32
-    SaveForm = []
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object MainMenu: TMainMenu[6]
     left = 208
@@ -568,6 +565,7 @@ inherited F_Extract: TF_Extract
         Precision = 0
         Size = 200
       end>
+    AllowMultiLine = False
     Delimiter = ','
     FirstLineAsSchema = True
     left = 168

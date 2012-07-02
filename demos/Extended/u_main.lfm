@@ -4,15 +4,17 @@ inherited FMain: TFMain
   Top = 284
   Width = 592
   Caption = 'Gestion d''articles'
-  ClientHeight = 394
+  ClientHeight = 395
   ClientWidth = 592
   Menu = MainMenu
   OnCreate = FormCreate
   object ScrollBox: TScrollBox[0]
     Left = 0
-    Height = 394
+    Height = 395
     Top = 0
     Width = 592
+    HorzScrollBar.Page = 588
+    VertScrollBar.Page = 391
     Align = alClient
     TabOrder = 0
   end
@@ -44,8 +46,7 @@ inherited FMain: TFMain
     end
   end
   object OnFormInfoIni1: TOnFormInfoIni[2]
-    SauveEditObjets = []
-    SauvePosForm = True
+    SaveForm = [sfSavePos]
     left = 96
     top = 84
   end

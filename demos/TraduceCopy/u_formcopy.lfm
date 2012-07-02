@@ -592,11 +592,15 @@ inherited F_Copier: TF_Copier
     top = 33
   end
   object OnFormInfoIni: TOnFormInfoIni[5]
-    SavePosObjects = True
     SaveEdits = [feTEdit, feTCheck, feTComboValue, feTDirectoryEdit, feTSpinEdit]
-    SavePosForm = True
     left = 120
     top = 32
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
+    SaveForm = [sfSaveSizes,sfSavePos]
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
+    SaveForm = []
+    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
     SaveForm = []
     Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end

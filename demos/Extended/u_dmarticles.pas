@@ -106,7 +106,7 @@ var
 
 implementation
 
-uses Variants , fonctions_dbcomponents;
+uses Variants , fonctions_dbcomponents, fonctions_system;
 
 {$IFNDEF FPC}
   {$R *.dfm}
@@ -115,11 +115,33 @@ uses Variants , fonctions_dbcomponents;
 {$ENDIF}
 
 procedure p_setLibrary (var libname: string);
+var AProcess : TProcess;
 Begin
   {$IFDEF WINDOWS}
   libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbclient'+CST_EXTENSION_LIBRARY;
   {$ELSE}
   libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed'+CST_EXTENSION_LIBRARY;
+  if FileExists(libname) Then
+    Begin
+      AProcess := TProcess.Create(nil);
+      with AProcess do
+        try
+          CommandLine:='sh "'+ExtractFileDir(Application.ExeName)+DirectorySeparator+'exec.sh"';
+          Execute;
+          Exit;
+
+        finally
+          AProcess.Free;
+        end;
+    end;
+  if not FileExists(libname)
+    Then libname:='/usr/lib/libfbembed.so.2.5';
+  if not FileExists(libname)
+    Then libname:='/usr/lib/libfbembed.so';
+  if not FileExists(libname)
+    Then libname:='/usr/lib/i386-linux-gnu/libfbembed.so.2.5';
+  if not FileExists(libname)
+    Then libname:='/usr/lib/x86-linux-gnu/libfbembed.so.2.5';
   {$ENDIF}
 end;
 

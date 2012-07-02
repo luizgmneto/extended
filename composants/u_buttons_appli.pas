@@ -68,7 +68,7 @@ const
   CST_FWOUTSELECT = 'tfwoutselect';
   CST_FWINSELECT = 'tfwinselect';
   CST_FWOUTALL = 'tfwoutall';
-  CST_FWINALL = 'tfwinnall';
+  CST_FWINALL = 'tfwinall';
 {$ENDIF}
 
 type
@@ -304,6 +304,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
   published
+    property GlyphSize default CST_SIZE_BUTTONS_MOVING;
     property Width default CST_WIDTH_BUTTONS_MOVING;
     property Height default CST_HEIGHT_BUTTONS_MOVING;
   end;
@@ -765,10 +766,11 @@ end;
 
 constructor TFWGroupButtonMoving.Create(AOwner: TComponent);
 begin
+  inherited Create(AOwner);
+  GlyphSize := CST_SIZE_BUTTONS_MOVING;
   Caption := '';
   Height := CST_HEIGHT_BUTTONS_MOVING;
   Width := CST_WIDTH_BUTTONS_MOVING;
-  inherited Create(AOwner);
 end;
 {$ENDIF}
 

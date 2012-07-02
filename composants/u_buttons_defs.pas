@@ -39,6 +39,7 @@ const
                                        Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
 {$ENDIF}
   CST_FWWIDTH_CLOSE_BUTTON = 80 ;
+  CST_SIZE_BUTTONS_MOVING  = 60;
   CST_WIDTH_BUTTONS_MOVING  = 60;
   CST_HEIGHT_BUTTONS_MOVING = 40;
   CST_WIDTH_BUTTONS_ACTIONS  = 120;
@@ -161,7 +162,9 @@ begin
             lb_Found := True;
             Break;
            end;
-        if not lb_Found then ShowMessage( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ 0 ]]));
+        if not lb_Found
+         then
+           ShowMessage( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ 0 ]]));
 
       finally
       end;
