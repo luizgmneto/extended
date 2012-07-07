@@ -83,6 +83,7 @@ type
     FColorReadOnly,
     FColorEdit ,
     FColorLabel : TColor;
+    FSearchFiltered,
     Flocated,
     FSet,
     FAlwaysSame : Boolean;
@@ -110,6 +111,9 @@ type
     procedure Loaded; override;
     procedure SetOrder ; virtual;
     procedure ValidateSearch; virtual;
+    function EditCanModify: Boolean; override;
+    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
   public
     constructor Create ( Aowner : TComponent ); override;
     destructor Destroy ; override;
@@ -120,6 +124,7 @@ type
     property DropDownRows : Integer read FListLines write FListLines default 5;
     property DropDownWidth : Word read FListWidth write FListWidth default 0;
     property DropUp : Boolean read FListUp write FListUp default False;
+    property SearchFiltered : Boolean read FSearchFiltered write FSearchFiltered default True;
     property FieldSeparator : Char read FSeparator write FSeparator default ',';
     property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
@@ -270,42 +275,49 @@ End;
 procedure TExtSearchDBEdit.CreatePopup;
 var Alist:TStringList;
     i : Integer;
+    ABookmark:TBookmark;
 Begin
   with FSearchSource.DataSet do
   if  ( RecordCount > 1 )
   and ( FSearchList <> '' ) Then
    Begin
-     if not Assigned( FPopup ) Then
-      Begin
-        Alist := TStringList.Create;
-        try
-          FPopup := TListPopupEdit.Create(Owner);
-          p_ChampsVersListe(Alist,FSearchList,FSeparator);
-          with FPopup do
-            Begin
-              FEdit:=Self;
-              Visible:=False;
-              if FListWidth > 0
-               Then Width := FListWidth
-               Else Width := Self.Width;
-              Height := FListLines * Self.Height;
-              DataSource:=FSearchSource.DataSource;
-              Parent:=Self.Parent;
-              Color := Self.Color;
-              Font.Assign(Self.Font);
-              for i := 0 to Alist.Count-1 do
-                Begin
-                  with Columns.Add do
-                   Begin
-                    FieldName := Alist[i];
-                   end;
-                end;
-            end;
-        finally
-          Alist.Free;
+     ABookmark:=FSearchSource.DataSet.GetBookmark;
+     try
+       if not Assigned( FPopup ) Then
+        Begin
+          Alist := TStringList.Create;
+          try
+            FPopup := TListPopupEdit.Create(Owner);
+            p_ChampsVersListe(Alist,FSearchList,FSeparator);
+            with FPopup do
+              Begin
+                FEdit:=Self;
+                Visible:=False;
+                if FListWidth > 0
+                 Then Width := FListWidth
+                 Else Width := Self.Width;
+                Height := FListLines * Self.Height;
+                DataSource:=FSearchSource.DataSource;
+                Parent:=Self.Parent;
+                Color := Self.Color;
+                Font.Assign(Self.Font);
+                for i := 0 to Alist.Count-1 do
+                  Begin
+                    with Columns.Add do
+                     Begin
+                      FieldName := Alist[i];
+                     end;
+                  end;
+              end;
+          finally
+            Alist.Free;
+          end;
         end;
-      end;
-     ShowPopup;
+       ShowPopup;
+     finally
+       FSearchSource.DataSet.GotoBookmark(ABookmark);
+       FreeBookmark(ABookmark);
+     end;
    End;
 End;
 
@@ -356,19 +368,15 @@ begin
         FSet := False;
         // Trouvé ?
         if not assigned ( FindField ( FSearchSource.FieldName )) Then Exit;
-        Filter := 'LOWER('+ FSearchSource.FieldName+') LIKE ''' + LowerCase(fs_stringDbQuote(Text)) +'*''';
-        Filtered:=True;
+        if FSearchFiltered Then
+         Begin
+          Filter := 'LOWER('+ FSearchSource.FieldName+') LIKE ''' + LowerCase(fs_stringDbQuote(Text)) +'%''';
+          Filtered:=True;
+         End;
         if not IsEmpty
         and fb_Locate ( FSearchSource.DataSet, FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey], True )
          Then
           Begin
-            if not BOF
-            and ( FieldByName ( FSearchSource.FieldName ).AsString = Text ) Then
-             Begin
-              while FieldByName ( FSearchSource.FieldName ).AsString = Text do
-               Next;
-              Prior;
-             End;
             CreatePopup;
             Flocated  := True;
             li_pos    := SelStart ;
@@ -376,12 +384,11 @@ begin
             Text      := ls_temp ; // c'est en affectant le texte que l'on passe en mode édition
             SelStart  := li_pos ;
             SelLength := length ( ls_temp ) - li_pos ;
-            if ( SelText = '' )
-            and ( FSearchList = '' ) Then
-                ValidateSearch
-             else
-                if assigned ( FOnLocate ) Then
-                  FOnLocate ( Self );
+            if SelLength=0
+             Then ValidateSearch
+             Else
+              if assigned ( FOnLocate ) Then
+                FOnLocate ( Self );
           End ;
       end
 
@@ -404,6 +411,27 @@ Begin
       End ;
 end;
 
+function TExtSearchDBEdit.EditCanModify: Boolean;
+begin
+  Result:= not Assigned(DataSource) or inherited EditCanModify;
+end;
+
+procedure TExtSearchDBEdit.KeyDown(var Key: Word; Shift: TShiftState);
+var OldKey : Integer;
+begin
+  OldKey:=Key;
+  inherited KeyDown(Key, Shift);
+  if not assigned ( DataSource ) and ( OldKey in [VK_ESCAPE,VK_DELETE, VK_BACK])
+   Then Key:=OldKey;
+end;
+
+procedure TExtSearchDBEdit.UTF8KeyPress(var UTF8Key: TUTF8Char);
+begin
+  // When no datasource so can edit
+  if assigned ( DataSource )
+   Then inherited UTF8KeyPress(UTF8Key);
+end;
+
 // procedure TExtSearchDBEdit.DoEnter
 // Setting the label and ExtSearchDBEdit color
 procedure TExtSearchDBEdit.DoEnter;
@@ -411,7 +439,7 @@ begin
   if assigned ( FBeforeEnter ) Then
     FBeforeEnter ( Self );
   // Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
-  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
+  // de fond bleu et son libellé en marron sauf si le libellé est sélectionné
   // avec la souris => cas de tri)
   p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
   p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
@@ -425,7 +453,6 @@ begin
   inherited DoExit;
   p_setLabelColorExit ( FLabel, FAlwaysSame );
   p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
-  ValidateSearch;
   if assigned ( FAfterExit ) Then
     FAfterExit ( Self );
   if assigned ( FPopup )
@@ -457,6 +484,7 @@ end;
 constructor TExtSearchDBEdit.Create(Aowner: TComponent);
 begin
   inherited Create(Aowner);
+  FSearchFiltered := True;
   FListUp := False;
   FListWidth:=0;
   FSeparator := ',';
