@@ -12,7 +12,7 @@ uses
 {$IFDEF FPC}
  LCLIntf, LCLType,
  lmessages, EditBtn,
- Spin,
+ Spin, MaskEdit,
 {$ELSE}
  Windows, Mask, DBTables, ActnMan,
  JvSpin,
@@ -54,7 +54,7 @@ type
    TFWLabel = class ;
 { TFWEdit }
 
-   TFWEdit = class ( {$IFDEF TNT}TTntEdit{$ELSE}TEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
+   TFWEdit = class ( {$IFDEF TNT}TTntMaskEdit{$ELSE}TMaskEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FLabel : TFWLabel ;
