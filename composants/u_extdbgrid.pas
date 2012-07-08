@@ -47,7 +47,10 @@ uses
     {$ENDIF}
   {$ENDIF}
 {$ENDIF}
-  DBGrids, Controls, ImgList;
+  DBGrids,
+  Controls,
+  ImgList,
+  U_ExtMapImageIndex;
 
 {$IFDEF VERSIONS}
 const
@@ -55,14 +58,15 @@ const
                                                FileUnit : 'U_ExtDBGrid' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Grille avec fonctions étendues.' ;
-                                               BugsStory : '1.0.1.1 : ImageList''s Event.' + #13#10
+                                               BugsStory : '1.0.2.0 : MapImages property and testing.' + #13#10
+                                                         + '1.0.1.1 : ImageList''s Event.' + #13#10
                                                          + '1.0.1.0 : ImageList with Field''s Index.' + #13#10
                                                          + '1.0.0.1 : UTF 8.' + #13#10
                                                          + '1.0.0.0 : Tested, making comments.' + #13#10
                                                          + '0.9.9.9 : Tested OK on DELPHI, need new version of LAZARUS to be completed.' + #13#10
                                                          + '0.9.0.0 : Création à partir de u_framework_dbcomponents.' ;
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
+                                               Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
 
 {$ENDIF}
 
@@ -80,9 +84,11 @@ type
      FFieldTag : Integer ;
      FSortOrder : TSortMarker;
      FImages : TCustomImageList;
+     FMapImages : TExtMapImages;
    protected
      procedure SetControl ( const AValue : TWinControl ); virtual;
      procedure SetImages( const AValue : TCustomImageList ); virtual;
+     procedure SetMapImages( const AValue : TExtMapImages ); virtual;
      function  fi_getFieldTag:Integer; virtual;
      procedure p_setFieldTag ( const avalue : Integer ); virtual;
    public
@@ -93,6 +99,7 @@ type
      procedure ControlKeyPress( ASender : TObject ; var Key: Char ); virtual;
      property SomeEdit : TWinControl read FControl       write SetControl;
      property Images : TCustomImageList read FImages       write SetImages;
+     property MapImages : TExtMapImages read FMapImages       write SetMapImages;
      property FieldTag : Integer     read fi_getFieldTag write p_setFieldTag;
      property SortOrder : TSortMarker     read FSortOrder write FSortOrder default smNone;
      property AfterControlKeyUp    : TKeyEvent      read FAfterControlKeyUp    write FAfterControlKeyUp;
@@ -152,6 +159,8 @@ type
        {$ELSE}
        procedure DoTitleClick(ACol: Longint; AField: TField); override;
        {$ENDIF}
+       procedure Notification(AComponent: TComponent;
+                 Operation: TOperation); override;
       published
        property Columns: TExtDbGridColumns read GetColumns write SetColumns stored IsColumnsStored;
        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
@@ -174,6 +183,12 @@ uses
    fonctions_proprietes, fonctions_images;
 
 { TExtGridColumn }
+
+procedure TExtGridColumn.SetMapImages(const AValue: TExtMapImages);
+begin
+  if FMapImages=AValue then Exit;
+  FMapImages:=AValue;
+end;
 
 // Procedure SetControl
 // Setting control of column
@@ -319,6 +334,24 @@ begin
 end;
 
 { TExtDBGrid }
+
+procedure TExtDBGrid.Notification(AComponent: TComponent;
+  Operation: TOperation);
+var i : Integer;
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation = opRemove) and ( AComponent is TExtMapImages    )
+   then
+    Begin
+      for i:=0 to Columns.Count -1 do with Columns [i] do
+        if (AComponent = FMapImages) Then FMapImages := nil;
+    end
+   else
+    if (Operation = opRemove) and ( AComponent is TCustomImageList )
+     then for i:=0 to Columns.Count -1 do with Columns [i] do
+       if (AComponent = FImages   ) Then FImages := nil;
+end;
+
 
 // Procedure  p_SetPaintEdits
 // Setting PaintEdits property to paint edits in grid
@@ -608,11 +641,13 @@ begin
        end
      else
      if assigned ( FImages )
-     and (( Field is TNumericField ) or Assigned(FOnGetImageIndex))
+     and (( Field is TNumericField ) or Assigned(FOnGetImageIndex) or Assigned(FMapImages))
      and not ( Datalink.DataSet.State in [dsEdit, dsInsert]) then
       Begin
         if Assigned(FOnGetImageIndex)
          Then Aindex := FOnGetImageIndex ( Self, Field )
+         Else if assigned ( FMapImages )
+         Then AIndex := FMapImages.GetIndex(Field.AsString)
          Else Aindex := Field.AsInteger;
          if  ( Aindex < FImages.Count)
          and ( Aindex >= 0 ) then
