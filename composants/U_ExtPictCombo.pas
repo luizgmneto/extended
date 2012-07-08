@@ -84,6 +84,9 @@ type
       procedure SetDroppedDown(const AValue: Boolean); override;
       {$ENDIF}
       procedure SetReadOnly(Value: Boolean); virtual;
+      procedure Notification(AComponent: TComponent;
+                Operation: TOperation); override;
+
     public
     { Public declarations }
       constructor Create(AOwner: TComponent); override;
@@ -232,6 +235,14 @@ begin
   FReadOnly := Value;
 end;
 
+procedure TExtPictCombo.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation = opRemove) and (AComponent = FMapImages) then FMapImages := nil;
+  if (Operation = opRemove) and (AComponent = FImages) then FImages := nil;
+end;
+
 
 procedure TExtPictCombo.DoEnter;
 begin
@@ -311,17 +322,16 @@ begin
     begin
       FillRect(ARect);
       novorect:=ARect;
-      if  assigned ( FImages )
-      and assigned ( FMapImages )
-      and ( Index < FMapImages.Columns.Count ) Then
+      if  assigned ( FImages ) Then
        Begin
-         DrawAnImage ( FMapImages.Columns.Items[Index].ImageIndex, ARect, novorect );
-       end
-      Else
-      Begin
-       novoRect := arect;
-      end;
-
+        if assigned ( FMapImages ) then
+         Begin
+          if ( Index < FMapImages.Columns.Count ) Then
+            DrawAnImage ( FMapImages.Columns.Items[Index].ImageIndex, ARect, novorect );
+         End
+        Else
+           DrawAnImage ( Index, ARect, novorect );
+       End;
       format := DT_SINGLELINE or DT_NOPREFIX;
       if ( BiDiMode = bdLeftToRight )
       or (( BiDiMode = bdRightToLeftReadingOnly ) and not DroppedDown ) Then
@@ -343,13 +353,15 @@ end;
 
 procedure TExtPictCombo.Change;
 begin
-   if  assigned ( FMapImages )
-   and ( itemindex >= 0 )
-   and ( itemindex < FMapImages.Columns.Count )
-    Then
-     p_SetValue(FMapImages.Columns.Items[ItemIndex].Value)
-    Else
-     p_SetValue('');
+   if  assigned ( FMapImages ) Then
+    Begin
+     if ( itemindex >= 0 )
+     and ( itemindex < FMapImages.Columns.Count )
+      Then
+        p_SetValue(FMapImages.Columns.Items[ItemIndex].Value)
+    End
+   Else
+     p_SetValue(IntToStr(ItemIndex))
 end;
 
 procedure TExtPictCombo.p_SetValue(const AValue: String);

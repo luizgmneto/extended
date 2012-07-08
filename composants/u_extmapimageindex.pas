@@ -77,6 +77,7 @@ type
         procedure SetColumns ( AValue : TExtMapImagesColumns ); virtual;
       public
         constructor Create(AOwner: TComponent); override;
+        function GetIndex ( const AValue : String ): Integer; virtual;
       published
       { Published declarations }
         property Columns : TExtMapImagesColumns read FMapImagesColumns write SetColumns ;
@@ -102,6 +103,17 @@ constructor TExtMapImages.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   CreateImagesMap;
+end;
+
+function TExtMapImages.GetIndex(const AValue: String): Integer;
+var i : Integer;
+begin
+  Result:=-1;
+  for i := 0 to FMapImagesColumns.Count - 1 do
+   if AValue = FMapImagesColumns [ i ].Value Then
+    Begin
+      Result := FMapImagesColumns [ i ].ImageIndex;
+    end;
 end;
 
 { TExtMapImagesColumns }
