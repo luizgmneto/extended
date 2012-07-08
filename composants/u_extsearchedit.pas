@@ -38,14 +38,15 @@ const
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '1.0.0.0 : Popup list.'
+                                          BugsStory : '1.0.1.0 : Simple Edit capability.'
+                                                    + '1.0.0.0 : Popup list.'
                                                     + '0.9.0.4 : Making comments.'
                                                     + '0.9.0.3 : Tested.'
                                                     + '0.9.0.2 : Not tested, upgrading.'
                                                     + '0.9.0.1 : Not tested, compiling on DELPHI.'
                                                     + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                                          Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 
 {$ENDIF}
   SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColumnMove, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
@@ -94,6 +95,7 @@ type
     FListUp : Boolean;
     FNotifyOrder : TNotifyEvent;
     FPopup:TListPopupEdit;
+    procedure DataChange(Sender: TObject);
     procedure p_setSearchDisplay ( AValue : String );
     function fs_getSearchDisplay : String ;
     procedure p_setSearchSource ( AValue : TDataSource );
@@ -102,6 +104,8 @@ type
     procedure ShowPopup;
     procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
     procedure WMSize(var Message: TLMSize); message LM_SIZE;
+    procedure WMSetFocus(var Message: TLMSetFocus); message LM_SETFOCUS;
+    procedure WMKillFocus(var Message: TLMKillFocus); message LM_KILLFOCUS;
   protected
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure CreatePopup; virtual;
@@ -114,6 +118,7 @@ type
     function EditCanModify: Boolean; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
+    procedure Change; override;
   public
     constructor Create ( Aowner : TComponent ); override;
     destructor Destroy ; override;
@@ -143,6 +148,7 @@ type
 implementation
 
 uses Dialogs, fonctions_db, sysutils, fonctions_string;
+
 
 { TListPopup }
 
@@ -195,6 +201,38 @@ begin
   FSearchSource.DataSource := AValue;
 end;
 
+// Event TExtSearchDBEdit.DataChange
+//update the caption on next record etc...
+procedure TExtSearchDBEdit.DataChange(Sender: TObject);
+begin
+  if Field <> nil then begin
+    //use the right EditMask if any
+    //EditMask := FDataLink.Field.EditMask; doesn't exist yet
+    Alignment := Field.Alignment;
+
+    //if we are focused its possible to edit,
+    //if the field is currently modifiable
+    if Focused and DataSource.DataSet.CanModify then begin
+      //display the real text since we can modify it
+      RestoreMask(Field.Text);
+    end else
+      //otherwise display the pretified/formated text since we can't
+      DisableMask(Field.DisplayText);
+    if (Field.DataType in [ftString, ftFixedChar, ftWidestring, ftFixedWideChar])
+      and (MaxLength = 0) then
+      MaxLength := Field.Size;
+  end
+  else if assigned ( DataSource )
+    then
+     begin
+      //todo: uncomment this when TField implements EditMask
+      //EditMask := ''
+      Text := '';
+      MaxLength := 0;
+     end;
+end;
+
+
 // function TExtSearchDBEdit.fs_getSearchSource
 // Getting the Search source
 function TExtSearchDBEdit.fs_getSearchSource: TDataSource;
@@ -227,6 +265,18 @@ begin
   if ( Message.Width <> Width ) or ( Message.Height <> Height ) Then
     FreePopup;
   Inherited;
+end;
+
+procedure TExtSearchDBEdit.WMSetFocus(var Message: TLMSetFocus);
+begin
+  if Assigned(DataSource) Then
+    Inherited;
+end;
+
+procedure TExtSearchDBEdit.WMKillFocus(var Message: TLMKillFocus);
+begin
+  if Assigned(DataSource) Then
+    Inherited;
 end;
 
 procedure TExtSearchDBEdit.ShowPopup;
@@ -429,7 +479,20 @@ procedure TExtSearchDBEdit.UTF8KeyPress(var UTF8Key: TUTF8Char);
 begin
   // When no datasource so can edit
   if assigned ( DataSource )
-   Then inherited UTF8KeyPress(UTF8Key);
+   Then inherited UTF8KeyPress(UTF8Key)
+   else
+     if Assigned(OnUTF8KeyPress)
+      Then OnUTF8KeyPress ( Self, UTF8Key );
+end;
+
+procedure TExtSearchDBEdit.Change;
+begin
+  if Assigned(DataSource)
+   Then
+    inherited Change
+   Else
+     if Assigned(OnChange) Then
+      OnChange ( Self );
 end;
 
 // procedure TExtSearchDBEdit.DoEnter
@@ -484,6 +547,7 @@ end;
 constructor TExtSearchDBEdit.Create(Aowner: TComponent);
 begin
   inherited Create(Aowner);
+  //DataLink.OnDataChange := DataChange;
   FSearchFiltered := True;
   FListUp := False;
   FListWidth:=0;
