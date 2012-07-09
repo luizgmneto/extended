@@ -614,9 +614,9 @@ var
   Begin
     Result := False;
     // lecture de la page de contrôle(onglets)
-    if ((lcom_Component is TPageControl)) and GetfeSauveEdit ( FSaveEdits, feTPageControl )   then
+    if ((lcom_Component is TCustomTabControl)) and GetfeSauveEdit ( FSaveEdits, feTPageControl )   then
       begin
-        TPageControl(lcom_Component).ActivePageIndex := fli_ReadInteger ( lcom_Component.Name , 0);
+        TCustomTabControl(lcom_Component).PageIndex := fli_ReadInteger ( lcom_Component.Name , 0);
         Result := True;
       end;
     // lecture de PopupMenu
@@ -992,9 +992,9 @@ var
     Result := False;
     // Écriture de la position des colonnes des grilles
     // Ecriture de la page de contrôle(onglets)
-    if (lcom_Component is TPageControl)     and GetfeSauveEdit(FSaveEdits, feTPageControl )   then
+    if (lcom_Component is TCustomTabControl)     and GetfeSauveEdit(FSaveEdits, feTPageControl )   then
       begin
-        p_WriteInteger(lcom_Component.Name,TPageControl(lcom_Component).ActivePageIndex );
+        p_WriteInteger(lcom_Component.Name,TCustomTabControl(lcom_Component).PageIndex );
         Result := True;
       end;
     // Ecriture de PopupMenu
