@@ -49,7 +49,13 @@ procedure Register;
 
 implementation
 
-uses U_GroupView, U_DBListView, unite_messages  ;
+uses U_GroupView,
+   {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+   U_DBListView ;
 
  ///////////////////////////////////////////////////////////////
 // TDataFieldOwnerProperty                                   //

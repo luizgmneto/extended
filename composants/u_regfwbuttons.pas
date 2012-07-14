@@ -35,7 +35,7 @@ procedure Register;
 implementation
 
 uses
-    u_buttons_defs, unite_messages ;
+    u_buttons_defs;
 
 procedure Register;
 begin

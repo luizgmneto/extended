@@ -62,6 +62,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
       CST_ONFORMINI_POSITION    = 'Position' ;
       CST_ONFORMINI_FORMSTYLE   = 'FormStyle' ;
       CST_ONFORMINI_INDEX       = 'Index' ;
+      CST_ONFORMINI_TABINDEX    = 'TabIndex' ;
       CST_ONFORMINI_DATASOURCE  = 'Datasource'  ;
 
       // Components
@@ -148,7 +149,7 @@ type
     procedure p_LecturePositionFenetre(const aFiche:TCustomForm);
     procedure p_EcriturePositionFenetre(const aFiche:TCustomForm);
     procedure p_Freeini; virtual;
-    procedure DoSameMonitor(const aForm: TCustomForm); virtual;
+    procedure DoSameMonitor(const aForm: TForm); virtual;
 
   public
     Constructor Create(AOwner:TComponent); override;
@@ -195,9 +196,13 @@ uses TypInfo, Grids, U_ExtNumEdits,
 {$IFDEF VIRTUALTREES}
      VirtualTrees ,
 {$ENDIF}
-     unite_messages,
-Math,
-     fonctions_proprietes;
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+  Math,
+  fonctions_proprietes;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructeur de l'objet TOnFormInfoIni
@@ -272,7 +277,7 @@ begin
   if Assigned(FOnFormCreate) then FOnFormCreate(Sender);
 end;
 
-procedure TOnFormInfoIni.DoSameMonitor(const aForm:TCustomForm);
+procedure TOnFormInfoIni.DoSameMonitor(const aForm:TForm);
 var
   RectMonitor:TRect;
 begin //Positionne et redimentionne éventuellement aForm sur le moniteur de FMain
@@ -616,7 +621,11 @@ var
     // lecture de la page de contrôle(onglets)
     if ((lcom_Component is TCustomTabControl)) and GetfeSauveEdit ( FSaveEdits, feTPageControl )   then
       begin
+        {$IFDEF FPC}
         TCustomTabControl(lcom_Component).PageIndex := fli_ReadInteger ( lcom_Component.Name , 0);
+        {$ELSE}
+        p_SetComponentProperty(lcom_Component,CST_ONFORMINI_TABINDEX,fli_ReadInteger ( lcom_Component.Name , 0));
+        {$ENDIF}
         Result := True;
       end;
     // lecture de PopupMenu
@@ -644,7 +653,6 @@ begin
       Begin
         FFormOwner.BeginUpdateBounds;
       End;
- {$ELSE}
    if assigned ( FFormOwner ) Then
      FFormOwner.Updating;
  {$ENDIF}
@@ -707,7 +715,6 @@ begin
           and assigned ( FFormOwner ) Then
             FFormOwner.EndUpdateBounds;
         end;
-   {$ELSE}
      if assigned ( FFormOwner ) Then
        FFormOwner.Updated;
    {$ENDIF}
@@ -994,7 +1001,11 @@ var
     // Ecriture de la page de contrôle(onglets)
     if (lcom_Component is TCustomTabControl)     and GetfeSauveEdit(FSaveEdits, feTPageControl )   then
       begin
+        {$IFDEF FPC}
         p_WriteInteger(lcom_Component.Name,TCustomTabControl(lcom_Component).PageIndex );
+        {$ELSE}
+        p_WriteInteger(lcom_Component.Name,flin_getComponentProperty(lcom_Component, CST_ONFORMINI_TABINDEX ));
+        {$ENDIF}
         Result := True;
       end;
     // Ecriture de PopupMenu
@@ -1194,8 +1205,8 @@ begin
     }
     end;
   End;
-  if Owner is TCustomForm then
-    DoSameMonitor(Owner as TCustomForm);
+  if Owner is TForm then
+    DoSameMonitor(Owner as TForm);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

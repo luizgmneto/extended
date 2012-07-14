@@ -1,4 +1,4 @@
-unit U_ExtDBImage;
+﻿unit U_ExtDBImage;
 
 interface
 
@@ -56,8 +56,8 @@ TExtDBImage = class( TExtImage)
        procedure LoadFromStream ( const astream : TStream ); override;
        function  LoadFromFile   ( const afile   : String ):Boolean;  override;
        procedure SaveToStream ( const astream : TMemoryStream ); virtual;
-       function  SavetoFile   ( const afile   : String ;const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;  virtual;overload;
-       function  SavetoFile:Boolean;  virtual;overload;
+       function  SavetoFile   ( const afile   : String ;const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean; overload; virtual;
+       function  SavetoFile:Boolean; overload; virtual;
        constructor Create(AOwner: TComponent); override;
        destructor Destroy ; override;
      published

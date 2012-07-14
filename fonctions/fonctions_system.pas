@@ -65,6 +65,8 @@ implementation
 uses
 {$IFDEF FPC}
   LCLType, FileUtil, process,
+{$ELSE}
+  ShellAPI,
 {$ENDIF}
 {$IFDEF WINDOWS}
   ShFolder,  ShlObj,
@@ -204,7 +206,7 @@ Begin
       Execute;
     end;
 {$ELSE}
-  ShellExecute(Handle,'open', PChar(AFilePath), nil, nil, SW_SHOWNORMAL) ;
+  ShellExecute(0,'open', PChar(AFilePath), nil, nil, SW_SHOWNORMAL) ;
 {$ENDIF}
 End;
 

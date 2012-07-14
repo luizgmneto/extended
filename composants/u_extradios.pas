@@ -1,11 +1,18 @@
 unit u_extradios;
 
-{$mode objfpc}
+{$IFDEF FPC}
+{$mode Delphi}{$H+}
+{$ENDIF}
 
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls;
+  Classes, SysUtils,
+{$IFDEF FPC}
+  LResources,
+{$ELSE}
+{$ENDIF}
+   Forms, Controls, Graphics, Dialogs, ExtCtrls;
 
 type
 

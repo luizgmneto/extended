@@ -1,6 +1,6 @@
 object F_CustomizeMenu: TF_CustomizeMenu
-  Left = 313
-  Top = 180
+  Left = 314
+  Top = 209
   Caption = 'F_CustomizeMenu'
   ClientHeight = 400
   ClientWidth = 600
@@ -27,11 +27,16 @@ object F_CustomizeMenu: TF_CustomizeMenu
     object FWClose1: TFWClose
       Left = 520
       Top = 0
-      Width = 80
       Height = 30
       Caption = 'Fermer'
       TabOrder = 0
       Align = alRight
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 2171169
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
     end
   end
   object Panel2: TPanel
@@ -91,6 +96,12 @@ object F_CustomizeMenu: TF_CustomizeMenu
         Enabled = False
         TabOrder = 0
         Align = alLeft
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = 2171169
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
         OnClick = FWDeleteClick
       end
       object FWInsert: TFWInsert
@@ -102,6 +113,12 @@ object F_CustomizeMenu: TF_CustomizeMenu
         Enabled = False
         TabOrder = 1
         Align = alRight
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = 2171169
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
         OnClick = FWInsertClick
       end
       object Panel4: TPanel
@@ -151,12 +168,8 @@ object F_CustomizeMenu: TF_CustomizeMenu
     end
   end
   object OnFormInfoIni: TOnFormInfoIni
-    SavePosObjects = True
-    SaveEdits = [feTCheck]
-    SavePosForm = True
-    Left = 145
-    Top = 140
-    SaveForm = ]
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
+    SaveForm = [sfSavePos, sfSaveSizes]
+    Left = 136
+    Top = 232
   end
 end

@@ -323,7 +323,12 @@ implementation
 
 uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
-     unite_messages, fonctions_images,
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+     fonctions_images,
      Forms, u_buttons_appli ;
 
 

@@ -176,7 +176,12 @@ type
 
 implementation
 
-uses unite_messages, fonctions_proprietes, fonctions_images;
+uses   {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+ fonctions_proprietes, fonctions_images;
 
 
 { TExtPictCombo }

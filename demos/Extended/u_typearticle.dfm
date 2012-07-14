@@ -21,8 +21,6 @@ object F_TypeProduit: TF_TypeProduit
   AdaptParentSize = True
   ShowBevel = False
   AlreadyPassedInFirstActivate = True
-  ExplicitWidth = 320
-  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 13
   object pa_1: TPanel
@@ -105,7 +103,7 @@ object F_TypeProduit: TF_TypeProduit
           Caption = 'lb_libelle'
           Color = clBtnFace
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
+          Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
@@ -124,7 +122,7 @@ object F_TypeProduit: TF_TypeProduit
           Caption = 'lb_code'
           Color = clBtnFace
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
+          Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
@@ -147,7 +145,6 @@ object F_TypeProduit: TF_TypeProduit
           Top = 35
           Width = 460
           Height = 24
-          Color = clMoneyGreen
           DataField = 'TYPR_Libelle'
           DataSource = M_Article.ds_TypProduit
           Font.Charset = DEFAULT_CHARSET
@@ -165,7 +162,6 @@ object F_TypeProduit: TF_TypeProduit
           Width = 129
           Height = 24
           CharCase = ecUpperCase
-          Color = clMoneyGreen
           DataField = 'TYPR_Clep'
           DataSource = M_Article.ds_TypProduit
           Font.Charset = DEFAULT_CHARSET
@@ -189,10 +185,6 @@ object F_TypeProduit: TF_TypeProduit
         OnChanging = pc_GroupesChanging
         object ts_Gamme: TTabSheet
           Caption = 'Gammes dont ce type est membre'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object RbSplitter1: TSplitter
             Left = 321
             Top = 27
@@ -439,10 +431,6 @@ object F_TypeProduit: TF_TypeProduit
         object ts_Caracteristique: TTabSheet
           Caption = 'Caract'#233'ristiques membres du type'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object RbSplitter2: TSplitter
             Left = 321
             Top = 27
@@ -688,10 +676,6 @@ object F_TypeProduit: TF_TypeProduit
         object TabSheet1: TTabSheet
           Caption = 'Articles affect'#233's au type'
           ImageIndex = 2
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object Panel12: TPanel
             Left = 0
             Top = 0
@@ -1056,13 +1040,10 @@ object F_TypeProduit: TF_TypeProduit
     end
   end
   object SvgFormInfoIni: TOnFormInfoIni
-    SavePosObjects = True
     SaveEdits = [feTGrid, feTListView]
-    SavePosForm = True
+    SaveForm = [sfSaveSizes]
     Left = 97
     Top = 137
-    SaveForm = []
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object im_images: TImageList
     Left = 96

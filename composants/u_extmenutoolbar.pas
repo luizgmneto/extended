@@ -60,7 +60,12 @@ var ExtMenuToolbar_ResInstance             : THandle      = 0;
 
 implementation
 
-uses unite_messages, Controls, Graphics,
+uses   {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+ Controls, Graphics,
 {$IFDEF FPC}
      LResources,
 {$ENDIF}

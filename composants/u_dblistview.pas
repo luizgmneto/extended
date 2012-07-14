@@ -1,4 +1,4 @@
-{*********************************************************************}
+﻿{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             Matthieu Giroux                                         }
@@ -308,8 +308,13 @@ var gcol_CouleurFocus : TColor = CST_GROUPE_COULEUR_FOCUS ;
 implementation
 
 uses TypInfo, fonctions_string, fonctions_proprietes, Variants,  ExtCtrls,
-     fonctions_erreurs,
-     fonctions_init, unite_messages ;
+  fonctions_erreurs,
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+  fonctions_init ;
 
  ///////////////////////////////////////////////////////////////
 // TUltimListViewDatalink                                     //

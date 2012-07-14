@@ -49,8 +49,8 @@ const
                                           Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 
 {$ENDIF}
-  SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColumnMove, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
-  SEARCHEDIT_GRID_DEFAULT_SCROLL = ssAutoBoth;
+  SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
+  SEARCHEDIT_GRID_DEFAULT_SCROLL = {$IFDEF FPC}ssAutoBoth{$ELSE}ssBoth{$ENDIF};
 type
 
   TExtSearchDBEdit = class;
@@ -103,9 +103,9 @@ type
     procedure p_setLabel ( const alab_Label : TFWLabel );
     procedure ShowPopup;
     procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
-    procedure WMSize(var Message: TLMSize); message LM_SIZE;
-    procedure WMSetFocus(var Message: TLMSetFocus); message LM_SETFOCUS;
-    procedure WMKillFocus(var Message: TLMKillFocus); message LM_KILLFOCUS;
+    procedure WMSize(var Message: {$IFDEF FPC}TLMSize{$ELSE}TWMSize{$ENDIF}); message {$IFDEF FPC}LM_SIZE{$ELSE}WM_SIZE{$ENDIF};
+    procedure WMSetFocus(var Message: {$IFDEF FPC}TLMSetFocus{$ELSE}TWMSetFocus{$ENDIF}); message {$IFDEF FPC}LM_SETFOCUS{$ELSE}WM_SETFOCUS{$ENDIF};
+    procedure WMKillFocus(var Message: {$IFDEF FPC}TLMKillFocus{$ELSE}TWMKillFocus{$ENDIF}); message {$IFDEF FPC}LM_KILLFOCUS{$ELSE}WM_KILLFOCUS{$ENDIF};
   protected
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure CreatePopup; virtual;
@@ -117,7 +117,9 @@ type
     procedure ValidateSearch; virtual;
     function EditCanModify: Boolean; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    {$IFDEF FPC}
     procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
+    {$ENDIF}
     procedure Change; override;
   public
     constructor Create ( Aowner : TComponent ); override;
@@ -208,6 +210,7 @@ begin
   if Field <> nil then begin
     //use the right EditMask if any
     //EditMask := FDataLink.Field.EditMask; doesn't exist yet
+    {$IFDEF FPC}
     Alignment := Field.Alignment;
 
     //if we are focused its possible to edit,
@@ -218,6 +221,7 @@ begin
     end else
       //otherwise display the pretified/formated text since we can't
       DisableMask(Field.DisplayText);
+    {$ENDIF}
     if (Field.DataType in [ftString, ftFixedChar, ftWidestring, ftFixedWideChar])
       and (MaxLength = 0) then
       MaxLength := Field.Size;
@@ -260,20 +264,20 @@ begin
   inherited;
 end;
 
-procedure TExtSearchDBEdit.WMSize(var Message: TLMSize);
+procedure TExtSearchDBEdit.WMSize(var Message: {$IFDEF FPC}TLMSize{$ELSE}TWMSize{$ENDIF});
 begin
   if ( Message.Width <> Width ) or ( Message.Height <> Height ) Then
     FreePopup;
   Inherited;
 end;
 
-procedure TExtSearchDBEdit.WMSetFocus(var Message: TLMSetFocus);
+procedure TExtSearchDBEdit.WMSetFocus(var Message: {$IFDEF FPC}TLMSetFocus{$ELSE}TWMSetFocus{$ENDIF});
 begin
   if Assigned(DataSource) Then
     Inherited;
 end;
 
-procedure TExtSearchDBEdit.WMKillFocus(var Message: TLMKillFocus);
+procedure TExtSearchDBEdit.WMKillFocus(var Message: {$IFDEF FPC}TLMKillFocus{$ELSE}TWMKillFocus{$ENDIF});
 begin
   if Assigned(DataSource) Then
     Inherited;
@@ -475,6 +479,7 @@ begin
    Then Key:=OldKey;
 end;
 
+{$IFDEF FPC}
 procedure TExtSearchDBEdit.UTF8KeyPress(var UTF8Key: TUTF8Char);
 begin
   // When no datasource so can edit
@@ -484,6 +489,7 @@ begin
      if Assigned(OnUTF8KeyPress)
       Then OnUTF8KeyPress ( Self, UTF8Key );
 end;
+{$ENDIF}
 
 procedure TExtSearchDBEdit.Change;
 begin

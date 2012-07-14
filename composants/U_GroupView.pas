@@ -395,7 +395,12 @@ var gcol_CouleurFocus : TColor = CST_GROUPE_COULEUR_FOCUS ;
 implementation
 
 uses TypInfo, fonctions_string, fonctions_proprietes, Variants,  ExtCtrls,  fonctions_erreurs,
-     fonctions_db, fonctions_dbcomponents, unite_messages ;
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+     fonctions_db, fonctions_dbcomponents ;
 
 // non Utilisé : On change de groupe dans DataSetChanged
 {Procedure TUltimListViewDatalink.DataSetScrolled(Distance: Integer);

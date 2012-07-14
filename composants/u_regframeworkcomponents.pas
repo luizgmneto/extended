@@ -21,7 +21,12 @@ procedure Register;
 
 implementation
 
-uses unite_messages, U_ExtDBNavigator,
+uses  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+     U_ExtDBNavigator,
      u_framework_dbcomponents, u_framework_components,
      U_OnFormInfoIni,U_ExtNumEdits,U_ExtColorCombos,
      u_extsearchedit, U_ExtComboInsert,
@@ -32,12 +37,13 @@ uses unite_messages, U_ExtDBNavigator,
 {$ENDIF}
      U_ExtDBImage, U_ExtDBImageList, U_ExtImage,
      U_ExtPictCombo, U_ExtDBPictCombo, U_ExtMapImageIndex,
-     u_extdbgrid, PDBCheck, PCheck,
+     u_extdbgrid, PDBCheck, PCheck, u_extmenutoolbar,
+     u_extmenucustomize,
      u_extradios;
 
 procedure Register;
 begin
-  RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMapImages]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMapImages,TExtMenuCustomize]);
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,TExtDBColorCombo,TFWDBComboBox, TExtDBComboInsert,
                                                 TFWDBDateEdit, {$IFNDEF FPC}TFWDBDateTimePicker,{$ENDIF}
                                                 TFWDBEdit, TExtDBGrid,
@@ -49,7 +55,8 @@ begin
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,TExtColorCombo, TFWComboBox, TFWDateEdit,
                                                 TFWEdit,TFWGrid,TExtImage,
                                                 TFWLabel,TFWMemo,
-                                                TExtNumEdit,TExtPictCombo,TExtRadioGroup,TFWSpinEdit]);
+                                                TExtNumEdit,TExtPictCombo,TExtRadioGroup,TFWSpinEdit,
+                                                TExtMenuToolBar]);
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
   RegisterPropertyEditor ( TypeInfo(string), TExtSearchDBEdit, 'FieldKey'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
 end;

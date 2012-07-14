@@ -248,7 +248,12 @@ implementation
 
 uses {$IFDEF FPC}ObjInspStrConsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
-     unite_messages, Dialogs,
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+     Dialogs,
      Forms, u_buttons_appli ;
 
 

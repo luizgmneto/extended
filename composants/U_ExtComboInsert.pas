@@ -131,7 +131,12 @@ uses
   {$ELSE}
   JvConsts, JvToolEdit,
   {$ENDIF}
-  unite_messages, fonctions_db;
+    {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+ fonctions_db;
 
 { TExtDBComboInsert }
 

@@ -17,13 +17,14 @@ object Myform: TMyform
   PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
-    Left = 240
+    Left = 208
     Top = 0
     Width = 5
     Height = 563
+    ExplicitLeft = 240
   end
   object Panel1: TPanel
-    Left = 32
+    Left = 0
     Top = 0
     Width = 208
     Height = 563
@@ -108,7 +109,6 @@ object Myform: TMyform
       Top = 81
       Width = 88
       Height = 17
-      Color = clMoneyGreen
       DataField = 'PRENOM'
       DataSource = ds_user
       MaxLength = 100
@@ -120,9 +120,8 @@ object Myform: TMyform
     object Nom: TFWDBEdit
       Left = 7
       Top = 121
-      Width = 88
+      Width = 11
       Height = 17
-      Color = clMoneyGreen
       DataField = 'NOM'
       DataSource = ds_user
       MaxLength = 100
@@ -133,9 +132,9 @@ object Myform: TMyform
     end
   end
   object Panel2: TPanel
-    Left = 245
+    Left = 213
     Top = 0
-    Width = 514
+    Width = 546
     Height = 563
     Align = alClient
     TabOrder = 3
@@ -148,7 +147,7 @@ object Myform: TMyform
       Caption = 'Color'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       Font.Style = []
@@ -166,7 +165,7 @@ object Myform: TMyform
       Caption = 'NumEdit'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       Font.Style = []
@@ -184,7 +183,7 @@ object Myform: TMyform
       Caption = 'Date'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       Font.Style = []
@@ -202,7 +201,7 @@ object Myform: TMyform
       Caption = 'Edit'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       Font.Style = []
@@ -220,7 +219,7 @@ object Myform: TMyform
       Caption = 'Name'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       Font.Style = []
@@ -238,7 +237,7 @@ object Myform: TMyform
       Caption = 'Surname'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       Font.Style = []
@@ -250,10 +249,11 @@ object Myform: TMyform
     object Splitter2: TSplitter
       Left = 1
       Top = 326
-      Width = 512
+      Width = 544
       Height = 3
       Cursor = crVSplit
       Align = alBottom
+      ExplicitWidth = 512
     end
     object Search2: TFWLabel
       Left = 21
@@ -264,7 +264,7 @@ object Myform: TMyform
       Caption = 'City'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 12
       Font.Name = 'Tahoma'
       Font.Style = []
@@ -282,7 +282,7 @@ object Myform: TMyform
       Caption = 'Department'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 10
       Font.Name = 'Tahoma'
       Font.Style = []
@@ -301,7 +301,7 @@ object Myform: TMyform
       Color = clBtnFace
       FocusControl = FWSpinEdit
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       Font.Style = []
@@ -319,7 +319,7 @@ object Myform: TMyform
       Caption = 'PictCombo'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 12
       Font.Name = 'Tahoma'
       Font.Style = []
@@ -347,7 +347,7 @@ object Myform: TMyform
       Caption = 'DBSpinEdit'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Height = 11
       Font.Name = 'Tahoma'
       Font.Style = []
@@ -361,12 +361,11 @@ object Myform: TMyform
       Top = 75
       Width = 221
       Height = 22
-      Language = lgEnglish
       HTMLcolor = '#FFFFFF'
       ColorReadOnly = clInfoText
       MyLabel = FWLabel1
       AlwaysSame = False
-      Color = clMoneyGreen
+      Color = 11184810
       ItemHeight = 16
       TabOrder = 0
     end
@@ -393,7 +392,6 @@ object Myform: TMyform
       Height = 21
       Date = 41029.366682106480000000
       Time = 41029.366682106480000000
-      Color = clMoneyGreen
       TabOrder = 3
       ColorReadOnly = clInfoText
       MyLabel = FWLabel3
@@ -404,7 +402,6 @@ object Myform: TMyform
       Top = 160
       Width = 221
       Height = 21
-      Color = clMoneyGreen
       TabOrder = 4
       Text = 'FWEdit'
       MyLabel = FWLabel4
@@ -413,7 +410,7 @@ object Myform: TMyform
     object DBListView: TDBListView
       Left = 1
       Top = 329
-      Width = 512
+      Width = 544
       Height = 233
       Align = alBottom
       Columns = <
@@ -441,13 +438,14 @@ object Myform: TMyform
       DataKeyUnit = 'Clep'
       DataFieldsDisplay = 'Nom'
       DataTableUnit = 'UTILISATEUR'
+      ExplicitWidth = 512
     end
     object FWMemo: TFWMemo
       Left = 371
       Top = 48
       Width = 136
       Height = 128
-      Color = clMoneyGreen
+      Color = 11184810
       Lines.Strings = (
         'FWMemo')
       TabOrder = 7
@@ -457,7 +455,6 @@ object Myform: TMyform
       Top = 211
       Width = 221
       Height = 21
-      Color = clMoneyGreen
       DataField = 'IDDEPARTEMENT'
       DataSource = ds_user
       TabOrder = 6
@@ -469,7 +466,7 @@ object Myform: TMyform
       Top = 185
       Width = 221
       Height = 21
-      Color = clMoneyGreen
+      Color = 11184810
       DataField = 'NOM'
       DataSource = ds_user
       MaxLength = 100
@@ -485,7 +482,7 @@ object Myform: TMyform
       Height = 22
       Images = ImageResources
       ImagesMap = MapImages
-      Color = clMoneyGreen
+      Color = 11184810
       Items.Strings = (
         'Image'
         'Image'
@@ -504,7 +501,6 @@ object Myform: TMyform
       Top = 240
       Width = 220
       Height = 21
-      Color = clMoneyGreen
       TabOrder = 10
       MyLabel = FWLabel8
     end
@@ -546,7 +542,6 @@ object Myform: TMyform
     Top = 45
     Width = 221
     Height = 21
-    Color = clMoneyGreen
     DataField = 'Nom'
     DataSource = ds_user
     MaxLength = 100
@@ -559,7 +554,6 @@ object Myform: TMyform
     Top = 16
     Width = 221
     Height = 21
-    Color = clMoneyGreen
     DataField = 'Prenom'
     DataSource = ds_user
     MaxLength = 100
@@ -568,29 +562,11 @@ object Myform: TMyform
     MyLabel = FWLabel6
     AlwaysSame = False
   end
-  object ExtMenuToolBar: TExtMenuToolBar
-    Left = 0
-    Top = 0
-    Width = 32
-    Height = 563
-    Align = alLeft
-    AutoSize = False
-    Caption = 'ExtMenuToolBar'
-    Menu = mu_MenuIni
-    ParentShowHint = False
-    ShowCaptions = False
-    ShowHint = False
-    TabOrder = 4
-    OnClickCustomize = ExtMenuToolBarClickCustomize
-  end
   object OnFormInfoIni: TOnFormInfoIni
-    SavePosObjects = True
     SaveEdits = [feTEdit, feTComboValue, feTColorCombo, feTDateEdit, feTMemo, feTSpinEdit]
-    SavePosForm = True
+    SaveForm = [sfSavePos, sfSaveSizes]
     Left = 56
     Top = 216
-    SaveForm = []
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object ds_user: TDataSource
     DataSet = IBUtilisateur
@@ -692,13 +668,6 @@ object Myform: TMyform
       end>
     Left = 160
     Top = 152
-  end
-  object mc_Customize: TExtMenuCustomize
-    MenuIni = mu_MenuIni
-    MainMenu = mu_MainMenu
-    OnMenuChange = mc_CustomizeMenuChange
-    Left = 160
-    Top = 96
   end
   object mu_MenuIni: TMainMenu
     Images = ImageResources

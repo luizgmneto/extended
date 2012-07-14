@@ -1,4 +1,4 @@
-{*********************************************************************}
+﻿{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             Matthieu Giroux                                         }
@@ -34,8 +34,8 @@ const
   //////// Couleurs par défaut des composants de la form
   CST_EXT_BACK    = TColor(clWindow and $00888888);
   CST_LBL_STD       = clWindowText;
-  CST_LBL_SELECT    = clActiveText;
-  CST_LBL_ACTIVE    = clActiveBrightText;
+  CST_LBL_SELECT    = {$IFDEF FPC}clActiveText{$ELSE}clActiveCaption{$ENDIF};
+  CST_LBL_ACTIVE    = {$IFDEF FPC}clActiveBrightText{$ELSE}clActiveCaption{$ENDIF};
   CST_EDIT_SELECT   = TColor($0055AAAA + CST_EXT_BACK);
   CST_EDIT_STD      = TColor($00AAAAAA + CST_EXT_BACK);
   CST_EDIT_READ     = TColor($00448844 + CST_EXT_BACK);

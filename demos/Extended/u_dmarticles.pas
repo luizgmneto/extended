@@ -3,11 +3,15 @@ unit U_DmArticles;
 {$IFDEF FPC}
   {$MODE Delphi}
 {$ENDIF}
-
+{$I ..\..\DLCompilers.inc}
+{$I ..\..\extends.inc}
 interface
 
 uses
-  SysUtils, StrUtils, Classes, DB, process, ZDataset, Forms, Dialogs, controls,
+  SysUtils, StrUtils, Classes, DB, ZDataset, Forms, Dialogs, controls,
+{$IFDEF FPC}
+  process, 
+{$ENDIF}
   fonctions_string, IBIntf, U_ConstMessage, IBDatabase, IBQuery, IBUpdateSQL,
   IBCustomDataSet;
 const CST_APPLI_NAME =  'Article';
@@ -115,7 +119,9 @@ uses Variants , fonctions_dbcomponents, fonctions_system;
 {$ENDIF}
 
 procedure p_setLibrary (var libname: string);
+{$IFNDEF WINDOWS}
 var AProcess : TProcess;
+{$ENDIF}
 Begin
   {$IFDEF WINDOWS}
   libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbclient'+CST_EXTENSION_LIBRARY;

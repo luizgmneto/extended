@@ -1,4 +1,4 @@
-unit fonctions_images;
+﻿unit fonctions_images;
 
 interface
 
@@ -70,7 +70,8 @@ procedure p_FileToStream ( const afile : String; const Stream : TStream ; const 
 procedure p_StreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean = False );
 procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean = False );
 procedure p_FileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean = False );
-procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TCustomBitmap; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
+procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF};
+                                 const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
 
 function fb_ResizeImaging ( var Fdata : TImageData; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
 
@@ -116,7 +117,12 @@ uses
 {$ELSE}
      JclGraphics,
 {$ENDIF}
-     SysUtils, unite_messages ;
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+     SysUtils ;
 
 
 
@@ -302,7 +308,7 @@ end ;
 // Transforme un bitmap en tout petit bitmap
 // Entrée : Le Bitmap source
 // Sortie : Le petit bitmap
-procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : TCustomBitmap; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
+procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF}; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
 
 var
   lrec_Rectangle      : TRect ;  // Nouvelle taille

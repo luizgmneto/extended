@@ -1,4 +1,4 @@
-unit fonctions_db;
+﻿unit fonctions_db;
 
 interface
 
@@ -108,7 +108,12 @@ resourcestring
   
 implementation
 
-uses Variants,  Math, fonctions_erreurs, fonctions_string, unite_messages,
+uses Variants,  Math, fonctions_erreurs, fonctions_string,
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
 {$IFDEF FPC}
      SQLDB,
 {$ELSE}

@@ -71,7 +71,6 @@ contains
   fonctions_init in 'fonctions\fonctions_init.pas',
   fonctions_images in 'fonctions\fonctions_images.pas',
   U_About in 'forms\U_About.pas',
-  unite_messages in 'fonctions\unite_messages.pas',
   fonctions_array in 'fonctions\fonctions_array.pas',
   fonctions_components in 'fonctions\fonctions_components.pas',
   fonctions_dbcomponents in 'fonctions\fonctions_dbcomponents.pas',
@@ -84,6 +83,8 @@ contains
   u_regfwbuttons in 'composants\u_regfwbuttons.pas',
   fonctions_system in 'fonctions\fonctions_system.pas',
   fonctions_languages in 'fonctions\fonctions_languages.pas',
-  type_string_delphi in 'fonctions\type_string_delphi.pas';
+  type_string_delphi in 'fonctions\type_string_delphi.pas',
+  fonctions_numedit in 'fonctions\fonctions_numedit.pas',
+  unite_messages_delphi in 'fonctions\unite_messages_delphi.pas';
 
 end.

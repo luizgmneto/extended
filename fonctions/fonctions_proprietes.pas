@@ -1,4 +1,4 @@
-unit fonctions_proprietes;
+﻿unit fonctions_proprietes;
 
 {$I ..\DLCompilers.inc}
 
@@ -72,7 +72,12 @@ uses
 {$IFDEF FPC}
 {$ELSE}
 {$ENDIF}
-     unite_messages ;
+  {$IFDEF FPC}
+  unite_messages;
+  {$ELSE}
+  unite_messages_delphi;
+  {$ENDIF}
+
 
 function fb_GetStrings (const acom_component : TComponent ;const as_propertyname : String ; var astl_Strings : TStrings {$IFDEF DELPHI_9_UP}; var awst_Strings : TWideStrings {$ENDIF}): Boolean;
 var lobj_Strings : TObject ;

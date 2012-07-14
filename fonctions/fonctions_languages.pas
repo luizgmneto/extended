@@ -65,7 +65,7 @@ const // Evènements gérés
   CST_lazdatadeskstr  = 'lazdatadeskstr';
   CSt_lr_const        = 'lr_const' ;
   CST_u_languagevars  = 'u_languagevars' ;
-  CST_unite_messages  = 'unite_messages' ;
+  CST_unite_messages  = {$IFDEF FPC}'unite_messages'{$ELSE}'unite_messages_delphi'{$ENDIF};
   CST_unite_variables = 'unite_variables' ;
   CST_LNG_DIRECTORY = 'LangFiles' +DirectorySeparator ;
 {$IFDEF VERSIONS}
@@ -109,7 +109,12 @@ uses
   TntSysUtils, TntSystem,
 {$ENDIF}
   fonctions_string,
-  Dialogs, unite_messages;
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+  Dialogs;
 
 var    gstl_Labels             : TStringlist = nil ;
 
