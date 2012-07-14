@@ -1,4 +1,4 @@
-﻿unit fonctions_db;
+unit fonctions_db;
 
 interface
 

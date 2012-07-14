@@ -653,8 +653,6 @@ begin
       Begin
         FFormOwner.BeginUpdateBounds;
       End;
-   if assigned ( FFormOwner ) Then
-     FFormOwner.Updating;
  {$ENDIF}
   if Assigned(FInifile) then
     try
@@ -715,8 +713,6 @@ begin
           and assigned ( FFormOwner ) Then
             FFormOwner.EndUpdateBounds;
         end;
-     if assigned ( FFormOwner ) Then
-       FFormOwner.Updated;
    {$ENDIF}
     end;
  p_Freeini;
