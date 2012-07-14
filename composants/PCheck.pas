@@ -1,4 +1,4 @@
-unit PCheck;
+﻿unit PCheck;
 
 // TPCheck version 3.10
 // Freeware Component for for D2,D3,D4,D5,D6
@@ -34,12 +34,12 @@ interface
 
 uses
 {$IFDEF FPC}
-      LCLIntf, lMessages, LCLType, lresources, IntfGraphics,
+      LCLIntf, lMessages, LCLType, lresources, GraphType,  IntfGraphics,
 {$ELSE}
        Windows,MMSystem,
 {$ENDIF}
   Messages, SysUtils,
-  GraphType, Classes, Controls, Forms,
+  Classes, Controls, Forms,
   Dialogs,ExtCtrls, Graphics;
 
 {$IFDEF FPC}
@@ -552,7 +552,7 @@ begin
           Pattern := nil;
           canvas.Brush.Bitmap := nil;
          end;
-       canvas.Brush.Canvas.Clear;
+       canvas.Brush.{$IFDEF FPC}Canvas.Clear{$ELSE}Handle:=0{$ENDIF};
        canvas.FillRect(R);
 
       end;
@@ -673,9 +673,7 @@ end;
 procedure TPCustomCheck.DrawImage;
 var
   BitRect,Image: TRect;
-  {$IFDEF FPC}
   FImage:TBitmap;
-  {$ENDIF}
   x:integer;
 begin
 
@@ -766,9 +764,7 @@ end;
 procedure TPCustomCheck.DrawImageHot;
 var
   BitHotRect,ImageHot: TRect;
-    {$IFDEF FPC}
     Image : TBitmap;
-    {$ENDIF}
   x:integer;
 begin
 

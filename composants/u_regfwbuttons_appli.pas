@@ -37,7 +37,7 @@ implementation
 uses
     u_buttons_appli,
     {$IFDEF MENUBAR}u_extmenutoolbar,{$ENDIF} u_extmenucustomize,
-    u_buttons_defs, unite_messages ;
+    u_buttons_defs ;
 
 procedure Register;
 begin

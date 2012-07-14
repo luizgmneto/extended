@@ -1,4 +1,4 @@
-unit PDBCheck;
+﻿unit PDBCheck;
 
 // TPDBCheck version 1.50
 // Freeware Component for for D3,D4,D5,D6
@@ -12,7 +12,7 @@ unit PDBCheck;
 
 
 {$IFDEF FPC}
-{$mode objfpc}{$H+}
+{$mode Delphi}{$H+}
 {$ENDIF}
 
 {$IFDEF VER100}
@@ -160,8 +160,8 @@ begin
   ControlStyle := ControlStyle + [csReplicatable];
   FDataLink := TFieldDataLink.Create;
   FDataLink.Control := Self;
-  FDataLink.OnDataChange := @DataChange;
-  FDataLink.OnUpdateData := @UpdateData;
+  FDataLink.OnDataChange := DataChange;
+  FDataLink.OnUpdateData := UpdateData;
   FReadOnly:=False;
   FVersion:='Version 1.50, Copyright © 2000-2001 by Peric, E-mail: pericddn@ptt.yu';
 end;

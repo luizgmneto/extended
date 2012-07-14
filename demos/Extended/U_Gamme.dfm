@@ -103,7 +103,7 @@ object F_Gamme: TF_Gamme
           Caption = 'lb_libelle'
           Color = clBtnFace
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
+          Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
@@ -122,7 +122,7 @@ object F_Gamme: TF_Gamme
           Caption = 'lb_code'
           Color = clBtnFace
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
+          Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
@@ -145,7 +145,6 @@ object F_Gamme: TF_Gamme
           Top = 35
           Width = 460
           Height = 24
-          Color = clMoneyGreen
           DataField = 'GAMM_Libelle'
           DataSource = M_Article.ds_Gamme
           Font.Charset = DEFAULT_CHARSET
@@ -163,7 +162,6 @@ object F_Gamme: TF_Gamme
           Width = 73
           Height = 24
           CharCase = ecUpperCase
-          Color = clMoneyGreen
           DataField = 'GAMM_Clep'
           DataSource = M_Article.ds_Gamme
           Font.Charset = DEFAULT_CHARSET
@@ -186,10 +184,6 @@ object F_Gamme: TF_Gamme
         TabOrder = 2
         object ts_ssfam: TTabSheet
           Caption = 'Types d'#39'articles membres de la gamme'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object RbSplitter1: TSplitter
             Left = 321
             Top = 27
@@ -433,10 +427,6 @@ object F_Gamme: TF_Gamme
         object TabSheet1: TTabSheet
           Caption = 'Articles affect'#233's '#224' la gamme'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object Panel7: TPanel
             Left = 0
             Top = 0
@@ -805,14 +795,9 @@ object F_Gamme: TF_Gamme
   end
   object SvgFormInfoIni: TOnFormInfoIni
     SaveEdits = [feTGrid, feTListView]
+    SaveForm = [sfSaveSizes]
     Left = 97
     Top = 137
-    SaveForm = []
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
-    SaveForm = [sfSaveSizes,sfSavePos]
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
-    SaveForm = []
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object im_images: TImageList
     Left = 96

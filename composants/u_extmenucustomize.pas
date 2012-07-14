@@ -1,4 +1,4 @@
-unit u_extmenucustomize;
+﻿unit u_extmenucustomize;
 
 {$IFDEF FPC}
 {$mode Delphi}
@@ -58,7 +58,12 @@ type
 
 implementation
 
-uses unite_messages, Controls, Graphics,
+uses   {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+ Controls, Graphics,
   {$IFDEF VIRTUALTREES}
    U_CustomizeMenu,
   {$ENDIF}

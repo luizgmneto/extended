@@ -1,4 +1,4 @@
-unit fonctions_erreurs;
+﻿unit fonctions_erreurs;
 
 interface
 
@@ -64,7 +64,12 @@ var gstl_CleEnDoubleErreurs : TStringlist = nil ;
 
 implementation
 
-uses unite_messages, Forms,
+uses Forms,
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
 {$IFDEF DELPHI}
      OleDb,
 {$ENDIF}

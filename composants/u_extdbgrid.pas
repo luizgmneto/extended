@@ -1,4 +1,4 @@
-unit u_extdbgrid;
+﻿unit u_extdbgrid;
 
 {*********************************************************************}
 {                                                                     }
@@ -37,7 +37,7 @@ uses
   ExRXDBGrid,
 {$ELSE}
   {$IFDEF JEDI}
-   JvDBUltimGrid,
+   JvDBUltimGrid, JvDBGrid,
   {$ELSE}
     {$IFDEF FPC}
      RxDBGrid,
@@ -567,7 +567,8 @@ begin
   and (Button = mbRight)
   and ( Shift = [] ) Then
     Begin
-     P:=MouseToCell(Point(X,Y));
+     {$IFDEF FPC}P:={$ENDIF}MouseToCell({$IFDEF FPC}Point({$ENDIF}X,Y{$IFDEF FPC}){$ENDIF},
+                                        P.X,P.Y);
      if ( p.Y >= FixedRows )
      or ( p.X >= FixedCols ) Then
       Begin
@@ -604,8 +605,8 @@ procedure TExtDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$END
 var Aindex : Integer;
 {$IFDEF FPC}
     FBackground : TColor;
-    FBitmap : TBitmap;
 {$ENDIF}
+    FBitmap : TBitmap;
    procedure Prepare;
    Begin
     {$IFDEF FPC}
@@ -656,7 +657,7 @@ begin
          and ( Aindex >= 0 ) then
           begin
             Prepare;
-            DrawCellGrid(aCol,aRow, aRect, aState);
+            {$IFDEF FPC}DrawCellGrid{$ELSE}DoDrawCell{$ENDIF}(aCol,aRow, aRect, aState);
             FBitmap := TBitmap.Create;
             FImages.GetBitmap(Field.AsInteger, FBitmap);
             with FBitmap do

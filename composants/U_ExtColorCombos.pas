@@ -1,4 +1,4 @@
-{*********************************************************************}
+﻿{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             Matthieu Giroux                                         }
@@ -247,7 +247,12 @@ type
 
 implementation
 
-uses unite_messages, fonctions_proprietes, fonctions_languages;
+uses   {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+ fonctions_proprietes, fonctions_languages;
 
 const
   CST_COLOR_COMBO_LastDefinedColor = 19;

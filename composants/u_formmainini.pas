@@ -1,4 +1,4 @@
-unit U_FormMainIni;
+﻿unit U_FormMainIni;
 // Unité de la Version 2 du projet FormMain
 // La version 1 TFormMain n'est pas sa fenêtre parente
 
@@ -324,7 +324,12 @@ uses fonctions_proprietes, fonctions_erreurs, TypInfo,
 {$IFDEF ZEOS}
      U_Zconnection,
 {$ENDIF}
-     unite_messages, fonctions_system;
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+ fonctions_system;
 
 { fonctions }
 

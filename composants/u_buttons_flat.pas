@@ -248,7 +248,12 @@ implementation
 
 uses {$IFDEF FPC}ObjInspStrConsts,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
-     unite_messages, Dialogs,
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+     Dialogs,
      Forms, u_buttons_appli ;
 
 
@@ -362,9 +367,6 @@ end;
 constructor TFBInsert.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  {$IFNDEF FPC}
-  Caption := srVK_INSERT;
-  {$ENDIF}
   p_Load_Bitmap_Appli ( Glyph, CST_FWINSERT, self );
 end;
 

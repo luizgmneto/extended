@@ -41,7 +41,12 @@ uses U_ExtFileCopy,
      DBReg, Designintf,
 {$ENDIF}
      u_traducefile,
-     unite_messages,
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+
      u_extractfile;
 
 {TExtFileCopy}

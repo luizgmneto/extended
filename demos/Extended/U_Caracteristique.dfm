@@ -21,8 +21,6 @@ object F_Caracteristique: TF_Caracteristique
   AdaptParentSize = True
   ShowBevel = False
   AlreadyPassedInFirstActivate = True
-  ExplicitWidth = 320
-  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 13
   object pa_1: TPanel
@@ -104,7 +102,7 @@ object F_Caracteristique: TF_Caracteristique
           Caption = 'lb_libelle'
           Color = clBtnFace
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
+          Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
@@ -123,7 +121,7 @@ object F_Caracteristique: TF_Caracteristique
           Caption = 'lb_code'
           Color = clBtnFace
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
+          Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
@@ -146,7 +144,6 @@ object F_Caracteristique: TF_Caracteristique
           Top = 35
           Width = 460
           Height = 24
-          Color = clMoneyGreen
           DataField = 'CARA_Libelle'
           DataSource = M_Article.ds_Carac
           Font.Charset = DEFAULT_CHARSET
@@ -164,7 +161,6 @@ object F_Caracteristique: TF_Caracteristique
           Width = 201
           Height = 24
           CharCase = ecUpperCase
-          Color = clMoneyGreen
           DataField = 'CARA_Clep'
           DataSource = M_Article.ds_Carac
           Font.Charset = DEFAULT_CHARSET
@@ -187,10 +183,6 @@ object F_Caracteristique: TF_Caracteristique
         TabOrder = 2
         object ts_ssfam: TTabSheet
           Caption = 'Types dont cette caract'#233'ristique est membre'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object RbSplitter1: TSplitter
             Left = 321
             Top = 27
@@ -436,10 +428,6 @@ object F_Caracteristique: TF_Caracteristique
         object TabSheet1: TTabSheet
           Caption = 'Articles affect'#233's '#224' la caract'#233'ristique'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object Panel7: TPanel
             Left = 0
             Top = 0
@@ -805,13 +793,10 @@ object F_Caracteristique: TF_Caracteristique
     end
   end
   object SvgFormInfoIni: TOnFormInfoIni
-    SavePosObjects = True
     SaveEdits = [feTGrid, feTListView]
-    SavePosForm = True
+    SaveForm = [sfSaveSizes]
     Left = 97
     Top = 137
-    SaveForm = []
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object im_images: TImageList
     Left = 96

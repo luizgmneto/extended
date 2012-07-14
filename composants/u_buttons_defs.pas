@@ -1,11 +1,9 @@
-unit u_buttons_defs;
+﻿unit u_buttons_defs;
 
 {$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 {$IFDEF FPC}
 {$mode Delphi}
-{$ELSE}
-{$R *.DCR}
 {$ENDIF}
 
 interface
@@ -114,10 +112,16 @@ type
 
 implementation
 
-uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts, RtlConsts,
+uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts,
+     RtlConsts,FileUtil,
      {$ELSE}Consts, VDBConsts, {$ENDIF}
-     unite_messages, fonctions_images,
-     Forms, Math, sysutils, FileUtil,
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+     fonctions_images,
+     Forms, Math, sysutils,
      Dialogs, fonctions_string;
 
 
@@ -137,7 +141,11 @@ var n : Integer;
 begin
   with FGLyph{$IFNDEF FPC}.Bitmap{$ENDIF} do
    Begin
+    {$IFDEF FPC}
     Clear;
+    {$ELSE}
+    FreeImage;
+    {$ENDIF}
     {$IFNDEF MEMBUTTONS}
     if csDesigning in acon_control.ComponentState Then
       Begin

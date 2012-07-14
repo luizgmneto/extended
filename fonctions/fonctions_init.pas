@@ -1,4 +1,4 @@
-// Unité de gestion du fichier INI dépendant de l'unité FormMainIni
+﻿// Unité de gestion du fichier INI dépendant de l'unité FormMainIni
 // intégrant une form de gestion de fichier INI
 unit fonctions_init;
 
@@ -26,7 +26,13 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  dialogs,unite_messages, DBGrids;
+  dialogs,
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+  DBGrids;
 
 type
   TIniEvent = procedure( const afor_MainObject : TObject ; const aini_iniFile : TCustomInifile ) of object;

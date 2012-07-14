@@ -116,6 +116,7 @@ contains
   u_extdbpictcombo in 'composants\u_extdbpictcombo.pas',
   U_GroupView in 'composants\U_GroupView.pas',
   U_RegisterGroupView in 'composants\U_RegisterGroupView.pas',
-  U_RegisterIni in 'composants\U_RegisterIni.pas';
+  U_RegisterIni in 'composants\U_RegisterIni.pas',
+  u_buttons_defs in 'composants\u_buttons_defs.pas';
 
 end.

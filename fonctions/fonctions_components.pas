@@ -36,7 +36,13 @@ procedure ExportGridToCSV (const AFileName; const AGrid : TCustomGrid;const ab_H
 
 implementation
 
-uses Variants,  Math, fonctions_erreurs, fonctions_string, unite_messages,
+uses Variants,  Math, fonctions_erreurs, fonctions_string,
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+
      fonctions_proprietes, fonctions_init ;
 
 

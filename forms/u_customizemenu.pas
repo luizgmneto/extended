@@ -27,7 +27,7 @@ uses
   fonctions_version,
 {$ENDIF}
   ExtCtrls, u_buttons_appli, u_buttons_defs, VirtualTrees, u_extmenucustomize,
-  U_OnFormInfoIni, Menus, JvXPCheckCtrls, JvXPButtons;
+  U_OnFormInfoIni, Menus, JvXPCheckCtrls, JvXPButtons, JvXPCore;
 
 {$IFDEF VERSIONS}
 const
@@ -55,7 +55,6 @@ type
     FWDelete: TFWDelete;
     FWInsert: TFWInsert;
     ch_ajouteravant: TJvXPCheckbox;
-    OnFormInfoIni: TOnFormInfoIni;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
@@ -63,6 +62,7 @@ type
     Splitter1: TSplitter;
     vt_MainMenu: TVirtualStringTree;
     vt_MenuIni: TVirtualStringTree;
+    OnFormInfoIni: TOnFormInfoIni;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FWClose1Click(Sender: TObject);
