@@ -64,6 +64,8 @@ resourcestring
   GS_DETAILS_TECHNIQUES = 'Détails techniques : ' ;
   GS_TOOLBARMENU_Personnaliser = 'Personnaliser' ;
 
+  GS_OF_DATASET = 'du Dataset ';
+
   GS_SOFT_IMAGE_NOT_FOUND   ='Image @ARG non tnouvée'+#13#10 +
                              'Veuillez copier le répertoire ''Images'' dans le répertoire de votre exécutable.';
   GS_GROUPE_INCLURE         = 'Inclure' ;

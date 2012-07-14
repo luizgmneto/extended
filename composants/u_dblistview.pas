@@ -848,7 +848,6 @@ End ;
 //////////////////////////////////////////////////////////////////////////////////
 procedure TDBListView.p_RefreshLoaded(DataSet: TCustomADODataSet;
   const Error: Error; var EventStatus: TEventStatus);
-var lt_Arg : Array [0..1] of String ;
 Begin
 {  if ( DataSet <> gdl_DataLink.DataSet )
   or ( not DataSet.Active  and ( EventStatus <> esErrorsOccured )) Then
@@ -876,9 +875,7 @@ Begin
   // Erreurs éventuelles
   if EventStatus = esErrorsOccured  Then
     Begin
-      lt_Arg [ 0 ] := 'du Dataset ' + gdl_DataLink.Dataset.Name ;
-      lt_Arg [ 1 ] := Self.Name ;
-      ShowMessage ( fs_RemplaceMsg ( GS_ERREUR_OUVERTURE + #13#10 + GS_FORM_ABANDON_OUVERTURE, lt_Arg ));
+      ShowMessage ( fs_RemplaceMsg ( GS_ERREUR_OUVERTURE + #13#10 + GS_FORM_ABANDON_OUVERTURE, [GS_OF_DATASET + gdl_DataLink.Dataset.Name,Self.Name] ));
     End ;
 End ;
 
