@@ -1,4 +1,4 @@
-﻿unit fonctions_images;
+unit fonctions_images;
 
 interface
 

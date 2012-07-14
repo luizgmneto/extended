@@ -1,4 +1,4 @@
-﻿unit u_extdbgrid;
+unit u_extdbgrid;
 
 {*********************************************************************}
 {                                                                     }
@@ -567,8 +567,9 @@ begin
   and (Button = mbRight)
   and ( Shift = [] ) Then
     Begin
-     {$IFDEF FPC}P:={$ENDIF}MouseToCell({$IFDEF FPC}Point({$ENDIF}X,Y{$IFDEF FPC}){$ENDIF},
-                                        P.X,P.Y);
+     {$IFDEF FPC}P:={$ENDIF}MouseToCell({$IFDEF FPC}Point({$ENDIF}X,Y{$IFDEF FPC})
+                                        {$ELSE},P.X,P.Y{$ENDIF}
+                                        );
      if ( p.Y >= FixedRows )
      or ( p.X >= FixedCols ) Then
       Begin

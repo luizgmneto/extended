@@ -1,4 +1,4 @@
-﻿unit fonctions_erreurs;
+unit fonctions_erreurs;
 
 interface
 

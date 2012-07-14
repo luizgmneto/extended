@@ -35,7 +35,7 @@
         <UnitName Value="PCheck"/>
       </Item3>
       <Item4>
-        <Filename Value="composants/U_ExtColorCombos.pas"/>
+        <Filename Value="composants/u_extcolorcombos.pas"/>
         <UnitName Value="U_ExtColorCombos"/>
       </Item4>
       <Item5>

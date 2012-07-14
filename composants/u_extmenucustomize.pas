@@ -1,4 +1,4 @@
-﻿unit u_extmenucustomize;
+unit u_extmenucustomize;
 
 {$IFDEF FPC}
 {$mode Delphi}

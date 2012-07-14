@@ -1,4 +1,4 @@
-﻿// Unité de gestion du fichier INI dépendant de l'unité FormMainIni
+// Unité de gestion du fichier INI dépendant de l'unité FormMainIni
 // intégrant une form de gestion de fichier INI
 unit fonctions_init;
 
