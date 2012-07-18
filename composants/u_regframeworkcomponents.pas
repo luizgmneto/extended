@@ -38,14 +38,14 @@ uses  {$IFDEF FPC}
      U_ExtDBImage, U_ExtDBImageList, U_ExtImage,
      U_ExtPictCombo, U_ExtDBPictCombo, U_ExtMapImageIndex,
      u_extdbgrid, PDBCheck, PCheck,
-     u_extradios;
+     u_extradios, u_extDBDirectoryEdit;
 
 procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMapImages]);
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,TExtDBColorCombo,TFWDBComboBox, TExtDBComboInsert,
                                                 TFWDBDateEdit, {$IFNDEF FPC}TFWDBDateTimePicker,{$ENDIF}
-                                                TFWDBEdit, TExtDBGrid,
+                                                TFWDBEdit, TExtDBDirectoryEdit, TExtDBGrid,
                                                 TExtDBImage,TExtDBImageList,
                                                 TFWDBLookupCombo,
                                                 TFWDBMemo, TExtDBNavigator,

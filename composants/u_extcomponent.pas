@@ -53,12 +53,13 @@ const
                                                FileUnit : 'u_extcomponent' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Interface réutilisée centralisant les composants FW.' ;
-                                               BugsStory : '1.0.1.0 : Adapting to OS''s themes.' + #13#10
+                                               BugsStory : '1.0.1.1 : EDITSCOLOR compile option.' + #13#10
+                                                         + '1.0.1.0 : Adapting to OS''s themes.' + #13#10
                                                          + '1.0.0.1 : UTF 8.' + #13#10
                                                          + '1.0.0.0 : En place testée.' + #13#10
                                                          + '0.9.0.0 : En place à tester.';
                                                UnitType : 1 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
 
 {$ENDIF}
 
@@ -95,30 +96,36 @@ uses fonctions_proprietes;
 
 procedure p_setCompColorEnter ( const Fcomponent : TControl; const FFocusColor : TColor ; const FAlwaysSame : boolean  );
 Begin
+  {$IFDEF EDITSCOLOR}
    if FAlwaysSame  Then
      p_SetComponentProperty ( Fcomponent, 'Color', gCol_EditSelect )
     else
      p_SetComponentProperty ( Fcomponent, 'Color', FFocusColor )
+  {$ENDIF}
 End;
 procedure p_setCompColorReadOnly ( const Fcomponent : TControl; const FEditColor, FReadOnlyColor : TColor ; const FAlwaysSame, FReadOnly : boolean  );
 Begin
-   if FAlwaysSame  Then
-     if FReadOnly Then
-       p_SetComponentProperty ( Fcomponent, 'Color', gCol_EditRead )
-     else
-       p_SetComponentProperty ( Fcomponent, 'Color', gCol_Edit )
+  {$IFDEF EDITSCOLOR}
+  if FAlwaysSame  Then
+    if FReadOnly Then
+      p_SetComponentProperty ( Fcomponent, 'Color', gCol_EditRead )
     else
-     if FReadOnly Then
-       p_SetComponentProperty ( Fcomponent, 'Color', FReadOnlyColor )
-     else
-       p_SetComponentProperty ( Fcomponent, 'Color', FEditColor );
+      p_SetComponentProperty ( Fcomponent, 'Color', gCol_Edit )
+   else
+    if FReadOnly Then
+      p_SetComponentProperty ( Fcomponent, 'Color', FReadOnlyColor )
+    else
+      p_SetComponentProperty ( Fcomponent, 'Color', FEditColor );
+  {$ENDIF}
 End;
 procedure p_setCompColorExit ( const Fcomponent : TControl; const FColor : TColor ; const FAlwaysSame : boolean  );
 Begin
-   if FAlwaysSame  Then
-     p_SetComponentProperty ( Fcomponent, 'Color', gCol_Edit )
-    else
-      p_SetComponentProperty ( Fcomponent, 'Color', FColor )
+  {$IFDEF EDITSCOLOR}
+  if FAlwaysSame  Then
+    p_SetComponentProperty ( Fcomponent, 'Color', gCol_Edit )
+   else
+     p_SetComponentProperty ( Fcomponent, 'Color', FColor )
+  {$ENDIF}
 End;
 
 procedure p_setLabelColorExit  ( const FLabel : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF}; const FAlwaysSame : boolean  );

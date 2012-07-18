@@ -59,7 +59,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="178">
+    <Units Count="190">
       <Unit0>
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -68,7 +68,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="15"/>
-        <UsageCount Value="127"/>
+        <UsageCount Value="128"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -164,14 +164,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="128"/>
         <CursorPos X="1" Y="160"/>
-        <UsageCount Value="67"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <UsageCount Value="68"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -617,6 +613,7 @@
         <TopLine Value="492"/>
         <CursorPos X="49" Y="502"/>
         <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit60>
       <Unit61>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/stdctrls.pp"/>
@@ -625,6 +622,7 @@
         <TopLine Value="298"/>
         <CursorPos X="19" Y="308"/>
         <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit61>
       <Unit62>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/controls.pp"/>
@@ -633,6 +631,7 @@
         <TopLine Value="1817"/>
         <CursorPos X="15" Y="1839"/>
         <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit62>
       <Unit63>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/include/wincontrol.inc"/>
@@ -640,6 +639,7 @@
         <TopLine Value="4788"/>
         <CursorPos X="1" Y="4810"/>
         <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit63>
       <Unit64>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/include/control.inc"/>
@@ -647,6 +647,7 @@
         <TopLine Value="3172"/>
         <CursorPos X="1" Y="3196"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit64>
       <Unit65>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/interfaces/gtk2/gtk2wsstdctrls.pp"/>
@@ -655,6 +656,7 @@
         <TopLine Value="1575"/>
         <CursorPos X="1" Y="1608"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit65>
       <Unit66>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/include/dblookupcombobox.inc"/>
@@ -662,6 +664,7 @@
         <TopLine Value="75"/>
         <CursorPos X="1" Y="71"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit66>
       <Unit67>
         <Filename Value="../fonctions/fonctions_db.pas"/>
@@ -697,6 +700,7 @@
         <TopLine Value="1"/>
         <CursorPos X="127" Y="14"/>
         <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit70>
       <Unit71>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/include/jpegimage.inc"/>
@@ -704,6 +708,7 @@
         <TopLine Value="43"/>
         <CursorPos X="13" Y="70"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit71>
       <Unit72>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/graphics.pp"/>
@@ -712,6 +717,7 @@
         <TopLine Value="1405"/>
         <CursorPos X="15" Y="1427"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit72>
       <Unit73>
         <Filename Value="/usr/share/fpcsrc/2.4.4/packages/fcl-image/src/fpreadjpeg.pas"/>
@@ -720,6 +726,7 @@
         <TopLine Value="49"/>
         <CursorPos X="3" Y="48"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit73>
       <Unit74>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/include/graphic.inc"/>
@@ -727,6 +734,7 @@
         <TopLine Value="130"/>
         <CursorPos X="1" Y="140"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit74>
       <Unit75>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/include/rasterimage.inc"/>
@@ -734,6 +742,7 @@
         <TopLine Value="630"/>
         <CursorPos X="3" Y="638"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit75>
       <Unit76>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/include/picture.inc"/>
@@ -741,6 +750,7 @@
         <TopLine Value="568"/>
         <CursorPos X="20" Y="594"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit76>
       <Unit77>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/intfgraphics.pas"/>
@@ -749,6 +759,7 @@
         <TopLine Value="226"/>
         <CursorPos X="52" Y="248"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit77>
       <Unit78>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/packager/confirmpkglistdlg.pas"/>
@@ -757,6 +768,7 @@
         <TopLine Value="58"/>
         <CursorPos X="15" Y="89"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit78>
       <Unit79>
         <Filename Value="/usr/share/fpcsrc/2.4.4/rtl/objpas/strutils.pp"/>
@@ -765,6 +777,7 @@
         <TopLine Value="74"/>
         <CursorPos X="10" Y="96"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit79>
       <Unit80>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/include/fpimagebitmap.inc"/>
@@ -772,6 +785,7 @@
         <TopLine Value="75"/>
         <CursorPos X="3" Y="79"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit80>
       <Unit81>
         <Filename Value="../../Imaging/Source/ImagingTypes.pas"/>
@@ -789,6 +803,7 @@
         <TopLine Value="271"/>
         <CursorPos X="84" Y="271"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit82>
       <Unit83>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/dbctrls.pp"/>
@@ -797,6 +812,7 @@
         <TopLine Value="1579"/>
         <CursorPos X="1" Y="1601"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit83>
       <Unit84>
         <Filename Value="../composants/U_ExtDBImage.pas"/>
@@ -823,6 +839,7 @@
         <TopLine Value="723"/>
         <CursorPos X="3" Y="781"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit86>
       <Unit87>
         <Filename Value="/usr/share/fpcsrc/2.4.4/packages/fcl-db/src/base/db.pas"/>
@@ -831,6 +848,7 @@
         <TopLine Value="803"/>
         <CursorPos X="22" Y="824"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit87>
       <Unit88>
         <Filename Value="/usr/share/fpcsrc/2.4.4/packages/fcl-db/src/base/fields.inc"/>
@@ -838,6 +856,7 @@
         <TopLine Value="2583"/>
         <CursorPos X="142" Y="2604"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit88>
       <Unit89>
         <Filename Value="demo.lrs"/>
@@ -997,6 +1016,7 @@
         <TopLine Value="482"/>
         <CursorPos X="5" Y="510"/>
         <UsageCount Value="12"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit106>
       <Unit107>
         <Filename Value="../../manframes/composants/u_propform.pas"/>
@@ -1261,6 +1281,7 @@
         <TopLine Value="192"/>
         <CursorPos X="37" Y="202"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit137>
       <Unit138>
         <Filename Value="../FDV Demo/U_ComposeArticle.pas"/>
@@ -1482,6 +1503,7 @@
         <TopLine Value="104"/>
         <CursorPos X="61" Y="113"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit164>
       <Unit165>
         <Filename Value="../../../ZEOSDBO/packages/lazarus/zcomponent.pas"/>
@@ -1589,6 +1611,7 @@
         <TopLine Value="1137"/>
         <CursorPos X="1" Y="1157"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit176>
       <Unit177>
         <Filename Value="/usr/lib/lazarus/0.9.30.2/lcl/lresources.pp"/>
@@ -1597,49 +1620,247 @@
         <TopLine Value="3031"/>
         <CursorPos X="52" Y="3051"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit177>
+      <Unit178>
+        <Filename Value="../../composants/PDBCheck.pas"/>
+        <UnitName Value="PDBCheck"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="215"/>
+        <CursorPos X="1" Y="221"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit178>
+      <Unit179>
+        <Filename Value="../../composants/u_extdbdirectoryedit.pas"/>
+        <UnitName Value="u_extDBDirectoryEdit"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="142"/>
+        <CursorPos X="37" Y="185"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit179>
+      <Unit180>
+        <Filename Value="/usr/lib/lazarus/0.9.31/doceditor/fpdocupdater/mainunit.pas"/>
+        <UnitName Value="MainUnit"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="26"/>
+        <CursorPos X="13" Y="41"/>
+        <UsageCount Value="10"/>
+      </Unit180>
+      <Unit181>
+        <Filename Value="../../composants/u_extsearchedit.pas"/>
+        <UnitName Value="u_extsearchedit"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="65"/>
+        <CursorPos X="26" Y="39"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit181>
+      <Unit182>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/dbctrls.pp"/>
+        <UnitName Value="DbCtrls"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="154"/>
+        <CursorPos X="23" Y="176"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit182>
+      <Unit183>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/controls.pp"/>
+        <UnitName Value="Controls"/>
+        <EditorIndex Value="10"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1988"/>
+        <CursorPos X="15" Y="2006"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit183>
+      <Unit184>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/include/wincontrol.inc"/>
+        <EditorIndex Value="11"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="5537"/>
+        <CursorPos X="3" Y="5544"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit184>
+      <Unit185>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/include/dbedit.inc"/>
+        <EditorIndex Value="9"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="57"/>
+        <CursorPos X="1" Y="70"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit185>
+      <Unit186>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/lcltype.pp"/>
+        <UnitName Value="LCLType"/>
+        <EditorIndex Value="8"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="60"/>
+        <CursorPos X="3" Y="78"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit186>
+      <Unit187>
+        <Filename Value="../../fonctions/fonctions_db.pas"/>
+        <UnitName Value="fonctions_db"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="75"/>
+        <CursorPos X="1" Y="90"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit187>
+      <Unit188>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/include/dblookup.inc"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="333"/>
+        <CursorPos X="3" Y="339"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit188>
+      <Unit189>
+        <Filename Value="../../composants/u_regframeworkcomponents.pas"/>
+        <UnitName Value="u_regframeworkcomponents"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="28"/>
+        <CursorPos X="80" Y="48"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit189>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="161" Column="1" TopLine="143"/>
+        <Filename Value="../../composants/u_extsearchedit.pas"/>
+        <Caret Line="138" Column="31" TopLine="108"/>
       </Position1>
       <Position2>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="238" Column="1" TopLine="208"/>
+        <Filename Value="../../composants/u_extsearchedit.pas"/>
+        <Caret Line="139" Column="36" TopLine="109"/>
       </Position2>
       <Position3>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="196" Column="1" TopLine="177"/>
+        <Filename Value="../../composants/u_extsearchedit.pas"/>
+        <Caret Line="140" Column="35" TopLine="110"/>
       </Position3>
       <Position4>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="159" Column="30" TopLine="129"/>
+        <Filename Value="../../composants/u_extsearchedit.pas"/>
+        <Caret Line="147" Column="67" TopLine="117"/>
       </Position4>
       <Position5>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="196" Column="1" TopLine="129"/>
+        <Filename Value="../../composants/PDBCheck.pas"/>
+        <Caret Line="35" Column="30" TopLine="31"/>
       </Position5>
       <Position6>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="196" Column="1" TopLine="177"/>
+        <Filename Value="../../composants/u_extsearchedit.pas"/>
+        <Caret Line="111" Column="1" TopLine="85"/>
       </Position6>
       <Position7>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="196" Column="1" TopLine="177"/>
+        <Filename Value="../../composants/u_extsearchedit.pas"/>
+        <Caret Line="138" Column="31" TopLine="108"/>
       </Position7>
       <Position8>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="142" Column="1" TopLine="123"/>
+        <Filename Value="../../composants/u_extsearchedit.pas"/>
+        <Caret Line="139" Column="36" TopLine="109"/>
       </Position8>
       <Position9>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="160" Column="1" TopLine="128"/>
+        <Filename Value="../../composants/u_extsearchedit.pas"/>
+        <Caret Line="140" Column="35" TopLine="110"/>
       </Position9>
       <Position10>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="160" Column="1" TopLine="128"/>
+        <Filename Value="../../composants/u_extsearchedit.pas"/>
+        <Caret Line="147" Column="67" TopLine="117"/>
       </Position10>
+      <Position11>
+        <Filename Value="../../composants/u_extsearchedit.pas"/>
+        <Caret Line="148" Column="28" TopLine="118"/>
+      </Position11>
+      <Position12>
+        <Filename Value="../../composants/u_extsearchedit.pas"/>
+        <Caret Line="186" Column="1" TopLine="158"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../../composants/u_extdbdirectoryedit.pas"/>
+        <Caret Line="144" Column="18" TopLine="127"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../../composants/u_extdbdirectoryedit.pas"/>
+        <Caret Line="21" Column="90" TopLine="76"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../../composants/u_extdbdirectoryedit.pas"/>
+        <Caret Line="53" Column="9" TopLine="31"/>
+      </Position15>
+      <Position16>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/dbctrls.pp"/>
+        <Caret Line="37" Column="20" TopLine="10"/>
+      </Position16>
+      <Position17>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/dbctrls.pp"/>
+        <Caret Line="187" Column="45" TopLine="157"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../../composants/u_extdbdirectoryedit.pas"/>
+        <Caret Line="11" Column="2" TopLine="7"/>
+      </Position18>
+      <Position19>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/dbctrls.pp"/>
+        <Caret Line="187" Column="45" TopLine="169"/>
+      </Position19>
+      <Position20>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/include/dbedit.inc"/>
+        <Caret Line="133" Column="3" TopLine="129"/>
+      </Position20>
+      <Position21>
+        <Filename Value="../../composants/u_extdbdirectoryedit.pas"/>
+        <Caret Line="109" Column="31" TopLine="76"/>
+      </Position21>
+      <Position22>
+        <Filename Value="../../composants/u_extdbdirectoryedit.pas"/>
+        <Caret Line="67" Column="19" TopLine="49"/>
+      </Position22>
+      <Position23>
+        <Filename Value="../../composants/u_extdbdirectoryedit.pas"/>
+        <Caret Line="118" Column="21" TopLine="100"/>
+      </Position23>
+      <Position24>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/dbctrls.pp"/>
+        <Caret Line="1264" Column="11" TopLine="1264"/>
+      </Position24>
+      <Position25>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/dbctrls.pp"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position25>
+      <Position26>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/dbctrls.pp"/>
+        <Caret Line="55" Column="16" TopLine="25"/>
+      </Position26>
+      <Position27>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/dbctrls.pp"/>
+        <Caret Line="74" Column="15" TopLine="55"/>
+      </Position27>
+      <Position28>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/dbctrls.pp"/>
+        <Caret Line="98" Column="77" TopLine="68"/>
+      </Position28>
+      <Position29>
+        <Filename Value="/usr/lib/lazarus/0.9.31/lcl/dbctrls.pp"/>
+        <Caret Line="172" Column="15" TopLine="154"/>
+      </Position29>
+      <Position30>
+        <Filename Value="../../composants/u_extdbdirectoryedit.pas"/>
+        <Caret Line="158" Column="32" TopLine="131"/>
+      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
