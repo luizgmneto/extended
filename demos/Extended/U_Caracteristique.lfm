@@ -100,7 +100,7 @@ inherited F_Caracteristique: TF_Caracteristique
           Width = 54
           AutoSize = False
           Caption = 'lb_libelle'
-          Font.Color = clBlack
+          Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           ParentColor = False
@@ -115,7 +115,7 @@ inherited F_Caracteristique: TF_Caracteristique
           Width = 49
           AutoSize = False
           Caption = 'lb_code'
-          Font.Color = clBlack
+          Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           ParentBidiMode = False
@@ -132,7 +132,6 @@ inherited F_Caracteristique: TF_Caracteristique
           DataField = 'CARA_Libelle'
           DataSource = M_Article.ds_Carac
           CharCase = ecNormal
-          Color = clMoneyGreen
           Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
@@ -150,7 +149,6 @@ inherited F_Caracteristique: TF_Caracteristique
           DataSource = M_Article.ds_Carac
           ReadOnly = True
           CharCase = ecUppercase
-          Color = clLime
           Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
@@ -179,11 +177,11 @@ inherited F_Caracteristique: TF_Caracteristique
         TabOrder = 2
         object ts_ssfam: TTabSheet
           Caption = 'Types dont cette caractéristique est membre'
-          ClientHeight = 434
+          ClientHeight = 440
           ClientWidth = 677
           object RbSplitter1: TSplitter
             Left = 321
-            Height = 407
+            Height = 413
             Top = 27
             Width = 5
           end
@@ -234,10 +232,10 @@ inherited F_Caracteristique: TF_Caracteristique
             end
             object bt_abandonner: TFWCancel
               Left = 149
-              Height = 25
               Hint = 'Abandonner les modifications'
               Top = 1
               Width = 112
+              Caption = 'Annuler'
               Enabled = False
               TabOrder = 4
               Align = alLeft
@@ -246,7 +244,6 @@ inherited F_Caracteristique: TF_Caracteristique
             end
             object bt_enregistrer: TFWOK
               Left = 14
-              Height = 25
               Hint = 'Enregistrer les modifications'
               Top = 1
               Width = 116
@@ -275,18 +272,18 @@ inherited F_Caracteristique: TF_Caracteristique
           end
           object Panel6: TPanel
             Left = 0
-            Height = 407
+            Height = 413
             Top = 27
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 407
+            ClientHeight = 413
             ClientWidth = 321
             Constraints.MinWidth = 10
             TabOrder = 1
             object lv_CaracIn: TDBGroupView
               Left = 0
-              Height = 407
+              Height = 413
               Hint = 'Liste des membres'
               Top = 0
               Width = 242
@@ -295,7 +292,7 @@ inherited F_Caracteristique: TF_Caracteristique
                 item
                   AutoSize = True
                   Caption = 'Types dont cette caractéristique est membre'
-                  Width = 342
+                  Width = 301
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -326,12 +323,12 @@ inherited F_Caracteristique: TF_Caracteristique
             end
             object Panel2: TPanel
               Left = 242
-              Height = 407
+              Height = 413
               Top = 0
               Width = 79
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 407
+              ClientHeight = 413
               ClientWidth = 79
               TabOrder = 1
               object bt_in_item: TFWInSelect
@@ -384,7 +381,7 @@ inherited F_Caracteristique: TF_Caracteristique
           end
           object lv_transfert: TDBGroupView
             Left = 326
-            Height = 407
+            Height = 413
             Hint = 'A réaffecter'
             Top = 27
             Width = 351
@@ -393,7 +390,7 @@ inherited F_Caracteristique: TF_Caracteristique
               item
                 AutoSize = True
                 Caption = 'Types dont cette caractéristique n''est pas membre'
-                Width = 386
+                Width = 340
               end>
             Constraints.MinWidth = 10
             DragMode = dmAutomatic
@@ -427,7 +424,7 @@ inherited F_Caracteristique: TF_Caracteristique
         end
         object TabSheet1: TTabSheet
           Caption = 'Articles affectés à la caractéristique'
-          ClientHeight = 434
+          ClientHeight = 440
           ClientWidth = 677
           ImageIndex = 1
           object Panel7: TPanel
@@ -477,10 +474,10 @@ inherited F_Caracteristique: TF_Caracteristique
             end
             object bt_AbanArt: TFWCancel
               Left = 173
-              Height = 25
               Hint = 'Abandonner les modifications'
               Top = 1
               Width = 107
+              Caption = 'Annuler'
               Enabled = False
               TabOrder = 4
               Align = alLeft
@@ -489,7 +486,6 @@ inherited F_Caracteristique: TF_Caracteristique
             end
             object bt_EnrArt: TFWOK
               Left = 14
-              Height = 25
               Hint = 'Enregistrer les modifications'
               Top = 1
               Width = 140
@@ -516,33 +512,33 @@ inherited F_Caracteristique: TF_Caracteristique
           end
           object Panel22: TPanel
             Left = 0
-            Height = 407
+            Height = 413
             Top = 27
             Width = 677
             Align = alClient
-            ClientHeight = 407
+            ClientHeight = 413
             ClientWidth = 677
             TabOrder = 1
             object RbSplitter3: TSplitter
               Left = 345
-              Height = 405
+              Height = 411
               Top = 1
               Width = 5
             end
             object Panel23: TPanel
               Left = 1
-              Height = 405
+              Height = 411
               Top = 1
               Width = 344
               Align = alLeft
               BevelOuter = bvNone
-              ClientHeight = 405
+              ClientHeight = 411
               ClientWidth = 344
               Constraints.MinWidth = 10
               TabOrder = 0
               object lv_artin: TDBGroupView
                 Left = 0
-                Height = 405
+                Height = 411
                 Hint = 'Liste des membres'
                 Top = 0
                 Width = 265
@@ -584,12 +580,12 @@ inherited F_Caracteristique: TF_Caracteristique
               end
               object Panel24: TPanel
                 Left = 265
-                Height = 405
+                Height = 411
                 Top = 0
                 Width = 79
                 Align = alRight
                 BevelOuter = bvNone
-                ClientHeight = 405
+                ClientHeight = 411
                 ClientWidth = 79
                 TabOrder = 1
                 object bt_in_art: TFWInSelect
@@ -642,7 +638,7 @@ inherited F_Caracteristique: TF_Caracteristique
             end
             object lv_ArtOut: TDBGroupView
               Left = 350
-              Height = 405
+              Height = 411
               Hint = 'A réaffecter'
               Top = 1
               Width = 326
@@ -802,8 +798,6 @@ inherited F_Caracteristique: TF_Caracteristique
     SaveEdits = [feTGrid, feTListView]
     left = 97
     top = 137
-    SaveForm = []
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object im_images: TImageList[2]
     BkColor = clForeground
