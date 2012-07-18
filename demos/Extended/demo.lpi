@@ -164,6 +164,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="128"/>
@@ -1332,13 +1333,10 @@
       <Unit146>
         <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
         <UnitName Value="IBDatabase"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="866"/>
         <CursorPos X="1" Y="884"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit146>
       <Unit147>
         <Filename Value="../../../ibx/runtime/IBIntf.pas"/>
@@ -1601,7 +1599,7 @@
         <UsageCount Value="10"/>
       </Unit177>
     </Units>
-    <JumpHistory Count="11" HistoryIndex="10">
+    <JumpHistory Count="10" HistoryIndex="9">
       <Position1>
         <Filename Value="u_components.pas"/>
         <Caret Line="161" Column="1" TopLine="143"/>
@@ -1639,13 +1637,9 @@
         <Caret Line="160" Column="1" TopLine="128"/>
       </Position9>
       <Position10>
-        <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
-        <Caret Line="624" Column="57" TopLine="603"/>
-      </Position10>
-      <Position11>
         <Filename Value="u_components.pas"/>
         <Caret Line="160" Column="1" TopLine="128"/>
-      </Position11>
+      </Position10>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

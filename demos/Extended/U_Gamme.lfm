@@ -101,7 +101,7 @@ inherited F_Gamme: TF_Gamme
           Width = 54
           AutoSize = False
           Caption = 'lb_libelle'
-          Font.Color = clBlack
+          Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           ParentColor = False
@@ -116,7 +116,7 @@ inherited F_Gamme: TF_Gamme
           Width = 49
           AutoSize = False
           Caption = 'lb_code'
-          Font.Color = clBlack
+          Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           ParentBidiMode = False
@@ -133,7 +133,6 @@ inherited F_Gamme: TF_Gamme
           DataField = 'GAMM_Libelle'
           DataSource = M_Article.ds_Gamme
           CharCase = ecNormal
-          Color = clMoneyGreen
           Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
@@ -151,7 +150,6 @@ inherited F_Gamme: TF_Gamme
           DataSource = M_Article.ds_Gamme
           ReadOnly = True
           CharCase = ecUppercase
-          Color = clLime
           Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
@@ -180,11 +178,11 @@ inherited F_Gamme: TF_Gamme
         TabOrder = 2
         object ts_ssfam: TTabSheet
           Caption = 'Types d''articles membres de la gamme'
-          ClientHeight = 425
+          ClientHeight = 431
           ClientWidth = 666
           object RbSplitter1: TSplitter
             Left = 321
-            Height = 398
+            Height = 404
             Top = 27
             Width = 5
           end
@@ -235,10 +233,10 @@ inherited F_Gamme: TF_Gamme
             end
             object bt_abandonner: TFWCancel
               Left = 155
-              Height = 25
               Hint = 'Abandonner les modifications'
               Top = 1
               Width = 99
+              Caption = 'Annuler'
               Enabled = False
               TabOrder = 4
               Align = alLeft
@@ -247,7 +245,6 @@ inherited F_Gamme: TF_Gamme
             end
             object bt_enregistrer: TFWOK
               Left = 14
-              Height = 25
               Hint = 'Enregistrer les modifications'
               Top = 1
               Width = 122
@@ -276,18 +273,18 @@ inherited F_Gamme: TF_Gamme
           end
           object Panel6: TPanel
             Left = 0
-            Height = 398
+            Height = 404
             Top = 27
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 398
+            ClientHeight = 404
             ClientWidth = 321
             Constraints.MinWidth = 3
             TabOrder = 1
             object lsv_TypesIn: TDBGroupView
               Left = 0
-              Height = 398
+              Height = 404
               Hint = 'Liste des membres'
               Top = 0
               Width = 242
@@ -296,7 +293,7 @@ inherited F_Gamme: TF_Gamme
                 item
                   AutoSize = True
                   Caption = 'Types membres de la gamme'
-                  Width = 227
+                  Width = 219
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -327,12 +324,12 @@ inherited F_Gamme: TF_Gamme
             end
             object Panel2: TPanel
               Left = 242
-              Height = 398
+              Height = 404
               Top = 0
               Width = 79
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 398
+              ClientHeight = 404
               ClientWidth = 79
               TabOrder = 1
               object bt_in_item: TFWInSelect
@@ -385,7 +382,7 @@ inherited F_Gamme: TF_Gamme
           end
           object lsv_TypesOut: TDBGroupView
             Left = 326
-            Height = 398
+            Height = 404
             Hint = 'Liste d''exclusion'
             Top = 27
             Width = 340
@@ -428,7 +425,7 @@ inherited F_Gamme: TF_Gamme
         end
         object TabSheet1: TTabSheet
           Caption = 'Articles affectés à la gamme'
-          ClientHeight = 425
+          ClientHeight = 431
           ClientWidth = 666
           ImageIndex = 1
           object Panel7: TPanel
@@ -478,7 +475,6 @@ inherited F_Gamme: TF_Gamme
             end
             object bt_EnrArt: TFWOK
               Left = 14
-              Height = 25
               Hint = 'Enregistrer les modifications'
               Top = 1
               Width = 124
@@ -506,10 +502,10 @@ inherited F_Gamme: TF_Gamme
             end
             object bt_AbanArt: TFWCancel
               Left = 157
-              Height = 25
               Hint = 'Abandonner les modifications'
               Top = 1
               Width = 99
+              Caption = 'Annuler'
               Enabled = False
               TabOrder = 6
               Align = alLeft
@@ -519,33 +515,33 @@ inherited F_Gamme: TF_Gamme
           end
           object Panel17: TPanel
             Left = 0
-            Height = 398
+            Height = 404
             Top = 27
             Width = 666
             Align = alClient
-            ClientHeight = 398
+            ClientHeight = 404
             ClientWidth = 666
             TabOrder = 1
             object RbSplitter2: TSplitter
               Left = 345
-              Height = 396
+              Height = 402
               Top = 1
               Width = 5
             end
             object Panel15: TPanel
               Left = 1
-              Height = 396
+              Height = 402
               Top = 1
               Width = 344
               Align = alLeft
               BevelOuter = bvNone
-              ClientHeight = 396
+              ClientHeight = 402
               ClientWidth = 344
               Constraints.MinWidth = 3
               TabOrder = 0
               object lv_artin: TDBGroupView
                 Left = 0
-                Height = 396
+                Height = 402
                 Hint = 'Liste des membres'
                 Top = 0
                 Width = 265
@@ -587,12 +583,12 @@ inherited F_Gamme: TF_Gamme
               end
               object Panel16: TPanel
                 Left = 265
-                Height = 396
+                Height = 402
                 Top = 0
                 Width = 79
                 Align = alRight
                 BevelOuter = bvNone
-                ClientHeight = 396
+                ClientHeight = 402
                 ClientWidth = 79
                 TabOrder = 1
                 object bt_in_art: TFWInSelect
@@ -645,7 +641,7 @@ inherited F_Gamme: TF_Gamme
             end
             object lv_ArtOut: TDBGroupView
               Left = 350
-              Height = 396
+              Height = 402
               Hint = 'A réaffecter'
               Top = 1
               Width = 315
@@ -779,7 +775,6 @@ inherited F_Gamme: TF_Gamme
       TabOrder = 2
       object bt_fermer: TFWClose
         Left = 867
-        Height = 25
         Top = 0
         Width = 88
         Caption = 'Fermer'
@@ -805,8 +800,6 @@ inherited F_Gamme: TF_Gamme
     SaveEdits = [feTGrid, feTListView]
     left = 97
     top = 137
-    SaveForm = []
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
   object im_images: TImageList[2]
     BkColor = clForeground

@@ -369,12 +369,14 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Gamme"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="8"/>
-        <CursorPos X="16" Y="21"/>
+        <CursorPos X="81" Y="22"/>
         <UsageCount Value="66"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit24>
       <Unit25>
@@ -390,6 +392,7 @@
         <CursorPos X="15" Y="21"/>
         <UsageCount Value="59"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit25>
       <Unit26>
@@ -402,9 +405,10 @@
         <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="8"/>
-        <CursorPos X="3" Y="21"/>
+        <CursorPos X="94" Y="18"/>
         <UsageCount Value="66"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
@@ -915,11 +919,10 @@
       <Unit78>
         <Filename Value="../../composants/U_GroupView.pas"/>
         <UnitName Value="U_GroupView"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="2196"/>
-        <CursorPos X="1" Y="2214"/>
+        <TopLine Value="3138"/>
+        <CursorPos X="1" Y="3164"/>
         <UsageCount Value="16"/>
         <Loaded Value="True"/>
       </Unit78>
@@ -1309,79 +1312,127 @@
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit124>
     </Units>
-    <JumpHistory Count="18" HistoryIndex="17">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="../../composants/U_GroupView.pas"/>
-        <Caret Line="989" Column="1" TopLine="968"/>
+        <Caret Line="1005" Column="1" TopLine="975"/>
       </Position1>
       <Position2>
         <Filename Value="../../composants/U_GroupView.pas"/>
-        <Caret Line="990" Column="1" TopLine="968"/>
+        <Caret Line="4593" Column="1" TopLine="4569"/>
       </Position2>
       <Position3>
         <Filename Value="../../composants/U_GroupView.pas"/>
-        <Caret Line="991" Column="1" TopLine="968"/>
+        <Caret Line="4594" Column="1" TopLine="4569"/>
       </Position3>
       <Position4>
         <Filename Value="../../composants/U_GroupView.pas"/>
-        <Caret Line="1001" Column="1" TopLine="974"/>
+        <Caret Line="960" Column="59" TopLine="940"/>
       </Position4>
       <Position5>
         <Filename Value="../../composants/U_GroupView.pas"/>
-        <Caret Line="1003" Column="1" TopLine="974"/>
+        <Caret Line="4593" Column="1" TopLine="4569"/>
       </Position5>
       <Position6>
-        <Filename Value="../../composants/U_GroupView.pas"/>
-        <Caret Line="1005" Column="1" TopLine="975"/>
-      </Position6>
-      <Position7>
-        <Filename Value="../../composants/U_GroupView.pas"/>
-        <Caret Line="4593" Column="1" TopLine="4569"/>
-      </Position7>
-      <Position8>
-        <Filename Value="../../composants/U_GroupView.pas"/>
-        <Caret Line="4594" Column="1" TopLine="4569"/>
-      </Position8>
-      <Position9>
-        <Filename Value="../../composants/U_GroupView.pas"/>
-        <Caret Line="960" Column="59" TopLine="940"/>
-      </Position9>
-      <Position10>
-        <Filename Value="../../composants/U_GroupView.pas"/>
-        <Caret Line="4593" Column="1" TopLine="4569"/>
-      </Position10>
-      <Position11>
         <Filename Value="../../composants/u_dblistview.pas"/>
         <Caret Line="1066" Column="1" TopLine="1043"/>
-      </Position11>
-      <Position12>
+      </Position6>
+      <Position7>
         <Filename Value="u_typearticle.pas"/>
         <Caret Line="29" Column="54" TopLine="7"/>
-      </Position12>
-      <Position13>
+      </Position7>
+      <Position8>
         <Filename Value="u_typearticle.pas"/>
         <Caret Line="20" Column="69" TopLine="8"/>
-      </Position13>
-      <Position14>
+      </Position8>
+      <Position9>
         <Filename Value="U_Caracteristique.pas"/>
         <Caret Line="7" Column="42" TopLine="6"/>
-      </Position14>
-      <Position15>
+      </Position9>
+      <Position10>
         <Filename Value="U_Gamme.pas"/>
         <Caret Line="29" Column="61" TopLine="7"/>
-      </Position15>
-      <Position16>
+      </Position10>
+      <Position11>
         <Filename Value="U_Gamme.pas"/>
         <Caret Line="21" Column="16" TopLine="8"/>
+      </Position11>
+      <Position12>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1117" Column="1" TopLine="1099"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1083" Column="1" TopLine="1065"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="239" Column="14" TopLine="221"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="298" Column="23" TopLine="268"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="3156" Column="1" TopLine="3134"/>
       </Position16>
       <Position17>
         <Filename Value="../../composants/U_GroupView.pas"/>
-        <Caret Line="1117" Column="1" TopLine="1099"/>
+        <Caret Line="3157" Column="1" TopLine="3134"/>
       </Position17>
       <Position18>
         <Filename Value="../../composants/U_GroupView.pas"/>
-        <Caret Line="1083" Column="1" TopLine="1065"/>
+        <Caret Line="3604" Column="1" TopLine="3586"/>
       </Position18>
+      <Position19>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="3157" Column="23" TopLine="3138"/>
+      </Position19>
+      <Position20>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position20>
+      <Position21>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="104" Column="20" TopLine="74"/>
+      </Position21>
+      <Position22>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="669" Column="47" TopLine="650"/>
+      </Position22>
+      <Position23>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="681" Column="75" TopLine="650"/>
+      </Position23>
+      <Position24>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="674" Column="1" TopLine="650"/>
+      </Position24>
+      <Position25>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="675" Column="1" TopLine="650"/>
+      </Position25>
+      <Position26>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="676" Column="1" TopLine="650"/>
+      </Position26>
+      <Position27>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="678" Column="1" TopLine="650"/>
+      </Position27>
+      <Position28>
+        <Filename Value="u_typearticle.pas"/>
+        <Caret Line="21" Column="15" TopLine="9"/>
+      </Position28>
+      <Position29>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="3156" Column="1" TopLine="3138"/>
+      </Position29>
+      <Position30>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="3157" Column="1" TopLine="3138"/>
+      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
