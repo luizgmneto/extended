@@ -44,7 +44,7 @@ const
   CST_HEIGHT_BUTTONS_ACTIONS = 20;
   CST_SUBDIR_IMAGES_SOFT = DirectorySeparator + 'Images'+DirectorySeparator;
   CST_IMAGE_SOFT_BITMAP = '.bmp';
-  CST_IMAGES_SOFT_EXTENSIONS : array [ 0 .. 2 ] of String  = ('.xpm',CST_IMAGE_SOFT_BITMAP,'.png');
+  CST_IMAGES_SOFT_EXTENSIONS : array [ 0 .. {$IFDEF FPC}2{$ELSE}0{$ENDIF} ] of String  = ({$IFDEF FPC}'.xpm','.png',{$ENDIF}CST_IMAGE_SOFT_BITMAP);
 
 
 procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; as_Resource : String ; const acon_control :TControl);

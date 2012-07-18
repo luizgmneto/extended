@@ -941,7 +941,6 @@ End ;
 // Réinitialise le composant : utilisé aussi lorsqu'on recharge le composant
 procedure TDBListView.p_Reinitialise ;
 Begin
-  gb_LoadList        := False ;
   gb_AllFetched      := False;
   if assigned ( gdl_DataLink.DataSet )
   and gdl_DataLink.DataSet.Active

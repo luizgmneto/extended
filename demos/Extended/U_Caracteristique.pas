@@ -18,6 +18,7 @@ uses
 {$ELSE}
   RXSplit, Mask, JvXPCore,
   JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvDBLookup,
+  JvExComCtrls, JvListView,
 {$ENDIF}
   Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
@@ -26,7 +27,7 @@ uses
   StrUtils, U_OnFormInfoIni,  JvXPButtons,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
   U_GroupView, ImgList,fonctions_string,
-  CompSuperForm, JvExComCtrls, JvListView, U_DBListView;
+  CompSuperForm, U_DBListView;
 
 const CST_CARA_Clep = 'CARA_Clep' ; 
 

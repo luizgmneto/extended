@@ -21,8 +21,6 @@ object F_Article: TF_Article
   AdaptParentSize = True
   ShowBevel = False
   AlreadyPassedInFirstActivate = True
-  ExplicitWidth = 320
-  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 13
   object pa_1: TPanel
@@ -59,7 +57,7 @@ object F_Article: TF_Article
         Caption = 'Cl'#233
         Color = clBtnFace
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
+        Font.Color = clWindowText
         Font.Height = 12
         Font.Name = 'MS Sans Serif'
         Font.Style = []
@@ -78,7 +76,7 @@ object F_Article: TF_Article
         Caption = 'Libell'#233
         Color = clBtnFace
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
+        Font.Color = clWindowText
         Font.Height = 12
         Font.Name = 'MS Sans Serif'
         Font.Style = []
@@ -96,7 +94,7 @@ object F_Article: TF_Article
         Caption = 'Gamme'
         Color = clBtnFace
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
+        Font.Color = clWindowText
         Font.Height = 12
         Font.Name = 'MS Sans Serif'
         Font.Style = []
@@ -114,7 +112,7 @@ object F_Article: TF_Article
         Caption = 'Type d'#39'article'
         Color = clBtnFace
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
+        Font.Color = clWindowText
         Font.Height = 11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
@@ -132,7 +130,7 @@ object F_Article: TF_Article
         Caption = 'Cat'#233'gonie'
         Color = clBtnFace
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
+        Font.Color = clWindowText
         Font.Height = 12
         Font.Name = 'MS Sans Serif'
         Font.Style = []
@@ -183,7 +181,6 @@ object F_Article: TF_Article
         Top = 64
         Width = 190
         Height = 24
-        Color = clMoneyGreen
         DataField = 'ARTI_Libcom'
         DataSource = M_Article.ds_article
         Font.Charset = DEFAULT_CHARSET
@@ -200,7 +197,6 @@ object F_Article: TF_Article
         Top = 39
         Width = 34
         Height = 24
-        Color = clMoneyGreen
         DataField = 'ARTI_Clep'
         DataSource = M_Article.ds_article
         Font.Charset = DEFAULT_CHARSET
@@ -217,7 +213,6 @@ object F_Article: TF_Article
         Top = 93
         Width = 218
         Height = 21
-        Color = clMoneyGreen
         DataField = 'ARTI__GAMM'
         DataSource = M_Article.ds_article
         TabOrder = 3
@@ -228,7 +223,6 @@ object F_Article: TF_Article
         Top = 121
         Width = 218
         Height = 21
-        Color = clMoneyGreen
         DataField = 'ARTI__TYPR'
         DataSource = M_Article.ds_article
         TabOrder = 4
@@ -239,7 +233,6 @@ object F_Article: TF_Article
         Top = 149
         Width = 218
         Height = 21
-        Color = clMoneyGreen
         DataField = 'ARTI__CARA'
         DataSource = M_Article.ds_article
         TabOrder = 5
@@ -424,12 +417,8 @@ object F_Article: TF_Article
     end
   end
   object SvgFormInfoIni: TOnFormInfoIni
-    SavePosObjects = True
-    SaveEdits = []
-    SavePosForm = True
+    SaveForm = [sfSavePos, sfSaveSizes]
     Left = 97
     Top = 145
-    SaveForm = []
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
 end

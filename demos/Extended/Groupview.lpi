@@ -369,10 +369,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Gamme"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="7"/>
-        <CursorPos X="61" Y="29"/>
+        <TopLine Value="8"/>
+        <CursorPos X="16" Y="21"/>
         <UsageCount Value="66"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit24>
       <Unit25>
@@ -382,10 +384,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_TypeArticle"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="7"/>
-        <CursorPos X="54" Y="29"/>
+        <TopLine Value="9"/>
+        <CursorPos X="15" Y="21"/>
         <UsageCount Value="59"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit25>
       <Unit26>
@@ -395,10 +399,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Caracteristique"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="6"/>
-        <CursorPos X="42" Y="7"/>
+        <TopLine Value="8"/>
+        <CursorPos X="3" Y="21"/>
         <UsageCount Value="66"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
@@ -768,7 +774,6 @@
         <WindowIndex Value="0"/>
         <TopLine Value="9"/>
         <CursorPos X="78" Y="25"/>
-        <ComponentState Value="1"/>
         <UsageCount Value="49"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -913,18 +918,20 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="4568"/>
-        <CursorPos X="71" Y="4596"/>
+        <TopLine Value="2196"/>
+        <CursorPos X="1" Y="2214"/>
         <UsageCount Value="16"/>
         <Loaded Value="True"/>
       </Unit78>
       <Unit79>
         <Filename Value="../../composants/u_dblistview.pas"/>
         <UnitName Value="U_DBListView"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1043"/>
-        <CursorPos X="1" Y="1066"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
         <UsageCount Value="12"/>
+        <Loaded Value="True"/>
       </Unit79>
       <Unit80>
         <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
@@ -1302,7 +1309,7 @@
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit124>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="18" HistoryIndex="17">
       <Position1>
         <Filename Value="../../composants/U_GroupView.pas"/>
         <Caret Line="989" Column="1" TopLine="968"/>
@@ -1343,6 +1350,38 @@
         <Filename Value="../../composants/U_GroupView.pas"/>
         <Caret Line="4593" Column="1" TopLine="4569"/>
       </Position10>
+      <Position11>
+        <Filename Value="../../composants/u_dblistview.pas"/>
+        <Caret Line="1066" Column="1" TopLine="1043"/>
+      </Position11>
+      <Position12>
+        <Filename Value="u_typearticle.pas"/>
+        <Caret Line="29" Column="54" TopLine="7"/>
+      </Position12>
+      <Position13>
+        <Filename Value="u_typearticle.pas"/>
+        <Caret Line="20" Column="69" TopLine="8"/>
+      </Position13>
+      <Position14>
+        <Filename Value="U_Caracteristique.pas"/>
+        <Caret Line="7" Column="42" TopLine="6"/>
+      </Position14>
+      <Position15>
+        <Filename Value="U_Gamme.pas"/>
+        <Caret Line="29" Column="61" TopLine="7"/>
+      </Position15>
+      <Position16>
+        <Filename Value="U_Gamme.pas"/>
+        <Caret Line="21" Column="16" TopLine="8"/>
+      </Position16>
+      <Position17>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1117" Column="1" TopLine="1099"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1083" Column="1" TopLine="1065"/>
+      </Position18>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -1369,7 +1408,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="8">
+    <BreakPoints Count="3">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsGlobal"/>
@@ -1389,43 +1428,8 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../composants/U_GroupView.pas"/>
-        <Line Value="1083"/>
-      </Item3>
-      <Item4>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../composants/U_GroupView.pas"/>
-        <Line Value="1100"/>
-      </Item4>
-      <Item5>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../composants/U_GroupView.pas"/>
-        <Line Value="1117"/>
-      </Item5>
-      <Item6>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../composants/U_GroupView.pas"/>
-        <Line Value="1134"/>
-      </Item6>
-      <Item7>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../composants/U_GroupView.pas"/>
         <Line Value="2116"/>
-      </Item7>
-      <Item8>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../composants/U_GroupView.pas"/>
-        <Line Value="2213"/>
-      </Item8>
+      </Item3>
     </BreakPoints>
     <Exceptions Count="3">
       <Item1>
