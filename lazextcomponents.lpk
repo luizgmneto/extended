@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Release="3" Build="6"/>
-    <Files Count="24">
+    <Files Count="25">
       <Item1>
         <Filename Value="composants/u_onforminfoini.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
@@ -118,6 +118,10 @@
         <Filename Value="composants/u_buttons_defs.pas"/>
         <UnitName Value="u_buttons_defs"/>
       </Item24>
+      <Item25>
+        <Filename Value="composants/u_extdbdirectoryedit.pas"/>
+        <UnitName Value="u_extdbdirectoryedit"/>
+      </Item25>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>

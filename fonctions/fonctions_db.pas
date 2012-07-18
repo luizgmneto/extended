@@ -86,6 +86,7 @@ function fs_stringDbQuoteFilterLike ( const as_Texte: string): string;
 function fs_stringDbQuoteLikeSQLServer ( const as_Texte: string): string;
 function fs_AddDBString ( const as_Text : String ) : String;
 function fb_ListeVersSQL(var as_TexteAjoute: String; const astl_Liste: TStringList; const ab_EstChaine: Boolean): Boolean;
+function FieldCanAcceptKey(Field: TField; AKey: char): boolean;
 
 
 var ge_DataSetErrorEvent : TDataSetErrorEvent = nil;
@@ -121,6 +122,13 @@ uses Variants,  Math, fonctions_erreurs, fonctions_string,
 {$ENDIF}
    fonctions_proprietes,StrUtils,
    TypInfo, ExtCtrls;
+
+
+function FieldCanAcceptKey(Field: TField; AKey: char): boolean;
+begin
+  Result := (Field<>nil) and Field.IsValidChar(AKey) and
+            (Field.DataType<>ftAutoInc);
+end;
 
 
 ///////////////////////////////////////////////////////////////////////////////
