@@ -1015,6 +1015,7 @@ begin
   // et si il est actif
   if assigned ( gdl_DataLinkOwner.DataSet )
   and not gb_Open
+  and not gb_LoadList
   and not ( gdl_DataLinkOwner.DataSet.IsEmpty )
     Then
       try
@@ -1600,9 +1601,9 @@ begin
  // On remet à jour la liste
  if  not gb_Record
  // Gestion du Basket : on ne vide pas le Basket
- //and ( //not gb_Basket Or
- //      not assigned ( gdl_DataLinkOwner.DataSet )
- //       or  gb_EstPrincipale )
+ and ( not gb_Basket Or
+       not assigned ( gdl_DataLinkOwner.DataSet )
+        or  gb_EstPrincipale )
   Then
    Begin
     if assigned ( galv_OtherList ) Then
@@ -4586,9 +4587,12 @@ begin
           End ;
     End
   Else
-    Begin
+    try
+      gb_Open := True ;
       p_Reinitialise ;
       p_AddRecords ;
+    finally
+      gb_Open := False ;
     End ;
 End;
 

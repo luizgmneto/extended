@@ -38,7 +38,8 @@ const
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '1.0.1.0 : Simple Edit capability.'
+                                          BugsStory : '1.0.1.1 : Delphi compatible.'
+                                                    + '1.0.1.0 : Simple Edit capability on Lazarus Only.'
                                                     + '1.0.0.0 : Popup list.'
                                                     + '0.9.0.4 : Making comments.'
                                                     + '0.9.0.3 : Tested.'
@@ -46,7 +47,7 @@ const
                                                     + '0.9.0.1 : Not tested, compiling on DELPHI.'
                                                     + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
+                                          Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
 
 {$ENDIF}
   SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
@@ -548,8 +549,6 @@ begin
     FNotifyOrder ( Self );
 end;
 
-// constructor TExtSearchDBEdit.Create
-// Initing
 constructor TExtSearchDBEdit.Create(Aowner: TComponent);
 begin
   inherited Create(Aowner);

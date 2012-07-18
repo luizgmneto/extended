@@ -353,8 +353,11 @@ inherited Myform: TMyform
       Height = 22
       Top = 160
       Width = 221
+      CharCase = ecNormal
+      MaxLength = 0
       TabOrder = 4
       Text = 'FWEdit'
+      SpaceChar = '_'
       MyLabel = FWLabel4
       AlwaysSame = False
     end
@@ -416,7 +419,6 @@ inherited Myform: TMyform
       Top = 185
       Width = 221
       DataField = 'NOM'
-      DataSource = ds_user
       CharCase = ecNormal
       Color = 11184810
       MaxLength = 100

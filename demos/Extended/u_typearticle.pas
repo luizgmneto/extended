@@ -17,7 +17,8 @@ uses
   MaskEdit, LCLType, ToolEdit,
 {$ELSE}
   RXSplit, Mask, JvXPCore,
-  JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvDBLookup,
+  JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvExComCtrls,
+  JvListView, JvDBLookup,
 {$ENDIF}
   Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
@@ -26,7 +27,7 @@ uses
   StrUtils, U_OnFormInfoIni,  JvXPButtons,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
   CompSuperForm,
-  U_GroupView, ImgList,fonctions_string, U_DmArticles, JvExComCtrls, JvListView,
+  U_GroupView, ImgList,fonctions_string, U_DmArticles,
   U_DBListView;
 
 type
