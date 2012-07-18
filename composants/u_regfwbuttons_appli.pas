@@ -36,12 +36,16 @@ implementation
 
 uses
     u_buttons_appli,
-    {$IFDEF MENUBAR}u_extmenutoolbar,{$ENDIF} u_extmenucustomize,
-    u_buttons_defs ;
+    {$IFDEF MENUBAR}u_extmenutoolbar, u_extmenucustomize, {$ENDIF}
+    u_buttons_defs, unite_messages ;
 
 procedure Register;
 begin
-  RegisterComponents('FWButtons', [{$IFDEF MENUBAR}TExtMenuToolBar,{$ENDIF} TExtMenuCustomize,
+  {$IFDEF MENUBAR}
+  RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [ TExtMenuCustomize ]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS, [ TExtMenuToolBar ]);
+  {$ENDIF}
+  RegisterComponents('FWButtons', [
                                    TFWRefresh,TFWDate,TFWFolder,
                                    TFWNext,TFWPrior,TFWLoad,TFWTrash,TFWConfig, TFWClose, TFWCancel, TFWOK,
                                    {$IFDEF GROUPVIEW}TFWBasket,TFWInSelect,TFWInAll,TFWOutSelect,TFWOutAll,{$ENDIF}
