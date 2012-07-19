@@ -254,6 +254,7 @@ uses {$IFDEF FPC}ObjInspStrConsts,
   unite_messages_delphi,
   {$ENDIF}
      Dialogs,
+     fonctions_system,
      Forms, fonctions_string ;
 
 

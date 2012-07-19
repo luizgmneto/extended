@@ -42,13 +42,11 @@ const
   CST_HEIGHT_BUTTONS_MOVING = 40;
   CST_WIDTH_BUTTONS_ACTIONS  = 120;
   CST_HEIGHT_BUTTONS_ACTIONS = 20;
-  CST_SUBDIR_IMAGES_SOFT = DirectorySeparator + 'Images'+DirectorySeparator;
   CST_IMAGE_SOFT_BITMAP = '.bmp';
   CST_IMAGES_SOFT_EXTENSIONS : array [ 0 .. {$IFDEF FPC}2{$ELSE}0{$ENDIF} ] of String  = ({$IFDEF FPC}'.xpm','.png',{$ENDIF}CST_IMAGE_SOFT_BITMAP);
 
 
 procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; as_Resource : String ; const acon_control :TControl);
-function fs_getSoftImages:String;
 
 type
    IFWButton = interface
@@ -121,6 +119,7 @@ uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts,
   unite_messages_delphi,
   {$ENDIF}
      fonctions_images,
+     fonctions_system,
      Forms, Math, sysutils,
      Dialogs, fonctions_string;
 
@@ -129,10 +128,6 @@ uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts,
 var Buttons_Appli_ResInstance             : THandle      = 0 ;
 {$ENDIF}
 
-function fs_getSoftImages:String;
-Begin
-  Result := ExtractFileDir(Application.ExeName)+CST_SUBDIR_IMAGES_SOFT;
-End;
 // procedure p_Load_Buttons_Appli
 // loads a picture into a Button with Picture
 procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; as_Resource : String ; const acon_control :TControl);

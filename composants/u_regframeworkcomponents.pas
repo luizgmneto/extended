@@ -70,6 +70,7 @@ initialization
   {$i u_extsearchedit.lrs}
   {$i U_ExtComboInsert.lrs}
   {$i U_ExtColorCombos.lrs}
+  {$i u_extdbdirectoryedit.lrs}
   {$i U_ExtNumEdits.lrs}
   {$i u_extdbgrid.lrs}
   {$i U_ExtPictCombo.lrs}
