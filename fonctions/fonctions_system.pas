@@ -37,6 +37,7 @@ const
   DirectorySeparator = '\' ;
 
 {$ENDIF}
+  CST_SUBDIR_IMAGES_SOFT = DirectorySeparator + 'Images'+DirectorySeparator;
   CST_EXTENSION_LIBRARY = {$IFDEF WINDOWS}'.dll'{$ELSE}{$IFDEF LINUX}'.so'{$ELSE}'.dylib'{$ENDIF}{$ENDIF};
 
 function fs_ExtractFileNameOnly ( const as_Path : String ): String;
@@ -49,6 +50,7 @@ function fs_GetCorrectPath ( const as_Path :String ): string;
 // Retourne le nom d'ordinateur (string)
 function fs_GetComputerName: string;
 function GetDocDir: string;
+function fs_getSoftImages:String;
 {$IFDEF WINDOWS}
 function GetWinDir ( const CSIDL : Integer ) : String ;
 {$ENDIF}
@@ -72,6 +74,12 @@ uses
   ShFolder,  ShlObj,
 {$ENDIF}
   fonctions_string;
+
+
+function fs_getSoftImages:String;
+Begin
+  Result := ExtractFileDir(Application.ExeName)+CST_SUBDIR_IMAGES_SOFT;
+End;
 
 function fs_GetCorrectPath ( const as_Path :String ): string;
 Begin

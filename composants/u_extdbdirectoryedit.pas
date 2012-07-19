@@ -25,9 +25,10 @@ const
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory :'0.9.0.0 : Creationg ExtDBDierectoryEdit.';
+                                          BugsStory :'0.9.9.0 : Testing and adding dev image.' + #13#10
+                                                    +'0.9.0.0 : Creating ExtDBDierectoryEdit.';
                                           UnitType : 3 ;
-                                          Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                          Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
 
 {$ENDIF}
 
@@ -35,7 +36,7 @@ type
 
   { TExtDBDirectoryEdit }
 
-  TExtDBDirectoryEdit = class(TDirectoryEdit)
+  TExtDBDirectoryEdit = class(TDirectoryEdit, IFWComponent, IFWComponentEdit)
 
   private
     FBeforeEnter, FBeforeExit : TNotifyEvent;
