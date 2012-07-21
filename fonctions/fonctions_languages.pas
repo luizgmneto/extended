@@ -54,8 +54,10 @@ type TALanguage = Record
      TTheLanguages = array of TALanguage ;
 var ga_SoftwareLanguages : TTheLanguages;
     gs_Lang : String = 'fr' ;
+
 {$ENDIF}
 var       GS_EXT_LANGUAGES : String = '.properties';
+          gs_HtmlCharset : String ={$IFDEF FPC}'utf-8'{$ELSE}'iso-8859-1'{$ENDIF};
           GS_INNER_LANG_SEPARATOR : Char = '_' ;
 
 const // Evènements gérés
