@@ -41,6 +41,7 @@ procedure ExportGridToHTML(const AFileName : String ; const AGrid : TCustomDBGri
 procedure ExportGridToCSV (const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'csv'; const aseparate : Char = ';' );
 procedure ExportGridTo ( const AFieldMethod : TFieldMethod; const Afile : TStringList; const AGrid : TCustomDBGrid; const As_beginLine, as_endLine, as_beginCell, as_endCell, as_separator, As_beginHeader, As_EndHeader, As_beginText, As_EndText : String ; const ab_header : Boolean = False );
 
+
 implementation
 
 uses Variants,  Math, fonctions_erreurs, fonctions_string,
@@ -50,13 +51,35 @@ uses Variants,  Math, fonctions_erreurs, fonctions_string,
   unite_messages_delphi,
   {$ENDIF}
   fonctions_proprietes,
+  fonctions_languages,
   fonctions_init ;
 
 function AddFieldCSV ( const AField : TField ; var IsFirst : Boolean; const Separator : String; const AReplaceCaption : String = '' ):String;
   function AddField : String;
    Begin
      if AReplaceCaption = ''
-      Then Result := StringReplace (  StringReplace ( StringReplace(AField.AsString, #13#10, '\n', [ rfReplaceAll ] ), '\', '\\', [ rfReplaceAll ] ), '"', '\"', [ rfReplaceAll ] )
+      Then Result := StringReplace (  StringReplace ( StringReplace(AField.AsString, #13, '\n', [ rfReplaceAll ] ), '\', '\\', [ rfReplaceAll ] ), '"', '\"', [ rfReplaceAll ] )
+      Else Result := AReplaceCaption;
+   end;
+
+Begin
+  if IsFirst Then
+   Begin
+    IsFirst := False;
+    Result := AddField;
+   end
+  Else
+   Begin
+     Result := Separator + AddField;
+   end;
+end;
+
+
+function AddFieldHTML ( const AField : TField ; var IsFirst : Boolean; const Separator : String; const AReplaceCaption : String = '' ):String;
+  function AddField : String;
+   Begin
+     if AReplaceCaption = ''
+      Then Result := StringReplace(AField.AsString, #13, '<BR>', [ rfReplaceAll ] )
       Else Result := AReplaceCaption;
    end;
 
@@ -138,8 +161,8 @@ var astringlist : TStringList;
 Begin
   astringlist := TStringList.Create;
   try
-    astringlist.Add('<HTML><HEAD><meta http-equiv=Content-Type content="text/html; charset=utf-8" /></HEAD><BODY><TABLE>');
-    ExportGridTo ( AddFieldCSV, astringlist, AGrid, '<TR>','</TR>','<TD>','</TD>','','<STRONG>','</STRONG>','','', ab_Header);
+    astringlist.Add('<HTML><HEAD><meta http-equiv=Content-Type content="text/html; charset='+gs_HtmlCharset+'" /></HEAD><BODY><TABLE>');
+    ExportGridTo ( AddFieldHTML, astringlist, AGrid, '<TR>','</TR>','<TD>','</TD>','','<STRONG>','</STRONG>','','', ab_Header);
     astringlist.Add('</TABLE></BODY></HTML>');
     astringlist.SaveToFile(AFileName);
   finally
