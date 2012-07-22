@@ -16,16 +16,13 @@ uses
 {$ELSE}
   Windows, AdoConEd, MaskUtils,
 {$ENDIF}
-        IniFiles, Forms, SysUtils, StrUtils, Classes, DB, ComCtrls,
+  IniFiles, Forms, SysUtils, StrUtils, Classes, DB, ComCtrls,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
   Dialogs, Math ;
 
 const
-{$IFNDEF FPC}
-  DirectorySeparator = '\' ;
-{$ENDIF}
   CST_ENDOFLINE = #10;
 
 type
