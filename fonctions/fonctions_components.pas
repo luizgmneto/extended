@@ -58,7 +58,7 @@ function AddFieldCSV ( const AField : TField ; var IsFirst : Boolean; const Sepa
   function AddField : String;
    Begin
      if AReplaceCaption = ''
-      Then Result := StringReplace (  StringReplace ( StringReplace(AField.AsString, #13, '\n', [ rfReplaceAll ] ), '\', '\\', [ rfReplaceAll ] ), '"', '\"', [ rfReplaceAll ] )
+      Then Result := StringReplace (  StringReplace ( StringReplace(AField.AsString, CST_ENDOFLINE, '\n', [ rfReplaceAll ] ), '\', '\\', [ rfReplaceAll ] ), '"', '\"', [ rfReplaceAll ] )
       Else Result := AReplaceCaption;
    end;
 
@@ -79,7 +79,7 @@ function AddFieldHTML ( const AField : TField ; var IsFirst : Boolean; const Sep
   function AddField : String;
    Begin
      if AReplaceCaption = ''
-      Then Result := StringReplace(AField.AsString, #13, '<BR>', [ rfReplaceAll ] )
+      Then Result := StringReplace(AField.AsString, CST_ENDOFLINE, '<BR>'+CST_ENDOFLINE, [ rfReplaceAll ] )
       Else Result := AReplaceCaption;
    end;
 
