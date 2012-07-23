@@ -53,6 +53,7 @@ type
    ['{620AE27F-98C1-8A6D-E54F-FE57A16207E5}']
        procedure Paint;
    end;
+   TPopUpMenuEvent = procedure ( Sender:TObject;var APopupMenu:TPopupMenu;var AHandled:Boolean) of object;
 
     { TFWXPButton }
 
@@ -60,6 +61,7 @@ type
       private
        FColor           ,
        FColorFrameFocus : TColor;
+       FOnPopup : TPopUpMenuEvent;
       protected
        procedure AdaptGlyph (const ASize : Integer ); virtual;
        procedure MouseEnter{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
@@ -67,9 +69,9 @@ type
        procedure Click; override;
      public
       constructor Create ( AOwner : TComponent ) ; override;
-
       published
        property ColorFrameFocus : TColor read FColorFrameFocus write FColorFrameFocus default clCream;
+       property OnPopup : TPopUpMenuEvent read FOnPopup write FOnPopup;
      End;
     { TFWButton }
 
@@ -285,13 +287,22 @@ end;
 
 procedure TFWXPButton.Click;
 var lp_pos : TPoint;
+    Continue : Boolean;
+    APopupMenu : TPopupMenu;
 begin
   if Assigned(PopUpMenu) Then
     Begin
-     lp_pos.X := Left;
-     lp_pos.Y := Top ;
-     lp_pos := ClientToScreen( lp_pos );
-     PopUpMenu.Popup(lp_pos.X,lp_pos.Y);
+     Continue := True;
+     APopupMenu := PopupMenu;
+     if Assigned(FOnPopup) Then
+       FOnPopup ( Self, APopupMenu, Continue );
+     if Continue Then
+       Begin
+         lp_pos.X := Left;
+         lp_pos.Y := Top ;
+         lp_pos := ControlToScreen( lp_pos );
+         APopUpMenu.Popup(lp_pos.X,lp_pos.Y);
+       end;
     end;
   inherited Click;
 end;
@@ -300,6 +311,7 @@ constructor TFWXPButton.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FColorFrameFocus:=clCream;
+  FOnPopup := nil;
 end;
 
 

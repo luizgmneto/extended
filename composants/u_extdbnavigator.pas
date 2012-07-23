@@ -1098,10 +1098,8 @@ procedure TExtDBNavigator.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
-{$IFDEF DELPHI}
   if (Operation = opRemove) and (FDataLink <> nil) and
     (AComponent = DataSource) then DataSource := nil;
-{$ENDIF}
 end;
 
 

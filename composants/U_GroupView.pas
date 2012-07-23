@@ -229,9 +229,7 @@ type
     gb_NoScroll      ,
     // Basket
     gb_Basket        : Boolean ;
-    {$IFNDEF FPC}
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-    {$ENDIF}
     function fb_BeginOpen: Boolean; virtual;
     procedure p_SetHintString ( const awin_Control : TWincontrol ; const as_Hint : String );
     procedure p_SetClickEvent ( const awin_Control : TWincontrol ; const as_procedure : String ; const AOldEvent : TNotifyEvent );
@@ -1473,7 +1471,6 @@ begin
   // Libération des composants utilisés dans les propriétés
 end;
 
-{$IFNDEF FPC}
 // Suppression des composants détruits
 // AComponent : Le composant à détruire
 // Operation  : Opération à effectuer : Suppression ou ajout
@@ -1536,8 +1533,6 @@ begin
    then
     ButtonCancel := nil;
 end;
-
-{$ENDIF}
 
 // Le groupe a changé : méthode virtuelle
 procedure TDBGroupView.DataLinkScrolled;

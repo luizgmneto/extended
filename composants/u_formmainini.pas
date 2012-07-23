@@ -945,12 +945,10 @@ begin
   // Si le composant est détruit
   inherited Notification(AComponent, Operation);
 
-{$IFNDEF FPC}
   if (Assigned(FConnection)) and (AComponent.IsImplementorOf(Connection)) then
     FConnection := nil;
   if (Assigned(FConnector )) and (AComponent.IsImplementorOf(Connector )) then
     FConnector := nil;
-{$ENDIF}
 end;
 
 

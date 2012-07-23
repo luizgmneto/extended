@@ -219,9 +219,7 @@ type
     function  fb_ChangeEtatItem  ( const adat_Dataset : TDataset  ; const ab_AddItemPlus : Boolean )  : Boolean ; virtual;
     function  fb_SetRecords ( const adat_Dataset : TDataset ; const ab_InsereCles : Boolean ) : Boolean; dynamic;
     function  fb_SetList : Boolean ; virtual;
-    {$IFDEF DELPHI}
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-    {$ENDIF}
     Procedure DataLinkActiveChanged; virtual;
     procedure DoEnter ; override;
     procedure DoExit ; override;
@@ -1362,7 +1360,7 @@ begin
   Finally
   End ;
 End ;
-{$IFDEF DELPHI}
+
 // Suppression des composants détruits
 // AComponent : Le composant à détruire
 // Operation  : Opération à effectuer : Suppression ou ajout
@@ -1376,7 +1374,7 @@ begin
    then
     Datasource := nil;
 end;
-{$ENDIF}
+
 
 /// Le datasource a été activé : on met à jour le composant : Procédure surchargée
 procedure TDBListView.DataLinkActiveChanged;

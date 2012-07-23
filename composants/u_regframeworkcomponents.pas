@@ -45,7 +45,7 @@ begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMapImages]);
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,TExtDBColorCombo,TFWDBComboBox, TExtDBComboInsert,
                                                 TFWDBDateEdit, {$IFNDEF FPC}TFWDBDateTimePicker,{$ENDIF}
-                                                TFWDBEdit, TExtDBDirectoryEdit, TExtDBGrid,
+                                                TExtDBDirectoryEdit, TFWDBEdit, TExtDBGrid,
                                                 TExtDBImage,TExtDBImageList,
                                                 TFWDBLookupCombo,
                                                 TFWDBMemo, TExtDBNavigator,
