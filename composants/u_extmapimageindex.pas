@@ -25,10 +25,11 @@ uses Graphics,
                                                FileUnit : 'U_ExtMapImageIndex' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Gestion de liste d''images dans les données.' ;
-                                               BugsStory : '0.9.9.0 : Tested and new component.' + #13#10 +
+                                               BugsStory : '1.0.0.0 : adding usefull methods.' + #13#10 +
+                                                           '0.9.9.0 : Tested and new component.' + #13#10 +
                                                            '0.9.0.0 : Not tested.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
 
@@ -78,6 +79,7 @@ type
       public
         constructor Create(AOwner: TComponent); override;
         function GetIndex ( const AValue : String ): Integer; virtual;
+        function GetImageIndex ( const AValue : String ): Integer; virtual;
       published
       { Published declarations }
         property Columns : TExtMapImagesColumns read FMapImagesColumns write SetColumns ;
@@ -112,8 +114,15 @@ begin
   for i := 0 to FMapImagesColumns.Count - 1 do
    if AValue = FMapImagesColumns [ i ].Value Then
     Begin
-      Result := FMapImagesColumns [ i ].ImageIndex;
+      Result := i ;
     end;
+end;
+
+function TExtMapImages.GetImageIndex(const AValue: String): Integer;
+begin
+  Result := GetIndex(AValue);
+  if Result >= 0 Then
+    Result:=Columns [ Result ].ImageIndex;
 end;
 
 { TExtMapImagesColumns }
