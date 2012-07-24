@@ -652,7 +652,7 @@ begin
         if Assigned(FOnGetImageIndex)
          Then Aindex := FOnGetImageIndex ( Self, Field )
          Else if assigned ( FMapImages )
-         Then AIndex := FMapImages.GetIndex(Field.AsString)
+         Then AIndex := FMapImages.GetImageIndex(Field.AsString)
          Else Aindex := Field.AsInteger;
          if  ( Aindex < FImages.Count)
          and ( Aindex >= 0 ) then
