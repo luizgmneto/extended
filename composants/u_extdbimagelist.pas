@@ -32,13 +32,12 @@ const
     Owner: 'Matthieu Giroux';
     Comment:
     'Gestion de liste d''images dans les données.';
-    BugsStory: '0.9.9.1 : UTF 8.' +
-    #13#10 +
-    '0.9.9.0 : Tested and optimised.' + #13#10 +
-    '0.9.0.0 : Non testée.';
+    BugsStory : '1.0.0.0 : Growing the component.' + #13#10 +
+                '0.9.9.1 : UTF 8.' + #13#10 +
+                '0.9.9.0 : Tested and optimised.' + #13#10 +
+                '0.9.0.0 : Non testée.';
     UnitType: 3;
-    Major: 0; Minor: 9;
-    Release: 9; Build: 1);
+    Major: 1; Minor: 0; Release: 0; Build: 0);
 
 {$ENDIF}
 
@@ -66,6 +65,8 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    property Filename;
+    property ImageIndex : Integer read FImageIndex ;
   published
     property Datafield: string read fs_GetDatafield write p_SetDatafield;
     property Datasource: TDatasource read fds_GetDatasource write p_SetDatasource;
@@ -154,27 +155,29 @@ begin
 end;
 
 procedure TExtDBImageList.p_SetImage;
-var
-  li_i: longint;
-  lb_Found: boolean;
 begin
-  lb_Found := False;
-  if assigned(FDataLink) and assigned(FImages) and assigned(
-    FMapImages) and FDataLink.Active and assigned(FDataLink.Field) and not
-    FDataLink.Field.IsNull then
-  begin
-    for li_i := 0 to FMapImages.Columns.Count - 1 do
-      with FMapImages.Columns.Items[li_i] do
-        if (FDataLink.Field.AsString = Value) and
-          (ImageIndex < FImages.Count)
-          and ( FImageIndex <> ImageIndex ) then
-        begin
-          FImages.GetBitmap(ImageIndex, Picture.Bitmap);
-          lb_Found := True;
-        end;
-  end;
-  if not lb_Found then
+  if assigned(FDataLink) and assigned(FImages)
+   and FDataLink.Active and assigned(FDataLink.Field) and not
+    FDataLink.Field.IsNull
+   Then
+    Begin
+     if assigned ( FMapImages ) then
+        FImageIndex := FMapImages.GetImageIndex ( FDataLink.Field.AsString )
+     else
+      if FDataLink.Field is TNumericField
+       Then FImageIndex := FDataLink.Field.AsInteger
+       Else FImageIndex := -1;
+    End
+   Else FImageIndex := -1;
+
+  if FImageIndex >= 0 Then
+    begin
+      FImages.GetBitmap(FImageIndex, Picture.Bitmap);
+    end
+   Else
+   Begin
     Picture.Bitmap.Assign(nil);
+   end;
 end;
 
 procedure TExtDBImageList.p_SetImages(const Value: TCustomImageList);

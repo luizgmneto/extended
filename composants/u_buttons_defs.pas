@@ -28,13 +28,14 @@ const
                                        FileUnit : 'u_buttons_appli' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Customized Buttons components.' ;
-                                       BugsStory : '1.0.0.2 : Date and Folder Buttons.'+ #13#10
+                                       BugsStory : '1.0.0.3 : Testing Popup.'+ #13#10
+                                                 + '1.0.0.2 : Date and Folder Buttons.'+ #13#10
                                                  + '1.0.0.1 : UTF 8.'+ #13#10
                                                  + '1.0.0.0 : Version OK.'+ #13#10
                                                  + '0.8.0.1 : Group view buttons better.'+ #13#10
                                                  + '0.8.0.0 : To test.';
                                        UnitType : 3 ;
-                                       Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
+                                       Major : 1 ; Minor : 0 ; Release : 0 ; Build : 3 );
 {$ENDIF}
   CST_FWWIDTH_CLOSE_BUTTON = 80 ;
   CST_SIZE_BUTTONS_MOVING  = 60;
@@ -84,8 +85,8 @@ type
       published
        property Glyph stored False;
        property GlyphSize : Integer read FGlyphSize write FGlyphSize default 24;
-       property Height default 25;
-       property Width default 25;
+       property Height default 26;
+       property Width default 26;
      End;
 
     { TFWButtonList }
@@ -106,20 +107,19 @@ type
        property ImageIndex: Integer read FImageIndex write p_setImageIndex default -1;
        property ImageSize : Integer read FImageSize  write p_setImageSize default 0;
        property Glyph stored False;
-       property Height default 17;
-       property Width default 17;
+       property Height default 18;
+       property Width default 18;
     End;
 
 implementation
 
-uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts,
-     RtlConsts,FileUtil,
-     {$ELSE}Consts, VDBConsts, {$ENDIF}
-  {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi,
-  {$ENDIF}
+uses {$IFDEF FPC}
+     ObjInspStrConsts,lclstrconsts,
+     RtlConsts,FileUtil, unite_messages,
+     {$ELSE}
+     Consts, VDBConsts, unite_messages_delphi,
+     {$ENDIF}
+
      fonctions_images,
      fonctions_system,
      Forms, Math, sysutils,
@@ -148,7 +148,7 @@ begin
       Begin
     {$ENDIF}
       {$IFDEF FPC}
-        LoadFromLazarusResource(as_Resource);
+          LoadFromLazarusResource(as_Resource);
       {$ELSE}
         if ( Buttons_Appli_ResInstance = 0 ) Then
           Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
@@ -262,10 +262,10 @@ begin
     Begin
       p_ChangeTailleBitmap(Glyph.Bitmap,ASize,Asize,True);
       Modified:=True;
-//      TransparentMode:=tmAuto;
-//      Transparent:=True;
+      TransparentMode:=tmAuto;
+      Transparent:=True;
+      Invalidate;
     end;
-  Invalidate;
 end;
 
 procedure TFWXPButton.MouseEnter;
@@ -298,9 +298,11 @@ begin
        FOnPopup ( Self, APopupMenu, Continue );
      if Continue Then
        Begin
-         lp_pos.X := Left;
+         lp_pos.X := Width;
          lp_pos.Y := Top ;
-         lp_pos := ControlToScreen( lp_pos );
+         {if Owner is TControl
+          Then lp_pos := ( Owner as TControl).ScreenToClient ( ControlToScreen( lp_pos ))
+          Else} lp_pos := ControlToScreen( lp_pos );
          APopUpMenu.Popup(lp_pos.X,lp_pos.Y);
        end;
     end;
