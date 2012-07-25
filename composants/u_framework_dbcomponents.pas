@@ -138,10 +138,53 @@ type
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
      End;
 
-{$IFNDEF FPC}
 
-   TFWDBDateTimePicker = class ( TJvDBDateTimePicker, IFWComponent, IFWComponentEdit )
+
+   { TFWDBDateTimePicker }
+
+   TFWDBDateTimePicker = class ( {$IFDEF FPC}TFWDateTimePicker{$ELSE}TJvDBDateTimePicker{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
+        FReadOnly : Boolean;
+       {$IFDEF FPC}
+         FDataLink: TFieldDataLink;
+         function GetDataField: string;
+         function GetDataSource: TDataSource;
+         function GetField: TField;
+         procedure SetDataField(const AValue: string);
+         procedure SetDataSource(AValue: TDataSource);
+         procedure WMCut(var Message: TMessage); message {$IFDEF FPC} LM_CUT {$ELSE} WM_CUT {$ENDIF};
+         procedure WMPaste(var Message: TMessage); message {$IFDEF FPC} LM_PASTE {$ELSE} WM_PASTE {$ENDIF};
+       {$IFDEF FPC}
+       {$ELSE}
+         procedure WMUndo(var Message: TMessage); message WM_UNDO;
+       {$ENDIF}
+         procedure CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF}); message CM_EXIT;
+         procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
+       protected
+         procedure UpdateDate; override;
+         procedure ActiveChange(Sender: TObject); virtual;
+         procedure DataChange(Sender: TObject); virtual;
+         procedure UpdateData(Sender: TObject); virtual;
+         function GetReadOnly: Boolean; virtual;
+         procedure SetReadOnly(AValue: Boolean); virtual;
+         procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+         procedure KeyPress(var Key: Char); override;
+         procedure Notification(AComponent: TComponent;
+         Operation: TOperation); override;
+       public
+         procedure Loaded; override;
+         constructor Create(AOwner: TComponent); override;
+         destructor Destroy; override;
+         function ExecuteAction(AAction: TBasicAction): Boolean; override;
+         function UpdateAction(AAction: TBasicAction): Boolean; override;
+         property Field: TField read GetField;
+       published
+         property Date stored False ;
+         property Time stored False ;
+         property DataField: string read GetDataField write SetDataField stored True;
+         property DataSource: TDataSource read GetDataSource write SetDataSource stored True;
+         property ReadOnly: Boolean read GetReadOnly write SetReadOnly default false;
+       {$ELSE}
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FLabel : TFWLabel ;
        FOldColor ,
@@ -169,11 +212,53 @@ type
        property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
        property Color stored False ;
        property MyLabel : TFWLabel read FLabel write p_setLabel;
-       property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
+       property AlwaysSame : Boolean r       private
+         FDataLink: TFieldDataLink;
+         function GetDataField: string;
+         function GetDataSource: TDataSource;
+         function GetField: TField;
+         procedure SetDataField(const AValue: string);
+         procedure SetDataSource(AValue: TDataSource);
+         procedure WMCut(var Message: TMessage); message {$IFDEF FPC} LM_CUT {$ELSE} WM_CUT {$ENDIF};
+         procedure WMPaste(var Message: TMessage); message {$IFDEF FPC} LM_PASTE {$ELSE} WM_PASTE {$ENDIF};
+       {$IFDEF FPC}
+       {$ELSE}
+         procedure WMUndo(var Message: TMessage); message WM_UNDO;
+       {$ENDIF}
+         procedure CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF}); message CM_EXIT;
+         procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
+       protected
+         procedure ActiveChange(Sender: TObject); virtual;
+         procedure DataChange(Sender: TObject); virtual;
+         procedure UpdateData(Sender: TObject); virtual;
+         function GetReadOnly: Boolean; {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
+         procedure SetReadOnly(AValue: Boolean); {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
+         procedure SetValue({$IFDEF FPC}const {$ENDIF}AValue: {$IFDEF FPC}Double{$ELSE}Extended{$ENDIF}); {$IFNDEF FPC}override ;{$ENDIF}
+         procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+         procedure KeyPress(var Key: Char); override;
+         procedure Notification(AComponent: TComponent;
+         Operation: TOperation); override;
+       public
+         procedure Loaded; override;
+         procedure Change; override;
+         constructor Create(AOwner: TComponent); override;
+         destructor Destroy; override;
+         function ExecuteAction(AAction: TBasicAction): Boolean; override;
+         function UpdateAction(AAction: TBasicAction): Boolean; override;
+         property Field: TField read GetField;
+       published
+         property Value stored False ;
+         property DataField: string read GetDataField write SetDataField stored True;
+         property DataSource: TDataSource read GetDataSource write SetDataSource stored True;
+         {$IFNDEF FPC}
+         property ReadOnly: Boolean read GetReadOnly write SetReadOnly default false;
+         {$ENDIF}
+ead FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
+       {$ENDIF}
      End;
 
-{$ENDIF}
+
 
    { TFWDBLookupCombo }
    TFWDBLookupCombo = class ( {$IFDEF JEDI}TJvDBLookupCombo{$ELSE}{$IFDEF RXCOMBO}TRxDBLookupCombo{$ELSE}TDBLookupComboBox{$ENDIF}{$ENDIF}, IFWComponent, IFWComponentEdit )
@@ -280,6 +365,9 @@ type
      TFWDBSpinEdit  = class( TFWSpinEdit )
        private
          FDataLink: TFieldDataLink;
+         {$IFNDEF FPC}
+         FReadOnly : Boolean;
+         {$ENDIF}
          function GetDataField: string;
          function GetDataSource: TDataSource;
          function GetField: TField;
@@ -298,7 +386,9 @@ type
          procedure DataChange(Sender: TObject); virtual;
          procedure UpdateData(Sender: TObject); virtual;
          function GetReadOnly: Boolean; {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
-         procedure SetReadOnly(AValue: Boolean); {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
+         {$IFNDEF FPC}
+         procedure SetReadOnly(AValue: Boolean); virtual;
+         {$ENDIF}
          procedure SetValue({$IFDEF FPC}const {$ENDIF}AValue: {$IFDEF FPC}Double{$ELSE}Extended{$ENDIF}); {$IFNDEF FPC}override ;{$ENDIF}
          procedure KeyDown(var Key: Word; Shift: TShiftState); override;
          procedure KeyPress(var Key: Char); override;
@@ -391,7 +481,210 @@ Begin
   inherited;
 End;
 
-{$IFNDEF FPC}
+{$IFDEF FPC}
+{ TFWDBDateTimePicker }
+
+constructor TFWDBDateTimePicker.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FDataLink := TFieldDataLink.Create ;
+  FDataLink.DataSource := nil ;
+  FDataLink.FieldName  := '' ;
+  FDataLink.Control := Self;
+  FDataLink.OnDataChange := DataChange;
+  FDataLink.OnUpdateData := UpdateData;
+  FDataLink.OnActiveChange := ActiveChange;
+  ControlStyle := ControlStyle + [csReplicatable];
+end;
+
+destructor TFWDBDateTimePicker.Destroy;
+begin
+  inherited Destroy;
+  FDataLink.Free ;
+end;
+
+procedure TFWDBDateTimePicker.Loaded;
+begin
+  inherited Loaded;
+  if (csDesigning in ComponentState) then
+    Begin
+      DataChange(Self);
+    End ;
+end;
+
+procedure TFWDBDateTimePicker.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation = opRemove) and (FDataLink <> nil) and
+    (AComponent = DataSource) then DataSource := nil;
+end;
+
+procedure TFWDBDateTimePicker.KeyDown(var Key: Word; Shift: TShiftState);
+begin
+  inherited KeyDown(Key, Shift);
+  if (Key = VK_DELETE) or ((Key = VK_INSERT) and (ssShift in Shift)) then
+    FDataLink.Edit;
+end;
+
+procedure TFWDBDateTimePicker.KeyPress(var Key: Char);
+begin
+  inherited KeyPress(Key);
+  if (Key in [#32..#255]) and (FDataLink.Field <> nil) and
+    not FDataLink.Field.IsValidChar(Key) then
+  begin
+    {$IFDEF DELPHI}
+    MessageBeep(0);
+    {$ENDIF}
+    Key := #0;
+  end;
+  case Key of
+    ^H, ^V, ^X, #32..#255:
+      FDataLink.Edit;
+    #27:
+      begin
+        FDataLink.Reset;
+        Key := #0;
+      end;
+  end;
+end;
+
+function TFWDBDateTimePicker.GetDataSource: TDataSource;
+begin
+  Result := FDataLink.DataSource;
+end;
+
+procedure TFWDBDateTimePicker.SetDataSource(AValue: TDataSource);
+begin
+  if not (FDataLink.DataSourceFixed and (csLoading in ComponentState)) then
+    FDataLink.DataSource := AValue;
+  if AValue <> nil then AValue.FreeNotification(Self);
+end;
+
+function TFWDBDateTimePicker.GetDataField: string;
+begin
+  Result := FDataLink.FieldName;
+end;
+
+procedure TFWDBDateTimePicker.SetDataField(const AValue: string);
+begin
+  if  assigned ( FDataLink.DataSet )
+  and FDataLink.DataSet.Active Then
+    Begin
+      if assigned ( FDataLink.DataSet.FindField ( AValue ))
+      and ( FDataLink.DataSet.FindField ( AValue ) is TNumericField ) Then
+        FDataLink.FieldName := AValue;
+    End
+  Else
+    FDataLink.FieldName := AValue;
+end;
+
+function TFWDBDateTimePicker.GetReadOnly: Boolean;
+begin
+  Result := FDataLink.ReadOnly or FReadOnly;
+end;
+
+procedure TFWDBDateTimePicker.SetReadOnly(AValue: Boolean);
+begin
+  FReadOnly := AValue;
+end;
+
+function TFWDBDateTimePicker.GetField: TField;
+begin
+  Result := FDataLink.Field;
+end;
+
+procedure TFWDBDateTimePicker.ActiveChange(Sender: TObject);
+begin
+  if FDataLink.Field <> nil then
+    begin
+      DateTime := FDataLink.Field.AsDateTime;
+    end;
+end;
+
+procedure TFWDBDateTimePicker.DataChange(Sender: TObject);
+begin
+  if FDataLink.Field <> nil then
+    begin
+      DateTime := FDataLink.Field.AsDateTime;
+    end;
+end;
+
+
+procedure TFWDBDateTimePicker.UpdateData(Sender: TObject);
+begin
+  if DateTime > -1 Then
+    Begin
+      FDataLink.Edit ;
+      FDataLink.Field.Value := DateTime ;
+    End ;
+end;
+
+{$IFDEF DELPHI}
+procedure TFWDBDateTimePicker.WMUndo(var Message: TMessage);
+begin
+  FDataLink.Edit;
+  inherited;
+end;
+{$ENDIF}
+
+procedure TFWDBDateTimePicker.WMPaste(var Message: TMessage);
+begin
+  FDataLink.Edit;
+  inherited;
+end;
+
+procedure TFWDBDateTimePicker.WMCut(var Message: TMessage);
+begin
+  FDataLink.Edit;
+  inherited;
+end;
+
+procedure TFWDBDateTimePicker.CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF});
+begin
+  try
+    FDataLink.UpdateRecord;
+  except
+    on e: Exception do
+      Begin
+        SetFocus;
+        f_GereException ( e, FDataLink.DataSet, nil , False )
+      End ;
+  end;
+  DoExit;
+end;
+
+procedure TFWDBDateTimePicker.CMGetDataLink(var Message: TMessage);
+begin
+  Message.Result := Integer(FDataLink);
+end;
+
+function TFWDBDateTimePicker.ExecuteAction(AAction: TBasicAction): Boolean;
+begin
+  Result := inherited ExecuteAction(AAction){$IFDEF DELPHI}  or (FDataLink <> nil) and
+    FDataLink.ExecuteAction(AAction){$ENDIF};
+end;
+
+function TFWDBDateTimePicker.UpdateAction(AAction: TBasicAction): Boolean;
+begin
+  Result := inherited UpdateAction(AAction) {$IFDEF DELPHI}  or (FDataLink <> nil) and
+    FDataLink.UpdateAction(AAction){$ENDIF};
+end;
+
+procedure TFWDBDateTimePicker.UpdateDate;
+begin
+ Inherited;
+ if assigned ( FDataLink )
+ and assigned ( FDataLink.Field )
+ and ( FDataLink.Field.AsDateTime <> DateTime ) Then
+  Begin
+    FDataLink.Dataset.Edit ;
+    FDataLink.Field.AsDateTime := DateTime ;
+  End ;
+end;
+
+{$ELSE}
+
 { TFWDBDateTimePicker }
 
 procedure TFWDBDateTimePicker.p_setLabel(const alab_Label: TFWLabel);
@@ -825,12 +1118,7 @@ end;
 
 function TFWDBSpinEdit.GetReadOnly: Boolean;
 begin
-  Result := FDataLink.ReadOnly;
-end;
-
-procedure TFWDBSpinEdit.SetReadOnly(AValue: Boolean);
-begin
-  FDataLink.ReadOnly := AValue;
+  Result := FDataLink.ReadOnly or {$IFDEF FPC}inherited{$ELSE}FReadOnly{$ENDIF};
 end;
 
 function TFWDBSpinEdit.GetField: TField;
@@ -924,6 +1212,7 @@ begin
     FDataLink.Field.Value := AValue ;
   End ;
 end;
+
 
 
 
