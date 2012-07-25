@@ -44,7 +44,7 @@ procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMapImages]);
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,TExtDBColorCombo,TFWDBComboBox, TExtDBComboInsert,
-                                                TFWDBDateEdit, {$IFNDEF FPC}TFWDBDateTimePicker,{$ENDIF}
+                                                TFWDBDateEdit, TFWDBDateTimePicker,
                                                 TExtDBDirectoryEdit, TFWDBEdit, TExtDBGrid,
                                                 TExtDBImage,TExtDBImageList,
                                                 TFWDBLookupCombo,
@@ -52,7 +52,7 @@ begin
                                                 TExtDBNumEdit,TExtDBPictCombo,
                                                 TExtSearchDBEdit,TFWDBSpinEdit]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,TExtColorCombo, TFWComboBox, TFWDateEdit,
-                                                TFWEdit,TFWGrid,TExtImage,
+                                                TFWDateTimePicker, TFWEdit,TFWGrid,TExtImage,
                                                 TFWLabel,TFWMemo,
                                                 TExtNumEdit,TExtPictCombo,TExtRadioGroup,TFWSpinEdit]);
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});

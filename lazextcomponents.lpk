@@ -20,7 +20,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Release="4" Build="2"/>
+    <Version Major="1" Release="5"/>
     <Files Count="25">
       <Item1>
         <Filename Value="composants/u_onforminfoini.pas"/>
@@ -128,26 +128,29 @@
       <OutDir Value="LANG"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="6">
+    <RequiredPkgs Count="7">
       <Item1>
-        <PackageName Value="rxnew"/>
+        <PackageName Value="ZVDateTimeCtrls"/>
       </Item1>
       <Item2>
-        <PackageName Value="virtualtreeview_package"/>
+        <PackageName Value="rxnew"/>
       </Item2>
       <Item3>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item3>
       <Item4>
-        <PackageName Value="lazfonctions"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item4>
       <Item5>
-        <PackageName Value="ExpertSuperForm"/>
+        <PackageName Value="lazfonctions"/>
       </Item5>
       <Item6>
+        <PackageName Value="ExpertSuperForm"/>
+      </Item6>
+      <Item7>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item6>
+      </Item7>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
