@@ -123,6 +123,8 @@ type
 
    TExtDBGrid = class ( {$IFDEF TNT}TTntDBGrid{$ELSE}{$IFDEF EXRX}TExRxDBGrid{$ELSE}{$IFDEF JEDI}TJvDBUltimGrid{$ELSE}TRXDBGrid{$ENDIF}{$ENDIF}{$ENDIF}, IFWComponent )
      private
+       FOnPopup : TNotifyEvent;
+       FBeforePopup : TPopUpMenuEvent;
        FOldOnGetBtnParams: TGetBtnParamsEvent;
        FPaintEdits : Boolean;
        FBeforeEnter, FBeforeExit : TNotifyEvent;
@@ -147,6 +149,7 @@ type
     AFont: TFont; var Background: TColor; var SortMarker: TSortMarker;
     IsDown: Boolean); virtual;
        procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
+       function  MouseButtonAllowed(Button: TMouseButton): boolean; override;
       public
        procedure KeyDown(var Key: Word; Shift: TShiftState); override;
        procedure KeyUp(var ach_Key: Word; ashi_Shift: TShiftState); override;
@@ -172,6 +175,8 @@ type
        property ColorFocus : TColor read FColorFocus write FColorFocus default CST_GRID_SELECT ;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property PaintEdits : Boolean read FPaintEdits write p_SetPaintEdits default true;
+       property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
+       property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
      End;
 
 implementation
@@ -181,7 +186,9 @@ uses
 {$IFNDEF FPC}
    Forms,
 {$ENDIF}
-   fonctions_proprietes, fonctions_images;
+   fonctions_proprietes,
+   Menus,
+   fonctions_images;
 
 { TExtGridColumn }
 
@@ -561,27 +568,32 @@ End;
 // On MouseDown show eventually column control
 procedure TExtDBGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
-var P : TPoint;
+var APopupMenu : TPopupMenu;
+    Continue : Boolean;
 begin
+ inherited;
   if Assigned(PopUpMenu)
   and (Button = mbRight)
   and ( Shift = [] ) Then
     Begin
-     {$IFDEF FPC}P:={$ENDIF}MouseToCell({$IFDEF FPC}Point({$ENDIF}X,Y{$IFDEF FPC})
-                                        {$ELSE},P.X,P.Y{$ENDIF}
-                                        );
-     if ( p.Y >= FixedRows )
-     or ( p.X >= FixedCols ) Then
-      Begin
-       if assigned ( Datalink.DataSet ) Then
-         Datalink.DataSet.MoveBy(P.Y - Row);
-       with Mouse.CursorPos do
-         PopUpMenu.Popup(X,Y);
-       Exit;
-      end;
+     Continue := True;
+     APopupMenu := PopupMenu;
+     if Assigned(FBeforePopup) Then
+       FBeforePopup ( Self, APopupMenu, Continue );
+     if Continue Then
+       Begin
+         with Mouse.CursorPos do
+           APopUpMenu.Popup(X,Y);
+         if Assigned(FOnPopup) Then
+           FOnPopup ( Self );
+       end;
     end;
-  inherited;
   ShowControlColumn;
+end;
+
+function TExtDBGrid.MouseButtonAllowed(Button: TMouseButton): boolean;
+begin
+  Result:=inherited MouseButtonAllowed(Button) or ( Assigned ( PopupMenu ) and ( Button = mbRight )) ;
 end;
 
 // function TExtDBGrid.GetColumns
