@@ -19,6 +19,7 @@ uses
 {$ENDIF}
   Controls,
   JvXPButtons, Graphics,
+  u_extcomponent,
   Menus, ImgList;
 
 
@@ -28,14 +29,15 @@ const
                                        FileUnit : 'u_buttons_appli' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Customized Buttons components.' ;
-                                       BugsStory : '1.0.0.3 : Testing Popup.'+ #13#10
+                                       BugsStory : '1.0.0.4 : Better Popup.'+ #13#10
+                                                 + '1.0.0.3 : Testing Popup.'+ #13#10
                                                  + '1.0.0.2 : Date and Folder Buttons.'+ #13#10
                                                  + '1.0.0.1 : UTF 8.'+ #13#10
                                                  + '1.0.0.0 : Version OK.'+ #13#10
                                                  + '0.8.0.1 : Group view buttons better.'+ #13#10
                                                  + '0.8.0.0 : To test.';
                                        UnitType : 3 ;
-                                       Major : 1 ; Minor : 0 ; Release : 0 ; Build : 3 );
+                                       Major : 1 ; Minor : 0 ; Release : 0 ; Build : 4 );
 {$ENDIF}
   CST_FWWIDTH_CLOSE_BUTTON = 80 ;
   CST_SIZE_BUTTONS_MOVING  = 60;
@@ -54,7 +56,6 @@ type
    ['{620AE27F-98C1-8A6D-E54F-FE57A16207E5}']
        procedure Paint;
    end;
-   TPopUpMenuEvent = procedure ( Sender:TObject;var APopupMenu:TPopupMenu;var AHandled:Boolean) of object;
 
     { TFWXPButton }
 
@@ -62,7 +63,8 @@ type
       private
        FColor           ,
        FColorFrameFocus : TColor;
-       FOnPopup : TPopUpMenuEvent;
+       FBeforePopup : TPopUpMenuEvent;
+       FOnPopup : TNotifyEvent;
       protected
        procedure AdaptGlyph (const ASize : Integer ); virtual;
        procedure MouseEnter{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
@@ -72,7 +74,8 @@ type
       constructor Create ( AOwner : TComponent ) ; override;
       published
        property ColorFrameFocus : TColor read FColorFrameFocus write FColorFrameFocus default clCream;
-       property OnPopup : TPopUpMenuEvent read FOnPopup write FOnPopup;
+       property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
+       property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
      End;
     { TFWButton }
 
@@ -294,8 +297,8 @@ begin
     Begin
      Continue := True;
      APopupMenu := PopupMenu;
-     if Assigned(FOnPopup) Then
-       FOnPopup ( Self, APopupMenu, Continue );
+     if Assigned(FBeforePopup) Then
+       FBeforePopup ( Self, APopupMenu, Continue );
      if Continue Then
        Begin
          lp_pos.X := Width;
@@ -304,6 +307,8 @@ begin
           Then lp_pos := ( Owner as TControl).ScreenToClient ( ControlToScreen( lp_pos ))
           Else} lp_pos := ControlToScreen( lp_pos );
          APopUpMenu.Popup(lp_pos.X,lp_pos.Y);
+         if Assigned(FOnPopup) Then
+           FOnPopup ( Self );
        end;
     end;
   inherited Click;

@@ -38,7 +38,8 @@ const
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '1.0.1.1 : Delphi compatible.'
+                                          BugsStory : '1.0.1.2 : Testing on LAZARUS.'
+                                                    + '1.0.1.1 : Delphi compatible.'
                                                     + '1.0.1.0 : Simple Edit capability on Lazarus Only.'
                                                     + '1.0.0.0 : Popup list.'
                                                     + '0.9.0.4 : Making comments.'
@@ -47,7 +48,7 @@ const
                                                     + '0.9.0.1 : Not tested, compiling on DELPHI.'
                                                     + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
+                                          Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
 
 {$ENDIF}
   SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
@@ -286,13 +287,17 @@ end;
 
 procedure TExtSearchDBEdit.ShowPopup;
 var i, j, AWidth, AActiveRecord : Integer;
+    APoint : TPoint;
 Begin
   with FPopup do
    Begin
-     Left := Self.Left;
+     APoint.X := 0;
      if FListUp
-      Then Top := Self.Top - Self.Height - Height
-      Else Top := Self.Top + Self.Height;
+      Then APoint.Y := Self.Height - Height
+      Else APoint.Y := Self.Height;
+     APoint:=Parent.ScreenToClient(Self.ControlToScreen(APoint));
+     Left := APoint.X;
+     Top  := APoint.Y;
      FSearchSource.DataSet.DisableControls;
      AActiveRecord := FSearchSource.ActiveRecord;
      with FSearchSource.DataSet do
@@ -347,13 +352,16 @@ Begin
             with FPopup do
               Begin
                 FEdit:=Self;
-                Visible:=False;
                 if FListWidth > 0
                  Then Width := FListWidth
                  Else Width := Self.Width;
                 Height := FListLines * Self.Height;
                 DataSource:=FSearchSource.DataSource;
-                Parent:=Self.Parent;
+                if ( Self.Owner is TWinControl )
+                  Then Parent:=Self.Owner as TWinControl
+                  Else if Self.Parent.Parent <> nil
+                  Then Parent:=Self.Parent.Parent
+                  Else Parent:=Self.Parent;
                 Color := Self.Color;
                 Font.Assign(Self.Font);
                 for i := 0 to Alist.Count-1 do
@@ -363,6 +371,8 @@ Begin
                       FieldName := Alist[i];
                      end;
                   end;
+                Loaded;
+                Visible:=True;
               end;
           finally
             Alist.Free;

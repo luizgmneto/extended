@@ -28,7 +28,7 @@ uses Graphics,StdCtrls,
 {$IFDEF TNT}
    TntStdCtrls,
 {$ENDIF}
-     Controls ;
+     Controls, Menus ;
 
 const
   //////// Couleurs par défaut des composants de la form
@@ -70,6 +70,8 @@ type IFWComponent = interface
    ['{62CAE27F-94C1-4A3D-B94F-FE57A36207D5}'] // GUID nécessaire pour l'opération de cast
        procedure SetOrder ;
      End;
+   // interfaces
+   TPopUpMenuEvent = procedure ( Sender:TObject;var APopupMenu:TPopupMenu;var AHandled:Boolean) of object;
 
 var
     // Couleurs à mettre sur les composants
