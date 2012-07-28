@@ -149,7 +149,9 @@ type
     AFont: TFont; var Background: TColor; var SortMarker: TSortMarker;
     IsDown: Boolean); virtual;
        procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
+       {$IFDEF FPC}
        function  MouseButtonAllowed(Button: TMouseButton): boolean; override;
+       {$ENDIF}
       public
        procedure KeyDown(var Key: Word; Shift: TShiftState); override;
        procedure KeyUp(var ach_Key: Word; ashi_Shift: TShiftState); override;
@@ -591,11 +593,12 @@ begin
   ShowControlColumn;
 end;
 
+{$IFDEF FPC}
 function TExtDBGrid.MouseButtonAllowed(Button: TMouseButton): boolean;
 begin
   Result:=inherited MouseButtonAllowed(Button) or ( Assigned ( PopupMenu ) and ( Button = mbRight )) ;
 end;
-
+{$ENDIF}
 // function TExtDBGrid.GetColumns
 // This Dbgrid uses TExtDbGridColumns
 function TExtDBGrid.GetColumns: TExtDbGridColumns;
@@ -664,7 +667,7 @@ begin
         if Assigned(FOnGetImageIndex)
          Then Aindex := FOnGetImageIndex ( Self, Field )
          Else if assigned ( FMapImages )
-         Then AIndex := FMapImages.GetImageIndex(Field.AsString)
+         Then AIndex := FMapImages.ImageIndexOf(Field.AsString)
          Else Aindex := Field.AsInteger;
          if  ( Aindex < FImages.Count)
          and ( Aindex >= 0 ) then

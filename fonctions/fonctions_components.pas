@@ -149,7 +149,7 @@ var astringlist : TStringList;
 Begin
   astringlist := TStringList.Create;
   try
-    ExportGridTo ( TFieldMethod (AddFieldCSV), astringlist, AGrid, '','','','','"','"','"','"',aseparate, ab_Header);
+    ExportGridTo ( TFieldMethod (@AddFieldCSV), astringlist, AGrid, '','','','','"','"','"','"',aseparate, ab_Header);
     astringlist.SaveToFile(AFileName);
   finally
     astringlist.Free;

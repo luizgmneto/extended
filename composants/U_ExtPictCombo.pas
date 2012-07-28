@@ -42,10 +42,11 @@ const
                                                FileUnit : 'U_ExtPictCombo' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Choisir une image dans une liste.' ;
-                                               BugsStory : '0.9.0.0 : Tested and optimised.' + #13#10 +
+                                               BugsStory : '0.9.9.0 : Tested more.' + #13#10 +
+                                                           '0.9.0.0 : Tested and optimised.' + #13#10 +
                                                            '0.8.0.0 : Not tested.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
 
 
 {$ENDIF}
@@ -80,13 +81,9 @@ type
       procedure p_SetValue(const AValue: String); virtual ;
     protected
       function GetReadOnly: Boolean; virtual;
-      {$IFDEF FPC}
-      procedure SetDroppedDown(const AValue: Boolean); override;
-      {$ENDIF}
       procedure SetReadOnly(Value: Boolean); virtual;
       procedure Notification(AComponent: TComponent;
                 Operation: TOperation); override;
-
     public
     { Public declarations }
       constructor Create(AOwner: TComponent); override;
@@ -227,13 +224,6 @@ begin
   Result := FReadOnly;
 end;
 
-{$IFDEF FPC}
-procedure TExtPictCombo.SetDroppedDown(const AValue: Boolean);
-begin
-  If ReadOnly and Avalue Then Exit;
-  inherited SetDroppedDown(AValue);
-end;
-{$ENDIF}
 
 procedure TExtPictCombo.SetReadOnly(Value: Boolean);
 begin
@@ -248,14 +238,13 @@ begin
   if (Operation = opRemove) and (AComponent = FImages) then FImages := nil;
 end;
 
-
 procedure TExtPictCombo.DoEnter;
 begin
   if GetReadOnly Then Exit;
   if assigned ( FBeforeEnter ) Then
     FBeforeEnter ( Self );
   // Si on arrive sur une zone de saisie, on met en valeur son {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} par une couleur
-  // de fond bleu et son libellÃ© en marron (sauf si le libellÃ© est sÃ©lectionnÃ©
+  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
   // avec la souris => cas de tri)
   p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
   p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
@@ -284,6 +273,8 @@ end;
 procedure TExtPictCombo.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
 Begin
   p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
+{  if ItemIndex >= 0 Then
+    DrawAnImage(ItemIndex,Message.PaintStruct.rcPaint,Message.PaintStruct.rcPaint);}
   inherited;
 End;
 
@@ -373,7 +364,11 @@ procedure TExtPictCombo.p_SetValue(const AValue: String);
 begin
  if FValue <> AValue then
    Begin
-     FValue:=AValue;
+    FValue:=AValue;
+    if assigned ( FMapImages )
+     Then ItemIndex:=FMapImages.IndexOf(FValue)
+     Else ItemIndex:=Items.IndexOf(FValue);
+    Invalidate;
    end;
 end;
 
@@ -384,8 +379,8 @@ begin
 end;
 
 
-initialization
 {$IFDEF VERSIONS}
+initialization
   p_ConcatVersion ( gVer_TExtPictCombo   );
 {$ENDIF}
 end.
