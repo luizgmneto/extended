@@ -99,7 +99,7 @@ implementation
 {$IFDEF FPC}
 uses LCLType, LCLProc, type_string, FileUtil, UTF8Process ;
 {$ELSE}
-uses type_string_delphi, JclStrings ;
+uses type_string_delphi, JclStrings, fonctions_system ;
 {$ENDIF}
 
 function fb_isFileChar(AChar:Char):boolean;

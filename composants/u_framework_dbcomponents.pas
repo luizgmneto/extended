@@ -212,48 +212,7 @@ type
        property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
        property Color stored False ;
        property MyLabel : TFWLabel read FLabel write p_setLabel;
-       property AlwaysSame : Boolean r       private
-         FDataLink: TFieldDataLink;
-         function GetDataField: string;
-         function GetDataSource: TDataSource;
-         function GetField: TField;
-         procedure SetDataField(const AValue: string);
-         procedure SetDataSource(AValue: TDataSource);
-         procedure WMCut(var Message: TMessage); message {$IFDEF FPC} LM_CUT {$ELSE} WM_CUT {$ENDIF};
-         procedure WMPaste(var Message: TMessage); message {$IFDEF FPC} LM_PASTE {$ELSE} WM_PASTE {$ENDIF};
-       {$IFDEF FPC}
-       {$ELSE}
-         procedure WMUndo(var Message: TMessage); message WM_UNDO;
-       {$ENDIF}
-         procedure CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF}); message CM_EXIT;
-         procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
-       protected
-         procedure ActiveChange(Sender: TObject); virtual;
-         procedure DataChange(Sender: TObject); virtual;
-         procedure UpdateData(Sender: TObject); virtual;
-         function GetReadOnly: Boolean; {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
-         procedure SetReadOnly(AValue: Boolean); {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
-         procedure SetValue({$IFDEF FPC}const {$ENDIF}AValue: {$IFDEF FPC}Double{$ELSE}Extended{$ENDIF}); {$IFNDEF FPC}override ;{$ENDIF}
-         procedure KeyDown(var Key: Word; Shift: TShiftState); override;
-         procedure KeyPress(var Key: Char); override;
-         procedure Notification(AComponent: TComponent;
-         Operation: TOperation); override;
-       public
-         procedure Loaded; override;
-         procedure Change; override;
-         constructor Create(AOwner: TComponent); override;
-         destructor Destroy; override;
-         function ExecuteAction(AAction: TBasicAction): Boolean; override;
-         function UpdateAction(AAction: TBasicAction): Boolean; override;
-         property Field: TField read GetField;
-       published
-         property Value stored False ;
-         property DataField: string read GetDataField write SetDataField stored True;
-         property DataSource: TDataSource read GetDataSource write SetDataSource stored True;
-         {$IFNDEF FPC}
-         property ReadOnly: Boolean read GetReadOnly write SetReadOnly default false;
-         {$ENDIF}
-ead FAlwaysSame write FAlwaysSame default true;
+       property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
        {$ENDIF}
      End;
@@ -1120,6 +1079,13 @@ function TFWDBSpinEdit.GetReadOnly: Boolean;
 begin
   Result := FDataLink.ReadOnly or {$IFDEF FPC}inherited{$ELSE}FReadOnly{$ENDIF};
 end;
+
+{$IFNDEF FPC}
+procedure TFWDBSpinEdit.SetReadOnly(AValue: Boolean);
+begin
+  FReadOnly := AValue;
+end;
+{$ENDIF}
 
 function TFWDBSpinEdit.GetField: TField;
 begin

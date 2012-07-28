@@ -162,7 +162,7 @@ begin
    Then
     Begin
      if assigned ( FMapImages ) then
-        FImageIndex := FMapImages.GetImageIndex ( FDataLink.Field.AsString )
+        FImageIndex := FMapImages.ImageIndexOf ( FDataLink.Field.AsString )
      else
       if FDataLink.Field is TNumericField
        Then FImageIndex := FDataLink.Field.AsInteger

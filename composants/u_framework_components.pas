@@ -13,6 +13,7 @@ uses
  LCLIntf, LCLType,
  lmessages, EditBtn,
  Spin, MaskEdit,
+ ZVDateTimePicker,
 {$ELSE}
  Windows, Mask, DBTables, ActnMan,
  JvSpin,
@@ -33,7 +34,7 @@ uses
 {$IFDEF TNT}
    TntGrids, TntStdCtrls, 
 {$ENDIF}
-  Grids,fonctions_erreurs, ZVDateTimePicker;
+  Grids,fonctions_erreurs;
 
 {$IFDEF VERSIONS}
 const

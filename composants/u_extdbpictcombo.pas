@@ -129,10 +129,7 @@ end;
 procedure TExtDBPictCombo.Loaded;
 begin
   inherited Loaded;
-  if (csDesigning in ComponentState) then
-    Begin
-      DataChange(Self);
-    End ;
+  Invalidate;
 end;
 
 procedure TExtDBPictCombo.Notification(AComponent: TComponent;
@@ -290,8 +287,8 @@ begin
 end;
 {$ENDIF}
 
-initialization
 {$IFDEF VERSIONS}
+initialization
   p_ConcatVersion ( gVer_TExtDBPictCombo   );
 {$ENDIF}
 end.

@@ -78,8 +78,8 @@ type
         procedure SetColumns ( AValue : TExtMapImagesColumns ); virtual;
       public
         constructor Create(AOwner: TComponent); override;
-        function GetIndex ( const AValue : String ): Integer; virtual;
-        function GetImageIndex ( const AValue : String ): Integer; virtual;
+        function IndexOf ( const AValue : String ): Integer; virtual;
+        function ImageIndexOf ( const AValue : String ): Integer; virtual;
       published
       { Published declarations }
         property Columns : TExtMapImagesColumns read FMapImagesColumns write SetColumns ;
@@ -107,7 +107,7 @@ begin
   CreateImagesMap;
 end;
 
-function TExtMapImages.GetIndex(const AValue: String): Integer;
+function TExtMapImages.IndexOf(const AValue: String): Integer;
 var i : Integer;
 begin
   Result:=-1;
@@ -118,9 +118,9 @@ begin
     end;
 end;
 
-function TExtMapImages.GetImageIndex(const AValue: String): Integer;
+function TExtMapImages.ImageIndexOf(const AValue: String): Integer;
 begin
-  Result := GetIndex(AValue);
+  Result := IndexOf(AValue);
   if Result >= 0 Then
     Result:=Columns [ Result ].ImageIndex;
 end;

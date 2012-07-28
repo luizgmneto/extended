@@ -295,7 +295,7 @@ Begin
      if FListUp
       Then APoint.Y := Self.Height - Height
       Else APoint.Y := Self.Height;
-     APoint:=Parent.ScreenToClient(Self.ControlToScreen(APoint));
+     APoint:=Parent.ScreenToClient(Self.ClientToScreen(APoint));
      Left := APoint.X;
      Top  := APoint.Y;
      FSearchSource.DataSet.DisableControls;
