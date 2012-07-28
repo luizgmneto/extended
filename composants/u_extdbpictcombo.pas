@@ -80,13 +80,11 @@ type
       procedure DataChange(Sender: TObject); virtual;
       procedure UpdateData(Sender: TObject); virtual;
       procedure p_SetValue(const AValue: String); override ;
-      procedure KeyPress(var Key: Char); override;
       procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
     public
       procedure DoEnter; override;
       procedure Loaded; override;
-      procedure Change; override;
       constructor Create(AOwner: TComponent); override;
       destructor Destroy; override;
       function ExecuteAction(AAction: TBasicAction): Boolean; override;
@@ -143,21 +141,6 @@ begin
   inherited Notification(AComponent, Operation);
   if (Operation = opRemove) and (FDataLink <> nil) and
     (AComponent = DataSource) then DataSource := nil;
-end;
-
-procedure TExtDBPictCombo.KeyPress(var Key: Char);
-begin
-end;
-
-procedure TExtDBPictCombo.Change;
-begin
-  if not FDataLink.CanModify Then Exit;
-  FDataLink.Modified;
-  if assigned ( FDataLink.Field ) Then
-    if FDataLink.Field.IsNull then
-      p_SetValue ( '' )
-    Else
-      p_SetValue ( FDataLink.Field.AsString );
 end;
 
 function TExtDBPictCombo.GetDataSource: TDataSource;
