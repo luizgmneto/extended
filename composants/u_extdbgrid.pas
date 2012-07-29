@@ -58,7 +58,8 @@ const
                                                FileUnit : 'U_ExtDBGrid' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Grille avec fonctions étendues.' ;
-                                               BugsStory : '1.0.2.1 : Testing.' + #13#10
+                                               BugsStory : '1.0.2.2 : Testing.' + #13#10
+                                                         + '1.0.2.1 : Testing.' + #13#10
                                                          + '1.0.2.0 : MapImages property and testing.' + #13#10
                                                          + '1.0.1.1 : ImageList''s Event.' + #13#10
                                                          + '1.0.1.0 : ImageList with Field''s Index.' + #13#10
@@ -67,7 +68,7 @@ const
                                                          + '0.9.9.9 : Tested OK on DELPHI, need new version of LAZARUS to be completed.' + #13#10
                                                          + '0.9.0.0 : Création à partir de u_framework_dbcomponents.' ;
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 2 ; Build : 1 );
+                                               Major : 1 ; Minor : 0 ; Release : 2 ; Build : 2 );
 
 {$ENDIF}
 
@@ -675,7 +676,7 @@ begin
             Prepare;
             {$IFDEF FPC}DrawCellGrid{$ELSE}DoDrawCell{$ENDIF}(aCol,aRow, aRect, aState);
             FBitmap := TBitmap.Create;
-            FImages.GetBitmap(Field.AsInteger, FBitmap);
+            FImages.GetBitmap(Aindex, FBitmap);
             with FBitmap do
              Begin
                //Modified:=True;

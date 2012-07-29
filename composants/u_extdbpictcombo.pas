@@ -43,10 +43,11 @@ const
                                                FileUnit : 'U_ExtPictCombo' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Choisir une image dans une liste.' ;
-                                               BugsStory : '0.9.0.0 : Tested and optimised.' + #13#10 +
+                                               BugsStory : '0.9.9.0 : Tested more.' + #13#10 +
+                                                           '0.9.0.0 : Tested and optimised.' + #13#10 +
                                                            '0.8.0.0 : Not tested.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
 
 {$ENDIF}
 
@@ -73,9 +74,7 @@ type
       procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
       procedure CNCommand(var TheMessage: {$IFDEF FPC}TLMCommand{$ELSE}TWMCommand{$ENDIF}); message {$IFDEF FPC}CN_Command{$ELSE}WM_COMMAND{$ENDIF};
     protected
-      {$IFDEF FPC}
-      procedure SetDroppedDown(const AValue: Boolean); override;
-      {$ENDIF}
+      function GetReadOnly: Boolean; override;
       procedure ActiveChange(Sender: TObject); virtual;
       procedure DataChange(Sender: TObject); virtual;
       procedure UpdateData(Sender: TObject); virtual;
@@ -250,6 +249,11 @@ begin
   inherited;
 end;
 
+function TExtDBPictCombo.GetReadOnly: Boolean;
+begin
+  Result:=inherited GetReadOnly or FDataLink.ReadOnly;
+end;
+
 procedure TExtDBPictCombo.DoEnter;
 begin
   if ( GetReadOnly or not FDataLink.CanModify ) Then Exit;
@@ -278,14 +282,6 @@ begin
     FDataLink.Field.Value := AValue ;
   End;
 end;
-
-{$IFDEF FPC}
-procedure TExtDBPictCombo.SetDroppedDown(const AValue: Boolean);
-begin
-  If ( GetReadOnly or not FDataLink.CanModify ) and Avalue Then Exit;
-  inherited SetDroppedDown(AValue);
-end;
-{$ENDIF}
 
 {$IFDEF VERSIONS}
 initialization
