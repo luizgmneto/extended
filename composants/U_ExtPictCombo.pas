@@ -42,11 +42,12 @@ const
                                                FileUnit : 'U_ExtPictCombo' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Choisir une image dans une liste.' ;
-                                               BugsStory : '0.9.9.0 : Tested more.' + #13#10 +
+                                               BugsStory : '0.9.9.1 : Tested more.' + #13#10 +
+                                                           '0.9.9.0 : Tested more.' + #13#10 +
                                                            '0.9.0.0 : Tested and optimised.' + #13#10 +
                                                            '0.8.0.0 : Not tested.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
+                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 1 );
 
 
 {$ENDIF}
@@ -74,7 +75,7 @@ type
       procedure p_SetImagesMap ( const Value : TExtMapImages );
       procedure p_setLabel ( const alab_Label : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} );
       procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
-      procedure CNCommand(var TheMessage: {$IFDEF FPC}TLMCommand{$ELSE}TWMCommand{$ENDIF}); message {$IFDEF FPC}CN_Command{$ELSE}WM_COMMAND{$ENDIF};
+      procedure CNCommand(var TheMessage: {$IFDEF FPC}TLMCommand{$ELSE}TWMCommand{$ENDIF}); message {$IFDEF FPC}CN_COMMAND{$ELSE}WM_COMMAND{$ENDIF};
     protected
     { Protected declarations }
       procedure DrawAnImage( const AIndex : Longint; const ARect: TRect; var novorect : TRect ); virtual ;
@@ -280,7 +281,7 @@ End;
 
 procedure TExtPictCombo.CNCommand(var TheMessage: {$IFDEF FPC}TLMCommand{$ELSE}TWMCommand{$ENDIF});
 begin
-  if ReadOnly Then Exit;
+  if GetReadOnly Then Exit;
   inherited;
 end;
 
