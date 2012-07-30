@@ -27,6 +27,7 @@ const
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
     {$ENDIF}
+    CST_PROPERTY_DATASOURCE     = 'DataSource';
     CST_PROPERTY_LISTFIELD      = 'ListField';
     CST_PROPERTY_LOOKUPDISPLAY  = 'LookupDisplay';
     CST_PROPERTY_LISTSOURCE     = 'ListSource';
