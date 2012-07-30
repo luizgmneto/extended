@@ -40,7 +40,7 @@ uses
 {$ENDIF}
   SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   IniFiles, StdCtrls, ComCtrls, ExtCtrls,
-  Variants, Menus, Buttons,
+  Variants, Menus, Buttons, DbCtrls,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
@@ -63,6 +63,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
       CST_ONFORMINI_FORMSTYLE   = 'FormStyle' ;
       CST_ONFORMINI_INDEX       = 'Index' ;
       CST_ONFORMINI_TABINDEX    = 'TabIndex' ;
+      CST_ONFORMINI_PAGEINDEX   = 'PageIndex' ;
       CST_ONFORMINI_DATASOURCE  = 'Datasource'  ;
 
       // Components
@@ -449,12 +450,14 @@ var
   function fb_ReadEdits: Boolean;
   Begin
     Result := False;
-    if (lcom_Component is TEdit) and GetfeSauveEdit(FSaveEdits ,feTedit) then
+    if ((lcom_Component is TCustomEdit) and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_PROPERTY_DATASOURCE)))
+    and GetfeSauveEdit(FSaveEdits ,feTedit) then
       begin
         ls_Temp := fs_ReadString(lcom_Component.Name,'');
         if ( ls_Temp <> '' ) Then
           TCustomEdit(lcom_Component).Text := ls_Temp ;
         Result := True;
+        Exit;
       end;
 
     if GetfeSauveEdit(FSaveEdits ,feTDateEdit) Then
@@ -462,10 +465,11 @@ var
         Begin
           {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}(lcom_Component).Date := StrToDateTime(fs_ReadString(lcom_Component.Name,DateToStr(Date)));
           Result := True;
+          Exit;
         End;
 
-    if  GetfeSauveEdit(FSaveEdits ,feTEdit) Then
-      if (lcom_Component is TExtNumEdit) then
+    if  GetfeSauveEdit(FSaveEdits ,feTEdit)
+    and (lcom_Component is TExtNumEdit and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_PROPERTY_DATASOURCE))) then
         begin
           TExtNumEdit(lcom_Component).Text := fs_ReadString(lcom_Component.Name,' ');
           Result := True;
@@ -621,11 +625,9 @@ var
     // lecture de la page de contrôle(onglets)
     if ((lcom_Component is TCustomTabControl)) and GetfeSauveEdit ( FSaveEdits, feTPageControl )   then
       begin
-        {$IFDEF FPC}
-        TCustomTabControl(lcom_Component).PageIndex := fli_ReadInteger ( lcom_Component.Name , 0);
-        {$ELSE}
-        p_SetComponentProperty(lcom_Component,CST_ONFORMINI_TABINDEX,fli_ReadInteger ( lcom_Component.Name , 0));
-        {$ENDIF}
+        if IsPublishedProp(lcom_Component, CST_ONFORMINI_TABINDEX )
+         Then p_SetComponentProperty(lcom_Component,CST_ONFORMINI_TABINDEX ,fli_ReadInteger ( lcom_Component.Name , 0))
+         Else p_SetComponentProperty(lcom_Component,CST_ONFORMINI_PAGEINDEX,fli_ReadInteger ( lcom_Component.Name , 0));
         Result := True;
       end;
     // lecture de PopupMenu
@@ -826,17 +828,22 @@ var
   function fb_WriteEdits : Boolean;
   Begin
     Result := False;
-    if (lcom_Component is TEdit)           and GetfeSauveEdit(FSaveEdits ,feTEdit) then
+    if ((lcom_Component is TCustomEdit) and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_PROPERTY_DATASOURCE)))
+    and GetfeSauveEdit(FSaveEdits ,feTedit) then
       begin
         p_WriteString(lcom_Component.Name,TCustomEdit(lcom_Component).Text);
         Result := True;
+        Exit;
       end;
-    if (lcom_Component is TExtNumEdit)   and GetfeSauveEdit(FSaveEdits ,feTCurrencyEdit) then
+    if GetfeSauveEdit(FSaveEdits ,feTCurrencyEdit) and (lcom_Component is TExtNumEdit)
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_PROPERTY_DATASOURCE))then
       begin
         p_WriteString(lcom_Component.Name,TExtNumEdit(lcom_Component).Text);
         Result := True;
+        Exit;
       end;
-    if (lcom_Component is {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF})       and GetfeSauveEdit(FSaveEdits ,feTDateEdit) then
+    if GetfeSauveEdit(FSaveEdits ,feTDateEdit)
+    and (lcom_Component is {$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}) then
       begin
         p_WriteString(lcom_Component.Name,DateTimeToStr({$IFDEF FPC} TDateEdit {$ELSE} TJvCustomDateEdit {$ENDIF}(lcom_Component).Date));
         Result := True;
@@ -997,11 +1004,9 @@ var
     // Ecriture de la page de contrôle(onglets)
     if (lcom_Component is TCustomTabControl)     and GetfeSauveEdit(FSaveEdits, feTPageControl )   then
       begin
-        {$IFDEF FPC}
-        p_WriteInteger(lcom_Component.Name,TCustomTabControl(lcom_Component).PageIndex );
-        {$ELSE}
-        p_WriteInteger(lcom_Component.Name,flin_getComponentProperty(lcom_Component, CST_ONFORMINI_TABINDEX ));
-        {$ENDIF}
+        if IsPublishedProp(lcom_Component, CST_ONFORMINI_TABINDEX )
+         Then p_WriteInteger(lcom_Component.Name,flin_getComponentProperty(lcom_Component, CST_ONFORMINI_TABINDEX ))
+         Else p_WriteInteger(lcom_Component.Name,flin_getComponentProperty(lcom_Component, CST_ONFORMINI_PAGEINDEX ));
         Result := True;
       end;
     // Ecriture de PopupMenu
