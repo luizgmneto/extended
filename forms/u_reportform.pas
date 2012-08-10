@@ -5,7 +5,7 @@ unit u_reportform;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   CompSuperForm, RLReport;
 
 type
@@ -14,6 +14,7 @@ type
 
   TReportForm = class(TSuperForm)
     AReport: TRLReport;
+    Panel1: TPanel;
     procedure p_BeforePrintImage(Sender: TObject; var PrintIt: boolean);
   private
     { private declarations }
@@ -36,8 +37,8 @@ var aimageindex : Integer;
     ADatasource : TDatasource;
     I : Integer;
 Begin
-  for i := 0 to high ( ListImages ) do
-   with ListImages [ i ] do
+  for i := 0 to high ( RLListImages ) do
+   with RLListImages [ i ] do
     if AImage = Sender Then
       Begin
         aimageIndex:=-1;
