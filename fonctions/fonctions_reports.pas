@@ -115,6 +115,13 @@ var i, totalgridwidth, aresizecolumns, atitleHeight, SomeLeft, totalreportwidth,
     ARLImage.Width:=AWidth;
   end;
 
+  function fi_resize ( const ai_width : Integer ):Integer;
+  Begin
+    if ( high ( ab_resize ) < i ) or ab_resize[i]
+     Then Result:=ai_width+aresizecolumns
+     Else Result:=ai_Width;
+  end;
+
 Begin
   AReport := AReportForm.AReport;
   Result := False;
@@ -146,9 +153,7 @@ Begin
      with aColumns [ i ] do
       if Visible Then
        Begin
-         if ab_resize[i]
-          Then awidth:=width+aresizecolumns
-          Else awidth:=Width;
+         awidth:=fi_resize ( Width );
          p_createLabel (SomeLeft,2,aWidth,agrid.font.Size,[fsBold],RLColumnHeadercolor, Title.caption);
          inc ( SomeLeft, aWidth );
        end;
@@ -160,9 +165,7 @@ Begin
       if Visible
       and ( Width > 4 ) Then
        Begin
-         if ab_resize[i]
-          Then awidth:=width+aresizecolumns
-          Else awidth:=Width;
+         awidth:=fi_resize ( Width );
          if  ( aColumns [ i ] is TExtGridColumn ) Then
            AImages:=( aColumns [ i ] as TExtGridColumn ).Images;
          if AImages <> nil Then
