@@ -7,6 +7,9 @@ unit fonctions_reports;
 interface
 
 uses
+{$IFNDEF FPC}
+  Windows,
+{$ENDIF}
   Classes, SysUtils, RLReport, DBGrids, DB,
   u_extdbgrid,U_ExtMapImageIndex,Forms,
   u_reportform,ImgList, Graphics;
@@ -45,6 +48,7 @@ var i, totalgridwidth, aresizecolumns, atitleHeight, SomeLeft, totalreportwidth,
     AImages : TCustomImageList;
     AReport : TRLReport;
     ARLSystemInfo : TRLSystemInfo;
+    AGridFont : TFont;
   procedure p_createLabel ( const ALeft, ATop, AWidth , AFontWidth : Integer ; const astyle : TFontStyles; const AColor : TColor; const as_Text : String = '' );
   Begin
     ARLLabel := TRLLabel.Create(AReport);
@@ -73,7 +77,7 @@ var i, totalgridwidth, aresizecolumns, atitleHeight, SomeLeft, totalreportwidth,
     ARLSystemInfo.Font.Color := AColor;
     ARLSystemInfo.Alignment:=taLeftJustify;
     ARLSystemInfo.Align:=faRight;
-    ARLSystemInfo.Layout:=TRLTextLayout.tlTop;
+    ARLSystemInfo.Layout:=tlTop;
     ARLSystemInfo.Text:=as_Text;
     ARLSystemInfo.Info:=AInfo;
   end;
@@ -123,6 +127,7 @@ var i, totalgridwidth, aresizecolumns, atitleHeight, SomeLeft, totalreportwidth,
   end;
 
 Begin
+  AGridFont := TFont ( fobj_getComponentObjectProperty(agrid,'Font'));
   AReport := AReportForm.AReport;
   Result := False;
   aresizecolumns := 0 ;
@@ -154,7 +159,7 @@ Begin
       if Visible Then
        Begin
          awidth:=fi_resize ( Width );
-         p_createLabel (SomeLeft,2,aWidth,agrid.font.Size,[fsBold],RLColumnHeadercolor, Title.caption);
+         p_createLabel (SomeLeft,2,aWidth,AGridFont.Size,[fsBold],RLColumnHeadercolor, Title.caption);
          inc ( SomeLeft, aWidth );
        end;
     SomeLeft:=RLLeftTopPage.X;
@@ -184,7 +189,7 @@ Begin
              end;
           end
          Else
-          p_createDBText(SomeLeft,2,aWidth,agrid.font.Size,[],RLColumnHeadercolor, FieldName);
+          p_createDBText(SomeLeft,2,aWidth,AGridFont.Size,[],RLColumnHeadercolor, FieldName);
          inc ( SomeLeft, aWidth );
        end;
    end;

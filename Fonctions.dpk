@@ -60,7 +60,29 @@ requires
   Jcl,
   xmlrtl,
   VampyreImagingPackage,
-  ibxpress;
+  ibxpress,
+  ExtComponents,
+  inet,
+  ExtCopyD10,
+  JvCustomD10R,
+  JvDlgsD10R,
+  JvCtrlsD10R,
+  JvCoreD10D,
+  Fonctions,
+  dsnap,
+  FlatStyle_D6,
+  FlatStyle_AddOn,
+  dmenutoolbar,
+  TntUnicodeVcl_R90,
+  dcldklang10,
+  JvPageCompsD10R,
+  JvHMID10R,
+  rxdb,
+  rxctl,
+  rxbde,
+  JvCmpD10R,
+  JvGlobusD10R,
+  ExpertSuperForm;
 
 contains
   fonctions_version in 'fonctions\fonctions_version.pas',
@@ -85,6 +107,8 @@ contains
   fonctions_languages in 'fonctions\fonctions_languages.pas',
   type_string_delphi in 'fonctions\type_string_delphi.pas',
   fonctions_numedit in 'fonctions\fonctions_numedit.pas',
-  unite_messages_delphi in 'fonctions\unite_messages_delphi.pas';
+  unite_messages_delphi in 'fonctions\unite_messages_delphi.pas',
+  fonctions_reports in 'fonctions\fonctions_reports.pas',
+  u_reportform in 'forms\u_reportform.pas';
 
 end.
