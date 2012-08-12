@@ -1,11 +1,18 @@
 unit u_reportform;
 
-{$mode delphi}
+{$IFDEF FPC}
+{$mode Delphi}
+{$ENDIF}
+
 
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+{$IFDEF FPC}
+  FileUtil, 
+{$ELSE}
+{$ENDIF}
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   CompSuperForm, RLReport;
 
 type
@@ -29,7 +36,12 @@ implementation
 
 uses DB, fonctions_images, fonctions_reports;
 
+{$IFDEF FPC}
 {$R *.lfm}
+{$ELSE}
+{$R *.dfm}
+{$ENDIF}
+
 
 procedure TReportForm.p_BeforePrintImage (Sender:TObject; var PrintIt:boolean);
 var aimageindex : Integer;
@@ -63,7 +75,7 @@ Begin
              Bitmap.Canvas.Brush.Color := clWhite;
              Bitmap.Width  := Width;
              Bitmap.Height := Height;
-             Bitmap.Canvas.FillRect( 0, 0, Width, Height );
+             Bitmap.Canvas.FillRect( {$IFNDEF FPC} Rect{$ENDIF} (  0, 0, Width, Height ));
              Bitmap.Canvas.Draw ( 0, 0, Abitmap );
              Bitmap.Modified := True;
              {$IFNDEF FPC}
