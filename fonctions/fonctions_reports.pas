@@ -144,10 +144,10 @@ Begin
         inc ( aresizecolumns );
        end;
     if totalgridwidth = 0 Then Exit;
-    atitleHeight := round ( ( Width - 80 ) div length ( as_Title )*2.1 );
+    atitleHeight := round ( ( Width - 120 ) div length ( as_Title )*1.9 );
     with RLLeftTopPage do
       p_createBand ( X, Y, atitleHeight + 4, btHeader );
-    p_createLabel(2,2,0,atitleHeight*3 div 5,[fsBold],RLTitlecolor, as_Title);
+    p_createLabel(2,2,0,atitleHeight*2 div 3,[fsBold],RLTitlecolor, as_Title);
     p_createSystemInfo(ARLBand.Width,2,10,itPageNumber,[fsBold],RLTitlecolor);
     p_createSystemInfo(ARLBand.Width,2,10,itLastPageNumber,[fsBold],RLTitlecolor, '/');
     SomeLeft:=RLLeftTopPage.X;
