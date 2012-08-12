@@ -377,10 +377,10 @@ var
   function fb_ReadHighComponents: Boolean;
   Begin
     Result := False;
-    if (lcom_Component is TDBGrid) and
+    if (lcom_Component is TCustomDBGrid) and
        GetfeSauveEdit(FSaveEdits, feTGrid) then
       begin
-        f_IniReadGridFromIni ( FInifile, aF_Form.Name, lcom_Component as TDBGrid );
+        f_IniReadGridFromIni ( FInifile, aF_Form.Name, lcom_Component as TCustomDBGrid );
         // No continue because other use of grid
       end;
 
@@ -770,9 +770,6 @@ var
   ab_continue : Boolean ;
   mit: TMenuItem;
   j: integer;
-//  lvt_EnteteArbre : TVTHeader ;
-//  lgd_grid: TDBGrid;
-//  lsv_ListView : TListView ;
   lcom_Component : TComponent;
   procedure p_WriteString ( const as_ComponentName, as_Value : String );
   Begin
@@ -787,10 +784,10 @@ var
   function fb_WriteHighComponents : Boolean;
   Begin
     Result := False;
-    if (lcom_Component is TDBGrid) and
+    if (lcom_Component is TCustomDBGrid) and
        GetfeSauveEdit(FSaveEdits, feTGrid) then
       begin
-        p_IniWriteGridToIni ( FInifile, af_Form.Name, lcom_Component as TDBGrid );
+        p_IniWriteGridToIni ( FInifile, af_Form.Name, lcom_Component as TCustomDBGrid );
       end;
 
     {$IFDEF VIRTUALTREES}

@@ -66,6 +66,7 @@ const
   INIPAR_CONNEXION = 'String de connexion';
   INIPAR_ACCESS    = 'String d''acces';
 
+  CST_INI_COLUMNS     = 'Columns' ;
   CST_INI_TEXT        = 'Text' ;
   CST_INI_ITEMS       = 'Items'  ;
   CST_INI_ITEMINDEX   = 'ItemIndex'  ;
@@ -128,14 +129,14 @@ const
   function f_IniReadSectionStr(aSection: string; aCle: string; aDefaut: string): string;
   // Retourne une chaîne à partir de la section et de la clé ainsi que de la valeur par défaut
   function f_IniReadSection(aSection: string): string;
-  function f_IniReadGridFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TDBGrid ): Boolean ;
+  function f_IniReadGridFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TCustomDBGrid ): Boolean ;
 {$IFDEF VIRTUALTREES}
   function f_IniReadVirtualTreeFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const abvt_VirtualTree : TBaseVirtualTree ): Boolean ;
   procedure p_IniWriteVirtualTreeToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const abvt_VirtualTree : TBaseVirtualTree );
 {$ENDIF}
   function f_IniReadListViewFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TCustomListView ): Boolean ;
 
-  procedure p_IniWriteGridToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TDBGrid );
+  procedure p_IniWriteGridToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TCustomDBGrid );
   procedure p_IniWriteListViewToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TCustomListView );
   // Ecrit une chaîne dans le fichier déclaré dans FINIFile
   // à partir de la section et de la clé ainsi que de la valeur à donner.
@@ -397,21 +398,23 @@ end;
 //               Retour       : Une colonne au moins a été affectée
 /////////////////////////////////////////////////////////////////////////////////
 
-function f_IniReadGridFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TDBGrid ): Boolean ;
+function f_IniReadGridFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TCustomDBGrid ): Boolean ;
 var k, li_Width : Integer ;
+    AColumns : TDBGridColumns;
 begin
   Result := False ;
-  for k := 0 to agd_grid.Columns.Count - 1 do
+  AColumns := TDBGridColumns ( fobj_getComponentObjectProperty( agd_grid, CST_INI_COLUMNS));
+  for k := 0 to aColumns.Count - 1 do
     Begin
 {$IFDEF FPC}
-      li_Width := aini_IniFile.ReadInteger( as_FormName, agd_grid.Name + '.' + (TColumn(agd_grid.Columns[k])).FieldName, agd_grid.Columns[k].Width);
+      li_Width := aini_IniFile.ReadInteger( as_FormName, agd_grid.Name + '.' + (TColumn(aColumns[k])).FieldName, aColumns[k].Width);
 {$ELSE}
-      li_Width := aini_IniFile.ReadInteger( as_FormName, agd_grid.Name + '.' + agd_grid.Columns[k].FieldName, agd_grid.Columns[k].Width);
+      li_Width := aini_IniFile.ReadInteger( as_FormName, agd_grid.Name + '.' + aColumns[k].FieldName, aColumns[k].Width);
 {$ENDIF}
       if li_Width > 0 Then
         Begin
           Result := True ;
-          agd_grid.Columns[k].Width := li_Width ;
+          aColumns[k].Width := li_Width ;
         End ;
     End ;
 end;
@@ -423,14 +426,17 @@ end;
 //               as_FormName  : Le nom de la fiche section de l'ini
 //               agd_grid     : La grille
 /////////////////////////////////////////////////////////////////////////////////
-procedure p_IniWriteGridToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TDBGrid );
+procedure p_IniWriteGridToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TCustomDBGrid );
 var k : Integer ;
+  AColumns : TDBGridColumns;
 begin
-  for k := 0 to agd_grid.Columns.Count - 1 do
+  AColumns := TDBGridColumns ( fobj_getComponentObjectProperty( agd_grid, CST_INI_COLUMNS));
+
+  for k := 0 to aColumns.Count - 1 do
 {$IFDEF FPC}
-    aini_IniFile.WriteInteger ( as_FormName, agd_grid.Name + '.' + (Tcolumn(agd_grid.Columns[k])).FieldName, agd_grid.Columns[k].Width);
+    aini_IniFile.WriteInteger ( as_FormName, agd_grid.Name + '.' + (Tcolumn(aColumns[k])).FieldName, aColumns[k].Width);
 {$ELSE}
-    aini_IniFile.WriteInteger ( as_FormName, agd_grid.Name + '.' + agd_grid.Columns[k].FieldName, agd_grid.Columns[k].Width);
+    aini_IniFile.WriteInteger ( as_FormName, agd_grid.Name + '.' + aColumns[k].FieldName, aColumns[k].Width);
 {$ENDIF}
 End ;
 
