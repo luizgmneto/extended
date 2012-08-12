@@ -34,7 +34,8 @@ function fb_CreateGridReport ( const agrid : TCustomDBGrid; const as_Title : Str
 implementation
 
 uses fonctions_proprietes,RLPreview,
-     fonctions_images, unite_messages;
+     fonctions_images, unite_messages,
+     Math;
 
 
 
@@ -145,6 +146,7 @@ Begin
        end;
     if totalgridwidth = 0 Then Exit;
     atitleHeight := round ( ( Width - 120 ) div length ( as_Title )*1.9 );
+    atitleHeight := Min ( 32, atitleHeight );
     with RLLeftTopPage do
       p_createBand ( X, Y, atitleHeight + 4, btHeader );
     p_createLabel(2,2,0,atitleHeight*2 div 3,[fsBold],RLTitlecolor, as_Title);
