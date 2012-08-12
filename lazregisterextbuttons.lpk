@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <CONFIG>
-  <Package Version="3">
+  <Package Version="4">
     <Name Value="lazregisterextbuttons"/>
+    <AddToProjectUsesSection Value="True"/>
     <CompilerOptions>
-      <Version Value="9"/>
+      <Version Value="11"/>
       <SearchPaths>
         <IncludeFiles Value="composants"/>
         <OtherUnitFiles Value="composants"/>
@@ -14,7 +15,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1"/>
-    <Files Count="7">
+    <Files Count="9">
       <Item1>
         <Filename Value="composants/u_regfsbuttons.pas"/>
         <HasRegisterProc Value="True"/>
@@ -48,22 +49,34 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regfwbuttons_appli"/>
       </Item7>
+      <Item8>
+        <Filename Value="composants/u_regreports_components.lrs"/>
+        <Type Value="LRS"/>
+      </Item8>
+      <Item9>
+        <Filename Value="composants/u_regreports_components.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regreports_components"/>
+      </Item9>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="4">
+    <RequiredPkgs Count="5">
       <Item1>
-        <PackageName Value="lazextcomponents"/>
+        <PackageName Value="extreports"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
+        <PackageName Value="lazextcomponents"/>
       </Item2>
       <Item3>
-        <PackageName Value="lazextbuttons"/>
+        <PackageName Value="LCL"/>
       </Item3>
       <Item4>
+        <PackageName Value="lazextbuttons"/>
+      </Item4>
+      <Item5>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item4>
+      </Item5>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

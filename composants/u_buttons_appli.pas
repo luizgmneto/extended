@@ -18,7 +18,7 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  Controls,
+  Controls, DBGrids,
   u_buttons_defs, Graphics,
   Menus, JvXPButtons;
 
@@ -41,6 +41,7 @@ const
   CST_FWOK='tfwok';
   CST_FWBASKET = 'tfwbasket';
   CST_FWDATE = 'tfwdate';
+  CST_FWDOCUMENT = 'tfwdocument';
   CST_FWFOLDER = 'tfwfolder';
   CST_FWINSERT = 'tfwinsert';
   CST_FWDELETE = 'tfwdelete';
@@ -51,7 +52,6 @@ const
   CST_FWERASE = 'tfwerase';
   CST_FWSAVEAS = 'tfwsaveas';
   CST_FWPRINT = 'tfwprint';
-  CST_FWDOCUMENT = 'tfwdocument';
   CST_FWPREVIEW = 'tfwpreview';
   CST_FWNEXT = 'tfwnext';
   CST_FWREFRESH = 'tfwrefresh';
@@ -174,9 +174,6 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     procedure Loaded; override;
-
-  published
-
   end;
 
   { TFWPreview }
@@ -353,9 +350,8 @@ uses {$IFDEF FPC}ObjInspStrConsts, lclstrconsts,
   {$ELSE}
   unite_messages_delphi,
   {$ENDIF}
-   fonctions_images,
+  fonctions_images,
   Forms;
-
 
 {$IFNDEF FPC}
 var
