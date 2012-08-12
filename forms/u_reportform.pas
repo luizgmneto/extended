@@ -75,7 +75,9 @@ Begin
              Bitmap.Canvas.Brush.Color := clWhite;
              Bitmap.Width  := Width;
              Bitmap.Height := Height;
-             Bitmap.Canvas.FillRect( {$IFNDEF FPC} Rect{$ENDIF} (  0, 0, Width, Height ));
+             Bitmap.Canvas.FillRect(
+               {$IFNDEF FPC} Rect (  {$ENDIF}
+               0, 0, Width, Height {$IFNDEF FPC}){$ENDIF});
              Bitmap.Canvas.Draw ( 0, 0, Abitmap );
              Bitmap.Modified := True;
              {$IFNDEF FPC}

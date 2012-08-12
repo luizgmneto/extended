@@ -77,7 +77,7 @@ var i, totalgridwidth, aresizecolumns, atitleHeight, SomeLeft, totalreportwidth,
     ARLSystemInfo.Font.Color := AColor;
     ARLSystemInfo.Alignment:=taLeftJustify;
     ARLSystemInfo.Align:=faRight;
-    ARLSystemInfo.Layout:=tlTop;
+    ARLSystemInfo.Layout:={$IFDEF FPC }TRLTextLayout.{$ENDIF}tlTop;
     ARLSystemInfo.Text:=as_Text;
     ARLSystemInfo.Info:=AInfo;
   end;
