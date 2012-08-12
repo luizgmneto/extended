@@ -1482,6 +1482,8 @@ begin
    ////////////////////////////////////////////
   // Désaffectation des composants détruits //
  ////////////////////////////////////////////
+  if Operation <> opRemove Then
+    Exit;
 
   if  ( Assigned                   ( DataListOpposite ))
   and ( AComponent.IsImplementorOf ( DataListOpposite ))

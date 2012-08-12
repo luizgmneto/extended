@@ -1368,6 +1368,10 @@ procedure TDBListView.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
+
+  if Operation <> opRemove Then
+    Exit;
+
   // Suppression d'un datasource inexistant
   if  ( Assigned                   ( Datasource ))
   and ( AComponent.IsImplementorOf ( Datasource ))

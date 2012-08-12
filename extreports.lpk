@@ -5,8 +5,8 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <OtherUnitFiles Value="fonctions;forms"/>
-        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)/"/>
+        <OtherUnitFiles Value="fonctions;forms;composants"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
         <CompilerMessages>
@@ -15,7 +15,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="3">
+    <Files Count="4">
       <Item1>
         <Filename Value="fonctions/fonctions_reports.pas"/>
         <UnitName Value="fonctions_reports"/>
@@ -28,6 +28,10 @@
         <Filename Value="forms/u_reportform.pas"/>
         <UnitName Value="u_reportform"/>
       </Item3>
+      <Item4>
+        <Filename Value="composants/u_reports_components.pas"/>
+        <UnitName Value="u_reports_components"/>
+      </Item4>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="3">
