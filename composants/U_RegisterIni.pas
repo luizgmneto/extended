@@ -163,8 +163,10 @@ implementation
 uses
 {$IFNDEF FPC}
   ToolIntf,  EditIntf, DesignIntf, ExptIntf,
+{$ELSE}
+  custforms, unite_messages,
 {$ENDIF}
- Classes,  U_FormMainIni;
+  Classes,  U_FormMainIni;
 
 {$IFNDEF FPC}
 {
@@ -308,7 +310,7 @@ procedure Register ;
 begin // Enregistre le nouvel expert de projet
 // Un register libère automatiquement la variable à la suppression
 {$IFDEF FPC}
-   RegisterClass ( TF_FormMainIni );
+   RegisterCustomForm ( TF_FormMainIni, 'lazextcomponents' );
 {$ELSE}
    RegisterCustomModule ( TF_FormMainIni, TCustomModule );
 //   RegisterPropertyEditor ( TypeInfo ( TADOConnection ), TADOConnection, 'Connection', TProviderProperty );
