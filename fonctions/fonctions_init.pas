@@ -596,8 +596,9 @@ end;
 function fs_GetIniDir( const ab_Root : Boolean = False ): String;
 var ls_Dir : String;
 begin
-
-  Result := GetAppConfigDir ( ab_Root ) ;
+  if ab_Root and ( pos ( GetUserDir, Application.ExeName ) > 0 )
+   Then Result := ExtractFileDir(Application.ExeName) + DirectorySeparator
+   Else Result := GetAppConfigDir ( ab_Root ) ;
   if not Assigned(FIniFile) then
     begin
       if not DirectoryExists(  Result )
@@ -799,7 +800,7 @@ function fs_PathCommonIni ( const as_NomConnexion: string ; const ab_create : Bo
 var lt_Arg  : Array [0..0] of String ;
 Begin
     try
-      Result := GetAppConfigDir ( True );
+      Result := fs_GetIniDir ( True );
       if ab_create
       and not DirectoryExists(Result) Then
         CreateDir(Result);
