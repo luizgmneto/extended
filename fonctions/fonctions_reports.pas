@@ -29,8 +29,8 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     RLColumnHeadercolor : TColor = clBlack;
     RLColumnTextcolor : TColor = clBlack;
 
-function fb_CreateGridReport ( const AReportForm : TReportForm ; const agrid : TCustomDBGrid; const as_Title : String ; const ab_resize : Array of Boolean ): Boolean; overload;
-function fb_CreateGridReport ( const agrid : TCustomDBGrid; const as_Title : String ; const ab_resize : Array of Boolean ; const acf_filter : TRLCustomPrintFilter = nil ): Boolean; overload;
+function fb_CreateGridReport ( const AReportForm : TReportForm ; const agrid : TCustomDBGrid; const as_Title : String ; const apr_printcolumns : Array of Boolean ): Boolean; overload;
+function fb_CreateGridReport ( const agrid : TCustomDBGrid; const as_Title : String ; const apr_printcolumns : Array of Boolean ; const acf_filter : TRLCustomPrintFilter = nil ): Boolean; overload;
 
 implementation
 
@@ -40,7 +40,7 @@ uses fonctions_proprietes,RLPreview,
 
 
 
-function fb_CreateGridReport ( const AReportForm : TReportForm ; const agrid : TCustomDBGrid; const as_Title : String ; const ab_resize : Array of Boolean  ): Boolean;
+function fb_CreateGridReport ( const AReportForm : TReportForm ; const agrid : TCustomDBGrid; const as_Title : String ; const apr_printcolumns : Array of Boolean ): Boolean;
 var i, totalgridwidth, aresizecolumns, atitleHeight, SomeLeft, totalreportwidth, awidth : Integer;
     aColumns : TDBGridColumns;
     ARLLabel : TRLLabel;
@@ -123,7 +123,7 @@ var i, totalgridwidth, aresizecolumns, atitleHeight, SomeLeft, totalreportwidth,
 
   function fi_resize ( const ai_width : Integer ):Integer;
   Begin
-    if ( high ( ab_resize ) < i ) or ab_resize[i]
+    if ( high ( apr_printcolumns ) < i ) or apr_printcolumns[i]
      Then Result:=ai_width+aresizecolumns
      Else Result:=ai_Width;
   end;
@@ -204,7 +204,7 @@ Begin
    end;
 end;
 
-function fb_CreateGridReport ( const agrid : TCustomDBGrid; const as_Title : String ;const ab_resize : Array of Boolean  ; const acf_filter : TRLCustomPrintFilter = nil ): Boolean;
+function fb_CreateGridReport ( const agrid : TCustomDBGrid; const as_Title : String ;const apr_printcolumns : Array of Boolean ; const acf_filter : TRLCustomPrintFilter = nil ): Boolean;
 var ADatasource : TDatasource;
 Begin
   ReportForm := TReportForm.create ( nil );
@@ -213,7 +213,7 @@ Begin
   with ReportForm do
   try
     AReport.DefaultFilter:=acf_filter;
-    Result:=fb_CreateGridReport ( ReportForm, agrid, as_Title, ab_resize );
+    Result:=fb_CreateGridReport ( ReportForm, agrid, as_Title, apr_printcolumns );
     AReport.DataSource:=ADatasource;
     AReport.Preview(nil);
   finally

@@ -25,9 +25,10 @@ const
     FileUnit: 'u_reports_components';
     Owner: 'Matthieu Giroux';
     Comment: 'Customized Reports Buttons components.';
-    BugsStory:  '0.9.0.0 : To test.';
+    BugsStory :  '1.0.0.0 : To test.' + #13#10
+               + '0.9.0.0 : To test.';
     UnitType: 3;
-    Major: 0; Minor: 9; Release: 9; Build: 0);
+    Major: 1; Minor: 0; Release: 0; Build: 0);
 {$ENDIF}
 
 type
@@ -68,6 +69,7 @@ type
     FDBGrid: TCustomDBGrid;
     FColumns : TExtPrintColumns;
     FTitle : String;
+    procedure SetDBGrid(AValue: TCustomDBGrid);
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure CreateColumns; virtual;
@@ -76,15 +78,16 @@ type
     procedure Click; override;
     constructor Create(Component: TComponent); override;
   published
-    property DBGrid : TCustomDBGrid read FDBGrid write FDBGrid;
-    property Filter : TRLCustomPrintFilter read FFilter write FFilter;
+    property DBGrid : TCustomDBGrid read FDBGrid write SetDBGrid;
+    property DBFilter : TRLCustomPrintFilter read FFilter write FFilter;
     property Columns : TExtPrintColumns read FColumns write SetColumns;
-    property Title  : String read FTitle write FTitle;
+    property DBTitle  : String read FTitle write FTitle;
   end;
 
 implementation
 
 uses fonctions_reports,
+     fonctions_proprietes,
      Forms;
 
 { TExtPrintColumns }
@@ -120,24 +123,43 @@ end;
 
 { TFWPrintGrid }
 
+procedure TFWPrintGrid.SetDBGrid(AValue: TCustomDBGrid);
+var i : Integer;
+    AColumns : TDBGridColumns;
+begin
+  if AValue  <> FDBGrid Then
+    Begin
+      FDBGrid:=AValue;
+      if ( csDesigning in ComponentState )
+      and assigned ( FDBGrid ) then
+       Begin
+         AColumns := TDBGridColumns ( fobj_getComponentObjectProperty( FDBGrid, CST_PROPERTY_COLUMNS ));
+         for i := FColumns.Count  to AColumns.Count - 1 do
+          FColumns.Add.Resize := AColumns [ i ].Width div FDBGrid.Font.Size > 10 ;
+       end;
+    end;
+end;
+
 procedure TFWPrintGrid.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
-  if (Operation = opRemove) and (AComponent = DBGrid) then DBGrid := nil;
-  if (Operation = opRemove) and (AComponent = Filter) then Filter := nil;
+  if (Operation = opRemove) and (AComponent = DBGrid  ) then DBGrid := nil;
+  if (Operation = opRemove) and (AComponent = DBFilter) then DBFilter := nil;
 end;
 
 procedure TFWPrintGrid.Click;
-var ava_Resize : Array of Boolean;
-    i : Integer;
+var i : Integer;
+    aab_PrintColumns : Array of Boolean;
 begin
   inherited Click;
-  SetLength(ava_Resize,FColumns.Count);
-  for i := 0 to FColumns.Count - 1 do
-    ava_Resize [ i ] := FColumns [ i ].fResize;
   if assigned ( FDBGrid ) Then
-    fb_CreateGridReport(FDBGrid,FTitle,[],FFilter);
+   Begin
+     SetLength(aab_PrintColumns,FColumns.Count);
+     for i := 0 to FColumns.Count - 1 do
+      aab_PrintColumns [ i ] := FColumns [ i ].fResize;
+     fb_CreateGridReport(FDBGrid,FTitle,aab_PrintColumns,FFilter);
+   end;
 end;
 
 constructor TFWPrintGrid.Create(Component: TComponent);
