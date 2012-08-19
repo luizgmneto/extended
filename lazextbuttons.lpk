@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="5" Build="2"/>
-    <Files Count="8">
+    <Files Count="10">
       <Item1>
         <Filename Value="composants/u_buttons_extension.pas"/>
         <UnitName Value="u_buttons_extension"/>
@@ -54,6 +54,14 @@
         <Filename Value="forms/u_customizemenu.pas"/>
         <UnitName Value="U_CustomizeMenu"/>
       </Item8>
+      <Item9>
+        <Filename Value="composants/u_buttons_appli.lrs"/>
+        <Type Value="LRS"/>
+      </Item9>
+      <Item10>
+        <Filename Value="composants/u_buttons_appli.pas"/>
+        <UnitName Value="u_buttons_appli"/>
+      </Item10>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="6">
