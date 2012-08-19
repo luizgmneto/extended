@@ -20,7 +20,7 @@ interface
 
 uses
 {$IFDEF FPC}
-   LCLType,
+   LCLType, LMessages,
 {$ELSE}
    Windows,
 {$ENDIF}
@@ -58,7 +58,8 @@ const
                                                FileUnit : 'U_ExtDBGrid' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Grille avec fonctions étendues.' ;
-                                               BugsStory : '1.0.2.2 : Testing.' + #13#10
+                                               BugsStory : '1.0.3.0 : Column resize property.' + #13#10
+                                                         + '1.0.2.2 : Testing.' + #13#10
                                                          + '1.0.2.1 : Testing.' + #13#10
                                                          + '1.0.2.0 : MapImages property and testing.' + #13#10
                                                          + '1.0.1.1 : ImageList''s Event.' + #13#10
@@ -68,7 +69,7 @@ const
                                                          + '0.9.9.9 : Tested OK on DELPHI, need new version of LAZARUS to be completed.' + #13#10
                                                          + '0.9.0.0 : Création à partir de u_framework_dbcomponents.' ;
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 2 ; Build : 2 );
+                                               Major : 1 ; Minor : 0 ; Release : 3 ; Build : 0 );
 
 {$ENDIF}
 
@@ -87,6 +88,7 @@ type
      FSortOrder : TSortMarker;
      FImages : TCustomImageList;
      FMapImages : TExtMapImages;
+     FResize : Boolean;
    protected
      procedure SetControl ( const AValue : TWinControl ); virtual;
      procedure SetImages( const AValue : TCustomImageList ); virtual;
@@ -103,6 +105,7 @@ type
      property Images : TCustomImageList read FImages       write SetImages;
      property MapImages : TExtMapImages read FMapImages       write SetMapImages;
      property FieldTag : Integer     read fi_getFieldTag write p_setFieldTag;
+     property Resize : Boolean     read FResize write FResize default False;
      property SortOrder : TSortMarker     read FSortOrder write FSortOrder default smNone;
      property AfterControlKeyUp    : TKeyEvent      read FAfterControlKeyUp    write FAfterControlKeyUp;
      property AfterControlKeyDown  : TKeyEvent      read FAfterControlKeyDown  write FAfterControlKeyDown;
@@ -153,6 +156,9 @@ type
        {$IFDEF FPC}
        function  MouseButtonAllowed(Button: TMouseButton): boolean; override;
        {$ENDIF}
+      protected
+       procedure ChangeBounds(ALeft, ATop, AWidth, AHeight: integer; KeepBase: boolean); override;
+
       public
        procedure KeyDown(var Key: Word; Shift: TShiftState); override;
        procedure KeyUp(var ach_Key: Word; ashi_Shift: TShiftState); override;
@@ -160,6 +166,7 @@ type
        procedure DoEnter; override;
        procedure DoExit; override;
        procedure Loaded; override;
+       procedure SetBounds(ALeft, ATop, AWidth, AHeight: integer); override;
        function  CreateColumns: {$IFDEF FPC}TGridColumns{$ELSE}TDBGridColumns{$ENDIF}; override;
        {$IFDEF EXRX}
        procedure TitleClick(Column: TColumn); override;
@@ -318,6 +325,7 @@ begin
   FSortOrder:=smNone;
   FControl := nil;
   FFieldTag := 0 ;
+  FResize:=False;
 end;
 
 
@@ -567,6 +575,11 @@ begin
   OnGetBtnParams:=ExtGetBtnParams;
 End;
 
+procedure TExtDBGrid.SetBounds(ALeft, ATop, AWidth, AHeight: integer);
+begin
+  inherited SetBounds(ALeft, ATop, AWidth, AHeight);
+end;
+
 // procedure TExtDBGrid.MouseDown
 // On MouseDown show eventually column control
 procedure TExtDBGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
@@ -600,6 +613,45 @@ begin
   Result:=inherited MouseButtonAllowed(Button) or ( Assigned ( PopupMenu ) and ( Button = mbRight )) ;
 end;
 {$ENDIF}
+
+// procedure TExtDBGrid.ChangeBounds
+// Resize columns with resize property to true
+procedure TExtDBGrid.ChangeBounds(ALeft, ATop, AWidth, AHeight: integer; KeepBase: boolean);
+var AResizedColumns, AWidthResize, i, AWidthMarge : Integer;
+    APassed : Boolean;
+begin
+  if  ( AutoSizingLockCount = 0 )
+  and ( aWidth <> Width ) then
+   Begin
+     AResizedColumns  := 0;
+     for i := 0 to Columns.Count - 1 do
+      with Columns [ i ] do
+       if Resize Then
+        Begin
+          inc ( AResizedColumns );
+        end;
+     AWidthMarge := aWidth - Width;
+     inherited;
+     if AResizedColumns = 0 Then Exit;
+     AWidthResize:= AWidthMarge div AResizedColumns;
+     APassed := False;
+     for i := 0 to Columns.Count - 1 do
+      with Columns [ i ] do
+       if Resize Then
+        Begin
+          if APassed
+           Then Width := Width+AWidthResize
+           Else
+            Begin
+             Width := Width+AWidthResize+AWidthMarge - ( AWidthResize * AResizedColumns );
+             APassed := True;
+            end;
+        end;
+   end
+  Else
+   inherited;
+end;
+
 // function TExtDBGrid.GetColumns
 // This Dbgrid uses TExtDbGridColumns
 function TExtDBGrid.GetColumns: TExtDbGridColumns;
