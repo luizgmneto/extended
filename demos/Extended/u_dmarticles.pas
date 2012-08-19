@@ -171,7 +171,7 @@ var li_i : Integer;
     lstl_conf : TStringList;
 begin
   IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
-  {$IFDEF LINUX}
+  {$IFNDEF WINDOWS}
   Process.CommandLine:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'exec.sh';
   Process.Execute;
   try

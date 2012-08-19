@@ -24,7 +24,7 @@ uses
 
 const
 {$IFDEF VERSIONS}
-  gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_string' ;
+  gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_system' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'System Functions, with traducing and path management.' ;
                         			                 BugsStory : 'Version 1.0.2.0 : fs_DocDir and library''s extension.' + #10
@@ -38,7 +38,7 @@ const
 
 {$ENDIF}
   CST_SUBDIR_IMAGES_SOFT = DirectorySeparator + 'Images'+DirectorySeparator;
-  CST_EXTENSION_LIBRARY = {$IFDEF WINDOWS}'.dll'{$ELSE}{$IFDEF LINUX}'.so'{$ELSE}'.dylib'{$ENDIF}{$ENDIF};
+  CST_EXTENSION_LIBRARY = {$IFDEF WINDOWS}'.dll'{$ELSE}{$IFDEF DARWIN}'.dylib'{$ELSE}'.so'{$ENDIF}{$ENDIF};
 
 function fs_ExtractFileNameOnly ( const as_Path : String ): String;
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
@@ -205,10 +205,10 @@ Begin
   with Process do
     Begin
       CommandLine :=
-      {$IFDEF LINUX}
-      'xdg-open'
-      {$ELSE}
+      {$IFDEF WINDOWS}
       'explorer'
+      {$ELSE}
+      'xdg-open'
       {$ENDIF}
       +' "' + AFilePath + '"';
       Execute;

@@ -10,10 +10,24 @@ uses
 {$IFNDEF FPC}
   Windows,
 {$ENDIF}
-  Classes, SysUtils, RLReport, DBGrids, DB,
+  SysUtils, RLReport, DBGrids, DB,
   u_extdbgrid,U_ExtMapImageIndex,Forms,
   u_reportform,ImgList, Graphics,
-  RLFilters;
+  RLFilters,
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
+  Classes ;
+
+{$IFDEF VERSIONS}
+const
+  gVer_fonctions_reports : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_reports' ;
+                        			                 Owner : 'Matthieu Giroux' ;
+                        			                 Comment : 'Reports'' Functions, with grid reports.' ;
+                        			                 BugsStory : 'Version 1.0.0.0 : Working.';
+                        			                 UnitType : 1 ;
+                        			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+{$ENDIF}
 
 type TBoolArray = Array of Boolean;
 
@@ -28,20 +42,21 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     RLTitlecolor : TColor = clBlue;
     RLColumnHeadercolor : TColor = clBlack;
     RLColumnTextcolor : TColor = clBlack;
+    RLLandscapeColumnsCount : Integer = 9;
 
-function fb_CreateGridReport ( const AReportForm : TReportForm ; const agrid : TCustomDBGrid; const as_Title : String ; const apr_printcolumns : Array of Boolean ): Boolean; overload;
-function fb_CreateGridReport ( const agrid : TCustomDBGrid; const as_Title : String ; const apr_printcolumns : Array of Boolean ; const acf_filter : TRLCustomPrintFilter = nil ): Boolean; overload;
+function fb_CreateGridReport ( const AReportForm : TReportForm ; const agrid : TCustomDBGrid; const as_Title : String  ): Boolean; overload;
+function fb_CreateGridReport ( const agrid : TCustomDBGrid; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil ): Boolean; overload;
 
 implementation
 
 uses fonctions_proprietes,RLPreview,
      fonctions_images, unite_messages,
-     Math;
+     Math,Printers;
 
 
 
-function fb_CreateGridReport ( const AReportForm : TReportForm ; const agrid : TCustomDBGrid; const as_Title : String ; const apr_printcolumns : Array of Boolean ): Boolean;
-var i, totalgridwidth, aresizecolumns, atitleHeight, SomeLeft, totalreportwidth, awidth : Integer;
+function fb_CreateGridReport ( const AReportForm : TReportForm ; const agrid : TCustomDBGrid; const as_Title : String  ): Boolean;
+var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth : Integer;
     aColumns : TDBGridColumns;
     ARLLabel : TRLLabel;
     ARLDBText : TRLDBText;
@@ -77,7 +92,6 @@ var i, totalgridwidth, aresizecolumns, atitleHeight, SomeLeft, totalreportwidth,
     ARLSystemInfo.Font.Size:=AFontWidth;
     ARLSystemInfo.Font.Style:=astyle;
     ARLSystemInfo.Font.Color := AColor;
-    ARLSystemInfo.Alignment:=taLeftJustify;
     ARLSystemInfo.Align:=faRight;
     ARLSystemInfo.Layout:={$IFDEF FPC }TRLTextLayout.{$ENDIF}tlTop;
     ARLSystemInfo.Text:=as_Text;
@@ -92,7 +106,7 @@ var i, totalgridwidth, aresizecolumns, atitleHeight, SomeLeft, totalreportwidth,
     ARLBand.Top:=ATop;
     ARLBand.Left:=ALeft;
     ARLBand.Height:=Aheight;
-    ARLBand.Width:=AReport.Width-RLLeftTopPage.X*2;
+    ARLBand.Width:=aReport.Width-RLLeftTopPage.X*2;
   end;
   procedure p_createDBText ( const ALeft, ATop, AWidth, AFontWidth : Integer ; const astyle : TFontStyles; const AColor : TColor; const as_Fieldname : String);
   Begin
@@ -121,11 +135,107 @@ var i, totalgridwidth, aresizecolumns, atitleHeight, SomeLeft, totalreportwidth,
     ARLImage.Width:=AWidth;
   end;
 
-  function fi_resize ( const ai_width : Integer ):Integer;
+  function fi_resize ( const ai_width, aindex : Integer ):Integer;
   Begin
-    if ( high ( apr_printcolumns ) < i ) or apr_printcolumns[i]
+    if not ( aColumns is TExtDbGridColumns ) or ( aColumns [aindex] as TExtGridColumn ).Resize
      Then Result:=ai_width+aresizecolumns
      Else Result:=ai_Width;
+  end;
+
+  procedure PreparePrint;
+  var i : Integer;
+  Begin
+    with agrid,AReport do
+     Begin
+      for i := 0 to aColumns.Count - 1 do
+       with aColumns [ i ] do
+        if Visible
+        and ( Width > 4 ) Then
+         Begin
+          inc ( totalgridwidth, Width );
+          inc ( aVisibleColumns );
+          if not ( aColumns is TExtDbGridColumns ) or ( aColumns [i] as TExtGridColumn ).Resize
+            Then inc ( aresizecolumns );
+         end;
+      if aVisibleColumns >= RLLandscapeColumnscount
+       Then PageSetup.Orientation:=poLandscape
+       Else PageSetup.Orientation:=poPortrait;
+     End;
+
+  end;
+
+  procedure CreateHeader;
+  var i : Integer;
+  Begin
+   with agrid,AReport do
+    Begin
+      if as_Title > '' Then
+        Begin
+          atitleHeight := round ( ( Width - 120 ) div length ( as_Title )*1.9 );
+          atitleHeight := Min ( 32, atitleHeight );
+          with RLLeftTopPage do
+            p_createBand ( X, Y, atitleHeight + 4, btHeader );
+          p_createLabel(2,2,0,atitleHeight*2 div 3,[fsBold],RLTitlecolor, as_Title);
+        end
+       Else
+       with RLLeftTopPage do
+        p_createBand ( X, Y, 10, btHeader );
+      p_createSystemInfo(ARLBand.Width,2,10,itPageNumber,[fsBold],RLTitlecolor);
+      p_createSystemInfo(ARLBand.Width,2,10,itLastPageNumber,[fsBold],RLTitlecolor, '/');
+      SomeLeft:=RLLeftTopPage.X;
+      with RLLeftTopPage do
+       p_createBand ( X, Y + atitleHeight, 30, btColumnHeader  );
+      aresizecolumns:= ( Width - totalgridwidth ) div aresizecolumns;
+      for i := 0 to aColumns.Count - 1 do
+       with aColumns [ i ] do
+        if Visible Then
+         Begin
+           awidth:=fi_resize ( Width, i );
+           p_createLabel (SomeLeft,2,aWidth,AGridFont.Size,[fsBold],RLColumnHeadercolor, Title.caption);
+           inc ( SomeLeft, aWidth );
+         end;
+
+
+    end;
+  end;
+
+  procedure CreateList;
+  var i : Integer;
+  Begin
+    with agrid,AReport do
+     Begin
+      SomeLeft:=RLLeftTopPage.X;
+      with RLLeftTopPage do
+       p_createBand ( X, Y + atitleHeight + 30, 30, btDetail );
+      for i := 0 to aColumns.Count - 1 do
+       with aColumns [ i ] do
+        if Visible
+        and ( Width > 4 ) Then
+         Begin
+           awidth:=fi_resize ( Width, i );
+           if  ( aColumns [ i ] is TExtGridColumn ) Then
+             AImages:=( aColumns [ i ] as TExtGridColumn ).Images;
+           if AImages <> nil Then
+            with agrid as TextDBGrid, aColumns [ i ] as TExtGridColumn do
+            Begin
+              p_createImage (SomeLeft,2,aWidth-4);
+              ARLImage.BeforePrint := ReportForm.p_BeforePrintImage;
+              SetLength ( RLListImages, high ( RLListImages ) + 2 );
+              with RLListImages [ high ( RLListImages )] do
+               Begin
+                 AImage := ARLImage ;
+                 AField := Field ;
+                 AGetImageIndex := OnGetImageIndex;
+                 AMapImages := MapImages;
+                 AImages := Images;
+               end;
+            end
+           Else
+            p_createDBText(SomeLeft,2,aWidth,AGridFont.Size,[],RLColumnHeadercolor, FieldName);
+           inc ( SomeLeft, aWidth );
+         end;
+
+      End;
   end;
 
 Begin
@@ -133,78 +243,16 @@ Begin
   AReport := AReportForm.AReport;
   Result := False;
   aresizecolumns := 0 ;
+  aVisibleColumns := 0;
   totalgridwidth := 0;
   aColumns := TDBGridColumns ( fobj_getComponentObjectProperty(agrid,'Columns'));
-  with agrid,AReport do
-   Begin
-    for i := 0 to aColumns.Count - 1 do
-     with aColumns [ i ] do
-      if Visible
-      and ( Width > 4 ) Then
-       Begin
-        inc ( totalgridwidth, Width );
-        inc ( aresizecolumns );
-       end;
-    if totalgridwidth = 0 Then Exit;
-    if as_Title > '' Then
-      Begin
-        atitleHeight := round ( ( Width - 120 ) div length ( as_Title )*1.9 );
-        atitleHeight := Min ( 32, atitleHeight );
-        with RLLeftTopPage do
-          p_createBand ( X, Y, atitleHeight + 4, btHeader );
-        p_createLabel(2,2,0,atitleHeight*2 div 3,[fsBold],RLTitlecolor, as_Title);
-      end
-     Else
-     with RLLeftTopPage do
-      p_createBand ( X, Y, 10, btHeader );
-    p_createSystemInfo(ARLBand.Width,2,10,itPageNumber,[fsBold],RLTitlecolor);
-    p_createSystemInfo(ARLBand.Width,2,10,itLastPageNumber,[fsBold],RLTitlecolor, '/');
-    SomeLeft:=RLLeftTopPage.X;
-    with RLLeftTopPage do
-     p_createBand ( X, Y + atitleHeight, 30, btColumnHeader  );
-    aresizecolumns:= ( Width - totalgridwidth ) div aresizecolumns;
-    for i := 0 to aColumns.Count - 1 do
-     with aColumns [ i ] do
-      if Visible Then
-       Begin
-         awidth:=fi_resize ( Width );
-         p_createLabel (SomeLeft,2,aWidth,AGridFont.Size,[fsBold],RLColumnHeadercolor, Title.caption);
-         inc ( SomeLeft, aWidth );
-       end;
-    SomeLeft:=RLLeftTopPage.X;
-    with RLLeftTopPage do
-     p_createBand ( X, Y + atitleHeight + 30, 30, btDetail );
-    for i := 0 to aColumns.Count - 1 do
-     with aColumns [ i ] do
-      if Visible
-      and ( Width > 4 ) Then
-       Begin
-         awidth:=fi_resize ( Width );
-         if  ( aColumns [ i ] is TExtGridColumn ) Then
-           AImages:=( aColumns [ i ] as TExtGridColumn ).Images;
-         if AImages <> nil Then
-          with agrid as TextDBGrid, aColumns [ i ] as TExtGridColumn do
-          Begin
-            p_createImage (SomeLeft,2,aWidth-4);
-            ARLImage.BeforePrint := ReportForm.p_BeforePrintImage;
-            SetLength ( RLListImages, high ( RLListImages ) + 2 );
-            with RLListImages [ high ( RLListImages )] do
-             Begin
-               AImage := ARLImage ;
-               AField := Field ;
-               AGetImageIndex := OnGetImageIndex;
-               AMapImages := MapImages;
-               AImages := Images;
-             end;
-          end
-         Else
-          p_createDBText(SomeLeft,2,aWidth,AGridFont.Size,[],RLColumnHeadercolor, FieldName);
-         inc ( SomeLeft, aWidth );
-       end;
-   end;
+  PreparePrint;
+  if totalgridwidth = 0 Then Exit;
+  CreateHeader;
+  CreateList;
 end;
 
-function fb_CreateGridReport ( const agrid : TCustomDBGrid; const as_Title : String ;const apr_printcolumns : Array of Boolean ; const acf_filter : TRLCustomPrintFilter = nil ): Boolean;
+function fb_CreateGridReport ( const agrid : TCustomDBGrid; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil ): Boolean;
 var ADatasource : TDatasource;
 Begin
   ReportForm := TReportForm.create ( nil );
@@ -213,7 +261,7 @@ Begin
   with ReportForm do
   try
     AReport.DefaultFilter:=acf_filter;
-    Result:=fb_CreateGridReport ( ReportForm, agrid, as_Title, apr_printcolumns );
+    Result:=fb_CreateGridReport ( ReportForm, agrid, as_Title );
     AReport.DataSource:=ADatasource;
     AReport.Preview(nil);
   finally
@@ -224,5 +272,8 @@ Begin
   end;
 end;
 
+{$IFDEF VERSIONS}
+initialization
+  p_ConcatVersion ( gVer_fonctions_reports );
+{$ENDIF}
 end.
-
