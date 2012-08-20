@@ -203,7 +203,7 @@ Begin
 {$IFDEF FPC}
   Process := TProcess.Create(nil);
   with Process do
-    Begin
+    try
       CommandLine :=
       {$IFDEF WINDOWS}
       'explorer'
@@ -212,6 +212,8 @@ Begin
       {$ENDIF}
       +' "' + AFilePath + '"';
       Execute;
+    finally
+      Destroy;
     end;
 {$ELSE}
   ShellExecute(0,'open', PChar(AFilePath), nil, nil, SW_SHOWNORMAL) ;
