@@ -100,7 +100,7 @@ Begin
   {$IFDEF WINDOWS}
   Result := GetWindir ( CSIDL_PERSONAL );
   {$ELSE}
-  Result := GetUserDir + DirectorySeparator + 'Documents';
+  Result := GetUserDir + 'Documents';
   {$ENDIF}
 
 end;
@@ -204,13 +204,17 @@ Begin
   Process := TProcess.Create(nil);
   with Process do
     try
-      CommandLine :=
+      Executable :=
       {$IFDEF WINDOWS}
       'explorer'
       {$ELSE}
+      {$IFDEF LINUX}
       'xdg-open'
+      {$ELSE}
+      'open'
       {$ENDIF}
-      +' "' + AFilePath + '"';
+      {$ENDIF};
+      Parameters.Add(AFilePath);
       Execute;
     finally
       Destroy;
