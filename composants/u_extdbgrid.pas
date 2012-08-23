@@ -50,6 +50,7 @@ uses
   DBGrids,
   Controls,
   ImgList,
+  StdCtrls,
   U_ExtMapImageIndex;
 
 {$IFDEF VERSIONS}
@@ -559,6 +560,7 @@ begin
   FixedColor  := CST_GRID_STD;
   FWBeforeEnter:=nil;
   FWBeforeExit :=nil;
+  ScrollBars:=ssAutoBoth;
 end;
 
 // procedure TExtDBGrid.Loaded

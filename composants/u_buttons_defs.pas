@@ -150,7 +150,9 @@ begin
       Begin
     {$ENDIF}
       {$IFDEF FPC}
-          LoadFromLazarusResource(as_Resource);
+        LoadFromLazarusResource(as_Resource);
+        FGLyph.Bitmap.TransparentMode:=tmAuto;
+        FGLyph.Bitmap.Transparent:=True;
       {$ELSE}
         if ( Buttons_Appli_ResInstance = 0 ) Then
           Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
