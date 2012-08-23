@@ -241,7 +241,6 @@ type
     procedure Change; override;
     function EditCanModify: Boolean; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
-    procedure KeyPress(var Key: Char); override;
     procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
     procedure Reset; override;
@@ -347,29 +346,6 @@ begin
     FDataLink.Edit;
 end;
 
-procedure TExtDBNumEdit.KeyPress(var Key: Char);
-begin
-  inherited KeyPress(Key);
-  if (Key in [#32..#255]) and (FDataLink.Field <> nil) and
-    not FDataLink.Field.IsValidChar(Key) then
-  begin
-  {$IFDEF DELPHI}
-    MessageBeep(0);
-  {$ENDIF}
-    Key := #0;
-  end;
-  case Key of
-    ^H, ^V, ^X, #32..#255:
-      FDataLink.Edit;
-    #27:
-      begin
-        FDataLink.Reset;
-        SelectAll;
-        Key := #0;
-      end;
-  end;
-end;
-
 function TExtDBNumEdit.EditCanModify: Boolean;
 begin
   Result := FDataLink.Edit;
@@ -387,7 +363,7 @@ begin
     if FDataLink.Field.IsNull then
       gre_AValue := 0
     Else
-      gre_AValue := FDataLink.Field.Value ;
+      gre_AValue := FDataLink.Field.AsFloat ;
   FDataLink.Modified;
   inherited Change;
 end;
@@ -744,7 +720,7 @@ end;
 
 procedure TExtNumEdit.KeyPress(var Key: Char);
 begin
-  p_editGridKeyPress ( Self, Key,gby_NbApVirgule, gby_NbAvVirgule, gb_Negatif, SelStart, Text, SelText,pos ( DecimalSeparator, EditMask ) > 0 );
+  p_editGridKeyPress ( Self, Key,gby_NbApVirgule, gby_NbAvVirgule, gb_Negatif, SelStart, Text, SelText, gby_NbApVirgule > 0 );
 
   if  ( FHasMax )
   and ( Value > FMax )  then
