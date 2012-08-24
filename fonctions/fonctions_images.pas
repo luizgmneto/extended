@@ -65,9 +65,9 @@ function  fb_StreamToFile ( const Stream : TStream ; const afile : String; const
 procedure p_ImageFieldToStream ( const field : TField ; const ast_memory_stream: tMemoryStream ; const ab_ShowError : Boolean = False );
 procedure p_ImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean = False );
 procedure p_StreamToField ( const astream: TStream; const field : TField ; const ab_ShowError : Boolean = False );
-procedure p_FieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean = False );
+procedure p_FieldToImage ( const field : TField ; const Image : TBitmap ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False );
 procedure p_FileToStream ( const afile : String; const Stream : TStream ; const ab_ShowError : Boolean = False );
-procedure p_StreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean = False );
+procedure p_StreamToImage ( const stream: tStream; const Image : TBitmap ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False );
 procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean = False );
 procedure p_FileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean = False );
 procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF};
@@ -609,7 +609,7 @@ End ;
 // Procédure de transfert d'un champ vers une image
 // field : Le champ image
 // Image : La destination
-procedure p_FieldToImage ( const field : TField ; const Image : TPicture  ; const ab_ShowError : Boolean = False );
+procedure p_FieldToImage ( const field : TField ; const Image : TBitmap ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False );
 var l_c_memory_stream: TMemoryStream;
 begin
   if not ( field.IsNull ) then
@@ -623,7 +623,7 @@ begin
             ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FIELD_IMAGE);
       end;
       l_c_memory_stream.Position:=0;
-      p_StreamToImage ( l_c_memory_stream, Image, ab_ShowError );
+      p_StreamToImage ( l_c_memory_stream, Image, ali_newWidth, ali_newHeight, ab_KeepProportion, ab_ShowError );
       l_c_memory_stream.Free;
     End;
 
@@ -718,15 +718,19 @@ begin
 
 end;
 
-procedure p_StreamToImage ( const stream: tStream; const Image : TPicture ; const ab_ShowError : Boolean = False );
+procedure p_StreamToImage ( const stream: tStream; const Image : TBitmap ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ; const ab_ShowError : Boolean = False );
 var lid_imagedata : TImageData;
 begin
   Finalize(lid_imagedata);
-  InitImage(lid_imagedata);
   try
-    LoadImageFromStream( stream, lid_imagedata );
-    ConvertDataToBitmap( lid_imagedata, Image.Bitmap );
-    Image.Bitmap.Canvas.Refresh;
+    lid_imagedata := fid_StreamToImaging  ( Stream, ali_newWidth, ali_newHeight, ab_KeepProportion );
+    if Stream.Size > 0 Then
+      Begin
+        ConvertDataToBitmap( lid_imagedata, Image );
+        Image.Canvas.Refresh;
+      end
+     Else
+       Image.Clear;
   Except
     On E:Exception do
       if ab_ShowError Then
@@ -773,11 +777,12 @@ function fid_StreamToImaging ( const Stream : TStream ; const ali_newWidth : Lon
 begin
   Finalize ( Result );
   InitImage( Result );
+  Stream.Position := 0;
   if ( Stream.Size = 0 ) then
     Exit;
-  Stream.Position := 0;
   LoadImageFromStream  ( Stream, Result );
   if ( Result.Height = 0 )
+  or (( ali_newHeight = 0 ) and ( ali_newWidth = 0 ))
   or ( Result.Width  = 0 ) then
     Exit;
   fb_ResizeImaging(Result, ali_newWidth, ali_newHeight, ab_KeepProportion );

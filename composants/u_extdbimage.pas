@@ -194,7 +194,7 @@ begin
   and not FDataLink.Field.IsNull
    Then
     Begin
-      p_FieldToImage ( FDataLink.Field, Self.Picture, ShowErrors );
+      p_FieldToImage ( FDataLink.Field, Self.Picture.Bitmap, 0, 0, False, ShowErrors );
     End
    Else
     Picture.Bitmap.Assign(nil);

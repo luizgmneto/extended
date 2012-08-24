@@ -86,7 +86,7 @@ end;
 
 procedure TExtImage.LoadFromStream(const astream: TStream);
 begin
-  p_StreamToImage( astream, Self.Picture, FShowErrors );
+  p_StreamToImage( astream, Self.Picture.Bitmap, 0, 0, False, FShowErrors );
 end;
 
 

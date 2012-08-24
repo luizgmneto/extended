@@ -77,7 +77,12 @@ const
 
    { TExtGridColumn }
 type
+   TExtOption = ( eoPaintEdits, eoPaintBlobs );
+   TExtOptions = set of TExtOption;
    TFieldIndexEvent = function(const Sender: TObject; const Field : TField ) : Integer of Object;
+
+const CST_EXTGRID_DEFAULT_OPTIONS = [ eoPaintEdits ];
+type
    TExtGridColumn = class({$IFDEF TNT}TTntColumn{$ELSE}{$IFDEF FPC}TRxColumn{$ELSE}TColumn{$ENDIF}{$ENDIF})
    private
      FOldControlKeyUp   , FOldControlKeyDown,
@@ -131,7 +136,7 @@ type
        FOnPopup : TNotifyEvent;
        FBeforePopup : TPopUpMenuEvent;
        FOldOnGetBtnParams: TGetBtnParamsEvent;
-       FPaintEdits : Boolean;
+       FPaintOptions : TExtOptions;
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FColorEdit     ,
        FColorFocus    ,
@@ -145,7 +150,7 @@ type
        procedure WMHScroll(var Msg: TWMHScroll); message WM_HSCROLL;
        procedure HideColumnControl;
        procedure ShowControlColumn;
-       procedure p_SetPaintEdits ( const AValue : Boolean );
+       procedure p_SetPaintOptions ( const AValue : TExtOptions );
       protected
        function IsColumnsStored: boolean; virtual;
        procedure DrawCell(aCol,aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect; aState:TGridDrawState); override;
@@ -185,7 +190,7 @@ type
        property FixedColor default CST_GRID_STD ;
        property ColorFocus : TColor read FColorFocus write FColorFocus default CST_GRID_SELECT ;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
-       property PaintEdits : Boolean read FPaintEdits write p_SetPaintEdits default true;
+       property OptionsExt : TExtOptions read FPaintOptions write p_SetPaintOptions default CST_EXTGRID_DEFAULT_OPTIONS;
        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
      End;
@@ -198,7 +203,7 @@ uses
    Forms,
 {$ENDIF}
    fonctions_proprietes,
-   Menus,
+   Menus, Dialogs,
    fonctions_images;
 
 { TExtGridColumn }
@@ -375,15 +380,16 @@ end;
 
 // Procedure  p_SetPaintEdits
 // Setting PaintEdits property to paint edits in grid
-procedure TExtDBGrid.p_SetPaintEdits(const AValue: Boolean);
+procedure TExtDBGrid.p_SetPaintOptions(const AValue: TExtOptions);
 begin
-  if AValue <> FPaintEdits Then
+  if AValue <> FPaintOptions Then
     Begin
-     FPaintEdits:= AValue;
+     FPaintOptions:= AValue;
      if not ( csCreating in ControlState ) Then
        Invalidate;
     end;
 end;
+
 
 
 // procedure TExtDBGrid.HideColumnControl
@@ -553,7 +559,7 @@ constructor TExtDBGrid.Create( AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FOldOnGetBtnParams := nil;
-  FPaintEdits:=True;
+  FPaintOptions:=CST_EXTGRID_DEFAULT_OPTIONS;
   FAlwaysSame := True;
   FColorFocus := CST_GRID_SELECT;
   FColorEdit  := CST_GRID_STD;
@@ -678,6 +684,7 @@ var Aindex : Integer;
     FBackground : TColor;
 {$ENDIF}
     FBitmap : TBitmap;
+    FPainted : Boolean;
    procedure Prepare;
    Begin
     {$IFDEF FPC}
@@ -695,61 +702,88 @@ var Aindex : Integer;
    end;
 
 begin
-  if  FPaintEdits
+  if  ( FPaintOptions <> [] )
   and ( ACol >= FixedCols  )
-  and ( ACol < Columns.Count - FixedCols  )
+  and ( ACol < Columns.Count + FixedCols  )
   and ( ARow >= {$IFDEF FPC}FixedRows{$ELSE}IndicatorOffset{$ENDIF} ) then
   with ( TExtGridColumn ( Columns [ ACol - FixedCols ])) do
    Begin
-     if assigned ( SomeEdit ) Then
-     with SomeEdit do
-       Begin
-         Prepare;
-         Aindex := Datalink.ActiveRecord;
-         Datalink.ActiveRecord := ARow {$IFDEF FPC}-1{$ELSE}-IndicatorOffset{$ENDIF};
-         Width  := aRect.Right - aRect.Left;
-         Height := ARect.Bottom - aRect.Top;
-         ControlState := ControlState + [csPaintCopy];
-         PaintTo(Self.Canvas.Handle,aRect.Left,aRect.Top);
-         ControlState := ControlState - [csPaintCopy];
-         Datalink.ActiveRecord := Aindex;
-       end
-     else
-     if assigned ( FImages )
-     and (( Field is TNumericField ) or Assigned(FOnGetImageIndex) or Assigned(FMapImages))
-     and not ( Datalink.DataSet.State in [dsEdit, dsInsert]) then
+     FPainted := False;
+     if eoPaintEdits in FPaintOptions Then
       Begin
-        if Assigned(FOnGetImageIndex)
-         Then Aindex := FOnGetImageIndex ( Self, Field )
-         Else if assigned ( FMapImages )
-         Then AIndex := FMapImages.ImageIndexOf(Field.AsString)
-         Else Aindex := Field.AsInteger;
-         if  ( Aindex < FImages.Count)
-         and ( Aindex >= 0 ) then
-          begin
-            Prepare;
-            {$IFDEF FPC}DrawCellGrid{$ELSE}DoDrawCell{$ENDIF}(aCol,aRow, aRect, aState);
-            FBitmap := TBitmap.Create;
-            FImages.GetBitmap(Aindex, FBitmap);
-            with FBitmap do
-             Begin
-               //Modified:=True;
-               p_ChangeTailleBitmap(FBitmap,aRect.Right-aRect.Left,arect.Bottom-aRect.Top,True);
-               TransparentMode:=tmAuto;
-               Transparent := True;
-               ControlState := ControlState + [csPaintCopy];
-               Self.Canvas.Draw(aRect.Left,aRect.Top, FBitmap );
-               ControlState := ControlState - [csPaintCopy];
-               {$IFNDEF FPC}
-               Dormant;
-               {$ENDIF}
-               FreeImage;
-               Free;
-             end;
-          end;
-       end
-      Else
-        inherited DrawCell(aCol, aRow, aRect, aState);
+       if assigned ( SomeEdit ) Then
+       with SomeEdit do
+         Begin
+           Prepare;
+           Aindex := Datalink.ActiveRecord;
+           Datalink.ActiveRecord := ARow {$IFDEF FPC}-1{$ELSE}-IndicatorOffset{$ENDIF};
+           Width  := aRect.Right - aRect.Left;
+           Height := ARect.Bottom - aRect.Top;
+           ControlState := ControlState + [csPaintCopy];
+           PaintTo(Self.Canvas.Handle,aRect.Left,aRect.Top);
+           ControlState := ControlState - [csPaintCopy];
+           Datalink.ActiveRecord := Aindex;
+           FPainted := True;
+         end
+       else
+       if assigned ( FImages )
+       and (( Field is TNumericField ) or Assigned(FOnGetImageIndex) or Assigned(FMapImages))
+       and not ( Datalink.DataSet.State in [dsEdit, dsInsert]) then
+        Begin
+          if Assigned(FOnGetImageIndex)
+           Then Aindex := FOnGetImageIndex ( Self, Field )
+           Else if assigned ( FMapImages )
+           Then AIndex := FMapImages.ImageIndexOf(Field.AsString)
+           Else Aindex := Field.AsInteger;
+           if  ( Aindex < FImages.Count)
+           and ( Aindex >= 0 ) then
+            begin
+              Prepare;
+              {$IFDEF FPC}DrawCellGrid{$ELSE}DoDrawCell{$ENDIF}(aCol,aRow, aRect, aState);
+              FBitmap := TBitmap.Create;
+              FImages.GetBitmap(Aindex, FBitmap);
+              with FBitmap do
+               try
+                 //Modified:=True;
+                 p_ChangeTailleBitmap(FBitmap,aRect.Right-aRect.Left,arect.Bottom-aRect.Top,True);
+                 TransparentMode:=tmAuto;
+                 Transparent := True;
+                 ControlState := ControlState + [csPaintCopy];
+                 Self.Canvas.Draw(aRect.Left,aRect.Top, FBitmap );
+                 ControlState := ControlState - [csPaintCopy];
+               Finally
+                 {$IFNDEF FPC}
+                 Dormant;
+                 {$ENDIF}
+                 FreeImage;
+                 Free;
+               end;
+            end;
+           FPainted := True;
+         end;
+      end;
+     if ( eoPaintBlobs in FPaintOptions) Then
+     if ( Field is TBlobField )  Then
+      Begin
+        FBitmap := TBitmap.Create;
+        try
+          p_FieldToImage ( Field, FBitmap, aRect.Right-aRect.Left,arect.Bottom-aRect.Top,True,False);
+          Canvas.Draw(aRect.Left,aRect.Top, FBitmap );
+          FPainted := True;
+        Finally
+          with FBitmap do
+           Begin
+            {$IFNDEF FPC}
+            Dormant;
+            {$ENDIF}
+            FreeImage;
+            Free;
+           End;
+        End
+      End
+     Else writeln ( Field.FieldName );
+     if not FPainted Then
+      inherited DrawCell(aCol, aRow, aRect, aState);
    end
   Else
     inherited DrawCell(aCol, aRow, aRect, aState);
