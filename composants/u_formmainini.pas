@@ -148,8 +148,6 @@ type
     function p_GetConnector: TComponent;
     // Changer la date au moment où on quitte
     procedure p_IniQuitte;
-    // Test si on va dans la procédure virtuelle d'initialisation INI
-    procedure p_TestInitialisationParamIni;
     // Désactive la connection pour édition
     procedure p_CheckInactive;
 
@@ -1099,7 +1097,7 @@ end;
 procedure TF_FormMainIni.p_SetChildForm(const afor_Reference: TCustomForm; const  afs_newFormStyle : TFormStyle );
 begin
 {$IFDEF SFORM}
-  if ( afor_Reference is TSuperForm )
+ if ( afor_Reference is TSuperForm )
   and not ( afs_newFormStyle in [fsStayOnTop]) Then
     Begin
       Updating;
@@ -1122,6 +1120,9 @@ begin
    else
 {$ENDIF}
   p_SetComponentProperty ( afor_Reference, 'FormStyle', afs_newFormStyle );
+  {$IFDEF FPC}
+  afor_Reference.Show;
+  {$ENDIF}
   afor_Reference.BringToFront ;
 end;
 
@@ -1526,7 +1527,7 @@ function TF_FormMainIni.f_GetIniFile: TIniFile;
 begin
   Result := f_GetMainMemIniFile(ge_WriteSessionIni, ge_ReadSessionIni, Self);
   // Lit-on le fichier ini par la prcoédure virtuelle ?
-  p_TestInitialisationParamIni;
+  p_InitialisationParamIni;
 
   // Sauvegarde du fichier INI
   fb_iniWriteFile ( Result, False );
@@ -1605,14 +1606,6 @@ Begin
   FiniFile := nil;
   Application.Terminate;
 End ;
-
-///////////////////////////////////////////////////////////////////////////////
-// Test Initialisation du fichier ini dans la prcoédure virtuelle
-///////////////////////////////////////////////////////////////////////////////
-procedure TF_FormMainIni.p_TestInitialisationParamIni;
-begin
-  p_InitialisationParamIni;
-end;
 
 // Change la date au moment où on quitte
 procedure TF_FormMainIni.p_IniQuitte;
