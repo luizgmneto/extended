@@ -77,8 +77,8 @@ Begin
              Bitmap.Height := Height;
              Bitmap.Canvas.FillRect(
                {$IFNDEF FPC} Rect (  {$ENDIF}
-               0, 0, Width, Height {$IFNDEF FPC}){$ENDIF});
-             Bitmap.Canvas.Draw ( 0, 0, Abitmap );
+               0, 0, ACellWidth, Height {$IFNDEF FPC}){$ENDIF});
+             Bitmap.Canvas.Draw (( ACellWidth - Width ) div 2, 0, Abitmap );
              Bitmap.Modified := True;
              {$IFNDEF FPC}
              Dormant;

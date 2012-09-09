@@ -24,9 +24,10 @@ const
   gVer_fonctions_reports : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_reports' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Reports'' Functions, with grid reports.' ;
-                        			                 BugsStory : 'Version 1.0.0.0 : Working.';
+                        			                 BugsStory : 'Version 1.0.0.1 : image centering.' + #13#10 +
+                                                                             'Version 1.0.0.0 : Working.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                        			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
 {$ENDIF}
 
 type TBoolArray = Array of Boolean;
@@ -38,6 +39,8 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
                             AGetImageIndex : TFieldIndexEvent;
                             AMapImages : TExtMapImages;
                             AImages : TCustomImageList;
+                            ACellWidth  : Integer;
+                            ABand   : TRLBand;
                            end;
     RLTitlecolor : TColor = clBlue;
     RLColumnHeadercolor : TColor = clBlack;
@@ -228,6 +231,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
                  AGetImageIndex := OnGetImageIndex;
                  AMapImages := MapImages;
                  AImages := Images;
+                 AWidth  := aColumns [ i ].Width;
+                 ABand   := ARLBand;
                end;
             end
            Else

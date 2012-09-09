@@ -749,7 +749,8 @@ begin
                  TransparentMode:=tmAuto;
                  Transparent := True;
                  ControlState := ControlState + [csPaintCopy];
-                 Self.Canvas.Draw(aRect.Left,aRect.Top, FBitmap );
+                // Self.Canvas.FillRect(aRect.Left,arect.Top,arect.Right,arect.Bottom);
+                 Self.Canvas.Draw(aRect.Left+( aRect.Right - aRect.Left - FBitmap.Width ) div 2,aRect.Top+( aRect.Bottom - aRect.Top - FBitmap.Height ) div 2, FBitmap );
                  ControlState := ControlState - [csPaintCopy];
                Finally
                  {$IFNDEF FPC}

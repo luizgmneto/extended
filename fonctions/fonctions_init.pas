@@ -86,7 +86,7 @@ const
 //  Fonctions à appeler pour la gestion des fichiers INI
 ////////////////////////////////////////////////////////////////////////////////
 
-  function fs_GetIniDir( const ab_Root : Boolean = False ): String;
+  function fs_GetIniDir( const ab_Root : Boolean = False ; const ab_Create : Boolean = True ): String;
   function fb_CreateCommonIni ( var amif_Init : TIniFile  ; const as_NomConnexion: string ) : Boolean ;
   function fb_iniWriteFile( const amem_Inifile : TCustomInifile ; const ab_Afficheerreur : Boolean  = False ):Boolean;
   // Lit la section des commandes et si elle existe la retourne dans donnees (TStrings)
@@ -593,13 +593,14 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 // Retourne le répertoire du fichier ini
 ////////////////////////////////////////////////////////////////////////////////
-function fs_GetIniDir( const ab_Root : Boolean = False ): String;
+function fs_GetIniDir( const ab_Root : Boolean = False ; const ab_Create : Boolean = True ): String;
 var ls_Dir : String;
 begin
   if ab_Root and ( pos ( GetUserDir, Application.ExeName ) > 0 )
    Then Result := ExtractFileDir(Application.ExeName) + DirectorySeparator
    Else Result := GetAppConfigDir ( ab_Root ) ;
-  if not Assigned(FIniFile) then
+  if ab_Create
+  and not Assigned(FIniFile) then
     begin
       if not DirectoryExists(  Result )
       and not CreateDir (  Result ) Then
