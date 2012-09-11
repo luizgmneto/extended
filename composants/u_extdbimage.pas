@@ -47,6 +47,7 @@ TExtDBImage = class( TExtImage)
        procedure p_SetDatasource ( const Value : TDatasource );
        function  fds_GetDatasource : TDatasource;
        function  fs_GetDatafield : String;
+       function  ff_Getfield : TField;
      protected
        procedure p_SetImage; virtual;
        procedure p_ActiveChange(Sender: TObject); virtual;
@@ -60,6 +61,7 @@ TExtDBImage = class( TExtImage)
        function  SavetoFile:Boolean; overload; virtual;
        constructor Create(AOwner: TComponent); override;
        destructor Destroy ; override;
+       property Field : TField read ff_Getfield;
      published
        property Datafield : String read fs_GetDatafield write p_SetDatafield ;
        property Datasource : TDatasource read fds_GetDatasource write p_SetDatasource ;
@@ -109,6 +111,11 @@ begin
    Else
     Result := '';
 
+end;
+
+function TExtDBImage.ff_Getfield: TField;
+begin
+  Result:=FDataLink.Field;
 end;
 
 function TExtDBImage.LoadFromFile(const afile: String):Boolean;
