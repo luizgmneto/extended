@@ -22,7 +22,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Release="5"/>
-    <Files Count="21">
+    <Files Count="23">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -107,6 +107,14 @@
         <Filename Value="fonctions/type_string.pas"/>
         <UnitName Value="type_string"/>
       </Item21>
+      <Item22>
+        <Filename Value="fonctions/fonctions_file.pas"/>
+        <UnitName Value="fonctions_file"/>
+      </Item22>
+      <Item23>
+        <Filename Value="fonctions/unit_messagescopy.pas"/>
+        <UnitName Value="unit_messagescopy"/>
+      </Item23>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>

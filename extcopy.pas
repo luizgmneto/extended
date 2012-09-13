@@ -2,20 +2,19 @@
   This source is only used to compile and install the package.
  }
 
-unit ExtCopy; 
+unit ExtCopy;
 
 interface
 
 uses
-    u_traducefile, U_ExtFileCopy, fonctions_file, u_extabscopy, u_extractfile, 
-  unit_messagescopy, LazarusPackageIntf;
+  u_traducefile, U_ExtFileCopy, u_extabscopy, u_extractfile, LazarusPackageIntf;
 
 implementation
 
-procedure Register; 
+procedure Register;
 begin
-end; 
+end;
 
 initialization
-  RegisterPackage('ExtCopy', @Register); 
+  RegisterPackage('ExtCopy', @Register);
 end.
