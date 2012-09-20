@@ -79,6 +79,7 @@ type
 
   TExtNumEdit   = class(TCustomMaskEdit, IFWComponent, IFWComponentEdit)
   private
+    FBeforePopup: TPopUpMenuEvent;
     FCanvas: TControlCanvas;
     FFocused: Boolean;
     FAlwaysSame: Boolean;
@@ -91,6 +92,7 @@ type
     FOldColor ,
     FColorLabel : TColor;
     FNotifyOrder : TNotifyEvent;
+    FOnPopup: TNotifyEvent;
    procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
   protected
     FNumRounded : TNumRounded;
@@ -105,6 +107,7 @@ type
     gb_Ismasked  ,
     FHasMin      ,
     FHasMax      : Boolean ;
+    procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
     procedure SetName(const NewName: TComponentName); override;
     function GetText: TCaption;
     procedure KeyPress(var Key: Char); override;
@@ -144,6 +147,8 @@ type
     property HasMin : Boolean read FHasMin write FHasMin default False;
     property HasMax : Boolean read FHasMax write FHasMax default False;
     property NumRounded : TNumRounded read FNumRounded write FNumRounded default nrNone;
+    property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
+    property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
     property Anchors;
     property AutoSelect;
     property AutoSize;
@@ -202,12 +207,14 @@ type
     property OnMouseUp;
     property OnStartDock;
     property OnStartDrag;
+    property OnMouseEnter;
+    property OnMouseLeave;
 
   end;
 
   { TExtDBNumEdit }
 
-  TExtDBNumEdit = class(TExtNumEdit, IFWComponent, IFWComponentEdit)
+  TExtDBNumEdit = class(TExtNumEdit)
   private
     FDataLink: TFieldDataLink;
     FFormat : String ;
@@ -856,6 +863,14 @@ begin
     if Message.DC = 0 then EndPaint(Handle, PS);
   end;
 End;
+
+procedure TExtNumEdit.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  inherited MouseDown(Button, Shift, X, Y);
+  if Button = mbRight Then
+   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+end;
 
 procedure TExtNumEdit.SetName(const NewName: TComponentName);
 begin

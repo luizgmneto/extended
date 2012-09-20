@@ -147,6 +147,8 @@ type
     property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
     property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
     property OnSet : TNotifyEvent read FOnSet write FOnSet;
+    property OnMouseEnter;
+    property OnMouseLeave;
   end;
 
 implementation

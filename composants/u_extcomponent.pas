@@ -28,7 +28,7 @@ uses Graphics,StdCtrls,
 {$IFDEF TNT}
    TntStdCtrls,
 {$ENDIF}
-     Controls, Menus ;
+     Controls, Classes, Menus ;
 
 const
   //////// Couleurs par défaut des composants de la form
@@ -91,10 +91,38 @@ procedure p_setCompColorEnter ( const Fcomponent : TControl; const FFocusColor :
 procedure p_setLabelColorExit  ( const FLabel : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF}; const FAlwaysSame : boolean  );
 procedure p_setCompColorExit ( const Fcomponent : TControl; const FColor : TColor ; const FAlwaysSame : boolean  );
 procedure p_setCompColorReadOnly ( const Fcomponent : TControl; const FEditColor, FReadOnlyColor : TColor ; const FAlwaysSame, FReadOnly : boolean  );
+function fb_ShowPopup ( const AControl : TControl; const APopUpMenu : TPopUpMenu ; const ABeforePopup : TPopUpMenuEvent ; const AOnPopup : TNotifyEvent ):Boolean;
 
 implementation
 
 uses fonctions_proprietes;
+
+
+function fb_ShowPopup ( const AControl : TControl; const APopUpMenu : TPopUpMenu ; const ABeforePopup : TPopUpMenuEvent ; const AOnPopup : TNotifyEvent ):Boolean;
+var lp_pos : TPoint;
+    LPopupMenu : TPopupMenu;
+begin
+  if Assigned(APopUpMenu) Then
+    Begin
+     Result := True;
+     LPopupMenu := APopUpMenu;
+     if Assigned(ABeforePopup) Then
+       ABeforePopup ( AControl, LPopupMenu, Result );
+     if Result Then
+     with AControl do
+       Begin
+         lp_pos.X := Width;
+         lp_pos.Y := Top ;
+         {if Owner is TControl
+          Then lp_pos := ( Owner as TControl).ScreenToClient ( ControlToScreen( lp_pos ))
+          Else} lp_pos := ClientToScreen( lp_pos );
+         LPopupMenu.Popup(lp_pos.X,lp_pos.Y);
+         if Assigned(AOnPopup) Then
+           AOnPopup ( AControl );
+       end;
+    end
+   Else Result := False;
+end;
 
 procedure p_setCompColorEnter ( const Fcomponent : TControl; const FFocusColor : TColor ; const FAlwaysSame : boolean  );
 Begin

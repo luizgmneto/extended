@@ -617,7 +617,7 @@ var li_i, li_count : integer;
 begin
   ItemIndex := -1;
   if FIni.SectionExists(SectionIni) then
-    begin
+    try
       LeTStrings.Clear;
       LeTStrings.BeginUpdate;
       li_count:=FIni.ReadInteger(SectionIni, CST_INI_COUNT, 0 );
@@ -627,6 +627,7 @@ begin
         Else LeTStrings.Add('');
       LeTStrings.EndUpdate;
       ItemIndex := Fini.ReadInteger(SectionIni, CST_INI_ITEMINDEX, 0);
+    except
     end;
 end;
 
@@ -659,7 +660,10 @@ Begin
   if  ( valItemIndex>=0)
   and ( valItemIndex<=Astl_Items.Count-1)
    then
-    p_SetComponentProperty(acom_combobox,CST_INI_ITEMINDEX,valItemIndex);
+     try
+       p_SetComponentProperty(acom_combobox,CST_INI_ITEMINDEX,valItemIndex);
+     except
+     end;
 
 end;
 procedure p_writeComboBoxItems (  const acom_combobox : TComponent ;const Astl_Items : TStrings );

@@ -294,24 +294,7 @@ var lp_pos : TPoint;
     Continue : Boolean;
     APopupMenu : TPopupMenu;
 begin
-  if Assigned(PopUpMenu) Then
-    Begin
-     Continue := True;
-     APopupMenu := PopupMenu;
-     if Assigned(FBeforePopup) Then
-       FBeforePopup ( Self, APopupMenu, Continue );
-     if Continue Then
-       Begin
-         lp_pos.X := Width;
-         lp_pos.Y := Top ;
-         {if Owner is TControl
-          Then lp_pos := ( Owner as TControl).ScreenToClient ( ControlToScreen( lp_pos ))
-          Else} lp_pos := ClientToScreen( lp_pos );
-         APopUpMenu.Popup(lp_pos.X,lp_pos.Y);
-         if Assigned(FOnPopup) Then
-           FOnPopup ( Self );
-       end;
-    end;
+  fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
   inherited Click;
 end;
 
