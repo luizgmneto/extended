@@ -74,7 +74,6 @@ Begin
    end;
 end;
 
-
 function AddFieldHTML ( const AField : TField ; var IsFirst : Boolean; const Separator : String; const AReplaceCaption : String = '' ):String;
   function AddField : String;
    Begin

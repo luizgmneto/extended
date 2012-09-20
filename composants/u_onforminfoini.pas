@@ -440,9 +440,10 @@ var
       end;
     // lecture des groupes de RadioBoutons
     if (lcom_Component is TRadioGroup)  and GetfeSauveEdit ( FSaveEdits, feTRadioGroup ) then
-      begin
+      try
         TRadioGroup(lcom_Component).ItemIndex:= fli_ReadInteger (lcom_Component.Name,0);
         Result := True;
+      Except
       end;
 
   end;
@@ -566,11 +567,12 @@ var
     if (lcom_Component is TCustomComboBox) and GetfeSauveEdit(FSaveEdits ,feTComboValue)
     and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      then
-      begin
+      try
         if   assigned ( GetPropInfo ( lcom_Component, CST_INI_TEXT ))
         then SetPropValue    ( lcom_Component, CST_INI_TEXT ,fs_ReadString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_INI_TEXT,''))
         Else if   assigned ( GetPropInfo ( lcom_Component, CST_INI_ITEMINDEX ))
         Then SetPropValue    ( lcom_Component, CST_INI_ITEMINDEX ,fli_ReadInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_INI_ITEMINDEX,0));
+      Except
       End;
     if (lcom_Component.CLassNameIs( CST_ONFORMINI_EXTCOLOR)) and GetfeSauveEdit(FSaveEdits ,feTColorCombo)
      then
@@ -610,10 +612,11 @@ var
   Begin
     Result := False;
     if (lcom_Component is TListBox) and GetfeSauveEdit(FSaveEdits ,feTListBox)     then
-      begin
+      try
         LitTstringsDeIni(FInifile, lcom_Component.Name,TCustomListBox(lcom_Component).Items,valItemIndex);
         if valItemIndex<=TCustomListBox(lcom_Component).Items.Count-1 then TCustomListBox(lcom_Component).ItemIndex:=valItemIndex;
           Result := True;
+      except
       end;
 
   end;
