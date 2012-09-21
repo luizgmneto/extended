@@ -98,6 +98,7 @@ const
   // Retourne l'objet FIniFile représentant le fichier INI
   function f_GetMemIniFile(): TIniFile;
   function f_GetMainMemIniFile( const ae_WriteSessionIni, ae_ReadSessionIni  : TIniEvent ; const acom_Owner : TComponent ; const ab_Root : Boolean = False ; const as_Ininame : String = '' ): TIniFile;
+  function f_GetIniFile( const as_IniPath : String ): TIniFile;
 
   // Lecture du fichier SQL dans FSQLFile avec gestion du fichier SQL
   // et lecture de requête à partir de la section parent et de de la clé requete.
@@ -688,8 +689,8 @@ begin
       else
         ls_PathIni := fs_GetIniDir ( ab_Root ) + CST_INI_USERS + CST_EXTENSION_INI ;
       if ab_Root
-       Then  Begin FIniRoot := TIniFile.Create( ls_PathIni ); FIni := FIniRoot; End
-       Else  Begin FIniFile := TIniFile.Create( ls_PathIni ); FIni := FIniFile; End;
+       Then  Begin FIniRoot := f_GetIniFile( ls_PathIni ); FIni := FIniRoot; End
+       Else  Begin FIniFile := f_GetIniFile( ls_PathIni ); FIni := FIniFile; End;
       if not FIni.SectionExists(INISEC_PAR) then
         Begin
           FIni.WriteString(INISEC_PAR, INIPAR_CREATION, 'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time));
@@ -711,6 +712,11 @@ begin
   end;
   result := FIni;
 end;
+function f_GetIniFile( const as_IniPath : String ): TIniFile;
+Begin
+  Result := TIniFile.Create( as_IniPath );
+end;
+
 function f_GetMemIniFile( ): TIniFile;
 begin
   Result := f_GetMainMemIniFile ( nil, nil, nil );
