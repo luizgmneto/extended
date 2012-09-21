@@ -92,6 +92,9 @@ type
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
+       property OnMouseEnter;
+       property OnMouseLeave;
+       property PopupMenu;
      End;
 
    { TFWEdit }
@@ -135,6 +138,9 @@ type
           property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
           property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
           property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
+          property OnMouseEnter;
+          property OnMouseLeave;
+          property PopupMenu;
         End;
 
      { TFWDateEdit }
@@ -176,6 +182,9 @@ type
          property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
          property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
          property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
+         property OnMouseEnter;
+         property OnMouseLeave;
+         property PopupMenu;
        End;
 
    { TFWComboBox }
@@ -217,6 +226,9 @@ type
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
+       property OnMouseEnter;
+       property OnMouseLeave;
+       property PopupMenu;
      End;
 
    { TFWLabel }
@@ -312,6 +324,9 @@ type
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
+       property OnMouseEnter;
+       property OnMouseLeave;
+       property PopupMenu;
      End;
 
 
@@ -355,6 +370,9 @@ type
         property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
         property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
         property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
+        property OnMouseEnter;
+        property OnMouseLeave;
+        property PopupMenu;
       End;
 
 {$ENDIF}

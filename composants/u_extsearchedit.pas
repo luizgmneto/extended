@@ -149,6 +149,7 @@ type
     property OnSet : TNotifyEvent read FOnSet write FOnSet;
     property OnMouseEnter;
     property OnMouseLeave;
+    property PopupMenu;
   end;
 
 implementation
