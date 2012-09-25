@@ -49,6 +49,7 @@ const
 
 
 procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; as_Resource : String ; const acon_control :TControl);
+procedure p_Load_Bitmap_Appli ( const FGLyph : TBitmap; as_Resource : String ; const acon_control :TControl );
 
 type
    IFWButton = interface
@@ -131,6 +132,38 @@ uses {$IFDEF FPC}
 {$IFNDEF FPC}
 var Buttons_Appli_ResInstance             : THandle      = 0 ;
 {$ENDIF}
+
+// procedure p_Load_Bitmap_Appli
+// loads a picture into a Button with Bitmap
+procedure p_Load_Bitmap_Appli ( const FGLyph : TBitmap; as_Resource : String ; const acon_control :TControl );
+begin
+  {$IFNDEF MEMBUTTONS}
+  if csDesigning in acon_control.ComponentState Then
+    Begin
+  {$ENDIF}
+    {$IFDEF FPC}
+      FGlyph.LoadFromLazarusResource( as_Resource );
+    {$ELSE}
+      if ( Buttons_Appli_ResInstance = 0 ) Then
+        Buttons_Appli_ResInstance:= FindResourceHInstance(HInstance);
+      FGlyph.LoadFromResourceName(Buttons_Appli_ResInstance, as_Resource );
+    {$ENDIF}
+    {$IFNDEF MEMBUTTONS}
+    end
+   else
+    try
+      as_Resource := fs_getSoftImages + as_Resource + CST_IMAGE_SOFT_BITMAP;
+      if FileExists( as_Resource )
+       then FGLyph.LoadFromFile( as_Resource )
+       Else ShowMessage( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [as_Resource]));
+
+    Except
+    end;
+    {$ENDIF}
+  if not ( csCreating in acon_control.ControlState ) then
+    acon_control.Invalidate;
+end;
+
 
 // procedure p_Load_Buttons_Appli
 // loads a picture into a Button with Picture
