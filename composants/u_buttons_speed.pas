@@ -22,7 +22,6 @@ uses
 {$ENDIF}
   Controls, u_buttons_defs,
   JvXPButtons, Graphics,
-  u_buttons_extension,
   Menus, Buttons;
 
 const

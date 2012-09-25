@@ -15,49 +15,26 @@
       </Other>
     </CompilerOptions>
     <Version Major="1"/>
-    <Files Count="9">
+    <Files Count="4">
       <Item1>
-        <Filename Value="composants/u_regfsbuttons.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="u_regfsbuttons"/>
-      </Item1>
-      <Item2>
-        <Filename Value="composants/u_regfbbuttons.lrs"/>
-        <Type Value="LRS"/>
-      </Item2>
-      <Item3>
-        <Filename Value="composants/u_regfbbuttons.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="u_regfbbuttons"/>
-      </Item3>
-      <Item4>
-        <Filename Value="composants/u_regbfsbuttons.lrs"/>
-        <Type Value="LRS"/>
-      </Item4>
-      <Item5>
-        <Filename Value="composants/u_regbfsbuttons.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="u_regbfsbuttons"/>
-      </Item5>
-      <Item6>
         <Filename Value="composants/u_regsbbuttons.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regsbbuttons"/>
-      </Item6>
-      <Item7>
+      </Item1>
+      <Item2>
         <Filename Value="composants/u_regfwbuttons_appli.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regfwbuttons_appli"/>
-      </Item7>
-      <Item8>
+      </Item2>
+      <Item3>
         <Filename Value="composants/u_regreports_components.lrs"/>
         <Type Value="LRS"/>
-      </Item8>
-      <Item9>
+      </Item3>
+      <Item4>
         <Filename Value="composants/u_regreports_components.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regreports_components"/>
-      </Item9>
+      </Item4>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="5">

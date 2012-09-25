@@ -177,7 +177,7 @@ type
        {$IFDEF EXRX}
        procedure TitleClick(Column: TColumn); override;
        {$ELSE}
-       procedure DoTitleClick(ACol: Longint; AField: TField); override;
+       procedure DoTitleClick(ACol: longint; ACollumn: TRxColumn; Shift: TShiftState); override;
        {$ENDIF}
        procedure Notification(AComponent: TComponent;
                  Operation: TOperation); override;
@@ -864,7 +864,7 @@ end;
 {$IFDEF EXRX}
 procedure TExtDBGrid.TitleClick(Column: TColumn);
 {$ELSE}
-procedure TExtDBGrid.DoTitleClick(ACol: Longint; AField: TField);
+procedure TExtDBGrid.DoTitleClick(ACol: longint; ACollumn: TRxColumn; Shift: TShiftState);
 {$ENDIF}
 
 var li_Tag , li_i : Integer ;
