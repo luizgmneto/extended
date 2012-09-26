@@ -53,8 +53,9 @@ function fb_CreateGridReport ( const agrid : TCustomDBGrid; const as_Title : Str
 implementation
 
 uses fonctions_proprietes,RLPreview,
-     fonctions_images, unite_messages,
-     Math,Printers;
+     fonctions_images,Printers,
+     RLTypes, unite_messages,
+     Math;
 
 
 
@@ -164,6 +165,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
        Then PageSetup.Orientation:=poLandscape
        Else PageSetup.Orientation:=poPortrait;
      End;
+
 
   end;
 

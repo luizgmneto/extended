@@ -330,11 +330,11 @@ type
      End;
 
 
-{$IFDEF FPC}
+
 
     { TFWDateTimePicker }
 
-    TFWDateTimePicker = class ( TZVDateTimePicker, IFWComponent, IFWComponentEdit )
+    TFWDateTimePicker = class ( {$IFDEF FPC}TZVDateTimePicker{$ELSE}TJvDateTimePicker{$ENDIF}, IFWComponent, IFWComponentEdit )
        private
         FBeforeEnter, FBeforeExit : TNotifyEvent;
         FLabel : TFWLabel ;
@@ -375,7 +375,7 @@ type
         property PopupMenu;
       End;
 
-{$ENDIF}
+
 
 implementation
 
@@ -456,8 +456,6 @@ begin
 end;
 
 
-{$IFDEF FPC}
-
 { TFWDateTimePicker }
 
 procedure TFWDateTimePicker.p_setLabel(const alab_Label: TFWLabel);
@@ -518,7 +516,7 @@ end;
 
 procedure TFWDateTimePicker.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
 Begin
-  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
+  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, {$IFDEF FPC}ReadOnly{$ELSE}Enabled{$ENDIF} );
   inherited;
 End;
 
@@ -530,7 +528,6 @@ begin
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
 end;
 
-{$ENDIF}
 
 { TFWSpinEdit }
 
