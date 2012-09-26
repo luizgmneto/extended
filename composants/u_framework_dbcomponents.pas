@@ -219,8 +219,7 @@ type
        FNotifyOrder : TNotifyEvent;
        procedure p_setLabel ( const alab_Label : TFWLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
-     protected
-        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+       procedure WMRButtonDown(var Msg: TWMRButtonDown); message WM_RBUTTONDOWN;
       public
 
        constructor Create ( AOwner : TComponent ); override;
@@ -648,14 +647,6 @@ begin
     End ;
 end;
 
-{$IFDEF DELPHI}
-procedure TFWDBDateTimePicker.WMUndo(var Message: TMessage);
-begin
-  FDataLink.Edit;
-  inherited;
-end;
-{$ENDIF}
-
 procedure TFWDBDateTimePicker.WMPaste(var Message: TMessage);
 begin
   FDataLink.Edit;
@@ -690,7 +681,7 @@ end;
 procedure TFWDBDateTimePicker.MouseDown(Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  inherited MouseDown(Button, Shift, X, Y);
+  inherited;
   if Button = mbRight Then
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
 end;
@@ -720,6 +711,13 @@ begin
 end;
 
 {$ELSE}
+
+
+procedure TFWDBDateTimePicker.WMRButtonDown(var Msg: TWMRButtonDown);
+begin
+  inherited;
+  fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+end;
 
 { TFWDBDateTimePicker }
 

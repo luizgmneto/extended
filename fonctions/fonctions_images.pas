@@ -732,7 +732,7 @@ begin
         Image.Canvas.Refresh;
       end
      Else
-       Image.Clear;
+       Image.{$IFDEF FPC}Clear{$ELSE}FreeImage{$ENDIF};
   Except
     On E:Exception do
       if ab_ShowError Then

@@ -22,6 +22,9 @@ unit u_extcomponent;
 interface
 
 uses Graphics,StdCtrls,
+{$IFNDEF FPC}
+     Windows,
+{$ENDIF}
 {$IFDEF VERSIONS}
      fonctions_version,
 {$ENDIF}
