@@ -13,7 +13,6 @@ uses
 {$ENDIF}
   Forms,
   U_FormMainIni,
-  ZDataset,
   U_Article in 'U_Article.pas' {F_Categ},
   U_DmArticles in 'U_DmArticles.pas' {M_Donn},
   U_Main in 'U_Main.pas' {M_Donn},

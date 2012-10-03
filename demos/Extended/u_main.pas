@@ -28,7 +28,6 @@ type
     MuTypeArticle: TMenuItem;
     ScrollBox:TSCrollBox;
     OnFormInfoIni1: TOnFormInfoIni;
-    procedure FormCreate(Sender: TObject);
     procedure muaproposClick(Sender: TObject);
     procedure MuArticleClick(Sender: TObject);
     procedure MuCaractClick(Sender: TObject);
@@ -56,13 +55,6 @@ implementation
 procedure TFMain.muaproposClick(Sender: TObject);
 begin
   fb_AfficheApropos(True, CST_APPLI_NAME,'0.9.9.0');
-end;
-
-procedure TFMain.FormCreate(Sender: TObject);
-begin
-{$IFDEF FPC}
-  BoxChilds := ScrollBox;
-{$ENDIF}
 end;
 
 procedure TFMain.MuArticleClick(Sender: TObject);

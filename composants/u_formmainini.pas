@@ -808,8 +808,8 @@ begin
   {$IFDEF SFORM}
   FBoxChilds := nil;
   {$ENDIF}
-  p_CreeFormMainIni (AOwner);
   Inherited create  (AOwner);
+  p_CreeFormMainIni (AOwner);
 end;
 // A appeler si on n'appelle pas le constructeur
 procedure TF_FormMainIni.p_CreeFormMainIni (AOwner:TComponent);

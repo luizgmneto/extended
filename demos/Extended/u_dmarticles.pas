@@ -8,7 +8,7 @@ unit U_DmArticles;
 interface
 
 uses
-  SysUtils, StrUtils, Classes, DB, ZDataset, Forms, Dialogs, controls,
+  SysUtils, StrUtils, Classes, DB, Forms, Dialogs, controls,
 {$IFDEF FPC}
   process, 
 {$ENDIF}
@@ -117,6 +117,14 @@ uses Variants , fonctions_dbcomponents, fonctions_system;
 {$ELSE}
   {$R *.lfm}
 {$ENDIF}
+
+procedure p_executeQuery ( const Adat_dataset : TDataSet );
+Begin
+  if Adat_dataset is TIBQuery Then
+   ( Adat_dataset as TIBQuery ).ExecSQL;
+end;
+
+
 
 procedure p_setLibrary (var libname: string);
 {$IFNDEF WINDOWS}
@@ -328,8 +336,9 @@ begin
 end;
 
 
-{$IFDEF FPC}
 initialization
+  {$IFDEF FPC}
   OnGetLibraryName:= TOnGetLibraryName( p_setLibrary);
-{$ENDIF}
+  {$ENDIF}
+  OnExecuteQuery := TOnExecuteQuery ( p_executeQuery );
 end.
