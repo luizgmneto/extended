@@ -19,7 +19,7 @@ uses
   RXSplit, Mask, JvXPCore,
   JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvDBLookup,
 {$ENDIF}
-  Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
+  Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
   DBGrids, u_framework_dbcomponents, ComCtrls, StdCtrls, SysUtils,  TypInfo,
   Variants, StrUtils, U_OnFormInfoIni, CompSuperForm,

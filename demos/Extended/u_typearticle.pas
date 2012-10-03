@@ -20,7 +20,7 @@ uses
   JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvExComCtrls,
   JvListView, JvDBLookup,
 {$ENDIF}
-  Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB, ZDataset,
+  Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
   DBGrids, u_framework_dbcomponents, u_framework_components,
   ComCtrls, StdCtrls, SysUtils,  TypInfo,  Variants,
