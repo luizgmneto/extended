@@ -189,17 +189,6 @@ const
   // Retourne true si la section aSection existe.
   function f_SectionExiste(aSection: string): Boolean;
 
-{$IFDEF ZEOS}
-  function fb_IniSetZConnection ( const asqc_Connection : TComponent ; const IniFile : TIniFile  ) : Boolean ;
-{$ENDIF}
-{$IFDEF EADO}
-  function fb_IniSetADOConnection ( const aacx_Connection : TADOConnection ) : Boolean ;
-{$ENDIF}
-{$IFDEF FPC}
-  function fb_IniSetSQLConnection ( const asqc_Connection : TSQLConnection ) : Boolean ;
-{$ENDIF}
-function fs_IniSetConnection ( const accx_Connection : TComponent ) : String ;
-procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ; {$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
 procedure p_ReadComboBoxItems ( const acom_combobox : TComponent ; const Astl_Items : TStrings  );
 procedure p_writeComboBoxItems (  const acom_combobox : TComponent ;const Astl_Items : TStrings );
 procedure SauveTStringsDansIni(const FIni:TCustomIniFile; SectionIni:string; const LeTStrings:TStrings; const ItemIndex:integer);
@@ -217,6 +206,7 @@ var
   gb_ConnexionAsynchrone : Boolean = False ;
   gb_ApplicationAsynchrone : Boolean = False ;
 {$ENDIF}
+  gs_DataSectionIni : String = 'Database' ;
   gs_ModeConnexion : string;
   // Aide Help
   GS_AIDE           : String = 'aide';
@@ -225,67 +215,8 @@ var
 implementation
 
 uses TypInfo, fonctions_string, fonctions_system,
-{$IFDEF ZEOS}
-      U_ZConnection,
-{$ENDIF}
       fonctions_proprietes, fonctions_db ;
 
-
-{$IFDEF ZEOS}
-function fb_IniSetZConnection ( const asqc_Connection : TComponent; const IniFile : TIniFile ) : Boolean ;
-Begin
-  Result := False ;
-  p_SetComponentBoolProperty ( asqc_Connection, CST_ZCONNECTED, False );
-  fb_InitZConnection( asqc_Connection, IniFile, False );
-End;
-{$ENDIF}
-{$IFDEF EADO}
-function fb_IniSetADOConnection ( const aacx_Connection : TADOConnection ) : Boolean ;
-Begin
-  Result := False ;
-  aacx_Connection.Connected:=False;
-  aacx_Connection.ConnectionString := f_IniReadSectionStr( 'parametres' ,'String d''acces', '' );
-  // Ouverture de la fenêtre de dialogue de connexion
-  if ( aacx_Connection.ConnectionString = '' ) Then
-    EdiTConnectionString(aacx_Connection) ;
-  Result := aacx_Connection.ConnectionString <> '';
-End;
-{$ENDIF}
-{$IFDEF FPC}
-function fb_IniSetSQLConnection ( const asqc_Connection : TSQLConnection ) : Boolean ;
-Begin
-  Result := False ;
-  asqc_Connection.Close;
-//  fb_InitConnection( asqc_Connection, FIniFile );
-End;
-{$ENDIF}
-
-function fs_IniSetConnection ( const accx_Connection : TComponent ) : String ;
-Begin
-  Result := '' ;
-{$IFDEF EADO}
-  if accx_Connection is TADOConnection then
-    Begin
-      if EditConnectionString( accx_Connection as TADOConnection ) Then
-        Begin
-          Result := ( accx_Connection as TADOConnection ).ConnectionString;
-        End;
-    End;
-{$ENDIF}
-{$IFDEF ZEOS}
-  if accx_Connection.ClassNameIs(CST_ZCONNECTION) then
-    Begin
-      Result := fb_InitZConnection( accx_Connection, FIniFile, False );
-    End;
-{$ENDIF}
-{$IFDEF FPC}
-  if accx_Connection is TSQLConnection then
-    Begin
-//      Result := fb_InitSelSQLConnection( accx_Connection as TSQLConnection, FIniFile );
-    End;
-{$ENDIF}
-
-End;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Force l'écriture du fichier ini
@@ -909,52 +840,6 @@ Begin
     End;
 end;
 {$ENDIF}
-
-// Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)
-// Entrée : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
-// Renvoie un fichier INI (même si c'est pas très utile) !!!
-procedure p_IniGetDBConfigFile( var amif_Init : TIniFile ;{$IFNDEF CSV} const acco_ConnAcces, acco_Conn: TComponent;{$ENDIF} const as_NomConnexion: string);
-begin
-  // Soit on a une connexion ADO
-  if not Assigned(acco_Conn) then Exit;
-  if fb_CreateCommonIni ( amif_Init, as_NomConnexion ) then
-    begin
-      // Connexion à la base d'accès
-      p_SetComponentBoolProperty ( acco_Conn, 'Connected', False );
-{$IFDEF ZEOS}
-      if acco_Conn.ClassNameIs(CST_ZCONNECTION ) Then
-        Begin
-          fb_IniSetZConnection ( acco_Conn, amif_Init );
-          p_SetComponentBoolProperty ( acco_Conn, 'Connected', True );
-        End ;
-{$ENDIF}
-{$IFDEF EADO}
-   fb_WriteADOCommonIni ( acco_Conn, acco_ConnAcces, amif_Init, as_NomConnexion );
-{$ENDIF}
-{$IFDEF DBEXPRESS}
-        if ( acco_Conn is TSQLConnection ) Then
-          Begin
-            ( acco_Conn as TSQLConnection ).LoadParamsFromIniFile( fs_getSoftName + CST_INI_DB + CST_DBEXPRESS + CST_EXTENSION_INI);
-            ( acco_Conn as TSQLConnection ).Open ;
-          End ;
-{$ENDIF}
-{$IFDEF FPC}
-        if ( acco_Conn is TSQLConnection ) Then
-          Begin
-            fb_IniSetSQLConnection ( acco_Conn as TSQLConnection );
-            ( acco_Conn as TSQLConnection ).Open ;
-          End ;
-{$ENDIF}
-        gs_aide := GS_CHEMIN_AIDE;
-        // Mettre à jour le fichier INI
-        fb_iniWriteFile ( amif_Init, True );
-      end;
-    gs_ModeConnexion := amif_Init.Readstring(INISEC_PAR, INISEC_CON, '');
-    gs_aide := amif_Init.Readstring(INISEC_PAR, GS_AIDE, GS_CHEMIN_AIDE);
-{$IFDEF EADO}
-    p_ReadADOCommonIni ( acco_ConnAcces, acco_Conn, amif_Init );
-{$ENDIF}
-end;
 
 
 
