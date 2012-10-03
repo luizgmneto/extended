@@ -26,13 +26,6 @@ uses
 {$ELSE}
   Windows, OleDb, Messages,
 {$ENDIF}
-{$IFDEF EADO}
-  ADODB,
-{$ENDIF}
-{$IFDEF ZEOS}
-  ZConnection,
-{$ELSE}
-{$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
@@ -136,35 +129,18 @@ type
     ge_ReadSessionIni,
     ge_WriteMainIni,
     ge_ReadMainIni : TIniEvent ;
-    // Composant connection ADO
-
-    FConnection, FConnector : TComponent;
     gh_WindowHandle : HWND;
-    FAutoIniDB ,
     FAutoIni    : Boolean ;
-    // Retourne la connection ADO
-    function p_GetConnection: TComponent;
-    // Retourne la connection ADO
-    function p_GetConnector: TComponent;
     // Changer la date au moment où on quitte
     procedure p_IniQuitte;
-    // Désactive la connection pour édition
-    procedure p_CheckInactive;
-
     procedure p_modalStart ( Aobj_Objet : Tobject );
     procedure p_modalEnded ( Aobj_Objet : Tobject );
   protected
-    // Vérification du fait que des propriétés ne sont pas à nil et n'existent pas
-    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     // Termine l'appli sans sauver le fichier IN
     procedure p_TerminateWithoutIni ; virtual;
     // Gestion du clavier à la reprise
     procedure p_ApplicationActivate(Sender: TObject); virtual;
     procedure p_ApplicationDeActivate(Sender: TObject); virtual;
-    // Applique la connection ADO à la variable de la propriété
-    procedure p_SetConnection(const Value: TComponent); virtual;
-    // Applique la connection ADO à la variable de la propriété
-    procedure p_SetConnector(const Value: TComponent); virtual;
 
     // A appeler si on n'appelle pas le constructeur
     procedure p_CreeFormMainIni (AOwner:TComponent); virtual;
@@ -175,12 +151,18 @@ type
     { Déclarations publiques }
     gb_ModalStarted ,
     gb_CloseQuery : Boolean ;
+    // Procédure appelée quand il n'y a pas de connexion
+    procedure p_NoConnexion; virtual;
+
+    // Non connecté
+    procedure p_PbConnexion; virtual;
+    // Connecté
+    procedure p_Connectee; virtual;
     {$IFDEF FPC}
     function ActiveMDIChild : TCustomForm; virtual;
     procedure WindowMinimizeAll(Sender: TObject); virtual;
     {$ENDIF}
     procedure p_FreeChildForms ; virtual;
-    procedure DoClose ( var AAction : TCloseAction ); override;
     function CloseQuery: Boolean; override;
     function fb_ReinitWindow ( var afor_Form : TCustomForm ) : Boolean ;  virtual;
     // Récupère le code déjà tapé d'une toouche à partir du buffer virtuelle et valide ou non la touche
@@ -211,9 +193,6 @@ type
     procedure p_CloseForm ( const as_FormNom : string ); virtual;
 
     procedure p_SetChildForm ( const afor_Reference: TCustomForm; const  afs_newFormStyle : TFormStyle ); virtual;
-
-    // Procédure appelée quand il n'y a pas de connexion
-    procedure p_NoConnexion; virtual;
 
     // Création d'une form MDI renvoie True si la form existe
     // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
@@ -256,10 +235,6 @@ type
     procedure p_SauvegardeParamIni; virtual;
     // Après la Sauvegarde du fichier INI
     procedure p_ApresSauvegardeParamIni; virtual;
-    // Non connecté
-    procedure p_PbConnexion; virtual;
-    // Connecté
-    procedure p_Connectee; virtual;
     // Ecriture de l'ini dans le descendant
     procedure p_WriteDescendantIni(const amif_Init: TIniFile); virtual;
     // Lecture de l'ini dans le descendant
@@ -273,9 +248,6 @@ type
     property BoxChilds : TWinControl read FBoxChilds write FBoxChilds stored True ;
     {$ENDIF}
     // Propriété connection ADO
-    property Connection : TComponent read p_GetConnection write p_SetConnection stored True ;
-    property Connector  : TComponent read p_GetConnector write p_SetConnector stored True ;
-    property AutoIniDB : Boolean read FAutoIniDB write FAutoIniDB stored True default True ;
     property AutoIni    : Boolean read FAutoIni write FAutoIni stored True default True ;
     property ReadMainIni : TIniEvent read ge_ReadMainIni write ge_ReadMainIni ;
     property WriteMainIni : TIniEvent read ge_WriteMainIni write ge_WriteMainIni ;
@@ -313,15 +285,6 @@ procedure p_AsynchronousDataSet(adat_DataSet: TCustomADODataset);
 implementation
 
 uses fonctions_proprietes, fonctions_erreurs, TypInfo,
-{$IFDEF DBEXPRESS}
-     SQLExpr,
-{$ENDIF}
-{$IFDEF EADO}
-     AdoConEd, ADOInt,
-{$ENDIF}
-{$IFDEF ZEOS}
-     U_Zconnection,
-{$ENDIF}
   {$IFDEF FPC}
   unite_messages,
   {$ELSE}
@@ -842,8 +805,6 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 Constructor TF_FormMainIni.Create(AOwner:TComponent);
 begin
-  FAutoIniDB := True ;
-  FAutoIni    := True ;
   {$IFDEF SFORM}
   FBoxChilds := nil;
   {$ENDIF}
@@ -871,14 +832,6 @@ begin
     end;
   gs_NomApp := fs_GetNameSoft;
   // Lecture des fichiers INI
-  if FAutoIniDB Then
-    Begin
-      if assigned ( FConnection ) Then
-        p_setComponentBoolProperty ( FConnection, 'Connected', False );
-      if assigned ( FConnector ) Then
-        p_setComponentBoolProperty ( FConnector, 'Connected', False );
-      f_IniGetConfigFile(FConnector, gs_NomApp);
-    End ;
   if FAutoIni Then
     f_GetIniFile ;
 End ;
@@ -936,22 +889,6 @@ begin
       Application.ProcessMessages;
     end;
 end;
-
-// Vérification du fait que des propriétés ne sont pas à nil et n'existent pas
-procedure TF_FormMainIni.Notification(AComponent: TComponent; Operation: TOperation);
-begin
-  // Si le composant est détruit
-  inherited Notification(AComponent, Operation);
-
-  if Operation <> opRemove Then
-    Exit;
-
-  if (Assigned(FConnection)) and (AComponent.IsImplementorOf(Connection)) then
-    FConnection := nil;
-  if (Assigned(FConnector )) and (AComponent.IsImplementorOf(Connector )) then
-    FConnector := nil;
-end;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Evènements de l'application
@@ -1470,18 +1407,6 @@ begin
       Result := True;
     end;
 end;
-
-////////////////////////////////////////////////////////////////////////////////
-//  En cas de problème sur la base de données
-////////////////////////////////////////////////////////////////////////////////
-procedure TF_FormMainIni.p_NoConnexion;
-begin
-  MessageDlg(GS_PB_CONNEXION, mtWarning, [mbOk], 0);
-  // Méthode virtuelle
-  p_PbConnexion;
-end;
-
-//////////////////////////////////////////////////////////////////////////
 // Procédure : p_FreeConfigFile
 // Description : Libération de l'ini
 //////////////////////////////////////////////////////////////////////////
@@ -1512,7 +1437,6 @@ End ;
 // Renvoie un fichier INI (même si c'est pas très utile) !!!
 function TF_FormMainIni.f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TIniFile;
 begin
-  p_IniGetDBConfigFile ( gmif_MainFormIniInit,FConnection,acco_Conn,as_NomConnexion);
   p_WriteDescendantIni ( gmif_MainFormIniInit );
   if assigned ( ge_WriteMainIni ) Then
     ge_WriteMainIni ( Self, gmif_MainFormIniInit );
@@ -1531,72 +1455,6 @@ begin
 
   // Sauvegarde du fichier INI
   fb_iniWriteFile ( Result, False );
-end;
-
-// Propriété connection
-// Lecture de Fconnection
-function TF_FormMainIni.p_GetConnection: TComponent;
-begin
-  Result := FConnection;
-end;
-// Propriété connector
-// Lecture de Fconnection
-function TF_FormMainIni.p_GetConnector: TComponent;
-begin
-  Result := FConnector;
-end;
-// Désactive la connection à l'affectation de la connection en conception
-procedure TF_FormMainIni.p_CheckInactive;
-begin
-  // Désactive la connection à l'affectation de la connection en conception
-  if ( assigned ( FConnection )) and fb_getComponentBoolProperty ( FConnection, 'Connected' ) and (csDesigning in ComponentState) then
-    p_setComponentBoolProperty ( FConnection, 'Connected', False );
-end;
-
-// Affectation de la connection
-// Désactive la connection  en conception
-procedure TF_FormMainIni.p_SetConnection(const Value: TComponent);
-begin
-  // Gestion de l'objet détruit
-{$IFDEF DELPHI}
-  ReferenceInterface ( Connection, opRemove );
-{$ENDIF}
-
-  if Connection <> Value then
-    begin
-      // En mode conception le dataset doit être fermé
-      if (csDesigning in ComponentState) then p_CheckInactive;
-        // Valeur affectée
-        FConnection := Value;
-    end;
-
-  // Gestion de l'objet détruit
-{$IFDEF DELPHI}
-  ReferenceInterface ( Connection, opInsert );
-{$ENDIF}
-end;
-
-// Affectation de la connection
-// Désactive la connection  en conception
-procedure TF_FormMainIni.p_SetConnector(const Value: TComponent);
-begin
-  // Gestion de l'objet détruit
-{$IFDEF DELPHI}
-  ReferenceInterface ( Connector, opRemove );
-{$ENDIF}
-
-  if Connector <> Value then
-    begin
-      // En mode conception le dataset doit être fermé
-      if (csDesigning in ComponentState) then p_CheckInactive;
-        // Valeur affectée
-        FConnector := Value;
-    end;
-
-  // Gestion de l'objet détruit
-{$IFDEF DELPHI}
-  ReferenceInterface ( Connector, opInsert );
-{$ENDIF}
 end;
 
 // Termine l'appli sans sauver le fichier INi
@@ -1627,18 +1485,6 @@ end;
 
 // Après la sauvegarde ini
 procedure TF_FormMainIni.p_ApresSauvegardeParamIni;
-begin
-// procédure réécrite dans le fils
-end;
-
-// Non connecté
-procedure TF_FormMainIni.p_PbConnexion;
-begin
-// procédure réécrite dans le fils
-end;
-
-// Connecté
-procedure TF_FormMainIni.p_Connectee;
 begin
 // procédure réécrite dans le fils
 end;
@@ -1707,6 +1553,29 @@ begin
             End ;
     end;
   gb_CloseQuery := False ;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//  En cas de problème sur la base de données
+////////////////////////////////////////////////////////////////////////////////
+procedure TF_FormMainIni.p_NoConnexion;
+begin
+  MessageDlg(GS_PB_CONNEXION, mtWarning, [mbOk], 0);
+  // Méthode virtuelle
+  p_PbConnexion;
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// Non connecté
+procedure TF_FormMainIni.p_PbConnexion;
+begin
+// procédure réécrite dans le fils
+end;
+
+// Connecté
+procedure TF_FormMainIni.p_Connectee;
+begin
+// procédure réécrite dans le fils
 end;
 
 
@@ -1784,16 +1653,6 @@ Begin
     End ;
 End;
 {$ENDIF}
-
-procedure TF_FormMainIni.DoClose( var AAction: TCloseAction);
-begin
-  inherited DoClose(AAction);
-  try
-    if assigned ( FConnection ) Then p_SetComponentBoolProperty( FConnection, 'Connected', False );
-    if assigned ( FConnector  ) Then p_SetComponentBoolProperty( FConnector , 'Connected', False );
-  finally
-  end;
-end;
 
 
 

@@ -17,9 +17,6 @@ uses SysUtils,
   {$IFDEF EADO}
     ADODB,
   {$ENDIF}
-  {$IFDEF IBX}
-  IBQuery,
-  {$ENDIF}
   {$IFDEF VERSIONS}
   fonctions_version,
   {$ENDIF}
@@ -27,6 +24,8 @@ uses SysUtils,
   DBCtrls, ExtCtrls,
   Classes ;
 
+type
+  TOnExecuteQuery = procedure ( const adat_Dataset: Tdataset );
 
 const
   {$IFDEF VERSIONS}
@@ -42,6 +41,7 @@ const
       			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
 
   {$ENDIF}
+  OnExecuteQuery: TOnExecuteQuery = nil;
   CST_DBPROPERTY_SQL = 'SQL';
 function fb_InsereCompteur ( const adat_Dataset, adat_DatasetQuery : TDataset ;
                              const aslt_Cle : TStringlist ;
@@ -58,7 +58,7 @@ procedure p_AddSQLQuery(const adat_Dataset: Tdataset; const as_Query : {$IFDEF D
 procedure p_SetConnexion ( const acom_ADataset : TComponent ; acco_Connexion : TComponent );
 procedure p_SetComponentsConnexions ( const acom_Form : TComponent ; acco_Connexion : TComponent );
 function  fb_RefreshDatasetIfEmpty ( const adat_Dataset : TDataset ) : Boolean ;
-procedure p_ExecuteSQLQuery(const adat_Dataset: Tdataset; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF}; const ab_ShowException : boolean = True );
+procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
 function fdat_CloneDatasetWithoutSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithoutSQLWithDataSource ( const adat_ADataset : Tdataset ; const AOwner : TComponent ; var ads_Datasource : TDatasource  ) : Tdataset;
 function fds_GetOrCloneDataSource ( const acom_Component : TComponent ; const as_SourceProperty, as_Query : String ; const AOwner : TComponent ; const adat_ADatasetToCopy : Tdataset ) : Tdatasource;
@@ -106,9 +106,6 @@ uses Variants,  fonctions_erreurs, fonctions_string,
 {$ELSE}
      DBTables,
 {$ENDIF}
-{$IFDEF ZEOS}
-  ZAbstractRODataset,
-{$ENDIF}
 {$IFDEF EDBEXPRESS}
      SQLExpr,
  {$ENDIF}
@@ -116,6 +113,12 @@ uses Variants,  fonctions_erreurs, fonctions_string,
    Dialogs,
    fonctions_init;
 
+
+
+procedure p_ShowSQLError ( const AException, ASQL : String );
+Begin
+  Showmessage ( AException + ':' +#13#10+ ASQL );
+End;
 
 //////////////////////////////////////////////////////////////////////
 // Fonction retournant le composant copié sans la personnalisation
@@ -134,6 +137,20 @@ function fb_GetSQLStrings (const adat_ADataset : Tdataset ; var astl_SQLQuery : 
 Begin
   Result := fb_GetStrings(adat_ADataset,CST_DBPROPERTY_SQL,astl_SQLQuery{$IFDEF DELPHI_9_UP}, awst_SQLQuery {$ENDIF});
 end;
+
+procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
+Begin
+  p_SetSQLQuery ( adat_Dataset, as_Query );
+  try
+    if assigned ( OnExecuteQuery ) Then
+     OnExecuteQuery ( adat_Dataset );
+  Except
+    on E:Exception do
+     p_ShowSQLError(E.Message,as_Query);
+  end;
+End ;
+
+
 
 //////////////////////////////////////////////////////////////////////
 // Fonction retournant la connexion copiée avec le lien SGBD
@@ -367,57 +384,6 @@ Begin
   for li_i := 0 to acom_Form.ComponentCount - 1 do
     p_SetConnexion( acom_Form.Components [ li_i ], acco_Connexion );
 End;
-
-procedure p_ShowSQLError ( const AException, ASQL : String );
-Begin
-  Showmessage ( AException + ':' +#13#10+ ASQL );
-End;
-
-procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
-Begin
-  p_SetSQLQuery ( adat_Dataset, as_Query );
-  try
-    {$IFDEF FPC}
-    if ( adat_Dataset is TCustomSQLQuery ) Then
-      Begin
-      ( adat_Dataset as TCustomSQLQuery ).ExecSQL;
-    {$ELSE}
-    if ( adat_Dataset is TQuery ) Then
-      Begin
-      ( adat_Dataset as TQuery ).ExecSQL;
-    {$ENDIF}
-    {$IFDEF EADO}
-      End
-    else if ( adat_Dataset is TADOQuery ) Then
-      Begin
-      ( adat_Dataset as TADOQuery ).ExecSQL
-    {$ENDIF}
-    {$IFDEF ZEOS}
-      End
-    else if ( adat_Dataset is TZAbstractRODataset ) Then
-      Begin
-      ( adat_Dataset as TZAbstractRODataset ).ExecSQL
-    {$ENDIF}
-    {$IFDEF IBX}
-      End
-    else if ( adat_Dataset is TIBQuery ) Then
-      Begin
-      ( adat_Dataset as TIBQuery ).ExecSQL
-    {$ENDIF}
-    {$IFDEF EDBEXPRESS}
-      End
-    else if ( adat_Dataset is TSQLQuery ) Then
-      Begin
-      ( adat_Dataset as TSQLQuery ).ExecSQL ;
-    {$ENDIF}
-      End;
-  Except
-    on E:Exception do
-     p_ShowSQLError(E.Message,as_Query);
-  end;
-End ;
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // procedure p_SetSQLQuery
