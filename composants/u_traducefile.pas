@@ -23,7 +23,7 @@ interface
 {$I ..\extends.inc}
 
 uses
-  SysUtils, Classes,ComCtrls,
+  SysUtils, Classes,ComCtrls, StdCtrls,
 {$IFDEF FPC}
   unit_messagescopy,
 {$ELSE}
@@ -82,22 +82,27 @@ type
              FTraduceImage : Boolean ;
              FBeforeCopyBuffer: TECopyEvent;
              FOnChange : TEChangeDirectoryEvent ;
+             FBufferSize : integer;
              FSizeProgress : Integer ;
              FOnSuccess : TECopyFinishEvent;
              FOnFailure : TECopyErrorEvent ;
              FBeforeCopy : TEReturnEvent ;
              FOnProgress       : TECopyEvent;
              FDestinationOption : TEImageFileOption ;
+             FHeader,FEndOfFile : TCustomMemo;
              FSource,FDestination : String;
              FInProgress : Boolean;
              procedure SetDestination(const AValue: String);
              procedure SetSource(const AValue: String);
            protected
              FInited : Boolean;
+             function  SaveToFile(const Adata : {$IFDEF MAGICK}PMagickWand{$ELSE}TImageData{$ENDIF}; const as_source, as_Destination : String ; const AFormat : {$IFDEF MAGICK}String {$ELSE}TImageFileFormat{$ENDIF}; const AResized : Boolean = False):Longint;
              function DoInit: Integer; virtual;
              function UnInit: Integer; virtual;
              function  BeforeCopy : Boolean ; virtual;
              function CreateDestination ( const as_Destination : String ): Boolean; virtual;
+             procedure Notification(AComponent: TComponent; Operation: TOperation);
+               override;
              { Déclarations protégées }
            public
              constructor Create ( AOwner : TComponent ) ; override;
@@ -112,6 +117,9 @@ type
            published
              property TraduceOptions : TETraduceOptions read FTraduceOptions write FTraduceOptions;
              property TraduceImage : Boolean read FTraduceImage write FTraduceImage default True;
+             property BufferSize : integer read FBufferSize write FBufferSize default 65536;
+             property Header : TCustomMemo read FHeader write FHeader;
+             property EndOfFile : TCustomMemo read FEndOfFile write FEndOfFile;
              property ResizeHeight : Longint read FResizeHeight write FResizeHeight default 0 ;
              property ResizeWidth  : Longint read FResizeWidth  write FResizeWidth  default 0 ;
              property KeepProportion  : Boolean read FKeepProportion write FKeepProportion default True ;
@@ -129,7 +137,7 @@ type
 
 implementation
 
-uses fonctions_file, Forms,
+uses fonctions_file, fonctions_string, Forms,
 {$IFDEF CCREXIF}
      CCR.Exif.JpegUtils, CCR.Exif.TagIDs, CCR.Exif.XMPUtils,
 {$ENDIF}
@@ -157,6 +165,7 @@ begin
   FResizeWidth  := 0 ;
   FKeepProportion := True ;
   inherited Create(AOwner);
+  FBufferSize := 65536;
   FInited := False;
   FTraduceImage := True ;
 //  FSourceOptions     := lfo_TraduceDefaults ;
@@ -203,6 +212,15 @@ function TTraduceFile.CreateDestination ( const as_Destination : String ):Boolea
 begin
   Result :=  not DirectoryExists ( FDestination )
   and not fb_CreateDirectoryStructure ( FDestination );
+end;
+
+procedure TTraduceFile.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if Operation <> opRemove Then Exit;
+  if AComponent=Header Then Header := nil;
+  if AComponent=EndOfFile Then EndOfFile := nil;
 end;
 
 
@@ -254,7 +272,7 @@ Begin
 end;
 {$IFNDEF MAGICK}
 // Function to load original file
-function LoadImageFromFileFormat(const FileNameSource, FileNameExtDest : string;
+function LoadImageFromFileFormat(const FileNameSource, FileNameExtSource, FileNameExtDest : string;
 var Image: TImageData; var FormatSource : TImageFileFormat ;
 {$IFDEF CCREXIF}const ExifData : TExifData ;{$ENDIF} const FileTypeDest : TEImageFileOption ):
   Boolean;
@@ -274,6 +292,16 @@ begin
        Result := True;
        Break;
       end;
+  if Result Then
+   Begin
+    Result := False;
+    for i:=0 to FormatSource.Extensions.Count - 1  do
+      if FileNameExtSource = FormatSource.Extensions [ i ] Then
+        Begin
+         Result := True;
+         Break;
+        end;
+   end;
   {$IFDEF CCREXIF}
   if Result
   and ( FileTypeDest in [foJPEG] ) then
@@ -377,39 +405,98 @@ end;
 {$ENDIF}
 
 // Function to save with original file
-function SaveImageToFileFormat(const FileName: string; const Image: TImageData; const FormatSource : TImageFileFormat): Boolean;
+function SaveImageToFileFormat(const AStream: TStream; const Image: TImageData; const FormatSource : TImageFileFormat): Boolean;
 var
   IArray: TDynImageDataArray;
+  {$IFDEF CCREXIF}
+  InStream  : TMemoryStream;
+  {$ENDIF}
 begin
-  Assert(FileName <> '');
   Result := False;
   if FormatSource <> nil then
   begin
     SetLength(IArray, 1);
     IArray[0] := Image;
     {$IFNDEF CCREXIF}
-    Result := FormatSource.SaveToFile(FileName, IArray, True);
+    Result := FormatSource.SaveToStream(AStream, IArray, True);
     {$ELSE}
     // Saving exif too
     if FDestinationOption in [foJPEG] then
       Begin
         InStream  := TMemoryStream.Create;
-        OutStream := TMemoryStream.Create;
         try
           Result := FormatSource.SaveToStream(InStream, IArray, True);
-          if DoSaveHeaderToJPEG(InStream,OutStream) then
-            OutStream.SaveToFile(FileName);
+          DoSaveHeaderToJPEG(InStream,AStream);
         finally
           InStream .Free;
-          OutStream.Free;
         end;
       End
      Else
-      Result := FormatSource.SaveToFile(FileName, IArray, True);
+      Result := FormatSource.SaveToStream(AStream, IArray, True);
     {$ENDIF}
   end;
 end;
 {$ENDIF}
+
+function TTraduceFile.SaveToFile ( const Adata : {$IFDEF MAGICK}PMagickWand{$ELSE}TImageData{$ENDIF};
+                                   const as_source, as_Destination : String ;
+                                   const AFormat : {$IFDEF MAGICK}String {$ELSE}TImageFileFormat{$ENDIF} ;
+                                   const AResized : Boolean = False ):Longint;
+var   FileStream, FileStreamSource : TFileStream ;
+      LBuffer : array of Byte;
+      LBufferSize : Integer;
+Begin
+  if FTraduceImage Then
+      Begin
+
+        {$IFDEF MAGICK}
+        Result := Longint (MagickWriteImage   ( Adata, Pchar(as_Destination))<>MagickTrue);
+        {$ELSE}
+        FileStream := TFileStream.Create(as_Destination,fmCreate);
+        try
+          if FHeader <> nil Then
+             HexToBinary ( FHeader.Lines, FileStream );
+          if ( AFormat = nil ) Then
+           Begin
+            Result := Longint ( SaveImageToStream   ( ExtractFileExt(as_Destination), FileStream, Adata ) <> true )
+           end
+           Else
+            Begin
+              if AResized Then
+                Begin
+                  // if resized reinit compression
+                  if   assigned ( GetPropInfo ( AFormat, 'Quality' ))
+                    Then SetPropValue( AFormat, 'Quality', -1 );
+                  AFormat.CheckOptionsValidity;
+                end;
+              Result := Longint ( SaveImageToFileFormat ( FileStream, Adata, AFormat ) <> true );
+            end;
+          if Result > 0 Then
+          if FileExists(as_source) Then
+           Begin
+             FileStreamSource := TFileStream.Create(as_source,fmOpenRead);
+             SetLength(LBuffer,FBufferSize);
+             with FileStreamSource do
+               Begin
+                 while Size - Position <> 0 do
+                  Begin
+                    if FBufferSize < Size - Position
+                     Then LBufferSize:=FBufferSize
+                     Else LBufferSize:=Size - Position;
+                      ReadBuffer(LBuffer[0],LBufferSize);
+                    FileStream.WriteBuffer(LBuffer[0],LBufferSize);
+                    Application.ProcessMessages;
+                  end;
+               end;
+           end;
+          if FEndOfFile <> nil Then
+             HexToBinary ( FEndOfFile.Lines, FileStream );
+          {$ENDIF}
+        finally
+          FileStream.Free;
+        end;
+      End ;
+end;
 
 // Copy image file and traducing it
 Function TTraduceFile.CopyFile ( const as_Source, as_Destination : String  ):Integer;
@@ -456,7 +543,10 @@ begin
   Application.ProcessMessages;
   ls_FileDestExt := EExtensionsImages[FDestinationOption];
 
-  ls_Destination := ls_Destination + '.'+ls_FileDestExt ;
+  // Verify if same format file
+  if LoadImageFromFileFormat( as_Source, ls_FileExt, ls_FileDestExt, Fdata, Format, {$IFDEF CCREXIF}ExifData,{$ENDIF} FDestinationOption)
+   Then ls_Destination := ls_Destination + '.'+ls_FileDestExt
+   Else ls_Destination := ls_Destination + '.'+ls_FileExt ;
 
   Application.ProcessMessages;
   if PrepareFileSourceAndDestination ( as_Source, ls_Destination, False, False ) > 0 Then
@@ -472,9 +562,6 @@ begin
   Finalize(FData);
   // initialisation of image data
   InitImage( FData );
-
-  // Verify if same format file
-  LoadImageFromFileFormat( as_Source, ls_FileDestExt, Fdata, Format, {$IFDEF CCREXIF}ExifData,{$ENDIF} FDestinationOption);
 
   Except
     On E: Exception do
@@ -557,27 +644,9 @@ begin
         {$ENDIF}
         // let the system doing some thinks
         Application.ProcessMessages;
-        if FTraduceImage Then
-            Begin
 
-              {$IFDEF MAGICK}
-              Result := Longint (MagickWriteImage   ( Fdata, Pchar(ls_Destination))<>MagickTrue);
-              {$ELSE}
-              if ( Format = nil ) Then
-                Result := Longint ( SaveImageToFile   ( ls_Destination, fdata ) <> true )
-               Else
-                Begin
-                  if Resized Then
-                    Begin
-                      // if resized reinit compression
-                      if   assigned ( GetPropInfo ( Format, 'Quality' ))
-                        Then SetPropValue( Format, 'Quality', -1 );
-                      Format.CheckOptionsValidity;
-                    end;
-                  Result := Longint ( SaveImageToFileFormat ( ls_Destination, fdata, Format ) <> true );
-                end;
-              {$ENDIF}
-            End ;
+        Result := SaveToFile( Fdata, as_Source, ls_Destination, Format, Resized);
+
         // let the system doing some thinks
         Application.ProcessMessages;
 
