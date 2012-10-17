@@ -71,6 +71,7 @@ resourcestring
   GS_GROUPE_INCLURE         = 'Inclure' ;
   GS_GROUPE_EXCLURE         = 'Exclure' ;
   GS_GROUPE_TOUT_INCLURE    = 'Tout inclure' ;
+  GS_STRING_MUST_BE_HEXA    = 'La chaine doit représenter des hexadécimaux' ;
   GS_GROUPE_TOUT_EXCLURE    = 'Tout exclure' ;
   GS_GROUPE_RETOUR_ORIGINE  = 'Restaurer les données initiales' ;
   GS_GROUPE_MAUVAIS_BOUTONS = 'Les boutons de transfert doivent s''inverser dans les deux listes. ' + #13#10

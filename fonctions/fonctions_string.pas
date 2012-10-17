@@ -69,6 +69,8 @@ type
   function fs_Lettrage ( const ach_Lettrage: Char;
                          const ai64_Compteur : Int64 ;
                          const ali_TailleLettrage : Longint ): String ;
+  function HexToByte(c: char): byte;
+  function HexToBinary ( const ALines : TStrings ; const AStream : TStream ): Boolean;
 const
 {$IFDEF VERSIONS}
     gVer_fonction_string : T_Version = ( Component : 'String management' ; FileUnit : 'fonctions_string' ;
@@ -97,10 +99,47 @@ const
 implementation
 
 {$IFDEF FPC}
-uses LCLType, LCLProc, type_string, FileUtil, UTF8Process ;
+uses LCLType, LCLProc, type_string, FileUtil, UTF8Process, unite_messages ;
 {$ELSE}
-uses type_string_delphi, JclStrings, fonctions_system ;
+uses type_string_delphi, JclStrings, fonctions_system, unite_messages_delphi ;
 {$ENDIF}
+
+function HexToByte(c: char): byte;
+begin
+  case c of
+    '0'..'9' : Result:=ord(c)-$30;
+    'A'..'F' : Result:=ord(c)-$37; //-$41+$0A
+    'a'..'f' : Result:=ord(c)-$57; //-$61+$0A
+  else
+    raise EConvertError.Create(GS_STRING_MUST_BE_HEXA);
+  end;
+end;
+
+function HexToBinary ( const ALines : TStrings ; const AStream : TStream ): Boolean;
+var I : Integer;
+    AChar, EndChar : PChar;
+    ls_Line : String;
+Begin
+  Result:=False;
+  for i := 0 to ALines.Count - 1 do
+    Begin
+     ls_Line := ALines [ i ];
+     if length ( ls_Line ) > 0 Then
+       try
+         AChar:=@ls_Line[1];
+         EndChar:=@ls_Line[Length(ls_Line)];
+         while AChar <= EndChar do
+           Begin
+             if not ( AChar^ in [' ',#13,#10]) then
+               AStream.WriteByte(HexToByte(AChar^));
+             inc ( AChar );
+           end;
+         Result:=true;
+       except
+         on EConvertError do Abort;
+       end;
+    end;
+end;
 
 function fb_isFileChar(AChar:Char):boolean;
 Begin

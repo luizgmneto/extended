@@ -14,7 +14,6 @@ uses
 begin
   Application.Initialize;
   Application.CreateForm ( TF_Copier, F_Copier );
-  Application.CreateForm ( tF_AboutBox, F_AboutBox );
   Application.Run;
 end.
 
