@@ -91,7 +91,8 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
                                            Comment : 'Ini management tu put on a form.' ;
-                                           BugsStory : '1.0.3.0 : Optimising.' +#13#10 +
+                                           BugsStory : '1.0.3.1 : Resolving "Optimising" bug.' +#13#10 +
+                                                       '1.0.3.0 : Optimising.' +#13#10 +
                                                        '1.0.2.0 : To English, new management of forms not tested.' +#13#10 +
                                                        '1.0.1.6 : UTF 8.' +#13#10 +
                                                        '1.0.1.5 : Testing Memo.' +#13#10 +
@@ -104,7 +105,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                                        '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
                                                        '1.0.0.0 : Gestion de beaucoup de composants.';
                                            UnitType : 3 ;
-                                           Major : 1 ; Minor : 0 ; Release : 3 ; Build : 0 );
+                                           Major : 1 ; Minor : 0 ; Release : 3 ; Build : 1 );
 
 {$ENDIF}
 
