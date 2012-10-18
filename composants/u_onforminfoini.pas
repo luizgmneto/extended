@@ -457,7 +457,6 @@ var
         ls_Temp := fs_ReadString(lcom_Component.Name,'');
         if ( ls_Temp <> '' ) Then
           TCustomEdit(lcom_Component).Text := ls_Temp ;
-        Result := True;
         Exit;
       end;
 

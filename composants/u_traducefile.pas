@@ -279,6 +279,7 @@ var Image: TImageData; var FormatSource : TImageFileFormat ;
 var
   IArray: TDynImageDataArray;
   I: LongInt;
+  ls_extension:String;
 begin
   Assert(FileNameSource <> '');
   Result := False;
@@ -295,8 +296,9 @@ begin
   if Result Then
    Begin
     Result := False;
+    ls_extension := LowerCase(FileNameExtSource);
     for i:=0 to FormatSource.Extensions.Count - 1  do
-      if FileNameExtSource = FormatSource.Extensions [ i ] Then
+      if ls_extension = FormatSource.Extensions [ i ] Then
         Begin
          Result := True;
          Break;
@@ -452,6 +454,7 @@ Begin
         {$IFDEF MAGICK}
         Result := Longint (MagickWriteImage   ( Adata, Pchar(as_Destination))<>MagickTrue);
         {$ELSE}
+        fb_CreateDirectoryStructure(ExtractFileDir(as_Destination));
         FileStream := TFileStream.Create(as_Destination,fmCreate);
         try
           if FHeader <> nil Then
@@ -477,7 +480,7 @@ Begin
              FileStreamSource := TFileStream.Create(as_source,fmOpenRead);
              SetLength(LBuffer,FBufferSize);
              with FileStreamSource do
-               Begin
+               try
                  while Size - Position <> 0 do
                   Begin
                     if FBufferSize < Size - Position
@@ -487,6 +490,9 @@ Begin
                     FileStream.WriteBuffer(LBuffer[0],LBufferSize);
                     Application.ProcessMessages;
                   end;
+
+               finally
+                 Free;
                end;
            end;
           if FEndOfFile <> nil Then
@@ -543,25 +549,20 @@ begin
   Application.ProcessMessages;
   ls_FileDestExt := EExtensionsImages[FDestinationOption];
 
-  // Verify if same format file
-  if LoadImageFromFileFormat( as_Source, ls_FileExt, ls_FileDestExt, Fdata, Format, {$IFDEF CCREXIF}ExifData,{$ENDIF} FDestinationOption)
-   Then ls_Destination := ls_Destination + '.'+ls_FileDestExt
-   Else ls_Destination := ls_Destination + '.'+ls_FileExt ;
-
-  Application.ProcessMessages;
   if PrepareFileSourceAndDestination ( as_Source, ls_Destination, False, False ) > 0 Then
     Exit ;
 
-  // events
-  if not BeforeCopy Then
-    Exit ;
-  PrepareCopy ;
   {$IFNDEF MAGICK}
   try
 
   Finalize(FData);
   // initialisation of image data
   InitImage( FData );
+
+    // Verify if same format file
+  if LoadImageFromFileFormat( as_Source, ls_FileExt, ls_FileDestExt, Fdata, Format, {$IFDEF CCREXIF}ExifData,{$ENDIF} FDestinationOption)
+   Then ls_Destination := ls_Destination + '.'+ls_FileDestExt
+   Else ls_Destination := ls_Destination +ls_FileExt ;
 
   Except
     On E: Exception do
@@ -579,87 +580,94 @@ begin
     Begin
       Result := CST_COPYFILES_ERROR_CANT_COPY;
       IsCopyOk ( Result, GS_COPYFILES_ERROR_READING + '( ' + as_Source + ' ):'+#13#10+ThrowWandException( Fdata ) );
+      ls_Destination := ls_Destination +ls_FileExt ;
     end
-   else
+  else
+   ls_Destination := ls_Destination + '.'+ls_FileDestExt;
    {$ENDIF}
-     begin
-      Resized := False ;
-      try
 
-        li_ImageWidth  := {$IFDEF MAGICK}MagickGetImageWidth (Fdata){$ELSE}Fdata.Width{$ENDIF};
-        li_ImageHeight := {$IFDEF MAGICK}MagickGetImageHeight(Fdata){$ELSE}Fdata.Height{$ENDIF};
-        // let the system doing some thinks
-        Application.ProcessMessages;
-        //Resizing
-        if  (( FResizeWidth  < li_ImageWidth ) or ( FResizeHeight < li_ImageHeight ))
-        and ( li_ImageHeight > 0 )
-        and ( li_ImageWidth > 0 )
-        and ( not FKeepProportion )
-          Then
-           Begin
-            {$IFDEF MAGICK}
-            Resized := MagickResizeImage ( Fdata, FResizeWidth, FResizeHeight, QuadraticFilter, 1 )= MagickTrue;
-            {$ELSE}
-            Resized := ResizeImage ( fdata, FResizeWidth, FResizeHeight, rfNearest );
-            {$ENDIF}
-           End
-          else
-           Begin
-             if  ( FResizeWidth > 0 )
-             and ( FResizeWidth <  li_ImageWidth )
-             // doit-on retailler en longueur ?
-             and (( FResizeHeight = 0 ) or ( li_ImageWidth / FResizeWidth > li_ImageHeight / FresizeHeight ))
-              Then
+  Application.ProcessMessages;
+
+  // events
+  if not BeforeCopy Then
+    Exit ;
+  PrepareCopy ;
+    Resized := False ;
+    try
+
+      li_ImageWidth  := {$IFDEF MAGICK}MagickGetImageWidth (Fdata){$ELSE}Fdata.Width{$ENDIF};
+      li_ImageHeight := {$IFDEF MAGICK}MagickGetImageHeight(Fdata){$ELSE}Fdata.Height{$ENDIF};
+      // let the system doing some thinks
+      Application.ProcessMessages;
+      //Resizing
+      if  (( FResizeWidth  < li_ImageWidth ) or ( FResizeHeight < li_ImageHeight ))
+      and ( li_ImageHeight > 0 )
+      and ( li_ImageWidth > 0 )
+      and ( not FKeepProportion )
+        Then
+         Begin
+          {$IFDEF MAGICK}
+          Resized := MagickResizeImage ( Fdata, FResizeWidth, FResizeHeight, QuadraticFilter, 1 )= MagickTrue;
+          {$ELSE}
+          Resized := ResizeImage ( fdata, FResizeWidth, FResizeHeight, rfNearest );
+          {$ENDIF}
+         End
+        else
+         Begin
+           if  ( FResizeWidth > 0 )
+           and ( FResizeWidth <  li_ImageWidth )
+           // doit-on retailler en longueur ?
+           and (( FResizeHeight = 0 ) or ( li_ImageWidth / FResizeWidth > li_ImageHeight / FresizeHeight ))
+            Then
+             Begin
+               li_Size := ( FResizeWidth * li_ImageHeight ) div li_ImageWidth;
+               {$IFDEF MAGICK}
+               Resized := MagickResizeImage ( Fdata, FResizeWidth, li_Size, QuadraticFilter, 1 )= MagickTrue;
+               {$ELSE}
+               Resized := ResizeImage ( fdata, FResizeWidth, li_Size, rfNearest );
+               {$ENDIF}
+             End
+           else
+             if  ( FResizeHeight > 0 )
+             and ( FResizeHeight <  li_ImageHeight ) Then
                Begin
-                 li_Size := ( FResizeWidth * li_ImageHeight ) div li_ImageWidth;
+                 li_Size := ( FResizeHeight * li_ImageWidth ) div li_ImageHeight ;
                  {$IFDEF MAGICK}
-                 Resized := MagickResizeImage ( Fdata, FResizeWidth, li_Size, QuadraticFilter, 1 )= MagickTrue;
+                 Resized := MagickResizeImage ( Fdata, li_Size, FResizeHeight, QuadraticFilter, 1 )= MagickTrue;
                  {$ELSE}
-                 Resized := ResizeImage ( fdata, FResizeWidth, li_Size, rfNearest );
+                 Resized := ResizeImage ( fdata, li_Size, FResizeHeight, rfNearest );
                  {$ENDIF}
-               End
-             else
-               if  ( FResizeHeight > 0 )
-               and ( FResizeHeight <  li_ImageHeight ) Then
-                 Begin
-                   li_Size := ( FResizeHeight * li_ImageWidth ) div li_ImageHeight ;
-                   {$IFDEF MAGICK}
-                   Resized := MagickResizeImage ( Fdata, li_Size, FResizeHeight, QuadraticFilter, 1 )= MagickTrue;
-                   {$ELSE}
-                   Resized := ResizeImage ( fdata, li_Size, FResizeHeight, rfNearest );
-                   {$ENDIF}
-             End ;
-          End ;
-        {$IFDEF CCREXIF}
-        case ExifData.Orientation of
-          toTopRight: FlipImage( data );
-          toBottomRight: RotateImage( data, -180 );
-          toBottomLeft : MirrorImage( data );
-          toLeftTop : Begin  FlipImage( data ); RotateImage( data, -270 ); End;
-          toRightTop : RotateImage( data, -90 );
-          toRightBottom : Begin  FlipImage( data ); RotateImage( data, -90 ); End;
-          toLeftBottom : RotateImage( data, -270 );
-        End;
-        ExifData.Orientation := toUndefined;
-        {$ENDIF}
-        // let the system doing some thinks
-        Application.ProcessMessages;
+           End ;
+        End ;
+      {$IFDEF CCREXIF}
+      case ExifData.Orientation of
+        toTopRight: FlipImage( data );
+        toBottomRight: RotateImage( data, -180 );
+        toBottomLeft : MirrorImage( data );
+        toLeftTop : Begin  FlipImage( data ); RotateImage( data, -270 ); End;
+        toRightTop : RotateImage( data, -90 );
+        toRightBottom : Begin  FlipImage( data ); RotateImage( data, -90 ); End;
+        toLeftBottom : RotateImage( data, -270 );
+      End;
+      ExifData.Orientation := toUndefined;
+      {$ENDIF}
+      // let the system doing some thinks
+      Application.ProcessMessages;
 
-        Result := SaveToFile( Fdata, as_Source, ls_Destination, Format, Resized);
+      Result := SaveToFile( Fdata, as_Source, ls_Destination, Format, Resized);
 
-        // let the system doing some thinks
-        Application.ProcessMessages;
+      // let the system doing some thinks
+      Application.ProcessMessages;
 
-      Except
-        On E: Exception do
-          Begin
-            Result := CST_COPYFILES_ERROR_CANT_COPY ;
-            IsCopyOk ( Result, GS_COPYFILES_ERROR_CANT_COPY + '( ' + as_Source + ' -> ' + as_Destination + ' )' );
-            Exit ;
-          End ;
-      End ;
+    Except
+      On E: Exception do
+        Begin
+          Result := CST_COPYFILES_ERROR_CANT_COPY ;
+          IsCopyOk ( Result, GS_COPYFILES_ERROR_CANT_COPY + '( ' + as_Source + ' -> ' + as_Destination + ' )' );
+          Exit ;
+        End ;
+    End ;
 
-     end;
 
   {$IFDEF MAGICK}
   Fdata := DestroyMagickWand(Fdata);
