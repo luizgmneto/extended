@@ -91,7 +91,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
                                            Comment : 'Ini management tu put on a form.' ;
-                                           BugsStory : '1.0.3.1 : Resolving "Optimising" bug.' +#13#10 +
+                                           BugsStory : '1.0.3.1 : Resolving "Optimising" SpinEdit bug.' +#13#10 +
                                                        '1.0.3.0 : Optimising.' +#13#10 +
                                                        '1.0.2.0 : To English, new management of forms not tested.' +#13#10 +
                                                        '1.0.1.6 : UTF 8.' +#13#10 +
@@ -458,6 +458,7 @@ var
         ls_Temp := fs_ReadString(lcom_Component.Name,'');
         if ( ls_Temp <> '' ) Then
           TCustomEdit(lcom_Component).Text := ls_Temp ;
+        // do not quit after because there are other edits
         Exit;
       end;
 
@@ -832,7 +833,7 @@ var
     and GetfeSauveEdit(FSaveEdits ,feTedit) then
       begin
         p_WriteString(lcom_Component.Name,TCustomEdit(lcom_Component).Text);
-        Result := True;
+        // do not quit after because there are other edits
         Exit;
       end;
     if GetfeSauveEdit(FSaveEdits ,feTCurrencyEdit) and (lcom_Component is TExtNumEdit)
