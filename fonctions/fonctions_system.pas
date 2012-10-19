@@ -37,8 +37,10 @@ const
   DirectorySeparator = '\' ;
 
 {$ENDIF}
-  CST_SUBDIR_IMAGES_SOFT = DirectorySeparator + 'Images'+DirectorySeparator;
   CST_EXTENSION_LIBRARY = {$IFDEF WINDOWS}'.dll'{$ELSE}{$IFDEF DARWIN}'.dylib'{$ELSE}'.so'{$ENDIF}{$ENDIF};
+
+var
+  GS_SUBDIR_IMAGES_SOFT : String = DirectorySeparator + 'Images'+DirectorySeparator;
 
 function fs_ExtractFileNameOnly ( const as_Path : String ): String;
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
@@ -78,7 +80,7 @@ uses
 
 function fs_getSoftImages:String;
 Begin
-  Result := ExtractFileDir(Application.ExeName)+CST_SUBDIR_IMAGES_SOFT;
+  Result := ExtractFileDir(Application.ExeName)+GS_SUBDIR_IMAGES_SOFT;
 End;
 
 function fs_GetCorrectPath ( const as_Path :String ): string;
