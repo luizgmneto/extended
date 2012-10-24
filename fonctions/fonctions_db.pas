@@ -87,6 +87,9 @@ function fs_stringDbQuoteLikeSQLServer ( const as_Texte: string): string;
 function fs_AddDBString ( const as_Text : String ) : String;
 function fb_ListeVersSQL(var as_TexteAjoute: String; const astl_Liste: TStringList; const ab_EstChaine: Boolean): Boolean;
 function FieldCanAcceptKey(Field: TField; AKey: char): boolean;
+{$IFDEF EADO}
+procedure p_AsynchronousDataSet(adat_DataSet: TCustomADODataset);
+{$ENDIF}
 
 
 var ge_DataSetErrorEvent : TDataSetErrorEvent = nil;
@@ -123,6 +126,26 @@ uses Variants,  Math, fonctions_erreurs, fonctions_string,
    fonctions_proprietes,StrUtils,
    TypInfo, ExtCtrls;
 
+
+{$IFDEF EADO}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////
+// Procédure : p_AsyncDataSet
+// Description : Mise en mode asynchrone du Dataset
+///////////////////////////////////////////////////////////////////////////////////
+procedure p_AsynchronousDataSet(adat_DataSet: TCustomADODataset);
+begin
+  // On passe en mode asynchrone que si Form Main Ini le veut
+  if gb_ApplicationAsynchrone
+   Then
+    Begin
+      p_SetComponentProperty ( adat_DataSet, 'CommandTimeOut', tkInteger, gi_IniDatasourceAsynchroneTimeOut );
+      adat_DataSet.ExecuteOptions := adat_DataSet.ExecuteOptions + [eoAsyncExecute,eoAsyncFetch,eoAsyncFetchNonBlocking] ;
+    End ;
+End ;
+{$ENDIF}
 
 function FieldCanAcceptKey(Field: TField; AKey: char): boolean;
 begin

@@ -12,7 +12,8 @@ uses
   fonctions_variant, fonctions_web, fonctions_array, fonctions_version, 
   fonctions_objects, fonctions_system, fonctions_languages, 
   fonctions_components, U_About, type_string, fonctions_file, 
-  unit_messagescopy, fonctions_dbcomponents, LazarusPackageIntf;
+  unit_messagescopy, fonctions_dbcomponents, fonctions_forms, 
+  LazarusPackageIntf;
 
 implementation
 
