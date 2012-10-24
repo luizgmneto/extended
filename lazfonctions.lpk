@@ -22,7 +22,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Release="5" Build="1"/>
-    <Files Count="21">
+    <Files Count="22">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -107,29 +107,36 @@
         <Filename Value="fonctions/fonctions_dbcomponents.pas"/>
         <UnitName Value="fonctions_dbcomponents"/>
       </Item21>
+      <Item22>
+        <Filename Value="fonctions/fonctions_forms.pas"/>
+        <UnitName Value="fonctions_forms"/>
+      </Item22>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="LANG"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="5">
+    <RequiredPkgs Count="6">
       <Item1>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="ExpertSuperForm"/>
       </Item1>
       <Item2>
-        <PackageName Value="virtualtreeview_package"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item2>
       <Item3>
-        <PackageName Value="VampyreImagingPackage"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item3>
       <Item4>
-        <PackageName Value="LCL"/>
+        <PackageName Value="VampyreImagingPackage"/>
       </Item4>
       <Item5>
+        <PackageName Value="LCL"/>
+      </Item5>
+      <Item6>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item5>
+      </Item6>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

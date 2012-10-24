@@ -198,7 +198,7 @@ var
   FIniFile: TIniFile = nil;
   FIniRoot: TIniFile = nil;
   FSQLFile: TIniFile = nil;
-{$IFDEF EADO}
+  {$IFDEF EADO}
   gb_IniADOSetKeyset : Boolean = False ;
   gb_IniDirectAccessOnServer : Boolean = False ;
   gi_IniDatasourceAsynchroneEnregistrementsACharger : Integer = 300 ;

@@ -62,6 +62,7 @@ function GetUserDir: string;
 function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
 function FileExistsUTF8 ( const as_path : String ):Boolean;
 {$ENDIF}
+function fs_EraseNameSoft ( const as_Nomapp, as_Path : String ) : String ;
 
 implementation
 
@@ -106,6 +107,20 @@ Begin
   {$ENDIF}
 
 end;
+
+// Supprime le nom du fichier exe dans le chemin
+function fs_EraseNameSoft ( const as_Nomapp, as_Path : String ) : String ;
+Begin
+  if pos ( as_Nomapp, as_Path )> 0 then
+    Begin
+      Result := copy ( as_Path, pos ( as_nomapp, as_Path ) + length ( as_NomApp ) + 1, length ( as_Path ) - length (as_Nomapp)- pos (as_NomApp, as_Path ));
+    End
+   else
+    Result := as_Path ;
+
+End;
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Lit le nom de la session
