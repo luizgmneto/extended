@@ -826,8 +826,9 @@ begin
 {$IFDEF SFORM}
  if ( afor_Reference is TSuperForm )
   and not ( afs_newFormStyle in [fsStayOnTop]) Then
-    with Application do
+    with Application,MainForm do
     Begin
+      BeginUpdateBounds;
     // Must use MainFormIni
     //       afor_Reference.AutoSize := True;
       ( afor_Reference as TSuperForm ).IncrustMode := aicAllClient;
@@ -844,12 +845,19 @@ begin
                   AutoScroll:=True;
                   Align:=alClient;
                 end;
+              SetObjectProp( MainForm, CST_BoxChilds, FBoxChilds );
             end;
     //       afor_Reference.Align := alClient;
-         ( afor_Reference as TSuperForm ).ShowIncrust ( FBoxChilds );
+         with FBoxChilds do
+           Begin
+             BeginUpdateBounds;
+             ( afor_Reference as TSuperForm ).ShowIncrust ( FBoxChilds );
+             EndUpdateBounds;
+           end;
         end
        Else
         ( afor_Reference as TSuperForm ).ShowIncrust ( MainForm );
+       EndUpdateBounds;
      end
    else
 {$ENDIF}

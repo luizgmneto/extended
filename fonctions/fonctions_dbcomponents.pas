@@ -41,7 +41,7 @@ const
       			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
 
   {$ENDIF}
-  OnExecuteQuery: TOnExecuteQuery = nil;
+  ge_OnExecuteQuery: TOnExecuteQuery = nil;
   CST_DBPROPERTY_SQL = 'SQL';
 function fb_InsereCompteur ( const adat_Dataset, adat_DatasetQuery : TDataset ;
                              const aslt_Cle : TStringlist ;
@@ -142,8 +142,8 @@ procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :{$
 Begin
   p_SetSQLQuery ( adat_Dataset, as_Query );
   try
-    if assigned ( OnExecuteQuery ) Then
-     OnExecuteQuery ( adat_Dataset );
+    if assigned ( ge_OnExecuteQuery ) Then
+     ge_OnExecuteQuery ( adat_Dataset );
   Except
     on E:Exception do
      p_ShowSQLError(E.Message,as_Query);
