@@ -21,11 +21,9 @@ uses
 {$IFDEF SFORM}
   CompSuperForm,
 {$ENDIF}
-{$IFDEF FPC}
-  LCLIntf, LCLType,
-{$ELSE}
-  Windows, OleDb, Messages,
-{$ENDIF}
+  {$IFDEF EADO}
+     ADODB,
+  {$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
@@ -33,6 +31,11 @@ uses
   TNTForms,
 {$ENDIF}
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
+{$IFDEF FPC}
+  LCLIntf, LCLType,
+{$ELSE}
+  Windows, OleDb, Messages,
+{$ENDIF}
   Dialogs, ExtCtrls, fonctions_init;
 
 {$IFDEF VERSIONS}
@@ -115,7 +118,7 @@ function fb_ReinitWindow ( var afor_Form : TCustomForm ) : Boolean ;
 function fb_GetKeyState(aby_Key: Integer): Boolean;
 // Modifie la touche
 // Entrée : Numéro de touche
-procedure p_SetKeyState(aby_Key: Integer; ab_TurnOn: Boolean);
+procedure p_SetKeyState( var at_Buffer : TKeyboardState; const aby_Key: Integer; const ab_TurnOn: Boolean);
 
 // Création d'une form MDI renvoie la form si existe
 // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form
@@ -173,9 +176,6 @@ var
 //  gb_FreeAllWindowsClosed : Boolean = False ;
   gReg_MainFormIniClassesLocales : TRegGroups = nil ;
 
-{$IFDEF EADO}
-procedure p_AsynchronousDataSet(adat_DataSet: TCustomADODataset);
-{$ENDIF}
 
 implementation
 
@@ -639,7 +639,7 @@ procedure p_UnRegisterClasses(AClasses: array of TPersistentClass);
 var
   I: Integer;
 begin
-  for I := Low(AClasses) to High(AClasses) do UnRegisterClass(AClasses[I]);
+  for I := Low(AClasses) to High(AClasses) do Classes.UnRegisterClass(AClasses[I]);
 end;
 
 function fper_GetClass(const AClassName: string): TPersistentClass;
@@ -659,14 +659,14 @@ end;
 
 // Modifie la touche
 // Entrée : Numéro de touche
-procedure p_SetKeyState(aby_Key: Integer; ab_TurnOn: Boolean);
+procedure p_SetKeyState( var at_Buffer : TKeyboardState; const aby_Key: Integer; const ab_TurnOn: Boolean);
 begin
   // Si windows non nt
   {$IFDEF DELPHI}
   if Win32Platform = VER_PLATFORM_WIN32_WINDOWS then // Win95/98/ME
     begin
-      gt_Buffer[aby_Key] := Ord(ab_TurnOn);
-      SetKeyboardState(gt_Buffer);
+      at_Buffer[aby_Key] := Ord(ab_TurnOn);
+      SetKeyboardState(at_Buffer);
     end
   // Si windows nt
   else if (fb_GetKeyState(aby_Key) <> ab_TurnOn) then // Procédure spécialisée

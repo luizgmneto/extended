@@ -57,9 +57,7 @@ var gstl_CleEnDoubleErreurs : TStringlist = nil ;
     ge_EvenementCleUtilise : TMessageEvent = nil ;
     gfor_ValidateForm      : Tobject = nil ;
     gb_ShowError32         : Boolean = True ;
-{$IFDEF EADO}
-    gdat_DatasetRefreshOnError : TCustomADODataset = nil ;
-{$ENDIF}
+    gdat_DatasetRefreshOnError : TDataset = nil ;
 //const GS_MC_CONTACT = #13#10 + #13#10 + 'Contacter votre administrateur pour une vérification ou un retour de ce message.' ;
 
 implementation
@@ -76,7 +74,8 @@ uses Forms,
 {$IFDEF EADO}
      ADOInt, ComObj,
 {$ENDIF}
-     fonctions_string ;
+     fonctions_string,
+     fonctions_dbcomponents ;
 
 // gestion d'une exception delphi
 // aexc_exception : l'exception
@@ -211,7 +210,7 @@ Begin
               lbkm_Enregistrement := gdat_DatasetRefreshOnError.Bookmark ;
               if gdat_DatasetRefreshOnError.State in [dsInsert,dsEdit ] Then
                 gdat_DatasetRefreshOnError.Cancel ;
-              gdat_DatasetRefreshOnError.Requery ;
+              fb_RefreshDataset ( gdat_DatasetRefreshOnError );
               try
                 gdat_DatasetRefreshOnError.Bookmark := lbkm_Enregistrement ;
               Except

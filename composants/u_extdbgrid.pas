@@ -148,6 +148,9 @@ type
        procedure WMSetFocus(var Msg: TWMSetFocus); message WM_SETFOCUS;
        procedure WMVScroll(var Message: TWMVScroll); message WM_VSCROLL;
        procedure WMHScroll(var Msg: TWMHScroll); message WM_HSCROLL;
+       {$IFNDEF FPC}
+       procedure WMSize(var Msg: TWMSize); message WM_SIZE;
+       {$ENDIF}
        procedure HideColumnControl;
        procedure ShowControlColumn;
        procedure p_SetPaintOptions ( const AValue : TExtOptions );
@@ -161,9 +164,9 @@ type
        procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
        {$IFDEF FPC}
        function  MouseButtonAllowed(Button: TMouseButton): boolean; override;
-       {$ENDIF}
       protected
        procedure ChangeBounds(ALeft, ATop, AWidth, AHeight: integer; KeepBase: boolean); override;
+       {$ENDIF}
 
       public
        procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -177,7 +180,11 @@ type
        {$IFDEF EXRX}
        procedure TitleClick(Column: TColumn); override;
        {$ELSE}
-       procedure DoTitleClick(ACol: longint; ACollumn: TRxColumn; Shift: TShiftState); override;
+       {$IFDEF RX}
+       procedure DoTitleClick(ACol: longint; AColumn: TRxColumn; Shift: TShiftState); override;
+       {$ELSE}
+       procedure DoTitleClick(ACol: Longint; AField: TField); dynamic;
+       {$ENDIF}
        {$ENDIF}
        procedure Notification(AComponent: TComponent;
                  Operation: TOperation); override;
@@ -566,7 +573,9 @@ begin
   FixedColor  := CST_GRID_STD;
   FWBeforeEnter:=nil;
   FWBeforeExit :=nil;
+{$IFDEF FPC}
   ScrollBars:=ssAutoBoth;
+{$ENDIF}
 end;
 
 // procedure TExtDBGrid.Loaded
@@ -624,12 +633,24 @@ end;
 
 // procedure TExtDBGrid.ChangeBounds
 // Resize columns with resize property to true
+{$IFDEF FPC}
 procedure TExtDBGrid.ChangeBounds(ALeft, ATop, AWidth, AHeight: integer; KeepBase: boolean);
+{$ELSE}
+procedure TExtDBGrid.WMSize(var Msg: TWMSize);
+var AWidth,AHeight:Integer;
+{$ENDIF}
 var AResizedColumns, AWidthResize, i, AWidthMarge : Integer;
     APassed : Boolean;
 begin
-  if  ( AutoSizingLockCount = 0 )
-  and ( aWidth <> Width ) then
+{$IFNDEF FPC}
+  with msg do
+    Begin
+      AWidth:=Width;
+      AHeight:=Height;
+    End;
+{$ENDIF}
+  if  {$IFDEF FPC}( AutoSizingLockCount = 0 )
+  and {$ENDIF}( aWidth <> Width ) then
    Begin
      AResizedColumns  := 0;
      for i := 0 to Columns.Count - 1 do
@@ -864,7 +885,11 @@ end;
 {$IFDEF EXRX}
 procedure TExtDBGrid.TitleClick(Column: TColumn);
 {$ELSE}
-procedure TExtDBGrid.DoTitleClick(ACol: longint; ACollumn: TRxColumn; Shift: TShiftState);
+{$IFDEF RX}
+procedure TExtDBGrid.DoTitleClick(ACol: longint; AColumn: TRxColumn; Shift: TShiftState);
+{$ELSE}
+procedure TExtDBGrid.DoTitleClick(ACol: Longint; AField: TField);
+{$ENDIF}
 {$ENDIF}
 
 var li_Tag , li_i : Integer ;

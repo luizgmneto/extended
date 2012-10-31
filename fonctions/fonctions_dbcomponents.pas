@@ -22,6 +22,7 @@ uses SysUtils,
   {$ENDIF}
   Controls,
   DBCtrls, ExtCtrls,
+  fonctions_db,
   Classes ;
 
 type
@@ -42,6 +43,7 @@ const
 
   {$ENDIF}
   ge_OnExecuteQuery: TOnExecuteQuery = nil;
+  ge_OnRefreshDataset : TSpecialFuncDataset = nil;
   CST_DBPROPERTY_SQL = 'SQL';
 function fb_InsereCompteur ( const adat_Dataset, adat_DatasetQuery : TDataset ;
                              const aslt_Cle : TStringlist ;
@@ -51,6 +53,7 @@ function fb_InsereCompteur ( const adat_Dataset, adat_DatasetQuery : TDataset ;
                              const ab_DBMessageOnError  : Boolean ): Boolean;
 function fb_RefreshDataset ( const aDat_Dataset : TDataset ): Boolean ; overload;
 function fb_RefreshDataset ( const aDat_Dataset : TDataset; const ab_GardePosition : Boolean ): Boolean ; overload;
+procedure p_AutoConnection ( const adat_Dataset : TDataset; const AConnect : Boolean = True );
 procedure p_OpenSQLQuery(const adat_Dataset: Tdataset; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
 function  fs_getSQLQuery ( const adat_Dataset : Tdataset ): String;
 procedure p_SetSQLQuery(const adat_Dataset: Tdataset; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
@@ -109,7 +112,7 @@ uses Variants,  fonctions_erreurs, fonctions_string,
 {$IFDEF EDBEXPRESS}
      SQLExpr,
  {$ENDIF}
-   fonctions_proprietes, TypInfo, fonctions_db,
+   fonctions_proprietes, TypInfo,
    Dialogs,
    fonctions_init;
 
@@ -487,28 +490,41 @@ End;
 
 function fb_RefreshDataset ( const aDat_Dataset : TDataset; const ab_GardePosition : Boolean ): Boolean ;
 var lbkm_Bookmark : TBookmarkStr ;
+    lvar_Sort : Variant;
+    ls_Sort : String ;
 Begin
   Result := False ;
   if ab_GardePosition Then
     lbkm_Bookmark := aDat_Dataset.Bookmark ;
   try
-{$IFDEF EADO}
-    if ( aDat_Dataset is TCustomADODAtaset )
-      then
-        ( aDat_Dataset as TCustomADODAtaset ).Requery
-      Else
-{$ENDIF}
+    lvar_Sort := fvar_getComponentProperty( aDat_Dataset, 'Sort' );
+    if VarIsStr ( lvar_Sort ) then
+      ls_Sort := lvar_Sort;
+    if not assigned ( ge_OnRefreshDataset )
+    or not ge_OnRefreshDataset ( aDat_Dataset ) Then
         Begin
           aDat_Dataset.Close ;
           aDat_Dataset.Open ;
         End ;
     if ab_GardePosition Then
       aDat_Dataset.Bookmark := lbkm_Bookmark ;
+    if ( ls_Sort <> '' )
+      Then p_SetComponentProperty ( aDat_Dataset, 'Sort', ls_Sort );
     Result := True ;
   except
   End ;
 End ;
 
+procedure p_AutoConnection ( const adat_Dataset : TDataset; const AConnect : Boolean = True );
+var lobj_Connect : TObject;
+Begin
+  if assigned ( adat_Dataset ) Then
+    Begin
+      lobj_Connect := fobj_getComponentObjectProperty(adat_Dataset, 'Connection' );
+      if lobj_Connect is TComponent then
+        p_SetComponentBoolProperty(lobj_Connect as TComponent,'Active', aconnect);
+    End;
+End;
 
 ///////////////////////////////////////////////////////////////////////////////
 // procedure p_AddSQLQuery
