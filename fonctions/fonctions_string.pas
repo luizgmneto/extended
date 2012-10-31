@@ -117,6 +117,7 @@ end;
 
 function HexToBinary ( const ALines : TStrings ; const AStream : TStream ): Boolean;
 var I : Integer;
+    AByte : Byte;
     AChar, EndChar : PChar;
     ls_Line : String;
 Begin
@@ -130,8 +131,10 @@ Begin
          EndChar:=@ls_Line[Length(ls_Line)];
          while AChar <= EndChar do
            Begin
+             AByte := HexToByte(AChar^);
              if not ( AChar^ in [' ',#13,#10]) then
-               AStream.WriteByte(HexToByte(AChar^));
+               AStream.{$IFDEF FPC}WriteByte{$ELSE}Write{$ENDIF}
+                       (abyte{$IFNDEF FPC},1{$ENDIF});
              inc ( AChar );
            end;
          Result:=true;

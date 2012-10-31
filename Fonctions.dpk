@@ -76,7 +76,6 @@ contains
   fonctions_db in 'fonctions\fonctions_db.pas',
   fonctions_web in 'fonctions\fonctions_web.pas',
   StoHtmlHelp in 'fonctions\StoHtmlHelp.pas',
-  u_zconnection in 'forms\u_zconnection.pas',
   fonctions_objects in 'fonctions\fonctions_objects.pas',
   fonctions_system in 'fonctions\fonctions_system.pas',
   fonctions_languages in 'fonctions\fonctions_languages.pas',

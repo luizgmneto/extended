@@ -111,7 +111,7 @@ type
     avec connexion d'une base ADO
     et appel de la procédure p_InitialisationParamIni dans la form si AutoReadIni,
     de la procédure p_IniInitialisation s'il n'existe pas de fichier INI}
-    function f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TIniFile; virtual;
+    function f_IniGetConfigFile: TIniFile; virtual;
     function f_GetIniFile : TIniFile; virtual;
 
     // Procédure mettant à jour la procédure virtuelle p_setMajNumResult
@@ -151,10 +151,6 @@ var
   gb_MotPasseEstValide : Boolean ;
   gs_NomApp: string;
   gmif_MainFormIniInit: TIniFile = nil ;
-
-{$IFDEF EADO}
-procedure p_AsynchronousDataSet(adat_DataSet: TCustomADODataset);
-{$ENDIF}
 
 implementation
 
@@ -339,7 +335,7 @@ End ;
 // Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)
 // Entrée : Le nom de la connexion qui en fait est le nom du fichier INI (en gros)
 // Renvoie un fichier INI (même si c'est pas très utile) !!!
-function TF_FormMainIni.f_IniGetConfigFile(acco_Conn: TComponent; as_NomConnexion: string): TIniFile;
+function TF_FormMainIni.f_IniGetConfigFile: TIniFile;
 begin
   p_WriteDescendantIni ( gmif_MainFormIniInit );
   if assigned ( ge_WriteMainIni ) Then

@@ -135,6 +135,10 @@ const
   function f_IniReadVirtualTreeFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const abvt_VirtualTree : TBaseVirtualTree ): Boolean ;
   procedure p_IniWriteVirtualTreeToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const abvt_VirtualTree : TBaseVirtualTree );
 {$ENDIF}
+{$IFDEF EADO}
+  function fb_WriteADOCommonIni ( const acco_Conn,acco_ConnAcces : TComponent ; var amif_Init : TIniFile ; const as_NomConnexion: string ) : Boolean ;
+  procedure p_ReadADOCommonIni ( const acco_ConnAcces, acco_Conn: TComponent; const amif_Init : TIniFile );
+{$ENDIF}
   function f_IniReadListViewFromIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const alv_ListView : TCustomListView ): Boolean ;
 
   procedure p_IniWriteGridToIni ( const aini_IniFile : TCustomInifile ; const as_FormName : String ; const agd_grid : TCustomDBGrid );

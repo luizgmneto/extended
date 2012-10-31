@@ -9,9 +9,6 @@ interface
 {$ENDIF}
 
 uses SysUtils,
-  {$IFDEF EADO}
-     ADODB,
-  {$ENDIF}
   {$IFDEF DELPHI_9_UP}
      WideStrings,
   {$ENDIF}
@@ -29,9 +26,14 @@ uses SysUtils,
    Controls,
    Classes ;
 
+type TSpecialProcDataset = procedure ( const ADataset : TDataset );
+     TSpecialFuncDataset = function ( const ADataset : TDataset ):Boolean;
+     TSpecialFuncDatasetException = function ( const AException : Exception; const ADataset : TDataset ):Boolean;
+     TSpecialFuncSort = function  ( const ADataset : TDataset; const AFieldName : String ; const ADesc : Boolean ) : Boolean;
+
 const
-
-
+  ge_SpecialRefreshDataset : TSpecialProcDataset = nil;
+  ge_SpecialSort : TSpecialFuncSort = nil;
   CST_SQL_ORDER_BY = 'ORDER BY ' ;
   CST_SQL_ASC  = ' ASC'  ;
   CST_SQL_DESC = ' DESC' ;
@@ -87,9 +89,7 @@ function fs_stringDbQuoteLikeSQLServer ( const as_Texte: string): string;
 function fs_AddDBString ( const as_Text : String ) : String;
 function fb_ListeVersSQL(var as_TexteAjoute: String; const astl_Liste: TStringList; const ab_EstChaine: Boolean): Boolean;
 function FieldCanAcceptKey(Field: TField; AKey: char): boolean;
-{$IFDEF EADO}
-procedure p_AsynchronousDataSet(adat_DataSet: TCustomADODataset);
-{$ENDIF}
+
 
 
 var ge_DataSetErrorEvent : TDataSetErrorEvent = nil;
@@ -124,28 +124,9 @@ uses Variants,  Math, fonctions_erreurs, fonctions_string,
      DBTables,
 {$ENDIF}
    fonctions_proprietes,StrUtils,
-   TypInfo, ExtCtrls;
+   TypInfo, ExtCtrls,
+   fonctions_init;
 
-
-{$IFDEF EADO}
-
-
-
-///////////////////////////////////////////////////////////////////////////////////
-// Procédure : p_AsyncDataSet
-// Description : Mise en mode asynchrone du Dataset
-///////////////////////////////////////////////////////////////////////////////////
-procedure p_AsynchronousDataSet(adat_DataSet: TCustomADODataset);
-begin
-  // On passe en mode asynchrone que si Form Main Ini le veut
-  if gb_ApplicationAsynchrone
-   Then
-    Begin
-      p_SetComponentProperty ( adat_DataSet, 'CommandTimeOut', tkInteger, gi_IniDatasourceAsynchroneTimeOut );
-      adat_DataSet.ExecuteOptions := adat_DataSet.ExecuteOptions + [eoAsyncExecute,eoAsyncFetch,eoAsyncFetchNonBlocking] ;
-    End ;
-End ;
-{$ENDIF}
 
 function FieldCanAcceptKey(Field: TField; AKey: char): boolean;
 begin
@@ -585,10 +566,9 @@ End ;
 procedure p_UpdateBatch ( const adat_Dataset: Tdataset);
 Begin
   {$IFDEF EADO}
-  if ( adat_Dataset is TCustomADODataset ) Then
-    Begin
-     ( adat_Dataset as TCustomADODataset ).UpdateBatch(arAll);
-    End;
+  if Assigned ( ge_SpecialRefreshDataset ) then
+   ge_SpecialRefreshDataset ( adat_Dataset )
+  else
   {$ELSE}
    {$IFDEF FPC}
      adat_Dataset.Refresh;
@@ -778,28 +758,13 @@ end;
 // as_NomChamp : Le champ à trier
 // ab_Desc  : Descendant ou Montant
 function  fb_SortADataset ( const aDat_Dataset : TDataset; const as_NomChamp : String ; const ab_Desc : Boolean ) : Boolean;
-{$IFDEF EADO}
-var ls_AscDesc: String;
-{$ENDIF}
 Begin
   Result := False ;
   try
-{$IFDEF EADO}
-    if  ( aDat_DataSet is TCustomADODataset )
-    and (( aDat_DataSet as TCustomADODataset ).CursorLocation = clUseClient )
-    and assigned ( aDat_DataSet.FindField ( as_NomChamp )) then
-      Begin
-        if ab_Desc Then
-          ls_AscDesc := CST_SQL_DESC
-         Else
-          ls_AscDesc := CST_SQL_ASC;
-
-        TCustomADODataset( aDat_DataSet ).Sort   := as_NomChamp + ls_AscDesc ;
-        Result := True ;
-        Exit;
-      End
+    if  Assigned( ge_SpecialSort )
+     then
+      ge_SpecialSort ( aDat_Dataset, as_NomChamp, ab_Desc )
      Else
-{$ENDIF}
     if assigned ( GetPropInfo ( aDat_DataSet, 'SortedFields' )) Then
       Begin
         Result := True;
