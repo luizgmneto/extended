@@ -340,5 +340,5 @@ initialization
   {$IFDEF FPC}
   OnGetLibraryName:= TOnGetLibraryName( p_setLibrary);
   {$ENDIF}
-  OnExecuteQuery := TOnExecuteQuery ( p_executeQuery );
+  ge_OnExecuteQuery := TOnExecuteQuery ( p_executeQuery );
 end.

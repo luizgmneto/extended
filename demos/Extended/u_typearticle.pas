@@ -131,7 +131,7 @@ var
 
 implementation
 
-uses U_Main, U_Gamme, U_Caracteristique;
+uses U_Main, U_Gamme, U_Caracteristique,fonctions_forms;
 
 {$IFNDEF FPC}
   {$R *.dfm}
@@ -168,7 +168,7 @@ end;
 
 procedure TF_TypeProduit.bt_GammeClick(Sender: TObject);
 begin
-  FMain.ffor_CreateChild ( TF_Gamme, fsMDIChild, True, nil );
+  ffor_CreateChild ( TF_Gamme, fsMDIChild, True, nil );
   if ( lsv_GammIn.Items.Count > 0 )
   and M_Article.IB_Gamme.Active Then
     If assigned ( lsv_GammIn.Selected ) Then
@@ -181,7 +181,7 @@ end;
 
 procedure TF_TypeProduit.bt_CaracClick(Sender: TObject);
 begin
-  FMain.ffor_CreateChild ( TF_Caracteristique, fsMDIChild, True, nil );
+  ffor_CreateChild ( TF_Caracteristique, fsMDIChild, True, nil );
 
   if ( lsv_CaracIn.Items.Count > 0 )
   and M_Article.IB_Carac.Active Then

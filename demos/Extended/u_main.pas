@@ -44,6 +44,8 @@ var
 
 implementation
 
+uses fonctions_forms;
+
 {$IFNDEF FPC}
   {$R *.dfm}
 {$ELSE}
