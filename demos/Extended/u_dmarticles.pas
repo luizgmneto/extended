@@ -30,73 +30,28 @@ type
     IBU_TypProd: TIBUpdateSQL;
     IBU_Carac: TIBUpdateSQL;
     IBU_TypArt: TIBUpdateSQL;
-    IB_artcoul: TIBQuery;
-    IB_GamTProIn: TIBQuery;
-    IB_GamTProOut: TIBQuery;
     IB_Gamme: TIBQuery;
     ds_Gamme: TDataSource;
     IB_TypProduit: TIBQuery;
     ds_TypProduit: TDataSource;
     IB_Carac: TIBQuery;
     ds_Carac: TDataSource;
-    IB_SelCarac: TIBQuery;
-    IB_SelTypPro: TIBQuery;
-    IB_SelGamme: TIBQuery;
-    IB_Sel1Carac: TIBQuery;
-    IB_Sel1TypPro: TIBQuery;
-    IB_SelCarac2: TIBQuery;
-    IB_SelTypPro2: TIBQuery;
-    IB_GammeE: TIBQuery;
-    IB_Sel1Carac2: TIBQuery;
-    IB_Sel1TypPro2: TIBQuery;
-    IB_CocoCoul: TIBQuery;
-    IB_TyfiInFini: TIBQuery;
-    IB_TyfiOutFini: TIBQuery;
-    IB_FiniInTyFi: TIBQuery;
-    IB_FiniOutTyFi: TIBQuery;
     ds_FiltreProduit: TDataSource;
     IB_FiltreProduit: TIBQuery;
-    IB_Article1: TIBQuery;
-    IB_prod_acces: TIBQuery;
-    IB_ArbreArt: TIBQuery;
-    IB_code_copieart: TIBQuery;
-    IB_copieart: TIBQuery;
-    IB_ArFini: TIBQuery;
-    IB_Article2: TIBQuery;
-    IB_Article3: TIBQuery;
-    IB_Article4: TIBQuery;
-    IB_Article5: TIBQuery;
-    IB_Article6: TIBQuery;
-    zq_Article: TIBQuery;
-    zq_Carac: TIBQuery;
-    zq_FiltreProduit: TIBQuery;
+    IB_Article: TIBQuery;
     ib_gammarti: TIBQuery;
-    zq_Gamme: TIBQuery;
     ib_typearti: TIBQuery;
-    zq_TypProduit: TIBQuery;
     {$IFDEF FPC}
     Process: TProcess;
     {$ENDIF}
     procedure DataModuleCreate(Sender: TObject);
     procedure IB_articleAfterScroll(DataSet: TDataSet);
     procedure IB_articleNewRecord(DataSet: TDataSet);
-    procedure IB_SelGammeAfterScroll(DataSet: TDataSet);
-    procedure IB_SelTypProAfterScroll(DataSet: TDataSet);
-    procedure IB_SelTypProAfterOpen(DataSet: TDataSet);
-    procedure IB_SelGammeAfterOpen(DataSet: TDataSet);
     procedure IB_articleAfterOpen(DataSet: TDataSet);
     procedure IB_AffectePostError(DataSet: TDataSet; E: EDatabaseError;
       var Action: TDataAction);
     procedure IB_FinitionAfterOpen(DataSet: TDataSet);
-    procedure IB_GammeEAfterOpen(DataSet: TDataSet);
-    procedure IB_GammeEAfterScroll(DataSet: TDataSet);
-    procedure IB_SelTypPro2AfterOpen(DataSet: TDataSet);
-    procedure IB_SelTypPro2AfterScroll(DataSet: TDataSet);
-    procedure IB_Sel1TypPro2AfterOpen(DataSet: TDataSet);
-    procedure IB_Sel1TypPro2AfterScroll(DataSet: TDataSet);
     procedure IB_Article1AfterInsert(DataSet: TDataSet);
-    procedure IB_Article1AfterPost(DataSet: TDataSet);
-    procedure IB_ArbreArtAfterOpen(DataSet: TDataSet);
 
   private
     { D?clarations priv?es }
@@ -213,31 +168,6 @@ begin
   DataSet.FieldByName('ARTI_Compose').AsBoolean  := False;
 end;
 
-procedure TM_Article.IB_SelGammeAfterScroll(DataSet: TDataSet);
-begin
-  IB_Sel1TypPro.Close ;
-  IB_Sel1TypPro.ParamByName( 'groupe' ).Value := DATaset.FieldByName ( 'GAMM_Clep' ).Value;
-  IB_Sel1TypPro.Open ;
-end;
-
-procedure TM_Article.IB_SelTypProAfterScroll(DataSet: TDataSet);
-begin
-  IB_Sel1Carac.Close ;
-  IB_Sel1Carac.ParamByName( 'groupe' ).Value := DATaset.FieldByName ( 'TYPR_Clep' ).Value;
-  IB_Sel1Carac.Open ;
-
-end;
-
-procedure TM_Article.IB_SelTypProAfterOpen(DataSet: TDataSet);
-begin
-  IB_SelTypProAfterScroll ( Dataset );
-end;
-
-procedure TM_Article.IB_SelGammeAfterOpen(DataSet: TDataSet);
-begin
-  IB_SelGammeAfterScroll ( Dataset );
-end;
-
 
 procedure TM_Article.IB_articleAfterOpen(DataSet: TDataSet);
 begin
@@ -262,49 +192,6 @@ begin
   TNumericField ( Dataset.FieldByName ( 'FINI_Txcharge' )).DisplayFormat := U_CST_format_money_1 ;
 end;
 
-procedure TM_Article.IB_GammeEAfterOpen(DataSet: TDataSet);
-begin
-  IB_GammeEAfterScroll ( Dataset );
-
-end;
-
-procedure TM_Article.IB_GammeEAfterScroll(DataSet: TDataSet);
-begin
-  IB_Sel1TypPro2.Close ;
-  IB_Sel1TypPro2.ParamByName( 'groupe' ).Value := DATaset.FieldByName ( 'GAMM_Clep' ).Value;
-  IB_Sel1TypPro2.Open ;
-
-end;
-
-procedure TM_Article.IB_SelTypPro2AfterOpen(DataSet: TDataSet);
-begin
-  IB_SelTypPro2AfterScroll ( Dataset );
-
-end;
-
-procedure TM_Article.IB_SelTypPro2AfterScroll(DataSet: TDataSet);
-begin
-  IB_Sel1Carac2.Close ;
-  IB_Sel1Carac2.ParamByName( 'groupe' ).Value := DATaset.FieldByName ( 'TYPR_Clep' ).Value;
-  IB_Sel1Carac2.Open ;
-
-end;
-
-procedure TM_Article.IB_Sel1TypPro2AfterOpen(DataSet: TDataSet);
-begin
-  IB_SelTypPro2AfterScroll ( Dataset );
-
-end;
-
-procedure TM_Article.IB_Sel1TypPro2AfterScroll(DataSet: TDataSet);
-begin
-  IB_Sel1Carac2.Close ;
-  IB_Sel1Carac2.ParamByName( 'groupe' ).Value := DATaset.FieldByName ( 'TYPR_Clep' ).Value;
-  IB_Sel1Carac2.Open ;
-
-end;
-
-
 
 procedure TM_Article.IB_Article1AfterInsert(DataSet: TDataSet);
 begin
@@ -314,31 +201,9 @@ begin
 end;
 
 
-procedure TM_Article.IB_Article1AfterPost(DataSet: TDataSet);
-begin
-  if ( ds_article.DataSet <> IB_Article1 ) Then
-    IB_Article1.Close ;
-  if ( ds_article.DataSet <> IB_Article2 ) Then
-    IB_Article2.Close ;
-  if ( ds_article.DataSet <> IB_Article3 ) Then
-    IB_Article3.Close ;
-  if ( ds_article.DataSet <> IB_Article4 ) Then
-    IB_Article4.Close ;
-  if ( ds_article.DataSet <> IB_Article5 ) Then
-    IB_Article5.Close ;
-  if ( ds_article.DataSet <> IB_Article6 ) Then
-    IB_Article6.Close ;
-end;
-
-procedure TM_Article.IB_ArbreArtAfterOpen(DataSet: TDataSet);
-begin
-  TNumericField(IB_ArbreArt.FieldByName('ARDE_Prix')).DisplayFormat := U_CST_format_money_1 ;
-end;
-
-
 initialization
   {$IFDEF FPC}
   OnGetLibraryName:= TOnGetLibraryName( p_setLibrary);
-  {$ENDIF}
   ge_OnExecuteQuery := TOnExecuteQuery ( p_executeQuery );
+  {$ENDIF}
 end.

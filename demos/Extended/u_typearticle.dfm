@@ -21,6 +21,8 @@ object F_TypeProduit: TF_TypeProduit
   AdaptParentSize = True
   ShowBevel = False
   AlreadyPassedInFirstActivate = True
+  ExplicitWidth = 320
+  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 13
   object pa_1: TPanel
@@ -185,6 +187,10 @@ object F_TypeProduit: TF_TypeProduit
         OnChanging = pc_GroupesChanging
         object ts_Gamme: TTabSheet
           Caption = 'Gammes dont ce type est membre'
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object RbSplitter1: TSplitter
             Left = 321
             Top = 27
@@ -431,6 +437,10 @@ object F_TypeProduit: TF_TypeProduit
         object ts_Caracteristique: TTabSheet
           Caption = 'Caract'#233'ristiques membres du type'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object RbSplitter2: TSplitter
             Left = 321
             Top = 27
@@ -676,6 +686,10 @@ object F_TypeProduit: TF_TypeProduit
         object TabSheet1: TTabSheet
           Caption = 'Articles affect'#233's au type'
           ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Panel12: TPanel
             Left = 0
             Top = 0

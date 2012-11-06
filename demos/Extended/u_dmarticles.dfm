@@ -4,22 +4,22 @@ object M_Article: TM_Article
   Height = 508
   Width = 771
   object ds_article: TDataSource
-    DataSet = zq_Article
+    DataSet = IB_Article
     Left = 128
     Top = 13
   end
-  object zq_Gamme: TIBQuery
+  object IB_Gamme: TIBQuery
     SQL.Strings = (
       'SELECT * from GAMME')
     Left = 477
     Top = 13
   end
   object ds_Gamme: TDataSource
-    DataSet = zq_Gamme
+    DataSet = IB_Gamme
     Left = 400
     Top = 13
   end
-  object zq_TypProduit: TIBQuery
+  object IB_TypProduit: TIBQuery
     Database = IBDatabase
     Transaction = IBTransaction
     SQL.Strings = (
@@ -29,11 +29,11 @@ object M_Article: TM_Article
     Top = 128
   end
   object ds_TypProduit: TDataSource
-    DataSet = zq_TypProduit
+    DataSet = IB_TypProduit
     Left = 217
     Top = 128
   end
-  object zq_Carac: TIBQuery
+  object IB_Carac: TIBQuery
     SQL.Strings = (
       'SELECT * from CARACTERISTIQUE')
     UpdateObject = IBU_Carac
@@ -41,22 +41,22 @@ object M_Article: TM_Article
     Top = 184
   end
   object ds_Carac: TDataSource
-    DataSet = zq_Carac
+    DataSet = IB_Carac
     Left = 217
     Top = 184
   end
   object ds_FiltreProduit: TDataSource
-    DataSet = zq_FiltreProduit
+    DataSet = IB_FiltreProduit
     Left = 216
     Top = 72
   end
-  object zq_FiltreProduit: TIBQuery
+  object IB_FiltreProduit: TIBQuery
     SQL.Strings = (
       'SELECT * FROM FILTRE_PRODUIT')
     Left = 328
     Top = 72
   end
-  object zq_Article: TIBQuery
+  object IB_Article: TIBQuery
     Database = IBDatabase
     Transaction = IBTransaction
     SQL.Strings = (

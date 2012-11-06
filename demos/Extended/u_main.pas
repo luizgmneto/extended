@@ -21,12 +21,14 @@ type
   TFMain = class(TF_FormMainIni)
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
+    {$IFDEF FPC}
+    ScrollBox:TScrollBox;
+    {$ENDIF}
     muapropos: TMenuItem;
     MuArticle: TMenuItem;
     MuCaract: TMenuItem;
     muGamme: TMenuItem;
     MuTypeArticle: TMenuItem;
-    ScrollBox:TSCrollBox;
     OnFormInfoIni1: TOnFormInfoIni;
     procedure muaproposClick(Sender: TObject);
     procedure MuArticleClick(Sender: TObject);
