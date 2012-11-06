@@ -2,7 +2,7 @@ object FMain: TFMain
   Left = 345
   Top = 284
   Caption = 'Gestion d'#39'articles'
-  ClientHeight = 413
+  ClientHeight = 432
   ClientWidth = 592
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -13,11 +13,10 @@ object FMain: TFMain
   FormStyle = fsMDIForm
   Menu = MainMenu
   OldCreateOrder = False
-  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object MainMenu: TMainMenu
-    Left = 141
+    Left = 101
     Top = 128
     object MenuItem1: TMenuItem
       Caption = 'Fen'#234'tres'

@@ -1350,10 +1350,13 @@
       <Unit146>
         <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
         <UnitName Value="IBDatabase"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="866"/>
-        <CursorPos X="60" Y="881"/>
+        <CursorPos X="90" Y="882"/>
         <UsageCount Value="12"/>
+        <Loaded Value="True"/>
       </Unit146>
       <Unit147>
         <Filename Value="../../../ibx/runtime/IBIntf.pas"/>
@@ -1689,7 +1692,7 @@
       <Unit186>
         <Filename Value="/usr/lib/lazarus/0.9.31/lcl/lcltype.pp"/>
         <UnitName Value="LCLType"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="60"/>
         <CursorPos X="3" Y="78"/>
@@ -1700,7 +1703,6 @@
       <Unit187>
         <Filename Value="../../fonctions/fonctions_db.pas"/>
         <UnitName Value="fonctions_db"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="75"/>
@@ -1727,7 +1729,7 @@
         <Loaded Value="True"/>
       </Unit189>
     </Units>
-    <JumpHistory Count="8" HistoryIndex="7">
+    <JumpHistory Count="9" HistoryIndex="8">
       <Position1>
         <Filename Value="../../composants/u_extdbdirectoryedit.pas"/>
         <Caret Line="144" Column="18" TopLine="127"/>
@@ -1760,6 +1762,10 @@
         <Filename Value="../../composants/u_regframeworkcomponents.pas"/>
         <Caret Line="48" Column="80" TopLine="27"/>
       </Position8>
+      <Position9>
+        <Filename Value="../../fonctions/fonctions_db.pas"/>
+        <Caret Line="90" Column="1" TopLine="75"/>
+      </Position9>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

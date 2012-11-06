@@ -170,11 +170,11 @@ procedure TF_TypeProduit.bt_GammeClick(Sender: TObject);
 begin
   ffor_CreateChild ( TF_Gamme, fsMDIChild, True, nil );
   if ( lsv_GammIn.Items.Count > 0 )
-  and M_Article.IB_Gamme.Active Then
+  and M_Article.ib_gammarti.Active Then
     If assigned ( lsv_GammIn.Selected ) Then
-      M_Article.IB_Gamme.Locate ( 'GAMM_Clep', lsv_GammIn.Selected.Caption, [] )
+      M_Article.ib_gammarti.Locate ( 'GAMM_Clep', lsv_GammIn.Selected.Caption, [] )
     Else
-      M_Article.IB_Gamme.Locate ( 'GAMM_Clep', lsv_GammIn.Items [0].Caption, [] )
+      M_Article.ib_gammarti.Locate ( 'GAMM_Clep', lsv_GammIn.Items [0].Caption, [] )
 
 end;
 
