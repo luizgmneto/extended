@@ -42,7 +42,7 @@ const
 type
 
     { TExtractFile }
-    TEExtractOption = (eoCaseSentitive,eoMail);
+    TEExtractOption = (eoCaseSentitive,eoMail,eoUnique);
     TEExtractOptions = set of TEExtractOption;
 
 
@@ -196,7 +196,7 @@ begin
 end;
 function TExtractFile.InternalDefaultCopyFile  ( const as_Source, as_Destination : String ):Boolean;
 var lstl_Strings : TStringList;
-    ls_Temp : String;
+    ls_Temp, ls_temp2 : String;
     li_Begin,
     li_end,
     li_i : Integer;
@@ -249,13 +249,17 @@ Begin
               else p_MiddleExtract ( li_end, False );
              if ( li_end > 0 )
               Then
+               Begin
+                ls_temp2:=copy ( ls_Temp, li_Begin + length ( FBeginExtract ), li_end - li_Begin - length ( FBeginExtract )+1);
                 with FDestination.DataSet do
+                 if not ( eoUnique in FExtractOptions ) or not Locate(FFieldName,ls_temp2,[loCaseInsensitive]) Then
                  Begin
                    Append;
 //                   ShowMessage(copy ( ls_Temp, li_Begin + length ( FBeginExtract ), li_end - li_Begin - length ( FBeginExtract )));
-                   FieldByName(FFieldName).Value:=copy ( ls_Temp, li_Begin + length ( FBeginExtract ), li_end - li_Begin - length ( FBeginExtract ));
+                   FieldByName(FFieldName).Value:=ls_temp2;
                    Post;
                  end;
+               end;
 
            end;
        end;

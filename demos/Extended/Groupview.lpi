@@ -82,7 +82,7 @@
         <Filename Value="Groupview.dpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Groupview"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="16"/>
@@ -109,7 +109,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Article"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="65" Y="22"/>
@@ -371,7 +371,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Gamme"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="90"/>
         <CursorPos X="43" Y="113"/>
@@ -386,7 +386,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_TypeArticle"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="156"/>
         <CursorPos X="3" Y="184"/>
@@ -401,7 +401,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Caracteristique"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="102"/>
         <CursorPos X="57" Y="114"/>
@@ -729,9 +729,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="U_DmArticles"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="155"/>
+        <TopLine Value="153"/>
         <CursorPos X="6" Y="209"/>
         <UsageCount Value="50"/>
         <Loaded Value="True"/>
@@ -770,10 +771,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Main"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="16"/>
+        <TopLine Value="31"/>
         <CursorPos X="93" Y="46"/>
         <UsageCount Value="49"/>
         <Loaded Value="True"/>
@@ -931,7 +931,7 @@
       <Unit80>
         <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
         <UnitName Value="fonctions_dbcomponents"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
@@ -1321,7 +1321,7 @@
       <Unit127>
         <Filename Value="../../../ZEOSDBO/src/component/ZConnection.pas"/>
         <UnitName Value="ZConnection"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="268"/>
         <CursorPos X="1" Y="1"/>
@@ -1332,7 +1332,7 @@
       <Unit128>
         <Filename Value="../../composants/u_regframeworkcomponents.pas"/>
         <UnitName Value="u_regframeworkcomponents"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="31"/>
         <CursorPos X="46" Y="45"/>
@@ -1342,7 +1342,7 @@
       <Unit129>
         <Filename Value="../../composants/u_regfwbuttons_appli.pas"/>
         <UnitName Value="u_regfwbuttons_appli"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="6"/>
         <CursorPos X="63" Y="46"/>
@@ -1367,12 +1367,10 @@
       </Unit131>
       <Unit132>
         <Filename Value="../../../../../../lazarus/lcl/include/control.inc"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3622"/>
         <CursorPos X="16" Y="3630"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit132>
     </Units>
     <JumpHistory Count="26" HistoryIndex="25">

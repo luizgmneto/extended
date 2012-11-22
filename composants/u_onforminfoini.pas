@@ -61,6 +61,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
       CST_ONFORMINI_WINDOWSTATE = 'WindowState' ;
       CST_ONFORMINI_POSITION    = 'Position' ;
       CST_ONFORMINI_FORMSTYLE   = 'FormStyle' ;
+      CST_ONFORMINI_TEXT        = 'Text' ;
       CST_ONFORMINI_INDEX       = 'Index' ;
       CST_ONFORMINI_TABINDEX    = 'TabIndex' ;
       CST_ONFORMINI_PAGEINDEX   = 'PageIndex' ;
@@ -457,7 +458,7 @@ var
       begin
         ls_Temp := fs_ReadString(lcom_Component.Name,'');
         if ( ls_Temp <> '' ) Then
-          TCustomEdit(lcom_Component).Text := ls_Temp ;
+          p_SetComponentProperty(lcom_Component, CST_ONFORMINI_TEXT, ls_Temp );
         // do not quit after because there are other edits
         Exit;
       end;
@@ -832,7 +833,7 @@ var
     if ((lcom_Component is TCustomEdit) and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_PROPERTY_DATASOURCE)))
     and GetfeSauveEdit(FSaveEdits ,feTedit) then
       begin
-        p_WriteString(lcom_Component.Name,TCustomEdit(lcom_Component).Text);
+        p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component,CST_ONFORMINI_TEXT));
         // do not quit after because there are other edits
         Exit;
       end;

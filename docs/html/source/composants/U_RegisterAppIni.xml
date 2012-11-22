@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fpdoc-descriptions>
+  <package name="lazextcomponents">
+    <!--
+  ====================================================================
+    U_RegisterAppIni
+  ====================================================================
+-->
+    <module name="U_RegisterAppIni">
+      <short/>
+      <descr/>
+      <!-- procedure Visibility: default -->
+      <element name="Register">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+    </module>
+    <!-- U_RegisterAppIni -->
+  </package>
+</fpdoc-descriptions>
