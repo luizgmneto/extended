@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fpdoc-descriptions>
+  <package name="lazextcomponents">
+    <!--
+  ====================================================================
+    U_ExtMapImageIndex
+  ====================================================================
+-->
+    <module name="U_ExtMapImageIndex">
+      <short/>
+      <descr/>
+      <!-- constant Visibility: default -->
+      <element name="gVer_TExtMapImageIndex">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+    </module>
+    <!-- U_ExtMapImageIndex -->
+  </package>
+</fpdoc-descriptions>

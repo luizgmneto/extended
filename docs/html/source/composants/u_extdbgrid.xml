@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fpdoc-descriptions>
+  <package name="lazextcomponents">
+    <!--
+  ====================================================================
+    u_extdbgrid
+  ====================================================================
+-->
+    <module name="u_extdbgrid">
+      <short/>
+      <descr/>
+      <!-- constant Visibility: default -->
+      <element name="gVer_ExtDBGrid">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- enumeration type Visibility: default -->
+      <element name="TExtOption">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- enumeration value Visibility: default -->
+      <element name="TExtOption.eoPaintEdits">
+        <short/>
+      </element>
+      <!-- enumeration value Visibility: default -->
+      <element name="TExtOption.eoPaintBlobs">
+        <short/>
+      </element>
+      <!-- set type Visibility: default -->
+      <element name="TExtOptions">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- function type Visibility: default -->
+      <element name="TFieldIndexEvent">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- function result Visibility: default -->
+      <element name="TFieldIndexEvent.Result">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFieldIndexEvent.Sender">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFieldIndexEvent.Field">
+        <short/>
+      </element>
+      <!-- constant Visibility: default -->
+      <element name="CST_EXTGRID_DEFAULT_OPTIONS">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- class Visibility: default -->
+      <element name="TExtGridColumn">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtGridColumn.FOldControlKeyUp">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtGridColumn.FOldControlKeyDown">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtGridColumn.FAfterControlKeyUp">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtGridColumn.FAfterControlKeyDown">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtGridColumn.FOldControlKeyPress">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtGridColumn.FAfterControlKeyPress">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtGridColumn.FControl">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtGridColumn.FFieldTag">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtGridColumn.FSortOrder">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtGridColumn.FImages">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtGridColumn.FMapImages">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtGridColumn.FResize">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TExtGridColumn.SetControl">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.SetControl.AValue">
+        <short/>
+      </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TExtGridColumn.SetImages">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.SetImages.AValue">
+        <short/>
+      </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TExtGridColumn.SetMapImages">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.SetMapImages.AValue">
+        <short/>
+      </element>
+      <!-- function Visibility: protected -->
+      <element name="TExtGridColumn.fi_getFieldTag">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- function result Visibility: default -->
+      <element name="TExtGridColumn.fi_getFieldTag.Result">
+        <short/>
+      </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TExtGridColumn.p_setFieldTag">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.p_setFieldTag.avalue">
+        <short/>
+      </element>
+      <!-- constructor Visibility: public -->
+      <element name="TExtGridColumn.Create">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.Create.ACollection">
+        <short/>
+      </element>
+      <!-- procedure Visibility: published -->
+      <element name="TExtGridColumn.ControlKeyUp">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.ControlKeyUp.ASender">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.ControlKeyUp.Key">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.ControlKeyUp.Shift">
+        <short/>
+      </element>
+      <!-- procedure Visibility: published -->
+      <element name="TExtGridColumn.ControlKeyDown">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.ControlKeyDown.ASender">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.ControlKeyDown.Key">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.ControlKeyDown.Shift">
+        <short/>
+      </element>
+      <!-- procedure Visibility: published -->
+      <element name="TExtGridColumn.ControlKeyPress">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.ControlKeyPress.ASender">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtGridColumn.ControlKeyPress.Key">
+        <short/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtGridColumn.SomeEdit">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtGridColumn.Images">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtGridColumn.MapImages">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtGridColumn.FieldTag">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtGridColumn.Resize">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtGridColumn.SortOrder">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtGridColumn.AfterControlKeyUp">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtGridColumn.AfterControlKeyDown">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtGridColumn.AfterControlKeyPress">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- class Visibility: default -->
+      <element name="TExtDbGridColumns">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- function Visibility: private -->
+      <element name="TExtDbGridColumns.GetColumn">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- function result Visibility: default -->
+      <element name="TExtDbGridColumns.GetColumn.Result">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDbGridColumns.GetColumn.Index">
+        <short/>
+      </element>
+      <!-- procedure Visibility: private -->
+      <element name="TExtDbGridColumns.SetColumn">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDbGridColumns.SetColumn.Index">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDbGridColumns.SetColumn.Value">
+        <short/>
+      </element>
+      <!-- function Visibility: public -->
+      <element name="TExtDbGridColumns.Add">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- function result Visibility: default -->
+      <element name="TExtDbGridColumns.Add.Result">
+        <short/>
+      </element>
+      <!-- property Visibility: public -->
+      <element name="TExtDbGridColumns.Items">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDbGridColumns.Items.Index">
+        <short/>
+      </element>
+      <!-- class Visibility: default -->
+      <element name="TExtDBGrid">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtDBGrid.FOnPopup">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtDBGrid.FBeforePopup">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtDBGrid.FOldOnGetBtnParams">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtDBGrid.FPaintOptions">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtDBGrid.FBeforeEnter">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtDBGrid.FBeforeExit">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtDBGrid.FColorEdit">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtDBGrid.FColorFocus">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtDBGrid.FOldFixedColor">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtDBGrid.FOnGetImageIndex">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtDBGrid.FAlwaysSame">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- function Visibility: private -->
+      <element name="TExtDBGrid.GetColumns">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- function result Visibility: default -->
+      <element name="TExtDBGrid.GetColumns.Result">
+        <short/>
+      </element>
+      <!-- procedure Visibility: private -->
+      <element name="TExtDBGrid.SetColumns">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.SetColumns.AValue">
+        <short/>
+      </element>
+      <!-- procedure Visibility: private -->
+      <element name="TExtDBGrid.WMSetFocus">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.WMSetFocus.Msg">
+        <short/>
+      </element>
+      <!-- procedure Visibility: private -->
+      <element name="TExtDBGrid.WMVScroll">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.WMVScroll.Message">
+        <short/>
+      </element>
+      <!-- procedure Visibility: private -->
+      <element name="TExtDBGrid.WMHScroll">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.WMHScroll.Msg">
+        <short/>
+      </element>
+      <!-- procedure Visibility: private -->
+      <element name="TExtDBGrid.HideColumnControl">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- procedure Visibility: private -->
+      <element name="TExtDBGrid.ShowControlColumn">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- procedure Visibility: private -->
+      <element name="TExtDBGrid.p_SetPaintOptions">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.p_SetPaintOptions.AValue">
+        <short/>
+      </element>
+      <!-- function Visibility: protected -->
+      <element name="TExtDBGrid.IsColumnsStored">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- function result Visibility: default -->
+      <element name="TExtDBGrid.IsColumnsStored.Result">
+        <short/>
+      </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TExtDBGrid.DrawCell">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.DrawCell.aCol">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.DrawCell.aRow">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.DrawCell.aRect">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.DrawCell.aState">
+        <short/>
+      </element>
+      <!-- function Visibility: protected -->
+      <element name="TExtDBGrid.CanEditShow">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- function result Visibility: default -->
+      <element name="TExtDBGrid.CanEditShow.Result">
+        <short/>
+      </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TExtDBGrid.ExtGetBtnParams">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.ExtGetBtnParams.Sender">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.ExtGetBtnParams.Field">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.ExtGetBtnParams.AFont">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.ExtGetBtnParams.Background">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.ExtGetBtnParams.SortMarker">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.ExtGetBtnParams.IsDown">
+        <short/>
+      </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TExtDBGrid.MouseDown">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.MouseDown.Button">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.MouseDown.Shift">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.MouseDown.X">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.MouseDown.Y">
+        <short/>
+      </element>
+      <!-- function Visibility: protected -->
+      <element name="TExtDBGrid.MouseButtonAllowed">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- function result Visibility: default -->
+      <element name="TExtDBGrid.MouseButtonAllowed.Result">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.MouseButtonAllowed.Button">
+        <short/>
+      </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TExtDBGrid.ChangeBounds">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.ChangeBounds.ALeft">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.ChangeBounds.ATop">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.ChangeBounds.AWidth">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.ChangeBounds.AHeight">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.ChangeBounds.KeepBase">
+        <short/>
+      </element>
+      <!-- procedure Visibility: public -->
+      <element name="TExtDBGrid.KeyDown">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.KeyDown.Key">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.KeyDown.Shift">
+        <short/>
+      </element>
+      <!-- procedure Visibility: public -->
+      <element name="TExtDBGrid.KeyUp">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.KeyUp.ach_Key">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.KeyUp.ashi_Shift">
+        <short/>
+      </element>
+      <!-- constructor Visibility: public -->
+      <element name="TExtDBGrid.Create">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.Create.AOwner">
+        <short/>
+      </element>
+      <!-- procedure Visibility: public -->
+      <element name="TExtDBGrid.DoEnter">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- procedure Visibility: public -->
+      <element name="TExtDBGrid.DoExit">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- procedure Visibility: public -->
+      <element name="TExtDBGrid.Loaded">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- procedure Visibility: public -->
+      <element name="TExtDBGrid.SetBounds">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.SetBounds.ALeft">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.SetBounds.ATop">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.SetBounds.AWidth">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.SetBounds.AHeight">
+        <short/>
+      </element>
+      <!-- function Visibility: public -->
+      <element name="TExtDBGrid.CreateColumns">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- function result Visibility: default -->
+      <element name="TExtDBGrid.CreateColumns.Result">
+        <short/>
+      </element>
+      <!-- procedure Visibility: public -->
+      <element name="TExtDBGrid.DoTitleClick">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.DoTitleClick.ACol">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.DoTitleClick.AField">
+        <short/>
+      </element>
+      <!-- procedure Visibility: public -->
+      <element name="TExtDBGrid.Notification">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.Notification.AComponent">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TExtDBGrid.Notification.Operation">
+        <short/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtDBGrid.Columns">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtDBGrid.FWBeforeEnter">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtDBGrid.FWBeforeExit">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtDBGrid.OnGetImageIndex">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtDBGrid.ColorEdit">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtDBGrid.FixedColor">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtDBGrid.ColorFocus">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtDBGrid.AlwaysSame">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtDBGrid.OptionsExt">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtDBGrid.BeforePopup">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- property Visibility: published -->
+      <element name="TExtDBGrid.OnPopup">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+    </module>
+    <!-- u_extdbgrid -->
+  </package>
+</fpdoc-descriptions>

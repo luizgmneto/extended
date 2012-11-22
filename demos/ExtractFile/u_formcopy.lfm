@@ -245,7 +245,6 @@ inherited F_Extract: TF_Extract
   }
   Menu = MainMenu
   OnDestroy = FormDestroy
-  OnShow = FormShow
   Position = poDesktopCenter
   WindowState = wsMaximized
   object Splitter1: TSplitter[0]
@@ -573,7 +572,7 @@ inherited F_Extract: TF_Extract
   end
   object ExtractAFile: TExtractFile[8]
     Errors = 0
-    ExtractOptions = [eoMail]
+    ExtractOptions = [eoMail, eoUnique]
     FieldName = 'Mails__________________________________________________'
     DataSource = ds_Destination
     OnSuccess = TraduceFileSuccess
