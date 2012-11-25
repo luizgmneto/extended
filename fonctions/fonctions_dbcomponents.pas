@@ -45,6 +45,17 @@ const
   ge_OnExecuteQuery: TOnExecuteQuery = nil;
   ge_OnRefreshDataset : TSpecialFuncDataset = nil;
   CST_DBPROPERTY_SQL = 'SQL';
+  CST_DBPROPERTY_SQLCONNECTION = 'SQLConnection';
+  CST_DBPROPERTY_CONNECTION = 'Connection';
+  CST_DBPROPERTY_ONLINECONN = 'OnLineConn';
+  CST_DBPROPERTY_CONNECTIONSTRING = 'ConnectionString';
+  CST_DBPROPERTY_TRANSACTION = 'Transaction';
+  CST_DBPROPERTY_DATABASE = 'Database';
+  CST_DBPROPERTY_DATABASENAME = 'DatabaseName';
+  CST_DBPROPERTY_SESSIONNAME = 'SessionName';
+  CST_DBPROPERTY_CLIENTPARAM = 'ClientParam';
+  CST_DBPROPERTY_ZEOSDB = 'ZeosDBConnection';
+  CST_DBPROPERTY_ENDPARAM = ';';
 function fb_InsereCompteur ( const adat_Dataset, adat_DatasetQuery : TDataset ;
                              const aslt_Cle : TStringlist ;
                              const as_ChampCompteur, as_Table, as_PremierLettrage : String ;
@@ -68,7 +79,7 @@ function fds_GetOrCloneDataSource ( const acom_Component : TComponent ; const as
 function fb_GetSQLStrings (const adat_ADataset : Tdataset ; var astl_SQLQuery : TStrings{$IFDEF DELPHI_9_UP}; var awst_SQLQuery : TWideStrings {$ENDIF}):Boolean;
 function fcom_CloneObject ( const acom_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
 function fcom_CloneConnexion ( const acco_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
-function fb_GetParamsDataset (const adat_ADataset : Tdataset ;var aprs_ParamSource: TParams {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
+function fb_GetParamsDataset (const adat_ADataset : Tdataset ;var aprs_ParamSource: TParams ; var Astl_Params : TStringList {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
 function fb_SetParamQuery(const adat_Dataset : TDataset ; const as_Param: String): Boolean;
 function fb_LocateSansFiltre ( const aado_Seeker : TDataset ; const as_Fields : String ; const avar_Records : Variant ; const ach_Separator : Char ): Boolean ;
 procedure p_LocateInit ( const aado_Seeker : TDataset ; const as_Table, as_Condition : String );
@@ -165,13 +176,13 @@ function fcom_CloneConnexion ( const acco_AObject : TComponent ; const AOwner : 
 Begin
   Result := TComponent(fcom_CloneObject ( acco_AObject, AOwner ));
   // ADO
-  if  VarIsStr( fvar_getComponentProperty(acco_AObject,'ConnectionString')  )  Then
+  if  VarIsStr( fvar_getComponentProperty(acco_AObject,CST_DBPROPERTY_CONNECTIONSTRING)  )  Then
     Begin
-      p_SetComponentProperty( Result, 'ConnectionString', fvar_getComponentProperty(acco_AObject,'ConnectionString'));
+      p_SetComponentProperty( Result, CST_DBPROPERTY_CONNECTIONSTRING, fvar_getComponentProperty(acco_AObject,CST_DBPROPERTY_CONNECTIONSTRING));
     End ;
-  if  ( fobj_getComponentObjectProperty(acco_AObject,'Connection') <> nil )  Then
+  if  ( fobj_getComponentObjectProperty(acco_AObject,CST_DBPROPERTY_CONNECTION) <> nil )  Then
     Begin
-      p_SetComponentObjectProperty( Result, 'Connection', fobj_getComponentObjectProperty(acco_AObject,'Connection'));
+      p_SetComponentObjectProperty( Result, CST_DBPROPERTY_CONNECTION, fobj_getComponentObjectProperty(acco_AObject,CST_DBPROPERTY_CONNECTION));
     End ;
 
 End;
@@ -186,37 +197,42 @@ function fdat_CloneDatasetWithoutSQL ( const adat_ADataset : TDataset ; const AO
 Begin
   Result := TDataset(fcom_CloneObject ( adat_ADataset, AOwner ));
 
-  p_SetConnexion ( Result, fobj_getComponentObjectProperty(adat_ADataset,'Connection') as TComponent);
+  p_SetConnexion ( Result, fobj_getComponentObjectProperty(adat_ADataset,CST_DBPROPERTY_CONNECTION) as TComponent);
   // ADO
-  if  assigned ( GetPropInfo ( adat_ADataset, 'ConnectionString' ))  Then
+  if  assigned ( GetPropInfo ( adat_ADataset, CST_DBPROPERTY_CONNECTIONSTRING ))  Then
     Begin
-      p_SetComponentProperty( Result, 'ConnectionString', fvar_getComponentProperty(adat_ADataset,'ConnectionString'));
+      p_SetComponentProperty( Result, CST_DBPROPERTY_CONNECTIONSTRING, fvar_getComponentProperty(adat_ADataset,CST_DBPROPERTY_CONNECTIONSTRING));
     End ;
 
   // LAZARUS
-  if  assigned ( GetPropInfo ( adat_ADataset,'SQLConnection'))  Then
+  if  assigned ( GetPropInfo ( adat_ADataset,CST_DBPROPERTY_SQLCONNECTION))  Then
     Begin
-      p_SetComponentObjectProperty( Result, 'SQLConnection', fobj_getComponentObjectProperty(adat_ADataset,'SQLConnection'));
+      p_SetComponentObjectProperty( Result, CST_DBPROPERTY_SQLCONNECTION, fobj_getComponentObjectProperty(adat_ADataset,CST_DBPROPERTY_SQLCONNECTION));
+    End ;
+  // DB NET PROCESSOR
+  if  assigned ( GetPropInfo ( adat_ADataset,CST_DBPROPERTY_ONLINECONN))  Then
+    Begin
+      p_SetComponentObjectProperty( Result, CST_DBPROPERTY_ONLINECONN, fobj_getComponentObjectProperty(adat_ADataset,CST_DBPROPERTY_ONLINECONN));
     End ;
   // IBX
-  if assigned ( GetPropInfo ( adat_ADataset,'Transaction'))  Then
+  if assigned ( GetPropInfo ( adat_ADataset,CST_DBPROPERTY_TRANSACTION))  Then
     Begin
-      p_SetComponentObjectProperty( Result, 'Transaction', fobj_getComponentObjectProperty(adat_ADataset,'Transaction'));
+      p_SetComponentObjectProperty( Result, CST_DBPROPERTY_TRANSACTION, fobj_getComponentObjectProperty(adat_ADataset,CST_DBPROPERTY_TRANSACTION));
     End ;
 
   // DBEXPRESS IBX
-  if  assigned ( GetPropInfo ( adat_ADataset,'Database'))  Then
+  if  assigned ( GetPropInfo ( adat_ADataset,CST_DBPROPERTY_DATABASE))  Then
     Begin
-      p_SetComponentObjectProperty( Result, 'Database', fobj_getComponentObjectProperty(adat_ADataset,'Database'));
+      p_SetComponentObjectProperty( Result, CST_DBPROPERTY_DATABASE, fobj_getComponentObjectProperty(adat_ADataset,CST_DBPROPERTY_DATABASE));
     End ;
   // bDE
-  if assigned ( GetPropInfo ( adat_ADataset,'DatabaseName'))  Then
+  if assigned ( GetPropInfo ( adat_ADataset,CST_DBPROPERTY_DATABASENAME))  Then
     Begin
-      p_SetComponentProperty( Result, 'DatabaseName', fvar_getComponentProperty(adat_ADataset,'DatabaseName'));
+      p_SetComponentProperty( Result, CST_DBPROPERTY_DATABASENAME, fvar_getComponentProperty(adat_ADataset,CST_DBPROPERTY_DATABASENAME));
     End ;
-  if assigned ( GetPropInfo ( adat_ADataset,'SessionName'))  Then
+  if assigned ( GetPropInfo ( adat_ADataset,CST_DBPROPERTY_SESSIONNAME))  Then
     Begin
-      p_SetComponentProperty( Result, 'SessionName', fvar_getComponentProperty(adat_ADataset,'SessionName'));
+      p_SetComponentProperty( Result, CST_DBPROPERTY_SESSIONNAME, fvar_getComponentProperty(adat_ADataset,CST_DBPROPERTY_SESSIONNAME));
     End ;
   p_SetComponentBoolProperty( Result, 'ReadOnly', False );
   p_SetComponentBoolProperty( Result, 'AutoCalcFields', True );
@@ -258,7 +274,7 @@ End;
 // Retours : aprs_ParamSource aprs_ParamterSource les paramètres éventuellement ADO
 /////////////////////////////////////////////////////////////////////////
 
-function fb_GetParamsDataset (const adat_ADataset : Tdataset ;var aprs_ParamSource: TParams {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
+function fb_GetParamsDataset (const adat_ADataset : Tdataset ;var aprs_ParamSource: TParams ; var Astl_Params : TStringList {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
 var lobj_SQL : TObject ;
 begin
   Result := false;
@@ -272,17 +288,22 @@ begin
       aprs_ParamSource:= lobj_SQL as TParams ;
       Result := True
     end
-{$IFDEF EADO}
   else
-    Begin
-       lobj_SQL := fobj_getComponentObjectProperty ( adat_ADataset, 'Parameters' );
-       if ( lobj_SQL is TParameters ) Then
-         Begin
-           aprs_ParamterSource := lobj_SQL as TParameters ;
-           Result := True
-         End;
-    End
-{$ENDIF};
+   if  assigned ( GetPropInfo ( adat_ADataset, CST_DBPROPERTY_CLIENTPARAM )) Then
+     Begin
+       p_ChampsVersListe( Astl_Params, fs_getComponentProperty(adat_ADataset, CST_DBPROPERTY_CLIENTPARAM),CST_DBPROPERTY_ENDPARAM );
+     End
+  {$IFDEF EADO}
+    else
+      Begin
+         lobj_SQL := fobj_getComponentObjectProperty ( adat_ADataset, 'Parameters' );
+         if ( lobj_SQL is TParameters ) Then
+           Begin
+             aprs_ParamterSource := lobj_SQL as TParameters ;
+             Result := True
+           End;
+      End
+  {$ENDIF};
 end;
 
 /////////////////////////////////////////////////////////////////////////
@@ -296,6 +317,8 @@ end;
 procedure p_setParamDataset (const adat_ADataset : Tdataset ; const as_ParamName : String ; const avar_Value : Variant );
 var lobj_Params1 :  TParams ;
     lprm_Param   :  TParam ;
+    lstl_params : TStringList;
+    li_i : Integer;
 {$IFDEF EADO}
     lobj_Params2   :  TParameters ;
     lprm_Parameter :  TParameter ;
@@ -307,7 +330,7 @@ begin
   lobj_Params2   := nil;
   lprm_Parameter := nil;
   {$ENDIF}
-  if fb_GetParamsDataset ( adat_ADataset, lobj_Params1{$IFDEF EADO}, lobj_Params2{$ENDIF} ) Then
+  if fb_GetParamsDataset ( adat_ADataset, lobj_Params1, lstl_params{$IFDEF EADO}, lobj_Params2{$ENDIF} ) Then
     Begin
       if assigned ( lobj_Params1 ) then
         Begin
@@ -338,7 +361,16 @@ begin
               Value := avar_Value ;
             End;
         End
-{$ENDIF};
+{$ENDIF}else
+         Begin
+           if lstl_params.Find(as_ParamName+'=',li_i) Then
+             Begin
+               lstl_params [ li_i ] := VarToStr(avar_Value);
+             end
+            else
+             lstl_params.Add ( as_ParamName+'='+VarToStr(avar_Value) );
+          p_SetComponentProperty(adat_ADataset,CST_DBPROPERTY_CLIENTPARAM,fs_ListeVersChamps(lstl_params,CST_DBPROPERTY_ENDPARAM));
+         end;
     End;
 end;
 
@@ -362,7 +394,7 @@ End ;
 procedure p_SetConnexion ( const acom_ADataset : TComponent ; acco_Connexion : TCOmponent );
 Begin
   if ( acom_ADataset is Tdataset ) then
-    p_SetComponentObjectProperty( acom_ADataset , 'Connection', acco_Connexion );
+    p_SetComponentObjectProperty( acom_ADataset , CST_DBPROPERTY_CONNECTION, acco_Connexion );
 {$IFDEF EADO}
   if gb_IniADOsetKeySet
   and ( acom_ADataset is TCustomADOdataset )
@@ -398,6 +430,7 @@ End;
 procedure p_SetSQLQuery ( const adat_Dataset : Tdataset ; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF});
 var lobj_SQL : TObject ;
     lprm_Params : TParams ;
+    lstl_Params : TStringList;
     {$IFDEF EADO}
     lprm_Parameters : TParameters ;
     {$ENDIF}
@@ -405,13 +438,15 @@ Begin
  lobj_SQL := fobj_getComponentObjectProperty ( adat_Dataset, CST_DBPROPERTY_SQL );
  if assigned ( lobj_SQL ) Then
    Begin
-     fb_GetParamsDataset ( adat_Dataset, lprm_Params{$IFDEF EADO}, lprm_Parameters {$ENDIF});
+     lstl_Params := nil;
+     fb_GetParamsDataset ( adat_Dataset, lprm_Params, lstl_Params{$IFDEF EADO}, lprm_Parameters {$ENDIF});
      if assigned ( lprm_Params ) then
-       lprm_Params.Clear;
+       lprm_Params.Clear
      {$IFDEF EADO}
-     if assigned ( lprm_Parameters ) then
-       lprm_Parameters.Clear;
+     else if assigned ( lprm_Parameters ) then
+       lprm_Parameters.Clear
      {$ENDIF}
+      else p_SetComponentProperty(adat_Dataset,CST_DBPROPERTY_CLIENTPARAM, '');
      if ( lobj_SQL is TStrings ) Then
       with lobj_SQL as TStrings do
        Begin
@@ -520,7 +555,7 @@ var lobj_Connect : TObject;
 Begin
   if assigned ( adat_Dataset ) Then
     Begin
-      lobj_Connect := fobj_getComponentObjectProperty(adat_Dataset, 'Connection' );
+      lobj_Connect := fobj_getComponentObjectProperty(adat_Dataset, CST_DBPROPERTY_CONNECTION );
       if lobj_Connect is TComponent then
         p_SetComponentBoolProperty(lobj_Connect as TComponent,'Active', aconnect);
     End;

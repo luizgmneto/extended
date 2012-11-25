@@ -104,6 +104,7 @@ type
     gsts_SQLCommand,
     gsts_SQLSource,
     gsts_SQLQuery : TStrings ;
+    gstl_params : TStringList ;
 
     gprs_ParamSource : TParams ;
     {$IFDEF EADO}
@@ -699,7 +700,7 @@ begin
    Then
     Begin
       fb_GetSQLStrings ( gdl_DataLink.DataSet, gsts_SQLSource{$IFDEF DELPHI_9_UP}, gwst_SQLSource {$ENDIF});
-      fb_GetParamsDataset (gdl_DataLink.DataSet, gprs_ParamSource {$IFDEF EADO}, gprt_ParameterSource {$ENDIF});
+      fb_GetParamsDataset (gdl_DataLink.DataSet, gprs_ParamSource, gstl_params {$IFDEF EADO}, gprt_ParameterSource {$ENDIF});
 
 
 
@@ -1427,6 +1428,7 @@ begin
 {$ENDIF DELPHI_9_UP}
   gstl_GroupKey     := nil ;
   gstl_GroupField   := nil ;
+  gstl_params       := nil ;
 
   gdl_DataLinkOwner := TUltimListViewDatalink.Create ( Self );
   // initialisation
