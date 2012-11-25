@@ -57,7 +57,8 @@ type
   function fe_convertionCoordLambertDD( const aPosition: string): Extended;
   function fe_distanceEntrePointsCoordLambert( const aLatitudeDep, aLongitudeDep, aLatitudeArr, aLongitudeArr: string): Extended;
   function fb_controleDistanceCoordLambert( const aLatitudeDep, aLongitudeDep, aLatitudeArr, aLongitudeArr: string; const aDistance: Extended): Boolean;
-  procedure p_ChampsVersListe(var as_ChampsClePrimaire: TStringList; const aws_ClePrimaire : String ; ach_Separateur : Char );
+  procedure p_ChampsVersListe(var astl_ChampsClePrimaire: TStringList; const aws_ClePrimaire : String ; ach_Separateur : Char );
+  function fs_ListeVersChamps ( const astl_ChampsClePrimaire: TStringList; ach_Separateur : Char ):string;
   function fs_RemplaceMsg(const as_Texte: String; const aTs_arg: Array of String): String;
   function fs_RemplaceEspace ( const as_Texte : String ; const as_Remplace : String ): String ;
 
@@ -510,27 +511,43 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
+// Fonction   : fs_ListeVersChamps
+// Description : Création d'une liste à partir d'une chaîne avec des séparateurs
+// astl_ChampsClePrimaire : Les champs listés en entrée
+// as_Separateur        : Le séparateur
+////////////////////////////////////////////////////////////////////////////////
+function fs_ListeVersChamps ( const astl_ChampsClePrimaire: TStringList; ach_Separateur : Char ):string;
+var li_i : Integer;
+Begin
+  Result:='';
+  for li_i := 0 to astl_ChampsClePrimaire.Count - 1  do
+    if li_i = 0
+      Then Result := astl_ChampsClePrimaire [ li_i ]
+      Else AppendStr(Result,ach_Separateur+ astl_ChampsClePrimaire [ li_i ]);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
 // Procédure   : p_ChampsVersListe
 // Description : Création d'une liste à partir d'une chaîne avec des séparateurs
-// as_ChampsClePrimaire : Les champs listés en sortie
+// astl_ChampsClePrimaire : Les champs listés en sortie
 // as_ClePrimaire       : Les champs en entrée
 // as_Separateur        : Le séparateur
 ////////////////////////////////////////////////////////////////////////////////
-procedure p_ChampsVersListe(var as_ChampsClePrimaire: TStringList; const aws_ClePrimaire : String ; ach_Separateur : Char );
+procedure p_ChampsVersListe(var astl_ChampsClePrimaire: TStringList; const aws_ClePrimaire : String ; ach_Separateur : Char );
 var ls_TempoCles: String;
 begin
   // Création des champs
-  if assigned ( as_ChampsClePrimaire ) Then
+  if assigned ( astl_ChampsClePrimaire ) Then
     Begin
-      as_ChampsClePrimaire.Free;
+      astl_ChampsClePrimaire.Free;
     End;
-  as_ChampsClePrimaire := TStringList.Create;
+  astl_ChampsClePrimaire := TStringList.Create;
   ls_TempoCles := aws_ClePrimaire;
   if  pos(ach_Separateur, ls_TempoCles) = 0 then
     // Ajout du champ si un champ
     Begin
       if Trim ( ls_TempoCles ) <> '' Then
-        as_ChampsClePrimaire.Add(Trim(ls_TempoCles));
+        astl_ChampsClePrimaire.Add(Trim(ls_TempoCles));
     End
   else
     // si plusieurs champs
@@ -538,11 +555,11 @@ begin
       while pos(ach_Separateur, ls_TempoCles) > 0 do
         begin
           // Ajout des champs
-          as_ChampsClePrimaire.Add(Trim(Copy(ls_TempoCles, 1, Pos(ach_Separateur, ls_TempoCles) - 1)));
+          astl_ChampsClePrimaire.Add(Trim(Copy(ls_TempoCles, 1, Pos(ach_Separateur, ls_TempoCles) - 1)));
           ls_TempoCles := Copy(ls_TempoCles, Pos(ach_Separateur, ls_TempoCles) + 1, Length(ls_TempoCles));
         end;
       // Ajout du dernier champ
-      as_ChampsClePrimaire.Add(Trim(ls_TempoCles));
+      astl_ChampsClePrimaire.Add(Trim(ls_TempoCles));
     end;
 end;
 
