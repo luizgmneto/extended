@@ -40,9 +40,7 @@ type
   function fs_getCorrectString ( const as_string : String ): String ;
   function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
-  function fs_EraseFirstDirectory ( const as_Path : String ) :String;
   function fs_EraseSpecialChars( const aText: string): string;
-  function fs_getSoftDir : String;
   function fs_ArgConnectString ( const as_connectstring, as_arg: string): string;
   function fb_stringVide ( const aTexte: string): Boolean;
   function fs_stringDate(): string;
@@ -77,7 +75,8 @@ const
     gVer_fonction_string : T_Version = ( Component : 'String management' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'String traduction and format.' ;
-                        			                 BugsStory : 'Version 1.0.4.0 : fs_FormatText and other.' + #13#10 + #13#10 +
+                        			                 BugsStory : 'Version 1.0.5.0 : Creating fs_ListeVersChamps.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.4.0 : fs_FormatText and other.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.3.1 : Upgrading fs_TextToFileName.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.3.0 : Moving function to DB functions.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.2.3 : UTF 8.' + #13#10 + #13#10 +
@@ -89,7 +88,7 @@ const
                         			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 4 ; Build :  0);
+                        			                 Major : 1 ; Minor : 0 ; Release : 5 ; Build :  0);
 {$ENDIF}
     CST_ORD_GUILLEMENT = ord ( '''' );
     CST_ORD_POURCENT   = ord ( '%' );
@@ -183,11 +182,6 @@ begin
                   -{$IFDEF FPC}PtrUInt{$ELSE}Integer{$ENDIF}(Result));
 end;
 
-
- function fs_EraseFirstDirectory ( const as_Path : String ) :String;
-Begin
-  Result := copy ( as_Path, pos ( DirectorySeparator, as_Path ) + 1, length ( as_Path ) - pos ( DirectorySeparator, as_Path ));
-end;
 
 ///////////////////////////////////////////////////////////////////////////////
 //  FONCTIONS de conversion de caractères Dos <=> Windows et vice-versa
@@ -723,11 +717,6 @@ function fs_Lettrage ( const ach_Lettrage: Char;
 Begin
   Result := ach_Lettrage + fs_RepeteChar ( '0', ali_TailleLettrage - length ( IntToStr ( ai64_Compteur )) - 1 ) + IntToStr ( ai64_Compteur );
 End ;
-
-function fs_getSoftDir : String;
-Begin
-  Result := ExtractFileDir( Application.ExeName ) + DirectorySeparator ;
-End;
 
 
 function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ): String;

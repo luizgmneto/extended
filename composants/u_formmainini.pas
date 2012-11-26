@@ -149,8 +149,6 @@ procedure p_FreeConfigFile;
 
 var
   gb_MotPasseEstValide : Boolean ;
-  gs_NomApp: string;
-  gmif_MainFormIniInit: TIniFile = nil ;
 
 implementation
 
@@ -168,8 +166,8 @@ uses fonctions_erreurs, TypInfo,
 //////////////////////////////////////////////////////////////////////////
 procedure p_FreeConfigFile;
 begin
-  gmif_MainFormIniInit.Free;
-  gmif_MainFormIniInit := nil;
+  FMainIni.Free;
+  FMainIni := nil;
 End ;
 
 
@@ -337,10 +335,10 @@ End ;
 // Renvoie un fichier INI (même si c'est pas très utile) !!!
 function TF_FormMainIni.f_IniGetConfigFile: TIniFile;
 begin
-  p_WriteDescendantIni ( gmif_MainFormIniInit );
+  p_WriteDescendantIni ( FMainIni );
   if assigned ( ge_WriteMainIni ) Then
-    ge_WriteMainIni ( Self, gmif_MainFormIniInit );
-  Result := gmif_MainFormIniInit;
+    ge_WriteMainIni ( Self, FMainIni );
+  Result := FMainIni;
 end;
 
 // Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)

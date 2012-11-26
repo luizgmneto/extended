@@ -110,7 +110,7 @@ uses
 {$IFDEF TNT}
   TntSysUtils, TntSystem,
 {$ENDIF}
-  fonctions_string,
+  fonctions_string, fonctions_system,
   {$IFDEF FPC}
   unite_messages,
   {$ELSE}

@@ -63,6 +63,8 @@ function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
 function FileExistsUTF8 ( const as_path : String ):Boolean;
 {$ENDIF}
 function fs_EraseNameSoft ( const as_Nomapp, as_Path : String ) : String ;
+function fs_getSoftDir : String;
+function fs_WithoutFirstDirectory ( const as_Path : String ) :String;
 
 implementation
 
@@ -77,6 +79,17 @@ uses
   ShFolder,  ShlObj,
 {$ENDIF}
   fonctions_string;
+
+function fs_getSoftDir : String;
+Begin
+  Result := ExtractFileDir( Application.ExeName ) + DirectorySeparator ;
+End;
+
+function fs_WithoutFirstDirectory ( const as_Path : String ) :String;
+Begin
+ Result := copy ( as_Path, pos ( DirectorySeparator, as_Path ) + 1, length ( as_Path ) - pos ( DirectorySeparator, as_Path ));
+end;
+
 
 
 function fs_getSoftImages:String;
