@@ -200,6 +200,7 @@ procedure LitTstringsDeIni(const FIni: TCustomIniFile; SectionIni: string; const
 
 var
   FIniFile: TIniFile = nil;
+  FMainIni: TIniFile = nil ;
   FIniRoot: TIniFile = nil;
   FSQLFile: TIniFile = nil;
   {$IFDEF EADO}
@@ -215,6 +216,7 @@ var
   // Aide Help
   GS_AIDE           : String = 'aide';
   GS_CHEMIN_AIDE    : String = 'CHM\Aide.chm';
+  gs_NomApp: string;
 
 implementation
 

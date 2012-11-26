@@ -35,12 +35,13 @@ uses
                                                FileUnit : 'U_ExtDBNavigator' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Navigator with search, record moving, bookmark buttons.' ;
-                                               BugsStory : '1.0.0.2 : UTF 8.' +#13#10
+                                               BugsStory : '1.1.0.0 : Large restructure with resize debugging.' +#13#10
+                                                         + '1.0.0.2 : UTF 8.' +#13#10
                                                          + '1.0.0.1 : Optimising source with last lazarus.' +#13#10
                                                          + '1.0.0.0 : Mise en place des images et tests.' +#13#10
                                                          + '0.9.0.0 : En place sans les images à tester.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
+                                               Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
 {$ENDIF}
 type
 
@@ -126,7 +127,6 @@ type
     function Swaped: Boolean;
     procedure SetTransparent(Value: Boolean);
     procedure SetGlyphSize(const Value: TGlyphSize);
-    procedure SetSize(var W: Integer; var H: Integer);
     procedure SetOrientation(const Value: TNavigatorOrientation);
     function GetHints: TStrings;
     procedure HintsChanged(Sender: TObject);
@@ -134,6 +134,7 @@ type
   protected
     FButtons: array[TExtNavigateBtn] of TExtNavButton;
     FGlyphs : array[TExtNavigateBtn] of TBitmap;
+    procedure SetButtonsSize(const W, H: Integer); virtual;
     procedure SetVisible(Value: TExtButtonSet); overload; virtual;
     procedure DataChanged; virtual;
     procedure InitHints; virtual;
@@ -144,7 +145,7 @@ type
     function  MoveNext : Boolean ; virtual ;
     function  MovePrior: Boolean ; virtual ;
     procedure UpdateButtons;
-    procedure CalcMinSize(var W, H: Integer); virtual ;
+    procedure CalcMinSize(const W, H: Integer); virtual ;
     procedure ButtonClickHandler(Sender: TObject); virtual ;
     procedure ButtonMouseDown(Sender: TObject; Button: TMouseButton;
             Shift: TShiftState; X, Y: Integer); virtual ;
@@ -413,16 +414,9 @@ begin
 end;
 
 procedure TExtDBNavigator.Loaded;
-var
-  W, H: Integer;
 begin
   inherited Loaded;
   LoadTable;
-  W := Width;
-  H := Height;
-  SetSize(W, H);
-  if (W <> Width) or (H <> Height) then
-    inherited SetBounds (Left, Top, W, H);
   if UseRightToLeftAlignment and not Swaped then
     SwapButtons;
   InitHints;
@@ -430,14 +424,9 @@ begin
 end;
 
 procedure TExtDBNavigator.WMSize(var Msg: TWMSize);
-var
-  W, H: Integer;
 begin
   inherited;
-  W := Msg.Width;
-  H := Msg.Height;
-  CalcMinSize ( w , h );
-  SetSize(W, H);
+  SetButtonsSize(ClientWidth,ClientHeight);
   if not (csLoading in ComponentState) and UseRightToLeftAlignment and not Swaped then
     SwapButtons;
 end;
@@ -507,6 +496,7 @@ begin
   else
     MinButtonSize := Point(32, 30);
 
+  CalcMinSize(Width,Height);
   X := 0;
 {$IFDEF DELPHI}
   ResInstance:= FindResourceHInstance(HInstance);
@@ -538,8 +528,6 @@ begin
 end;
 
 constructor TExtDBNavigator.Create(AOwner: TComponent);
-var
-  W, H: Integer;
 begin
   inherited Create(AOwner);
   Enabled:=True;
@@ -558,9 +546,6 @@ begin
   FSortAsc   := True ;
   BevelOuter := bvNone;
   BevelInner := bvNone;
-  W := 0;
-  H := 0;
-  SetSize ( W, H );
   FTransparent := False ;
 //  ButtonSize.x := 0;
 //  ButtonSize.y := 0;
@@ -729,7 +714,7 @@ begin
   end;
 end;
 
-procedure TExtDBNavigator.CalcMinSize(var W, H: Integer);
+procedure TExtDBNavigator.CalcMinSize(const W, H: Integer);
 var
   Count: Integer;
   I: TExtNavigateBtn;
@@ -743,23 +728,22 @@ begin
       Inc(Count);
   if Count = 0 then Inc(Count);
 
+  with MinButtonSize do
   if Orientation = noHorizontal then
   begin
-    W := Max(W, Count * MinButtonSize.X);
-    H := Max(H, MinButtonSize.Y);
+    X := Min(W, Count * X) div Count;
+    Y := Min(H, Y);
   end
   else
   begin
-    W := Max(W, MinButtonSize.X);
-    H := Max(H, Count * MinButtonSize.Y);
+    X := Min(W, X);
+    Y := Min(H, Count * Y) div Count;
   end;
-
-  if Align = alNone then W := (W div Count) * Count;
 end;
 
 
 
-procedure TExtDBNavigator.SetSize(var W: Integer; var H: Integer);
+procedure TExtDBNavigator.SetButtonsSize(const W, H: Integer);
 var
   Count: Integer;
   I: TExtNavigateBtn;
@@ -783,7 +767,6 @@ begin
   begin
     ButtonSize.X := W div Count;
     Temp := Count * ButtonSize.X;
-    if Align = alNone then W := Temp;
 
     X := 0;
     Y := H;
@@ -807,15 +790,13 @@ begin
         Inc(X, ButtonSize.X + Space);
       end
       else
-        FButtons[I].SetBounds (Width + 1, 0, ButtonSize.X, H);
+        FButtons[I].SetBounds (0, 0, ButtonSize.X, H);
     end;
   end
   else
   begin
     ButtonSize.Y := H div Count;
     Temp := Count * ButtonSize.Y;
-    if Align = alNone then
-      H := Temp;
 
     Y := 0;
     Remain := H - Temp;
@@ -839,18 +820,10 @@ begin
         Inc(Y, ButtonSize.Y + Space);
       end
       else
-        FButtons[I].SetBounds(0,Height + 1, W, ButtonSize.Y);
+        FButtons[I].SetBounds(0,0, W, ButtonSize.Y);
     end;
 
   end;
-  {$IFDEF FPC}
-  BeginUpdateBounds;
-  {$ENDIF}
-  Width := X ;
-  Height := Y ;
-  {$IFDEF FPC}
-  EndUpdateBounds;
-  {$ENDIF}
 end;
 
 
@@ -859,13 +832,13 @@ var
   I: TExtNavigateBtn;
   W, H: Integer;
 begin
-  W := Width;
-  H := Height;
+  W := ClientWidth;
+  H := ClientHeight;
   FVisibleButtons := Value;
   for I := Low(FButtons) to High(FButtons) do
     FButtons[I].Visible := I in FVisibleButtons;
-  SetSize(W, H);
-  if (W <> Width) or (H <> Height) then
+  SetButtonsSize(W, H);
+  if (W <> ClientWidth) or (H <> ClientHeight) then
     inherited SetBounds (Left, Top, W, H);
   Invalidate;
 end;
@@ -887,27 +860,7 @@ begin
       if FButtons[I].Visible then
         Inc(Count);
 
-    if Value = noHorizontal then
-      SetBounds(Left,Top,Count * MinButtonSize.X, MinButtonSize.Y)
-    else
-      SetBounds(Left,Top,MinButtonSize.X, MinButtonSize.Y * Count);
-
-
-    if Value = noHorizontal then
-    begin
-      Width := Count * MinButtonSize.X;
-      Height := MinButtonSize.Y;
-    end
-    else
-    begin
-      Width := MinButtonSize.X;
-      Height := Count * MinButtonSize.Y;
-    end;
-
-    W := Width;
-    H := Height;
-
-    SetSize(W,H);
+    SetButtonsSize(ClientWidth,ClientHeight);
   end;
 
   FOrientation := Value;
