@@ -2081,7 +2081,9 @@ end;
 /// Démarre l'ouverture du group view
 // Retourne le fait de quitter la procédure principale
 function TDBGroupView.fb_BeginOpen:Boolean;
-var ls_SQLCommands : String;
+var ls_SQLCommands ,
+    ls_Fields     : String;
+    li_i : Integer;
 begin
  Result := True;
  if gs_TableOwner <> '' Then
@@ -2089,14 +2091,15 @@ begin
    Begin
      try
        Close ;
+       ls_Fields := '*';
        if ((gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TStringField )
        or (gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ) is TMemoField )
        or ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).DataType IN CST_DELPHI_FIELD_STRING )) Then
          begin
-           ls_SQLCommands := 'SELECT * FROM ' + gs_TableOwner + ' WHERE ' + gs_GroupKey + '=''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).AsString ) + '''' ;
+           ls_SQLCommands := 'SELECT '+ls_Fields+' FROM ' + gs_TableOwner + ' WHERE ' + gs_GroupKey + '=''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).AsString ) + '''' ;
          End
        Else
-         ls_SQLCommands := 'SELECT * FROM ' + gs_TableOwner + ' WHERE ' + gs_GroupKey + '='   +                   gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).AsString ;
+         ls_SQLCommands := 'SELECT '+ls_Fields+' FROM ' + gs_TableOwner + ' WHERE ' + gs_GroupKey + '='   +                   gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).AsString ;
        if Assigned ( gsts_SQLCommand ) then
          Begin
            gsts_SQLCommand.Text := ls_SQLCommands ;
@@ -3769,7 +3772,7 @@ End ;
 
 // gestion de l'Evènement p_ClickTransfertTotal : tout transférer dans cette liste
 procedure TDBGroupView.p_TransfertTotal;
-var ls_TexteSQL : String ;
+var ls_TexteSQL, ls_Fields : String ;
     li_i, li_Modifie : Integer ;
     lvar_Key : Variant ;
 begin
@@ -3860,6 +3863,11 @@ begin
         if not gb_EstPrincipale Then
           gb_NoScroll := False ;
         gsts_SQLQuery.BeginUpdate ;
+        ls_Fields := '*';
+        for li_i := 0 to gsts_FieldsList.Count - 1 do
+          if li_i = 0
+           then ls_Fields:=gsts_FieldsList[li_i]
+           else AppendStr(ls_Fields,','+gsts_FieldsList[li_i]);
         gsts_SQLQuery.Text := 'SELECT * FROM ' + gs_GroupTable ;
         if   fb_BuildWhereBasket ( Self, ls_TexteSQL, True, True, True ) Then
           Begin
@@ -4333,11 +4341,7 @@ begin
 end;
 
 //////////////////////////////////////////////////////////////////////////////
-// Fonction    : fb_Locate
-// Description : Recherche un enregistrement exact à partir de la clé de l'enregistrement
-// avar_Records: Les enregistrements de la clé
-// ab_InPrimary: Liste principale ou pas
-// Retour      : Trouvé ou pas
+// Procédure   : p_LocateInit
 //////////////////////////////////////////////////////////////////////////////
 procedure TDBGroupView.p_LocateInit;
 //var ls_Condition,

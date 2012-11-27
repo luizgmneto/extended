@@ -82,7 +82,7 @@ function fcom_CloneConnexion ( const acco_AObject : TComponent ; const AOwner : 
 function fb_GetParamsDataset (const adat_ADataset : Tdataset ;var aprs_ParamSource: TParams ; var Astl_Params : TStringList {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
 function fb_SetParamQuery(const adat_Dataset : TDataset ; const as_Param: String): Boolean;
 function fb_LocateSansFiltre ( const aado_Seeker : TDataset ; const as_Fields : String ; const avar_Records : Variant ; const ach_Separator : Char ): Boolean ;
-procedure p_LocateInit ( const aado_Seeker : TDataset ; const as_Table, as_Condition : String );
+procedure p_LocateInit ( const aado_Seeker : TDataset ; const as_Table, as_Fields, as_Condition : String );
 function fb_AssignSort ( const adat_Dataset : TDataset ; const as_ChampsOrdonner : String ):Boolean; overload;
 function fb_AssignSort ( const adat_Dataset : TDataset ; const astl_list : TStrings ; const ai_ChampsOrdonner : Integer ):Boolean; overload;
 function fb_DatasetFilterLikeRecord ( const as_DatasetValue, as_FilterValue : String ; const ab_CaseInsensitive : Boolean ): Boolean ;
@@ -671,10 +671,12 @@ Begin
     End ;
 End ;
 
-procedure p_LocateInit ( const aado_Seeker : TDataset ; const as_Table, as_Condition : String );
+procedure p_LocateInit ( const aado_Seeker : TDataset ; const as_Table, as_Fields, as_Condition : String );
 var ls_Filter : String ;
 Begin
-  ls_Filter := 'SELECT * FROM ' + as_Table ;
+  if as_Fields = ''
+   Then ls_Filter := 'SELECT * FROM ' + as_Table
+   Else ls_Filter := 'SELECT '+as_Fields+' FROM ' + as_Table ;
   if as_Condition <> '' Then
     ls_Filter := ' WHERE ' + as_Condition ;
   p_SetSQLQuery ( aado_Seeker, ls_Filter  );

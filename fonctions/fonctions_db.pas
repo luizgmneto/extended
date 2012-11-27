@@ -688,6 +688,7 @@ begin
     Exit ;
   if      adat_Dataset.Active
   and not adat_Dataset.IsEmpty
+  and ( adat_Dataset.FieldDefs.Count > 0 )
   and ( as_Cle <> '' ) Then
     Begin
       try
