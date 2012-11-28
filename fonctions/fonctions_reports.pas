@@ -190,7 +190,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
       SomeLeft:=RLLeftTopPage.X;
       with RLLeftTopPage do
        p_createBand ( X, Y + atitleHeight, 30, btColumnHeader  );
-      aresizecolumns:= ( Width - totalgridwidth ) div aresizecolumns;
+      if aresizecolumns > 0 Then
+        aresizecolumns:= ( Width - totalgridwidth ) div aresizecolumns;
       for i := 0 to aColumns.Count - 1 do
        with aColumns [ i ] do
         if Visible Then
