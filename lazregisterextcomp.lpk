@@ -31,18 +31,18 @@
         <UnitName Value="u_regextfilecopy"/>
       </Item3>
       <Item4>
-        <Filename Value="composants/U_RegisterIni.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="U_RegisterIni"/>
-      </Item4>
-      <Item5>
         <Filename Value="composants/U_RegVersion.pas"/>
         <UnitName Value="U_RegVersion"/>
-      </Item5>
-      <Item6>
+      </Item4>
+      <Item5>
         <Filename Value="composants/u_regfwbuttons.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regfwbuttons"/>
+      </Item5>
+      <Item6>
+        <Filename Value="composants/u_registerforms.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_registerforms"/>
       </Item6>
     </Files>
     <Type Value="DesignTime"/>

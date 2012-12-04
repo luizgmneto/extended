@@ -160,10 +160,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="128"/>
-        <CursorPos X="1" Y="160"/>
+        <TopLine Value="23"/>
+        <CursorPos X="3" Y="36"/>
         <UsageCount Value="68"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -1308,10 +1310,12 @@
       <Unit141>
         <Filename Value="../../composants/u_extdbnavigator.pas"/>
         <UnitName Value="U_ExtDBNavigator"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="688"/>
-        <CursorPos X="1" Y="709"/>
+        <TopLine Value="1027"/>
+        <CursorPos X="1" Y="1056"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit141>
       <Unit142>
         <Filename Value="/usr/lib/lazarus/0.9.30.4/lcl/controls.pp"/>
@@ -1350,11 +1354,10 @@
       <Unit146>
         <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
         <UnitName Value="IBDatabase"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="866"/>
-        <CursorPos X="90" Y="882"/>
+        <CursorPos X="51" Y="898"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit146>
@@ -1563,10 +1566,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_FormMainIni"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="940"/>
-        <CursorPos X="1" Y="959"/>
+        <TopLine Value="29"/>
+        <CursorPos X="87" Y="53"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit171>
       <Unit172>
         <Filename Value="../../../../../../lazarus/lcl/include/controlactionlink.inc"/>
@@ -1632,7 +1638,7 @@
       <Unit179>
         <Filename Value="../../composants/u_extdbdirectoryedit.pas"/>
         <UnitName Value="u_extDBDirectoryEdit"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="142"/>
         <CursorPos X="37" Y="185"/>
@@ -1692,7 +1698,7 @@
       <Unit186>
         <Filename Value="/usr/lib/lazarus/0.9.31/lcl/lcltype.pp"/>
         <UnitName Value="LCLType"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="60"/>
         <CursorPos X="3" Y="78"/>
@@ -1703,9 +1709,9 @@
       <Unit187>
         <Filename Value="../../fonctions/fonctions_db.pas"/>
         <UnitName Value="fonctions_db"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="75"/>
+        <TopLine Value="21"/>
         <CursorPos X="1" Y="90"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
@@ -1721,7 +1727,7 @@
       <Unit189>
         <Filename Value="../../composants/u_regframeworkcomponents.pas"/>
         <UnitName Value="u_regframeworkcomponents"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="27"/>
         <CursorPos X="80" Y="48"/>
@@ -1729,7 +1735,7 @@
         <Loaded Value="True"/>
       </Unit189>
     </Units>
-    <JumpHistory Count="9" HistoryIndex="8">
+    <JumpHistory Count="23" HistoryIndex="22">
       <Position1>
         <Filename Value="../../composants/u_extdbdirectoryedit.pas"/>
         <Caret Line="144" Column="18" TopLine="127"/>
@@ -1766,6 +1772,62 @@
         <Filename Value="../../fonctions/fonctions_db.pas"/>
         <Caret Line="90" Column="1" TopLine="75"/>
       </Position9>
+      <Position10>
+        <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
+        <Caret Line="882" Column="90" TopLine="866"/>
+      </Position10>
+      <Position11>
+        <Filename Value="../../composants/u_extdbnavigator.pas"/>
+        <Caret Line="1056" Column="1" TopLine="1027"/>
+      </Position11>
+      <Position12>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="15" Column="1" TopLine="1"/>
+      </Position12>
+      <Position13>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="36" Column="3" TopLine="23"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../../composants/u_formmainini.pas"/>
+        <Caret Line="58" Column="38" TopLine="29"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
+        <Caret Line="884" Column="1" TopLine="866"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
+        <Caret Line="885" Column="1" TopLine="866"/>
+      </Position16>
+      <Position17>
+        <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
+        <Caret Line="891" Column="1" TopLine="866"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
+        <Caret Line="894" Column="1" TopLine="866"/>
+      </Position18>
+      <Position19>
+        <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
+        <Caret Line="896" Column="1" TopLine="866"/>
+      </Position19>
+      <Position20>
+        <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
+        <Caret Line="897" Column="1" TopLine="866"/>
+      </Position20>
+      <Position21>
+        <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
+        <Caret Line="898" Column="1" TopLine="866"/>
+      </Position21>
+      <Position22>
+        <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
+        <Caret Line="910" Column="1" TopLine="866"/>
+      </Position22>
+      <Position23>
+        <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
+        <Caret Line="911" Column="1" TopLine="866"/>
+      </Position23>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -1809,7 +1871,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="5">
+    <BreakPoints Count="4">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsGlobal"/>
@@ -1835,16 +1897,9 @@
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsGlobal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="../../composants/u_extdbnavigator.pas"/>
-        <Line Value="1056"/>
-      </Item4>
-      <Item5>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsGlobal"/>
-        <WatchKind Value="wpkWrite"/>
         <Source Value="/usr/lib/lazarus/0.9.30.4/lcl/include/customdbcombobox.inc"/>
         <Line Value="143"/>
-      </Item5>
+      </Item4>
     </BreakPoints>
     <Exceptions Count="4">
       <Item1>

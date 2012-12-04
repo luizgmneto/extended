@@ -26,14 +26,14 @@ uses
   ComCtrls, StdCtrls, SysUtils,  TypInfo,  Variants,
   StrUtils, U_OnFormInfoIni,  JvXPButtons,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
-  CompSuperForm,
+  CompSuperForm, U_FormAdapt,
   U_GroupView, ImgList,fonctions_string, U_DmArticles, Menus, U_DBListView ;
 
 type
 
   { TF_Gamme }
 
-  TF_Gamme = class(TSuperForm)
+  TF_Gamme = class(TF_FormAdapt)
     nv_navigator: TExtDBNavigator;
     nv_saisie: TExtDBNavigator;
     lb_code: TFWLabel;

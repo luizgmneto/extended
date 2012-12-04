@@ -1,7 +1,7 @@
 inherited F_Article: TF_Article
-  Left = -8
+  Left = 117
   Height = 578
-  Top = -8
+  Top = 124
   Width = 1024
   Align = alClient
   Caption = 'Catégorie'
@@ -45,11 +45,11 @@ inherited F_Article: TF_Article
         Tag = 1001
         Left = 26
         Height = 16
-        Top = 46
+        Top = 43
         Width = 83
         AutoSize = False
         Caption = 'Clé'
-        Font.Color = clBlack
+        Font.Color = clWindowText
         Font.Height = 12
         Font.Name = 'MS Sans Serif'
         ParentBidiMode = False
@@ -65,7 +65,7 @@ inherited F_Article: TF_Article
         Width = 77
         AutoSize = False
         Caption = 'Libellé'
-        Font.Color = clBlack
+        Font.Color = clWindowText
         Font.Height = 12
         Font.Name = 'MS Sans Serif'
         ParentColor = False
@@ -115,13 +115,12 @@ inherited F_Article: TF_Article
       object ed_libelcateg: TFWDBEdit
         Tag = 2
         Left = 128
-        Height = 24
+        Height = 25
         Top = 64
         Width = 190
         DataField = 'ARTI_Libcom'
         DataSource = M_Article.ds_article
         CharCase = ecNormal
-        Color = clMoneyGreen
         Font.Color = clWindowText
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
@@ -132,14 +131,13 @@ inherited F_Article: TF_Article
       object ed_codecateg: TFWDBEdit
         Tag = 1
         Left = 128
-        Height = 24
-        Top = 39
+        Height = 25
+        Top = 36
         Width = 34
         DataField = 'ARTI_Clep'
         DataSource = M_Article.ds_article
         ReadOnly = True
         CharCase = ecNormal
-        Color = clLime
         Font.Color = clWindowText
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
@@ -149,10 +147,9 @@ inherited F_Article: TF_Article
       end
       object cb_Categ: TExtDBComboInsert
         Left = 128
-        Height = 21
+        Height = 25
         Top = 93
         Width = 218
-        Color = clMoneyGreen
         DataField = 'ARTI__GAMM'
         DataSource = M_Article.ds_article
         KeyField = 'GAMM_Clep'
@@ -171,7 +168,7 @@ inherited F_Article: TF_Article
         Width = 77
         AutoSize = False
         Caption = 'Gamme'
-        Font.Color = clBlack
+        Font.Color = clWindowText
         Font.Height = 12
         Font.Name = 'MS Sans Serif'
         ParentColor = False
@@ -180,10 +177,9 @@ inherited F_Article: TF_Article
       end
       object cb_Categ1: TExtDBComboInsert
         Left = 128
-        Height = 21
+        Height = 25
         Top = 121
         Width = 218
-        Color = clMoneyGreen
         DataField = 'ARTI__TYPR'
         DataSource = M_Article.ds_article
         KeyField = 'TYPR_CLEP'
@@ -202,7 +198,7 @@ inherited F_Article: TF_Article
         Width = 77
         AutoSize = False
         Caption = 'Type d''article'
-        Font.Color = clBlack
+        Font.Color = clWindowText
         Font.Height = 11
         Font.Name = 'MS Sans Serif'
         ParentColor = False
@@ -211,10 +207,9 @@ inherited F_Article: TF_Article
       end
       object cb_Categ2: TExtDBComboInsert
         Left = 128
-        Height = 21
+        Height = 25
         Top = 149
         Width = 218
-        Color = clMoneyGreen
         DataField = 'ARTI__CARA'
         DataSource = M_Article.ds_article
         KeyField = 'CARA_Clep'
@@ -232,7 +227,7 @@ inherited F_Article: TF_Article
         Width = 77
         AutoSize = False
         Caption = 'Catégonie'
-        Font.Color = clBlack
+        Font.Color = clWindowText
         Font.Height = 12
         Font.Name = 'MS Sans Serif'
         ParentColor = False
@@ -299,10 +294,62 @@ inherited F_Article: TF_Article
         TitleButtons = False
         AutoSort = False
         Columns = <>
+        KeyStrokes = <        
+          item
+            Command = rxgcShowFindDlg
+            ShortCut = 16454
+            Enabled = True
+          end        
+          item
+            Command = rxgcShowColumnsDlg
+            ShortCut = 16471
+            Enabled = True
+          end        
+          item
+            Command = rxgcShowFilterDlg
+            ShortCut = 16468
+            Enabled = True
+          end        
+          item
+            Command = rxgcShowSortDlg
+            ShortCut = 16467
+            Enabled = True
+          end        
+          item
+            Command = rxgcShowQuickFilter
+            ShortCut = 16465
+            Enabled = True
+          end        
+          item
+            Command = rxgcHideQuickFilter
+            ShortCut = 16456
+            Enabled = True
+          end        
+          item
+            Command = rxgcSelectAll
+            ShortCut = 16449
+            Enabled = True
+          end        
+          item
+            Command = rxgcDeSelectAll
+            ShortCut = 16429
+            Enabled = True
+          end        
+          item
+            Command = rxgcInvertSelection
+            ShortCut = 16426
+            Enabled = True
+          end        
+          item
+            Command = rxgcOptimizeColumnsWidth
+            ShortCut = 16427
+            Enabled = True
+          end>
         OptionsRx = []
         Align = alClient
         BorderStyle = bsNone
         Color = clWindow
+        DrawFullLine = False
         FocusColor = clRed
         SelectedColor = clHighlight
         GridLineStyle = psSolid
@@ -338,9 +385,9 @@ inherited F_Article: TF_Article
     end
     object bt_apercu: TFWPreview
       Left = 361
-      Height = 26
       Hint = 'Aperçu  (Impression / exportation)'
       Top = 0
+      Width = 82
       Caption = 'Aperçu'
       TabOrder = 4
       Align = alLeft
@@ -351,7 +398,7 @@ inherited F_Article: TF_Article
       Visible = False
     end
     object Panel2: TPanel
-      Left = 434
+      Left = 443
       Height = 26
       Top = 0
       Width = 13
@@ -360,8 +407,7 @@ inherited F_Article: TF_Article
       TabOrder = 1
     end
     object bt_imprimer: TFWPrint
-      Left = 447
-      Height = 26
+      Left = 456
       Hint = 'Impression des résultats de la sélection'
       Top = 0
       Width = 80
@@ -375,7 +421,7 @@ inherited F_Article: TF_Article
       Visible = False
     end
     object Panel5: TPanel
-      Left = 527
+      Left = 536
       Height = 26
       Top = 0
       Width = 13
@@ -384,7 +430,7 @@ inherited F_Article: TF_Article
       TabOrder = 2
     end
     object Panel6: TPanel
-      Left = 540
+      Left = 549
       Height = 26
       Top = 0
       Width = 13
@@ -394,7 +440,6 @@ inherited F_Article: TF_Article
     end
     object bt_fermer: TFWClose
       Left = 928
-      Height = 26
       Top = 0
       Width = 96
       Caption = 'Fermer'
@@ -409,10 +454,7 @@ inherited F_Article: TF_Article
     end
   end
   object SvgFormInfoIni: TOnFormInfoIni[2]
-    SaveEdits = []
     left = 97
     top = 137
-    SaveForm = []
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
 end

@@ -27,7 +27,7 @@ uses
   StrUtils, U_OnFormInfoIni,  JvXPButtons,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
   U_GroupView, ImgList,fonctions_string,
-  CompSuperForm, U_DBListView;
+  CompSuperForm, U_DBListView, U_FormAdapt;
 
 const CST_CARA_Clep = 'CARA_Clep' ; 
 
@@ -35,7 +35,7 @@ type
 
   { TF_Caracteristique }
 
-  TF_Caracteristique = class(TSuperForm)
+  TF_Caracteristique = class(TF_FormAdapt)
     nv_navigator: TExtDBNavigator;
     nv_saisie: TExtDBNavigator;
     lb_code: TFWLabel;

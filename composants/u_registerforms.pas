@@ -1,11 +1,11 @@
-unit U_RegisterIni;
+unit u_registerforms;
 {
-Unité             U_RegisterIni
-Unité créant un projet form
+UnitÃ©             U_RegisterIni
+UnitÃ© crÃ©ant un projet form
 Classes :
-TF_FormMainIniModule : Module créant une form
+TF_FormMainIniModule : Module crÃ©ant une form
 TF_FormMainIniExpert : Expert enregistrant le module dans les nouveaux projets
-Rédigé par Matthieu Giroux le 1/12/2003
+RÃ©digÃ© par Matthieu Giroux le 1/12/2003
 }
 
 interface
@@ -26,8 +26,8 @@ const
   // Commentaire du projet
   CST_COMMENTAIRE = 'Form utilisant un fichier INI pour initialiser son descendant et ADO';
   CST_EXPERTNOM = 'Form INI'; // Nom du projet
-  CST_FORMANCETRE = 'F_FormMainIni' ; // Ancêtre de la form
-  CST_FORMUNIT = 'U_FormMainIni' ; // Unité de l'ancêtre
+  CST_FORMANCETRE = 'F_FormMainIni' ; // AncÃªtre de la form
+  CST_FORMUNIT = 'U_FormMainIni' ; // UnitÃ© de l'ancÃªtre
   CST_NOUVEAUMENU = 'FrameWork' ; // onglet du projet dans les nouveau projets
   CST_FORMIDSTRING = 'Microcelt.TF_FormMainIni' ; // Identifiant du projet
 
@@ -47,17 +47,17 @@ const
     '    { Private declarations }'                                                + crlf +
     '  public'                                                                  + crlf +
     '    { Public declarations }'                                               + crlf +
-    '// Utiliser cette procédure pour gérer automatiquement la lecture INI'     + crlf +
+    '// Utiliser cette procÃ©dure pour gÃ©rer automatiquement la lecture INI'     + crlf +
     '    procedure p_InitialisationParamIni; override;'                         + crlf +
-    '// Utiliser cette procédure pour gérer automatiquement la sauvegarde INI'  + crlf +
+    '// Utiliser cette procÃ©dure pour gÃ©rer automatiquement la sauvegarde INI'  + crlf +
     '    procedure p_SauvegardeParamIni; override;'                             + crlf +
-    '// Utiliser cette procédure après la sauvegarde INI pour TB97'             + crlf +
+    '// Utiliser cette procÃ©dure aprÃ¨s la sauvegarde INI pour TB97'             + crlf +
     '    procedure p_ApresSauvegardeParamIni; override;'                        + crlf +
-    '// Utiliser cette procédure pour gérer la déconnexion'                     + crlf +
+    '// Utiliser cette procÃ©dure pour gÃ©rer la dÃ©connexion'                     + crlf +
     '    procedure p_PbConnexion; override;'                                    + crlf +
-    '// Utiliser cette procédure pour gérer la connexion'                       + crlf +
+    '// Utiliser cette procÃ©dure pour gÃ©rer la connexion'                       + crlf +
     '    procedure p_Connectee; override;'                                      + crlf +
-    '// Utiliser cette procédure pour mettre à jour les touches spéciales'      + crlf +
+    '// Utiliser cette procÃ©dure pour mettre Ã  jour les touches spÃ©ciales'      + crlf +
     '    procedure p_SortieMajNumScroll ( const ab_MajEnfoncee    ,'            + crlf +
     '                                           ab_NumEnfoncee    ,'            + crlf +
     '                                           ab_ScrollEnfoncee : boolean );override;' + crlf +
@@ -88,10 +88,10 @@ const
     '//Placer ici le Code sauvegarde INI'                                       + crlf +
     'End ;'                                                                     + crlf +
                                                                                   crlf +
-    '// gestion de la déconnexion'                                              + crlf +
+    '// gestion de la dÃ©connexion'                                              + crlf +
     'procedure T%1:s.p_PbConnexion;'                                            + crlf +
     'begin'                                                                     + crlf +
-    '//Placer ici le Code d''affichage de déconnexion'                          + crlf +
+    '//Placer ici le Code d''affichage de dÃ©connexion'                          + crlf +
     'End ;'                                                                     + crlf +
                                                                                   crlf +
     '// gestion de la connexion'                                                + crlf +
@@ -100,15 +100,15 @@ const
     '//Placer ici le Code d''affichage de connexion'                            + crlf +
     'End ;'                                                                     + crlf +
                                                                                   crlf +
-    '// gestion des touches spéciales'                                          + crlf +
+    '// gestion des touches spÃ©ciales'                                          + crlf +
     '// ab_MajEnfoncee : Touche majuscule'                                      + crlf +
-    '// ab_NumEnfoncee : Touche chiffres dans le clavier numérique'             + crlf +
-    '// ab_ScrollEnfoncee : Touche arrêt défilement à effet bascule'            + crlf +
+    '// ab_NumEnfoncee : Touche chiffres dans le clavier numÃ©rique'             + crlf +
+    '// ab_ScrollEnfoncee : Touche arrÃªt dÃ©filement Ã  effet bascule'            + crlf +
     'procedure T%1:s.p_SortieMajNumScroll ( const ab_MajEnfoncee    ,'          + crlf +
     '                                             ab_NumEnfoncee    ,'          + crlf +
     '                                             ab_ScrollEnfoncee : boolean );'+ crlf +
     'begin'                                                                     + crlf +
-    '//Placer ici le Code de mise à jour des touches spéciales'                 + crlf +
+    '//Placer ici le Code de mise Ã  jour des touches spÃ©ciales'                 + crlf +
     'End ;'                                                                     + crlf +
                                                                                   crlf +
     'end.'                                                                       + crlf;
@@ -120,13 +120,13 @@ const
   with the property being edited (e.g. the ActiveControl property). }
 
 type
-  { TF_FormMainIniModule : Module créant une form
+  { TF_FormMainIniModule : Module crÃ©ant une form
  }
   TF_FormMainIniModule = class(TESBaseFormCreator)
   public
-  // Récupère l'unité créée
+  // RÃ©cupÃ¨re l'unitÃ© crÃ©Ã©e
     function GetFormAncestorUnitName: string; override;
-  // Récupère l'ancêtre form créé
+  // RÃ©cupÃ¨re l'ancÃªtre form crÃ©Ã©
     function GetAncestorName: string; override;
     // Source de la nouvelle form
     function GetSourceCode: string; override;
@@ -140,19 +140,19 @@ type
 { TF_FormMainIniExpert : Expert enregistrant le module dans les nouveaux projets }
   TF_FormMainIniExpert = class(TESBaseCustomFormExpert)
   public
-// Récupère le menu dans nouveau
+// RÃ©cupÃ¨re le menu dans nouveau
     function GetPage: string; override ;
-// Récupère la classe form
+// RÃ©cupÃ¨re la classe form
     function GetFormCreatorClass: TESBaseFormCreatorClass; override;
-// Récupère le nom du créateur
+// RÃ©cupÃ¨re le nom du crÃ©ateur
     function GetAuthor: string; override;
-// Récupère les commentaires du projet
+// RÃ©cupÃ¨re les commentaires du projet
     function GetComment: string; override;
-// Récupère l'ID info
+// RÃ©cupÃ¨re l'ID info
     function GetIDString: string; override;
-// Récupère le nom du projet
+// RÃ©cupÃ¨re le nom du projet
     function GetName: string; override;
-// Récupère l'Icône
+// RÃ©cupÃ¨re l'IcÃ´ne
     function GetGlyph: HICON; override;
   end; { TF_FormMainIniExpert }
 
@@ -166,19 +166,19 @@ uses
 {$ELSE}
   custforms, unite_messages,
 {$ENDIF}
-  Classes,  U_FormMainIni;
+  Classes,  U_FormMainIni, U_FormAdapt;
 
 {$IFNDEF FPC}
 {
 procedure Register ;
 begin // Enregistre le nouvel expert de projet
-  // Procédures à garder pour peut-être plus tard ( utilisation actuelle d'unités dépréciées)
+  // ProcÃ©dures Ã  garder pour peut-Ãªtre plus tard ( utilisation actuelle d'unitÃ©s dÃ©prÃ©ciÃ©es)
   }
 {  Params.Style := WS_CHILD or WS_DLGFRAME or WS_VISIBLE or DS_CONTROL;
   Params.WindowClass :=
-  Initialisation des paramètres
+  Initialisation des paramÃ¨tres
 
-// paramètrage de la création dans la palette des projets
+// paramÃ¨trage de la crÃ©ation dans la palette des projets
   WindowClass.style := WS_DISABLED ;
   WindowClass.Cursor := crDefault ;
   WindowClass.lpszMenuName := 'FrameWork' ;
@@ -190,7 +190,7 @@ begin // Enregistre le nouvel expert de projet
   WindowClass.cbClsExtra := 0;
   WindowClass.cbWndExtra := 0;
 
-// paramètrage de la création dans l'inspecteur d'objet
+// paramÃ¨trage de la crÃ©ation dans l'inspecteur d'objet
   Params.Caption := 'F_McFormMainIni' ;
   Params.X := 0 ;
   Params.Y := 0 ;
@@ -248,13 +248,13 @@ end;    { GetSourceCode }
 
 { TF_FormMainIniModule }
 
-  // Récupère l'ancêtre form créé
+  // RÃ©cupÃ¨re l'ancÃªtre form crÃ©Ã©
 function TF_FormMainIniModule.GetAncestorName: string;
 begin
   result := CST_FORMANCETRE ; // Descends from TESNewForm
 end; { GetAncestorName }
 
-  // Récupère l'unité créée
+  // RÃ©cupÃ¨re l'unitÃ© crÃ©Ã©e
 function TF_FormMainIniModule.GetFormAncestorUnitName: string;
 begin
   result := CST_FORMUNIT ;
@@ -262,43 +262,43 @@ end; { GetFormAncestorUnitName }
 
 { TF_FormMainIniExpert }
 
-// Récupère le menu dans nouveau
+// RÃ©cupÃ¨re le menu dans nouveau
 function TF_FormMainIniExpert.GetPage: string;
 begin
   result := CST_NOUVEAUMENU ;
 end;    { GetPage }
 
-// Récupère la classe form
+// RÃ©cupÃ¨re la classe form
 function TF_FormMainIniExpert.GetFormCreatorClass: TESBaseFormCreatorClass;
 begin
   result := TF_FormMainIniModule;
 end; { GetFormCreator }
 
-// Récupère le nom du créateur
+// RÃ©cupÃ¨re le nom du crÃ©ateur
 function TF_FormMainIniExpert.GetAuthor: string;
 begin
   result := CST_AUTEUR;
 end; { GetAuthor }
 
-// Récupère les commentaires du projet
+// RÃ©cupÃ¨re les commentaires du projet
 function TF_FormMainIniExpert.GetComment: string;
 begin
   result := CST_COMMENTAIRE;
 end; { GetComment }
 
-// Récupère l'Icône
+// RÃ©cupÃ¨re l'IcÃ´ne
 function TF_FormMainIniExpert.GetGlyph: HICON;
 begin
   result := LoadIcon(0, idi_Application);
 end; { GetGlyph }
 
-// Récupère l'ID info
+// RÃ©cupÃ¨re l'ID info
 function TF_FormMainIniExpert.GetIDString: string;
 begin
   result := CST_FORMIDSTRING;
 end; { GetIDString }
 
-// Récupère le nom du projet
+// RÃ©cupÃ¨re le nom du projet
 function TF_FormMainIniExpert.GetName: string;
 begin
   result := CST_EXPERTNOM;
@@ -308,11 +308,13 @@ end; { GetName }
 
 procedure Register ;
 begin // Enregistre le nouvel expert de projet
-// Un register libère automatiquement la variable à la suppression
+// Un register libÃ¨re automatiquement la variable Ã  la suppression
 {$IFDEF FPC}
-   RegisterCustomForm ( TF_FormMainIni, 'lazextcomponents' );
+  RegisterCustomForm ( TF_FormMainIni, 'lazextcomponents' );
+  RegisterCustomForm ( TF_FormAdapt, 'lazextcomponents' );
 {$ELSE}
-   RegisterCustomModule ( TF_FormMainIni, TCustomModule );
+  RegisterCustomModule ( TF_FormMainIni, TCustomModule );
+  RegisterCustomModule ( TF_FormAdapt, TCustomModule );
 //   RegisterPropertyEditor ( TypeInfo ( TADOConnection ), TADOConnection, 'Connection', TProviderProperty );
 //   RegisterPropertyEditor(TypeInfo(WideString), TADOConnection, 'Provider', TProviderProperty);
 //   RegisterPropertyEditor(TypeInfo(WideString), TADOConnection, 'ConnectionString', TConnectionStringProperty);
