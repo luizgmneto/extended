@@ -34,12 +34,12 @@ implementation
 
 Var
   Echelle:Extended=1;
-  NewEchelle: Extended=1;
 
  
 procedure HighDPI;
 var
   i: integer;
+  NewEchelle : Extended;
 begin
   NewEchelle:=Screen.MenuFont.Size/FromDPI;
   if Echelle=NewEchelle then

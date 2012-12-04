@@ -53,7 +53,6 @@ type
   TF_FormAdapt = class({$IFDEF SFORM}TSuperForm{$ELSE}{$IFDEF TNT}TTntForm{$ELSE}TForm{$ENDIF}{$ENDIF})
   private
     Echelle:Extended;
-    NewEchelle: Extended;
   protected
 
 
@@ -88,6 +87,7 @@ end;
 procedure TF_FormAdapt.Activate;
 var
   i: integer;
+  NewEchelle : Extended;
 begin
   NewEchelle:=Screen.MenuFont.Size/FromDPI;
   if Echelle=NewEchelle then
