@@ -8,7 +8,7 @@ interface
 
 uses
   u_regframeworkcomponents, U_RegisterGroupView, u_regextfilecopy, 
-  U_RegisterIni, U_RegVersion, u_regfwbuttons, LazarusPackageIntf;
+  U_RegVersion, u_regfwbuttons, u_registerforms, LazarusPackageIntf;
 
 implementation
 
@@ -17,8 +17,8 @@ begin
   RegisterUnit('u_regframeworkcomponents', @u_regframeworkcomponents.Register);
   RegisterUnit('U_RegisterGroupView', @U_RegisterGroupView.Register);
   RegisterUnit('u_regextfilecopy', @u_regextfilecopy.Register);
-  RegisterUnit('U_RegisterIni', @U_RegisterIni.Register);
   RegisterUnit('u_regfwbuttons', @u_regfwbuttons.Register);
+  RegisterUnit('u_registerforms', @u_registerforms.Register);
 end;
 
 initialization
