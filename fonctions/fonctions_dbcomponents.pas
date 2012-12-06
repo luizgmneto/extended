@@ -47,6 +47,7 @@ const
   CST_DBPROPERTY_SQL = 'SQL';
   CST_DBPROPERTY_SQLCONNECTION = 'SQLConnection';
   CST_DBPROPERTY_CONNECTION = 'Connection';
+  CST_DBPROPERTY_CONNECTED  = 'Connected';
   CST_DBPROPERTY_ONLINECONN = 'OnLineConn';
   CST_DBPROPERTY_CONNECTIONSTRING = 'ConnectionString';
   CST_DBPROPERTY_TRANSACTION = 'Transaction';
@@ -55,6 +56,7 @@ const
   CST_DBPROPERTY_SESSIONNAME = 'SessionName';
   CST_DBPROPERTY_CLIENTPARAM = 'ClientParam';
   CST_DBPROPERTY_ZEOSDB = 'ZeosDBConnection';
+  CST_DBPROPERTY_Active = 'Active';
   CST_DBPROPERTY_ENDPARAM = ';';
 function fb_InsereCompteur ( const adat_Dataset, adat_DatasetQuery : TDataset ;
                              const aslt_Cle : TStringlist ;
