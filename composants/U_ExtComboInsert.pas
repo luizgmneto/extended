@@ -28,7 +28,10 @@ uses Variants, Controls, Classes,
      Windows, Mask, JvDBLookup, Messages,
   {$ENDIF}
      Graphics, Menus, ComCtrls, DB,DBCtrls, Dialogs,
-     fonctions_version, u_framework_dbcomponents ;
+  {$IFDEF VERSIONS}
+    fonctions_version,
+  {$ENDIF}
+    u_framework_dbcomponents ;
 
 {$IFDEF VERSIONS}
   const

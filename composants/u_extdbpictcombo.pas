@@ -33,7 +33,10 @@ uses
    TntStdCtrls,
 {$ENDIF}
   Messages, SysUtils, Classes, Graphics, Controls, Forms,
-  StdCtrls, DB, DBCtrls, fonctions_erreurs, fonctions_version,
+  StdCtrls, DB, DBCtrls, fonctions_erreurs,
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
   u_extcomponent, ImgList, U_ExtMapImageIndex, U_ExtPictCombo ;
 
 {$IFDEF VERSIONS}

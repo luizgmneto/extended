@@ -134,16 +134,16 @@
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="7">
       <Item1>
-        <PackageName Value="ZVDateTimeCtrls"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item1>
       <Item2>
-        <PackageName Value="rxnew"/>
+        <PackageName Value="ZVDateTimeCtrls"/>
       </Item2>
       <Item3>
-        <PackageName Value="virtualtreeview_package"/>
+        <PackageName Value="rxnew"/>
       </Item3>
       <Item4>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item4>
       <Item5>
         <PackageName Value="lazfonctions"/>

@@ -24,8 +24,8 @@ uses
   JvXPButtons, Graphics,
   Menus, Buttons;
 
-const
 {$IFDEF VERSIONS}
+const
     gVer_buttons_speed : T_Version = ( Component : 'Customized Buttons' ;
                                        FileUnit : 'u_buttons_appli' ;
                                        Owner : 'Matthieu Giroux' ;
