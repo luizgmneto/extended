@@ -152,6 +152,7 @@ end;
 
 procedure TF_Caracteristique.F_FormDicoCreate(Sender: TObject);
 begin
+  F_Caracteristique:=Self;
   M_Article.ds_Carac.DataSet.Open;
 end;
 

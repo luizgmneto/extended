@@ -52,11 +52,12 @@ const
                                                FileUnit : 'u_traducefile' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Traduction de fichiers images.' ;
-                                               BugsStory : '1.0.1.0 : Header and EndofFile Memo property.'+#13#10
+                                               BugsStory : '1.0.1.1 : No notification verify on destroy.' +
+                                                           '1.0.1.0 : Header and EndofFile Memo property.'+#13#10
                                                          + '1.0.0.0 : Testing alone.'+#13#10
                                                          + '0.9.0.0 : Gestion en place.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
 
 {$ENDIF}
 type
@@ -219,7 +220,9 @@ procedure TTraduceFile.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
-  if Operation <> opRemove Then Exit;
+  if ( Operation <> opRemove )
+  or ( csDestroying in ComponentState ) Then
+   Exit;
   if AComponent=Header Then Header := nil;
   if AComponent=EndOfFile Then EndOfFile := nil;
 end;

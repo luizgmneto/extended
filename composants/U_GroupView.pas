@@ -63,14 +63,15 @@ const
                                      FileUnit : 'U_GroupView' ;
                                      Owner : 'Matthieu Giroux' ;
                                      Comment : 'TDBListView avec gestion de groupes et affectation.' ;
-                                     BugsStory :  '1.1.0.1 : testing with SuperForm.' +
+                                     BugsStory :  '1.1.0.2 : Removing IsImplementorOf.' +
+                                                  '1.1.0.1 : testing with SuperForm.' +
                                                   '1.1.0.0 : traducing methods and variables to english.' +
                                                   '1.0.1.2 : Creating methods from recording action.' +
                                                   '1.0.1.1 : Ajouts de la gestion DBExpress et BDE.' +
                                                   '1.0.1.0 : Gestion pour tous Datasources testée.' +
                                                   '1.0.0.0 : Gestion de groupe avec gestion de l''ADO non testée.';
                                      UnitType : 3 ;
-                                     Major : 1 ; Minor : 1 ; Release : 0 ; Build : 1 );
+                                     Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
 {$ENDIF}
 
 type
@@ -1484,56 +1485,57 @@ begin
    ////////////////////////////////////////////
   // Désaffectation des composants détruits //
  ////////////////////////////////////////////
-  if Operation <> opRemove Then
+  if ( Operation <> opRemove )
+  or ( csDestroying in ComponentState ) Then
     Exit;
 
-  if  ( Assigned                   ( DataListOpposite ))
-  and ( AComponent.IsImplementorOf ( DataListOpposite ))
+  if    Assigned   ( DataListOpposite )
+  and ( AComponent = DataListOpposite )
    then
     DataListOpposite := nil;
 
-  if  ( Assigned                   ( DataSourceOwner ))
-  and ( AComponent.IsImplementorOf ( DataSourceOwner ))
+  if    Assigned   ( DataSourceOwner )
+  and ( AComponent = DataSourceOwner )
    then
     DataSourceOwner := nil;
 
 
-  if  ( Assigned                   ( DataSourceQuery2 ))
-  and ( AComponent.IsImplementorOf ( DataSourceQuery2 ))
+  if    Assigned   ( DataSourceQuery2 )
+  and ( AComponent = DataSourceQuery2 )
    then
     DataSourceQuery2 := nil;
 
-  if  ( Assigned                   ( DatasourceQuery ))
-  and ( AComponent.IsImplementorOf ( DatasourceQuery ))
+  if    Assigned   ( DatasourceQuery )
+  and ( AComponent = DatasourceQuery )
    then
     DatasourceQuery := nil;
 
-  if  ( Assigned                   ( ButtonTotalIn ))
-  and ( AComponent.IsImplementorOf ( ButtonTotalIn ))
+  if    Assigned   ( ButtonTotalIn )
+  and ( AComponent = ButtonTotalIn )
    then
     ButtonTotalIn := nil;
-  if  ( Assigned                   ( ButtonIn ))
-  and ( AComponent.IsImplementorOf ( ButtonIn ))
+  if    Assigned    ( ButtonIn )
+  and ( AComponent =  ButtonIn )
    then
     ButtonIn := nil;
-  if  ( Assigned                   ( ButtonBasket ))
-  and ( AComponent.IsImplementorOf ( ButtonBasket ))
+  if   Assigned    ( ButtonBasket )
+  and ( AComponent = ButtonBasket )
    then
     ButtonBasket := nil;
-  if  ( Assigned                   ( ButtonTotalOut ))
-  and ( AComponent.IsImplementorOf ( ButtonTotalOut ))
+  if   Assigned     ( ButtonTotalOut )
+  and ( AComponent =  ButtonTotalOut )
    then
     ButtonTotalOut := nil;
-  if  ( Assigned                   ( ButtonOut ))
-  and ( AComponent.IsImplementorOf ( ButtonOut ))
+  if  Assigned      ( ButtonOut )
+  and ( AComponent =  ButtonOut )
    then
     ButtonOut := nil;
-  if  ( Assigned                   ( ButtonRecord ))
-  and ( AComponent.IsImplementorOf ( ButtonRecord ))
+  if  Assigned     ( ButtonRecord )
+  and ( AComponent = ButtonRecord )
    then
     ButtonRecord := nil;
-  if  ( Assigned                   ( ButtonCancel ))
-  and ( AComponent.IsImplementorOf ( ButtonCancel ))
+  if    Assigned   ( ButtonCancel )
+  and ( AComponent = ButtonCancel )
    then
     ButtonCancel := nil;
 end;

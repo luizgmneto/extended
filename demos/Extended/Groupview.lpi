@@ -77,16 +77,16 @@
         <PackageName Value="LCL"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="137">
+    <Units Count="145">
       <Unit0>
         <Filename Value="Groupview.dpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Groupview"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="16"/>
-        <UsageCount Value="67"/>
+        <UsageCount Value="69"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -109,11 +109,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Article"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="22"/>
-        <CursorPos X="65" Y="22"/>
-        <UsageCount Value="67"/>
+        <TopLine Value="61"/>
+        <CursorPos X="1" Y="69"/>
+        <UsageCount Value="69"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -149,7 +149,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="49"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="67"/>
+        <UsageCount Value="69"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit5>
       <Unit6>
@@ -371,12 +371,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Gamme"/>
-        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="21"/>
-        <CursorPos X="30" Y="29"/>
-        <UsageCount Value="67"/>
-        <Loaded Value="True"/>
+        <TopLine Value="130"/>
+        <CursorPos X="57" Y="163"/>
+        <UsageCount Value="69"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit24>
       <Unit25>
@@ -386,11 +384,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_TypeArticle"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="4"/>
-        <CursorPos X="26" Y="37"/>
-        <UsageCount Value="60"/>
+        <TopLine Value="11"/>
+        <CursorPos X="12" Y="194"/>
+        <UsageCount Value="62"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -402,12 +400,14 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Caracteristique"/>
-        <EditorIndex Value="7"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="18"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="18"/>
-        <CursorPos X="33" Y="30"/>
-        <UsageCount Value="67"/>
+        <TopLine Value="108"/>
+        <CursorPos X="1" Y="123"/>
+        <UsageCount Value="69"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
@@ -698,6 +698,7 @@
         <TopLine Value="402"/>
         <CursorPos X="2" Y="387"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit54>
       <Unit55>
         <Filename Value="../../composants/U_RegVersion.pas"/>
@@ -714,6 +715,7 @@
         <TopLine Value="2"/>
         <CursorPos X="114" Y="26"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit56>
       <Unit57>
         <Filename Value="../../../ManFrames/composants/U_RegisterFrameWork.pas"/>
@@ -722,6 +724,7 @@
         <TopLine Value="4"/>
         <CursorPos X="7" Y="22"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit57>
       <Unit58>
         <Filename Value="u_dmarticles.pas"/>
@@ -734,7 +737,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="6" Y="209"/>
-        <UsageCount Value="51"/>
+        <UsageCount Value="53"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -771,12 +774,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Main"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="21"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="31"/>
-        <CursorPos X="217" Y="50"/>
-        <UsageCount Value="50"/>
+        <TopLine Value="59"/>
+        <CursorPos X="1" Y="69"/>
+        <UsageCount Value="52"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -831,10 +833,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="CompSuperForm"/>
+        <EditorIndex Value="20"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="184"/>
-        <CursorPos X="3" Y="186"/>
+        <TopLine Value="69"/>
+        <CursorPos X="3" Y="43"/>
         <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit68>
       <Unit69>
         <Filename Value="../../../SuperFormExpert/expertsuperform.pas"/>
@@ -867,12 +871,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_FormMainIni"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3"/>
         <CursorPos X="68" Y="22"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit72>
       <Unit73>
         <Filename Value="../../../UIB/source/uiblib.pas"/>
@@ -905,6 +907,7 @@
         <TopLine Value="1832"/>
         <CursorPos X="15" Y="1853"/>
         <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit76>
       <Unit77>
         <Filename Value="/usr/share/fpcsrc/2.6.0/packages/fcl-db/src/base/database.inc"/>
@@ -912,32 +915,35 @@
         <TopLine Value="512"/>
         <CursorPos X="3" Y="515"/>
         <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit77>
       <Unit78>
         <Filename Value="../../composants/U_GroupView.pas"/>
         <UnitName Value="U_GroupView"/>
+        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="3138"/>
-        <CursorPos X="1" Y="3164"/>
+        <TopLine Value="49"/>
+        <CursorPos X="51" Y="67"/>
         <UsageCount Value="16"/>
+        <Loaded Value="True"/>
       </Unit78>
       <Unit79>
         <Filename Value="../../composants/u_dblistview.pas"/>
         <UnitName Value="U_DBListView"/>
+        <EditorIndex Value="14"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
+        <TopLine Value="35"/>
+        <CursorPos X="95" Y="65"/>
         <UsageCount Value="12"/>
+        <Loaded Value="True"/>
       </Unit79>
       <Unit80>
         <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
         <UnitName Value="fonctions_dbcomponents"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit80>
       <Unit81>
         <Filename Value="../../fonctions/fonctions_proprietes.pas"/>
@@ -950,18 +956,22 @@
       <Unit82>
         <Filename Value="../../../../Lazarus/composants/jvXP/JvXPCore.pas"/>
         <UnitName Value="JvXPCore"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="159"/>
-        <CursorPos X="3" Y="159"/>
+        <TopLine Value="557"/>
+        <CursorPos X="1" Y="576"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit82>
       <Unit83>
         <Filename Value="../../../../Lazarus/composants/jvXP/JvXPButtons.pas"/>
         <UnitName Value="JvXPButtons"/>
+        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="620"/>
-        <CursorPos X="13" Y="631"/>
+        <TopLine Value="381"/>
+        <CursorPos X="1" Y="400"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit83>
       <Unit84>
         <Filename Value="/usr/lib/lazarus/0.9.30.4/lcl/include/wincontrol.inc"/>
@@ -1168,7 +1178,6 @@
         <TopLine Value="1"/>
         <CursorPos X="22" Y="7"/>
         <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit108>
       <Unit109>
         <Filename Value="../../../../Lazarus/composants/rxfpc/rxctrls.pas"/>
@@ -1229,10 +1238,12 @@
       <Unit116>
         <Filename Value="../../composants/u_buttons_appli.pas"/>
         <UnitName Value="u_buttons_appli"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="70"/>
-        <CursorPos X="3" Y="70"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="357"/>
+        <CursorPos X="1" Y="376"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit116>
       <Unit117>
         <Filename Value="../../../../../../lazarus/lcl/stdctrls.pp"/>
@@ -1241,7 +1252,6 @@
         <TopLine Value="255"/>
         <CursorPos X="15" Y="298"/>
         <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit117>
       <Unit118>
         <Filename Value="../../../../../../lazarus/lcl/include/customcombobox.inc"/>
@@ -1249,7 +1259,6 @@
         <TopLine Value="1004"/>
         <CursorPos X="3" Y="1008"/>
         <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit118>
       <Unit119>
         <Filename Value="../../../../../../lazarus/lcl/controls.pp"/>
@@ -1258,23 +1267,25 @@
         <TopLine Value="1945"/>
         <CursorPos X="41" Y="1965"/>
         <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit119>
       <Unit120>
         <Filename Value="../../../../../../lazarus/lcl/include/wincontrol.inc"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="6607"/>
-        <CursorPos X="3" Y="6644"/>
+        <TopLine Value="5305"/>
+        <CursorPos X="1" Y="5323"/>
         <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
+        <Loaded Value="True"/>
       </Unit120>
       <Unit121>
         <Filename Value="../../composants/u_buttons_defs.pas"/>
         <UnitName Value="u_buttons_defs"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="137"/>
-        <CursorPos X="68" Y="146"/>
+        <TopLine Value="311"/>
+        <CursorPos X="1" Y="333"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit121>
       <Unit122>
         <Filename Value="/usr/lib/lazarus/0.9.31/lcl/lresources.pp"/>
@@ -1322,11 +1333,11 @@
       <Unit127>
         <Filename Value="../../../ZEOSDBO/src/component/ZConnection.pas"/>
         <UnitName Value="ZConnection"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="24"/>
         <WindowIndex Value="0"/>
         <TopLine Value="268"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit127>
@@ -1357,39 +1368,39 @@
       </Unit130>
       <Unit131>
         <Filename Value="/usr/share/lazarus/1.0.2/lcl/include/control.inc"/>
-        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="616"/>
         <CursorPos X="1" Y="645"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit131>
       <Unit132>
         <Filename Value="../../../../../../lazarus/lcl/include/control.inc"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="3622"/>
-        <CursorPos X="16" Y="3630"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="2094"/>
+        <CursorPos X="1" Y="2112"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit132>
       <Unit133>
         <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
         <UnitName Value="fonctions_scaledpi"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="22"/>
         <WindowIndex Value="0"/>
         <TopLine Value="68"/>
         <CursorPos X="17" Y="126"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit133>
       <Unit134>
         <Filename Value="/usr/share/lazarus/1.0.2/lcl/controls.pp"/>
         <UnitName Value="Controls"/>
-        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <TopLine Value="133"/>
         <CursorPos X="3" Y="147"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit134>
       <Unit135>
         <Filename Value="../../composants/u_formadapt.pas"/>
@@ -1397,145 +1408,213 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_FormAdapt"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="23"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="43"/>
-        <CursorPos X="57" Y="81"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="34"/>
+        <CursorPos X="3" Y="53"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit135>
       <Unit136>
         <Filename Value="/usr/share/lazarus/1.0.2/lcl/forms.pp"/>
         <UnitName Value="Forms"/>
-        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="40"/>
         <CursorPos X="3" Y="69"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit136>
+      <Unit137>
+        <Filename Value="../../../../../../lazarus/lcl/include/customform.inc"/>
+        <EditorIndex Value="19"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2068"/>
+        <CursorPos X="1" Y="2107"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit137>
+      <Unit138>
+        <Filename Value="../../../../../../lazarus/lcl/lclmessageglue.pas"/>
+        <UnitName Value="LCLMessageGlue"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="106"/>
+        <CursorPos X="1" Y="128"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit138>
+      <Unit139>
+        <Filename Value="../../../../../../lazarus/lcl/interfaces/win32/win32callback.inc"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="203"/>
+        <CursorPos X="1" Y="222"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit139>
+      <Unit140>
+        <Filename Value="../../../../../../lazarus/lcl/interfaces/win32/win32object.inc"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="349"/>
+        <CursorPos X="1" Y="367"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit140>
+      <Unit141>
+        <Filename Value="../../composants/u_reports_components.pas"/>
+        <UnitName Value="u_reports_components"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="18" Y="29"/>
+        <UsageCount Value="10"/>
+      </Unit141>
+      <Unit142>
+        <Filename Value="../../composants/u_traducefile.pas"/>
+        <UnitName Value="u_traducefile"/>
+        <EditorIndex Value="17"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="39"/>
+        <CursorPos X="95" Y="60"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit142>
+      <Unit143>
+        <Filename Value="../../../ManFrames/composants/u_customframework.pas"/>
+        <UnitName Value="u_customframework"/>
+        <EditorIndex Value="15"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="73"/>
+        <CursorPos X="86" Y="98"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit143>
+      <Unit144>
+        <Filename Value="../../../ManFrames/composants/u_formmaindb.pas"/>
+        <UnitName Value="u_formmaindb"/>
+        <EditorIndex Value="16"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="31"/>
+        <CursorPos X="87" Y="49"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit144>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="28" HistoryIndex="27">
       <Position1>
-        <Filename Value="u_dmarticles.pas"/>
-        <Caret Line="343" Column="18" TopLine="76"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1491" Column="1" TopLine="1483"/>
       </Position1>
       <Position2>
-        <Filename Value="U_Gamme.pas"/>
-        <Caret Line="24" Column="3" TopLine="1"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1495" Column="1" TopLine="1483"/>
       </Position2>
       <Position3>
-        <Filename Value="U_Gamme.pas"/>
-        <Caret Line="144" Column="58" TopLine="111"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1496" Column="1" TopLine="1483"/>
       </Position3>
       <Position4>
-        <Filename Value="U_Caracteristique.pas"/>
-        <Caret Line="18" Column="94" TopLine="8"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1501" Column="1" TopLine="1483"/>
       </Position4>
       <Position5>
-        <Filename Value="u_typearticle.pas"/>
-        <Caret Line="23" Column="66" TopLine="1"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1487" Column="1" TopLine="1473"/>
       </Position5>
       <Position6>
-        <Filename Value="u_typearticle.pas"/>
-        <Caret Line="134" Column="56" TopLine="121"/>
+        <Filename Value="U_Caracteristique.pas"/>
+        <Caret Line="123" Column="1" TopLine="108"/>
       </Position6>
       <Position7>
-        <Filename Value="u_typearticle.pas"/>
-        <Caret Line="184" Column="3" TopLine="156"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1487" Column="23" TopLine="1473"/>
       </Position7>
       <Position8>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="482" Column="53" TopLine="445"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1491" Column="1" TopLine="1473"/>
       </Position8>
       <Position9>
-        <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="22" Column="68" TopLine="3"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1492" Column="1" TopLine="1473"/>
       </Position9>
       <Position10>
-        <Filename Value="u_main.pas"/>
-        <Caret Line="46" Column="93" TopLine="31"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1496" Column="1" TopLine="1473"/>
       </Position10>
       <Position11>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="99" Column="8" TopLine="61"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1497" Column="1" TopLine="1473"/>
       </Position11>
       <Position12>
-        <Filename Value="/usr/share/lazarus/1.0.2/lcl/controls.pp"/>
-        <Caret Line="1564" Column="14" TopLine="1537"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1502" Column="1" TopLine="1473"/>
       </Position12>
       <Position13>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="99" Column="52" TopLine="61"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1489" Column="40" TopLine="1473"/>
       </Position13>
       <Position14>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="79" Column="17" TopLine="51"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1459" Column="1" TopLine="1440"/>
       </Position14>
       <Position15>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="86" Column="15" TopLine="51"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1415" Column="32" TopLine="1401"/>
       </Position15>
       <Position16>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="98" Column="13" TopLine="62"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position16>
       <Position17>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="99" Column="19" TopLine="62"/>
+        <Filename Value="../../composants/u_dblistview.pas"/>
+        <Caret Line="441" Column="89" TopLine="430"/>
       </Position17>
       <Position18>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="114" Column="86" TopLine="62"/>
+        <Filename Value="../../composants/u_traducefile.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position18>
       <Position19>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="98" Column="50" TopLine="62"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1513" Column="19" TopLine="1492"/>
       </Position19>
       <Position20>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="99" Column="12" TopLine="62"/>
+        <Filename Value="../../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position20>
       <Position21>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="31" Column="1" TopLine="30"/>
+        <Filename Value="../../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="1494" Column="21" TopLine="1470"/>
       </Position21>
       <Position22>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="63" Column="34" TopLine="41"/>
+        <Filename Value="../../../ManFrames/composants/u_formmaindb.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position22>
       <Position23>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="104" Column="36" TopLine="76"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1491" Column="8" TopLine="1479"/>
       </Position23>
       <Position24>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="30" Column="34" TopLine="23"/>
+        <Filename Value="../../composants/U_GroupView.pas"/>
+        <Caret Line="1497" Column="67" TopLine="1481"/>
       </Position24>
       <Position25>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="63" Column="30" TopLine="44"/>
+        <Filename Value="../../composants/u_dblistview.pas"/>
+        <Caret Line="1356" Column="70" TopLine="1354"/>
       </Position25>
       <Position26>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="70" Column="21" TopLine="39"/>
+        <Filename Value="../../../ManFrames/composants/u_customframework.pas"/>
+        <Caret Line="1513" Column="20" TopLine="1483"/>
       </Position26>
       <Position27>
-        <Filename Value="/usr/share/lazarus/1.0.2/lcl/forms.pp"/>
-        <Caret Line="698" Column="14" TopLine="672"/>
+        <Filename Value="../../../ManFrames/composants/u_formmaindb.pas"/>
+        <Caret Line="314" Column="72" TopLine="307"/>
       </Position27>
       <Position28>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="127" Column="16" TopLine="78"/>
+        <Filename Value="../../composants/u_traducefile.pas"/>
+        <Caret Line="210" Column="87" TopLine="203"/>
       </Position28>
-      <Position29>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="126" Column="17" TopLine="58"/>
-      </Position29>
-      <Position30>
-        <Filename Value="u_main.pas"/>
-        <Caret Line="46" Column="93" TopLine="31"/>
-      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -1554,6 +1633,14 @@
         <OptimizationLevel Value="0"/>
       </Optimizations>
     </CodeGeneration>
+    <Linking>
+      <LinkSmart Value="True"/>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
     <Other>
       <CompilerMessages>
         <UseMsgFile Value="True"/>
@@ -1568,21 +1655,21 @@
         <WatchScope Value="wpsGlobal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../composants/U_GroupView.pas"/>
-        <Line Value="409"/>
+        <Line Value="410"/>
       </Item1>
       <Item2>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsGlobal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../composants/U_GroupView.pas"/>
-        <Line Value="3084"/>
+        <Line Value="3086"/>
       </Item2>
       <Item3>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../composants/U_GroupView.pas"/>
-        <Line Value="2116"/>
+        <Line Value="2118"/>
       </Item3>
       <Item4>
         <Kind Value="bpkSource"/>

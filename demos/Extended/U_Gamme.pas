@@ -159,6 +159,7 @@ end;
 
 procedure TF_Gamme.F_FormDicoCreate(Sender: TObject);
 begin
+  F_Gamme:=Self;
   M_Article.ds_Gamme.DataSet.open;
 end;
 

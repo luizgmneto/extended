@@ -25,12 +25,13 @@ const
     FileUnit: 'u_reports_components';
     Owner: 'Matthieu Giroux';
     Comment: 'Customized Reports Buttons components.';
-    BugsStory :  '1.0.1.1 : Renaming DBFilter to Filter.' + #13#10
+    BugsStory :  '1.0.1.2 : No notification verify on destroy.' +
+                 '1.0.1.1 : Renaming DBFilter to Filter.' + #13#10
                + '1.0.1.0 : Putting resize into extdbgrid columns.' + #13#10
                + '1.0.0.0 : Tested.' + #13#10
                + '0.9.0.0 : To test.';
     UnitType: 3;
-    Major: 1; Minor: 0; Release: 1; Build: 1);
+    Major: 1; Minor: 0; Release: 1; Build: 2);
 {$ENDIF}
 
 type
@@ -75,7 +76,9 @@ procedure TFWPrintGrid.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
-  if (Operation <> opRemove) Then exit;
+  if ( Operation <> opRemove )
+  or ( csDestroying in ComponentState ) Then
+   exit;
   if (AComponent = DBGrid ) then DBGrid := nil;
   if (AComponent = Filter ) then Filter := nil;
 end;

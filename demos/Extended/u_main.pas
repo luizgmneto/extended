@@ -10,7 +10,7 @@ uses
 {$IFDEF FPC}
   FileUtil,
 {$ENDIF}
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   U_FormMainIni, U_OnFormInfoIni, U_Article, U_TypeArticle, U_Caracteristique,
   U_Gamme, fonctions_version, U_DmArticles;
 
@@ -22,7 +22,7 @@ type
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
     {$IFDEF FPC}
-    ScrollBox:TScrollBox;
+    Panel: TPanel;
     {$ENDIF}
     muapropos: TMenuItem;
     MuArticle: TMenuItem;
@@ -30,6 +30,7 @@ type
     muGamme: TMenuItem;
     MuTypeArticle: TMenuItem;
     OnFormInfoIni1: TOnFormInfoIni;
+    procedure FormCreate(Sender: TObject);
     procedure muaproposClick(Sender: TObject);
     procedure MuArticleClick(Sender: TObject);
     procedure MuCaractClick(Sender: TObject);
@@ -59,6 +60,13 @@ uses fonctions_forms;
 procedure TFMain.muaproposClick(Sender: TObject);
 begin
   fb_AfficheApropos(True, CST_APPLI_NAME,'0.9.9.0');
+end;
+
+procedure TFMain.FormCreate(Sender: TObject);
+begin
+  {$IFDEF FPC}
+  BoxChilds:=Panel;
+  {$ENDIF}
 end;
 
 procedure TFMain.MuArticleClick(Sender: TObject);

@@ -22,7 +22,7 @@ uses
   Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
   DBGrids, u_framework_dbcomponents, ComCtrls, StdCtrls, SysUtils,  TypInfo,
-  Variants, StrUtils, U_OnFormInfoIni, CompSuperForm,
+  Variants, StrUtils, U_OnFormInfoIni, U_FormAdapt,
   JvXPButtons, U_ExtDBGrid,U_ConstMessage, U_DmArticles,
   u_framework_components, u_buttons_appli, U_ExtComboInsert;
 
@@ -30,7 +30,7 @@ type
 
   { TF_Article }
 
-  TF_Article = class(TSuperForm)
+  TF_Article = class(TF_FormAdapt)
     cb_Categ: TExtDBComboInsert;
     cb_Categ1: TExtDBComboInsert;
     cb_Categ2: TExtDBComboInsert;
@@ -42,7 +42,6 @@ type
     pa_1: TPanel;
     pa_2: TPanel;
     pa_3: TPanel;
-    pa_4: TPanel;
     pa_5: TPanel;
     SvgFormInfoIni: TOnFormInfoIni;
     spl_1: TSplitter;
@@ -59,7 +58,6 @@ type
     Panel5: TPanel;
     Panel6: TPanel;
     bt_fermer: TFWClose;
-    procedure bt_fermerClick(Sender: TObject);
     procedure F_FormDicoCreate(Sender: TObject);
 
   private
@@ -79,15 +77,6 @@ implementation
 {$ELSE}
   {$R *.lfm}
 {$ENDIF}
-
-///////////////////////////////////////////////////////////////////////
-// Procedure : bt_fermerClick
-// Description : Fermeture de la fiche sur le click du bouton fermer
-///////////////////////////////////////////////////////////////////////
-procedure TF_Article.bt_fermerClick(Sender: TObject);
-begin
-  Close;
-end;
 
 
 ///////////////////////////////////////////////////////////////////////
