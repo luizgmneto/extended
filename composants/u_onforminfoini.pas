@@ -78,6 +78,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
       CST_ONFORMINI_SPINEDIT    = 'TSpinEdit';
       CST_ONFORMINI_SPLITTER    = 'TSplitter';
       CST_ONFORMINI_JVSPLITTER  = 'TJvSplitter';
+      CST_ONFORMINI_RXSPLITTER  = 'TRxSplitter';
       CST_ONFORMINI_FWSPINEDIT  = 'TFWSpinEdit';
       CST_ONFORMINI_RXSPINEDIT  = 'TRxSpinEdit';
       CST_ONFORMINI_JVSPINEDIT  = 'TJvSpinEdit';
@@ -380,6 +381,7 @@ var
   end;
   function fb_ReadHighComponents: Boolean;
   var lal_Align : TAlign;
+      ASplit : {$IFDEF FPC}TCustomSplitter{$ELSE}TSplitter{$ENDIF};
   Begin
     Result := False;
     if (lcom_Component is TCustomDBGrid) and
@@ -407,14 +409,14 @@ var
 
     // lecture de la position des objets Panels et Rxsplitters
     if  ( sfSaveSizes in FSaveForm )
-    and ((   lcom_Component is TCustomSplitter  )
-          or lcom_Component.ClassNameIs(CST_ONFORMINI_JVSPLITTER))
+    and (   lcom_Component is {$IFDEF FPC}TCustomSplitter{$ELSE}TSplitter{$ENDIF})
      then
       begin
         lal_Align := ( lcom_Component as TControl).Align;
+        ASplit := {$IFDEF FPC}TCustomSplitter{$ELSE}TSplitter{$ENDIF}(lcom_Component);
         case lal_Align of
-          alLeft,alRight : if ( lcom_Component is TCustomSplitter  ) Then ( lcom_Component as TCustomSplitter  ).SetSplitterPosition(fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT , TControl (lcom_Component).Left));
-          alTop,alBottom : if ( lcom_Component is TCustomSplitter  ) Then ( lcom_Component as TCustomSplitter  ).SetSplitterPosition(fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_TOP, TControl (lcom_Component).Top));
+          alLeft,alRight : ASplit.{$IFDEF FPC}SetSplitterPosition{$ELSE}Left:={$ENDIF}(fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT , TControl (lcom_Component).Left));
+          alTop,alBottom : ASplit.{$IFDEF FPC}SetSplitterPosition{$ELSE}Top :={$ENDIF}(fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_TOP, TControl (lcom_Component).Top));
         End;
         Result := True;
       end;
@@ -771,6 +773,7 @@ var
 
   function fb_WriteHighComponents : Boolean;
   var lal_Align : TAlign;
+      ASplit : {$IFDEF FPC}TCustomSplitter{$ELSE}TSplitter{$ENDIF};
   Begin
     Result := False;
     if (lcom_Component is TCustomDBGrid) and
@@ -795,8 +798,9 @@ var
 
     // écriture des positions des objets Panels et RxSplitters
     if  ( sfSaveSizes in FSaveForm )
-    and ((   lcom_Component is TCustomSplitter  )
-          or lcom_Component.ClassNameIs(CST_ONFORMINI_JVSPLITTER))
+    and ((   lcom_Component is {$IFDEF FPC}TCustomSplitter{$ELSE}TSplitter{$ENDIF}  )
+          or lcom_Component.ClassNameIs(CST_ONFORMINI_JVSPLITTER)
+          or lcom_Component.ClassNameIs(CST_ONFORMINI_RXSPLITTER))
       then
        begin
         lal_Align := ( lcom_Component as TControl).Align;

@@ -4,8 +4,6 @@ unit u_buttons_speed;
 {$I ..\extends.inc}
 {$IFDEF FPC}
 {$mode Delphi}
-{$ELSE}
-{$R *.DCR}
 {$ENDIF}
 
 interface

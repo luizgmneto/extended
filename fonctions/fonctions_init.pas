@@ -1,4 +1,4 @@
-// Unité de gestion du fichier INI dont dépendant l'unité FormMainIni
+﻿// Unité de gestion du fichier INI dont dépendant l'unité FormMainIni
 // intégrant une form de gestion de fichier INI
 unit fonctions_init;
 
@@ -197,6 +197,7 @@ procedure p_ReadComboBoxItems ( const acom_combobox : TComponent ; const Astl_It
 procedure p_writeComboBoxItems (  const acom_combobox : TComponent ;const Astl_Items : TStrings );
 procedure SauveTStringsDansIni(const FIni:TCustomIniFile; SectionIni:string; const LeTStrings:TStrings; const ItemIndex:integer);
 procedure LitTstringsDeIni(const FIni: TCustomIniFile; SectionIni: string; const LeTStrings: TStrings; var ItemIndex: integer);
+procedure p_FreeConfigFile;
 
 var
   FIniFile: TIniFile = nil;
@@ -223,6 +224,17 @@ implementation
 uses TypInfo, fonctions_string, fonctions_system,
       fonctions_proprietes, fonctions_db ;
 
+
+      
+//////////////////////////////////////////////////////////////////////////
+// Procédure : p_FreeConfigFile
+// Description : Libération de l'ini
+//////////////////////////////////////////////////////////////////////////
+procedure p_FreeConfigFile;
+begin
+  FMainIni.Free;
+  FMainIni := nil;
+End ;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Force l'écriture du fichier ini

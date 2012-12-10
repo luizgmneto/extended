@@ -1,4 +1,4 @@
-unit U_FormMainIni;
+﻿unit U_FormMainIni;
 // Unité de la Version 2 du projet FormMain
 // La version 1 TFormMain n'est pas sa fenêtre parente
 
@@ -147,7 +147,6 @@ type
 
   end;
 
-procedure p_FreeConfigFile;
 
 var
   gb_MotPasseEstValide : Boolean ;
@@ -162,15 +161,6 @@ uses fonctions_erreurs, TypInfo,
   {$ENDIF}
    fonctions_system, fonctions_forms;
 
-//////////////////////////////////////////////////////////////////////////
-// Procédure : p_FreeConfigFile
-// Description : Libération de l'ini
-//////////////////////////////////////////////////////////////////////////
-procedure p_FreeConfigFile;
-begin
-  FMainIni.Free;
-  FMainIni := nil;
-End ;
 
 
 

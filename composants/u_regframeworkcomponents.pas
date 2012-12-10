@@ -22,7 +22,7 @@ procedure Register;
 implementation
 
 uses  {$IFDEF FPC}
-  unite_messages,
+  unite_messages, u_extDBDirectoryEdit,
   {$ELSE}
   unite_messages_delphi,
   {$ENDIF}
@@ -38,14 +38,16 @@ uses  {$IFDEF FPC}
      U_ExtDBImage, U_ExtDBImageList, U_ExtImage,
      U_ExtPictCombo, U_ExtDBPictCombo, U_ExtMapImageIndex,
      u_extdbgrid, PDBCheck, PCheck,
-     u_extradios, u_extDBDirectoryEdit;
+     u_extradios;
 
 procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMapImages]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,TExtDBColorCombo,TFWDBComboBox, TExtDBComboInsert,
+  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,TExtDBColorCombo,TFWDBComboBox,
+                                                TExtDBComboInsert,
                                                 TFWDBDateEdit, TFWDBDateTimePicker,
-                                                TExtDBDirectoryEdit, TFWDBEdit, TExtDBGrid,
+                                                {$IFDEF FPC}TExtDBDirectoryEdit,{$ENDIF}
+                                                TFWDBEdit, TExtDBGrid,
                                                 TExtDBImage,TExtDBImageList,
                                                 TFWDBLookupCombo,
                                                 TFWDBMemo, TExtDBNavigator,
