@@ -4,13 +4,13 @@ inherited FMain: TFMain
   Top = 284
   Width = 592
   Caption = 'Gestion d''articles'
-  ClientHeight = 403
+  ClientHeight = 394
   ClientWidth = 592
   Menu = MainMenu
   OnCreate = FormCreate
   object Panel: TPanel[0]
     Left = 0
-    Height = 403
+    Height = 394
     Top = 0
     Width = 592
     Align = alClient

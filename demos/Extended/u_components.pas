@@ -17,7 +17,7 @@ uses
   FileUtil, LResources, process, AsyncProcess,
 {$ELSE}
   DBCtrls, JvExControls, JvDBLookup, JvExMask, JvSpin, JvExDBGrids, JvDBGrid, JvDBUltimGrid,
-  JvExComCtrls, JvListView, Mask,
+  JvExComCtrls, JvListView, Mask,  fonctions_version,
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   Grids, StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos,
@@ -26,7 +26,7 @@ uses
   U_ExtComboInsert, DBGrids, Menus, u_extmenucustomize, ToolWin, IBDatabase,
   IBQuery, IBIntf, IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar,
   U_ExtDBImage, U_ExtDBImageList, ImgList, ExtDlgs,
-  U_ExtPictCombo, U_ExtMapImageIndex, u_buttons_appli, fonctions_version,
+  U_ExtPictCombo, U_ExtMapImageIndex, u_buttons_appli,
   IBCustomDataSet, JvXPCore, JvXPButtons, U_ExtImage  ;
 
 type
@@ -180,7 +180,9 @@ end;
 
 procedure TMyform.mu_aproposClick(Sender: TObject);
 begin
+  {$IFNDEF FPC}
   fb_AfficheApropos ( True, 'Extended Demo', '' );
+  {$ENDIF}
 end;
 
 procedure TMyform.mu_quitterClick(Sender: TObject);
