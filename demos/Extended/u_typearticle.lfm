@@ -4,6 +4,7 @@ inherited F_TypeProduit: TF_TypeProduit
   Top = 293
   Width = 871
   Align = alClient
+  AutoSize = True
   Caption = 'Type d''article'
   ClientHeight = 500
   ClientWidth = 871
@@ -127,7 +128,7 @@ inherited F_TypeProduit: TF_TypeProduit
         object ed_libelle: TFWDBEdit
           Tag = 2
           Left = 102
-          Height = 25
+          Height = 24
           Top = 35
           Width = 460
           DataField = 'TYPR_Libelle'
@@ -143,7 +144,7 @@ inherited F_TypeProduit: TF_TypeProduit
         object ed_code: TFWDBEdit
           Tag = 1
           Left = 102
-          Height = 25
+          Height = 24
           Top = 10
           Width = 129
           DataField = 'TYPR_Clep'
@@ -179,11 +180,11 @@ inherited F_TypeProduit: TF_TypeProduit
         OnChanging = pc_GroupesChanging
         object ts_Gamme: TTabSheet
           Caption = 'Gammes dont ce type est membre'
-          ClientHeight = 339
-          ClientWidth = 580
+          ClientHeight = 341
+          ClientWidth = 576
           object RbSplitter1: TSplitter
             Left = 321
-            Height = 312
+            Height = 314
             Top = 27
             Width = 5
           end
@@ -191,10 +192,10 @@ inherited F_TypeProduit: TF_TypeProduit
             Left = 0
             Height = 27
             Top = 0
-            Width = 580
+            Width = 576
             Align = alTop
             ClientHeight = 27
-            ClientWidth = 580
+            ClientWidth = 576
             TabOrder = 0
             object Panel13: TPanel
               Left = 249
@@ -215,7 +216,7 @@ inherited F_TypeProduit: TF_TypeProduit
               TabOrder = 1
             end
             object Panel5: TPanel
-              Left = 566
+              Left = 562
               Height = 25
               Top = 1
               Width = 13
@@ -225,6 +226,7 @@ inherited F_TypeProduit: TF_TypeProduit
             end
             object bt_abandonner: TFWCancel
               Left = 149
+              Height = 25
               Hint = 'Abandonner les modifications'
               Top = 1
               Width = 100
@@ -237,6 +239,7 @@ inherited F_TypeProduit: TF_TypeProduit
             end
             object bt_enregistrer: TFWOK
               Left = 14
+              Height = 25
               Hint = 'Enregistrer les modifications'
               Top = 1
               Width = 116
@@ -246,7 +249,6 @@ inherited F_TypeProduit: TF_TypeProduit
               Align = alLeft
               Font.Color = clMaroon
               ParentFont = False
-              OnClick = bt_enregistrerClick
             end
             object Panel17: TPanel
               Left = 130
@@ -275,18 +277,18 @@ inherited F_TypeProduit: TF_TypeProduit
           end
           object Panel6: TPanel
             Left = 0
-            Height = 312
+            Height = 314
             Top = 27
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 312
+            ClientHeight = 314
             ClientWidth = 321
             Constraints.MinWidth = 4
             TabOrder = 1
             object lsv_GammIn: TDBGroupView
               Left = 0
-              Height = 312
+              Height = 314
               Hint = 'Liste des membres'
               Top = 0
               Width = 251
@@ -295,7 +297,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'Gammes dont ce type est membre'
-                  Width = 237
+                  Width = 247
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -326,12 +328,12 @@ inherited F_TypeProduit: TF_TypeProduit
             end
             object Panel2: TPanel
               Left = 251
-              Height = 312
+              Height = 314
               Top = 0
               Width = 70
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 312
+              ClientHeight = 314
               ClientWidth = 70
               TabOrder = 1
               object bt_in_item: TFWInSelect
@@ -384,16 +386,16 @@ inherited F_TypeProduit: TF_TypeProduit
           end
           object lsv_GammOut: TDBGroupView
             Left = 326
-            Height = 312
+            Height = 314
             Hint = 'A réaffecter'
             Top = 27
-            Width = 254
+            Width = 250
             Align = alClient
             Columns = <            
               item
                 AutoSize = True
                 Caption = 'Gammes dont ce type n''est pas membre'
-                Width = 276
+                Width = 250
               end>
             Constraints.MinWidth = 4
             DragMode = dmAutomatic
@@ -458,7 +460,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'Caractéristiques membres du type'
-                  Width = 235
+                  Width = 238
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -583,6 +585,7 @@ inherited F_TypeProduit: TF_TypeProduit
             end
             object bt_AbandonCarac: TFWCancel
               Left = 165
+              Height = 25
               Hint = 'Abandonner les modifications'
               Top = 1
               Width = 100
@@ -595,6 +598,7 @@ inherited F_TypeProduit: TF_TypeProduit
             end
             object bt_EnrCarac: TFWOK
               Left = 14
+              Height = 25
               Hint = 'Enregistrer les modifications'
               Top = 1
               Width = 132
@@ -641,7 +645,7 @@ inherited F_TypeProduit: TF_TypeProduit
               item
                 AutoSize = True
                 Caption = 'Caractéristiques non membres du type'
-                Width = 263
+                Width = 250
               end>
             Constraints.MinWidth = 4
             DragMode = dmAutomatic
@@ -725,6 +729,7 @@ inherited F_TypeProduit: TF_TypeProduit
             end
             object bt_AbanArt: TFWCancel
               Left = 165
+              Height = 25
               Hint = 'Abandonner les modifications'
               Top = 1
               Width = 108
@@ -737,6 +742,7 @@ inherited F_TypeProduit: TF_TypeProduit
             end
             object bt_EnrArt: TFWOK
               Left = 14
+              Height = 25
               Hint = 'Enregistrer les modifications'
               Top = 1
               Width = 132
@@ -798,7 +804,7 @@ inherited F_TypeProduit: TF_TypeProduit
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 195
+                    Width = 214
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -898,7 +904,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 253
+                  Width = 272
                 end>
               Constraints.MinWidth = 4
               DragMode = dmAutomatic
@@ -991,13 +997,65 @@ inherited F_TypeProduit: TF_TypeProduit
         Height = 441
         Top = 32
         Width = 280
-        TitleButtons = True
+        TitleButtons = False
         AutoSort = False
         Columns = <>
+        KeyStrokes = <        
+          item
+            Command = rxgcShowFindDlg
+            ShortCut = 16454
+            Enabled = True
+          end        
+          item
+            Command = rxgcShowColumnsDlg
+            ShortCut = 16471
+            Enabled = True
+          end        
+          item
+            Command = rxgcShowFilterDlg
+            ShortCut = 16468
+            Enabled = True
+          end        
+          item
+            Command = rxgcShowSortDlg
+            ShortCut = 16467
+            Enabled = True
+          end        
+          item
+            Command = rxgcShowQuickFilter
+            ShortCut = 16465
+            Enabled = True
+          end        
+          item
+            Command = rxgcHideQuickFilter
+            ShortCut = 16456
+            Enabled = True
+          end        
+          item
+            Command = rxgcSelectAll
+            ShortCut = 16449
+            Enabled = True
+          end        
+          item
+            Command = rxgcDeSelectAll
+            ShortCut = 16429
+            Enabled = True
+          end        
+          item
+            Command = rxgcInvertSelection
+            ShortCut = 16426
+            Enabled = True
+          end        
+          item
+            Command = rxgcOptimizeColumnsWidth
+            ShortCut = 16427
+            Enabled = True
+          end>
         OptionsRx = []
         Align = alClient
         BorderStyle = bsNone
         Color = clWindow
+        DrawFullLine = False
         FocusColor = clRed
         SelectedColor = clHighlight
         GridLineStyle = psSolid
@@ -1023,6 +1081,7 @@ inherited F_TypeProduit: TF_TypeProduit
       TabOrder = 2
       object bt_fermer: TFWClose
         Left = 773
+        Height = 25
         Top = 0
         Width = 96
         Caption = 'Fermer'
@@ -1031,7 +1090,6 @@ inherited F_TypeProduit: TF_TypeProduit
         Align = alRight
         Font.Color = clMaroon
         ParentFont = False
-        OnClick = bt_fermerClick
       end
       object Panel4: TPanel
         Left = 0

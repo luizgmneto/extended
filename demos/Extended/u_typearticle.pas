@@ -111,8 +111,6 @@ type
     bt_out_art: TFWOutSelect;
     bt_out_totart: TFWOutAll;
     lv_ArtOut: TDBGroupView;
-    procedure bt_enregistrerClick(Sender: TObject);
-    procedure bt_fermerClick(Sender: TObject);
     procedure F_FormDicoDataOnCancel(Sender: TObject);
     procedure bt_GammeClick(Sender: TObject);
     procedure bt_CaracClick(Sender: TObject);
@@ -138,16 +136,6 @@ uses U_Main, U_Gamme, U_Caracteristique,fonctions_forms;
 {$ELSE}
   {$R *.lfm}
 {$ENDIF}
-
-procedure TF_TypeProduit.bt_fermerClick(Sender: TObject);
-begin
-  Close;
-end;
-
-procedure TF_TypeProduit.bt_enregistrerClick(Sender: TObject);
-begin
-
-end;
 
 
 
@@ -221,6 +209,7 @@ end;
 
 procedure TF_TypeProduit.F_FormDicoCreate(Sender: TObject);
 begin
+  F_TypeProduit:=Self;
   M_Article.ds_TypProduit.DataSet.Open;
 end;
 

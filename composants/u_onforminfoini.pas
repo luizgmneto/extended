@@ -413,8 +413,8 @@ var
       begin
         lal_Align := ( lcom_Component as TControl).Align;
         case lal_Align of
-          alLeft,alRight : if ( lcom_Component is TCustomSplitter  ) Then ( lcom_Component as TCustomSplitter  ).MoveSplitter(fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT , TControl (lcom_Component).Left));
-          alTop,alBottom : if ( lcom_Component is TCustomSplitter  ) Then ( lcom_Component as TCustomSplitter  ).MoveSplitter(fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_TOP, TControl (lcom_Component).Top));
+          alLeft,alRight : if ( lcom_Component is TCustomSplitter  ) Then ( lcom_Component as TCustomSplitter  ).SetSplitterPosition(fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT , TControl (lcom_Component).Left));
+          alTop,alBottom : if ( lcom_Component is TCustomSplitter  ) Then ( lcom_Component as TCustomSplitter  ).SetSplitterPosition(fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_TOP, TControl (lcom_Component).Top));
         End;
         Result := True;
       end;

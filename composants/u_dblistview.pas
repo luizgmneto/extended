@@ -55,13 +55,14 @@ const
                                                FileUnit : 'U_GroupView' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Liste chargeable au fur et à mesure.' ;
-                                               BugsStory : '1.1.0.0 : Traducing methods and variables to english.' + #13#10 +
+                                               BugsStory : '1.1.0.1 : Removing IsImplementorOf.' +
+                                                           '1.1.0.0 : Traducing methods and variables to english.' + #13#10 +
                                                            '1.0.0.3 : Integrating field delimiter from DBGroupView.' + #13#10 +
                                                            '1.0.0.2 : DBListView with better scrolling on LAZARUS.' + #13#10 +
                                                            '1.0.0.1 : DBListView working better on LAZARUS.' + #13#10 +
                                                            '1.0.0.0 : Chargement automatique OK.' ;
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
+                                               Major : 1 ; Minor : 1 ; Release : 0 ; Build : 1 );
 
 
 {$ENDIF}
@@ -1369,12 +1370,13 @@ procedure TDBListView.Notification(AComponent: TComponent;
 begin
   inherited Notification(AComponent, Operation);
 
-  if Operation <> opRemove Then
+  if ( Operation <> opRemove )
+  or ( csDestroying in ComponentState ) Then
     Exit;
 
   // Suppression d'un datasource inexistant
-  if  ( Assigned                   ( Datasource ))
-  and ( AComponent.IsImplementorOf ( Datasource ))
+  if    Assigned   ( Datasource )
+  and ( AComponent = Datasource )
    then
     Datasource := nil;
 end;
