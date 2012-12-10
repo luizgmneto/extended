@@ -1,4 +1,4 @@
-unit U_RegisterAppIni;
+﻿unit U_RegisterAppIni;
 
 // Procédure d'enregistrement de l'application form ini dans les projets
 // Classes :
@@ -13,7 +13,7 @@ procedure Register ;
 implementation
 
 uses
-  ESBaseApp, U_RegisterIni, ESBaseData, Classes, SysUtils, Windows, ExptIntf, ToolIntf, EditIntf, ToolsApi;
+  ESBaseApp, ESBaseData, Classes, SysUtils, Windows, ExptIntf, ToolIntf, EditIntf, ToolsApi;
 
 const
   crlf = #13#10;    // Carriage-return line-feed.

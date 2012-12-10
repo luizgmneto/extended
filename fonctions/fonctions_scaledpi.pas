@@ -1,4 +1,4 @@
-unit fonctions_scaledpi;
+﻿unit fonctions_scaledpi;
 
 interface
  
@@ -31,6 +31,7 @@ procedure ScaleForm(const Control: TCustomForm;const ANewEchelle,AEchelle:Extend
 
 implementation
 
+uses fonctions_proprietes;
 
 Var
   Echelle:Extended=1;
@@ -67,7 +68,8 @@ var
 Begin
   with Control do
    Begin
-     BeginUpdateBounds;
+     {$IFDEF FPC}BeginUpdateBounds;{$ENDIF}
+
      if WindowState=wsNormal Then
        ScaleDPI(Control,ANewEchelle,AEchelle)
       Else
@@ -76,7 +78,8 @@ Begin
           for i:=0 to Control.ControlCount-1 do
             ScaleDPI(Control.Controls[i],ANewEchelle,AEchelle);
         end;
-     EndUpdateBounds;
+     {$IFDEF FPC}EndUpdateBounds;{$ENDIF}
+
    End;
 end;
 
@@ -84,6 +87,7 @@ procedure ScaleDPI(const Control: TControl;const ANewEchelle,AEchelle:Extended);
 var
   i: integer;
   WinControl: TWinControl;
+  AFont : TFont;
 begin
   with Control do
   begin
@@ -112,7 +116,9 @@ begin
           Height:=Scale(Height,ANewEchelle,AEchelle);
       end;
     end;
-    Font.Size:=Scale(Font.Size,ANewEchelle,AEchelle);
+    AFont := TFont ( fobj_getComponentObjectProperty ( Control, 'Font' ));
+    if assigned ( AFont ) then
+      AFont.Size:=Scale(AFont.Size,ANewEchelle,AEchelle);
   end;
 
   if Control is TWinControl then

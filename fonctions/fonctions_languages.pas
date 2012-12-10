@@ -27,7 +27,7 @@ uses Forms,
 {$IFDEF FPC}
    LCLIntf, LCLType, ComCtrls, gettext, Translations,
 {$ELSE}
-   Windows, ToolWin, fonctions_system,
+   Windows, ToolWin,
 {$ENDIF}
 
   Controls, Classes,
@@ -40,7 +40,7 @@ uses Forms,
 {$IFDEF TNT}
   DKLang,
 {$ENDIF}
-  SysUtils;
+  SysUtils,fonctions_system;
 
 var
       gb_ExisteFonctionMenu   : Boolean      ;   // Existe-t-il une fonction d'accès au menu
@@ -110,7 +110,7 @@ uses
 {$IFDEF TNT}
   TntSysUtils, TntSystem,
 {$ENDIF}
-  fonctions_string, fonctions_system,
+  fonctions_string,
   {$IFDEF FPC}
   unite_messages,
   {$ELSE}

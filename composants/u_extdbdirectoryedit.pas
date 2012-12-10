@@ -1,4 +1,4 @@
-unit u_extDBDirectoryEdit;
+﻿unit u_extDBDirectoryEdit;
 
 {$IFDEF FPC}
 {$mode Delphi}{$H+}
@@ -9,11 +9,11 @@ interface
 uses
   Classes,
   {$IFDEF FPC}
-  LMessages, LCLType,
+  LMessages, LCLType,EditBtn,
   {$ELSE}
   Messages, Windows,
   {$ENDIF}
-  SysUtils, EditBtn,DB,
+  SysUtils, DB,
   DbCtrls, Graphics,
   u_extcomponent,
   u_framework_components;

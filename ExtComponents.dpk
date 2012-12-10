@@ -1,8 +1,8 @@
 package ExtComponents;
 
 {$R *.res}
-{$R 'composants\u_buttons_appli.dcr'}
 {$R 'composants\u_regframeworkcomponents.dcr'}
+{$R 'composants\u_traducefile.dcr'}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -65,7 +65,9 @@ requires
   TntUnicodeVCL_R90,
   VampyreImagingPackage,
   dmenutoolbar,
-  dsnap;
+  dsnap,
+  xmlrtl,
+  vclactnband;
 
 contains
   U_ExtComboInsert in 'composants\U_ExtComboInsert.pas',
@@ -87,16 +89,19 @@ contains
   u_extimage in 'composants\u_extimage.pas',
   U_ExtDBImage in 'composants\U_ExtDBImage.pas',
   U_ExtPictCombo in 'composants\U_ExtPictCombo.pas',
-  u_buttons_blue in 'composants\u_buttons_blue.pas',
-  u_buttons_extension in 'composants\u_buttons_extension.pas',
-  u_buttons_flat in 'composants\u_buttons_flat.pas',
-  u_regbfsbuttons in 'composants\u_regbfsbuttons.pas',
-  u_regfbbuttons in 'composants\u_regfbbuttons.pas',
-  u_regfsbuttons in 'composants\u_regfsbuttons.pas',
   u_extdbpictcombo in 'composants\u_extdbpictcombo.pas',
   U_GroupView in 'composants\U_GroupView.pas',
   U_RegisterGroupView in 'composants\U_RegisterGroupView.pas',
-  U_RegisterIni in 'composants\U_RegisterIni.pas',
-  u_buttons_defs in 'composants\u_buttons_defs.pas';
+  u_buttons_defs in 'composants\u_buttons_defs.pas',
+  u_buttons_appli in 'composants\u_buttons_appli.pas',
+  u_regfwbuttons in 'composants\u_regfwbuttons.pas',
+  u_regfwbuttons_appli in 'composants\u_regfwbuttons_appli.pas',
+  u_registerforms in 'composants\u_registerforms.pas',
+  u_regreports_components in 'composants\u_regreports_components.pas',
+  u_regsbbuttons in 'composants\u_regsbbuttons.pas',
+  U_RegVersion in 'composants\U_RegVersion.pas',
+  u_reports_components in 'composants\u_reports_components.pas',
+  u_traducefile in 'composants\u_traducefile.pas',
+  u_buttons_speed in 'composants\u_buttons_speed.pas';
 
 end.
