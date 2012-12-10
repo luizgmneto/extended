@@ -18,9 +18,6 @@ interface
 {$ENDIF}
 
 uses
-{$IFDEF SFORM}
-  CompSuperForm,
-{$ENDIF}
 {$IFDEF FPC}
   LCLIntf, LCLType, lmessages,
 {$ELSE}

@@ -9,10 +9,12 @@ interface
 uses
 {$IFDEF FPC}
   FileUtil,
+{$ELSE}
+  fonctions_version,
 {$ENDIF}
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   U_FormMainIni, U_OnFormInfoIni, U_Article, U_TypeArticle, U_Caracteristique,
-  U_Gamme, fonctions_version, U_DmArticles;
+  U_Gamme, U_DmArticles;
 
 type
 
@@ -59,7 +61,9 @@ uses fonctions_forms;
 
 procedure TFMain.muaproposClick(Sender: TObject);
 begin
+  {$IFNDEF FPC}
   fb_AfficheApropos(True, CST_APPLI_NAME,'0.9.9.0');
+  {$ENDIF}
 end;
 
 procedure TFMain.FormCreate(Sender: TObject);

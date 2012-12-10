@@ -384,7 +384,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_TypeArticle"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="11"/>
         <CursorPos X="12" Y="194"/>
@@ -400,10 +400,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Caracteristique"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="108"/>
+        <TopLine Value="103"/>
         <CursorPos X="1" Y="123"/>
         <UsageCount Value="69"/>
         <Loaded Value="True"/>
@@ -774,10 +773,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Main"/>
-        <EditorIndex Value="21"/>
+        <EditorIndex Value="15"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="59"/>
-        <CursorPos X="1" Y="69"/>
+        <TopLine Value="36"/>
+        <CursorPos X="8" Y="64"/>
         <UsageCount Value="52"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -833,7 +832,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="CompSuperForm"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="14"/>
         <WindowIndex Value="0"/>
         <TopLine Value="69"/>
         <CursorPos X="3" Y="43"/>
@@ -920,7 +919,7 @@
       <Unit78>
         <Filename Value="../../composants/U_GroupView.pas"/>
         <UnitName Value="U_GroupView"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="49"/>
         <CursorPos X="51" Y="67"/>
@@ -930,7 +929,7 @@
       <Unit79>
         <Filename Value="../../composants/u_dblistview.pas"/>
         <UnitName Value="U_DBListView"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="35"/>
         <CursorPos X="95" Y="65"/>
@@ -956,7 +955,7 @@
       <Unit82>
         <Filename Value="../../../../Lazarus/composants/jvXP/JvXPCore.pas"/>
         <UnitName Value="JvXPCore"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="557"/>
         <CursorPos X="1" Y="576"/>
@@ -966,7 +965,7 @@
       <Unit83>
         <Filename Value="../../../../Lazarus/composants/jvXP/JvXPButtons.pas"/>
         <UnitName Value="JvXPButtons"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="381"/>
         <CursorPos X="1" Y="400"/>
@@ -1238,7 +1237,7 @@
       <Unit116>
         <Filename Value="../../composants/u_buttons_appli.pas"/>
         <UnitName Value="u_buttons_appli"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="357"/>
         <CursorPos X="1" Y="376"/>
@@ -1270,17 +1269,15 @@
       </Unit119>
       <Unit120>
         <Filename Value="../../../../../../lazarus/lcl/include/wincontrol.inc"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="5305"/>
         <CursorPos X="1" Y="5323"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit120>
       <Unit121>
         <Filename Value="../../composants/u_buttons_defs.pas"/>
         <UnitName Value="u_buttons_defs"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="311"/>
         <CursorPos X="1" Y="333"/>
@@ -1333,7 +1330,7 @@
       <Unit127>
         <Filename Value="../../../ZEOSDBO/src/component/ZConnection.pas"/>
         <UnitName Value="ZConnection"/>
-        <EditorIndex Value="24"/>
+        <EditorIndex Value="18"/>
         <WindowIndex Value="0"/>
         <TopLine Value="268"/>
         <CursorPos X="1" Y="1"/>
@@ -1376,20 +1373,19 @@
       </Unit131>
       <Unit132>
         <Filename Value="../../../../../../lazarus/lcl/include/control.inc"/>
-        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="2094"/>
         <CursorPos X="1" Y="2112"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit132>
       <Unit133>
         <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
         <UnitName Value="fonctions_scaledpi"/>
-        <EditorIndex Value="22"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="16"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="68"/>
-        <CursorPos X="17" Y="126"/>
+        <TopLine Value="1"/>
+        <CursorPos X="206" Y="73"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit133>
@@ -1408,7 +1404,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_FormAdapt"/>
-        <EditorIndex Value="23"/>
+        <EditorIndex Value="17"/>
         <WindowIndex Value="0"/>
         <TopLine Value="34"/>
         <CursorPos X="3" Y="53"/>
@@ -1426,40 +1422,32 @@
       </Unit136>
       <Unit137>
         <Filename Value="../../../../../../lazarus/lcl/include/customform.inc"/>
-        <EditorIndex Value="19"/>
         <WindowIndex Value="0"/>
         <TopLine Value="2068"/>
         <CursorPos X="1" Y="2107"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit137>
       <Unit138>
         <Filename Value="../../../../../../lazarus/lcl/lclmessageglue.pas"/>
         <UnitName Value="LCLMessageGlue"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="106"/>
         <CursorPos X="1" Y="128"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit138>
       <Unit139>
         <Filename Value="../../../../../../lazarus/lcl/interfaces/win32/win32callback.inc"/>
-        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="203"/>
         <CursorPos X="1" Y="222"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit139>
       <Unit140>
         <Filename Value="../../../../../../lazarus/lcl/interfaces/win32/win32object.inc"/>
-        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="349"/>
         <CursorPos X="1" Y="367"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit140>
       <Unit141>
         <Filename Value="../../composants/u_reports_components.pas"/>
@@ -1472,7 +1460,7 @@
       <Unit142>
         <Filename Value="../../composants/u_traducefile.pas"/>
         <UnitName Value="u_traducefile"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="39"/>
         <CursorPos X="95" Y="60"/>
@@ -1482,27 +1470,25 @@
       <Unit143>
         <Filename Value="../../../ManFrames/composants/u_customframework.pas"/>
         <UnitName Value="u_customframework"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="73"/>
         <CursorPos X="86" Y="98"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit143>
       <Unit144>
         <Filename Value="../../../ManFrames/composants/u_formmaindb.pas"/>
         <UnitName Value="u_formmaindb"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="31"/>
         <CursorPos X="87" Y="49"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit144>
     </Units>
-    <JumpHistory Count="28" HistoryIndex="27">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="../../composants/U_GroupView.pas"/>
         <Caret Line="1491" Column="1" TopLine="1483"/>
@@ -1615,6 +1601,14 @@
         <Filename Value="../../composants/u_traducefile.pas"/>
         <Caret Line="210" Column="87" TopLine="203"/>
       </Position28>
+      <Position29>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="69" Column="1" TopLine="31"/>
+      </Position29>
+      <Position30>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="64" Column="8" TopLine="36"/>
+      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -1649,7 +1643,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="5">
+    <BreakPoints Count="3">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsGlobal"/>
@@ -1671,20 +1665,6 @@
         <Source Value="../../composants/U_GroupView.pas"/>
         <Line Value="2118"/>
       </Item3>
-      <Item4>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Line Value="69"/>
-      </Item4>
-      <Item5>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Line Value="86"/>
-      </Item5>
     </BreakPoints>
     <Exceptions Count="3">
       <Item1>
