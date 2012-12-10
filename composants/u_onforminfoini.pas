@@ -76,6 +76,8 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
       CST_ONFORMINI_PCHECK      = 'TPCheck' ;
       CST_ONFORMINI_JVDIRECTORY = 'TJvDirectoryEdit';
       CST_ONFORMINI_SPINEDIT    = 'TSpinEdit';
+      CST_ONFORMINI_SPLITTER    = 'TSplitter';
+      CST_ONFORMINI_JVSPLITTER  = 'TJvSplitter';
       CST_ONFORMINI_FWSPINEDIT  = 'TFWSpinEdit';
       CST_ONFORMINI_RXSPINEDIT  = 'TRxSpinEdit';
       CST_ONFORMINI_JVSPINEDIT  = 'TJvSpinEdit';
@@ -377,6 +379,7 @@ var
     Result := FInifile.ReadString ( af_Form.Name, as_ComponentName, as_Default );
   end;
   function fb_ReadHighComponents: Boolean;
+  var lal_Align : TAlign;
   Begin
     Result := False;
     if (lcom_Component is TCustomDBGrid) and
@@ -403,20 +406,16 @@ var
       end;
 
     // lecture de la position des objets Panels et Rxsplitters
-    if (   (lcom_Component Is TPanel )
-        or (lcom_Component is TCustomListView )
-        {$IFDEF VIRTUALTREES}
-        or (lcom_Component is TBaseVirtualTree  )
-        {$ENDIF}
-        or (lcom_Component is TCustomGrid ))
-    and ( sfSaveSizes in FSaveForm ) then
+    if  ( sfSaveSizes in FSaveForm )
+    and ((   lcom_Component is TCustomSplitter  )
+          or lcom_Component.ClassNameIs(CST_ONFORMINI_JVSPLITTER))
+     then
       begin
-        li_Taille := fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH, TControl (lcom_Component).Width);
-        if li_Taille > 0 Then
-          TControl(lcom_Component).Width := li_Taille ;
-        li_Taille := fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,TControl (lcom_Component).Height);
-        if li_Taille > 0 Then
-          TControl(lcom_Component).Height:= li_Taille ;
+        lal_Align := ( lcom_Component as TControl).Align;
+        case lal_Align of
+          alLeft,alRight : if ( lcom_Component is TCustomSplitter  ) Then ( lcom_Component as TCustomSplitter  ).MoveSplitter(fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT , TControl (lcom_Component).Left));
+          alTop,alBottom : if ( lcom_Component is TCustomSplitter  ) Then ( lcom_Component as TCustomSplitter  ).MoveSplitter(fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_TOP, TControl (lcom_Component).Top));
+        End;
         Result := True;
       end;
   end;
@@ -654,13 +653,6 @@ var
 begin
   Rien := 0;
   f_GetMemIniFile;
- {$IFDEF FPC}
-    if ( sfSaveSizes in FSaveForm )
-    and assigned ( FFormOwner ) Then
-      Begin
-        FFormOwner.BeginUpdateBounds;
-      End;
- {$ENDIF}
   if Assigned(FInifile) then
     try
       ab_continue := True;
@@ -712,15 +704,6 @@ begin
         end;
 
     finally
-
-   {$IFDEF FPC}
-      if ab_continue Then
-        Begin
-          if ( sfSaveSizes in FSaveForm )
-          and assigned ( FFormOwner ) Then
-            FFormOwner.EndUpdateBounds;
-        end;
-   {$ENDIF}
     end;
  p_Freeini;
 end;
@@ -787,6 +770,7 @@ var
   End;
 
   function fb_WriteHighComponents : Boolean;
+  var lal_Align : TAlign;
   Begin
     Result := False;
     if (lcom_Component is TCustomDBGrid) and
@@ -810,22 +794,18 @@ var
           end;
 
     // écriture des positions des objets Panels et RxSplitters
-   if ( sfSaveSizes in FSaveForm ) Then
-    begin
-      if      (lcom_Component is TPanel)
-       {$IFDEF VIRTUALTREES}
-      or (lcom_Component is TBaseVirtualTree)
-       {$ENDIF}
-      or (lcom_Component is TCustomGrid)
-      or (lcom_Component is TCustomListView) Then
+    if  ( sfSaveSizes in FSaveForm )
+    and ((   lcom_Component is TCustomSplitter  )
+          or lcom_Component.ClassNameIs(CST_ONFORMINI_JVSPLITTER))
+      then
        begin
-        if TControl(lcom_Component).Width  > 0 Then
-          p_WriteInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,TControl(lcom_Component).Width);
-        if TControl(lcom_Component).Height > 0 Then
-          p_WriteInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,TControl(lcom_Component).Height);
+        lal_Align := ( lcom_Component as TControl).Align;
+        case lal_Align of
+          alLeft,alRight : p_WriteInteger( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT , TControl (lcom_Component).Left);
+          alTop,alBottom : p_WriteInteger( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_TOP, TControl (lcom_Component).Top);
+        End;
         Result := True;
       end;
-    end;
   end;
   function fb_WriteEdits : Boolean;
   Begin

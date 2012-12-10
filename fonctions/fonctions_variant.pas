@@ -10,8 +10,13 @@ interface
 2004-08-27
 Création de l'unité par Matthieu Giroux
 }
-uses Variants, Classes, ComCtrls, fonctions_version ;
+uses Variants, Classes,
+  {$IFDEF VERSIONS}
+  fonctions_version,
+  {$ENDIF}
+  ComCtrls;
 
+{$IFDEF VERSIONS}
 const
     gVer_fonctions_variant : T_Version = ( Component : 'Gestion des variants' ; FileUnit : 'fonctions_variant' ;
                         			                 Owner : 'Matthieu Giroux' ;
@@ -22,6 +27,7 @@ const
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
 
+{$ENDIF}
 
 type
   // On utilise les tableaux de variant pour plus tard :
@@ -456,8 +462,9 @@ Begin
         inc ( Result );
 End ;
 
+{$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gVer_fonctions_variant );
-finalization
+{$ENDIF}
 end.
 

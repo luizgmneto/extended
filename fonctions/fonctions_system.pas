@@ -65,6 +65,7 @@ function FileExistsUTF8 ( const as_path : String ):Boolean;
 function fs_EraseNameSoft ( const as_Nomapp, as_Path : String ) : String ;
 function fs_getSoftDir : String;
 function fs_WithoutFirstDirectory ( const as_Path : String ) :String;
+function fi_TailleFichier(NomFichier:String):Int64;
 
 implementation
 
@@ -224,6 +225,20 @@ Begin
       Result := Copy ( Result, 1, PosEx ( '.', Result, li_Pos )-1 );
     End;
 End;
+
+
+function fi_TailleFichier(NomFichier:String):Int64;
+var
+  F:TSearchRec;
+  R:Integer;
+begin
+  R:=FindFirst(NomFichier,faAnyFile,F);
+  if R=0 then
+    Result:=F.Size
+  else
+    Result:=0;
+  FindClose(F);
+end;
 
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
 {$IFDEF FPC}

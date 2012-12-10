@@ -18,10 +18,14 @@ uses SysUtils,
 {$ELSE}
   Windows,
 {$ENDIF}
-     Dialogs, DB, fonctions_version, Classes ;
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
+     Dialogs, DB, Classes ;
 
 type
   TMessageEvent = procedure( Sender: TObject; Dataset : TDataset; NombreChamps : Integer ; ChampsMessage : String ) of object;
+{$IFDEF VERSIONS}
 const
   gVer_fonctions_erreurs : T_Version = ( Component : 'Gestion des erreurs' ; FileUnit : 'fonctions_erreurs' ;
                         			                 Owner : 'Matthieu Giroux' ;
@@ -37,6 +41,7 @@ const
                         			                	        		'Version 1.0.0.0 : La gestion est en place, ne gérant pas tout.';
                         			                 UnitType : 1 ;
                         			                 Major : 1 ; Minor : 1 ; Release : 3 ; Build : 1 );
+{$ENDIF}
 function f_GereExceptionEvent ( const aexc_exception : Exception  ; const adat_Dataset : TDataset ; const ae_Evenement : TDataSetErrorEvent ; const ab_PasseErreur : Boolean ) : TClass;
 
 function f_GereException ( const aexc_exception : Exception  ; const adat_Dataset : TDataset ) : TClass; overload ;
@@ -319,7 +324,9 @@ End ;
 {$ENDIF}
 
 initialization
-  p_ConcatVersion ( gVer_fonctions_erreurs );
+{$IFDEF VERSIONS}
+p_ConcatVersion ( gVer_fonctions_erreurs );
+{$ENDIF}
 finalization
   gstl_CleEnDoubleErreurs.Free ;
   gstl_CleEnDoubleErreurs := nil ;

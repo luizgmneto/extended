@@ -32,8 +32,11 @@ uses
 {$IFDEF TNT}
    TntStdCtrls,
 {$ENDIF}
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
   Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, DB, DBCtrls, fonctions_erreurs, fonctions_version,
+  StdCtrls, DB, DBCtrls, fonctions_erreurs,
   u_extcomponent ;
 
 const

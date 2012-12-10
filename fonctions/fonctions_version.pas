@@ -48,7 +48,7 @@ function  fb_AfficheApropos ( const ab_Commentaires     : Boolean ; const as_Nom
 implementation
 
 uses Messages, Dialogs, Controls
-{$IFDEF VIRTUALTREES}
+{$IFDEF VERSIONS}
    , U_About
 {$ENDIF}
    , Forms, Graphics ;

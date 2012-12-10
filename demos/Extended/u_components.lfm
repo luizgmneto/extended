@@ -5,7 +5,7 @@ inherited Myform: TMyform
   Width = 759
   ActiveControl = Panel1
   Caption = 'Myform'
-  ClientHeight = 555
+  ClientHeight = 554
   ClientWidth = 759
   Color = clBtnFace
   Font.Color = clWindowText
@@ -14,19 +14,19 @@ inherited Myform: TMyform
   Menu = mu_MainMenu
   OnShow = FormShow
   object Splitter1: TSplitter[0]
-    Left = 240
-    Height = 555
+    Left = 208
+    Height = 554
     Top = 0
     Width = 5
   end
   object Panel1: TPanel[1]
-    Left = 32
-    Height = 555
+    Left = 0
+    Height = 554
     Top = 0
     Width = 208
     Align = alLeft
     Caption = 'Panel1'
-    ClientHeight = 555
+    ClientHeight = 554
     ClientWidth = 208
     TabOrder = 0
     object ExtDBNavigator1: TExtDBNavigator
@@ -43,7 +43,7 @@ inherited Myform: TMyform
     end
     object Noms: TExtDBGrid
       Left = 1
-      Height = 533
+      Height = 532
       Top = 21
       Width = 206
       TitleButtons = False
@@ -56,7 +56,10 @@ inherited Myform: TMyform
           Width = 88
           FieldName = 'NOM'
           Filter.DropDownRows = 0
+          Filter.EmptyValue = '(Empty)'
+          Filter.EmptyFont.Style = [fsItalic]
           Filter.ItemIndex = -1
+          EditButtons = <>
           SomeEdit = Nom
           FieldTag = 0
         end      
@@ -67,20 +70,76 @@ inherited Myform: TMyform
           Width = 88
           FieldName = 'PRENOM'
           Filter.DropDownRows = 0
+          Filter.EmptyValue = '(Empty)'
+          Filter.EmptyFont.Style = [fsItalic]
           Filter.ItemIndex = -1
+          EditButtons = <>
           SomeEdit = Prenom
           FieldTag = 0
         end>
+      KeyStrokes = <      
+        item
+          Command = rxgcShowFindDlg
+          ShortCut = 16454
+          Enabled = True
+        end      
+        item
+          Command = rxgcShowColumnsDlg
+          ShortCut = 16471
+          Enabled = True
+        end      
+        item
+          Command = rxgcShowFilterDlg
+          ShortCut = 16468
+          Enabled = True
+        end      
+        item
+          Command = rxgcShowSortDlg
+          ShortCut = 16467
+          Enabled = True
+        end      
+        item
+          Command = rxgcShowQuickFilter
+          ShortCut = 16465
+          Enabled = True
+        end      
+        item
+          Command = rxgcHideQuickFilter
+          ShortCut = 16456
+          Enabled = True
+        end      
+        item
+          Command = rxgcSelectAll
+          ShortCut = 16449
+          Enabled = True
+        end      
+        item
+          Command = rxgcDeSelectAll
+          ShortCut = 16429
+          Enabled = True
+        end      
+        item
+          Command = rxgcInvertSelection
+          ShortCut = 16426
+          Enabled = True
+        end      
+        item
+          Command = rxgcOptimizeColumnsWidth
+          ShortCut = 16427
+          Enabled = True
+        end>
+      FooterOptions.Color = clWindowText
       OptionsRx = []
+      FooterColor = clWindowText
       Align = alClient
       Color = clWindow
+      DrawFullLine = False
       FocusColor = clRed
       SelectedColor = clHighlight
       GridLineStyle = psSolid
       DataSource = ds_user
       Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete]
       ParentColor = False
-      Scrollbars = ssBoth
       TabOrder = 1
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
@@ -116,12 +175,12 @@ inherited Myform: TMyform
     end
   end
   object Panel2: TPanel[2]
-    Left = 245
-    Height = 555
+    Left = 213
+    Height = 554
     Top = 0
     Width = 514
-    Align = alClient
-    ClientHeight = 555
+    Align = alLeft
+    ClientHeight = 554
     ClientWidth = 514
     TabOrder = 3
     object FWLabel1: TFWLabel
@@ -224,7 +283,7 @@ inherited Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 318
+      Top = 317
       Width = 512
       Align = alBottom
       ResizeAnchor = akBottom
@@ -364,7 +423,7 @@ inherited Myform: TMyform
     object DBListView: TDBListView
       Left = 1
       Height = 233
-      Top = 321
+      Top = 320
       Width = 512
       Align = alBottom
       Columns = <      
@@ -391,6 +450,7 @@ inherited Myform: TMyform
       Height = 128
       Top = 48
       Width = 136
+      Anchors = [akTop, akLeft, akRight]
       Color = 11184810
       Lines.Strings = (
         'FWMemo'
@@ -531,6 +591,7 @@ inherited Myform: TMyform
       Height = 114
       Top = 184
       Width = 104
+      Anchors = [akTop, akLeft, akRight]
       ClientHeight = 114
       ClientWidth = 104
       TabOrder = 12
@@ -540,7 +601,8 @@ inherited Myform: TMyform
         Height = 110
         Top = 2
         Width = 100
-        Align = alClient
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Left = 1
         BorderSpacing.Top = 1
         BorderSpacing.Right = 1
@@ -563,9 +625,9 @@ inherited Myform: TMyform
     end
   end
   object FWDBEdit1: TFWDBEdit[3]
-    Left = 365
+    Left = 328
     Height = 22
-    Top = 45
+    Top = 48
     Width = 221
     DataField = 'Nom'
     DataSource = ds_user
@@ -576,7 +638,7 @@ inherited Myform: TMyform
     AlwaysSame = False
   end
   object FWDBEdit2: TFWDBEdit[4]
-    Left = 364
+    Left = 328
     Height = 22
     Top = 16
     Width = 221
@@ -590,11 +652,11 @@ inherited Myform: TMyform
     AlwaysSame = False
   end
   object ExtMenuToolBar: TExtMenuToolBar[5]
-    Left = 0
-    Height = 555
+    Left = 727
+    Height = 554
     Top = 0
     Width = 32
-    Align = alLeft
+    Align = alRight
     AutoSize = False
     Caption = 'ExtMenuToolBar'
     Images = ImageResources
@@ -605,7 +667,9 @@ inherited Myform: TMyform
     OnClickCustomize = ExtMenuToolBarClickCustomize
   end
   object OnFormInfoIni: TOnFormInfoIni[6]
-    SaveEdits = [feTEdit, feTComboValue, feTDateEdit, feTSpinEdit]
+    SaveEdits = [feTEdit, feTComboValue, feTDateEdit, feTMemo, feTSpinEdit]
+    SaveForm = [sfSavePos, sfSaveSizes]
+    Options = [loAutoUpdate, loAutoLoad]
     left = 56
     top = 216
   end

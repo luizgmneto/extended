@@ -34,8 +34,6 @@ uses
   StdCtrls,
   Buttons,
   ExtCtrls,
-  JvXPCore,
-  JvXPButtons,
   Dialogs,
 {$IFDEF VERSIONS}
   fonctions_version,
@@ -65,8 +63,8 @@ type
     lb_NomApli: TLabel;
     lb_Giroux: TLabel;
     im_appli: TImage;
-    Valider: TJvXPButton;
-    bt_reinit: TJvXPButton;
+    Valider: TCheckBox;
+    bt_reinit: TCheckBox;
     vt_Versioning: TVirtualStringTree;
     APopupMenu: TPopupMenu;
     Commentaires1: TMenuItem;
@@ -422,8 +420,8 @@ begin
   lb_NomApli := TLabel.Create(Self);
   lb_Giroux := TLabel.Create(Self);
   im_appli := TImage.Create(Self);
-  Valider := TJvXPButton.Create(Self);
-  bt_reinit := TJvXPButton.Create(Self);
+  Valider := TCheckBox.Create(Self);
+  bt_reinit := TCheckBox.Create(Self);
   vt_Versioning := TVirtualStringTree.Create(Self);
   APopupMenu := TPopupMenu.Create(Self);
   Commentaires1 := TMenuItem.Create(Self);
@@ -570,10 +568,6 @@ begin
   Font.Style := [];
   Position := poScreenCenter;
   OnActivate := FormActivate;
-{$IFDEF FPC}
-  Valider.Loaded;
-  bt_reinit.Loaded;
-{$ENDIF}
 end;
 {$ENDIF}
 

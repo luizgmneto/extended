@@ -17,7 +17,8 @@ uses
    fonctions_version,
 {$ENDIF}
   Controls,
-  JvXPButtons, Graphics,
+  Graphics,
+  JvXPButtons,
   u_extcomponent,
   Menus, ImgList;
 
