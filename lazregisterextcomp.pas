@@ -8,7 +8,7 @@ interface
 
 uses
   u_regframeworkcomponents, U_RegisterGroupView, u_regextfilecopy, 
-  U_RegVersion, u_regfwbuttons, u_registerforms, LazarusPackageIntf;
+  u_regfwbuttons, u_registerforms, LazarusPackageIntf;
 
 implementation
 
