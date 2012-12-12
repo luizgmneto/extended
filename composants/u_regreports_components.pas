@@ -29,7 +29,7 @@ uses u_reports_components,
 
 procedure Register;
 begin
-  RegisterComponents(CST_PALETTE_COMPOSANTS, [ TFWPrintGrid ]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS, [ TFWPrintGrid, TFWPrintData ]);
 End ;
 
 

@@ -1489,55 +1489,17 @@ begin
   or ( csDestroying in ComponentState ) Then
     Exit;
 
-  if    Assigned   ( DataListOpposite )
-  and ( AComponent = DataListOpposite )
-   then
-    DataListOpposite := nil;
-
-  if    Assigned   ( DataSourceOwner )
-  and ( AComponent = DataSourceOwner )
-   then
-    DataSourceOwner := nil;
-
-
-  if    Assigned   ( DataSourceQuery2 )
-  and ( AComponent = DataSourceQuery2 )
-   then
-    DataSourceQuery2 := nil;
-
-  if    Assigned   ( DatasourceQuery )
-  and ( AComponent = DatasourceQuery )
-   then
-    DatasourceQuery := nil;
-
-  if    Assigned   ( ButtonTotalIn )
-  and ( AComponent = ButtonTotalIn )
-   then
-    ButtonTotalIn := nil;
-  if    Assigned    ( ButtonIn )
-  and ( AComponent =  ButtonIn )
-   then
-    ButtonIn := nil;
-  if   Assigned    ( ButtonBasket )
-  and ( AComponent = ButtonBasket )
-   then
-    ButtonBasket := nil;
-  if   Assigned     ( ButtonTotalOut )
-  and ( AComponent =  ButtonTotalOut )
-   then
-    ButtonTotalOut := nil;
-  if  Assigned      ( ButtonOut )
-  and ( AComponent =  ButtonOut )
-   then
-    ButtonOut := nil;
-  if  Assigned     ( ButtonRecord )
-  and ( AComponent = ButtonRecord )
-   then
-    ButtonRecord := nil;
-  if    Assigned   ( ButtonCancel )
-  and ( AComponent = ButtonCancel )
-   then
-    ButtonCancel := nil;
+  if  ( AComponent = DataListOpposite ) then DataListOpposite := nil;
+  if  ( AComponent = DataSourceOwner  ) then DataSourceOwner  := nil;
+  if  ( AComponent = DataSourceQuery2 ) then DataSourceQuery2 := nil;
+  if  ( AComponent = DatasourceQuery  ) then DatasourceQuery  := nil;
+  if  ( AComponent = ButtonTotalIn    ) then ButtonTotalIn    := nil;
+  if  ( AComponent = ButtonIn         ) then ButtonIn         := nil;
+  if  ( AComponent = ButtonBasket     ) then ButtonBasket     := nil;
+  if  ( AComponent = ButtonTotalOut   ) then ButtonTotalOut   := nil;
+  if  ( AComponent = ButtonOut        ) then ButtonOut        := nil;
+  if  ( AComponent = ButtonRecord     ) then ButtonRecord     := nil;
+  if  ( AComponent = ButtonCancel     ) then ButtonCancel     := nil;
 end;
 
 // Le groupe a changé : méthode virtuelle
