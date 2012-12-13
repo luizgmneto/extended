@@ -102,8 +102,8 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     RLColumnTextcolor : TColor = clBlack;
     RLLandscapeColumnsCount : Integer = 9;
 
-function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; APrintFont : TFont ): Boolean; overload;
-function fb_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil; APrintFont : TFont = nil ): Boolean; overload;
+function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; APrintFont : TFont ; const AcolorTitleBack : TColor): Boolean; overload;
+function fb_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AcolorTitleBack : TColor; const acf_filter : TRLCustomPrintFilter = nil; APrintFont : TFont = nil ): Boolean; overload;
 
 implementation
 
@@ -181,7 +181,7 @@ begin
 end;
 
 
-function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; APrintFont : TFont ): Boolean;
+function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; APrintFont : TFont ; const AcolorTitleBack : TColor): Boolean;
 var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth : Integer;
     ARLLabel : TRLLabel;
     ARLDBText : TRLDBText;
@@ -206,28 +206,29 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
     ARLLabel.Caption:=as_Text;
   end;
 
-  procedure p_createSystemInfo ( const ALeft, ATop, AFontWidth : Integer ; const AInfo:TRLInfoType; const astyle : TFontStyles; const AColor : TColor;  const as_Text : String = '' );
+  procedure p_createSystemInfo ( const ALeft, ATop : Integer ; const AInfo:TRLInfoType; const afont : TFont; const AFontWidth : Integer = 0; const as_Text : String = '' );
   Begin
     ARLSystemInfo := TRLSystemInfo.Create(AReport);
     ARLSystemInfo.Parent:=ARLBand;
     ARLSystemInfo.Top:=ATop;
     ARLSystemInfo.Left:=ALeft;
-    ARLSystemInfo.Font.Size:=AFontWidth;
-    ARLSystemInfo.Font.Style:=astyle;
-    ARLSystemInfo.Font.Color := AColor;
+    ARLSystemInfo.Font.Assign(afont);
+    if AFontWidth <> 0 Then
+      ARLSystemInfo.Font.Size:=AFontWidth;
     ARLSystemInfo.Align:=faRight;
     ARLSystemInfo.Layout:={$IFDEF FPC }TRLTextLayout.{$ENDIF}tlTop;
     ARLSystemInfo.Text:=as_Text;
     ARLSystemInfo.Info:=AInfo;
   end;
 
-  procedure p_createBand ( const ALeft, ATop, Aheight : Integer ; const Abandtype : TRLBandType );
+  procedure p_createBand ( const ALeft, ATop, Aheight : Integer ; const Abandtype : TRLBandType ; const AColor : TColor = {$ifdef UseCLDefault}clDefault{$else}clWindow{$endif} );
   Begin
     ARLBand := TRLBand.Create(AReport);
     ARLBand.Parent:=AReport;
     ARLBand.BandType:=Abandtype;
     ARLBand.Top:=ATop;
     ARLBand.Left:=ALeft;
+    ARLBand.Color:=AColor;
     ARLBand.Height:=Aheight;
     ARLBand.Width:=aReport.Width-RLLeftTopPage.X*2;
   end;
@@ -298,14 +299,15 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
           atitleHeight := round ( ( Width - 120 ) div length ( as_Title )*1.9 );
           atitleHeight := Min ( 32, atitleHeight );
           with RLLeftTopPage do
-            p_createBand ( X, Y, atitleHeight + 4, btHeader );
+            p_createBand ( X, Y, atitleHeight + 4, btHeader, AcolorTitleBack );
           p_createLabel(2,2,0,APrintFont,RLTitlecolor, as_Title,atitleHeight*2 div 3);
         end
        Else
        with RLLeftTopPage do
         p_createBand ( X, Y, 10, btHeader );
-      p_createSystemInfo(ARLBand.Width,2,10,itPageNumber,[fsBold],RLTitlecolor);
-      p_createSystemInfo(ARLBand.Width,2,10,itLastPageNumber,[fsBold],RLTitlecolor, '/');
+       p_createSystemInfo(ARLBand.Width,2,itDate,APrintFont,10);
+       p_createSystemInfo(ARLBand.Width,2,itPageNumber,APrintFont,10, ' ');
+      p_createSystemInfo(ARLBand.Width,2,itLastPageNumber,APrintFont,10, '/');
       SomeLeft:=RLLeftTopPage.X;
       with RLLeftTopPage do
        p_createBand ( X, Y + atitleHeight, 30, btColumnHeader  );
@@ -415,14 +417,14 @@ Begin
    Else CreateListGrid;
 end;
 
-function fb_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil ; APrintFont : TFont = nil): Boolean;
+function fb_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AcolorTitleBack : TColor; const acf_filter : TRLCustomPrintFilter = nil ; APrintFont : TFont = nil): Boolean;
 Begin
   ReportForm := TReportForm.create ( nil );
   ADatasource.DataSet.DisableControls;
   with ReportForm do
   try
     AReport.DefaultFilter:=acf_filter;
-    Result:=fb_CreateReport ( ReportForm.AReport, agrid, ADatasource, AColumns, as_Title, APrintFont );
+    Result:=fb_CreateReport ( ReportForm.AReport, agrid, ADatasource, AColumns, as_Title, APrintFont, AcolorTitleBack );
     AReport.DataSource:=ADatasource;
     AReport.Preview(nil);
   finally
