@@ -19,13 +19,14 @@ uses Variants, TypInfo, Classes,
 const
   {$IFDEF VERSIONS}
     gVer_mc_fonction_proprietes : T_Version = ( Component : 'Gestion des propriétés de zones' ;
-                                               FileUnit : 'fonctions_proprietes' ;
-             Owner : 'Matthieu Giroux' ;
+                                                FileUnit : 'fonctions_proprietes' ;
+                                                Owner : 'Matthieu Giroux' ;
                                       Comment : 'Fonctions de récupération de propriétés publiées.' ;
-                                      BugsStory :  'Version 1.0.0.1 : Test de l''existence de la propiété pour fs_getComponentProperty' +
-                                                            'Version 1.0.0.0 : Toutes les fonctions sont OK.';
-                        			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                                      BugsStory :  'Version 1.0.0.2 : TObject has got properties.' +
+                                                   'Version 1.0.0.1 : Test de l''existence de la propiété pour fs_getComponentProperty' +
+                                                   'Version 1.0.0.0 : Toutes les fonctions sont OK.';
+                                      UnitType : 1 ;
+                        	      Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
     {$ENDIF}
     CST_PROPERTY_DATASOURCE     = 'DataSource';
     CST_PROPERTY_LISTFIELD      = 'ListField';
