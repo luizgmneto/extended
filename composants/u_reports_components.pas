@@ -36,31 +36,6 @@ const
 {$ENDIF}
    CST_PRINT_TITLE_BACK = clBlue;
 type
-  { TFWPrintGrid }
-
-  TFWPrintGrid = class(TFWPrint)
-  private
-    FFilter: TRLCustomPrintFilter;
-    FDBGrid: TCustomDBGrid;
-    FDBTitleBack: TColor;
-    FDBTitle: string;
-    FFont:TFont;
-    procedure SetDBGrid( const AValue: TCustomDBGrid);
-    procedure SetFont( const AValue : TFont );
-  protected
-    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-  public
-    constructor Create(AOwner: TComponent); override;
-    destructor  Destroy; override;
-    procedure Click; override;
-  published
-    property DBGrid: TCustomDBGrid read FDBGrid write SetDBGrid;
-    property Filter: TRLCustomPrintFilter read FFilter write FFilter;
-    property DBTitle: string read FDBTitle write FDBTitle;
-    property DBTitleBack: TColor read FDBTitleBack write FDBTitleBack default CST_PRINT_TITLE_BACK;
-    property DBTitleFont : TFont read FFont write SetFont;
-  end;
-
   TFWPrintData = class;
 
   { TDataLinkPrint }
@@ -72,9 +47,10 @@ type
   public
     constructor Create ( const AOwner :  TFWPrintData ); virtual;
   End;
+
   { TFWPrintData }
 
-  TFWPrintData = class(TComponent)
+  TFWPrintData = class(TComponent,IReportFormComponent)
   private
     FFilter: TRLCustomPrintFilter;
     FDataLink: TDataLink;
@@ -96,6 +72,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor  Destroy; override;
     procedure Preview; virtual;
+    procedure DrawReportImage( Sender:TObject; var PrintIt:boolean);  virtual;
   published
     property Datasource: TDatasource read GetDatasource write SetDatasource;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
@@ -106,6 +83,31 @@ type
     property Report : TRLReport read FReport write FReport;
   end;
 
+  { TFWPrintGrid }
+
+  TFWPrintGrid = class(TFWPrint,IReportFormComponent)
+  private
+    FFilter: TRLCustomPrintFilter;
+    FDBGrid: TCustomDBGrid;
+    FDBTitleBack: TColor;
+    FDBTitle: string;
+    FFont:TFont;
+    procedure SetDBGrid( const AValue: TCustomDBGrid);
+    procedure SetFont( const AValue : TFont );
+  protected
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor  Destroy; override;
+    procedure Click; override;
+    procedure DrawReportImage( Sender:TObject; var PrintIt:boolean); virtual;
+  published
+    property DBGrid: TCustomDBGrid read FDBGrid write SetDBGrid;
+    property Filter: TRLCustomPrintFilter read FFilter write FFilter;
+    property DBTitle: string read FDBTitle write FDBTitle;
+    property DBTitleBack: TColor read FDBTitleBack write FDBTitleBack default CST_PRINT_TITLE_BACK;
+    property DBTitleFont : TFont read FFont write SetFont;
+  end;
 implementation
 
 uses fonctions_proprietes,
@@ -199,8 +201,13 @@ procedure TFWPrintData.Preview;
 begin
   if assigned(FDataLink) then
   if FReport = nil
-   Then fb_CreateReport(nil, FDataLink.DataSource, FColumns, FDBTitle, FDBTitleBack, FFilter,FFont)
-   Else fb_CreateReport(FReport,nil, FDataLink.DataSource, FColumns, FDBTitle, FFont, FDBTitleBack);
+   Then fb_CreateReport(Self,nil, FDataLink.DataSource, FColumns, FDBTitle, FDBTitleBack, FFilter,FFont)
+   Else fb_CreateReport(Self,FReport,nil, FDataLink.DataSource, FColumns, FDBTitle, FFont, FDBTitleBack);
+end;
+
+procedure TFWPrintData.DrawReportImage(Sender: TObject; var PrintIt: boolean);
+begin
+  p_DrawReportImage ( Sender, PrintIt );
 end;
 
 procedure TFWPrintData.ActiveChanged;
@@ -260,10 +267,15 @@ begin
   inherited Click;
   if assigned(FDBGrid) then
   begin
-    fb_CreateReport(FDBGrid, TDataSource(
+    fb_CreateReport(Self,FDBGrid, TDataSource(
       fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)), TCollection(
       fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, FDBTitleBack, FFilter, FFont);
   end;
+end;
+
+procedure TFWPrintGrid.DrawReportImage(Sender: TObject; var PrintIt: boolean);
+begin
+  p_DrawReportImage ( Sender, PrintIt );
 end;
 
 {$IFDEF VERSIONS}

@@ -46,6 +46,10 @@ const
 
 type TBoolArray = Array of Boolean;
 
+  IReportFormComponent = interface
+   ['{B606C7AA-E8CC-4503-ACC7-68A5B3EF1151}']
+   procedure DrawReportImage( Sender:TObject; var PrintIt:boolean);
+  End;
   { TExtPrintColumn }
 
   TExtPrintColumn = class(TCollectionItem)
@@ -102,8 +106,9 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     RLColumnTextcolor : TColor = clBlack;
     RLLandscapeColumnsCount : Integer = 9;
 
-function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; APrintFont : TFont ; const AcolorTitleBack : TColor): Boolean; overload;
-function fb_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AcolorTitleBack : TColor; const acf_filter : TRLCustomPrintFilter = nil; APrintFont : TFont = nil ): Boolean; overload;
+function fb_CreateReport ( const AReportComponent : IReportFormComponent ; const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; APrintFont : TFont ; const AcolorTitleBack : TColor): Boolean; overload;
+function fb_CreateReport ( const AReportComponent : IReportFormComponent ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AcolorTitleBack : TColor; const acf_filter : TRLCustomPrintFilter = nil; APrintFont : TFont = nil ): Boolean; overload;
+procedure p_DrawReportImage( Sender:TObject; var PrintIt:boolean);
 
 implementation
 
@@ -180,8 +185,54 @@ begin
   FTitleFont.Free;
 end;
 
+procedure p_DrawReportImage( Sender:TObject; var PrintIt:boolean);
+var aimageindex : Integer;
+    Abitmap : Tbitmap ;
+    ADatasource : TDatasource;
+    I : Integer;
+Begin
+  for i := 0 to high ( RLListImages ) do
+   with RLListImages [ i ] do
+    if AImage = Sender Then
+      Begin
+        aimageIndex:=-1;
+        if assigned ( AGetImageIndex )
+         Then aimageIndex := AGetImageIndex ( AImage, AField )
+         Else
+          if Assigned(AMapImages) Then
+           aimageIndex := AMapImages.ImageIndexOf ( AField.Asstring )
+          else
+           if AField is tNumericField Then
+            Begin
+              aimageIndex := AField.AsInteger;
+            end;
+        if aimageIndex <> -1 Then
+         Begin
+           ABitmap := TBitmap.Create;
+           Aimages.GetBitmap ( aimageIndex, ABitmap );
+           with AImage do
+            p_ChangeTailleBitmap(ABitmap,Height,Width,True);
+           with AImage.Picture,Abitmap do
+            Begin
+             Bitmap.Canvas.Brush.Color := clWhite;
+             Bitmap.Width  := Width;
+             Bitmap.Height := Height;
+             Bitmap.Canvas.FillRect(
+               {$IFNDEF FPC} Rect (  {$ENDIF}
+               0, 0, ACellWidth, Height {$IFNDEF FPC}){$ENDIF});
+             Bitmap.Canvas.Draw (( ACellWidth - Width ) div 2, 0, Abitmap );
+             Bitmap.Modified := True;
+             {$IFNDEF FPC}
+             Dormant;
+             {$ENDIF}
+             FreeImage;
+             Free;
+            end;
+         end;
+      End;
+End;
 
-function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; APrintFont : TFont ; const AcolorTitleBack : TColor): Boolean;
+function fb_CreateReport ( const AReportComponent : IReportFormComponent ;const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; APrintFont : TFont ; const AcolorTitleBack : TColor): Boolean;
 var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth : Integer;
     ARLLabel : TRLLabel;
     ARLDBText : TRLDBText;
@@ -271,6 +322,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
   Begin
     with agrid,AReport do
      Begin
+      Clear;
       for i := 0 to aColumns.Count - 1 do
        with aColumns.Items [ i ] do
         if fb_getComponentBoolProperty ( aColumns.Items [ i ], CST_COLUMN_Visible, True )
@@ -317,7 +369,9 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
         if fb_getComponentBoolProperty ( aColumns.Items [ i ], CST_COLUMN_Visible, True ) Then
          Begin
            awidth:=fi_resize ( flin_getComponentProperty ( aColumns.Items [ i ], CST_COLUMN_Width ), i );
-           p_createLabel (SomeLeft,2,aWidth,fobj_getComponentObjectProperty(aColumns.Items [ i ],'Font') as TFont,RLColumnHeadercolor, (fobj_getComponentObjectProperty(aColumns.Items [ i ], CST_COLUMN_Title) as TGridColumnTitle).caption);
+           if agrid = nil
+            Then p_createLabel (SomeLeft,2,aWidth,fobj_getComponentObjectProperty(aColumns.Items [ i ],'Font') as TFont,RLColumnHeadercolor, fs_getComponentProperty(aColumns.Items [ i ], 'DBTitle'))
+            Else p_createLabel (SomeLeft,2,aWidth,fobj_getComponentObjectProperty(aColumns.Items [ i ],'Font') as TFont,RLColumnHeadercolor, (fobj_getComponentObjectProperty(aColumns.Items [ i ], CST_COLUMN_Title) as TGridColumnTitle).caption);
            inc ( SomeLeft, aWidth );
          end;
 
@@ -344,7 +398,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
            if AImages <> nil Then
             Begin
               p_createImage (SomeLeft,2,aWidth-4);
-              ARLImage.BeforePrint := ReportForm.p_BeforePrintImage;
+              ARLImage.BeforePrint := AReportComponent.DrawReportImage;
               SetLength ( RLListImages, high ( RLListImages ) + 2 );
               with RLListImages [ high ( RLListImages )] do
                Begin
@@ -382,7 +436,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
            if AImages <> nil Then
             Begin
               p_createImage (SomeLeft,2,aWidth-4);
-              ARLImage.BeforePrint := ReportForm.p_BeforePrintImage;
+              ARLImage.BeforePrint := AReportComponent.DrawReportImage;
               SetLength ( RLListImages, high ( RLListImages ) + 2 );
               with RLListImages [ high ( RLListImages )] do
                Begin
@@ -415,18 +469,18 @@ Begin
   if agrid  = nil
    Then CreateListPrint
    Else CreateListGrid;
+  AReport.DataSource:=ADatasource;
+  AReport.Preview(nil);
 end;
 
-function fb_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AcolorTitleBack : TColor; const acf_filter : TRLCustomPrintFilter = nil ; APrintFont : TFont = nil): Boolean;
+function fb_CreateReport ( const AReportComponent : IReportFormComponent ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AcolorTitleBack : TColor; const acf_filter : TRLCustomPrintFilter = nil ; APrintFont : TFont = nil): Boolean;
 Begin
   ReportForm := TReportForm.create ( nil );
   ADatasource.DataSet.DisableControls;
   with ReportForm do
   try
     AReport.DefaultFilter:=acf_filter;
-    Result:=fb_CreateReport ( ReportForm.AReport, agrid, ADatasource, AColumns, as_Title, APrintFont, AcolorTitleBack );
-    AReport.DataSource:=ADatasource;
-    AReport.Preview(nil);
+    Result:=fb_CreateReport ( AReportComponent, ReportForm.AReport, agrid, ADatasource, AColumns, as_Title, APrintFont, AcolorTitleBack );
   finally
     Destroy;
     ADatasource.DataSet.EnableControls;
