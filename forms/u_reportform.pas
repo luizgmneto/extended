@@ -22,7 +22,6 @@ type
   TReportForm = class(TSuperForm)
     AReport: TRLReport;
     Panel1: TPanel;
-    procedure p_BeforePrintImage(Sender: TObject; var PrintIt: boolean);
   private
     { private declarations }
   public
@@ -41,54 +40,6 @@ uses DB, fonctions_images, fonctions_reports;
 {$ELSE}
 {$R *.dfm}
 {$ENDIF}
-
-
-procedure TReportForm.p_BeforePrintImage (Sender:TObject; var PrintIt:boolean);
-var aimageindex : Integer;
-    Abitmap : Tbitmap ;
-    ADatasource : TDatasource;
-    I : Integer;
-Begin
-  for i := 0 to high ( RLListImages ) do
-   with RLListImages [ i ] do
-    if AImage = Sender Then
-      Begin
-        aimageIndex:=-1;
-        if assigned ( AGetImageIndex )
-         Then aimageIndex := AGetImageIndex ( AImage, AField )
-         Else
-          if Assigned(AMapImages) Then
-           aimageIndex := AMapImages.ImageIndexOf ( AField.Asstring )
-          else
-           if AField is tNumericField Then
-            Begin
-              aimageIndex := AField.AsInteger;
-            end;
-        if aimageIndex <> -1 Then
-         Begin
-           ABitmap := TBitmap.Create;
-           Aimages.GetBitmap ( aimageIndex, ABitmap );
-           with AImage do
-            p_ChangeTailleBitmap(ABitmap,Height,Width,True);
-           with AImage.Picture,Abitmap do
-            Begin
-             Bitmap.Canvas.Brush.Color := clWhite;
-             Bitmap.Width  := Width;
-             Bitmap.Height := Height;
-             Bitmap.Canvas.FillRect(
-               {$IFNDEF FPC} Rect (  {$ENDIF}
-               0, 0, ACellWidth, Height {$IFNDEF FPC}){$ENDIF});
-             Bitmap.Canvas.Draw (( ACellWidth - Width ) div 2, 0, Abitmap );
-             Bitmap.Modified := True;
-             {$IFNDEF FPC}
-             Dormant;
-             {$ENDIF}
-             FreeImage;
-             Free;
-            end;
-         end;
-      End;
-end;
 
 
 
