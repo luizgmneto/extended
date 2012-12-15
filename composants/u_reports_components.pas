@@ -17,10 +17,12 @@ uses
   fonctions_version,
 {$ENDIF}
   DBGrids, DB, fonctions_reports, RLReport,
+  RLPreview,
   u_buttons_appli, RLFilters, Graphics;
 
-const
+
 {$IFDEF VERSIONS}
+const
   gVer_reports_components: T_Version = (Component: 'Customized Reports Buttons';
     FileUnit: 'u_reports_components';
     Owner: 'Matthieu Giroux';
@@ -34,7 +36,7 @@ const
     UnitType: 3;
     Major: 1; Minor: 1; Release: 0; Build: 0);
 {$ENDIF}
-   CST_PRINT_TITLE_BACK = clBlue;
+
 type
   TFWPrintData = class;
 
@@ -55,10 +57,10 @@ type
     FFilter: TRLCustomPrintFilter;
     FDataLink: TDataLink;
     FDBTitle: string;
-    FDBTitleBack: TColor;
     FColumns: TExtPrintColumns;
     FFont:TFont;
     FReport : TRLReport;
+    FPreview : TRLPReview;
     procedure SetDatasource(AValue: TDatasource);
     function  GetDatasource: TDatasource;
     procedure SetColumns(AValue: TExtPrintColumns);
@@ -71,16 +73,16 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor  Destroy; override;
-    procedure Preview; virtual;
+    procedure ShowPreview; virtual;
     procedure DrawReportImage( Sender:TObject; var PrintIt:boolean);  virtual;
   published
     property Datasource: TDatasource read GetDatasource write SetDatasource;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
     property DBTitle: string read FDBTitle write FDBTitle;
-    property DBTitleBack: TColor read FDBTitleBack write FDBTitleBack default CST_PRINT_TITLE_BACK;
     property DBTitleFont : TFont read FFont write SetFont;
     property Columns: TExtPrintColumns read FColumns write SetColumns;
     property Report : TRLReport read FReport write FReport;
+    property Preview : TRLPreview read FPreview write FPreview;
   end;
 
   { TFWPrintGrid }
@@ -92,6 +94,7 @@ type
     FDBTitleBack: TColor;
     FDBTitle: string;
     FFont:TFont;
+    FPreview : TRLPReview;
     procedure SetDBGrid( const AValue: TCustomDBGrid);
     procedure SetFont( const AValue : TFont );
   protected
@@ -105,8 +108,8 @@ type
     property DBGrid: TCustomDBGrid read FDBGrid write SetDBGrid;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
     property DBTitle: string read FDBTitle write FDBTitle;
-    property DBTitleBack: TColor read FDBTitleBack write FDBTitleBack default CST_PRINT_TITLE_BACK;
     property DBTitleFont : TFont read FFont write SetFont;
+    property Preview : TRLPreview read FPreview write FPreview;
   end;
 implementation
 
@@ -185,7 +188,6 @@ begin
   FDataLink := TDataLinkPrint.Create(Self);
   FFilter := nil;
   FDBTitle := '';
-  FDBTitleBack := CST_PRINT_TITLE_BACK;
   FReport := nil;
 end;
 
@@ -197,12 +199,12 @@ begin
   FDataLink.Free;
 end;
 
-procedure TFWPrintData.Preview;
+procedure TFWPrintData.ShowPreview;
 begin
   if assigned(FDataLink) then
   if FReport = nil
-   Then fb_CreateReport(Self,nil, FDataLink.DataSource, FColumns, FDBTitle, FDBTitleBack, FFilter,FFont)
-   Else fb_CreateReport(Self,FReport,nil, FDataLink.DataSource, FColumns, FDBTitle, FFont, FDBTitleBack);
+   Then fb_CreateReport(FPreview,Self,nil, FDataLink.DataSource, FColumns, FDBTitle, FFilter,FFont)
+   Else fb_CreateReport(FPreview,Self,FReport,nil, FDataLink.DataSource, FColumns, FDBTitle, FFont);
 end;
 
 procedure TFWPrintData.DrawReportImage(Sender: TObject; var PrintIt: boolean);
@@ -248,7 +250,7 @@ end;
 constructor TFWPrintGrid.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FDBTitleBack:=CST_PRINT_TITLE_BACK;
+  FDBTitleBack:=RLTitleColorBack;
   FDBTitle    :='';
   FFilter     := nil;
   FDBGrid     := nil;
@@ -267,9 +269,9 @@ begin
   inherited Click;
   if assigned(FDBGrid) then
   begin
-    fb_CreateReport(Self,FDBGrid, TDataSource(
+    fb_CreateReport(FPreview,Self,FDBGrid, TDataSource(
       fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)), TCollection(
-      fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, FDBTitleBack, FFilter, FFont);
+      fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, FFilter, FFont);
   end;
 end;
 
