@@ -58,13 +58,11 @@ type
     FDataLink: TDataLink;
     FDBTitle: string;
     FColumns: TExtPrintColumns;
-    FFont:TFont;
     FReport : TRLReport;
     FPreview : TRLPReview;
     procedure SetDatasource(AValue: TDatasource);
     function  GetDatasource: TDatasource;
     procedure SetColumns(AValue: TExtPrintColumns);
-    procedure SetFont( const AValue : TFont );
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     function CreateColumns: TExtPrintColumns; virtual;
@@ -79,7 +77,6 @@ type
     property Datasource: TDatasource read GetDatasource write SetDatasource;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
     property DBTitle: string read FDBTitle write FDBTitle;
-    property DBTitleFont : TFont read FFont write SetFont;
     property Columns: TExtPrintColumns read FColumns write SetColumns;
     property Report : TRLReport read FReport write FReport;
     property Preview : TRLPreview read FPreview write FPreview;
@@ -93,22 +90,18 @@ type
     FDBGrid: TCustomDBGrid;
     FDBTitleBack: TColor;
     FDBTitle: string;
-    FFont:TFont;
     FPreview : TRLPReview;
     procedure SetDBGrid( const AValue: TCustomDBGrid);
-    procedure SetFont( const AValue : TFont );
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
   public
     constructor Create(AOwner: TComponent); override;
-    destructor  Destroy; override;
     procedure Click; override;
     procedure DrawReportImage( Sender:TObject; var PrintIt:boolean); virtual;
   published
     property DBGrid: TCustomDBGrid read FDBGrid write SetDBGrid;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
     property DBTitle: string read FDBTitle write FDBTitle;
-    property DBTitleFont : TFont read FFont write SetFont;
     property Preview : TRLPreview read FPreview write FPreview;
   end;
 implementation
@@ -159,11 +152,6 @@ begin
         FColumns.Add;
 end;
 
-procedure TFWPrintData.SetFont(const AValue: TFont);
-begin
-  FFont.Assign(AValue);
-end;
-
 procedure TFWPrintData.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
@@ -182,8 +170,6 @@ end;
 constructor TFWPrintData.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FFont      := TFont.Create;
-  FFont.Color:= clWhite;
   FColumns := CreateColumns;
   FDataLink := TDataLinkPrint.Create(Self);
   FFilter := nil;
@@ -194,8 +180,6 @@ end;
 destructor TFWPrintData.Destroy;
 begin
   inherited Destroy;
-  FFont.Free;
-  FColumns.Free;
   FDataLink.Free;
 end;
 
@@ -203,8 +187,8 @@ procedure TFWPrintData.ShowPreview;
 begin
   if assigned(FDataLink) then
   if FReport = nil
-   Then fb_CreateReport(FPreview,Self,nil, FDataLink.DataSource, FColumns, FDBTitle, FFilter,FFont)
-   Else fb_CreateReport(FPreview,Self,FReport,nil, FDataLink.DataSource, FColumns, FDBTitle, FFont);
+   Then fb_CreateReport(FPreview,Self,nil, FDataLink.DataSource, FColumns, FDBTitle, FFilter)
+   Else fb_CreateReport(FPreview,Self,FReport,nil, FDataLink.DataSource, FColumns, FDBTitle);
 end;
 
 procedure TFWPrintData.DrawReportImage(Sender: TObject; var PrintIt: boolean);
@@ -231,11 +215,6 @@ begin
   end;
 end;
 
-procedure TFWPrintGrid.SetFont(const AValue: TFont);
-begin
-  FFont.Assign(AValue);
-end;
-
 procedure TFWPrintGrid.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
@@ -254,14 +233,6 @@ begin
   FDBTitle    :='';
   FFilter     := nil;
   FDBGrid     := nil;
-  FFont       := TFont.Create;
-  FFont.Color := clWhite;
-end;
-
-destructor TFWPrintGrid.Destroy;
-begin
-  inherited Destroy;
-  FFont.Free;
 end;
 
 procedure TFWPrintGrid.Click;
@@ -271,7 +242,7 @@ begin
   begin
     fb_CreateReport(FPreview,Self,FDBGrid, TDataSource(
       fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)), TCollection(
-      fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, FFilter, FFont);
+      fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, FFilter);
   end;
 end;
 
