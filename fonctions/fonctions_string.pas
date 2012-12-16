@@ -20,13 +20,14 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  Dialogs, Math ;
+  Dialogs, Math, Graphics ;
 
 const
   CST_ENDOFLINE = #10;
 
 type
   TUArray = Array of Array [ 0.. 2 ] of Integer;
+  TStringArray = Array of String;
   TModeFormatText = (mftNone,mftUpper,mftLower,mftFirstIsMaj);
 
 {$IFDEF FPC}
@@ -70,12 +71,14 @@ type
                          const ali_TailleLettrage : Longint ): String ;
   function HexToByte(c: char): byte;
   function HexToBinary ( const ALines : TStrings ; const AStream : TStream ): Boolean;
+  function fs_SeparateTextFromWidth ( ASText : String; const ANeededWidth : Integer; const Acanvas : TCanvas; const Ach_separator : Char = ' ' ) : TStringArray ;
 const
 {$IFDEF VERSIONS}
     gVer_fonction_string : T_Version = ( Component : 'String management' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'String traduction and format.' ;
-                        			                 BugsStory : 'Version 1.0.5.0 : Creating fs_ListeVersChamps.' + #13#10 + #13#10 +
+                        			                 BugsStory : 'Version 1.0.6.0 : Creating fs_SeparateTextFromWidth.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.5.0 : Creating fs_ListeVersChamps.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.4.0 : fs_FormatText and other.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.3.1 : Upgrading fs_TextToFileName.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.3.0 : Moving function to DB functions.' + #13#10 + #13#10 +
@@ -88,7 +91,7 @@ const
                         			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 5 ; Build :  0);
+                        			                 Major : 1 ; Minor : 0 ; Release : 6 ; Build :  0);
 {$ENDIF}
     CST_ORD_GUILLEMENT = ord ( '''' );
     CST_ORD_POURCENT   = ord ( '%' );
@@ -883,7 +886,33 @@ begin
   if ( li_texte < AChar ) and ( lw_Char > 0 ) Then
     p_add;
 end;
-
+function fs_SeparateTextFromWidth ( ASText : String; const ANeededWidth : Integer; const Acanvas : TCanvas; const Ach_separator : Char = ' ' ) : TStringArray ;
+var Apos, J : Integer;
+Begin
+  Apos := 1;
+  j    := 0;
+  while (ANeededWidth < ACanvas.GetTextWidth(ASText))
+     and ( pos(Ach_separator, ASText ) > 0 ) do
+   Begin
+     while  (posex(Ach_separator, ASText, Apos + 1 ) > 0)
+        and ( ANeededWidth > ACanvas.GetTextWidth(copy(ASText,1,posex(Ach_separator, ASText, Apos + 1 )))) do
+      Begin
+       Apos:=posex(Ach_separator, ASText, Apos +1 );
+      end;
+     if Apos = 0 Then
+       break;
+     if Apos > 1 Then
+      Begin
+       SetLength(Result,high ( Result ) + 2);
+       Result [ high ( Result )] := copy(ASText,1,Apos-1);
+       inc ( j );
+      end;
+     ASText:=copy(ASText,Apos+1,Length(ASText)-Apos);
+     Apos := 1;
+   end;
+  SetLength(Result,high ( Result ) + 2);
+  Result [ high ( Result )] := ASText;
+End;
 {$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gVer_fonction_string );
