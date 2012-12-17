@@ -15,12 +15,6 @@ object F_Caracteristique: TF_Caracteristique
   Position = poMainFormCenter
   WindowState = wsMaximized
   OnCreate = F_FormDicoCreate
-  FormMode = sfmEdit
-  AutoFillFieldsWhenShow = False
-  IncrustMode = aicCenter
-  AdaptParentSize = True
-  ShowBevel = False
-  AlreadyPassedInFirstActivate = True
   PixelsPerInch = 96
   TextHeight = 13
   object pa_1: TPanel
@@ -239,6 +233,7 @@ object F_Caracteristique: TF_Caracteristique
               Width = 112
               Height = 25
               Hint = 'Abandonner les modifications'
+              Caption = 'Annuler'
               Enabled = False
               TabOrder = 4
               Align = alLeft
@@ -477,6 +472,7 @@ object F_Caracteristique: TF_Caracteristique
               Width = 107
               Height = 25
               Hint = 'Abandonner les modifications'
+              Caption = 'Annuler'
               Enabled = False
               TabOrder = 4
               Align = alLeft
@@ -774,7 +770,6 @@ object F_Caracteristique: TF_Caracteristique
       object bt_fermer: TFWClose
         Left = 886
         Top = 0
-        Height = 26
         Caption = 'Fermer'
         TabOrder = 0
         Layout = blGlyphRight
@@ -796,7 +791,7 @@ object F_Caracteristique: TF_Caracteristique
     SaveEdits = [feTGrid, feTListView]
     SaveForm = [sfSaveSizes]
     Left = 97
-    Top = 137
+    Top = 129
   end
   object im_images: TImageList
     Left = 96

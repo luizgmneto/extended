@@ -74,9 +74,9 @@ type
     destructor  Destroy; override;
     procedure ShowPreview; virtual;
     procedure AddPreview ( const AReport : TRLReport ); virtual;
-    procedure DrawReportImage( Sender:TObject; var PrintIt:boolean);  virtual;
     property  ResultForm : TReportForm read FReportForm;
   published
+    procedure DrawReportImage( Sender:TObject; var PrintIt:boolean);  virtual;
     property Datasource: TDatasource read GetDatasource write SetDatasource;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
     property DBTitle: string read FDBTitle write FDBTitle;
@@ -99,8 +99,8 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     procedure Click; override;
-    procedure DrawReportImage( Sender:TObject; var PrintIt:boolean); virtual;
   published
+    procedure DrawReportImage( Sender:TObject; var PrintIt:boolean); virtual;
     property DBGrid: TCustomDBGrid read FDBGrid write SetDBGrid;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
     property DBTitle: string read FDBTitle write FDBTitle;

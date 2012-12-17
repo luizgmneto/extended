@@ -27,7 +27,8 @@ uses
   StrUtils, U_OnFormInfoIni,  JvXPButtons,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
   CompSuperForm, U_FormAdapt,
-  U_GroupView, ImgList,fonctions_string, U_DmArticles, Menus, U_DBListView ;
+  U_GroupView, ImgList,fonctions_string, U_DmArticles, Menus, U_DBListView,
+  u_buttons_defs ;
 
 type
 

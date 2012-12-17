@@ -15,14 +15,6 @@ object F_TypeProduit: TF_TypeProduit
   Position = poMainFormCenter
   WindowState = wsMaximized
   OnCreate = F_FormDicoCreate
-  FormMode = sfmEdit
-  AutoFillFieldsWhenShow = False
-  IncrustMode = aicCenter
-  AdaptParentSize = True
-  ShowBevel = False
-  AlreadyPassedInFirstActivate = True
-  ExplicitWidth = 320
-  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 13
   object pa_1: TPanel
@@ -187,10 +179,6 @@ object F_TypeProduit: TF_TypeProduit
         OnChanging = pc_GroupesChanging
         object ts_Gamme: TTabSheet
           Caption = 'Gammes dont ce type est membre'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object RbSplitter1: TSplitter
             Left = 321
             Top = 27
@@ -238,6 +226,7 @@ object F_TypeProduit: TF_TypeProduit
               Width = 100
               Height = 25
               Hint = 'Abandonner les modifications'
+              Caption = 'Annuler'
               Enabled = False
               TabOrder = 3
               Align = alLeft
@@ -252,7 +241,6 @@ object F_TypeProduit: TF_TypeProduit
               Enabled = False
               TabOrder = 4
               Align = alLeft
-              OnClick = bt_enregistrerClick
             end
             object Panel17: TPanel
               Left = 106
@@ -437,10 +425,6 @@ object F_TypeProduit: TF_TypeProduit
         object ts_Caracteristique: TTabSheet
           Caption = 'Caract'#233'ristiques membres du type'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object RbSplitter2: TSplitter
             Left = 321
             Top = 27
@@ -598,6 +582,7 @@ object F_TypeProduit: TF_TypeProduit
               Width = 100
               Height = 25
               Hint = 'Abandonner les modifications'
+              Caption = 'Annuler'
               Enabled = False
               TabOrder = 3
               Align = alLeft
@@ -686,10 +671,6 @@ object F_TypeProduit: TF_TypeProduit
         object TabSheet1: TTabSheet
           Caption = 'Articles affect'#233's au type'
           ImageIndex = 2
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object Panel12: TPanel
             Left = 0
             Top = 0
@@ -739,6 +720,7 @@ object F_TypeProduit: TF_TypeProduit
               Width = 108
               Height = 25
               Hint = 'Abandonner les modifications'
+              Caption = 'Annuler'
               Enabled = False
               TabOrder = 4
               Align = alLeft
@@ -1040,7 +1022,6 @@ object F_TypeProduit: TF_TypeProduit
         TabOrder = 0
         Layout = blGlyphRight
         Align = alRight
-        OnClick = bt_fermerClick
       end
       object Panel4: TPanel
         Left = 0
@@ -1057,7 +1038,7 @@ object F_TypeProduit: TF_TypeProduit
     SaveEdits = [feTGrid, feTListView]
     SaveForm = [sfSaveSizes]
     Left = 97
-    Top = 137
+    Top = 129
   end
   object im_images: TImageList
     Left = 96
