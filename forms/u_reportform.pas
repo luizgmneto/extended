@@ -20,16 +20,13 @@ type
   { TReportForm }
 
   TReportForm = class(TSuperForm)
-    AReport: TRLReport;
+    RLReport: TRLReport;
     Panel1: TPanel;
   private
     { private declarations }
   public
     { public declarations }
   end;
-
-var
-  ReportForm: TReportForm;
 
 implementation
 

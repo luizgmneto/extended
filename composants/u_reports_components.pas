@@ -17,7 +17,7 @@ uses
   fonctions_version,
 {$ENDIF}
   DBGrids, DB, fonctions_reports, RLReport,
-  RLPreview,
+  RLPreview, u_reportform,
   u_buttons_appli, RLFilters, Graphics;
 
 
@@ -52,13 +52,14 @@ type
 
   { TFWPrintData }
 
-  TFWPrintData = class(TComponent,IReportFormComponent)
+  TFWPrintData = class(TComponent,IPrintComponent)
   private
     FFilter: TRLCustomPrintFilter;
     FDataLink: TDataLink;
     FDBTitle: string;
     FColumns: TExtPrintColumns;
     FReport : TRLReport;
+    FReportForm : TReportForm;
     FPreview : TRLPReview;
     procedure SetDatasource(AValue: TDatasource);
     function  GetDatasource: TDatasource;
@@ -72,7 +73,9 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor  Destroy; override;
     procedure ShowPreview; virtual;
+    procedure AddPreview ( const AReport : TRLReport ); virtual;
     procedure DrawReportImage( Sender:TObject; var PrintIt:boolean);  virtual;
+    property  ResultForm : TReportForm read FReportForm;
   published
     property Datasource: TDatasource read GetDatasource write SetDatasource;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
@@ -84,11 +87,10 @@ type
 
   { TFWPrintGrid }
 
-  TFWPrintGrid = class(TFWPrint,IReportFormComponent)
+  TFWPrintGrid = class(TFWPrint,IPrintComponent)
   private
     FFilter: TRLCustomPrintFilter;
     FDBGrid: TCustomDBGrid;
-    FDBTitleBack: TColor;
     FDBTitle: string;
     FPreview : TRLPReview;
     procedure SetDBGrid( const AValue: TCustomDBGrid);
@@ -131,6 +133,7 @@ begin
   begin
     FDataLink.DataSource := AValue;
     AddColumns;
+    FColumns.SetDatasource;
   end;
 end;
 
@@ -157,7 +160,11 @@ begin
   inherited Notification(AComponent, Operation);
   if (Operation <> opRemove) or (csDestroying in ComponentState) then
     exit;
-  if (AComponent = Datasource) then Datasource := nil;
+  if (AComponent = Datasource) then
+   Begin
+     Datasource := nil;
+     FColumns.SetDatasource;
+   end;
   if (AComponent = Filter    ) then Filter     := nil;
   if (AComponent = Report    ) then Report     := nil;
 end;
@@ -185,10 +192,30 @@ end;
 
 procedure TFWPrintData.ShowPreview;
 begin
+  FDataLink.DataSet.DisableControls;
+  AddPreview(FReport);
+  if FReportForm <> nil Then
+   with FReportForm do
+   try
+     RLReport.Preview(FPreview);
+   Finally
+     FDataLink.DataSet.EnableControls;
+     Finalize ( RLListImages );
+     Destroy;
+     FReportForm := nil;
+   End;
+end;
+
+procedure TFWPrintData.AddPreview(const AReport: TRLReport);
+begin
   if assigned(FDataLink) then
-  if FReport = nil
-   Then fb_CreateReport(FPreview,Self,nil, FDataLink.DataSource, FColumns, FDBTitle, FFilter)
-   Else fb_CreateReport(FPreview,Self,FReport,nil, FDataLink.DataSource, FColumns, FDBTitle);
+  if AReport = nil
+   Then
+     FReportForm := fref_CreateReport(Self,nil, FDataLink.DataSource, FColumns, FDBTitle, FFilter)
+   Else
+     Begin
+       fb_CreateReport(Self,AReport,nil, FDataLink.DataSource, FColumns, FDBTitle);
+     end;
 end;
 
 procedure TFWPrintData.DrawReportImage(Sender: TObject; var PrintIt: boolean);
@@ -229,7 +256,6 @@ end;
 constructor TFWPrintGrid.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FDBTitleBack:=RLTitleColorBack;
   FDBTitle    :='';
   FFilter     := nil;
   FDBGrid     := nil;
@@ -239,10 +265,20 @@ procedure TFWPrintGrid.Click;
 begin
   inherited Click;
   if assigned(FDBGrid) then
+  with TDataSource(
+      fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)).DataSet do
   begin
-    fb_CreateReport(FPreview,Self,FDBGrid, TDataSource(
+    DisableControls;
+    with fref_CreateReport(Self,FDBGrid, TDataSource(
       fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)), TCollection(
-      fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, FFilter);
+      fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, FFilter) do
+        try
+          RLReport.Preview(FPReview);
+          Finalize ( RLListImages );
+          Destroy;
+        finally
+          EnableControls;
+        end;
   end;
 end;
 
