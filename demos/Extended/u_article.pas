@@ -24,7 +24,7 @@ uses
   DBGrids, u_framework_dbcomponents, ComCtrls, StdCtrls, SysUtils,  TypInfo,
   Variants, StrUtils, U_OnFormInfoIni, U_FormAdapt,
   JvXPButtons, U_ExtDBGrid,U_ConstMessage, U_DmArticles,
-  u_framework_components, u_buttons_appli, U_ExtComboInsert;
+  u_framework_components, u_buttons_appli, U_ExtComboInsert, u_buttons_defs;
 
 type
 

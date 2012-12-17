@@ -891,11 +891,11 @@ var Apos, J : Integer;
 Begin
   Apos := 1;
   j    := 0;
-  while (ANeededWidth < ACanvas.GetTextWidth(ASText))
+  while (ANeededWidth < ACanvas.TextWidth(ASText))
      and ( pos(Ach_separator, ASText ) > 0 ) do
    Begin
      while  (posex(Ach_separator, ASText, Apos + 1 ) > 0)
-        and ( ANeededWidth > ACanvas.GetTextWidth(copy(ASText,1,posex(Ach_separator, ASText, Apos + 1 )))) do
+        and ( ANeededWidth > ACanvas.TextWidth(copy(ASText,1,posex(Ach_separator, ASText, Apos + 1 )))) do
       Begin
        Apos:=posex(Ach_separator, ASText, Apos +1 );
       end;

@@ -15,12 +15,6 @@ object F_Article: TF_Article
   Position = poMainFormCenter
   WindowState = wsMaximized
   OnCreate = F_FormDicoCreate
-  FormMode = sfmEdit
-  AutoFillFieldsWhenShow = False
-  IncrustMode = aicCenter
-  AdaptParentSize = True
-  ShowBevel = False
-  AlreadyPassedInFirstActivate = True
   PixelsPerInch = 96
   TextHeight = 13
   object pa_1: TPanel
@@ -341,7 +335,7 @@ object F_Article: TF_Article
     object bt_apercu: TFWPreview
       Left = 361
       Top = 0
-      Height = 26
+      Width = 25
       Hint = 'Aper'#231'u  (Impression / exportation)'
       Caption = 'Aper'#231'u'
       TabOrder = 4
@@ -355,7 +349,7 @@ object F_Article: TF_Article
       Visible = False
     end
     object Panel2: TPanel
-      Left = 434
+      Left = 386
       Top = 0
       Width = 13
       Height = 26
@@ -364,10 +358,9 @@ object F_Article: TF_Article
       TabOrder = 1
     end
     object bt_imprimer: TFWPrint
-      Left = 447
+      Left = 399
       Top = 0
       Width = 80
-      Height = 26
       Hint = 'Impression des r'#233'sultats de la s'#233'lection'
       Caption = 'Imprimer'
       TabOrder = 5
@@ -381,7 +374,7 @@ object F_Article: TF_Article
       Visible = False
     end
     object Panel5: TPanel
-      Left = 527
+      Left = 479
       Top = 0
       Width = 13
       Height = 26
@@ -390,7 +383,7 @@ object F_Article: TF_Article
       TabOrder = 2
     end
     object Panel6: TPanel
-      Left = 540
+      Left = 492
       Top = 0
       Width = 13
       Height = 26
@@ -402,7 +395,6 @@ object F_Article: TF_Article
       Left = 928
       Top = 0
       Width = 96
-      Height = 26
       Caption = 'Fermer'
       TabOrder = 6
       Layout = blGlyphRight
@@ -413,7 +405,6 @@ object F_Article: TF_Article
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      OnClick = bt_fermerClick
     end
   end
   object SvgFormInfoIni: TOnFormInfoIni

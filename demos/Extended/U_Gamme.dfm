@@ -15,12 +15,6 @@ object F_Gamme: TF_Gamme
   WindowState = wsMaximized
   OnCreate = F_FormDicoCreate
   OnShow = F_FormDicoShow
-  FormMode = sfmEdit
-  AutoFillFieldsWhenShow = False
-  IncrustMode = aicCenter
-  AdaptParentSize = True
-  ShowBevel = False
-  AlreadyPassedInFirstActivate = True
   PixelsPerInch = 96
   TextHeight = 13
   object pa_1: TPanel
@@ -240,6 +234,7 @@ object F_Gamme: TF_Gamme
               Width = 99
               Height = 25
               Hint = 'Abandonner les modifications'
+              Caption = 'Annuler'
               Enabled = False
               TabOrder = 4
               Align = alLeft
@@ -500,6 +495,7 @@ object F_Gamme: TF_Gamme
               Width = 99
               Height = 25
               Hint = 'Abandonner les modifications'
+              Caption = 'Annuler'
               Enabled = False
               TabOrder = 6
               Align = alLeft
