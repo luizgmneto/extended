@@ -7,7 +7,7 @@
       <Version Value="11"/>
       <SearchPaths>
         <IncludeFiles Value="composants;forms"/>
-        <OtherUnitFiles Value="composants;fonctions;forms"/>
+        <OtherUnitFiles Value="composants;forms"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -31,24 +31,24 @@
         <UnitName Value="u_extmenutoolbar"/>
       </Item2>
       <Item3>
-        <Filename Value="forms/u_customizemenu.lfm"/>
-        <Type Value="LFM"/>
-      </Item3>
-      <Item4>
-        <Filename Value="forms/u_customizemenu.pas"/>
-        <UnitName Value="U_CustomizeMenu"/>
-      </Item4>
-      <Item5>
         <Filename Value="composants/u_buttons_appli.lrs"/>
         <Type Value="LRS"/>
-      </Item5>
-      <Item6>
+      </Item3>
+      <Item4>
         <Filename Value="composants/u_buttons_appli.pas"/>
         <UnitName Value="u_buttons_appli"/>
-      </Item6>
-      <Item7>
+      </Item4>
+      <Item5>
         <Filename Value="composants/u_buttons_speed.pas"/>
         <UnitName Value="u_buttons_speed"/>
+      </Item5>
+      <Item6>
+        <Filename Value="forms/u_customizemenu.lfm"/>
+        <Type Value="LFM"/>
+      </Item6>
+      <Item7>
+        <Filename Value="forms/u_customizemenu.pas"/>
+        <UnitName Value="U_CustomizeMenu"/>
       </Item7>
     </Files>
     <Type Value="RunAndDesignTime"/>

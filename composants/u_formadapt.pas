@@ -60,7 +60,7 @@ type
     { Déclarations publiques }
     // Constructeur et destructeur
     Constructor Create ( AOwner : TComponent ); override;
-    procedure Activate; override;
+    procedure DoShow; override;
   published
 
   end;
@@ -84,19 +84,19 @@ begin
 end;
 
 
-procedure TF_FormAdapt.Activate;
+procedure TF_FormAdapt.DoShow;
 var
-  i: integer;
   NewEchelle : Extended;
 begin
-  NewEchelle:=Screen.MenuFont.Size/FromDPI;
-  if Echelle=NewEchelle then
-    Begin
-      inherited;
-      exit;
-    end;
+  if Screen.MenuFont.Size = 0
+    Then NewEchelle:=FromDPI
+    Else NewEchelle:=Screen.MenuFont.Size;
 
-  ScaleForm(Self,NewEchelle,Echelle);
+  NewEchelle:=NewEchelle/FromDPI;
+
+  if Echelle<>NewEchelle then
+      ScaleForm(Self,NewEchelle,Echelle);
+
   inherited;
 end;
 

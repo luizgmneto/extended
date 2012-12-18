@@ -49,7 +49,6 @@ type
   PCustMenuNode = ^TMenuNode ;
 
   { TF_CustomizeMenu }
-
   TF_CustomizeMenu = class(TForm)
     FWClose1: TFWClose;
     FWDelete: TFWDelete;

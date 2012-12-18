@@ -4,7 +4,6 @@ unit u_extmenucustomize;
 {$mode Delphi}
 {$ENDIF}
 
-{$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 
 interface
@@ -30,10 +29,7 @@ const MENUINI_SECTION_BEGIN = 'CustomizedMenu.' ;
   {$ENDIF}
 type
 
-  { TExtMenuToolBar }
-
   { TExtMenuCustomize }
-
   TExtMenuCustomize = class(TComponent)
   private
     FAutoIni : Boolean;
