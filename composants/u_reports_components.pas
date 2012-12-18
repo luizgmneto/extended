@@ -214,7 +214,7 @@ begin
      FReportForm := fref_CreateReport(Self,nil, FDataLink.DataSource, FColumns, FDBTitle,  FFilter)
    Else
      Begin
-       fb_CreateReport(Self,AReport,nil, FDataLink.DataSource, FColumns, AReport.Canvas, FDBTitle);
+       fb_CreateReport(Self,AReport,nil, FDataLink.DataSource, FColumns, AReport.Background.Picture.Bitmap.Canvas, FDBTitle);
      end;
 end;
 

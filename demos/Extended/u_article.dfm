@@ -288,6 +288,7 @@ object F_Article: TF_Article
         Columns = <
           item
             Expanded = False
+            FieldName = 'ARTI_Libcom'
             Visible = True
             FieldTag = 0
           end>
@@ -309,6 +310,7 @@ object F_Article: TF_Article
         Columns = <
           item
             Expanded = False
+            FieldName = 'ARTI_Libcom'
             Visible = True
             FieldTag = 0
           end>
@@ -326,19 +328,19 @@ object F_Article: TF_Article
     object Panel11: TPanel
       Left = 0
       Top = 0
-      Width = 361
+      Width = 25
       Height = 26
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 0
     end
-    object bt_apercu: TFWPreview
-      Left = 361
+    object bt_imprimer: TFWPrintGrid
+      Left = 25
       Top = 0
-      Width = 25
-      Hint = 'Aper'#231'u  (Impression / exportation)'
-      Caption = 'Aper'#231'u'
-      TabOrder = 4
+      Width = 80
+      Hint = 'Impression des r'#233'sultats de la s'#233'lection'
+      Caption = 'Imprimer'
+      TabOrder = 3
       Align = alLeft
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
@@ -346,57 +348,36 @@ object F_Article: TF_Article
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      Visible = False
+      DBGrid = gd_categ
+      DBTitle = 'Cat'#233'gories'
+      ExplicitLeft = 361
     end
-    object Panel2: TPanel
-      Left = 386
+    object Panel5: TPanel
+      Left = 105
       Top = 0
       Width = 13
       Height = 26
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitLeft = 441
     end
-    object bt_imprimer: TFWPrint
-      Left = 399
-      Top = 0
-      Width = 80
-      Hint = 'Impression des r'#233'sultats de la s'#233'lection'
-      Caption = 'Imprimer'
-      TabOrder = 5
-      Align = alLeft
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      Visible = False
-    end
-    object Panel5: TPanel
-      Left = 479
+    object Panel6: TPanel
+      Left = 118
       Top = 0
       Width = 13
       Height = 26
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 2
-    end
-    object Panel6: TPanel
-      Left = 492
-      Top = 0
-      Width = 13
-      Height = 26
-      Align = alLeft
-      BevelOuter = bvNone
-      TabOrder = 3
+      ExplicitLeft = 454
     end
     object bt_fermer: TFWClose
       Left = 928
       Top = 0
       Width = 96
       Caption = 'Fermer'
-      TabOrder = 6
+      TabOrder = 4
       Layout = blGlyphRight
       Align = alRight
       Font.Charset = DEFAULT_CHARSET

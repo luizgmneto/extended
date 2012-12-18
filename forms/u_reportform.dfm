@@ -1,34 +1,27 @@
-object PrintGraph: TPrintGraph
-  Left = 483
-  Top = 222
+inherited ReportForm: TReportForm
+  Left = 547
+  Top = 240
   AutoSize = True
-  Caption = 'PrintGraph'
-  ClientHeight = 1033
-  ClientWidth = 794
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
-  Font.Style = []
-  OldCreateOrder = True
-  OnCreate = DataModuleCreate
-  PixelsPerInch = 96
-  TextHeight = 13
-  object rp: TRLReport
+  Caption = 'ReportForm'
+  object RLReport: TRLReport[0]
     Left = 0
-    Top = 0
-    Width = 794
     Height = 1123
-    Font.Charset = DEFAULT_CHARSET
+    Top = 24
+    Width = 794
     Font.Color = clBlack
     Font.Height = -13
     Font.Name = 'Arial'
-    Font.Style = []
-    BeforePrint = rpBeforePrint
+    RealBounds.Left = 0
+    RealBounds.Top = 0
+    RealBounds.Width = 0
+    RealBounds.Height = 0
   end
-  object ps: TRLPreviewSetup
-    Left = 177
-    Top = 91
+  object Panel1: TPanel[1]
+    Left = 0
+    Height = 26
+    Top = 0
+    Width = 320
+    Align = alTop
+    TabOrder = 1
   end
-end
+end       

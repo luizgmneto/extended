@@ -136,7 +136,7 @@ object F_Gamme: TF_Gamme
         object ed_libelle: TFWDBEdit
           Tag = 2
           Left = 102
-          Top = 35
+          Top = 39
           Width = 460
           Height = 24
           DataField = 'GAMM_Libelle'
@@ -733,6 +733,7 @@ object F_Gamme: TF_Gamme
         Columns = <
           item
             Expanded = False
+            FieldName = 'GAMM_Libelle'
             Visible = True
             FieldTag = 0
           end>
@@ -755,6 +756,7 @@ object F_Gamme: TF_Gamme
         Columns = <
           item
             Expanded = False
+            FieldName = 'GAMM_Libelle'
             Visible = True
             FieldTag = 0
           end>
@@ -786,6 +788,25 @@ object F_Gamme: TF_Gamme
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 1
+      end
+      object bt_imprimer: TFWPrintGrid
+        Left = 13
+        Top = 0
+        Width = 80
+        Height = 25
+        Hint = 'Impression des r'#233'sultats de la s'#233'lection'
+        Caption = 'Imprimer'
+        TabOrder = 2
+        Align = alLeft
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        DBGrid = gd_famillevente
+        DBTitle = 'Gammes d'#39'articles'
+        ExplicitLeft = 361
       end
     end
   end

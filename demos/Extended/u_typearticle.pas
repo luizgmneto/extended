@@ -28,7 +28,7 @@ uses
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
   CompSuperForm, U_FormAdapt,
   U_GroupView, ImgList,fonctions_string, U_DmArticles,
-  U_DBListView, u_buttons_defs;
+  U_DBListView, u_buttons_defs, u_reports_components;
 
 type
 
@@ -111,6 +111,7 @@ type
     bt_out_art: TFWOutSelect;
     bt_out_totart: TFWOutAll;
     lv_ArtOut: TDBGroupView;
+    bt_imprimer: TFWPrintGrid;
     procedure F_FormDicoDataOnCancel(Sender: TObject);
     procedure bt_GammeClick(Sender: TObject);
     procedure bt_CaracClick(Sender: TObject);

@@ -25,9 +25,9 @@ uses
   U_DBListView, u_framework_dbcomponents, U_ExtDBPictCombo, u_extsearchedit,
   U_ExtComboInsert, DBGrids, Menus, u_extmenucustomize, ToolWin, IBDatabase,
   IBQuery, IBIntf, IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar,
-  U_ExtDBImage, U_ExtDBImageList, ImgList, ExtDlgs,
-  U_ExtPictCombo, U_ExtMapImageIndex, u_buttons_appli,
-  IBCustomDataSet, JvXPCore, JvXPButtons, U_ExtImage  ;
+  U_ExtDBImage, U_ExtDBImageList, ImgList, ExtDlgs, IBCustomDataSet,
+  U_ExtMapImageIndex, u_buttons_appli, u_reports_components, JvXPCore,
+  JvXPButtons, u_buttons_defs, U_ExtPictCombo, U_ExtImage ;
 
 type
 
@@ -103,6 +103,7 @@ type
     Menu5: TMenuItem;
     Menu4: TMenuItem;
     Menu6: TMenuItem;
+    FWPrint: TFWPrintGrid;
     {$IFDEF FPC}
     Process: TProcess;
     {$ENDIF}
