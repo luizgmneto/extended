@@ -1,13 +1,20 @@
 ﻿unit fonctions_scaledpi;
 
 interface
- 
+
+{$I ..\DLCompilers.inc}
+{$I ..\extends.inc}
+
+{$IFDEF FPC}
+{$mode Delphi}
+{$ENDIF}
+
 uses
   Forms, Graphics,
   {$IFDEF VERSIONS}
     fonctions_version,
   {$ENDIF}
-  Controls;
+  Controls, Classes;
 
 Const
   FromDPI=8;//Screen.MenuFont.Size de la conception
@@ -24,31 +31,76 @@ Const
 
 {$ENDIF}
 
+procedure p_addtoSoftware;
 procedure HighDPI;
 procedure ScaleDPI(const Control: TControl;const ANewEchelle,AEchelle:Extended);
 function Scale(const Valeur:Integer;const ANewEchelle,AEchelle:Extended):Integer;
 procedure ScaleForm(const Control: TCustomForm;const ANewEchelle,AEchelle:Extended);
 
+
+type
+
+  { TDMAdaptForms }
+
+  TDMAdaptForms = class(TDataModule)
+    procedure ApplicationActivate ( Sender : TObject );
+  private
+    { private declarations }
+  public
+    { public declarations }
+    constructor Create ( AOwner : TComponent ); override;
+
+  end;
+
+var
+  DMAdaptForms: TDMAdaptForms;
+
 implementation
 
 uses fonctions_proprietes;
 
-Var
-  Echelle:Extended=1;
+var ge_OldApplicationActivate : TNotifyEvent = nil;
+    ge_FontsEchelle:Extended=1;
+    gmet_Method : TMethod;
 
- 
+procedure TDMAdaptForms.ApplicationActivate ( Sender : TObject );
+Begin
+  HighDPI;
+end;
+
+constructor TDMAdaptForms.Create(AOwner: TComponent);
+begin
+  Try
+    GlobalNameSpace.BeginWrite;
+
+    {$IFDEF FPC}
+    CreateNew(AOwner, 1 );
+    {$ELSE}
+    CreateNew(AOwner);
+    {$ENDIF}
+  Finally
+    GlobalNameSpace.EndWrite;
+  End
+
+end;
+
 procedure HighDPI;
 var
   i: integer;
   NewEchelle : Extended;
 begin
-  NewEchelle:=Screen.MenuFont.Size/FromDPI;
-  if Echelle=NewEchelle then
+  if Screen.MenuFont.Size = 0
+    Then NewEchelle:=FromDPI
+    Else NewEchelle:=Screen.MenuFont.Size;
+
+  NewEchelle:=NewEchelle/ge_FontsEchelle;
+
+  if ge_FontsEchelle=NewEchelle then
     exit;
  
   for i:=0 to Screen.FormCount-1 do
-    ScaleForm(Screen.Forms[i],NewEchelle,Echelle);
-  Echelle:=NewEchelle;
+    ScaleForm(Screen.Forms[i],NewEchelle,ge_FontsEchelle);
+  ge_FontsEchelle:=NewEchelle;
 end;
  
 function Scale(const Valeur:Integer;const ANewEchelle,AEchelle:Extended):Integer;
@@ -129,9 +181,16 @@ begin
   end;
 end;
 
+procedure p_addtoSoftware;
+Begin
+  ge_OldApplicationActivate := Application.OnActivate;
+  if DMAdaptForms = nil Then
+    DMAdaptForms := TDMAdaptForms.Create(Application);
+  Application.OnActivate    := TNotifyEvent ( DMAdaptForms.ApplicationActivate );
+end;
+
 initialization
 {$IFDEF VERSIONS}
   p_ConcatVersion ( gver_fonctions_scaledpi );
 {$ENDIF}
- 
 end.
