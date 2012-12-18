@@ -211,10 +211,10 @@ begin
   if assigned(FDataLink) then
   if AReport = nil
    Then
-     FReportForm := fref_CreateReport(Self,nil, FDataLink.DataSource, FColumns, FDBTitle, FFilter)
+     FReportForm := fref_CreateReport(Self,nil, FDataLink.DataSource, FColumns, FDBTitle,  FFilter)
    Else
      Begin
-       fb_CreateReport(Self,AReport,nil, FDataLink.DataSource, FColumns, FDBTitle);
+       fb_CreateReport(Self,AReport,nil, FDataLink.DataSource, FColumns, AReport.Canvas, FDBTitle);
      end;
 end;
 
