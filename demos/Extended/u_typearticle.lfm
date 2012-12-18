@@ -128,7 +128,7 @@ inherited F_TypeProduit: TF_TypeProduit
         object ed_libelle: TFWDBEdit
           Tag = 2
           Left = 102
-          Height = 24
+          Height = 25
           Top = 35
           Width = 460
           DataField = 'TYPR_Libelle'
@@ -144,7 +144,7 @@ inherited F_TypeProduit: TF_TypeProduit
         object ed_code: TFWDBEdit
           Tag = 1
           Left = 102
-          Height = 24
+          Height = 25
           Top = 10
           Width = 129
           DataField = 'TYPR_Clep'
@@ -180,11 +180,11 @@ inherited F_TypeProduit: TF_TypeProduit
         OnChanging = pc_GroupesChanging
         object ts_Gamme: TTabSheet
           Caption = 'Gammes dont ce type est membre'
-          ClientHeight = 341
-          ClientWidth = 576
+          ClientHeight = 337
+          ClientWidth = 580
           object RbSplitter1: TSplitter
             Left = 321
-            Height = 314
+            Height = 310
             Top = 27
             Width = 5
           end
@@ -192,10 +192,10 @@ inherited F_TypeProduit: TF_TypeProduit
             Left = 0
             Height = 27
             Top = 0
-            Width = 576
+            Width = 580
             Align = alTop
             ClientHeight = 27
-            ClientWidth = 576
+            ClientWidth = 580
             TabOrder = 0
             object Panel13: TPanel
               Left = 249
@@ -216,7 +216,7 @@ inherited F_TypeProduit: TF_TypeProduit
               TabOrder = 1
             end
             object Panel5: TPanel
-              Left = 562
+              Left = 566
               Height = 25
               Top = 1
               Width = 13
@@ -277,18 +277,18 @@ inherited F_TypeProduit: TF_TypeProduit
           end
           object Panel6: TPanel
             Left = 0
-            Height = 314
+            Height = 310
             Top = 27
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 314
+            ClientHeight = 310
             ClientWidth = 321
             Constraints.MinWidth = 4
             TabOrder = 1
             object lsv_GammIn: TDBGroupView
               Left = 0
-              Height = 314
+              Height = 310
               Hint = 'Liste des membres'
               Top = 0
               Width = 251
@@ -297,7 +297,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'Gammes dont ce type est membre'
-                  Width = 247
+                  Width = 267
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -328,12 +328,12 @@ inherited F_TypeProduit: TF_TypeProduit
             end
             object Panel2: TPanel
               Left = 251
-              Height = 314
+              Height = 310
               Top = 0
               Width = 70
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 314
+              ClientHeight = 310
               ClientWidth = 70
               TabOrder = 1
               object bt_in_item: TFWInSelect
@@ -386,16 +386,16 @@ inherited F_TypeProduit: TF_TypeProduit
           end
           object lsv_GammOut: TDBGroupView
             Left = 326
-            Height = 314
+            Height = 310
             Hint = 'A réaffecter'
             Top = 27
-            Width = 250
+            Width = 254
             Align = alClient
             Columns = <            
               item
                 AutoSize = True
                 Caption = 'Gammes dont ce type n''est pas membre'
-                Width = 250
+                Width = 311
               end>
             Constraints.MinWidth = 4
             DragMode = dmAutomatic
@@ -429,7 +429,7 @@ inherited F_TypeProduit: TF_TypeProduit
         end
         object ts_Caracteristique: TTabSheet
           Caption = 'Caractéristiques membres du type'
-          ClientHeight = 339
+          ClientHeight = 337
           ClientWidth = 580
           ImageIndex = 1
           object RbSplitter2: TSplitter
@@ -460,7 +460,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'Caractéristiques membres du type'
-                  Width = 238
+                  Width = 265
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -645,7 +645,7 @@ inherited F_TypeProduit: TF_TypeProduit
               item
                 AutoSize = True
                 Caption = 'Caractéristiques non membres du type'
-                Width = 250
+                Width = 297
               end>
             Constraints.MinWidth = 4
             DragMode = dmAutomatic
@@ -679,7 +679,7 @@ inherited F_TypeProduit: TF_TypeProduit
         end
         object TabSheet1: TTabSheet
           Caption = 'Articles affectés au type'
-          ClientHeight = 339
+          ClientHeight = 337
           ClientWidth = 580
           ImageIndex = 2
           object Panel12: TPanel
@@ -804,7 +804,7 @@ inherited F_TypeProduit: TF_TypeProduit
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 214
+                    Width = 195
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -904,7 +904,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 272
+                  Width = 253
                 end>
               Constraints.MinWidth = 4
               DragMode = dmAutomatic
@@ -999,7 +999,19 @@ inherited F_TypeProduit: TF_TypeProduit
         Width = 280
         TitleButtons = False
         AutoSort = False
-        Columns = <>
+        Columns = <        
+          item
+            Title.Alignment = taCenter
+            Title.Caption = 'Libellés'
+            Title.Orientation = toHorizontal
+            FieldName = 'TYPR_Libelle'
+            Filter.DropDownRows = 0
+            Filter.EmptyValue = '(Empty)'
+            Filter.EmptyFont.Style = [fsItalic]
+            Filter.ItemIndex = -1
+            EditButtons = <>
+            FieldTag = 0
+          end>
         KeyStrokes = <        
           item
             Command = rxgcShowFindDlg
@@ -1099,6 +1111,22 @@ inherited F_TypeProduit: TF_TypeProduit
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 1
+      end
+      object bt_imprimer: TFWPrintGrid
+        Left = 693
+        Height = 25
+        Hint = 'Impression des résultats de la sélection'
+        Top = 0
+        Width = 80
+        Caption = 'Imprimer'
+        TabOrder = 2
+        Align = alRight
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        ParentFont = False
+        DBGrid = gd_famillevente
+        DBTitle = 'Types d''articles'
       end
     end
   end
