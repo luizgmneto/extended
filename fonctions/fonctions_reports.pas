@@ -126,7 +126,7 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtLandscapeColumnsCount : Integer = 9;
     ExtHeader  : TRLBand = nil;
 
-function fb_CreateReport ( const AReportComponent : TComponent ; const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String): Boolean;
+function fb_CreateReport ( const AReportComponent : TComponent ; const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 function fref_CreateReport ( const AReportComponent : TComponent ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
 procedure p_DrawReportImage( Sender:TObject; var PrintIt:boolean);
 
@@ -268,7 +268,7 @@ Begin
       End;
 End;
 
-function fb_CreateReport ( const AReportComponent : TComponent ;const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String): Boolean;
+function fb_CreateReport ( const AReportComponent : TComponent ;const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth, ALinesAddedHeader, ALinesAddedColumns : Integer;
     ARLLabel : TRLLabel;
     ARLDBText : TRLDBText;
@@ -434,12 +434,10 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
 
   procedure CreateHeader;
   var i, j : Integer;
-      ACanvas : TCanvas;
       LIsFirst : Boolean;
       Alines : Integer;
       LString : TStringArray;
   Begin
-   ACanvas:=TCanvas.Create;
    with agrid,AReport do
     try
       Alines := 1;
@@ -470,7 +468,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
         inc ( atitleHeight, 4 );
         p_createBand ( 0, Y + atitleHeight, 30, btColumnHeader, ExtColumnHeaderColorBack  );
        end;
-      ACanvas.font.Assign(ExtColumnHeaderFont);
+      ATempCanvas.font.Assign(ExtColumnHeaderFont);
       if aresizecolumns > 0 Then
         aresizecolumns:= ( Width - totalgridwidth ) div aresizecolumns;
       LIsFirst := True;
@@ -479,8 +477,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
        Begin
         awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
         if agrid = nil
-         Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ACanvas,' ')
-         Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ACanvas,' ');
+         Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' ')
+         Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' ');
         if high ( LString ) > ALinesAddedHeader Then
          ALinesAddedHeader:=high ( LString );
        end;
@@ -490,8 +488,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
          Begin
            awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
           if agrid = nil
-           Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ACanvas,' ')
-           Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ACanvas,' ');
+           Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' ')
+           Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' ');
 //          RLColumnHeaderFont.GetTextSize(LString,Apos,j);
            for j := 0 to ALinesAddedHeader do
             Begin
@@ -507,7 +505,6 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
          end;
 
     finally
-     ACanvas.Free;
     end;
    p_DrawBorders ( ARLBand.Borders, ExtColumnColorBorder, False, ExtColumnVBorders, False );
    p_AdaptBands ( LIsFirst, Alines );
@@ -629,7 +626,7 @@ function fref_CreateReport ( const AReportComponent : TComponent ; const agrid :
 Begin
   Result := TReportForm.create ( Application );
   Result.RLReport.DefaultFilter:=acf_filter;
-  fb_CreateReport ( AReportComponent, Result.RLReport, agrid, ADatasource, AColumns, as_Title );
+  fb_CreateReport ( AReportComponent, Result.RLReport, agrid, ADatasource, AColumns, Result.Canvas, as_Title );
 end;
 
 initialization
