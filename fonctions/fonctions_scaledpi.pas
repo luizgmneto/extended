@@ -46,8 +46,8 @@ type
     procedure ApplicationActivate ( Sender : TObject );
   private
     { private declarations }
-  public
-    { public declarations }
+  published
+    { published declarations }
     constructor Create ( AOwner : TComponent ); override;
 
   end;
@@ -186,7 +186,7 @@ Begin
   ge_OldApplicationActivate := Application.OnActivate;
   if DMAdaptForms = nil Then
     DMAdaptForms := TDMAdaptForms.Create(Application);
-  Application.OnActivate    := TNotifyEvent ( DMAdaptForms.ApplicationActivate );
+  Application.OnActivate    := TNotifyEvent ( fmet_getComponentMethodProperty ( DMAdaptForms, 'ApplicationActivate' ) );
 end;
 
 initialization

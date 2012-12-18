@@ -1,4 +1,4 @@
-unit U_FormAdapt;
+﻿unit U_FormAdapt;
 // Unité de la Version 2 du projet FormMain
 // La version 1 TFormMain n'est pas sa fenêtre parente
 
@@ -60,7 +60,7 @@ type
     { Déclarations publiques }
     // Constructeur et destructeur
     Constructor Create ( AOwner : TComponent ); override;
-    procedure DoShow; override;
+    procedure Activate; override;
   published
 
   end;
@@ -84,7 +84,7 @@ begin
 end;
 
 
-procedure TF_FormAdapt.DoShow;
+procedure TF_FormAdapt.Activate;
 var
   NewEchelle : Extended;
 begin
