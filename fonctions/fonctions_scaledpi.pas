@@ -55,7 +55,7 @@ function Scale(const Valeur:Integer;const ANewEchelle,AEchelle:Extended):Integer
 Var
   Ext:Extended;
 begin
-  Ext:=Valeur*ANewEchelle/AEchelle;
+  Ext:=Valeur*ANewEchelle;
   if Ext>=0 then
     Result:=Trunc(Ext+0.5)
   else
