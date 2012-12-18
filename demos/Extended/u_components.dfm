@@ -14,6 +14,7 @@ object Myform: TMyform
   Menu = mu_MainMenu
   OldCreateOrder = False
   OnShow = FormShow
+  AutoIni = False
   PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
@@ -531,10 +532,19 @@ object Myform: TMyform
     object FWClose1: TFWClose
       Left = 395
       Top = 10
-      Width = 96
+      Width = 70
       Height = 32
       Caption = 'Close'
       TabOrder = 11
+    end
+    object FWPrint: TFWPrintGrid
+      Left = 471
+      Top = 10
+      Width = 70
+      Height = 32
+      Caption = 'Print'
+      TabOrder = 12
+      DBGrid = Noms
     end
   end
   object FWDBEdit1: TFWDBEdit

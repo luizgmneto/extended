@@ -979,6 +979,7 @@ object F_TypeProduit: TF_TypeProduit
         Columns = <
           item
             Expanded = False
+            FieldName = 'TYPR_Libelle'
             Visible = True
             FieldTag = 0
           end>
@@ -1001,6 +1002,7 @@ object F_TypeProduit: TF_TypeProduit
         Columns = <
           item
             Expanded = False
+            FieldName = 'TYPR_Libelle'
             Visible = True
             FieldTag = 0
           end>
@@ -1031,6 +1033,25 @@ object F_TypeProduit: TF_TypeProduit
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 1
+      end
+      object bt_imprimer: TFWPrintGrid
+        Left = 13
+        Top = 0
+        Width = 80
+        Height = 25
+        Hint = 'Impression des r'#233'sultats de la s'#233'lection'
+        Caption = 'Imprimer'
+        TabOrder = 2
+        Align = alLeft
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        DBGrid = gd_famillevente
+        DBTitle = 'Types d'#39'articles'
+        ExplicitLeft = 361
       end
     end
   end

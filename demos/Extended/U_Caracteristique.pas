@@ -27,7 +27,7 @@ uses
   StrUtils, U_OnFormInfoIni,  JvXPButtons,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
   U_GroupView, ImgList,fonctions_string,
-  CompSuperForm, U_DBListView, U_FormAdapt, u_buttons_defs;
+  CompSuperForm, U_DBListView, U_FormAdapt, u_buttons_defs, u_reports_components;
 
 const CST_CARA_Clep = 'CARA_Clep' ; 
 
@@ -94,6 +94,7 @@ type
     bt_out_art: TFWOutSelect;
     bt_out_totart: TFWOutAll;
     lv_ArtOut: TDBGroupView;
+    bt_imprimer: TFWPrintGrid;
     procedure bt_fermerClick(Sender: TObject);
     procedure F_FormDicoDataOnCancel(Sender: TObject);
     procedure bt_TypeProClick(Sender: TObject);

@@ -24,7 +24,8 @@ uses
   DBGrids, u_framework_dbcomponents, ComCtrls, StdCtrls, SysUtils,  TypInfo,
   Variants, StrUtils, U_OnFormInfoIni, U_FormAdapt,
   JvXPButtons, U_ExtDBGrid,U_ConstMessage, U_DmArticles,
-  u_framework_components, u_buttons_appli, U_ExtComboInsert, u_buttons_defs;
+  u_framework_components, u_buttons_appli, U_ExtComboInsert, u_buttons_defs,
+  u_reports_components;
 
 type
 
@@ -52,9 +53,7 @@ type
     gd_categ: TExtDBGrid;
     Panel1: TPanel;
     Panel11: TPanel;
-    bt_apercu: TFWPreview;
-    Panel2: TPanel;
-    bt_imprimer: TFWPrint;
+    bt_imprimer: TFWPrintGrid;
     Panel5: TPanel;
     Panel6: TPanel;
     bt_fermer: TFWClose;
