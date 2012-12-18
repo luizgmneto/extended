@@ -43,6 +43,7 @@ type
     ExtMapImages: TExtMapImages;
     ExtMenuToolBar: TExtMenuToolBar;
     FWClose1: TFWClose;
+    FWPrint:  TFWPrintGrid;
     IBUpdateUtilisateur: TIBUpdateSQL;
     IBUpdateDepartem: TIBUpdateSQL;
     MapImages: TExtMapImages;
@@ -103,7 +104,6 @@ type
     Menu5: TMenuItem;
     Menu4: TMenuItem;
     Menu6: TMenuItem;
-    FWPrint: TFWPrintGrid;
     {$IFDEF FPC}
     Process: TProcess;
     {$ENDIF}

@@ -19,11 +19,11 @@ uses
   RXSplit, Mask, JvXPCore,
   JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvDBLookup,
 {$ENDIF}
-  Messages, Graphics, Controls, Classes, ExtCtrls,  Dialogs, DB,
+  Messages, Graphics, Controls, Classes, ExtCtrls, Dialogs, DB,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
-  DBGrids, u_framework_dbcomponents, ComCtrls, StdCtrls, SysUtils,  TypInfo,
+  DBGrids, u_framework_dbcomponents, ComCtrls, StdCtrls, SysUtils, TypInfo,
   Variants, StrUtils, U_OnFormInfoIni, U_FormAdapt,
-  JvXPButtons, U_ExtDBGrid,U_ConstMessage, U_DmArticles,
+  JvXPButtons, U_ExtDBGrid, U_ConstMessage, U_DmArticles,
   u_framework_components, u_buttons_appli, U_ExtComboInsert, u_buttons_defs,
   u_reports_components;
 
@@ -73,6 +73,7 @@ implementation
 
 {$IFNDEF FPC}
   {$R *.dfm}
+
 {$ELSE}
   {$R *.lfm}
 {$ENDIF}
@@ -86,12 +87,11 @@ procedure TF_Article.F_FormDicoCreate(Sender: TObject);
 begin
   F_Article := Self;
 
-  M_Article.ds_article .DataSet.Open;
+  M_Article.ds_article.DataSet.Open;
   M_Article.ds_typearti.DataSet.Open;
-  M_Article.ds_Carac   .DataSet.Open;
-  M_Article.ds_Gamme   .DataSet.Open;
+  M_Article.ds_Carac.DataSet.Open;
+  M_Article.ds_Gamme.DataSet.Open;
 
 end;
 
 end.
-

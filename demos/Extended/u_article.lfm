@@ -116,7 +116,7 @@ inherited F_Article: TF_Article
       object ed_libelcateg: TFWDBEdit
         Tag = 2
         Left = 128
-        Height = 24
+        Height = 25
         Top = 64
         Width = 190
         DataField = 'ARTI_Libcom'
@@ -132,7 +132,7 @@ inherited F_Article: TF_Article
       object ed_codecateg: TFWDBEdit
         Tag = 1
         Left = 128
-        Height = 24
+        Height = 25
         Top = 36
         Width = 34
         DataField = 'ARTI_Clep'
@@ -148,7 +148,7 @@ inherited F_Article: TF_Article
       end
       object cb_Categ: TExtDBComboInsert
         Left = 128
-        Height = 21
+        Height = 25
         Top = 93
         Width = 218
         DataField = 'ARTI__GAMM'
@@ -178,7 +178,7 @@ inherited F_Article: TF_Article
       end
       object cb_Categ1: TExtDBComboInsert
         Left = 128
-        Height = 21
+        Height = 25
         Top = 121
         Width = 218
         DataField = 'ARTI__TYPR'
@@ -208,7 +208,7 @@ inherited F_Article: TF_Article
       end
       object cb_Categ2: TExtDBComboInsert
         Left = 128
-        Height = 21
+        Height = 25
         Top = 149
         Width = 218
         DataField = 'ARTI__CARA'
@@ -254,7 +254,19 @@ inherited F_Article: TF_Article
         Width = 296
         TitleButtons = False
         AutoSort = False
-        Columns = <>
+        Columns = <        
+          item
+            Title.Alignment = taCenter
+            Title.Caption = 'Libellés'
+            Title.Orientation = toHorizontal
+            FieldName = 'ARTI_Libcom'
+            Filter.DropDownRows = 0
+            Filter.EmptyValue = '(Empty)'
+            Filter.EmptyFont.Style = [fsItalic]
+            Filter.ItemIndex = -1
+            EditButtons = <>
+            FieldTag = 0
+          end>
         KeyStrokes = <        
           item
             Command = rxgcShowFindDlg
@@ -373,42 +385,20 @@ inherited F_Article: TF_Article
       BevelOuter = bvNone
       TabOrder = 0
     end
-    object bt_apercu: TFWPreview
-      Left = 433
-      Hint = 'Aperçu  (Impression / exportation)'
-      Top = 0
-      Width = 82
-      Caption = 'Aperçu'
-      TabOrder = 4
-      Align = alRight
-      Font.Color = clBlack
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      ParentFont = False
-      Visible = False
-    end
-    object Panel2: TPanel
-      Left = 515
-      Height = 26
-      Top = 0
-      Width = 13
-      Align = alRight
-      BevelOuter = bvNone
-      TabOrder = 1
-    end
-    object bt_imprimer: TFWPrint
+    object bt_imprimer: TFWPrintGrid
       Left = 528
       Hint = 'Impression des résultats de la sélection'
       Top = 0
       Width = 80
       Caption = 'Imprimer'
-      TabOrder = 5
+      TabOrder = 3
       Align = alRight
       Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
       ParentFont = False
-      Visible = False
+      DBGrid = gd_categ
+      DBTitle = 'Articles'
     end
     object Panel5: TPanel
       Left = 0
@@ -417,7 +407,7 @@ inherited F_Article: TF_Article
       Width = 13
       Align = alLeft
       BevelOuter = bvNone
-      TabOrder = 2
+      TabOrder = 1
     end
     object Panel6: TPanel
       Left = 13
@@ -426,14 +416,14 @@ inherited F_Article: TF_Article
       Width = 13
       Align = alLeft
       BevelOuter = bvNone
-      TabOrder = 3
+      TabOrder = 2
     end
     object bt_fermer: TFWClose
       Left = 624
       Top = 0
       Width = 79
       Caption = 'Fermer'
-      TabOrder = 6
+      TabOrder = 4
       Layout = blGlyphRight
       Align = alRight
       Font.Color = clBlack

@@ -127,7 +127,7 @@ inherited F_Caracteristique: TF_Caracteristique
         object ed_libelle: TFWDBEdit
           Tag = 2
           Left = 102
-          Height = 24
+          Height = 25
           Top = 35
           Width = 460
           DataField = 'CARA_Libelle'
@@ -143,7 +143,7 @@ inherited F_Caracteristique: TF_Caracteristique
         object ed_code: TFWDBEdit
           Tag = 1
           Left = 102
-          Height = 24
+          Height = 25
           Top = 10
           Width = 201
           DataField = 'CARA_Clep'
@@ -178,11 +178,11 @@ inherited F_Caracteristique: TF_Caracteristique
         TabOrder = 2
         object ts_ssfam: TTabSheet
           Caption = 'Types dont cette caractéristique est membre'
-          ClientHeight = 442
-          ClientWidth = 673
+          ClientHeight = 438
+          ClientWidth = 677
           object RbSplitter1: TSplitter
             Left = 321
-            Height = 415
+            Height = 411
             Top = 27
             Width = 5
           end
@@ -190,10 +190,10 @@ inherited F_Caracteristique: TF_Caracteristique
             Left = 0
             Height = 27
             Top = 0
-            Width = 673
+            Width = 677
             Align = alTop
             ClientHeight = 27
-            ClientWidth = 673
+            ClientWidth = 677
             TabOrder = 0
             object Panel12: TPanel
               Left = 261
@@ -223,7 +223,7 @@ inherited F_Caracteristique: TF_Caracteristique
               TabOrder = 2
             end
             object Panel5: TPanel
-              Left = 659
+              Left = 663
               Height = 25
               Top = 1
               Width = 13
@@ -275,18 +275,18 @@ inherited F_Caracteristique: TF_Caracteristique
           end
           object Panel6: TPanel
             Left = 0
-            Height = 415
+            Height = 411
             Top = 27
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 415
+            ClientHeight = 411
             ClientWidth = 321
             Constraints.MinWidth = 10
             TabOrder = 1
             object lv_CaracIn: TDBGroupView
               Left = 0
-              Height = 415
+              Height = 411
               Hint = 'Liste des membres'
               Top = 0
               Width = 242
@@ -295,7 +295,7 @@ inherited F_Caracteristique: TF_Caracteristique
                 item
                   AutoSize = True
                   Caption = 'Types dont cette caractéristique est membre'
-                  Width = 238
+                  Width = 342
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -326,12 +326,12 @@ inherited F_Caracteristique: TF_Caracteristique
             end
             object Panel2: TPanel
               Left = 242
-              Height = 415
+              Height = 411
               Top = 0
               Width = 79
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 415
+              ClientHeight = 411
               ClientWidth = 79
               TabOrder = 1
               object bt_in_item: TFWInSelect
@@ -384,16 +384,16 @@ inherited F_Caracteristique: TF_Caracteristique
           end
           object lv_transfert: TDBGroupView
             Left = 326
-            Height = 415
+            Height = 411
             Hint = 'A réaffecter'
             Top = 27
-            Width = 347
+            Width = 351
             Align = alClient
             Columns = <            
               item
                 AutoSize = True
                 Caption = 'Types dont cette caractéristique n''est pas membre'
-                Width = 347
+                Width = 386
               end>
             Constraints.MinWidth = 10
             DragMode = dmAutomatic
@@ -427,8 +427,8 @@ inherited F_Caracteristique: TF_Caracteristique
         end
         object TabSheet1: TTabSheet
           Caption = 'Articles affectés à la caractéristique'
-          ClientHeight = 442
-          ClientWidth = 673
+          ClientHeight = 438
+          ClientWidth = 677
           ImageIndex = 1
           object Panel7: TPanel
             Left = 0
@@ -552,7 +552,7 @@ inherited F_Caracteristique: TF_Caracteristique
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 261
+                    Width = 242
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -652,7 +652,7 @@ inherited F_Caracteristique: TF_Caracteristique
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 322
+                  Width = 299
                 end>
               Constraints.MinWidth = 10
               DragMode = dmAutomatic
@@ -747,7 +747,19 @@ inherited F_Caracteristique: TF_Caracteristique
         Width = 280
         TitleButtons = False
         AutoSort = False
-        Columns = <>
+        Columns = <        
+          item
+            Title.Alignment = taCenter
+            Title.Caption = 'Libellés'
+            Title.Orientation = toHorizontal
+            FieldName = 'CARA_Libelle'
+            Filter.DropDownRows = 0
+            Filter.EmptyValue = '(Empty)'
+            Filter.EmptyFont.Style = [fsItalic]
+            Filter.ItemIndex = -1
+            EditButtons = <>
+            FieldTag = 0
+          end>
         KeyStrokes = <        
           item
             Command = rxgcShowFindDlg
@@ -847,6 +859,21 @@ inherited F_Caracteristique: TF_Caracteristique
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 1
+      end
+      object bt_imprimer: TFWPrintGrid
+        Left = 782
+        Hint = 'Impression des résultats de la sélection'
+        Top = 0
+        Width = 80
+        Caption = 'Imprimer'
+        TabOrder = 2
+        Align = alRight
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        ParentFont = False
+        DBGrid = gd_famillevente
+        DBTitle = 'Caractéristiques'
       end
     end
   end

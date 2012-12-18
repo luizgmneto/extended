@@ -615,14 +615,25 @@ inherited Myform: TMyform
       end
     end
     object FWClose1: TFWClose
-      Left = 387
+      Left = 347
       Height = 32
       Top = 9
-      Width = 96
       Caption = 'Close'
       TabOrder = 13
       Font.Color = clMaroon
       ParentFont = False
+    end
+    object FWPrint: TFWPrintGrid
+      Left = 427
+      Height = 32
+      Top = 9
+      Width = 96
+      Caption = 'Print'
+      TabOrder = 14
+      Font.Color = clMaroon
+      ParentFont = False
+      DBGrid = Noms
+      DBTitle = 'Users'
     end
   end
   object FWDBEdit1: TFWDBEdit[3]

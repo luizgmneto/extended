@@ -36,6 +36,7 @@ type
   { TF_Caracteristique }
 
   TF_Caracteristique = class(TF_FormAdapt)
+    bt_imprimer: TFWPrintGrid;
     nv_navigator: TExtDBNavigator;
     nv_saisie: TExtDBNavigator;
     lb_code: TFWLabel;
@@ -94,7 +95,6 @@ type
     bt_out_art: TFWOutSelect;
     bt_out_totart: TFWOutAll;
     lv_ArtOut: TDBGroupView;
-    bt_imprimer: TFWPrintGrid;
     procedure bt_fermerClick(Sender: TObject);
     procedure F_FormDicoDataOnCancel(Sender: TObject);
     procedure bt_TypeProClick(Sender: TObject);

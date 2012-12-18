@@ -129,7 +129,7 @@ inherited F_Gamme: TF_Gamme
         object ed_libelle: TFWDBEdit
           Tag = 2
           Left = 102
-          Height = 24
+          Height = 25
           Top = 35
           Width = 460
           DataField = 'GAMM_Libelle'
@@ -145,7 +145,7 @@ inherited F_Gamme: TF_Gamme
         object ed_code: TFWDBEdit
           Tag = 1
           Left = 102
-          Height = 24
+          Height = 25
           Top = 10
           Width = 73
           DataField = 'GAMM_Clep'
@@ -180,11 +180,11 @@ inherited F_Gamme: TF_Gamme
         TabOrder = 2
         object ts_ssfam: TTabSheet
           Caption = 'Types d''articles membres de la gamme'
-          ClientHeight = 433
-          ClientWidth = 662
+          ClientHeight = 429
+          ClientWidth = 666
           object RbSplitter1: TSplitter
             Left = 321
-            Height = 406
+            Height = 402
             Top = 27
             Width = 5
           end
@@ -192,10 +192,10 @@ inherited F_Gamme: TF_Gamme
             Left = 0
             Height = 27
             Top = 0
-            Width = 662
+            Width = 666
             Align = alTop
             ClientHeight = 27
-            ClientWidth = 662
+            ClientWidth = 666
             TabOrder = 0
             object Panel12: TPanel
               Left = 254
@@ -225,7 +225,7 @@ inherited F_Gamme: TF_Gamme
               TabOrder = 2
             end
             object Panel5: TPanel
-              Left = 648
+              Left = 652
               Height = 25
               Top = 1
               Width = 13
@@ -277,18 +277,18 @@ inherited F_Gamme: TF_Gamme
           end
           object Panel6: TPanel
             Left = 0
-            Height = 406
+            Height = 402
             Top = 27
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 406
+            ClientHeight = 402
             ClientWidth = 321
             Constraints.MinWidth = 3
             TabOrder = 1
             object lsv_TypesIn: TDBGroupView
               Left = 0
-              Height = 406
+              Height = 402
               Hint = 'Liste des membres'
               Top = 0
               Width = 242
@@ -297,7 +297,7 @@ inherited F_Gamme: TF_Gamme
                 item
                   AutoSize = True
                   Caption = 'Types membres de la gamme'
-                  Width = 238
+                  Width = 227
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -328,12 +328,12 @@ inherited F_Gamme: TF_Gamme
             end
             object Panel2: TPanel
               Left = 242
-              Height = 406
+              Height = 402
               Top = 0
               Width = 79
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 406
+              ClientHeight = 402
               ClientWidth = 79
               TabOrder = 1
               object bt_in_item: TFWInSelect
@@ -386,16 +386,16 @@ inherited F_Gamme: TF_Gamme
           end
           object lsv_TypesOut: TDBGroupView
             Left = 326
-            Height = 406
+            Height = 402
             Hint = 'Liste d''exclusion'
             Top = 27
-            Width = 336
+            Width = 340
             Align = alClient
             Columns = <            
               item
                 AutoSize = True
                 Caption = 'Types non membres de la gamme'
-                Width = 336
+                Width = 317
               end>
             Constraints.MinWidth = 3
             DragMode = dmAutomatic
@@ -429,7 +429,7 @@ inherited F_Gamme: TF_Gamme
         end
         object TabSheet1: TTabSheet
           Caption = 'Articles affectés à la gamme'
-          ClientHeight = 431
+          ClientHeight = 429
           ClientWidth = 666
           ImageIndex = 1
           object Panel7: TPanel
@@ -556,7 +556,7 @@ inherited F_Gamme: TF_Gamme
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 261
+                    Width = 242
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -656,7 +656,7 @@ inherited F_Gamme: TF_Gamme
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 311
+                  Width = 292
                 end>
               Constraints.MinWidth = 3
               DragMode = dmAutomatic
@@ -751,7 +751,19 @@ inherited F_Gamme: TF_Gamme
         Width = 280
         TitleButtons = False
         AutoSort = False
-        Columns = <>
+        Columns = <        
+          item
+            Title.Alignment = taCenter
+            Title.Caption = 'Libellés'
+            Title.Orientation = toHorizontal
+            FieldName = 'GAMM_Libelle'
+            Filter.DropDownRows = 0
+            Filter.EmptyValue = '(Empty)'
+            Filter.EmptyFont.Style = [fsItalic]
+            Filter.ItemIndex = -1
+            EditButtons = <>
+            FieldTag = 0
+          end>
         KeyStrokes = <        
           item
             Command = rxgcShowFindDlg
@@ -852,6 +864,22 @@ inherited F_Gamme: TF_Gamme
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 1
+      end
+      object bt_imprimer: TFWPrintGrid
+        Left = 787
+        Height = 25
+        Hint = 'Impression des résultats de la sélection'
+        Top = 0
+        Width = 80
+        Caption = 'Imprimer'
+        TabOrder = 2
+        Align = alRight
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        ParentFont = False
+        DBGrid = gd_famillevente
+        DBTitle = 'Gammes'
       end
     end
   end
