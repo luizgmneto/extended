@@ -1285,7 +1285,6 @@
         <TopLine Value="192"/>
         <CursorPos X="37" Y="202"/>
         <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit137>
       <Unit138>
         <Filename Value="../FDV Demo/U_ComposeArticle.pas"/>
@@ -1391,7 +1390,6 @@
         <TopLine Value="2045"/>
         <CursorPos X="48" Y="2047"/>
         <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit149>
       <Unit150>
         <Filename Value="../../../ibx/runtime/IB.pas"/>
@@ -1514,7 +1512,6 @@
         <TopLine Value="104"/>
         <CursorPos X="61" Y="113"/>
         <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit164>
       <Unit165>
         <Filename Value="../../../ZEOSDBO/packages/lazarus/zcomponent.pas"/>
@@ -1660,6 +1657,7 @@
         <TopLine Value="26"/>
         <CursorPos X="13" Y="41"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit180>
       <Unit181>
         <Filename Value="../../composants/u_extsearchedit.pas"/>
@@ -1793,6 +1791,7 @@
         <TopLine Value="350"/>
         <CursorPos X="15" Y="368"/>
         <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit195>
       <Unit196>
         <Filename Value="../../fonctions/fonctions_reports.pas"/>
@@ -1941,11 +1940,12 @@
     </Parsing>
     <CodeGeneration>
       <Optimizations>
-        <OptimizationLevel Value="0"/>
+        <OptimizationLevel Value="3"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>
       <Debugging>
+        <GenerateDebugInfo Value="False"/>
         <DebugInfoType Value="dsStabs"/>
       </Debugging>
       <LinkSmart Value="True"/>

@@ -127,7 +127,7 @@ uses {$IFDEF FPC}
      fonctions_images,
      fonctions_system,
      Forms, Math, sysutils,
-     Dialogs, fonctions_string;
+     fonctions_string;
 
 
 {$IFNDEF FPC}
@@ -156,7 +156,7 @@ begin
       as_Resource := fs_getSoftImages + as_Resource + CST_IMAGE_SOFT_BITMAP;
       if FileExists( as_Resource )
        then FGLyph.LoadFromFile( as_Resource )
-       Else ShowMessage( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [as_Resource]));
+       Else writeln( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [as_Resource]));
 
     Except
     end;
@@ -207,7 +207,7 @@ begin
            end;
         if not lb_Found
          then
-           ShowMessage( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ 0 ]]));
+           writeln( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ 0 ]]));
 
       finally
       end;
