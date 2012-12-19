@@ -52,17 +52,13 @@ type
 
   TF_FormAdapt = class({$IFDEF SFORM}TSuperForm{$ELSE}{$IFDEF TNT}TTntForm{$ELSE}TForm{$ENDIF}{$ENDIF})
   private
-    Echelle:Extended;
-  protected
-
-
+    FScale:Extended;
   public
     { Déclarations publiques }
     // Constructeur et destructeur
     Constructor Create ( AOwner : TComponent ); override;
     procedure Activate; override;
-  published
-
+    property Scale : Extended read FScale;
   end;
 
 implementation
@@ -80,24 +76,14 @@ uses fonctions_erreurs, TypInfo,
 constructor TF_FormAdapt.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  Echelle:=1;
+  FScale:=1;
 end;
 
 
 procedure TF_FormAdapt.Activate;
-var
-  NewEchelle : Extended;
 begin
-  if not gb_AdaptFormsToThema Then
-   Exit;
-  if Screen.MenuFont.Size = 0
-    Then NewEchelle:=FromDPI
-    Else NewEchelle:=Screen.MenuFont.Size;
-
-  NewEchelle:=NewEchelle/FromDPI;
-
-  if Echelle<>NewEchelle then
-      ScaleForm(Self,NewEchelle);
+  if fb_CalculateScale ( FScale ) Then
+    ScaleForm(Self,FScale);
 
   inherited;
 end;
