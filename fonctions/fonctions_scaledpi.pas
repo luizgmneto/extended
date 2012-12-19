@@ -33,9 +33,9 @@ Const
 
 procedure p_addtoSoftware;
 procedure HighDPI;
-procedure ScaleDPI(const Control: TControl;const ANewEchelle,AEchelle:Extended);
-function Scale(const Valeur:Integer;const ANewEchelle,AEchelle:Extended):Integer;
-procedure ScaleForm(const Control: TCustomForm;const ANewEchelle,AEchelle:Extended);
+procedure ScaleDPI(const Control: TControl;const ANewEchelle:Extended);
+function Scale(const Valeur:Integer;const ANewEchelle:Extended):Integer;
+procedure ScaleForm(const Control: TCustomForm;const ANewEchelle:Extended);
 
 
 type
@@ -53,15 +53,15 @@ type
   end;
 
 var
-  DMAdaptForms: TDMAdaptForms;
+  gb_AdaptFormsToThema : Boolean = True;
 
 implementation
 
 uses fonctions_proprietes;
 
 var ge_OldApplicationActivate : TNotifyEvent = nil;
+    DMAdaptForms: TDMAdaptForms = nil;
     ge_FontsEchelle:Extended=1;
-    gmet_Method : TMethod;
 
 procedure TDMAdaptForms.ApplicationActivate ( Sender : TObject );
 Begin
@@ -89,21 +89,24 @@ var
   i: integer;
   NewEchelle : Extended;
 begin
+  if not gb_AdaptFormsToThema Then
+   Exit;
+
   if Screen.MenuFont.Size = 0
     Then NewEchelle:=FromDPI
     Else NewEchelle:=Screen.MenuFont.Size;
 
-  NewEchelle:=NewEchelle/ge_FontsEchelle;
+  NewEchelle:=NewEchelle/FromDPI;
 
   if ge_FontsEchelle=NewEchelle then
     exit;
  
   for i:=0 to Screen.FormCount-1 do
-    ScaleForm(Screen.Forms[i],NewEchelle,ge_FontsEchelle);
+    ScaleForm(Screen.Forms[i],NewEchelle);
   ge_FontsEchelle:=NewEchelle;
 end;
  
-function Scale(const Valeur:Integer;const ANewEchelle,AEchelle:Extended):Integer;
+function Scale(const Valeur:Integer;const ANewEchelle:Extended):Integer;
 Var
   Ext:Extended;
 begin
@@ -114,7 +117,7 @@ begin
     Result:=Trunc(Ext-0.5);
 end;
 
-procedure ScaleForm(const Control: TCustomForm;const ANewEchelle,AEchelle:Extended);
+procedure ScaleForm(const Control: TCustomForm;const ANewEchelle:Extended);
 var
   i: integer;
 Begin
@@ -123,32 +126,46 @@ Begin
      {$IFDEF FPC}BeginUpdateBounds;{$ENDIF}
 
      if WindowState=wsNormal Then
-       ScaleDPI(Control,ANewEchelle,AEchelle)
+       ScaleDPI(Control,ANewEchelle)
       Else
         Begin
-          Font.Size:=Scale(Font.Size,ANewEchelle,AEchelle);
+          Font.Size:=Scale(Font.Size,ANewEchelle);
           for i:=0 to Control.ControlCount-1 do
-            ScaleDPI(Control.Controls[i],ANewEchelle,AEchelle);
+            ScaleDPI(Control.Controls[i],ANewEchelle);
         end;
      {$IFDEF FPC}EndUpdateBounds;{$ENDIF}
 
    End;
 end;
 
-procedure ScaleDPI(const Control: TControl;const ANewEchelle,AEchelle:Extended);
+procedure ScaleFont(const Control: TControl;const ANewEchelle:Extended);
+var  AFont : TFont;
+Begin
+  if fb_getComponentBoolProperty(Control,'ParentFont', True ) Then
+   Begin
+    {$IFDEF FPC}
+    AFont := Control.Font;
+    {$ELSE}
+    AFont := TFont ( fobj_getComponentObjectProperty ( Control, 'Font' ));
+    {$ENDIF}
+    if assigned ( AFont ) then
+      AFont.Size:=Scale(AFont.Size,ANewEchelle);
+   end;
+end;
+
+procedure ScaleDPI(const Control: TControl;const ANewEchelle:Extended);
 var
   i: integer;
   WinControl: TWinControl;
-  AFont : TFont;
 begin
   with Control do
   begin
     with Constraints do
     begin
-      MaxHeight:=Scale(MaxHeight,ANewEchelle,AEchelle);
-      MaxWidth:=Scale(MaxWidth,ANewEchelle,AEchelle);
-      MinHeight:=Scale(MinHeight,ANewEchelle,AEchelle);
-      MinWidth:=Scale(MinWidth,ANewEchelle,AEchelle);
+      MaxHeight:=Scale(MaxHeight,ANewEchelle);
+      MaxWidth:=Scale(MaxWidth,ANewEchelle);
+      MinHeight:=Scale(MinHeight,ANewEchelle);
+      MinWidth:=Scale(MinWidth,ANewEchelle);
     end;
 
     if Align<>alClient then
@@ -156,28 +173,26 @@ begin
       if not (Align in [alTop,alBottom]) then
       begin
         if (not (akRight in Anchors))and(Align<>alRight) then
-          Left:=Scale(Left,ANewEchelle,AEchelle);
+          Left:=Scale(Left,ANewEchelle);
         if ([akRight,akLeft]*Anchors<>[akRight,akLeft]) then
-          Width:=Scale(Width,ANewEchelle,AEchelle);
+          Width:=Scale(Width,ANewEchelle);
       end;
       if not (Align in [alLeft,alRight])then
       begin
         if (not (akBottom in Anchors))and(Align<>alBottom) then
-          Top:=Scale(Top,ANewEchelle,AEchelle);
+          Top:=Scale(Top,ANewEchelle);
         if [akBottom,akTop]*Anchors<>[akBottom,akTop] then
-          Height:=Scale(Height,ANewEchelle,AEchelle);
+          Height:=Scale(Height,ANewEchelle);
       end;
     end;
-    AFont := TFont ( fobj_getComponentObjectProperty ( Control, 'Font' ));
-    if assigned ( AFont ) then
-      AFont.Size:=Scale(AFont.Size,ANewEchelle,AEchelle);
+    ScaleFont(Control,ANewEchelle);
   end;
 
   if Control is TWinControl then
   begin
     WinControl:=TWinControl(Control);
     for i:=0 to WinControl.ControlCount-1 do
-      ScaleDPI(WinControl.Controls[i],ANewEchelle,AEchelle);
+      ScaleDPI(WinControl.Controls[i],ANewEchelle);
   end;
 end;
 

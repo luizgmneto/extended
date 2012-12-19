@@ -88,6 +88,8 @@ procedure TF_FormAdapt.Activate;
 var
   NewEchelle : Extended;
 begin
+  if not gb_AdaptFormsToThema Then
+   Exit;
   if Screen.MenuFont.Size = 0
     Then NewEchelle:=FromDPI
     Else NewEchelle:=Screen.MenuFont.Size;
@@ -95,7 +97,7 @@ begin
   NewEchelle:=NewEchelle/FromDPI;
 
   if Echelle<>NewEchelle then
-      ScaleForm(Self,NewEchelle,Echelle);
+      ScaleForm(Self,NewEchelle);
 
   inherited;
 end;

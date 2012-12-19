@@ -58,7 +58,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="206">
+    <Units Count="216">
       <Unit0>
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -67,7 +67,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="15"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="134"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -165,9 +165,9 @@
         <UnitName Value="U_Components"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="89"/>
-        <CursorPos X="136" Y="96"/>
-        <UsageCount Value="71"/>
+        <TopLine Value="41"/>
+        <CursorPos X="37" Y="66"/>
+        <UsageCount Value="74"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -1355,11 +1355,11 @@
       <Unit146>
         <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
         <UnitName Value="IBDatabase"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="856"/>
-        <CursorPos X="84" Y="871"/>
-        <UsageCount Value="13"/>
+        <CursorPos X="1" Y="884"/>
+        <UsageCount Value="15"/>
         <Loaded Value="True"/>
       </Unit146>
       <Unit147>
@@ -1437,12 +1437,10 @@
       <Unit156>
         <Filename Value="../../lazextcomponents.pas"/>
         <UnitName Value="lazextcomponents"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="40" Y="15"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="12"/>
       </Unit156>
       <Unit157>
         <Filename Value="../../composants/u_onforminfoini.pas"/>
@@ -1728,10 +1726,12 @@
       <Unit190>
         <Filename Value="/usr/share/lazarus/1.0.2/lcl/controls.pp"/>
         <UnitName Value="Controls"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="119"/>
-        <CursorPos X="3" Y="147"/>
-        <UsageCount Value="11"/>
+        <TopLine Value="2137"/>
+        <CursorPos X="15" Y="2163"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
       </Unit190>
       <Unit191>
         <Filename Value="/usr/share/lazarus/1.0.2/lcl/extctrls.pp"/>
@@ -1762,12 +1762,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_FormAdapt"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="53"/>
-        <CursorPos X="3" Y="95"/>
-        <UsageCount Value="10"/>
+        <CursorPos X="1" Y="93"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit194>
@@ -1791,40 +1790,40 @@
       <Unit197>
         <Filename Value="../../composants/u_registerforms.pas"/>
         <UnitName Value="u_registerforms"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <TopLine Value="161"/>
         <CursorPos X="26" Y="169"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit197>
       <Unit198>
         <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
         <UnitName Value="fonctions_scaledpi"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="55"/>
-        <CursorPos X="3" Y="96"/>
-        <UsageCount Value="11"/>
+        <TopLine Value="46"/>
+        <CursorPos X="32" Y="64"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit198>
       <Unit199>
         <Filename Value="/usr/share/lazarus/1.0.2/packager/packagedefs.pas"/>
         <UnitName Value="PackageDefs"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="837"/>
         <CursorPos X="24" Y="865"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit199>
       <Unit200>
         <Filename Value="/usr/share/fpcsrc/2.6.0/rtl/objpas/classes/classesh.inc"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="15"/>
         <WindowIndex Value="0"/>
         <TopLine Value="92"/>
         <CursorPos X="3" Y="120"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit200>
       <Unit201>
@@ -1840,11 +1839,11 @@
       <Unit202>
         <Filename Value="/usr/share/lazarus/1.0.2/lcl/forms.pp"/>
         <UnitName Value="Forms"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1474"/>
         <CursorPos X="14" Y="1500"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit202>
       <Unit203>
@@ -1853,156 +1852,230 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_CustomizeMenu"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="39"/>
         <CursorPos X="80" Y="47"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="11"/>
       </Unit203>
       <Unit204>
         <Filename Value="../../extcopy.pas"/>
         <UnitName Value="ExtCopy"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="14"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="12" Y="20"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit204>
       <Unit205>
         <Filename Value="../../../XMLFrames/composants/u_xmlform.pas"/>
         <UnitName Value="u_xmlform"/>
-        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="7"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="11"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit205>
+      <Unit206>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <UnitName Value="u_extdbgrid"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="776"/>
+        <CursorPos X="61" Y="790"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit206>
+      <Unit207>
+        <Filename Value="../../../../Lazarus/ccr/components/rx/rxdbgrid.pas"/>
+        <UnitName Value="rxdbgrid"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="546"/>
+        <CursorPos X="15" Y="573"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit207>
+      <Unit208>
+        <Filename Value="/usr/share/lazarus/1.0.2/lcl/dbgrids.pas"/>
+        <UnitName Value="DBGrids"/>
+        <EditorIndex Value="8"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1242"/>
+        <CursorPos X="1" Y="1270"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit208>
+      <Unit209>
+        <Filename Value="/usr/share/lazarus/1.0.2/lcl/grids.pas"/>
+        <UnitName Value="Grids"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="4459"/>
+        <CursorPos X="1" Y="4488"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit209>
+      <Unit210>
+        <Filename Value="/usr/share/lazarus/1.0.2/lcl/include/control.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2085"/>
+        <CursorPos X="1" Y="2112"/>
+        <UsageCount Value="10"/>
+      </Unit210>
+      <Unit211>
+        <Filename Value="/usr/share/lazarus/1.0.2/lcl/include/wincontrol.inc"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="4959"/>
+        <CursorPos X="3" Y="4962"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit211>
+      <Unit212>
+        <Filename Value="/usr/share/lazarus/1.0.2/lcl/lclmessageglue.pas"/>
+        <UnitName Value="LCLMessageGlue"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="97"/>
+        <CursorPos X="1" Y="128"/>
+        <UsageCount Value="10"/>
+      </Unit212>
+      <Unit213>
+        <Filename Value="/usr/share/lazarus/1.0.2/lcl/interfaces/gtk2/gtk2proc.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3565"/>
+        <CursorPos X="1" Y="3594"/>
+        <UsageCount Value="10"/>
+      </Unit213>
+      <Unit214>
+        <Filename Value="/usr/share/lazarus/1.0.2/lcl/interfaces/gtk2/gtk2callback.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2289"/>
+        <CursorPos X="1" Y="2316"/>
+        <UsageCount Value="10"/>
+      </Unit214>
+      <Unit215>
+        <Filename Value="/usr/share/lazarus/1.0.2/lcl/interfaces/gtk2/gtk2widgetset.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2286"/>
+        <CursorPos X="1" Y="2313"/>
+        <UsageCount Value="10"/>
+      </Unit215>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="28" HistoryIndex="27">
       <Position1>
-        <Filename Value="../../extcopy.pas"/>
-        <Caret Line="20" Column="12" TopLine="1"/>
+        <Filename Value="/usr/share/lazarus/1.0.2/lcl/grids.pas"/>
+        <Caret Line="4488" Column="1" TopLine="4459"/>
       </Position1>
       <Position2>
-        <Filename Value="../../extcopy.pas"/>
-        <Caret Line="20" Column="138" TopLine="1"/>
+        <Filename Value="/usr/share/lazarus/1.0.2/lcl/dbgrids.pas"/>
+        <Caret Line="1270" Column="1" TopLine="1242"/>
       </Position2>
       <Position3>
-        <Filename Value="../../../XMLFrames/composants/u_xmlform.pas"/>
-        <Caret Line="136" Column="42" TopLine="120"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="662" Column="27" TopLine="649"/>
       </Position3>
       <Position4>
-        <Filename Value="../../../XMLFrames/composants/u_xmlform.pas"/>
-        <Caret Line="155" Column="20" TopLine="120"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position4>
       <Position5>
-        <Filename Value="../../../XMLFrames/composants/u_xmlform.pas"/>
-        <Caret Line="156" Column="25" TopLine="120"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="110" Column="21" TopLine="62"/>
       </Position5>
       <Position6>
-        <Filename Value="../../../XMLFrames/composants/u_xmlform.pas"/>
-        <Caret Line="160" Column="25" TopLine="120"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="410" Column="40" TopLine="377"/>
       </Position6>
       <Position7>
-        <Filename Value="../../../XMLFrames/composants/u_xmlform.pas"/>
-        <Caret Line="192" Column="26" TopLine="145"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="411" Column="29" TopLine="377"/>
       </Position7>
       <Position8>
-        <Filename Value="../../../XMLFrames/composants/u_xmlform.pas"/>
-        <Caret Line="194" Column="22" TopLine="147"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="412" Column="32" TopLine="377"/>
       </Position8>
       <Position9>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="48" Column="1" TopLine="1"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="501" Column="43" TopLine="487"/>
       </Position9>
       <Position10>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="80" Column="30" TopLine="67"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="502" Column="44" TopLine="487"/>
       </Position10>
       <Position11>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="78" Column="13" TopLine="43"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="541" Column="50" TopLine="505"/>
       </Position11>
       <Position12>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="71" Column="14" TopLine="43"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="542" Column="41" TopLine="505"/>
       </Position12>
       <Position13>
-        <Filename Value="../../forms/u_customizemenu.pas"/>
-        <Caret Line="22" Column="138" TopLine="1"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="761" Column="31" TopLine="718"/>
       </Position13>
       <Position14>
-        <Filename Value="../../composants/u_formadapt.pas"/>
-        <Caret Line="67" Column="150" TopLine="50"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="414" Column="1" TopLine="385"/>
       </Position14>
       <Position15>
-        <Filename Value="../../../XMLFrames/composants/u_xmlform.pas"/>
-        <Caret Line="264" Column="41" TopLine="228"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="529" Column="1" TopLine="502"/>
       </Position15>
       <Position16>
-        <Filename Value="../../composants/u_formadapt.pas"/>
-        <Caret Line="94" Column="49" TopLine="50"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="579" Column="31" TopLine="558"/>
       </Position16>
       <Position17>
-        <Filename Value="../../composants/u_formadapt.pas"/>
-        <Caret Line="88" Column="4" TopLine="51"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="754" Column="29" TopLine="722"/>
       </Position17>
       <Position18>
-        <Filename Value="../../composants/u_formadapt.pas"/>
-        <Caret Line="91" Column="3" TopLine="51"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="66" Column="37" TopLine="41"/>
       </Position18>
       <Position19>
-        <Filename Value="../../composants/u_formadapt.pas"/>
-        <Caret Line="93" Column="50" TopLine="51"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="756" Column="34" TopLine="722"/>
       </Position19>
       <Position20>
-        <Filename Value="../../composants/u_formadapt.pas"/>
-        <Caret Line="91" Column="1" TopLine="50"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="758" Column="50" TopLine="722"/>
       </Position20>
       <Position21>
-        <Filename Value="../../composants/u_formadapt.pas"/>
-        <Caret Line="90" Column="38" TopLine="50"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position21>
       <Position22>
-        <Filename Value="../../composants/u_formadapt.pas"/>
-        <Caret Line="91" Column="1" TopLine="50"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="157" Column="23" TopLine="109"/>
       </Position22>
       <Position23>
-        <Filename Value="../../composants/u_formadapt.pas"/>
-        <Caret Line="92" Column="1" TopLine="51"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="444" Column="20" TopLine="396"/>
       </Position23>
       <Position24>
-        <Filename Value="../../composants/u_formadapt.pas"/>
-        <Caret Line="96" Column="17" TopLine="52"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="446" Column="27" TopLine="398"/>
       </Position24>
       <Position25>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="20" Column="11" TopLine="1"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="629" Column="1" TopLine="583"/>
       </Position25>
       <Position26>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="95" Column="47" TopLine="61"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="164" Column="92" TopLine="136"/>
       </Position26>
       <Position27>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="62" Column="37" TopLine="54"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="66" Column="37" TopLine="41"/>
       </Position27>
       <Position28>
-        <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
-        <Caret Line="56" Column="31" TopLine="54"/>
+        <Filename Value="../../composants/u_extdbgrid.pas"/>
+        <Caret Line="275" Column="37" TopLine="270"/>
       </Position28>
-      <Position29>
-        <Filename Value="u_components.pas"/>
-        <Caret Line="96" Column="136" TopLine="89"/>
-      </Position29>
-      <Position30>
-        <Filename Value="../../composants/u_formadapt.pas"/>
-        <Caret Line="96" Column="39" TopLine="54"/>
-      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
