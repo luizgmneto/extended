@@ -43,6 +43,7 @@ const
   CST_COLUMN_Resize  = 'Resize';
   CST_COLUMN_Title   = 'Title';
   CST_COLUMN_Images  = 'Images';
+  CST_PRINT_FONT_SIZE = 9;
   CST_PRINT_COLUMN_FONT_COLOR = clBlack;
   CST_PRINT_TITLE_FONT_COLOR  = clBlack;
   CST_PRINT_COLUMN_TITLE_FONT_COLOR = clBlack;
@@ -455,9 +456,9 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
          Else
          with RLLeftTopPage do
           p_createBand ( X, Y, 10, btHeader, ExtTitleColorBack );
-         p_createSystemInfo(ARLBand.Width,2,itFullDate, ExtTitleColorFont, 10,'',faRightTop);
-         p_createSystemInfo(ARLBand.Width,2,itLastPageNumber, ExtTitleColorFont, 10, '/', faRightBottom);
-         p_createSystemInfo(ARLBand.Width,2,itPageNumber, ExtTitleColorFont, 10, '', faRightBottom);
+         p_createSystemInfo(ARLBand.Width,2,itFullDate, ExtTitleColorFont, 0,'',faRightTop);
+         p_createSystemInfo(ARLBand.Width,2,itLastPageNumber, ExtTitleColorFont, 0, '/', faRightBottom);
+         p_createSystemInfo(ARLBand.Width,2,itPageNumber, ExtTitleColorFont, 0, '', faRightBottom);
        end
       Else
        ExtHeader.Parent:=AReport;
@@ -636,11 +637,12 @@ initialization
   ExtTitleColorFont   := TFont.create;
   ExtColumnHeaderFont := TFont.Create;
   ExtColumnFont       := TFont.Create;
-  ExtColumnFont.Size  := 10;
+  ExtColumnFont      .Size  := CST_PRINT_FONT_SIZE;
+  ExtColumnHeaderFont.Size  := CST_PRINT_FONT_SIZE;
+  ExtTitleColorFont  .Size  := CST_PRINT_FONT_SIZE;
   ExtTitleColorFont  .Color := CST_PRINT_TITLE_FONT_COLOR;
   ExtColumnHeaderFont.Color := CST_PRINT_COLUMN_TITLE_FONT_COLOR;
   ExtColumnHeaderFont.Style := CST_PRINT_COLUMN_TITLE_FONT_STYLE;
-  ExtColumnHeaderFont.Size  := 11;
   ExtColumnFont      .Color := CST_PRINT_COLUMN_FONT_COLOR;
 finalization
   ExtTitleColorFont  .Free;

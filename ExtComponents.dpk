@@ -67,7 +67,9 @@ requires
   dmenutoolbar,
   dsnap,
   xmlrtl,
-  vclactnband;
+  vclactnband,
+  dclado,
+  VirtualTreesD10;
 
 contains
   U_ExtComboInsert in 'composants\U_ExtComboInsert.pas',

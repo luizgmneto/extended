@@ -1,4 +1,4 @@
-unit u_extdbgrid;
+﻿unit u_extdbgrid;
 
 {*********************************************************************}
 {                                                                     }
@@ -210,7 +210,7 @@ uses
    Forms,
 {$ENDIF}
    fonctions_proprietes,
-   Menus, Dialogs,
+   Menus,
    fonctions_images;
 
 { TExtGridColumn }
@@ -403,7 +403,8 @@ end;
 // Hiding the Column's Control
 // Elsewhere the component is painted by the dbgrid to clone it
 procedure TExtDBGrid.HideColumnControl;
-var i : Integer ;
+var i: Integer ;
+
 Begin
   for i := 0 to Columns.Count - 1 do
     if  assigned ( Columns [ i ].SomeEdit )
@@ -443,7 +444,7 @@ end;
 // Procedure ShowControlColumn
 // Shows the control of column if exists
 function TExtDBGrid.ShowControlColumn:Boolean;
-var Weight, Coord : Integer ;
+var Weight, Coord, LCol : Integer ;
 {$IFNDEF FPC}
     DrawInfo: TGridDrawInfo;
  function LinePos(const AxisInfo: TGridAxisDrawInfo; Line: Integer): Integer;
@@ -491,12 +492,15 @@ var Weight, Coord : Integer ;
 begin
   Result:=False;
   {$IFNDEF FPC}
+  LCol := RawToDataColumn(Col);
   CalcDrawInfo(DrawInfo);
   with DrawInfo do
+  {$ELSE}
+  LCol := Col;
   {$ENDIF}
     if  ( Row >= FixedRows )
-    and ( Col >= FixedCols )
-    and ( Col - FixedCols < Columns.Count  )
+    and ( LCol >= FixedCols )
+    and ( LCol  < Columns.Count + FixedCols  )
     and ( Columns [ SelectedIndex ].SomeEdit <> nil )  Then
       with Columns [ SelectedIndex ].SomeEdit do
         Begin
@@ -701,7 +705,7 @@ end;
 // Cloning the Column Control on cell drawing
 procedure TExtDBGrid.DrawCell(aCol, aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect;
   aState: TGridDrawState);
-var Aindex : Integer;
+var Aindex, LCol : Integer;
 {$IFDEF FPC}
     FBackground : TColor;
 {$ENDIF}
@@ -711,11 +715,11 @@ var Aindex : Integer;
    procedure PrepareCell;
    Begin
     {$IFDEF FPC}
-    PrepareCanvas(aCol, aRow, aState);
+    PrepareCanvas(LCol, aRow, aState);
     if Assigned(OnGetCellProps) and not (gdSelected in aState) then
     begin
       FBackground:=Canvas.Brush.Color;
-      OnGetCellProps(Self, GetFieldFromGridColumn(aCol), Canvas.Font, FBackground);
+      OnGetCellProps(Self, GetFieldFromGridColumn(LCol), Canvas.Font, FBackground);
       Canvas.Brush.Color:=FBackground;
     end;
     {$ELSE}
@@ -725,11 +729,16 @@ var Aindex : Integer;
    end;
 
 begin
+  {$IFNDEF FPC}
+  LCol := RawToDataColumn ( ACol );
+  {$ELSE}
+  LCol := ACol;
+  {$ENDIF}
   if  ( FPaintOptions <> [] )
-  and ( ACol >= FixedCols  )
-  and ( ACol < Columns.Count + FixedCols  )
+  and ( LCol >= FixedCols  )
+  and ( LCol < Columns.Count + FixedCols )
   and ( ARow >= {$IFDEF FPC}FixedRows{$ELSE}IndicatorOffset{$ENDIF} ) then
-  with ( TExtGridColumn ( Columns [ ACol - FixedCols ])) do
+  with ( TExtGridColumn ( Columns [ LCol - FixedCols ])) do
    Begin
      FPainted := False;
      if eoPaintEdits in FPaintOptions Then
@@ -762,7 +771,7 @@ begin
            and ( Aindex >= 0 ) then
             begin
               PrepareCell;
-              {$IFDEF FPC}DrawCellGrid{$ELSE}DoDrawCell{$ENDIF}(aCol,aRow, aRect, aState);
+              {$IFDEF FPC}DrawCellGrid{$ELSE}DoDrawCell{$ENDIF}(ACol,aRow, aRect, aState);
               FBitmap := TBitmap.Create;
               FImages.GetBitmap(Aindex, FBitmap);
               with FBitmap do
