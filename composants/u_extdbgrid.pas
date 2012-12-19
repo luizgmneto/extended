@@ -152,9 +152,9 @@ type
        procedure WMSize(var Msg: TWMSize); message WM_SIZE;
        {$ENDIF}
        procedure HideColumnControl;
-       procedure ShowControlColumn;
        procedure p_SetPaintOptions ( const AValue : TExtOptions );
       protected
+       function ShowControlColumn:Boolean; virtual;
        function IsColumnsStored: boolean; virtual;
        procedure DrawCell(aCol,aRow: {$IFDEF FPC}Integer{$ELSE}Longint{$ENDIF}; aRect: TRect; aState:TGridDrawState); override;
        function CanEditShow: Boolean; override;
@@ -442,7 +442,7 @@ end;
 
 // Procedure ShowControlColumn
 // Shows the control of column if exists
-procedure TExtDBGrid.ShowControlColumn;
+function TExtDBGrid.ShowControlColumn:Boolean;
 var Weight, Coord : Integer ;
 {$IFNDEF FPC}
     DrawInfo: TGridDrawInfo;
@@ -489,17 +489,17 @@ var Weight, Coord : Integer ;
   WidthHeight : Integer ;
 {$ENDIF}
 begin
+  Result:=False;
   {$IFNDEF FPC}
   CalcDrawInfo(DrawInfo);
   with DrawInfo do
   {$ENDIF}
     if  ( Row >= FixedRows )
     and ( Col >= FixedCols )
-    and ( Col < Columns.Count - FixedCols  )
+    and ( Col - FixedCols < Columns.Count  )
     and ( Columns [ SelectedIndex ].SomeEdit <> nil )  Then
       with Columns [ SelectedIndex ].SomeEdit do
         Begin
-          Visible := True;
           Coord  := 0 ;
           Weight := 0 ;
           {$IFNDEF FPC}
@@ -523,8 +523,10 @@ begin
           {$ENDIF}
           Top  := Coord  + Self.ClientRect.Top  + Self.Top  + Weight;
           Height := RowHeights[Row];
+          Visible := True;
           SetFocus;
-        End ;
+          Result:=True;
+        End;
 //  with DrawInfo do
 //     ShowMessage(IntToStr(InvalidRect.Left)+' '+IntToStr(InvalidRect.Top)+' '+IntToStr(Vert.FirstGridCell)+' '+IntToStr(Horz.FirstGridCell) + ' ' + Inttostr ( SelectedIndex )  + ' ' +Inttostr(Selection.Left) + ' ' +Inttostr(Selection.Top));
 
@@ -604,7 +606,7 @@ procedure TExtDBGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
 var APopupMenu : TPopupMenu;
     Continue : Boolean;
 begin
- inherited;
+  inherited;
   if Assigned(PopUpMenu)
   and (Button = mbRight)
   and ( Shift = [] ) Then
@@ -623,7 +625,6 @@ begin
     end;
   ShowControlColumn;
 end;
-
 {$IFDEF FPC}
 function TExtDBGrid.MouseButtonAllowed(Button: TMouseButton): boolean;
 begin
@@ -706,7 +707,8 @@ var Aindex : Integer;
 {$ENDIF}
     FBitmap : TBitmap;
     FPainted : Boolean;
-   procedure Prepare;
+    FVisible : Boolean;
+   procedure PrepareCell;
    Begin
     {$IFDEF FPC}
     PrepareCanvas(aCol, aRow, aState);
@@ -735,9 +737,9 @@ begin
        if assigned ( SomeEdit ) Then
        with SomeEdit do
          Begin
-           Prepare;
+           PrepareCell;
            Aindex := Datalink.ActiveRecord;
-           Datalink.ActiveRecord := ARow {$IFDEF FPC}-1{$ELSE}-IndicatorOffset{$ENDIF};
+           Datalink.ActiveRecord := ARow {$IFDEF FPC}-FixedRows{$ELSE}-IndicatorOffset{$ENDIF};
            Width  := aRect.Right - aRect.Left;
            Height := ARect.Bottom - aRect.Top;
            ControlState := ControlState + [csPaintCopy];
@@ -759,7 +761,7 @@ begin
            if  ( Aindex < FImages.Count)
            and ( Aindex >= 0 ) then
             begin
-              Prepare;
+              PrepareCell;
               {$IFDEF FPC}DrawCellGrid{$ELSE}DoDrawCell{$ENDIF}(aCol,aRow, aRect, aState);
               FBitmap := TBitmap.Create;
               FImages.GetBitmap(Aindex, FBitmap);

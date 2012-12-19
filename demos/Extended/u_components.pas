@@ -58,7 +58,7 @@ type
     IBTransaction: TIBTransaction;
     IBUtilisateur: TIBQuery;
     DBListView: TDBListView;
-    ExtDBNavigator1: TExtDBNavigator;
+    ExtDBNavigator: TExtDBNavigator;
     ImageResources: TImageList;
     mc_Customize: TExtMenuCustomize;
     mu_aide: TMenuItem;
