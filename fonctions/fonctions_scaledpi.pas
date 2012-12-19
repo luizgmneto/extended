@@ -36,6 +36,7 @@ procedure HighDPI;
 procedure ScaleDPI(const Control: TControl;const ANewEchelle:Extended);
 function Scale(const Valeur:Integer;const ANewEchelle:Extended):Integer;
 procedure ScaleForm(const Control: TCustomForm;const ANewEchelle:Extended);
+function fb_CalculateScale ( var AEchelle : Extended ):Boolean;
 
 
 type
@@ -53,7 +54,7 @@ type
   end;
 
 var
-  gb_AdaptFormsToThema : Boolean = True;
+  gb_AdaptFormsToOS : Boolean = True;
 
 implementation
 
@@ -61,7 +62,7 @@ uses fonctions_proprietes;
 
 var ge_OldApplicationActivate : TNotifyEvent = nil;
     DMAdaptForms: TDMAdaptForms = nil;
-    ge_FontsEchelle:Extended=1;
+    ge_FontsScale:Extended=1;
 
 procedure TDMAdaptForms.ApplicationActivate ( Sender : TObject );
 Begin
@@ -84,26 +85,31 @@ begin
 
 end;
 
+function fb_CalculateScale ( var AEchelle : Extended ):Boolean;
+var
+  LNewEchelle : Extended;
+Begin
+  if not gb_AdaptFormsToOS Then
+  Begin
+    Result := False;
+    Exit;
+  end;
+  if Screen.MenuFont.Size = 0
+    Then LNewEchelle:=FromDPI
+    Else LNewEchelle:=Screen.MenuFont.Size;
+
+  LNewEchelle:=LNewEchelle/FromDPI;
+  Result := LNewEchelle<>LNewEchelle;
+  AEchelle:=LNewEchelle;
+End;
+
 procedure HighDPI;
 var
   i: integer;
-  NewEchelle : Extended;
 begin
-  if not gb_AdaptFormsToThema Then
-   Exit;
-
-  if Screen.MenuFont.Size = 0
-    Then NewEchelle:=FromDPI
-    Else NewEchelle:=Screen.MenuFont.Size;
-
-  NewEchelle:=NewEchelle/FromDPI;
-
-  if ge_FontsEchelle=NewEchelle then
-    exit;
- 
-  for i:=0 to Screen.FormCount-1 do
-    ScaleForm(Screen.Forms[i],NewEchelle);
-  ge_FontsEchelle:=NewEchelle;
+  if fb_CalculateScale ( ge_FontsScale ) then
+    for i:=0 to Screen.FormCount-1 do
+      ScaleForm(Screen.Forms[i],ge_FontsScale);
 end;
  
 function Scale(const Valeur:Integer;const ANewEchelle:Extended):Integer;
