@@ -32,7 +32,7 @@ object Myform: TMyform
     Align = alLeft
     Caption = 'Panel1'
     TabOrder = 0
-    object ExtDBNavigator1: TExtDBNavigator
+    object ExtDBNavigator: TExtDBNavigator
       Left = 1
       Top = 1
       Width = 206
