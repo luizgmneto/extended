@@ -20,8 +20,8 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Minor="2" Release="2" Build="1"/>
-    <Files Count="26">
+    <Version Major="1" Minor="2" Release="2" Build="3"/>
+    <Files Count="25">
       <Item1>
         <Filename Value="composants/u_onforminfoini.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
@@ -122,10 +122,6 @@
         <Filename Value="composants/u_formmainini.pas"/>
         <UnitName Value="U_FormMainIni"/>
       </Item25>
-      <Item26>
-        <Filename Value="composants/u_formadapt.pas"/>
-        <UnitName Value="U_FormAdapt"/>
-      </Item26>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
