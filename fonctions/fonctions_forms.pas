@@ -44,9 +44,11 @@ uses
                                        FileUnit : 'fonctions_forms' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Fiche principale deuxième version.' ;
-                                       BugsStory : '1.0.0.0 : Windows management from FormMainIni.';
+                                       BugsStory : '1.0.1.1 : Simplfying' +#13#10+
+                                                   '1.0.1.0 : Resizing from OS' +#13#10+
+                                                   '1.0.0.0 : Windows management from FormMainIni.';
                                        UnitType : 3 ;
-                                       Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                                       Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
 
 {$ENDIF}
   type
@@ -120,18 +122,11 @@ function fb_GetKeyState(aby_Key: Integer): Boolean;
 // Entrée : Numéro de touche
 procedure p_SetKeyState( var at_Buffer : TKeyboardState; const aby_Key: Integer; const ab_TurnOn: Boolean);
 
-// Création d'une form MDI renvoie la form si existe
-// as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form
-function ffor_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ): TForm; overload ;
+function ffor_CreateForm ( const afor_FormClasse : TFormClass ) : TCustomForm;
 function ffor_FindForm ( const as_FormNom : string ) : TCustomForm;
 procedure p_CloseForm ( const as_FormNom : string );
 
 procedure p_SetChildForm ( const afor_Reference: TCustomForm; const  afs_newFormStyle : TFormStyle );
-
-// Création d'une form MDI renvoie True si la form existe
-// as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
-function fb_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ; var afor_Reference; const ab_Ajuster : Boolean ): Boolean; overload ;
-
 
 function ffor_getForm   ( const as_FormNom, as_FormClasse : string  ): TForm; overload ;
 
@@ -140,10 +135,10 @@ function ffor_getForm   ( afor_FormClasse : TFormClass ): TForm; overload ;
 // Création d'une form MDI avec changement du style Form
 // renvoie True si la form existe
 // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
-function ffor_CreateChild ( afor_FormClasse : TFormClass; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean ; const aico_Icon : TIcon ): TCustomForm;
+function ffor_CreateUniqueChild ( afor_FormClasse : TFormClass; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean = True ; const aico_Icon : TIcon = nil): TCustomForm;
 // Création d'une form MDI renvoie True si la form existe
 // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
-function fp_CreateChild ( const as_FormNom, as_FormClasse : string ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean ; const aico_Icon : TIcon ): Pointer;
+function fp_CreateUniqueChild ( const as_FormNom, as_FormClasse : string ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean = True ; const aico_Icon : TIcon = nil): Pointer;
 
 // Création d'une form modal
 // renvoie True si la form existe
@@ -156,7 +151,7 @@ function fb_CreateModal ( afor_FormClasse : TFormClass ; var afor_Reference : TF
 // changement du style d'une form
 // afor_Reference    : variable de la form
 // newFormStyle      : style    de la form à mettre
-function fb_setNewFormStyle ( const afor_Reference : TCustomForm; const afs_newFormStyle : TFormStyle; const ab_Ajuster : Boolean  ): Boolean ; overload ;
+function fb_setNewFormStyle ( const afor_Reference : TCustomForm; const afs_newFormStyle : TFormStyle; const ab_Ajuster : Boolean = True ): Boolean ; overload ;
 function fb_setNewFormStyle ( const afor_Reference : TCustomForm; const afs_FormStyle: TFormStyle ; const ab_Modal : Boolean ; const awst_WindowState : TWindowState ; const apos_Position : TPosition ): Boolean; overload ;
 
 // Procédure d'enregistrement des forms propres à l'application
@@ -185,7 +180,9 @@ uses fonctions_proprietes, fonctions_erreurs, TypInfo,
   {$ELSE}
   unite_messages_delphi,
   {$ENDIF}
- fonctions_system;
+  fonctions_system,
+  fonctions_scaledpi,
+  U_FormAdapt;
 
 { fonctions }
 
@@ -703,29 +700,16 @@ begin
 end;
 
 
+function ffor_CreateForm ( const afor_FormClasse : TFormClass ) : TCustomForm;
+Begin
+  Application.CreateForm ( afor_FormClasse, Result );
+  if not ( Result is TF_FormAdapt ) Then
+    ScaleForm(Result,1);
+end;
+
 {------------------------------------------------------------------------------
  ---------------------- Fin Hook clavier pour le maj et le num ----------------
  ------------------------------------------------------------------------------}
-
-    // Création d'une form MDI renvoie  la form qui existe
-function ffor_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ) : TForm;
-
-var afor_Reference : TCustomForm ;
-begin
-  if ( Application.MainForm.FormStyle <> fsMDIForm )
-   Then
-    Begin
-      Result := nil ;
-      Exit ;
-    End ;
-  afor_Reference := ffor_FindForm ( as_FormNom );
-
-  if afor_Reference = nil then
-    Application.CreateForm ( afor_FormClasse, afor_Reference )
-   else
-    afor_Reference.BringToFront;
-  Result := TForm ( afor_Reference );
-end;
 
     // Création d'une form MDI renvoie  la form qui existe
 function ffor_FindForm ( const as_FormNom : string ) : TCustomForm;
@@ -760,7 +744,7 @@ end;
 // afor_FormClasse   : classe   de la form
 // afor_Reference    : variable de la form
 // newFormStyle      : style    de la form à mettre
-function ffor_CreateChild ( afor_FormClasse : TFormClass; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean; const aico_Icon : TIcon  ): TCustomForm;
+function ffor_CreateUniqueChild ( afor_FormClasse : TFormClass; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean = True ; const aico_Icon : TIcon = nil): TCustomForm;
 var
   li_i : integer;
   lico_icon : Ticon ;
@@ -778,9 +762,7 @@ begin
       //Création si nil
   if ( Result = nil )
     Then
-     Begin
-      Application.CreateForm ( afor_FormClasse, Result );
-     End ;
+      Result := ffor_CreateForm ( afor_FormClasse );
   If  assigned ( aico_Icon      )
   and assigned ( Result )
   and (fobj_getComponentObjectProperty ( Result, 'Icon' ) is TIcon )
@@ -882,9 +864,7 @@ begin
       //Création si nil
  if ( afor_Reference = nil )
    Then
-    Begin
-     Application.CreateForm ( afor_FormClasse, afor_Reference );
-    End
+     afor_Reference := TForm ( ffor_CreateForm ( afor_FormClasse ))
    Else
     Result := True ;
     // Mise à jour de la form
@@ -956,9 +936,9 @@ End ;
 // as_FormNom        : nom      de la form
 // afor_FormClasse   : classe   de la form
 // newFormStyle      : style    de la form à mettre
-function fp_CreateChild(const as_FormNom, as_FormClasse: string; const newFormStyle: TFormStyle; const ab_Ajuster: Boolean; const aico_Icon : TIcon): Pointer;
+function fp_CreateUniqueChild(const as_FormNom, as_FormClasse: string; const newFormStyle: TFormStyle; const ab_Ajuster: Boolean = True ; const aico_Icon : TIcon = nil): Pointer;
 var
-  lper_ClasseForm : TComponentClass ;
+  lper_ClasseForm : TFormClass ;
   lb_Unload : Boolean ;
 
 begin
@@ -969,22 +949,22 @@ begin
   if not Assigned(Result) then
     Begin
         // Recherche la classe de la form dans cette unité
-        lper_ClasseForm := TComponentClass ( fper_FindClass ( as_FormClasse ));
+        lper_ClasseForm := TFormClass ( fper_FindClass ( as_FormClasse ));
 
         if Assigned(lper_ClasseForm)
         // Rapide : on a trouvé la form dans cette unité
-         Then Application.CreateForm ( lper_ClasseForm              , Result )
+         Then Result := ffor_CreateForm ( lper_ClasseForm )
          Else
            Begin
              try
               // Recherche la classe de la form dans delphi
-               lper_ClasseForm := TComponentClass ( FindClass ( as_FormClasse ));
+               lper_ClasseForm := TFormClass ( FindClass ( as_FormClasse ));
              except
              End ;
              // Lent form trouvée dans delphi
              if Assigned(lper_ClasseForm)
               Then
-               Application.CreateForm ( lper_ClasseForm, Result );
+               Result := ffor_CreateForm ( lper_ClasseForm );
            End ;
     // Assigne l'icône si existe
       If assigned ( aico_Icon    )
@@ -1068,7 +1048,7 @@ End ;
 // afor_Reference    : variable de la form
 // newFormStyle      : style    de la form à mettre
 // Résultat          : Le style a été changé
-function fb_setNewFormStyle(const afor_Reference: TCustomForm; const afs_newFormStyle: TFormStyle; const ab_Ajuster: Boolean): Boolean;
+function fb_setNewFormStyle(const afor_Reference: TCustomForm; const afs_newFormStyle: TFormStyle; const ab_Ajuster: Boolean = True): Boolean;
 //var acla_ClasseForm : TClass ;
 begin
   Result := False;
@@ -1127,35 +1107,6 @@ begin
   End ;
 end;
 
-// Création d'une form MDI renvoie la form si existe
-// as_FormNom        : nom      de la form
-// afor_FormClasse   : classe   de la form
-// afor_Reference    : variable de la form
-function fb_CreateMDIChild ( const as_FormNom : string ; afor_FormClasse : TFormClass ; var afor_Reference ; const ab_Ajuster : Boolean ): Boolean;
-var
-  lfor_Reference : TCustomForm;
-
-begin
-  Result := False;
-  // Pas mdi quitte sinon erreur
-  if (Application.MainForm.FormStyle <> fsMDIForm) then Exit;
-
-  lfor_Reference := ffor_FindForm ( as_FormNom );
-    // form pas trouvée
-  if (lfor_Reference = nil ) then
-    begin
-      if not Assigned(TForm(afor_Reference)) then
-        Application.CreateForm(afor_FormClasse, afor_Reference);
-      Result := False;
-    end
-  else
-  // Si trouvée affiche
-    begin
-      lfor_Reference.BringToFront;
-      Result := True;
-    end;
-end;
-
 
 function fb_ReinitWindow(
   var afor_Form: TCustomForm): Boolean;
@@ -1188,7 +1139,7 @@ begin
             afor_Form.Free ;
             afor_Form := Nil ;
             p_IniDeleteSection ( lcln_FormName );
-            afor_Form := ffor_CreateChild ( TFormClass ( lclt_ClassType ), lfs_FormStyle, False, lico_Icone );
+            afor_Form := ffor_CreateUniqueChild ( TFormClass ( lclt_ClassType ), lfs_FormStyle, False, lico_Icone );
             if assigned ( afor_Form ) Then
               Begin
                 fb_setNewFormStyle ( afor_Form, lfs_FormStyle, lb_Modal, lwst_WindowState, lpos_Position );
