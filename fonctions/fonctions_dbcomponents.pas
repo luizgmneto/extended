@@ -56,6 +56,7 @@ const
   CST_DBPROPERTY_SESSIONNAME = 'SessionName';
   CST_DBPROPERTY_CLIENTPARAM = 'ClientParam';
   CST_DBPROPERTY_ZEOSDB = 'ZeosDBConnection';
+  CST_DBPROPERTY_FIELDDEFS          = 'FieldDefs' ;
   CST_DBPROPERTY_Active = 'Active';
   CST_DBPROPERTY_ENDPARAM = ';';
 function fb_InsereCompteur ( const adat_Dataset, adat_DatasetQuery : TDataset ;
@@ -108,6 +109,7 @@ function fb_RecordExists ( const adat_DatasetQuery : TDataset ;
                            const ab_DBMessageOnError  : Boolean ): Boolean;
 
 var ge_DataSetErrorEvent : TDataSetErrorEvent ;
+    gch_SeparatorCSV: Char = ';';
 
 implementation
 
