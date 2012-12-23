@@ -1,7 +1,7 @@
 inherited FMain: TFMain
   Left = 345
   Height = 422
-  Top = 284
+  Top = 126
   Width = 592
   Caption = 'Gestion d''articles'
   Menu = MainMenu
@@ -33,7 +33,7 @@ inherited FMain: TFMain
     end
   end
   object OnFormInfoIni1: TOnFormInfoIni[1]
-    SaveForm = [sfSavePos]
+    SaveForm = [sfSavePos, sfSaveSizes]
     left = 96
     top = 80
   end

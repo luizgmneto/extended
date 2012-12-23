@@ -833,7 +833,14 @@ begin
          with FBoxChilds do
            Begin
              BeginUpdateBounds;
-             ( afor_Reference as TSuperForm ).ShowIncrust ( FBoxChilds );
+             with afor_Reference as TSuperForm do
+               Begin
+                case WindowState of
+                  wsNormal : IncrustMode:= aicCenter;
+                  wsMaximized, wsFullScreen : IncrustMode:= aicAllClient;
+                end;
+                ShowIncrust ( FBoxChilds );
+               end;
              EndUpdateBounds;
            end;
         end
