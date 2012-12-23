@@ -1,10 +1,9 @@
 inherited F_Gamme: TF_Gamme
-  Left = 211
+  Left = 135
   Height = 582
-  Top = 187
+  Top = 155
   Width = 957
   Align = alClient
-  AutoSize = True
   Caption = 'Gamme d''article'
   ClientHeight = 582
   ClientWidth = 957
@@ -395,7 +394,7 @@ inherited F_Gamme: TF_Gamme
               item
                 AutoSize = True
                 Caption = 'Types non membres de la gamme'
-                Width = 336
+                Width = 332
               end>
             Constraints.MinWidth = 3
             DragMode = dmAutomatic
@@ -833,7 +832,7 @@ inherited F_Gamme: TF_Gamme
   object SvgFormInfoIni: TOnFormInfoIni[1]
     SaveEdits = [feTGrid, feTListView]
     left = 96
-    top = 136
+    top = 128
   end
   object im_images: TImageList[2]
     BkColor = clForeground

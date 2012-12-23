@@ -72,8 +72,8 @@ type
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
       public
-
        constructor Create ( AOwner : TComponent ); override;
        procedure DoEnter; override;
        procedure DoExit; override;
@@ -118,8 +118,8 @@ type
           procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
         protected
           procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+          procedure Notification(AComponent: TComponent; Operation: TOperation); override;
          public
-
           constructor Create ( AOwner : TComponent ); override;
           procedure DoEnter; override;
           procedure DoExit; override;
@@ -162,6 +162,7 @@ type
          procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
         protected
          procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+         procedure Notification(AComponent: TComponent; Operation: TOperation); override;
         public
 
          constructor Create ( AOwner : TComponent ); override;
@@ -206,8 +207,8 @@ type
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
       public
-
        constructor Create ( AOwner : TComponent ); override;
        procedure DoEnter; override;
        procedure DoExit; override;
@@ -241,6 +242,8 @@ type
        FEditComponent : TControl;
        procedure CMMouseEnter(var Message: TMessage); message {$IFDEF FPC}LM_MOUSEENTER{$ELSE}CM_MOUSEENTER{$ENDIF};
        procedure CMMouseLeave(var Message: TMessage); message {$IFDEF FPC}LM_MOUSELEAVE{$ELSE}CM_MOUSELEAVE{$ENDIF};
+      protected
+       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
       public
 
        procedure Loaded; override;
@@ -259,6 +262,8 @@ type
      End;
    { TFWDBGrid }
 
+   { TFWGrid }
+
    TFWGrid = class ( {$IFDEF TNT}TTntStringGrid{$ELSE}TStringGrid{$ENDIF}, IFWComponent )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
@@ -270,7 +275,6 @@ type
        function  fi_getFieldTags ( li_i : LongInt ):Integer;
        procedure p_setFieldTags ( li_i : LongInt ; const a_value : Integer );
       public
-
        constructor Create ( AOwner : TComponent ); override;
        procedure DoEnter; override;
        procedure DoExit; override;
@@ -305,8 +309,8 @@ type
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
       public
-
        constructor Create ( AOwner : TComponent ); override;
        procedure DoEnter; override;
        procedure DoExit; override;
@@ -351,8 +355,8 @@ type
         procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
        protected
         procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+        procedure Notification(AComponent: TComponent; Operation: TOperation); override;
        public
-
         constructor Create ( AOwner : TComponent ); override;
         procedure DoEnter; override;
         procedure DoExit; override;
@@ -455,6 +459,14 @@ begin
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
 end;
 
+procedure TFWEdit.Notification(AComponent: TComponent; Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
+end;
+
 
 { TFWDateTimePicker }
 
@@ -526,6 +538,15 @@ begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+end;
+
+procedure TFWDateTimePicker.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
 end;
 
 
@@ -601,6 +622,15 @@ begin
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
 end;
 
+procedure TFWSpinEdit.Notification(AComponent: TComponent; Operation: TOperation
+  );
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
+end;
+
 { TFWDateEdit }
 
 procedure TFWDateEdit.p_setLabel(const alab_Label: TFWLabel);
@@ -671,6 +701,15 @@ begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+end;
+
+procedure TFWDateEdit.Notification(AComponent: TComponent; Operation: TOperation
+  );
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
 end;
 
 
@@ -746,6 +785,15 @@ begin
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
 end;
 
+procedure TFWComboBox.Notification(AComponent: TComponent; Operation: TOperation
+  );
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
+end;
+
 
 
 { TFWLabel }
@@ -796,6 +844,14 @@ procedure TFWLabel.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
   inherited MouseDown(Button, Shift, X, Y);
+end;
+
+procedure TFWLabel.Notification(AComponent: TComponent; Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FEditComponent   )
+   Then FEditComponent := nil;
 end;
 
 { TFWDBGrid }
@@ -930,6 +986,14 @@ begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+end;
+
+procedure TFWMemo.Notification(AComponent: TComponent; Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
 end;
 
 
