@@ -24,7 +24,7 @@ type
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
     {$IFDEF FPC}
-    Panel: TPanel;
+    Panel: TScrollBox;
     {$ENDIF}
     muapropos: TMenuItem;
     MuArticle: TMenuItem;
@@ -75,24 +75,24 @@ end;
 
 procedure TFMain.MuArticleClick(Sender: TObject);
 begin
-  ffor_CreateChild(TF_Article,fsMDIChild,True,nil);
+  ffor_CreateUniqueChild(TF_Article,fsMDIChild,True,nil);
 end;
 
 procedure TFMain.MuCaractClick(Sender: TObject);
 begin
-  ffor_CreateChild(TF_Caracteristique,fsMDIChild,True,nil);
+  ffor_CreateUniqueChild(TF_Caracteristique,fsMDIChild,True,nil);
 
 end;
 
 procedure TFMain.muGammeClick(Sender: TObject);
 begin
-  ffor_CreateChild(TF_Gamme,fsMDIChild,True,nil);
+  ffor_CreateUniqueChild(TF_Gamme,fsMDIChild,True,nil);
 
 end;
 
 procedure TFMain.MuTypeArticleClick(Sender: TObject);
 begin
-  ffor_CreateChild(TF_TypeProduit,fsMDIChild,True,nil);
+  ffor_CreateUniqueChild(TF_TypeProduit,fsMDIChild,True,nil);
 
 end;
 

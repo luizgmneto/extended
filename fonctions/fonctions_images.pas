@@ -147,6 +147,8 @@ begin
         ReleaseHandle ;
         Handle := 0 ;
       End ;
+  if aBmp_Bitmap.Empty
+   Then Exit; // quiting when bitmap empty
  {Crée un icon}
   lii_IconInfo.fIcon := true; // C'est un icône
   lii_IconInfo.xHotspot := 0; // Valeurs par défaut : connaîs pas

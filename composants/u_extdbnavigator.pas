@@ -406,7 +406,7 @@ begin
          Begin
            FDataset := fdat_CloneDatasetWithoutSQL ( FDataLink.DataSet, Owner );
            FDataset.Name:=Self.Name + FSortTable;
-           p_SetSQLQuery(FDataset, 'SELECT * FROM '+FSortTable+' ORDER BY ' + FSortField);
+           p_SetSQLQuery(FDataset, 'SELECT '+FSortField+' FROM '+FSortTable+' ORDER BY ' + FSortField);
            p_SetComponentProperty(FDataset, 'Table', FSortTable);
            fb_SortADataset ( FDataset, FSortField, False );
          end;
@@ -496,7 +496,7 @@ begin
   else
     MinButtonSize := Point(32, 30);
 
-  CalcMinSize(Width,Height);
+  CalcMinSize(ClientWidth,ClientHeight);
   X := 0;
 {$IFDEF DELPHI}
   ResInstance:= FindResourceHInstance(HInstance);
@@ -530,10 +530,10 @@ end;
 constructor TExtDBNavigator.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FDataset:=nil;
   Enabled:=True;
   FDatalink := TExtNavDataLink.Create ( Self );
   ControlStyle:=ControlStyle-[csAcceptsControls,csSetCaption]+[csOpaque];
-
   FDeleteRecordQuestion := GS_SUPPRIMER_QUESTION ;
   FVisibleButtons := [nbEFirst, nbEPrior, nbENext, nbELast,
     nbEInsert, nbEDelete, nbEEdit, nbEPost, nbECancel, nbERefresh];
@@ -830,16 +830,11 @@ end;
 procedure TExtDBNavigator.SetVisible(Value: TExtButtonSet);
 var
   I: TExtNavigateBtn;
-  W, H: Integer;
 begin
-  W := ClientWidth;
-  H := ClientHeight;
   FVisibleButtons := Value;
   for I := Low(FButtons) to High(FButtons) do
     FButtons[I].Visible := I in FVisibleButtons;
-  SetButtonsSize(W, H);
-  if (W <> ClientWidth) or (H <> ClientHeight) then
-    inherited SetBounds (Left, Top, W, H);
+  SetButtonsSize(ClientWidth, ClientHeight);
   Invalidate;
 end;
 

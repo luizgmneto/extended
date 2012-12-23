@@ -80,7 +80,7 @@
         <PackageName Value="LCL"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="145">
+    <Units Count="146">
       <Unit0>
         <Filename Value="Groupview.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -110,10 +110,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Article"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="42"/>
-        <CursorPos X="112" Y="80"/>
+        <TopLine Value="43"/>
+        <CursorPos X="82" Y="43"/>
         <UsageCount Value="69"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
@@ -369,10 +372,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Gamme"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="55"/>
-        <CursorPos X="163" Y="77"/>
+        <TopLine Value="138"/>
+        <CursorPos X="25" Y="146"/>
         <UsageCount Value="69"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit24>
       <Unit25>
@@ -382,10 +388,14 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_TypeArticle"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="139"/>
-        <CursorPos X="150" Y="163"/>
+        <TopLine Value="164"/>
+        <CursorPos X="6" Y="170"/>
         <UsageCount Value="62"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit25>
       <Unit26>
@@ -395,10 +405,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Caracteristique"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="51"/>
-        <CursorPos X="170" Y="57"/>
+        <TopLine Value="137"/>
+        <CursorPos X="25" Y="145"/>
         <UsageCount Value="69"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
@@ -759,11 +772,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Main"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="36"/>
-        <CursorPos X="151" Y="65"/>
+        <TopLine Value="83"/>
+        <CursorPos X="25" Y="95"/>
         <UsageCount Value="52"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -1452,8 +1464,16 @@
         <CursorPos X="87" Y="49"/>
         <UsageCount Value="10"/>
       </Unit144>
+      <Unit145>
+        <Filename Value="u_main.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="27" Y="11"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit145>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
+    <JumpHistory Count="7" HistoryIndex="6">
       <Position1>
         <Filename Value="u_main.pas"/>
         <Caret Line="69" Column="1" TopLine="31"/>
@@ -1462,6 +1482,26 @@
         <Filename Value="u_main.pas"/>
         <Caret Line="64" Column="8" TopLine="36"/>
       </Position2>
+      <Position3>
+        <Filename Value="u_main.pas"/>
+        <Caret Line="66" Column="22" TopLine="49"/>
+      </Position3>
+      <Position4>
+        <Filename Value="U_Gamme.pas"/>
+        <Caret Line="77" Column="163" TopLine="55"/>
+      </Position4>
+      <Position5>
+        <Filename Value="U_Caracteristique.pas"/>
+        <Caret Line="57" Column="170" TopLine="51"/>
+      </Position5>
+      <Position6>
+        <Filename Value="u_typearticle.pas"/>
+        <Caret Line="163" Column="150" TopLine="139"/>
+      </Position6>
+      <Position7>
+        <Filename Value="u_typearticle.pas"/>
+        <Caret Line="160" Column="25" TopLine="151"/>
+      </Position7>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

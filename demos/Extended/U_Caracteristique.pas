@@ -142,7 +142,7 @@ end;
 
 procedure TF_Caracteristique.bt_TypeProClick(Sender: TObject);
 begin
-  ffor_CreateChild ( TF_TypeProduit, fsMDIChild, True, nil );
+  ffor_CreateUniqueChild ( TF_TypeProduit, fsMDIChild, True, nil );
   if ( lv_CaracIn.Items.Count > 0 )
   and M_Article.IB_TypProduit.Active Then
     If assigned ( lv_CaracIn.Selected ) Then
