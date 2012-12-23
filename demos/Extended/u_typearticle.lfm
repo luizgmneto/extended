@@ -1,61 +1,60 @@
 inherited F_TypeProduit: TF_TypeProduit
-  Left = 386
-  Height = 508
-  Top = 285
-  Width = 871
+  Left = 147
+  Height = 428
+  Top = 40
+  Width = 722
   Align = alClient
   Caption = 'Type d''article'
-  ClientHeight = 508
-  ClientWidth = 871
+  ClientHeight = 428
+  ClientWidth = 722
   Color = clBtnFace
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   OnCreate = F_FormDicoCreate
   Position = poMainFormCenter
-  WindowState = wsMaximized
   object pa_1: TPanel[0]
     Left = 0
-    Height = 508
+    Height = 428
     Top = 0
-    Width = 871
+    Width = 722
     Align = alClient
     BevelOuter = bvLowered
-    ClientHeight = 508
-    ClientWidth = 871
+    ClientHeight = 428
+    ClientWidth = 722
     TabOrder = 0
     object spl_1: TSplitter
-      Left = 281
-      Height = 481
+      Left = 249
+      Height = 401
       Top = 26
       Width = 5
     end
     object pa_3: TPanel
-      Left = 286
-      Height = 481
+      Left = 254
+      Height = 401
       Top = 26
-      Width = 584
+      Width = 467
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 481
-      ClientWidth = 584
+      ClientHeight = 401
+      ClientWidth = 467
       Constraints.MinWidth = 10
       TabOrder = 0
       object pa_5: TPanel
         Left = 0
         Height = 32
         Top = 0
-        Width = 584
+        Width = 467
         Align = alTop
         BevelOuter = bvNone
         ClientHeight = 32
-        ClientWidth = 584
+        ClientWidth = 467
         TabOrder = 1
         object nv_saisie: TExtDBNavigator
           Left = 0
           Height = 32
           Top = 0
-          Width = 584
+          Width = 467
           Flat = True
           DataSource = M_Article.ds_TypProduit
           DeleteQuestion = 'Confirmez-vous l''effacement de l''enregistrement ?'
@@ -86,11 +85,11 @@ inherited F_TypeProduit: TF_TypeProduit
         Left = 0
         Height = 74
         Top = 32
-        Width = 584
+        Width = 467
         Align = alTop
         BevelOuter = bvNone
         ClientHeight = 74
-        ClientWidth = 584
+        ClientWidth = 467
         Constraints.MinHeight = 10
         TabOrder = 0
         object lb_libelle: TFWLabel
@@ -127,7 +126,7 @@ inherited F_TypeProduit: TF_TypeProduit
         object ed_libelle: TFWDBEdit
           Tag = 2
           Left = 102
-          Height = 24
+          Height = 27
           Top = 35
           Width = 460
           DataField = 'TYPR_Libelle'
@@ -143,7 +142,7 @@ inherited F_TypeProduit: TF_TypeProduit
         object ed_code: TFWDBEdit
           Tag = 1
           Left = 102
-          Height = 24
+          Height = 27
           Top = 10
           Width = 129
           DataField = 'TYPR_Clep'
@@ -162,16 +161,16 @@ inherited F_TypeProduit: TF_TypeProduit
           Left = 0
           Height = 5
           Top = 69
-          Width = 584
+          Width = 467
           Align = alBottom
           ResizeAnchor = akBottom
         end
       end
       object pc_Groupes: TPageControl
         Left = 0
-        Height = 375
+        Height = 295
         Top = 106
-        Width = 584
+        Width = 467
         ActivePage = ts_Gamme
         Align = alClient
         TabIndex = 0
@@ -179,11 +178,11 @@ inherited F_TypeProduit: TF_TypeProduit
         OnChanging = pc_GroupesChanging
         object ts_Gamme: TTabSheet
           Caption = 'Gammes dont ce type est membre'
-          ClientHeight = 349
-          ClientWidth = 576
+          ClientHeight = 259
+          ClientWidth = 459
           object RbSplitter1: TSplitter
             Left = 321
-            Height = 322
+            Height = 232
             Top = 27
             Width = 5
           end
@@ -191,10 +190,10 @@ inherited F_TypeProduit: TF_TypeProduit
             Left = 0
             Height = 27
             Top = 0
-            Width = 576
+            Width = 459
             Align = alTop
             ClientHeight = 27
-            ClientWidth = 576
+            ClientWidth = 459
             TabOrder = 0
             object Panel13: TPanel
               Left = 249
@@ -215,7 +214,7 @@ inherited F_TypeProduit: TF_TypeProduit
               TabOrder = 1
             end
             object Panel5: TPanel
-              Left = 562
+              Left = 445
               Height = 25
               Top = 1
               Width = 13
@@ -276,18 +275,18 @@ inherited F_TypeProduit: TF_TypeProduit
           end
           object Panel6: TPanel
             Left = 0
-            Height = 322
+            Height = 232
             Top = 27
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 322
+            ClientHeight = 232
             ClientWidth = 321
             Constraints.MinWidth = 4
             TabOrder = 1
             object lsv_GammIn: TDBGroupView
               Left = 0
-              Height = 322
+              Height = 232
               Hint = 'Liste des membres'
               Top = 0
               Width = 251
@@ -296,7 +295,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'Gammes dont ce type est membre'
-                  Width = 247
+                  Width = 233
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -327,12 +326,12 @@ inherited F_TypeProduit: TF_TypeProduit
             end
             object Panel2: TPanel
               Left = 251
-              Height = 322
+              Height = 232
               Top = 0
               Width = 70
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 322
+              ClientHeight = 232
               ClientWidth = 70
               TabOrder = 1
               object bt_in_item: TFWInSelect
@@ -385,16 +384,16 @@ inherited F_TypeProduit: TF_TypeProduit
           end
           object lsv_GammOut: TDBGroupView
             Left = 326
-            Height = 322
+            Height = 232
             Hint = 'A réaffecter'
             Top = 27
-            Width = 250
+            Width = 133
             Align = alClient
             Columns = <            
               item
                 AutoSize = True
                 Caption = 'Gammes dont ce type n''est pas membre'
-                Width = 246
+                Width = 257
               end>
             Constraints.MinWidth = 4
             DragMode = dmAutomatic
@@ -428,8 +427,8 @@ inherited F_TypeProduit: TF_TypeProduit
         end
         object ts_Caracteristique: TTabSheet
           Caption = 'Caractéristiques membres du type'
-          ClientHeight = 337
-          ClientWidth = 580
+          ClientHeight = 259
+          ClientWidth = 459
           ImageIndex = 1
           object RbSplitter2: TSplitter
             Left = 321
@@ -459,7 +458,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'Caractéristiques membres du type'
-                  Width = 238
+                  Width = 224
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -644,7 +643,7 @@ inherited F_TypeProduit: TF_TypeProduit
               item
                 AutoSize = True
                 Caption = 'Caractéristiques non membres du type'
-                Width = 250
+                Width = 246
               end>
             Constraints.MinWidth = 4
             DragMode = dmAutomatic
@@ -678,8 +677,8 @@ inherited F_TypeProduit: TF_TypeProduit
         end
         object TabSheet1: TTabSheet
           Caption = 'Articles affectés au type'
-          ClientHeight = 337
-          ClientWidth = 580
+          ClientHeight = 259
+          ClientWidth = 459
           ImageIndex = 2
           object Panel12: TPanel
             Left = 0
@@ -803,7 +802,7 @@ inherited F_TypeProduit: TF_TypeProduit
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 214
+                    Width = 200
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -903,7 +902,7 @@ inherited F_TypeProduit: TF_TypeProduit
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 272
+                  Width = 258
                 end>
               Constraints.MinWidth = 4
               DragMode = dmAutomatic
@@ -941,30 +940,30 @@ inherited F_TypeProduit: TF_TypeProduit
     end
     object pa_2: TPanel
       Left = 1
-      Height = 481
+      Height = 401
       Top = 26
-      Width = 280
+      Width = 248
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 481
-      ClientWidth = 280
+      ClientHeight = 401
+      ClientWidth = 248
       Constraints.MinWidth = 10
       TabOrder = 1
       object pa_4: TPanel
         Left = 0
         Height = 32
         Top = 0
-        Width = 280
+        Width = 248
         Align = alTop
         BevelOuter = bvNone
         ClientHeight = 32
-        ClientWidth = 280
+        ClientWidth = 248
         TabOrder = 0
         object nv_navigator: TExtDBNavigator
           Left = 0
           Height = 32
           Top = 0
-          Width = 280
+          Width = 248
           Flat = True
           DataSource = M_Article.ds_TypProduit
           DeleteQuestion = 'Confirmez-vous l''effacement de l''enregistrement ?'
@@ -993,9 +992,9 @@ inherited F_TypeProduit: TF_TypeProduit
       end
       object gd_famillevente: TExtDBGrid
         Left = 0
-        Height = 449
+        Height = 369
         Top = 32
-        Width = 280
+        Width = 248
         TitleButtons = False
         AutoSort = False
         Columns = <        
@@ -1031,14 +1030,14 @@ inherited F_TypeProduit: TF_TypeProduit
       Left = 1
       Height = 25
       Top = 1
-      Width = 869
+      Width = 720
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 25
-      ClientWidth = 869
+      ClientWidth = 720
       TabOrder = 2
       object bt_fermer: TFWClose
-        Left = 773
+        Left = 624
         Height = 25
         Top = 0
         Width = 96
@@ -1059,7 +1058,7 @@ inherited F_TypeProduit: TF_TypeProduit
         TabOrder = 1
       end
       object bt_imprimer: TFWPrintGrid
-        Left = 693
+        Left = 544
         Height = 25
         Hint = 'Impression des résultats de la sélection'
         Top = 0

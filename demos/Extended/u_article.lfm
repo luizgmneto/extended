@@ -1,11 +1,11 @@
 inherited F_Article: TF_Article
   Left = 235
-  Height = 578
-  Top = 144
+  Height = 341
+  Top = 0
   Width = 703
   Align = alClient
   Caption = 'Article'
-  ClientHeight = 578
+  ClientHeight = 341
   ClientWidth = 703
   Color = clBtnFace
   Font.Color = clWindowText
@@ -16,28 +16,28 @@ inherited F_Article: TF_Article
   WindowState = wsMaximized
   object pa_1: TPanel[0]
     Left = 0
-    Height = 552
+    Height = 315
     Top = 26
     Width = 703
     Align = alClient
     BevelOuter = bvLowered
-    ClientHeight = 552
+    ClientHeight = 315
     ClientWidth = 703
     TabOrder = 0
     object spl_1: TSplitter
       Left = 297
-      Height = 550
+      Height = 313
       Top = 1
       Width = 5
     end
     object pa_3: TPanel
       Left = 302
-      Height = 550
+      Height = 313
       Top = 1
       Width = 400
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 550
+      ClientHeight = 313
       ClientWidth = 400
       Constraints.MinWidth = 10
       TabOrder = 0
@@ -115,7 +115,7 @@ inherited F_Article: TF_Article
       object ed_libelcateg: TFWDBEdit
         Tag = 2
         Left = 128
-        Height = 24
+        Height = 27
         Top = 64
         Width = 190
         DataField = 'ARTI_Libcom'
@@ -131,7 +131,7 @@ inherited F_Article: TF_Article
       object ed_codecateg: TFWDBEdit
         Tag = 1
         Left = 128
-        Height = 24
+        Height = 27
         Top = 36
         Width = 34
         DataField = 'ARTI_Clep'
@@ -147,7 +147,7 @@ inherited F_Article: TF_Article
       end
       object cb_Categ: TExtDBComboInsert
         Left = 128
-        Height = 23
+        Height = 27
         Top = 93
         Width = 218
         DataField = 'ARTI__GAMM'
@@ -177,7 +177,7 @@ inherited F_Article: TF_Article
       end
       object cb_Categ1: TExtDBComboInsert
         Left = 128
-        Height = 23
+        Height = 27
         Top = 121
         Width = 218
         DataField = 'ARTI__TYPR'
@@ -207,7 +207,7 @@ inherited F_Article: TF_Article
       end
       object cb_Categ2: TExtDBComboInsert
         Left = 128
-        Height = 23
+        Height = 27
         Top = 149
         Width = 218
         DataField = 'ARTI__CARA'
@@ -227,28 +227,24 @@ inherited F_Article: TF_Article
         Width = 77
         AutoSize = False
         Caption = 'Catégorie'
-        Font.Color = clWindowText
-        Font.Height = 19
-        Font.Name = 'MS Sans Serif'
         ParentColor = False
-        ParentFont = False
         ColorFocus = clMaroon
       end
     end
     object pa_2: TPanel
       Left = 1
-      Height = 550
+      Height = 313
       Top = 1
       Width = 296
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 550
+      ClientHeight = 313
       ClientWidth = 296
       Constraints.MinWidth = 10
       TabOrder = 1
       object gd_categ: TExtDBGrid
         Left = 0
-        Height = 518
+        Height = 281
         Top = 32
         Width = 296
         TitleButtons = False
