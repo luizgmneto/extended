@@ -34,10 +34,7 @@ type
   TF_Article = class(TF_FormAdapt)
     cb_Categ: TExtDBComboInsert;
     cb_Categ1: TExtDBComboInsert;
-    cb_Categ2: TExtDBComboInsert;
     lb_gamme: TFWLabel;
-    lb_typart: TFWLabel;
-    lb_libelcateg3: TFWLabel;
     nv_navigator: TExtDBNavigator;
     nv_saisie: TExtDBNavigator;
     pa_1: TPanel;
@@ -93,5 +90,6 @@ begin
   M_Article.ds_Gamme.DataSet.Open;
 
 end;
+
 
 end.

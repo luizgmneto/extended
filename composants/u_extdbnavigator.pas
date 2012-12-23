@@ -426,9 +426,12 @@ end;
 procedure TExtDBNavigator.WMSize(var Msg: TWMSize);
 begin
   inherited;
-  SetButtonsSize(ClientWidth,ClientHeight);
-  if not (csLoading in ComponentState) and UseRightToLeftAlignment and not Swaped then
-    SwapButtons;
+  if not ( csLoading in ComponentState ) Then
+   Begin
+    SetButtonsSize(ClientWidth,ClientHeight);
+    if UseRightToLeftAlignment and not Swaped then
+       SwapButtons;
+   end;
 end;
 
 procedure TExtDBNavigator.CMBiDiModeChanged(var Msg: TMessage);
@@ -489,7 +492,6 @@ procedure TExtDBNavigator.UpdateButtons;
 var
   I: TExtNavigateBtn;
   Btn: TExtNavButton;
-  X: Integer;
 begin
   if GlyphSize = gsSmall then
     MinButtonSize := Point(20, 20)
@@ -497,7 +499,6 @@ begin
     MinButtonSize := Point(32, 30);
 
   CalcMinSize(ClientWidth,ClientHeight);
-  X := 0;
 {$IFDEF DELPHI}
   ResInstance:= FindResourceHInstance(HInstance);
 {$ENDIF}
@@ -509,8 +510,6 @@ begin
     Btn := FButtons [ i ];
     Btn.Flat := Flat;
     Btn.Index := I;
-    Btn.SetBounds (X, 0, MinButtonSize.X, MinButtonSize.Y);
-
     LoadImageButton ( Btn );
     Btn.NumGlyphs := 5 ;
     Btn.Visible := I in FVisibleButtons;
@@ -520,7 +519,6 @@ begin
     Btn.OnClick := ButtonClickHandler;
     Btn.OnMouseDown := ButtonMouseDown;
     Btn.Parent := Self;
-    inc ( X,  MinButtonSize.X );
   end;
 
   FButtons[nbEPrior].NavStyle := FButtons[nbEPrior].NavStyle + [nsAllowTimer];
@@ -535,6 +533,8 @@ begin
   FDatalink := TExtNavDataLink.Create ( Self );
   ControlStyle:=ControlStyle-[csAcceptsControls,csSetCaption]+[csOpaque];
   FDeleteRecordQuestion := GS_SUPPRIMER_QUESTION ;
+
+  // BUTTONS
   FVisibleButtons := [nbEFirst, nbEPrior, nbENext, nbELast,
     nbEInsert, nbEDelete, nbEEdit, nbEPost, nbECancel, nbERefresh];
   UpdateButtons;
@@ -547,8 +547,6 @@ begin
   BevelOuter := bvNone;
   BevelInner := bvNone;
   FTransparent := False ;
-//  ButtonSize.x := 0;
-//  ButtonSize.y := 0;
   FocusedButton := nbEFirst;
   FConfirmDelete := True;
   FullRepaint := False;
@@ -591,8 +589,8 @@ begin
   LB := Low(FButtons);
   RB := High(FButtons);
   repeat
-    while not (LB in VisibleButtons) and (LB < High(FButtons)) do Inc(LB);
-    while not (RB in VisibleButtons) and (RB > Low(FButtons)) do Dec(RB);
+    while not (LB in FVisibleButtons) and (LB < High(FButtons)) do Inc(LB);
+    while not (RB in FVisibleButtons) and (RB > Low(FButtons)) do Dec(RB);
     if LB < RB then
     begin
       X := FButtons[LB].Left;
@@ -627,8 +625,8 @@ var
 begin
   LB := Low(FButtons);
   RB := High(FButtons);
-  while not (LB in VisibleButtons) and (LB < High(FButtons)) do Inc(LB);
-  while not (RB in VisibleButtons) and (RB > Low(FButtons)) do Dec(RB);
+  while not (LB in FVisibleButtons) and (LB < High(FButtons)) do Inc(LB);
+  while not (RB in FVisibleButtons) and (RB > Low(FButtons)) do Dec(RB);
   Result := FButtons[LB].Left > FButtons[RB].Left;
 end;
 
@@ -731,13 +729,13 @@ begin
   with MinButtonSize do
   if Orientation = noHorizontal then
   begin
-    X := Min(W, Count * X) div Count;
+    X := Min(W, Count * X) div Count - 1;
     Y := Min(H, Y);
   end
   else
   begin
     X := Min(W, X);
-    Y := Min(H, Count * Y) div Count;
+    Y := Min(H, Count * Y) div Count - 1;
   end;
 end;
 
@@ -747,11 +745,10 @@ procedure TExtDBNavigator.SetButtonsSize(const W, H: Integer);
 var
   Count: Integer;
   I: TExtNavigateBtn;
-  Space, Temp, Remain: Integer;
-  X, Y: Integer;
+  Space: Integer;
+  LCoord: Integer;
+  LIsFirst : Boolean;
 begin
-  if (csLoading in ComponentState) then
-    Exit;
   if FButtons[nbEFirst] = nil then
     Exit;
 
@@ -762,67 +759,38 @@ begin
     if FButtons[I].Visible then
       Inc(Count);
   if Count = 0 then Inc(Count);
-
+  LIsFirst := True;
+  LCoord := 0;
   if Orientation = noHorizontal then
   begin
-    ButtonSize.X := W div Count;
-    Temp := Count * ButtonSize.X;
+    ButtonSize.X := W div Count - 1;
+    ButtonSize.Y := H;
 
-    X := 0;
-    Y := H;
-    Remain := W - Temp;
-    Temp := Count div 2;
     for I := Low(FButtons) to High(FButtons) do
-    begin
-      if FButtons[I].Visible then
+     if FButtons[I].Visible then
       begin
-        Space := 0;
-        if Remain <> 0 then
-        begin
-          Dec(Temp, Remain);
-          if Temp < 0 then
-          begin
-            Inc(Temp, Count);
-            Space := 1;
-          end;
-        end;
-        FButtons[I].SetBounds(X, 0, ButtonSize.X + Space, H);
-        Inc(X, ButtonSize.X + Space);
-      end
-      else
-        FButtons[I].SetBounds (0, 0, ButtonSize.X, H);
-    end;
+        if LIsFirst
+         then Space := W - ( Count * ( ButtonSize.X + 1 ))
+         Else Space := 0;
+        FButtons[I].SetBounds(LCoord, 0, ButtonSize.X + Space, H);
+        Inc(LCoord, ButtonSize.X + Space + 1);
+        LIsFirst := False;
+      end;
   end
   else
   begin
-    ButtonSize.Y := H div Count;
-    Temp := Count * ButtonSize.Y;
-
-    Y := 0;
-    Remain := H - Temp;
-    Temp := Count div 2;
-    X := W ;
+   ButtonSize.X := W;
+   ButtonSize.Y := H div Count - 1;
     for I := Low(FButtons) to High(FButtons) do
-    begin
-      if FButtons[I].Visible then
+     if FButtons[I].Visible then
       begin
-        Space := 0;
-        if Remain <> 0 then
-        begin
-          Dec(Temp, Remain);
-          if Temp < 0 then
-          begin
-            Inc(Temp, Count);
-            Space := 1;
-          end;
-        end;
-        FButtons[I].SetBounds(0, Y, W, ButtonSize.Y + Space);
-        Inc(Y, ButtonSize.Y + Space);
-      end
-      else
-        FButtons[I].SetBounds(0,0, W, ButtonSize.Y);
-    end;
-
+        if LIsFirst
+         then Space := H - ( Count * ( ButtonSize.Y + 1 ))
+         Else Space := 0;
+        FButtons[I].SetBounds(0, LCoord, W, ButtonSize.Y + Space);
+        Inc(LCoord, ButtonSize.Y + Space + 1);
+        LIsFirst := False;
+      end;
   end;
 end;
 
@@ -831,34 +799,23 @@ procedure TExtDBNavigator.SetVisible(Value: TExtButtonSet);
 var
   I: TExtNavigateBtn;
 begin
-  FVisibleButtons := Value;
-  for I := Low(FButtons) to High(FButtons) do
-    FButtons[I].Visible := I in FVisibleButtons;
-  SetButtonsSize(ClientWidth, ClientHeight);
-  Invalidate;
+  if Value <> FVisibleButtons then
+   Begin
+    FVisibleButtons := Value;
+    for I := Low(FButtons) to High(FButtons) do
+      FButtons[I].Visible := I in FVisibleButtons;
+    SetButtonsSize(ClientWidth, ClientHeight);
+    Invalidate;
+   end;
 end;
 
 procedure TExtDBNavigator.SetOrientation(const Value: TNavigatorOrientation);
-var
-  I: TExtNavigateBtn;
-  Count: Integer;
-  W,H: Integer;
 begin
-  if (csDesigning in ComponentState) and (Value <> FOrientation)
-    and not (csLoading in ComponentState) then
+  if (FOrientation <> Value) then
   begin
     FOrientation := Value;
-
-
-    Count := 0;
-    for I := Low(FButtons) to High(FButtons) do
-      if FButtons[I].Visible then
-        Inc(Count);
-
     SetButtonsSize(ClientWidth,ClientHeight);
   end;
-
-  FOrientation := Value;
 end;
 
 procedure TExtDBNavigator.SetGlyphSize(const Value: TGlyphSize);

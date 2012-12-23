@@ -23,16 +23,12 @@ type
   TFMain = class(TF_FormMainIni)
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
-    {$IFDEF FPC}
-    Panel: TScrollBox;
-    {$ENDIF}
     muapropos: TMenuItem;
     MuArticle: TMenuItem;
     MuCaract: TMenuItem;
     muGamme: TMenuItem;
     MuTypeArticle: TMenuItem;
     OnFormInfoIni1: TOnFormInfoIni;
-    procedure FormCreate(Sender: TObject);
     procedure muaproposClick(Sender: TObject);
     procedure MuArticleClick(Sender: TObject);
     procedure MuCaractClick(Sender: TObject);
@@ -63,13 +59,6 @@ procedure TFMain.muaproposClick(Sender: TObject);
 begin
   {$IFNDEF FPC}
   fb_AfficheApropos(True, CST_APPLI_NAME,'0.9.9.0');
-  {$ENDIF}
-end;
-
-procedure TFMain.FormCreate(Sender: TObject);
-begin
-  {$IFDEF FPC}
-  BoxChilds:=Panel;
   {$ENDIF}
 end;
 

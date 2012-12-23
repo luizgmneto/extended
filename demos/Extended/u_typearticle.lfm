@@ -4,7 +4,6 @@ inherited F_TypeProduit: TF_TypeProduit
   Top = 285
   Width = 871
   Align = alClient
-  AutoSize = True
   Caption = 'Type d''article'
   ClientHeight = 508
   ClientWidth = 871
@@ -395,7 +394,7 @@ inherited F_TypeProduit: TF_TypeProduit
               item
                 AutoSize = True
                 Caption = 'Gammes dont ce type n''est pas membre'
-                Width = 250
+                Width = 246
               end>
             Constraints.MinWidth = 4
             DragMode = dmAutomatic

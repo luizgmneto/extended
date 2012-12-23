@@ -186,8 +186,7 @@ type
        procedure DoTitleClick(ACol: Longint; AField: TField); dynamic;
        {$ENDIF}
        {$ENDIF}
-       procedure Notification(AComponent: TComponent;
-                 Operation: TOperation); override;
+       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
       published
        property Columns: TExtDbGridColumns read GetColumns write SetColumns stored IsColumnsStored;
        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;

@@ -4,7 +4,6 @@ inherited F_Caracteristique: TF_Caracteristique
   Top = 139
   Width = 968
   Align = alClient
-  AutoSize = True
   Caption = 'Caractéristiques d''articles'
   ClientHeight = 582
   ClientWidth = 968
@@ -14,7 +13,6 @@ inherited F_Caracteristique: TF_Caracteristique
   Font.Name = 'MS Sans Serif'
   OnCreate = F_FormDicoCreate
   Position = poMainFormCenter
-  WindowState = wsMaximized
   object pa_1: TPanel[0]
     Left = 0
     Height = 582
@@ -393,7 +391,7 @@ inherited F_Caracteristique: TF_Caracteristique
               item
                 AutoSize = True
                 Caption = 'Types dont cette caractéristique n''est pas membre'
-                Width = 347
+                Width = 343
               end>
             Constraints.MinWidth = 10
             DragMode = dmAutomatic

@@ -89,6 +89,7 @@ type
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
       public
 
        constructor Create ( AOwner : TComponent ); override;
@@ -133,6 +134,7 @@ type
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
       public
 
        constructor Create ( AOwner : TComponent ); override;
@@ -192,8 +194,7 @@ type
          procedure SetReadOnly(AValue: Boolean); virtual;
          procedure KeyDown(var Key: Word; Shift: TShiftState); override;
          procedure KeyPress(var Key: Char); override;
-         procedure Notification(AComponent: TComponent;
-         Operation: TOperation); override;
+         procedure Notification(AComponent: TComponent; Operation: TOperation); override;
        public
          procedure Loaded; override;
          constructor Create(AOwner: TComponent); override;
@@ -220,6 +221,8 @@ type
        procedure p_setLabel ( const alab_Label : TFWLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
        procedure WMRButtonDown(var Msg: TWMRButtonDown); message WM_RBUTTONDOWN;
+      protected
+       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
       public
 
        constructor Create ( AOwner : TComponent ); override;
@@ -264,6 +267,7 @@ type
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
       public
 
        constructor Create ( AOwner : TComponent ); override;
@@ -307,6 +311,7 @@ type
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
       public
 
        constructor Create ( AOwner : TComponent ); override;
@@ -351,6 +356,7 @@ type
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
       public
 
        constructor Create ( AOwner : TComponent ); override;
@@ -409,8 +415,7 @@ type
          procedure SetValue({$IFDEF FPC}const {$ENDIF}AValue: {$IFDEF FPC}Double{$ELSE}Extended{$ENDIF}); {$IFNDEF FPC}override ;{$ENDIF}
          procedure KeyDown(var Key: Word; Shift: TShiftState); override;
          procedure KeyPress(var Key: Char); override;
-         procedure Notification(AComponent: TComponent;
-         Operation: TOperation); override;
+         procedure Notification(AComponent: TComponent; Operation: TOperation); override;
        public
          procedure Loaded; override;
          procedure Change; override;
@@ -508,6 +513,14 @@ begin
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
 end;
 
+procedure TFWDBEdit.Notification(AComponent: TComponent; Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
+end;
+
 {$IFDEF FPC}
 { TFWDBDateTimePicker }
 
@@ -543,7 +556,8 @@ procedure TFWDBDateTimePicker.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
-  if (Operation = opRemove) and (FDataLink <> nil) and
+  if (Operation <> opRemove) Then Exit;
+  if (FDataLink <> nil) and
     (AComponent = DataSource) then DataSource := nil;
 end;
 
@@ -857,6 +871,15 @@ begin
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
 end;
 
+procedure TFWDBDateEdit.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
+end;
+
 { TFWDBLookupCombo }
 
 procedure TFWDBLookupCombo.p_setLabel(const alab_Label: TFWLabel);
@@ -927,6 +950,15 @@ begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+end;
+
+procedure TFWDBLookupCombo.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
 end;
 
 { TFWDBComboBox }
@@ -1001,6 +1033,15 @@ begin
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
 end;
 
+procedure TFWDBComboBox.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
+end;
+
 
 { TFWDBMemo }
 
@@ -1072,6 +1113,14 @@ begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+end;
+
+procedure TFWDBMemo.Notification(AComponent: TComponent; Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
 end;
 
 { TFWDBSpinEdit }
@@ -1295,4 +1344,4 @@ initialization
   p_ConcatVersion(gVer_framework_DBcomponents);
 {$ENDIF}
 end.
-
+
