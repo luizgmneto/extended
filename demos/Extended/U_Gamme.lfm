@@ -1,12 +1,12 @@
 inherited F_Gamme: TF_Gamme
   Left = 211
-  Height = 592
+  Height = 582
   Top = 187
   Width = 957
   Align = alClient
   AutoSize = True
   Caption = 'Gamme d''article'
-  ClientHeight = 592
+  ClientHeight = 582
   ClientWidth = 957
   Color = clBtnFace
   Font.Color = clWindowText
@@ -18,28 +18,28 @@ inherited F_Gamme: TF_Gamme
   WindowState = wsMaximized
   object pa_1: TPanel[0]
     Left = 0
-    Height = 592
+    Height = 582
     Top = 0
     Width = 957
     Align = alClient
     BevelOuter = bvLowered
-    ClientHeight = 592
+    ClientHeight = 582
     ClientWidth = 957
     TabOrder = 0
     object spl_1: TSplitter
       Left = 281
-      Height = 565
+      Height = 555
       Top = 26
       Width = 5
     end
     object pa_3: TPanel
       Left = 286
-      Height = 565
+      Height = 555
       Top = 26
       Width = 670
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 565
+      ClientHeight = 555
       ClientWidth = 670
       Constraints.MinWidth = 20
       TabOrder = 0
@@ -129,7 +129,7 @@ inherited F_Gamme: TF_Gamme
         object ed_libelle: TFWDBEdit
           Tag = 2
           Left = 102
-          Height = 25
+          Height = 24
           Top = 35
           Width = 460
           DataField = 'GAMM_Libelle'
@@ -145,7 +145,7 @@ inherited F_Gamme: TF_Gamme
         object ed_code: TFWDBEdit
           Tag = 1
           Left = 102
-          Height = 25
+          Height = 24
           Top = 10
           Width = 73
           DataField = 'GAMM_Clep'
@@ -171,7 +171,7 @@ inherited F_Gamme: TF_Gamme
       end
       object pc_GroupesGamme: TPageControl
         Left = 0
-        Height = 459
+        Height = 449
         Top = 106
         Width = 670
         ActivePage = ts_ssfam
@@ -180,11 +180,11 @@ inherited F_Gamme: TF_Gamme
         TabOrder = 2
         object ts_ssfam: TTabSheet
           Caption = 'Types d''articles membres de la gamme'
-          ClientHeight = 429
-          ClientWidth = 666
+          ClientHeight = 423
+          ClientWidth = 662
           object RbSplitter1: TSplitter
             Left = 321
-            Height = 402
+            Height = 396
             Top = 27
             Width = 5
           end
@@ -192,10 +192,10 @@ inherited F_Gamme: TF_Gamme
             Left = 0
             Height = 27
             Top = 0
-            Width = 666
+            Width = 662
             Align = alTop
             ClientHeight = 27
-            ClientWidth = 666
+            ClientWidth = 662
             TabOrder = 0
             object Panel12: TPanel
               Left = 254
@@ -225,7 +225,7 @@ inherited F_Gamme: TF_Gamme
               TabOrder = 2
             end
             object Panel5: TPanel
-              Left = 652
+              Left = 648
               Height = 25
               Top = 1
               Width = 13
@@ -277,18 +277,18 @@ inherited F_Gamme: TF_Gamme
           end
           object Panel6: TPanel
             Left = 0
-            Height = 402
+            Height = 396
             Top = 27
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 402
+            ClientHeight = 396
             ClientWidth = 321
             Constraints.MinWidth = 3
             TabOrder = 1
             object lsv_TypesIn: TDBGroupView
               Left = 0
-              Height = 402
+              Height = 396
               Hint = 'Liste des membres'
               Top = 0
               Width = 242
@@ -297,7 +297,7 @@ inherited F_Gamme: TF_Gamme
                 item
                   AutoSize = True
                   Caption = 'Types membres de la gamme'
-                  Width = 227
+                  Width = 238
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -328,12 +328,12 @@ inherited F_Gamme: TF_Gamme
             end
             object Panel2: TPanel
               Left = 242
-              Height = 402
+              Height = 396
               Top = 0
               Width = 79
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 402
+              ClientHeight = 396
               ClientWidth = 79
               TabOrder = 1
               object bt_in_item: TFWInSelect
@@ -386,16 +386,16 @@ inherited F_Gamme: TF_Gamme
           end
           object lsv_TypesOut: TDBGroupView
             Left = 326
-            Height = 402
+            Height = 396
             Hint = 'Liste d''exclusion'
             Top = 27
-            Width = 340
+            Width = 336
             Align = alClient
             Columns = <            
               item
                 AutoSize = True
                 Caption = 'Types non membres de la gamme'
-                Width = 317
+                Width = 336
               end>
             Constraints.MinWidth = 3
             DragMode = dmAutomatic
@@ -556,7 +556,7 @@ inherited F_Gamme: TF_Gamme
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 242
+                    Width = 261
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -656,7 +656,7 @@ inherited F_Gamme: TF_Gamme
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 292
+                  Width = 311
                 end>
               Constraints.MinWidth = 3
               DragMode = dmAutomatic
@@ -694,12 +694,12 @@ inherited F_Gamme: TF_Gamme
     end
     object pa_2: TPanel
       Left = 1
-      Height = 565
+      Height = 555
       Top = 26
       Width = 280
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 565
+      ClientHeight = 555
       ClientWidth = 280
       Constraints.MinWidth = 10
       TabOrder = 1
@@ -746,7 +746,7 @@ inherited F_Gamme: TF_Gamme
       end
       object gd_famillevente: TExtDBGrid
         Left = 0
-        Height = 533
+        Height = 523
         Top = 32
         Width = 280
         TitleButtons = False
@@ -761,65 +761,12 @@ inherited F_Gamme: TF_Gamme
             Filter.EmptyValue = '(Empty)'
             Filter.EmptyFont.Style = [fsItalic]
             Filter.ItemIndex = -1
-            EditButtons = <>
             FieldTag = 0
-          end>
-        KeyStrokes = <        
-          item
-            Command = rxgcShowFindDlg
-            ShortCut = 16454
-            Enabled = True
-          end        
-          item
-            Command = rxgcShowColumnsDlg
-            ShortCut = 16471
-            Enabled = True
-          end        
-          item
-            Command = rxgcShowFilterDlg
-            ShortCut = 16468
-            Enabled = True
-          end        
-          item
-            Command = rxgcShowSortDlg
-            ShortCut = 16467
-            Enabled = True
-          end        
-          item
-            Command = rxgcShowQuickFilter
-            ShortCut = 16465
-            Enabled = True
-          end        
-          item
-            Command = rxgcHideQuickFilter
-            ShortCut = 16456
-            Enabled = True
-          end        
-          item
-            Command = rxgcSelectAll
-            ShortCut = 16449
-            Enabled = True
-          end        
-          item
-            Command = rxgcDeSelectAll
-            ShortCut = 16429
-            Enabled = True
-          end        
-          item
-            Command = rxgcInvertSelection
-            ShortCut = 16426
-            Enabled = True
-          end        
-          item
-            Command = rxgcOptimizeColumnsWidth
-            ShortCut = 16427
-            Enabled = True
           end>
         OptionsRx = []
         Align = alClient
         BorderStyle = bsNone
         Color = clWindow
-        DrawFullLine = False
         FocusColor = clRed
         SelectedColor = clHighlight
         GridLineStyle = psSolid
@@ -885,8 +832,8 @@ inherited F_Gamme: TF_Gamme
   end
   object SvgFormInfoIni: TOnFormInfoIni[1]
     SaveEdits = [feTGrid, feTListView]
-    left = 97
-    top = 137
+    left = 96
+    top = 136
   end
   object im_images: TImageList[2]
     BkColor = clForeground

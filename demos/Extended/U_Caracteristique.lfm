@@ -1,12 +1,12 @@
 inherited F_Caracteristique: TF_Caracteristique
   Left = 323
-  Height = 602
+  Height = 582
   Top = 139
   Width = 968
   Align = alClient
   AutoSize = True
   Caption = 'Caractéristiques d''articles'
-  ClientHeight = 602
+  ClientHeight = 582
   ClientWidth = 968
   Color = clBtnFace
   Font.Color = clWindowText
@@ -17,28 +17,28 @@ inherited F_Caracteristique: TF_Caracteristique
   WindowState = wsMaximized
   object pa_1: TPanel[0]
     Left = 0
-    Height = 602
+    Height = 582
     Top = 0
     Width = 968
     Align = alClient
     BevelOuter = bvLowered
-    ClientHeight = 602
+    ClientHeight = 582
     ClientWidth = 968
     TabOrder = 0
     object spl_1: TSplitter
       Left = 281
-      Height = 574
+      Height = 554
       Top = 27
       Width = 5
     end
     object pa_3: TPanel
       Left = 286
-      Height = 574
+      Height = 554
       Top = 27
       Width = 681
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 574
+      ClientHeight = 554
       ClientWidth = 681
       Constraints.MinWidth = 20
       TabOrder = 0
@@ -127,7 +127,7 @@ inherited F_Caracteristique: TF_Caracteristique
         object ed_libelle: TFWDBEdit
           Tag = 2
           Left = 102
-          Height = 25
+          Height = 24
           Top = 35
           Width = 460
           DataField = 'CARA_Libelle'
@@ -143,7 +143,7 @@ inherited F_Caracteristique: TF_Caracteristique
         object ed_code: TFWDBEdit
           Tag = 1
           Left = 102
-          Height = 25
+          Height = 24
           Top = 10
           Width = 201
           DataField = 'CARA_Clep'
@@ -169,7 +169,7 @@ inherited F_Caracteristique: TF_Caracteristique
       end
       object pc_Groupes: TPageControl
         Left = 0
-        Height = 468
+        Height = 448
         Top = 106
         Width = 681
         ActivePage = ts_ssfam
@@ -178,11 +178,11 @@ inherited F_Caracteristique: TF_Caracteristique
         TabOrder = 2
         object ts_ssfam: TTabSheet
           Caption = 'Types dont cette caractéristique est membre'
-          ClientHeight = 438
-          ClientWidth = 677
+          ClientHeight = 422
+          ClientWidth = 673
           object RbSplitter1: TSplitter
             Left = 321
-            Height = 411
+            Height = 395
             Top = 27
             Width = 5
           end
@@ -190,10 +190,10 @@ inherited F_Caracteristique: TF_Caracteristique
             Left = 0
             Height = 27
             Top = 0
-            Width = 677
+            Width = 673
             Align = alTop
             ClientHeight = 27
-            ClientWidth = 677
+            ClientWidth = 673
             TabOrder = 0
             object Panel12: TPanel
               Left = 261
@@ -223,7 +223,7 @@ inherited F_Caracteristique: TF_Caracteristique
               TabOrder = 2
             end
             object Panel5: TPanel
-              Left = 663
+              Left = 659
               Height = 25
               Top = 1
               Width = 13
@@ -275,18 +275,18 @@ inherited F_Caracteristique: TF_Caracteristique
           end
           object Panel6: TPanel
             Left = 0
-            Height = 411
+            Height = 395
             Top = 27
             Width = 321
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 411
+            ClientHeight = 395
             ClientWidth = 321
             Constraints.MinWidth = 10
             TabOrder = 1
             object lv_CaracIn: TDBGroupView
               Left = 0
-              Height = 411
+              Height = 395
               Hint = 'Liste des membres'
               Top = 0
               Width = 242
@@ -295,7 +295,7 @@ inherited F_Caracteristique: TF_Caracteristique
                 item
                   AutoSize = True
                   Caption = 'Types dont cette caractéristique est membre'
-                  Width = 342
+                  Width = 246
                 end>
               DragMode = dmAutomatic
               MultiSelect = True
@@ -326,12 +326,12 @@ inherited F_Caracteristique: TF_Caracteristique
             end
             object Panel2: TPanel
               Left = 242
-              Height = 411
+              Height = 395
               Top = 0
               Width = 79
               Align = alRight
               BevelOuter = bvNone
-              ClientHeight = 411
+              ClientHeight = 395
               ClientWidth = 79
               TabOrder = 1
               object bt_in_item: TFWInSelect
@@ -384,16 +384,16 @@ inherited F_Caracteristique: TF_Caracteristique
           end
           object lv_transfert: TDBGroupView
             Left = 326
-            Height = 411
+            Height = 395
             Hint = 'A réaffecter'
             Top = 27
-            Width = 351
+            Width = 347
             Align = alClient
             Columns = <            
               item
                 AutoSize = True
                 Caption = 'Types dont cette caractéristique n''est pas membre'
-                Width = 386
+                Width = 347
               end>
             Constraints.MinWidth = 10
             DragMode = dmAutomatic
@@ -552,7 +552,7 @@ inherited F_Caracteristique: TF_Caracteristique
                   item
                     AutoSize = True
                     Caption = 'Articles affectés'
-                    Width = 242
+                    Width = 261
                   end>
                 DragMode = dmAutomatic
                 MultiSelect = True
@@ -652,7 +652,7 @@ inherited F_Caracteristique: TF_Caracteristique
                 item
                   AutoSize = True
                   Caption = 'A réaffecter'
-                  Width = 299
+                  Width = 318
                 end>
               Constraints.MinWidth = 10
               DragMode = dmAutomatic
@@ -690,12 +690,12 @@ inherited F_Caracteristique: TF_Caracteristique
     end
     object pa_2: TPanel
       Left = 1
-      Height = 574
+      Height = 554
       Top = 27
       Width = 280
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 574
+      ClientHeight = 554
       ClientWidth = 280
       Constraints.MinWidth = 10
       TabOrder = 1
@@ -742,7 +742,7 @@ inherited F_Caracteristique: TF_Caracteristique
       end
       object gd_famillevente: TExtDBGrid
         Left = 0
-        Height = 542
+        Height = 522
         Top = 32
         Width = 280
         TitleButtons = False
@@ -757,65 +757,12 @@ inherited F_Caracteristique: TF_Caracteristique
             Filter.EmptyValue = '(Empty)'
             Filter.EmptyFont.Style = [fsItalic]
             Filter.ItemIndex = -1
-            EditButtons = <>
             FieldTag = 0
-          end>
-        KeyStrokes = <        
-          item
-            Command = rxgcShowFindDlg
-            ShortCut = 16454
-            Enabled = True
-          end        
-          item
-            Command = rxgcShowColumnsDlg
-            ShortCut = 16471
-            Enabled = True
-          end        
-          item
-            Command = rxgcShowFilterDlg
-            ShortCut = 16468
-            Enabled = True
-          end        
-          item
-            Command = rxgcShowSortDlg
-            ShortCut = 16467
-            Enabled = True
-          end        
-          item
-            Command = rxgcShowQuickFilter
-            ShortCut = 16465
-            Enabled = True
-          end        
-          item
-            Command = rxgcHideQuickFilter
-            ShortCut = 16456
-            Enabled = True
-          end        
-          item
-            Command = rxgcSelectAll
-            ShortCut = 16449
-            Enabled = True
-          end        
-          item
-            Command = rxgcDeSelectAll
-            ShortCut = 16429
-            Enabled = True
-          end        
-          item
-            Command = rxgcInvertSelection
-            ShortCut = 16426
-            Enabled = True
-          end        
-          item
-            Command = rxgcOptimizeColumnsWidth
-            ShortCut = 16427
-            Enabled = True
           end>
         OptionsRx = []
         Align = alClient
         BorderStyle = bsNone
         Color = clWindow
-        DrawFullLine = False
         FocusColor = clRed
         SelectedColor = clHighlight
         GridLineStyle = psSolid
@@ -879,8 +826,8 @@ inherited F_Caracteristique: TF_Caracteristique
   end
   object SvgFormInfoIni: TOnFormInfoIni[1]
     SaveEdits = [feTGrid, feTListView]
-    left = 97
-    top = 137
+    left = 96
+    top = 136
   end
   object im_images: TImageList[2]
     BkColor = clForeground
