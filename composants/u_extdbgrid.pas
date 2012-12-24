@@ -126,6 +126,9 @@ type
      procedure SetColumn( Index: Integer; const Value: TExtGridColumn);
    public
      function Add: TExtGridColumn;
+     {$IFDEF FPC}
+    published
+     {$ENDIF}
      property Items[Index: Integer]: TExtGridColumn read GetColumn write SetColumn; default;
    end;
 
