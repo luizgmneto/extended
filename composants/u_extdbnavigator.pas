@@ -69,7 +69,7 @@ type
 
   TExtNavButton = class ;
 
-{ TExtDBNavigator }
+  { TExtDBNavigator }
 
   TExtDBNavigator = class(TCustomPanel)
   private
@@ -199,7 +199,7 @@ type
     property SortAscendant : Boolean read FSortAsc write FSortAsc default True ;
     property OnButtonsClick: EExtNavClick read FOnNavigateClick write FOnNavigateClick;
     property BeforeAction: EExtNavClick read FBeforeAction write FBeforeAction;
-    property Orientation: TNavigatorOrientation read FOrientation write SetOrientation;
+    property Orientation: TNavigatorOrientation read FOrientation write SetOrientation default noHorizontal;
     property VisibleButtons: TExtButtonSet read FVisibleButtons write SetVisible default [nbEFirst, nbEPrior, nbENext, nbELast, nbEInsert, nbEDelete, nbEEdit, nbEPost, nbECancel, nbERefresh];
     property SortField: string read GetSortField write SetSortField;
     property SortTable: string read FSortTable write FSortTable;
@@ -262,7 +262,6 @@ type
       X, Y: Integer); override;
     property MouseDragged : Boolean read FMouseDragged write FMouseDragged ;
   public
-    destructor Destroy; override;
     property NavStyle: {$IFDEF FPC}TDBNavButtonStyle{$ELSE}TNavButtonStyle{$ENDIF} read FBtnStyle write FBtnStyle;
     property Index : TExtNavigateBtn read FIndex write FIndex;
   end;
@@ -309,6 +308,7 @@ type
   TParentControl = class(TWinControl);
 
 { This procedure is copied from RxLibrary VCLUtils }
+// transparency
 procedure CopyParentImage(Control: TControl; Dest: TCanvas);
 var
   I, Count, X, Y, SaveIndex: Integer;
@@ -383,6 +383,7 @@ end;
 
 { TExtDBNavigator }
 
+/// transparency
 procedure TExtDBNavigator.Paint;
 begin
   if fTransparent and Flat then
@@ -391,6 +392,7 @@ begin
    inherited Paint;
 end;
 
+// order dataset loading
 procedure TExtDBNavigator.LoadTable;
 begin
   FDataset.Free;
@@ -413,9 +415,11 @@ begin
     end;
 end;
 
+// Loading sorting table - left to right or right to left - Hints - Loading if datasource opened
 procedure TExtDBNavigator.Loaded;
 begin
   inherited Loaded;
+  SetButtonsSize(ClientWidth,ClientHeight);
   LoadTable;
   if UseRightToLeftAlignment and not Swaped then
     SwapButtons;
@@ -423,6 +427,7 @@ begin
   ActiveChanged;
 end;
 
+// resizing buttons
 procedure TExtDBNavigator.WMSize(var Msg: TWMSize);
 begin
   inherited;
@@ -434,6 +439,7 @@ begin
    end;
 end;
 
+// bidimode : Left to right or right to left
 procedure TExtDBNavigator.CMBiDiModeChanged(var Msg: TMessage);
 var b : TExtNavigateBtn ;
 begin
@@ -448,6 +454,7 @@ begin
 
 end;
 
+// Set Glyph button from resource
 function TExtDBNavigator.LoadImageButton ( Btn: TExtNavButton ):Boolean;
 var
 {$IFDEF FPC}
@@ -488,6 +495,7 @@ begin
        }
 End ;
 
+// Create and update buttons
 procedure TExtDBNavigator.UpdateButtons;
 var
   I: TExtNavigateBtn;
@@ -525,6 +533,7 @@ begin
   FButtons[nbENext].NavStyle  := FButtons[nbENext].NavStyle + [nsAllowTimer];
 end;
 
+// initing property and datalink on create
 constructor TExtDBNavigator.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -550,13 +559,14 @@ begin
   FocusedButton := nbEFirst;
   FConfirmDelete := True;
   FullRepaint := False;
-
+  FOrientation:=noHorizontal;
   Color := clBtnFace;
 
   FBookmark := '';
 
 end;
 
+// helping
 procedure TExtDBNavigator.InitHints;
 var
   I: Integer;
@@ -580,7 +590,7 @@ begin
 end;
 
 
-
+// left to right or right to left
 procedure TExtDBNavigator.SwapButtons;
 var
   X: Integer;
@@ -602,6 +612,7 @@ begin
   until LB >= RB;
 end;
 
+// left to right or right to left
 procedure TExtDBNavigator.SwapGlyphs;
 var
   Glyph: TBitmap;
@@ -619,6 +630,7 @@ begin
   end;
 end;
 
+// left to right or right to left
 function TExtDBNavigator.Swaped: Boolean;
 var
   LB, RB: TExtNavigateBtn;
@@ -630,6 +642,7 @@ begin
   Result := FButtons[LB].Left > FButtons[RB].Left;
 end;
 
+// for property
 procedure TExtDBNavigator.SetTransparent(Value: Boolean);
 var
   B: TExtNavigateBtn;
@@ -642,6 +655,7 @@ begin
   end;
 end;
 
+// buttons have got auto and manual glyphs
 procedure TExtDBNavigator.SetGlyphs(Index: TExtNavigateBtn; const AValue: TBitmap);
 var ls_Message : String ;
 begin
@@ -681,17 +695,19 @@ begin
     End ;
 end;
 
+// for property
 function TExtDBNavigator.GetGlyphs(Index: TExtNavigateBtn): TBitmap;
 begin
   Result := FGlyphs[Index];
 end;
 
+// clicking event
 procedure TExtDBNavigator.ButtonClickHandler(Sender: TObject);
 begin
   BtnOnClick(TExtNavButton(Sender).Index);
 end;
 
-
+// setting focused button without focusing totally to button
 procedure TExtDBNavigator.ButtonMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
@@ -712,6 +728,7 @@ begin
   end;
 end;
 
+// calculate min button size
 procedure TExtDBNavigator.CalcMinSize(const W, H: Integer);
 var
   Count: Integer;
@@ -739,8 +756,7 @@ begin
   end;
 end;
 
-
-
+// adapt each button to panel size
 procedure TExtDBNavigator.SetButtonsSize(const W, H: Integer);
 var
   Count: Integer;
@@ -794,7 +810,7 @@ begin
   end;
 end;
 
-
+// setting visibilty of a button
 procedure TExtDBNavigator.SetVisible(Value: TExtButtonSet);
 var
   I: TExtNavigateBtn;
@@ -809,6 +825,7 @@ begin
    end;
 end;
 
+// horizontal or vertical buttons
 procedure TExtDBNavigator.SetOrientation(const Value: TNavigatorOrientation);
 begin
   if (FOrientation <> Value) then
@@ -818,6 +835,7 @@ begin
   end;
 end;
 
+// auto width of buttons
 procedure TExtDBNavigator.SetGlyphSize(const Value: TGlyphSize);
 var
   I: TExtNavigateBtn;
@@ -837,6 +855,7 @@ begin
   end;
 end;
 
+// move record to next with order field
 function TExtDBNavigator.MoveNextPrior ( const FPrior : Boolean ): Boolean ;
 begin
   Result := False ;
@@ -866,15 +885,19 @@ begin
     End ;
 end;
 
+// move record to next with order field
 function TExtDBNavigator.MoveNext : Boolean ;
 begin
   Result := MoveNextPrior(False);
 End ;
+
+// move record to prior with order field
 function TExtDBNavigator.MovePrior : Boolean ;
 begin
   Result := MoveNextPrior(True);
 End ;
 
+// autocliks
 procedure TExtDBNavigator.BtnOnClick(Index: TExtNavigateBtn);
 begin
   if (DataSource <> nil) and (DataSource.DataSet <> nil) and (DataSource.DataSet.State <> dsInactive) then
@@ -984,6 +1007,7 @@ begin
     FOnNavigateClick(Self, Index);
 end;
 
+// flat graphics
 procedure TExtDBNavigator.SetFlat(Value: Boolean);
 var
   I: TExtNavigateBtn;
@@ -996,9 +1020,7 @@ begin
   end;
 end;
 
-
-
-
+// deleting object's properties when destroying objects
 procedure TExtDBNavigator.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -1007,7 +1029,7 @@ begin
     (AComponent = DataSource) then DataSource := nil;
 end;
 
-
+// for property
 function TExtDBNavigator.GetDataSource: TDataSource;
 begin
   if assigned ( FDataLink ) Then
@@ -1017,6 +1039,7 @@ begin
 
 end;
 
+// for property
 procedure TExtDBNavigator.SetDataSource(Value: TDataSource);
 begin
   if assigned ( FDataLink ) Then
@@ -1033,6 +1056,7 @@ begin
     LoadTable;
 end;
 
+// setting buttons on dataset changed
 procedure TExtDBNavigator.DataChanged;
 var
   UpEnable, DnEnable: Boolean;
@@ -1060,6 +1084,7 @@ begin
     and  FDataLink.DataSet.BookmarkValid( @FBookmark );
 end;
 
+// setting buttons on dataset changed
 procedure TExtDBNavigator.EditingChanged;
 var
   CanModify: Boolean;
@@ -1075,7 +1100,7 @@ begin
   FButtons[nbERefresh].Enabled := CanModify;
 end;
 
-
+// setting buttons on dataset changed
 procedure TExtDBNavigator.ActiveChanged;
 var
   I: TExtNavigateBtn;
@@ -1094,20 +1119,20 @@ begin
 
 end;
 
-
+// for property
 function TExtDBNavigator.GetField: TField;
 begin
    Result := nil ;
    if assigned ( FDataLink.DataSet ) then
      Result := FDataLink.DataSet.FindField ( FSortField );
 end;
-
+ // for property
 function TExtDBNavigator.GetSortField: string;
 begin
   Result := FSortField;
-
 end;
 
+// getting help
 function TExtDBNavigator.GetHints: TStrings;
 begin
   if (csDesigning in ComponentState) and not (csWriting in ComponentState) and
@@ -1116,6 +1141,7 @@ begin
     Result := FHints;
 end;
 
+// help setting
 procedure TExtDBNavigator.SetHints(Value: TStrings);
 begin
   if Value.Text = FDefHints.Text then
@@ -1123,14 +1149,13 @@ begin
     FHints.Assign(Value);
 end;
 
-
+// helping initing
 procedure TExtDBNavigator.HintsChanged(Sender: TObject);
 begin
   InitHints;
 end;
 
-
-
+// sorting
 procedure TExtDBNavigator.SetSortField(const Value: string);
 begin
   FSortField := Value;
@@ -1157,6 +1182,7 @@ begin
   inherited;
 end;
 
+// setting deleting question
 procedure TExtDBNavigator.SetDeleteRecordQuestion(AValue: WideString);
 begin
   if AValue = '' Then
@@ -1167,13 +1193,7 @@ end;
 
 {TExtNavButton}
 
-destructor TExtNavButton.Destroy;
-begin
-//  if FRepeatTimer <> nil then
-//    FRepeatTimer.Free;
-  inherited Destroy;
-end;
-
+// timer creating
 procedure TExtNavButton.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 begin
@@ -1193,6 +1213,7 @@ begin
   end;
 end;
 
+// timer inactivate
 procedure TExtNavButton.MouseUp(Button: TMouseButton; Shift: TShiftState;
                                   X, Y: Integer);
 begin
@@ -1201,6 +1222,7 @@ begin
     FRepeatTimer.Enabled  := False;
 end;
 
+// timer for clicking
 procedure TExtNavButton.TimerExpired(Sender: TObject);
 begin
 {$IFDEF FPC}
@@ -1224,6 +1246,7 @@ begin
   end;
 end;
 
+// painting button
 procedure TExtNavButton.Paint;
 var
   R: TRect;
@@ -1247,6 +1270,7 @@ begin
   end;
 end;
 
+// no button focus
 procedure TExtNavButton.WMSetFocus(var Message: {$IFDEF FPC}TLMSetFocus{$ELSE}TWMSetFocus{$ENDIF});
 begin
   if ( csDesigning in ComponentState ) Then
@@ -1261,6 +1285,7 @@ begin
 end;
 
 
+// Mouse dragging
 procedure TExtNavButton.MouseEnter;
 begin
   FMouseDragged := True ;
@@ -1268,6 +1293,7 @@ begin
 
 end;
 
+// Mouse dragging
 procedure TExtNavButton.MouseLeave;
 begin
   inherited;
@@ -1277,6 +1303,7 @@ end;
 
 { TExtNavDataLink }
 
+// setting actions agent
 constructor TExtNavDataLink.Create(ANav: TExtDBNavigator);
 begin
   inherited Create;
@@ -1284,28 +1311,33 @@ begin
   VisualControl := True;
 end;
 
+// securising destroy
 destructor TExtNavDataLink.Destroy;
 begin
   FNavigator := nil;
   inherited Destroy;
 end;
 
+// refreshing on dataset changed
 procedure TExtNavDataLink.EditingChanged;
 begin
   if FNavigator <> nil then FNavigator.EditingChanged;
 end;
 
+// refreshing on dataset changed
 procedure TExtNavDataLink.DataSetChanged;
 begin
   if FNavigator <> nil then FNavigator.DataChanged;
 end;
 
+// refreshing on dataset changed
 procedure TExtNavDataLink.ActiveChanged;
 begin
   if FNavigator <> nil then FNavigator.ActiveChanged;
 end;
 
 
+// initing resources, version and hints
 initialization
 {$IFDEF FPC}
   {$i U_ExtDBNavigator2.res}
