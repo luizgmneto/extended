@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="2" Release="2" Build="4"/>
-    <Files Count="25">
+    <Files Count="27">
       <Item1>
         <Filename Value="composants/u_onforminfoini.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
@@ -122,6 +122,14 @@
         <Filename Value="composants/u_formmainini.pas"/>
         <UnitName Value="U_FormMainIni"/>
       </Item25>
+      <Item26>
+        <Filename Value="composants/u_scrolldbclones.pas"/>
+        <UnitName Value="u_scrolldbclones"/>
+      </Item26>
+      <Item27>
+        <Filename Value="composants/u_scrollclones.pas"/>
+        <UnitName Value="u_scrollclones"/>
+      </Item27>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>

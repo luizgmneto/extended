@@ -26,7 +26,9 @@ uses
   fonctions_version,
 {$ENDIF}
   Messages, Math, DB, Buttons,
-  SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  SysUtils, Classes, Graphics,
+  Controls, Forms, Dialogs,
+  fonctions_db,
   ExtCtrls, DBCtrls, unite_messages ;
 
 {$IFDEF VERSIONS}
@@ -65,17 +67,15 @@ const CST_DBNav_Pause = 15 ;
 {$ENDIF}
 
 type
-  TExtNavDataLink = class;
-
   TExtNavButton = class ;
 
   { TExtDBNavigator }
 
-  TExtDBNavigator = class(TCustomPanel)
+  TExtDBNavigator = class(TCustomPanel, IDatalinkOwner)
   private
     FHints: TStrings;
     FDefHints: TStrings;
-    FDataLink: TExtNavDataLink;
+    FDataLink: TDataLinkOwnered;
     FSortTable ,
     FSortField : String ;
     FSortAsc : Boolean ;
@@ -136,7 +136,7 @@ type
     FGlyphs : array[TExtNavigateBtn] of TBitmap;
     procedure SetButtonsSize(const W, H: Integer); virtual;
     procedure SetVisible(Value: TExtButtonSet); overload; virtual;
-    procedure DataChanged; virtual;
+    procedure DataSetChanged; virtual;
     procedure InitHints; virtual;
     procedure EditingChanged; virtual;
     procedure ActiveChanged; virtual;
@@ -266,21 +266,6 @@ type
     property Index : TExtNavigateBtn read FIndex write FIndex;
   end;
 
-{ TExtNavDataLink }
-
-  TExtNavDataLink = class(TDataLink)
-  private
-    FNavigator: TExtDBNavigator;
-  protected
-    procedure EditingChanged; override;
-    procedure DataSetChanged; override;
-    procedure ActiveChanged; override;
-  public
-    constructor Create(ANav: TExtDBNavigator);
-    destructor Destroy; override;
-    property Navigator : TExtDBNavigator read FNavigator write FNavigator;
-  end;
-
 
 const
   BtnTypeNames: array[TExtNavigateBtn] of String = (CST_RESSOURCENAV + 'FIRST', CST_RESSOURCENAV + 'PREVIOUS', CST_RESSOURCENAV + 'NEXT',
@@ -293,7 +278,7 @@ const
 
 implementation
 
-uses fonctions_db, fonctions_proprietes, fonctions_dbcomponents ;
+uses fonctions_proprietes, fonctions_dbcomponents ;
 
 {$IFDEF DELPHI}
   {$R *.res}
@@ -539,7 +524,7 @@ begin
   inherited Create(AOwner);
   FDataset:=nil;
   Enabled:=True;
-  FDatalink := TExtNavDataLink.Create ( Self );
+  FDatalink := TDataLinkOwnered.Create ( Self );
   ControlStyle:=ControlStyle-[csAcceptsControls,csSetCaption]+[csOpaque];
   FDeleteRecordQuestion := GS_SUPPRIMER_QUESTION ;
 
@@ -1057,7 +1042,7 @@ begin
 end;
 
 // setting buttons on dataset changed
-procedure TExtDBNavigator.DataChanged;
+procedure TExtDBNavigator.DataSetChanged;
 var
   UpEnable, DnEnable: Boolean;
 begin
@@ -1113,7 +1098,7 @@ begin
       FButtons[I].Enabled := False
   else
   begin
-    DataChanged;
+    DataSetChanged;
     EditingChanged;
   end;
 
@@ -1167,7 +1152,6 @@ var li_i : TExtNavigateBtn ;
 begin
 
   FDefHints.Free;
-  FDataLink.Navigator := Nil ;
 //  FDataLink := nil;
   FHints.Free;
   for li_i := low ( TExtNavigateBtn ) to high ( TExtNavigateBtn ) do
@@ -1180,6 +1164,7 @@ begin
         FGlyphs [ li_i ].Free;
       End ;
   inherited;
+  FDataLink.Free;
 end;
 
 // setting deleting question
@@ -1299,43 +1284,6 @@ begin
   inherited;
   FMouseDragged := False ;
 end;
-
-
-{ TExtNavDataLink }
-
-// setting actions agent
-constructor TExtNavDataLink.Create(ANav: TExtDBNavigator);
-begin
-  inherited Create;
-  FNavigator := ANav;
-  VisualControl := True;
-end;
-
-// securising destroy
-destructor TExtNavDataLink.Destroy;
-begin
-  FNavigator := nil;
-  inherited Destroy;
-end;
-
-// refreshing on dataset changed
-procedure TExtNavDataLink.EditingChanged;
-begin
-  if FNavigator <> nil then FNavigator.EditingChanged;
-end;
-
-// refreshing on dataset changed
-procedure TExtNavDataLink.DataSetChanged;
-begin
-  if FNavigator <> nil then FNavigator.DataChanged;
-end;
-
-// refreshing on dataset changed
-procedure TExtNavDataLink.ActiveChanged;
-begin
-  if FNavigator <> nil then FNavigator.ActiveChanged;
-end;
-
 
 // initing resources, version and hints
 initialization

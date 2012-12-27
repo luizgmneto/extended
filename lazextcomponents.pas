@@ -12,7 +12,8 @@ uses
   U_ExtDBImage, u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, 
   u_extdbgrid, U_ExtImage, U_GroupView, U_ExtPictCombo, U_ExtMapImageIndex, 
   U_ExtDBImageList, U_ExtDBPictCombo, u_extradios, u_buttons_defs, 
-  u_extDBDirectoryEdit, U_FormMainIni, LazarusPackageIntf;
+  u_extDBDirectoryEdit, U_FormMainIni, u_scrolldbclones, u_scrollclones, 
+  LazarusPackageIntf;
 
 implementation
 
