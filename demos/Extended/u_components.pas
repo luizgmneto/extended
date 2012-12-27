@@ -27,7 +27,7 @@ uses
   IBQuery, IBIntf, IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar,
   U_ExtDBImage, U_ExtDBImageList, ImgList, ExtDlgs, IBCustomDataSet,
   U_ExtMapImageIndex, u_buttons_appli, u_reports_components, JvXPCore,
-  JvXPButtons, u_buttons_defs, U_ExtPictCombo, U_ExtImage ;
+  JvXPButtons, u_buttons_defs, U_ExtPictCombo, U_ExtImage, u_scrolldbclones ;
 
 type
 
@@ -37,6 +37,7 @@ type
     ds_user: TDatasource;
     ds_dep: TDatasource;
     ds_dep2: TDatasource;
+    ExtDBClonedPanel1: TExtDBClonedPanel;
     ExtDBImage: TExtDBImage;
     ExtDBImageList: TExtDBImageList;
     ExtDBPictCombo: TExtDBPictCombo;
@@ -70,12 +71,15 @@ type
     mu_quitter: TMenuItem;
     mu_sep1: TMenuItem;
     mu_sep2: TMenuItem;
+    Nom1: TFWDBEdit;
     Noms: TExtDBGrid;
     OnFormInfoIni: TOnFormInfoIni;
     OpenPictureDialog: TOpenPictureDialog;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
+    Panel4: TPanel;
+    Prenom1: TFWDBEdit;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
     Prenom: TFWDBEdit;

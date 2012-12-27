@@ -52,6 +52,8 @@ const
   CST_DBPROPERTY_CONNECTIONSTRING = 'ConnectionString';
   CST_DBPROPERTY_TRANSACTION = 'Transaction';
   CST_DBPROPERTY_DATABASE = 'Database';
+  CST_DBPROPERTY_DATASOURCE = 'Datasource';
+  CST_DBPROPERTY_DATAFIELD = 'DataField';
   CST_DBPROPERTY_DATABASENAME = 'DatabaseName';
   CST_DBPROPERTY_SESSIONNAME = 'SessionName';
   CST_DBPROPERTY_CLIENTPARAM = 'ClientParam';
@@ -80,7 +82,7 @@ function fdat_CloneDatasetWithoutSQL ( const adat_ADataset : TDataset ; const AO
 function fdat_CloneDatasetWithoutSQLWithDataSource ( const adat_ADataset : Tdataset ; const AOwner : TComponent ; var ads_Datasource : TDatasource  ) : Tdataset;
 function fds_GetOrCloneDataSource ( const acom_Component : TComponent ; const as_SourceProperty, as_Query : String ; const AOwner : TComponent ; const adat_ADatasetToCopy : Tdataset ) : Tdatasource;
 function fb_GetSQLStrings (const adat_ADataset : Tdataset ; var astl_SQLQuery : TStrings{$IFDEF DELPHI_9_UP}; var awst_SQLQuery : TWideStrings {$ENDIF}):Boolean;
-function fcom_CloneObject ( const acom_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
+function fcon_CloneControlWithDB ( const acom_AObject : TControl ; const AOwner : TComponent ) : TControl;
 function fcom_CloneConnexion ( const acco_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
 function fb_GetParamsDataset (const adat_ADataset : Tdataset ;var aprs_ParamSource: TParams ; var Astl_Params : TStringList {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
 function fb_SetParamQuery(const adat_Dataset : TDataset ; const as_Param: String): Boolean;
@@ -128,27 +130,20 @@ uses Variants,  fonctions_erreurs, fonctions_string,
      SQLExpr,
  {$ENDIF}
    fonctions_proprietes, TypInfo,
-   Dialogs,
+   Dialogs, fonctions_components,
    fonctions_init;
 
 
+function fcon_CloneControlWithDB ( const acom_AObject : TControl ; const AOwner : TComponent ) : TControl;
+Begin
+  Result:= fcon_CloneControl ( acom_AObject, AOwner );
+  p_SetComponentObjectProperty( Result, CST_DBPROPERTY_DATASOURCE, fobj_getComponentObjectProperty(acom_AObject, CST_DBPROPERTY_DATASOURCE));
+  p_SetComponentProperty      ( Result, CST_DBPROPERTY_DATAFIELD , fs_getComponentProperty(acom_AObject, CST_DBPROPERTY_DATAFIELD));
+end;
 
 procedure p_ShowSQLError ( const AException, ASQL : String );
 Begin
   Showmessage ( AException + ':' +#13#10+ ASQL );
-End;
-
-//////////////////////////////////////////////////////////////////////
-// Fonction retournant le composant copié sans la personnalisation
-//  acom_AObject : Le composant à cloner
-//  AOwner       : Le futur propriétaire du composant
-// Résultat de la fonction : Le composant cloné sans la personnalisation
-//////////////////////////////////////////////////////////////////////
-function fcom_CloneObject ( const acom_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
-Begin
-  Result := TComponent ( acom_AObject.ClassType.NewInstance );
-
-  Result.Create ( AOwner );
 End;
 
 function fb_GetSQLStrings (const adat_ADataset : Tdataset ; var astl_SQLQuery : TStrings{$IFDEF DELPHI_9_UP}; var awst_SQLQuery : TWideStrings {$ENDIF}):Boolean;

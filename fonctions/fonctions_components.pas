@@ -40,6 +40,8 @@ function  fb_AutoComboInit ( const acom_Combo : TComponent ):Boolean;
 procedure ExportGridToHTML(const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'html' );
 procedure ExportGridToCSV (const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'csv'; const aseparate : Char = ';' );
 procedure ExportGridTo ( const AFieldMethod : TFieldMethod; const Afile : TStringList; const AGrid : TCustomDBGrid; const As_beginLine, as_endLine, as_beginCell, as_endCell, as_separator, As_beginHeader, As_EndHeader, As_beginText, As_EndText : String ; const ab_header : Boolean = False );
+function fcom_CloneObject  ( const acom_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
+function fcon_CloneControl ( const acon_AControl : TControl  ; const AOwner : TComponent ) : TControl;
 
 
 implementation
@@ -53,6 +55,35 @@ uses Variants,  Math, fonctions_erreurs, fonctions_string,
   fonctions_proprietes,
   fonctions_languages,
   fonctions_init ;
+
+
+//////////////////////////////////////////////////////////////////////
+// Fonction retournant le composant copié sans la personnalisation
+//  acom_AObject : Le composant à cloner
+//  AOwner       : Le futur propriétaire du composant
+// Résultat de la fonction : Le composant cloné sans la personnalisation
+//////////////////////////////////////////////////////////////////////
+function fcom_CloneObject ( const acom_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
+Begin
+  Result := TComponent ( acom_AObject.ClassType.NewInstance );
+
+  Result.Create ( AOwner );
+End;
+function fcon_CloneControl ( const acon_AControl : TControl  ; const AOwner : TComponent ) : TControl;
+Begin
+  Result := TControl ( fcom_CloneObject ( acon_AControl, AOwner ));
+  with Result do
+   Begin
+    Parent := acon_AControl.Parent;
+    Top    := acon_AControl.Top;
+    Left   := acon_AControl.Left;
+    Width  := acon_AControl.Width;
+    Height := acon_AControl.Height;
+    Align  := acon_AControl.Align;
+    Visible:= acon_AControl.Visible;
+   end;
+End;
+
 
 function AddFieldCSV ( const AField : TField ; var IsFirst : Boolean; const Separator : String; const AReplaceCaption : String = '' ):String;
   function AddField : String;

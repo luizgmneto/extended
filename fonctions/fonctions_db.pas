@@ -30,6 +30,27 @@ type TSpecialProcDataset = procedure ( const ADataset : TDataset );
      TSpecialFuncDataset = function ( const ADataset : TDataset ):Boolean;
      TSpecialFuncDatasetException = function ( const AException : Exception; const ADataset : TDataset ):Boolean;
      TSpecialFuncSort = function  ( const ADataset : TDataset; const AFieldName : String ; const ADesc : Boolean ) : Boolean;
+     IDatalinkOwner = interface
+         ['{876E98E5-9E2E-4FAF-AF1B-ECE5DB3FA5A3}']
+         procedure EditingChanged;
+         procedure DataSetChanged;
+         procedure ActiveChanged;
+       End;
+     { TExtNavDataLink }
+
+       { TDataLinkOwnered }
+
+       TDataLinkOwnered = class(TDataLink)
+       private
+         FOwner: IDatalinkOwner;
+       protected
+         procedure EditingChanged; override;
+         procedure DataSetChanged; override;
+         procedure ActiveChanged; override;
+       public
+         constructor Create(AOwner: IDatalinkOwner);
+       end;
+
 
 const
   ge_SpecialRefreshDataset : TSpecialProcDataset = nil;
@@ -858,6 +879,35 @@ Begin
    if aDat_Dataset is TCustomSdfDataset
     Else (aDat_Dataset as TCustomSdfDataset ).AddIndex(as_IndexName,as_NomChamp,aio_IndexOptions,as_NomChampOrigine);
   {$ENDIF}
+end;
+
+{ TDataLinkOwnered }
+
+procedure TDataLinkOwnered.EditingChanged;
+begin
+  inherited EditingChanged;
+  if assigned ( FOwner ) Then
+    FOwner.EditingChanged;
+end;
+
+procedure TDataLinkOwnered.DataSetChanged;
+begin
+  inherited DataSetChanged;
+  if assigned ( FOwner ) Then
+    FOwner.DataSetChanged;
+end;
+
+procedure TDataLinkOwnered.ActiveChanged;
+begin
+  inherited ActiveChanged;
+  if assigned ( FOwner ) Then
+    FOwner.ActiveChanged;
+end;
+
+constructor TDataLinkOwnered.Create(AOwner: IDatalinkOwner);
+begin
+  Inherited Create;
+  FOwner := AOwner;
 end;
 
 // récupère la propriété sort

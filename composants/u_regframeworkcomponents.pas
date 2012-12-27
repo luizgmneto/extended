@@ -37,13 +37,15 @@ uses  {$IFDEF FPC}
 {$ENDIF}
      U_ExtDBImage, U_ExtDBImageList, U_ExtImage,
      U_ExtPictCombo, U_ExtDBPictCombo, U_ExtMapImageIndex,
-     u_extdbgrid, PDBCheck, PCheck,
+     u_extdbgrid, PDBCheck, PCheck, u_scrollclones,
+     u_scrolldbclones,
      u_extradios;
 
 procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMapImages]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,TExtDBColorCombo,TFWDBComboBox,
+  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,TExtDBClonedPanel,
+                                                TExtDBColorCombo,TFWDBComboBox,
                                                 TExtDBComboInsert,
                                                 TFWDBDateEdit, TFWDBDateTimePicker,
                                                 {$IFDEF FPC}TExtDBDirectoryEdit,{$ENDIF}
@@ -53,7 +55,8 @@ begin
                                                 TFWDBMemo, TExtDBNavigator,
                                                 TExtDBNumEdit,TExtDBPictCombo,
                                                 TExtSearchDBEdit,TFWDBSpinEdit]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,TExtColorCombo, TFWComboBox, TFWDateEdit,
+  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,TExtClonedPanel,TExtColorCombo,
+                                                TFWComboBox, TFWDateEdit,
                                                 TFWDateTimePicker, TFWEdit,TFWGrid,TExtImage,
                                                 TFWLabel,TFWMemo,
                                                 TExtNumEdit,TExtPictCombo,TExtRadioGroup,TFWSpinEdit]);
