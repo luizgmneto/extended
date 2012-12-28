@@ -13,7 +13,7 @@ uses
     fonctions_version,
   {$ENDIF}
   ExtCtrls, DB, Controls,
-  fonctions_db,
+  fonctions_db,LMessages,
   u_scrollclones;
 
 {$IFDEF VERSIONS}
@@ -39,8 +39,9 @@ type
     FOrientation : TScrollBarKind;
     function GetDatasource: TDatasource;
     procedure SetDatasource(AValue: TDatasource);
+    procedure WMPaint(var Message: TLMPaint); message LM_PAINT;
   protected
-    procedure Loaded; override;
+    procedure SetPanelCloned ( const Apanel : TPanel ); override;
     procedure Notification ( AComponent : TComponent ; AOperation : TOperation ); override;
     procedure ActiveChanged; virtual;
     procedure DataSetChanged; virtual;
@@ -48,7 +49,7 @@ type
     procedure p_BeforePaintPanel(Sender: TObject); virtual;
     procedure AutoCreateColsRows; override;
     procedure ControlEvent ( const AControl : TControl ); override;
-    procedure PanelCloningEvent ( const AControl : TPanel ); override;
+    procedure PanelClonedEvent ( const AControl : TPanel ); override;
   public
     constructor Create ( AOwner : TComponent ); override;
     destructor Destroy; override;
@@ -66,6 +67,36 @@ uses fonctions_dbcomponents;
 
 { TExtClonedPanel }
 
+
+procedure TExtDBClonedPanel.WMPaint(var Message: TLMPaint);
+begin
+  if Assigned(FDataLink.DataSet) then
+   FDataLink.DataSet.DisableControls;
+  try
+    inherited;
+
+  finally
+    if Assigned(FDataLink.DataSet) then
+     FDataLink.DataSet.EnableControls;
+  end;
+end;
+
+procedure TExtDBClonedPanel.SetPanelCloned(const Apanel: TPanel);
+begin
+  if Apanel <> PanelCloned Then
+   Begin
+     if not ( csDesigning in ComponentState ) Then
+      Begin
+        if Assigned(PanelCloned) Then
+         PanelCloned.OnPaint:=nil;
+        if Assigned(Apanel) Then
+         Apanel.OnPaint:=p_BeforePaintPanel;
+      End;
+    inherited;
+   End
+
+end;
+
 procedure TExtDBClonedPanel.AutoCreateColsRows;
 var i, j, k, ltag : Integer;
     LEndName : String;
@@ -73,6 +104,7 @@ var i, j, k, ltag : Integer;
 Begin
   if not assigned ( PanelCloned ) Then
    Exit;
+  FTag:=1;
   if not FDataLink.Active Then
    Begin
      Cols:=1;
@@ -82,7 +114,6 @@ Begin
   Else
    Begin
      PanelCloned.Visible := True ;
-     FTag:=1;
      case FOrientation of
        sbVertical   : Begin
                        Cols := 1;
@@ -104,7 +135,7 @@ begin
   inherited ControlEvent(AControl);
 end;
 
-procedure TExtDBClonedPanel.PanelCloningEvent(const AControl: TPanel);
+procedure TExtDBClonedPanel.PanelClonedEvent(const AControl: TPanel);
 begin
   AControl.Tag:=FTag;
   inherited;
@@ -122,12 +153,6 @@ begin
   FDataLink.DataSource := AValue;
 end;
 
-procedure TExtDBClonedPanel.Loaded;
-begin
-  inherited Loaded;
-  AutoCreateColsRows;
-end;
-
 procedure TExtDBClonedPanel.Notification(AComponent: TComponent;
   AOperation: TOperation);
 begin
@@ -135,7 +160,7 @@ begin
   if  ( AOperation = opRemove )
   and ( AComponent = FDataLink.DataSource ) Then
    Begin
-     FDataLink.DataSource:=nil;
+     DataSource:=nil;
      AutoCreateColsRows;
    end;
 end;

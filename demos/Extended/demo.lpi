@@ -58,7 +58,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="221">
+    <Units Count="236">
       <Unit0>
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -66,8 +66,8 @@
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="1" Y="16"/>
-        <UsageCount Value="137"/>
+        <CursorPos X="41" Y="5"/>
+        <UsageCount Value="145"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -85,8 +85,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="578"/>
-        <CursorPos X="33" Y="626"/>
+        <TopLine Value="217"/>
+        <CursorPos X="25" Y="234"/>
         <UsageCount Value="12"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit2>
@@ -163,13 +163,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="135"/>
-        <CursorPos X="20" Y="152"/>
-        <UsageCount Value="77"/>
+        <TopLine Value="129"/>
+        <CursorPos X="54" Y="129"/>
+        <UsageCount Value="85"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -1313,12 +1312,10 @@
       <Unit141>
         <Filename Value="../../composants/u_extdbnavigator.pas"/>
         <UnitName Value="U_ExtDBNavigator"/>
-        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="246"/>
-        <CursorPos X="15" Y="258"/>
+        <TopLine Value="1153"/>
+        <CursorPos X="17" Y="1168"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit141>
       <Unit142>
         <Filename Value="/usr/lib/lazarus/0.9.30.4/lcl/controls.pp"/>
@@ -1359,11 +1356,11 @@
         <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
         <UnitName Value="IBDatabase"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="871"/>
+        <TopLine Value="875"/>
         <CursorPos X="1" Y="884"/>
-        <UsageCount Value="15"/>
+        <UsageCount Value="18"/>
         <Loaded Value="True"/>
       </Unit146>
       <Unit147>
@@ -1410,10 +1407,12 @@
       <Unit152>
         <Filename Value="../../composants/u_dblistview.pas"/>
         <UnitName Value="U_DBListView"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="925"/>
-        <CursorPos X="1" Y="954"/>
-        <UsageCount Value="12"/>
+        <TopLine Value="727"/>
+        <CursorPos X="43" Y="742"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
       </Unit152>
       <Unit153>
         <Filename Value="/usr/lib/lazarus/0.9.30.4/lcl/include/dblookupcombobox.inc"/>
@@ -1450,10 +1449,12 @@
       <Unit157>
         <Filename Value="../../composants/u_onforminfoini.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
+        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="392"/>
-        <CursorPos X="134" Y="417"/>
+        <TopLine Value="812"/>
+        <CursorPos X="1" Y="820"/>
         <UsageCount Value="12"/>
+        <Loaded Value="True"/>
       </Unit157>
       <Unit158>
         <Filename Value="/lazarus/lcl/include/customform.inc"/>
@@ -1490,10 +1491,12 @@
       <Unit162>
         <Filename Value="../../../ibx/runtime/IBQuery.pas"/>
         <UnitName Value="IBQuery"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="157"/>
-        <CursorPos X="1" Y="167"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="145"/>
+        <CursorPos X="1" Y="154"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
       </Unit162>
       <Unit163>
         <Filename Value="/lazarus/lcl/include/dblookup.inc"/>
@@ -1506,12 +1509,10 @@
       <Unit164>
         <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
         <UnitName Value="fonctions_dbcomponents"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="112"/>
-        <CursorPos X="26" Y="134"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <TopLine Value="135"/>
+        <CursorPos X="1" Y="139"/>
+        <UsageCount Value="11"/>
       </Unit164>
       <Unit165>
         <Filename Value="../../../ZEOSDBO/packages/lazarus/zcomponent.pas"/>
@@ -1572,10 +1573,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_FormMainIni"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="20"/>
-        <CursorPos X="22" Y="33"/>
+        <TopLine Value="207"/>
+        <CursorPos X="1" Y="215"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit171>
@@ -1711,10 +1712,12 @@
       <Unit187>
         <Filename Value="../../fonctions/fonctions_db.pas"/>
         <UnitName Value="fonctions_db"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="35"/>
-        <CursorPos X="1" Y="90"/>
-        <UsageCount Value="12"/>
+        <TopLine Value="896"/>
+        <CursorPos X="1" Y="898"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
       </Unit187>
       <Unit188>
         <Filename Value="/usr/lib/lazarus/0.9.31/lcl/include/dblookup.inc"/>
@@ -1728,9 +1731,9 @@
         <Filename Value="../../composants/u_regframeworkcomponents.pas"/>
         <UnitName Value="u_regframeworkcomponents"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="16"/>
-        <CursorPos X="152" Y="47"/>
-        <UsageCount Value="12"/>
+        <TopLine Value="24"/>
+        <CursorPos X="1" Y="41"/>
+        <UsageCount Value="13"/>
       </Unit189>
       <Unit190>
         <Filename Value="/usr/share/lazarus/1.0.2/lcl/controls.pp"/>
@@ -1797,12 +1800,10 @@
       <Unit197>
         <Filename Value="../../composants/u_registerforms.pas"/>
         <UnitName Value="u_registerforms"/>
-        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="161"/>
         <CursorPos X="26" Y="169"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit197>
       <Unit198>
         <Filename Value="../../fonctions/fonctions_scaledpi.pas"/>
@@ -1861,12 +1862,10 @@
       <Unit204>
         <Filename Value="../../extcopy.pas"/>
         <UnitName Value="ExtCopy"/>
-        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3"/>
         <CursorPos X="12" Y="20"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit204>
       <Unit205>
         <Filename Value="../../../XMLFrames/composants/u_xmlform.pas"/>
@@ -1880,12 +1879,10 @@
       <Unit206>
         <Filename Value="../../composants/u_extdbgrid.pas"/>
         <UnitName Value="u_extdbgrid"/>
-        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="776"/>
         <CursorPos X="61" Y="790"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit206>
       <Unit207>
         <Filename Value="../../../../Lazarus/ccr/components/rx/rxdbgrid.pas"/>
@@ -1966,175 +1963,239 @@
       <Unit216>
         <Filename Value="../../fonctions/fonctions_forms.pas"/>
         <UnitName Value="fonctions_forms"/>
-        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1136"/>
         <CursorPos X="48" Y="1163"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit216>
       <Unit217>
         <Filename Value="../../composants/u_scrolldbclones.pas"/>
         <UnitName Value="u_scrolldbclones"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="1" Y="9"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="11"/>
       </Unit217>
       <Unit218>
         <Filename Value="../../composants/u_scrollclones.pas"/>
         <UnitName Value="u_scrollclones"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="51"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="141"/>
+        <CursorPos X="22" Y="153"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit218>
       <Unit219>
         <Filename Value="/usr/share/fpcsrc/2.6.0/rtl/objpas/typinfo.pp"/>
         <UnitName Value="typinfo"/>
-        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="4"/>
         <CursorPos X="1" Y="28"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit219>
       <Unit220>
         <Filename Value="../../fonctions/fonctions_components.pas"/>
         <UnitName Value="fonctions_components"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="72"/>
-        <CursorPos X="36" Y="83"/>
+        <TopLine Value="59"/>
+        <CursorPos X="1" Y="70"/>
+        <UsageCount Value="13"/>
+      </Unit220>
+      <Unit221>
+        <Filename Value="../../../../../../lazarus/lcl/include/control.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="4821"/>
+        <CursorPos X="1" Y="4835"/>
+        <UsageCount Value="12"/>
+      </Unit221>
+      <Unit222>
+        <Filename Value="../../../../../../lazarus/lcl/controls.pp"/>
+        <UnitName Value="Controls"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1949"/>
+        <CursorPos X="22" Y="1962"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit222>
+      <Unit223>
+        <Filename Value="../../../../../../lazarus/lcl/include/customcontrol.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="52"/>
+        <CursorPos X="1" Y="61"/>
+        <UsageCount Value="10"/>
+      </Unit223>
+      <Unit224>
+        <Filename Value="../../../../../../lazarus/fpc/2.6.0/source/rtl/objpas/classes/classesh.inc"/>
+        <EditorIndex Value="8"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="197"/>
+        <CursorPos X="8" Y="203"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit224>
+      <Unit225>
+        <Filename Value="../../../../../../lazarus/lcl/include/wincontrol.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="6438"/>
+        <CursorPos X="1" Y="6446"/>
+        <UsageCount Value="12"/>
+      </Unit225>
+      <Unit226>
+        <Filename Value="../../../../../../lazarus/components/codetools/changedeclarationtool.pas"/>
+        <UnitName Value="ChangeDeclarationTool"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="129"/>
+        <CursorPos X="31" Y="130"/>
+        <UsageCount Value="10"/>
+      </Unit226>
+      <Unit227>
+        <Filename Value="../../../../../../lazarus/fpc/2.6.0/source/packages/fcl-base/src/contnrs.pp"/>
+        <UnitName Value="contnrs"/>
+        <EditorIndex Value="10"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="63"/>
+        <CursorPos X="3" Y="72"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit227>
+      <Unit228>
+        <Filename Value="../../../../../../lazarus/fpc/2.6.0/source/rtl/objpas/classes/compon.inc"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="454"/>
+        <CursorPos X="3" Y="457"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
-      </Unit220>
+      </Unit228>
+      <Unit229>
+        <Filename Value="../../../../../../lazarus/lcl/include/custompanel.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="23"/>
+        <CursorPos X="1" Y="32"/>
+        <UsageCount Value="10"/>
+      </Unit229>
+      <Unit230>
+        <Filename Value="../../../../../../lazarus/lcl/lclclasses.pp"/>
+        <UnitName Value="LCLClasses"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="119"/>
+        <CursorPos X="1" Y="127"/>
+        <UsageCount Value="10"/>
+      </Unit230>
+      <Unit231>
+        <Filename Value="../../../../../../lazarus/lcl/include/scrollingwincontrol.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="248"/>
+        <CursorPos X="1" Y="263"/>
+        <UsageCount Value="10"/>
+      </Unit231>
+      <Unit232>
+        <Filename Value="../../../../../../lazarus/lcl/include/customform.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="205"/>
+        <CursorPos X="1" Y="215"/>
+        <UsageCount Value="10"/>
+      </Unit232>
+      <Unit233>
+        <Filename Value="../../../../../../lazarus/lcl/include/application.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1086"/>
+        <CursorPos X="1" Y="1097"/>
+        <UsageCount Value="10"/>
+      </Unit233>
+      <Unit234>
+        <Filename Value="../../../../../../lazarus/lcl/forms.pp"/>
+        <UnitName Value="Forms"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1783"/>
+        <CursorPos X="1" Y="1792"/>
+        <UsageCount Value="10"/>
+      </Unit234>
+      <Unit235>
+        <Filename Value="../../../../../../lazarus/fpc/2.6.0/source/rtl/objpas/classes/lists.inc"/>
+        <EditorIndex Value="9"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="103"/>
+        <CursorPos X="3" Y="105"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit235>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="18" HistoryIndex="17">
       <Position1>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="513" Column="55" TopLine="504"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="76" Column="23" TopLine="61"/>
       </Position1>
       <Position2>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="68" Column="8" TopLine="63"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="83" Column="21" TopLine="68"/>
       </Position2>
       <Position3>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="274" Column="1" TopLine="250"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="93" Column="25" TopLine="78"/>
       </Position3>
       <Position4>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="31" Column="16" TopLine="15"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="136" Column="45" TopLine="121"/>
       </Position4>
       <Position5>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="78" Column="32" TopLine="66"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="195" Column="24" TopLine="180"/>
       </Position5>
       <Position6>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="138" Column="21" TopLine="128"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="146" Column="3" TopLine="138"/>
       </Position6>
       <Position7>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="74" Column="21" TopLine="62"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="149" Column="15" TopLine="138"/>
       </Position7>
       <Position8>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="139" Column="22" TopLine="126"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="151" Column="28" TopLine="138"/>
       </Position8>
       <Position9>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="1045" Column="34" TopLine="1044"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="157" Column="20" TopLine="143"/>
       </Position9>
       <Position10>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="281" Column="5" TopLine="269"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="172" Column="27" TopLine="158"/>
       </Position10>
       <Position11>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="527" Column="32" TopLine="515"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="212" Column="16" TopLine="200"/>
       </Position11>
       <Position12>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="1101" Column="12" TopLine="1089"/>
+        <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
+        <Caret Line="884" Column="1" TopLine="875"/>
       </Position12>
       <Position13>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="1167" Column="17" TopLine="1144"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="212" Column="1" TopLine="200"/>
       </Position13>
       <Position14>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="1300" Column="12" TopLine="1280"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="213" Column="1" TopLine="200"/>
       </Position14>
       <Position15>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="1295" Column="1" TopLine="1292"/>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="129" Column="54" TopLine="129"/>
       </Position15>
       <Position16>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="1292" Column="24" TopLine="1280"/>
+        <Filename Value="../../composants/u_formmainini.pas"/>
+        <Caret Line="215" Column="1" TopLine="207"/>
       </Position16>
       <Position17>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="1293" Column="29" TopLine="1291"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="205" Column="24" TopLine="195"/>
       </Position17>
       <Position18>
-        <Filename Value="../../composants/u_extdbnavigator.pas"/>
-        <Caret Line="1292" Column="37" TopLine="1280"/>
+        <Filename Value="../../composants/u_scrollclones.pas"/>
+        <Caret Line="153" Column="22" TopLine="141"/>
       </Position18>
-      <Position19>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="37" Column="45" TopLine="17"/>
-      </Position19>
-      <Position20>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="36" Column="1" TopLine="21"/>
-      </Position20>
-      <Position21>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="35" Column="22" TopLine="22"/>
-      </Position21>
-      <Position22>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="46" Column="22" TopLine="23"/>
-      </Position22>
-      <Position23>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="167" Column="36" TopLine="167"/>
-      </Position23>
-      <Position24>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="67" Column="1" TopLine="64"/>
-      </Position24>
-      <Position25>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="165" Column="86" TopLine="157"/>
-      </Position25>
-      <Position26>
-        <Filename Value="../../composants/u_scrollclones.pas"/>
-        <Caret Line="136" Column="31" TopLine="126"/>
-      </Position26>
-      <Position27>
-        <Filename Value="../../composants/u_scrollclones.pas"/>
-        <Caret Line="1" Column="1" TopLine="51"/>
-      </Position27>
-      <Position28>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="132" Column="1" TopLine="108"/>
-      </Position28>
-      <Position29>
-        <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
-        <Caret Line="134" Column="26" TopLine="112"/>
-      </Position29>
-      <Position30>
-        <Filename Value="../../fonctions/fonctions_components.pas"/>
-        <Caret Line="83" Column="36" TopLine="72"/>
-      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

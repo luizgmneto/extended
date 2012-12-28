@@ -38,13 +38,12 @@ uses  {$IFDEF FPC}
      U_ExtDBImage, U_ExtDBImageList, U_ExtImage,
      U_ExtPictCombo, U_ExtDBPictCombo, U_ExtMapImageIndex,
      u_extdbgrid, PDBCheck, PCheck, u_scrollclones,
-     u_scrolldbclones,
      u_extradios;
 
 procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni, TExtMapImages]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,TExtDBClonedPanel,
+  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,
                                                 TExtDBColorCombo,TFWDBComboBox,
                                                 TExtDBComboInsert,
                                                 TFWDBDateEdit, TFWDBDateTimePicker,

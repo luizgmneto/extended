@@ -14,8 +14,8 @@ uses
   {$ENDIF}
   Controls;
 
-const CST_PanelCloned = 'PanelCloned_';
   {$IFDEF VERSIONS}
+  const
     gVer_ScrollClone: T_Version = (Component: 'Composant TExtClonedPanel';
       FileUnit: 'u_scrollclones';
       Owner: 'Matthieu Giroux';
@@ -36,21 +36,24 @@ type
   private
     FPanelCloned : TPanel;
     FCols, FRows : Word;
+    FAutoControls : TFPList;
     FOnClone, FOnCloningControl, FOnCloningPanel : TNotifyEvent;
   protected
+    procedure Loaded; override;
     procedure SetCols ( const Avalue : Word ); virtual;
     procedure SetRows ( const Avalue : Word ); virtual;
-    procedure Loaded; override;
     procedure Notification ( AComponent : TComponent ; AOperation : TOperation ); override;
-    procedure AutoCreatePanel; virtual;
+    procedure AutoSetPanel; virtual;
     procedure ControlEvent ( const AControl : TControl ); virtual;
     procedure PanelClonedEvent ( const Apanel : TPanel ); virtual;
     procedure PanelCloningEvent ( const Apanel : TPanel ); virtual;
+    procedure SetPanelCloned ( const Apanel : TPanel ); virtual;
     procedure AutoCreateColsRows; virtual;
   public
     constructor Create ( AOwner : TComponent ); override;
+    destructor  Destroy; override;
   published
-      property PanelCloned : TPanel read FPanelCloned write FPanelCloned;
+      property PanelCloned : TPanel read FPanelCloned write SetPanelCloned;
       property Cols : Word read FCols write SetCols default 1;
       property Rows : Word read FRows write SetRows default 1;
       property OnCloned : TNotifyEvent read FOnClone write FOnClone;
@@ -74,28 +77,37 @@ begin
    end;
 end;
 
+procedure TExtClonedPanel.Loaded;
+begin
+  inherited Loaded;
+  AutoCreateColsRows;
+end;
+
 procedure TExtClonedPanel.SetRows(const Avalue: Word);
 begin
   begin
-    if  ( FCols <> Avalue )
+    if  ( FRows <> Avalue )
     and ( Avalue > 0 ) Then
      Begin
-      FCols:=Avalue;
+      FRows:=Avalue;
       AutoCreateColsRows;
      end;
   end;
 end;
 
-procedure TExtClonedPanel.AutoCreatePanel;
+procedure TExtClonedPanel.AutoSetPanel;
 Begin
-  if FPanelCloned = nil Then
-   Begin
-     FPanelCloned:=TPanel.Create ( Owner );
-     FPanelCloned.Parent := Self;
-     FPanelCloned.Width :=Width;
-     FPanelCloned.Height:=Height;
-     FPanelCloned.Name := CST_PanelCloned + '0_0';
-   end;
+  case FPanelCloned.Align of
+    alClient :
+      Begin
+        if ( FCols > 1 ) and ( FRows > 1 ) Then FPanelCloned.Align:= alNone
+         else if ( FCols > 1 ) Then FPanelCloned.Align:= alLeft
+         Else if ( FRows > 1 ) Then FPanelCloned.Align:= alTop;
+
+      end;
+    alLeft : if FRows > 1 Then  FPanelCloned.Align := alNone;
+    alTop  : if FCols > 1 Then  FPanelCloned.Align := alNone;
+  end;
 end;
 
 procedure TExtClonedPanel.ControlEvent(const AControl: TControl);
@@ -116,53 +128,54 @@ begin
    FOnCloningPanel ( Apanel );
 end;
 
+procedure TExtClonedPanel.SetPanelCloned(const Apanel: TPanel);
+begin
+  FPanelCloned:=Apanel;
+end;
+
 procedure TExtClonedPanel.AutoCreateColsRows;
 var i, j, k, ltag : Integer;
     LEndName : String;
     LPanel : TPanel;
     LControl : TControl;
 Begin
-  if ( csDesigning in ComponentState ) Then
+  if not Assigned(FPanelCloned)
+  or ( csDesigning  in ComponentState )
+  or ( csDestroying in ComponentState )
+  or ( csLoading    in ComponentState   )
+   Then
     Exit;
-  AutoCreatePanel;
-  for i := 0 to ComponentCount - 1 do
+  AutoSetPanel;
+  for i := FAutoControls.Count - 1 downto 0 do
    Begin
-     Components[i].Destroy;
+     (TObject(FAutoControls[i]^)).Destroy;
    end;
-  for i := 1 to FCols - 1 do
-   for j := 1 to FRows - 1 do
+  FAutoControls.Clear;
+  for i := 1 to FCols do
+   for j := 1 to FRows do
     Begin
-      LPanel := TPanel.Create ( Self );
+      LPanel := fcon_CloneControlWithDB( FPanelCloned, Owner ) as TPanel;
+      FAutoControls.Add(@LPanel);
       with LPanel do
         Begin
           Parent := Self;
-          Width :=FPanelCloned.Width;
-          Height:=FPanelCloned.Height;
-          Left  := FCols*FPanelCloned.Left + FCols * FPanelCloned.Width;
-          Top   := FRows*FPanelCloned.Top  + FRows * FPanelCloned.Top;
-          case FPanelCloned.Align of
-            alClient :
-              Begin
-                if ( FCols > 1 ) and ( FRows > 1 ) Then FPanelCloned.Align:= alNone
-                 else if ( FCols > 1 ) Then FPanelCloned.Align:= alLeft
-                 Else if ( FRows > 1 ) Then FPanelCloned.Align:= alTop;
-
-              end;
-            alLeft : if FCols > 1 Then  FPanelCloned.Align := alNone;
-            alTop  : if FRows > 1 Then  FPanelCloned.Align := alNone;
-          end;
-          Align:=FPanelCloned.Align;
-          LEndName:= IntToStr(FCols) + '_' + IntToStr(FRows);
-          Name := CST_PanelCloned + LEndName;
+          Left  := ( i - 1 ) * (FPanelCloned.Width  + FPanelCloned.Left) + 1;
+          Top   := ( j - 1 ) * (FPanelCloned.Height + FPanelCloned.Top ) + 1 ;
+          LEndName:= IntToStr(i) + '_' + IntToStr(j);
+          Name := FPanelCloned.name + '_' + LEndName;
+          Caption:=FPanelCloned.Caption;
           lTag := i * 1000 + j;
           Tag  := ltag;
           PanelCloningEvent ( LPanel );
           for k := 0 to FPanelCloned.ControlCount - 1 do
            Begin
-             LControl := fcon_CloneControlWithDB ( FPanelCloned.Controls [ k ], Self );
+             LControl := fcon_CloneControlWithDB ( FPanelCloned.Controls [ k ], Owner );
+             FAutoControls.Add(@LControl);
              with LControl do
                Begin
+                Parent := LPanel;
                 Name := FPanelCloned.Controls [ k ].Name + LEndName;
+                Caption:=FPanelCloned.Controls [ k ].Caption;;
                 Tag  := ltag;
                end;
              ControlEvent(LControl);
@@ -173,12 +186,6 @@ Begin
 
 end;
 
-procedure TExtClonedPanel.Loaded;
-begin
-  inherited Loaded;
-  AutoCreateColsRows;
-end;
-
 procedure TExtClonedPanel.Notification(AComponent: TComponent;
   AOperation: TOperation);
 begin
@@ -186,7 +193,7 @@ begin
   if  ( AOperation = opRemove )
   and ( AComponent = FPanelCloned ) Then
    Begin
-     FPanelCloned:=nil;
+     PanelCloned:=nil;
      AutoCreateColsRows;
    end;
 end;
@@ -197,6 +204,13 @@ begin
   FPanelCloned:=nil;
   FRows:=1;
   FCols:=1;
+  FAutoControls := TFPList.Create;
+end;
+
+destructor TExtClonedPanel.Destroy;
+begin
+  inherited Destroy;
+  FAutoControls.Free;
 end;
 
 {$IFDEF VERSIONS}
