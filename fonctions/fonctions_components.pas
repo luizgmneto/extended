@@ -81,6 +81,9 @@ Begin
     Height := acon_AControl.Height;
     Align  := acon_AControl.Align;
     Visible:= acon_AControl.Visible;
+    Caption:= acon_AControl.Caption;
+    Color  := acon_AControl.Color;
+    Font.Assign(acon_AControl.Font);
    end;
 End;
 

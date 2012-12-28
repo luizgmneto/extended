@@ -732,8 +732,15 @@ end;
 // Rafraîchissement de la liste
 procedure TDBListView.Refresh;
 begin
-  P_Reinitialise ;
-  p_AddRecords ;
+  if assigned ( gdl_DataLink.DataSet ) Then
+    gdl_DataLink.DataSet.DisableControls;
+  try
+    P_Reinitialise ;
+    p_AddRecords ;
+  finally
+    if assigned ( gdl_DataLink.DataSet ) Then
+      gdl_DataLink.DataSet.EnableControls;
+  end;
 End;
 
 // Gestion automatique du scrolling quand la liste n'est pas chargée
@@ -1232,122 +1239,127 @@ begin
     Exit ;
 
   Screen.Cursor := crHourGlass ;
-  with adat_Dataset do
-   try
-    // Selon le dbadvlistview
-{$IFDEF FPC}
-    BeginUpdate ;
-{$ELSE}
-    Items.BeginUpdate ;
-{$ENDIF}
-    li_RecordsToAdd:=0;
-    // Tant qu'on n'est pas à la fin du dataset
-    while not eof do
-      begin
-	// si on ne peut pas ajouter le champ en cours on passe au suivant
-	 if not fb_CanAdd  ( adat_Dataset, ab_InsereCles )
-	    Then
-	     Begin
-	       Next;
-	       Continue ;
-	     End ;
-	     // Incrément du compteur
-	inc ( li_i );
-		// Ajout d'un item
-	gVG_ListItem         := Items.Add ;
-	 // Affectation de la clé si on la montre
-	if ( gs_FieldsList <> '' )
-	 Then
-	    Begin
-	      // Récupération des champs
-	      lvar_AAfficher  := FieldValues [ gs_FieldsListFieldValues ];
-	      // C'est plusieurs champs
-	      if VarIsArray ( lvar_AAfficher )
-	       Then
-		Begin
-		  // Ajout des champs
-		  For li_j := VarArrayLowBound ( lvar_AAfficher, 1 ) to  VarArrayHighBound ( lvar_AAfficher, 1 ) do
-		    // Pas de clé montrée et premier champ
-		    if  ( li_j = VarArrayLowBound ( lvar_AAfficher, 1 ))
-			    // Alors affectation à l'item ( première colonne )
-		     Then gVG_ListItem.Caption := lvar_AAfficher [ li_j ]
-		     // Sinon ajout dans les autres colonnes
-		     Else if lvar_AAfficher [ li_j ] <> Null Then
-			     gVG_ListItem.SubItems.Add ( lvar_AAfficher [ li_j ] )
-		     Else
-			     gVG_ListItem.SubItems.Add ( '' );
-		  End
-	 // Il n' a qu'un champ
-		Else gVG_ListItem.Caption := lvar_AAfficher ;
-	    End ;
-	if ( gs_UnitsKey <> '' )  and ( FindField ( gs_UnitsKey ) <> nil )
-	 Then
-	    Begin
-	      lvar_AAfficher  := FieldValues [ gs_UnitsKeyFieldValues ];
-	      if VarIsArray ( lvar_AAfficher )
-	       Then
+  gdl_DataLink.DataSet.DisableControls;
+  try
+    with adat_Dataset do
+     try
+      // Selon le dbadvlistview
+  {$IFDEF FPC}
+      BeginUpdate ;
+  {$ELSE}
+      Items.BeginUpdate ;
+  {$ENDIF}
+      li_RecordsToAdd:=0;
+      // Tant qu'on n'est pas à la fin du dataset
+      while not eof do
+        begin
+	  // si on ne peut pas ajouter le champ en cours on passe au suivant
+	   if not fb_CanAdd  ( adat_Dataset, ab_InsereCles )
+	      Then
+	       Begin
+	         Next;
+	         Continue ;
+	       End ;
+	       // Incrément du compteur
+	  inc ( li_i );
+		  // Ajout d'un item
+	  gVG_ListItem         := Items.Add ;
+	   // Affectation de la clé si on la montre
+	  if ( gs_FieldsList <> '' )
+	   Then
+	      Begin
+	        // Récupération des champs
+	        lvar_AAfficher  := FieldValues [ gs_FieldsListFieldValues ];
+	        // C'est plusieurs champs
+	        if VarIsArray ( lvar_AAfficher )
+	         Then
 		  Begin
 		    // Ajout des champs
 		    For li_j := VarArrayLowBound ( lvar_AAfficher, 1 ) to  VarArrayHighBound ( lvar_AAfficher, 1 ) do
-		     // ajout à la fin des autres colonnes
-		     if lvar_AAfficher [ li_j ] <> Null Then
-			     gVG_ListItem.SubItems.Add ( lvar_AAfficher [ li_j ] )
-		     Else
-			     gVG_ListItem.SubItems.Add ( '' );
-		  End
-	       // Il n' a qu'un champ
-		  Else
-		   if  assigned ( gVG_ListItem.SubItems )  and ( gt_ColonneCle [ 0 ] >= gVG_ListItem.SubItems.Count -1 )
-		    Then
-		      if lvar_AAfficher <> Null Then
-		       gVG_ListItem.SubItems.Add ( lvar_AAfficher )
-		      Else
-		       gVG_ListItem.SubItems.Add ( '' );
-	    End;
-	Result := fb_ChangeEtatItem ( adat_Dataset, ab_InsereCles or gb_AllSelect ) ;
-	Next;
+		      // Pas de clé montrée et premier champ
+		      if  ( li_j = VarArrayLowBound ( lvar_AAfficher, 1 ))
+			      // Alors affectation à l'item ( première colonne )
+		       Then gVG_ListItem.Caption := lvar_AAfficher [ li_j ]
+		       // Sinon ajout dans les autres colonnes
+		       Else if lvar_AAfficher [ li_j ] <> Null Then
+			       gVG_ListItem.SubItems.Add ( lvar_AAfficher [ li_j ] )
+		       Else
+			       gVG_ListItem.SubItems.Add ( '' );
+		    End
+	   // Il n' a qu'un champ
+		  Else gVG_ListItem.Caption := lvar_AAfficher ;
+	      End ;
+	  if ( gs_UnitsKey <> '' )  and ( FindField ( gs_UnitsKey ) <> nil )
+	   Then
+	      Begin
+	        lvar_AAfficher  := FieldValues [ gs_UnitsKeyFieldValues ];
+	        if VarIsArray ( lvar_AAfficher )
+	         Then
+		    Begin
+		      // Ajout des champs
+		      For li_j := VarArrayLowBound ( lvar_AAfficher, 1 ) to  VarArrayHighBound ( lvar_AAfficher, 1 ) do
+		       // ajout à la fin des autres colonnes
+		       if lvar_AAfficher [ li_j ] <> Null Then
+			       gVG_ListItem.SubItems.Add ( lvar_AAfficher [ li_j ] )
+		       Else
+			       gVG_ListItem.SubItems.Add ( '' );
+		    End
+	         // Il n' a qu'un champ
+		    Else
+		     if  assigned ( gVG_ListItem.SubItems )  and ( gt_ColonneCle [ 0 ] >= gVG_ListItem.SubItems.Count -1 )
+		      Then
+		        if lvar_AAfficher <> Null Then
+		         gVG_ListItem.SubItems.Add ( lvar_AAfficher )
+		        Else
+		         gVG_ListItem.SubItems.Add ( '' );
+	      End;
+	  Result := fb_ChangeEtatItem ( adat_Dataset, ab_InsereCles or gb_AllSelect ) ;
+	  Next;
 
-	if ab_InsereCles
-	 Then
-	   Continue ;
+	  if ab_InsereCles
+	   Then
+	     Continue ;
 
-	if Eof
-	 Then
-	    Begin
-	      // On indique que tout est chargé
- 	      gb_AllLoaded := True ;
-	      // L'ajout est fini
-	      Break ;
-	    End ;
-	if  ( not gb_MontreTout )
-	 Then
-	    Begin
-             // récupère les paramètres de nombre de pages visibles
-	     // A-t-on chargé suffisamment d'enregistrements
-             if li_RecordsToAdd <= 0 Then
-               li_RecordsToAdd:=fb_CanAddRecords;
-             if ( li_RecordsToAdd < 0 )
-             and not Eof
-	       Then
-		  Begin
-		    // Récupère le bookmark pour un chargement prochain d'enregistrements
-		    gbm_DernierEnregistrement := Bookmark ;
-		    // Fin de cette MAJ
-		    Break ;
-		  End
-                else
-                 dec ( li_RecordsToAdd );
-	    End ;
-	  end;
-      if Eof
-       Then
-      // On indique que tout est chargé
-         gb_AllLoaded := True ;
-    Except
-      // gestion des erreurs
-      on e: Exception do
-       f_GereException ( e, adat_Dataset );
-    End ;
+	  if Eof
+	   Then
+	      Begin
+	        // On indique que tout est chargé
+ 	        gb_AllLoaded := True ;
+	        // L'ajout est fini
+	        Break ;
+	      End ;
+	  if  ( not gb_MontreTout )
+	   Then
+	      Begin
+               // récupère les paramètres de nombre de pages visibles
+	       // A-t-on chargé suffisamment d'enregistrements
+               if li_RecordsToAdd <= 0 Then
+                 li_RecordsToAdd:=fb_CanAddRecords;
+               if ( li_RecordsToAdd < 0 )
+               and not Eof
+	         Then
+		    Begin
+		      // Récupère le bookmark pour un chargement prochain d'enregistrements
+		      gbm_DernierEnregistrement := Bookmark ;
+		      // Fin de cette MAJ
+		      Break ;
+		    End
+                  else
+                   dec ( li_RecordsToAdd );
+	      End ;
+	    end;
+        if Eof
+         Then
+        // On indique que tout est chargé
+           gb_AllLoaded := True ;
+      Except
+        // gestion des erreurs
+        on e: Exception do
+         f_GereException ( e, adat_Dataset );
+      End ;
+  finally
+    gdl_DataLink.DataSet.EnableControls;
+  end;
 {$IFDEF FPC}
   EndUpdate ;
 {$ELSE}

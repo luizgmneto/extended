@@ -19,15 +19,15 @@ uses
   DBCtrls, JvExControls, JvDBLookup, JvExMask, JvSpin, JvExDBGrids, JvDBGrid, JvDBUltimGrid,
   JvExComCtrls, JvListView, Mask,  fonctions_version,
 {$ENDIF}
-  Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Grids, StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos,
-  u_extdbgrid, U_ExtNumEdits, u_framework_components, U_ExtDBNavigator,
-  U_DBListView, u_framework_dbcomponents, U_ExtDBPictCombo, u_extsearchedit,
-  U_ExtComboInsert, DBGrids, Menus, u_extmenucustomize, ToolWin, IBDatabase,
-  IBQuery, IBIntf, IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar,
-  U_ExtDBImage, U_ExtDBImageList, ImgList, ExtDlgs, IBCustomDataSet,
-  U_ExtMapImageIndex, u_buttons_appli, u_reports_components, JvXPCore,
-  JvXPButtons, u_buttons_defs, U_ExtPictCombo, U_ExtImage, u_scrolldbclones ;
+  Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
+  StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
+  U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
+  u_framework_dbcomponents, U_ExtDBPictCombo, u_extsearchedit, U_ExtComboInsert,
+  DBGrids, Menus, u_extmenucustomize, ToolWin, IBDatabase, IBQuery, IBIntf,
+  IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage,
+  U_ExtDBImageList, ImgList, ExtDlgs, IBCustomDataSet, U_ExtMapImageIndex,
+  u_buttons_appli, u_reports_components, JvXPCore, JvXPButtons, u_buttons_defs,
+  U_ExtPictCombo, U_ExtImage, u_scrollclones ;
 
 type
 
@@ -37,13 +37,14 @@ type
     ds_user: TDatasource;
     ds_dep: TDatasource;
     ds_dep2: TDatasource;
-    ExtDBClonedPanel1: TExtDBClonedPanel;
+    ExtClonedPanel1: TExtClonedPanel;
     ExtDBImage: TExtDBImage;
     ExtDBImageList: TExtDBImageList;
     ExtDBPictCombo: TExtDBPictCombo;
     ExtMapImages: TExtMapImages;
     ExtMenuToolBar: TExtMenuToolBar;
     FWClose1: TFWClose;
+    FWLabel10: TFWLabel;
     FWPrint:  TFWPrintGrid;
     IBUpdateUtilisateur: TIBUpdateSQL;
     IBUpdateDepartem: TIBUpdateSQL;
@@ -71,15 +72,16 @@ type
     mu_quitter: TMenuItem;
     mu_sep1: TMenuItem;
     mu_sep2: TMenuItem;
-    Nom1: TFWDBEdit;
     Noms: TExtDBGrid;
+    Nom_: TFWEdit;
     OnFormInfoIni: TOnFormInfoIni;
     OpenPictureDialog: TOpenPictureDialog;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
-    Prenom1: TFWDBEdit;
+    Panel5: TPanel;
+    Prenom_: TFWEdit;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
     Prenom: TFWDBEdit;
@@ -110,6 +112,7 @@ type
     Menu6: TMenuItem;
     {$IFDEF FPC}
     Process: TProcess;
+    Splitter3: TSplitter;
     {$ENDIF}
     procedure ExtDBImageClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -117,6 +120,7 @@ type
     procedure mc_CustomizeMenuChange(Sender: TObject);
     procedure mu_aproposClick(Sender: TObject);
     procedure mu_quitterClick(Sender: TObject);
+    procedure Panel5Click(Sender: TObject);
     procedure QuitterClick(Sender: TObject);
     procedure DbfNomsAfterPost(DataSet: TDataSet);
     procedure ExtMenuToolBarClickCustomize(Sender: TObject);
@@ -193,6 +197,11 @@ end;
 procedure TMyform.mu_quitterClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TMyform.Panel5Click(Sender: TObject);
+begin
+
 end;
 
 procedure p_setLibrary (var libname: string);

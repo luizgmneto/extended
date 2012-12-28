@@ -1165,6 +1165,7 @@ begin
       End ;
   inherited;
   FDataLink.Free;
+  FDataLink:=nil;
 end;
 
 // setting deleting question
