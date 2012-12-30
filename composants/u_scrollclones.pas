@@ -14,8 +14,8 @@ uses
   {$ENDIF}
   Controls;
 
+const
   {$IFDEF VERSIONS}
-  const
     gVer_ScrollClone: T_Version = (Component: 'Composant TExtClonedPanel';
       FileUnit: 'u_scrollclones';
       Owner: 'Matthieu Giroux';
@@ -26,7 +26,7 @@ uses
       Major: 0; Minor: 9; Release: 0; Build: 0);
 
   {$ENDIF}
-
+    CST_MAX_CLONED_COLS = 1000;
 
 type
 
@@ -37,7 +37,11 @@ type
     FPanelCloned : TPanel;
     FCols, FRows : Word;
     FAutoControls : TFPList;
-    FOnClone, FOnCloningControl, FOnCloningPanel : TNotifyEvent;
+    FOnClone, FOnCloningControl,
+    FOnCloningPanel, FOnBeginClones,
+    FOnEndClones : TNotifyEvent;
+    function GetAutoControl ( const Index : Integer ):TControl;
+    function GetAutoControlCount : Integer;
   protected
     procedure Loaded; override;
     procedure SetCols ( const Avalue : Word ); virtual;
@@ -48,15 +52,19 @@ type
     procedure PanelClonedEvent ( const Apanel : TPanel ); virtual;
     procedure PanelCloningEvent ( const Apanel : TPanel ); virtual;
     procedure SetPanelCloned ( const Apanel : TPanel ); virtual;
-    procedure AutoCreateColsRows; virtual;
   public
+    procedure AutoCreateColsRows; virtual;
     constructor Create ( AOwner : TComponent ); override;
     destructor  Destroy; override;
+    property AutoControlCount : Integer read GetAutoControlCount;
+    property AutoControls [ Index : Integer ] : TControl read GetAutoControl;
   published
       property PanelCloned : TPanel read FPanelCloned write SetPanelCloned;
       property Cols : Word read FCols write SetCols default 1;
       property Rows : Word read FRows write SetRows default 1;
       property OnCloned : TNotifyEvent read FOnClone write FOnClone;
+      property OnBeginClones : TNotifyEvent read FOnBeginClones write FOnBeginClones;
+      property OnEndClones : TNotifyEvent read FOnEndClones write FOnEndClones;
       property OnCloningControl : TNotifyEvent read FOnCloningControl write FOnCloningControl;
       property OnCloningPanel   : TNotifyEvent read FOnCloningPanel   write FOnCloningPanel;
 
@@ -75,6 +83,19 @@ begin
     FCols:=Avalue;
     AutoCreateColsRows;
    end;
+end;
+
+function TExtClonedPanel.GetAutoControl(const Index: Integer):TControl;
+begin
+  if  ( Index >= 0 )
+  and ( Index < FAutoControls.Count )
+   Then Result := TControl(FAutoControls [ Index ])
+   Else Result := nil;
+end;
+
+function TExtClonedPanel.GetAutoControlCount: Integer;
+begin
+  Result:=FAutoControls.Count;
 end;
 
 procedure TExtClonedPanel.Loaded;
@@ -148,42 +169,49 @@ Begin
   AutoSetPanel;
   for i := FAutoControls.Count - 1 downto 0 do
    Begin
-     (TObject(FAutoControls[i]^)).Destroy;
+     (TObject(FAutoControls[i])).Destroy;
    end;
   FAutoControls.Clear;
+  if assigned ( FOnBeginClones ) Then
+   FOnBeginClones ( Self );
   for i := 1 to FCols do
    for j := 1 to FRows do
-    Begin
-      LPanel := fcon_CloneControlWithDB( FPanelCloned, Owner ) as TPanel;
-      FAutoControls.Add(@LPanel);
-      with LPanel do
-        Begin
-          Parent := Self;
-          Left  := ( i - 1 ) * (FPanelCloned.Width  + FPanelCloned.Left) + 1;
-          Top   := ( j - 1 ) * (FPanelCloned.Height + FPanelCloned.Top ) + 1 ;
-          LEndName:= IntToStr(i) + '_' + IntToStr(j);
-          Name := FPanelCloned.name + '_' + LEndName;
-          Caption:=FPanelCloned.Caption;
-          lTag := i * 1000 + j;
-          Tag  := ltag;
-          PanelCloningEvent ( LPanel );
-          for k := 0 to FPanelCloned.ControlCount - 1 do
-           Begin
-             LControl := fcon_CloneControlWithDB ( FPanelCloned.Controls [ k ], Owner );
-             FAutoControls.Add(@LControl);
-             with LControl do
-               Begin
-                Parent := LPanel;
-                Name := FPanelCloned.Controls [ k ].Name + LEndName;
-                Caption:=FPanelCloned.Controls [ k ].Caption;;
-                Tag  := ltag;
-               end;
-             ControlEvent(LControl);
-           end;
-          PanelClonedEvent ( LPanel );
-        end;
-    end;
+    if ( i = 1 ) and ( j = 1 )
+    Then Continue
+    Else
+      Begin
+        LPanel := fcon_CloneControlWithDB( FPanelCloned, Owner ) as TPanel;
+        FAutoControls.Add(LPanel);
+        with LPanel do
+          Begin
+            Parent := Self;
+            Left  := ( i - 1 ) * (FPanelCloned.Width  + FPanelCloned.Left) + 1;
+            Top   := ( j - 1 ) * (FPanelCloned.Height + FPanelCloned.Top ) + 1 ;
+            LEndName:= IntToStr(i) + '_' + IntToStr(j);
+            Name := FPanelCloned.name + '_' + LEndName;
+            Caption:=FPanelCloned.Caption;
+            lTag := i * CST_MAX_CLONED_COLS + j;
+            Tag  := ltag;
+            PanelCloningEvent ( LPanel );
+            for k := 0 to FPanelCloned.ControlCount - 1 do
+             Begin
+               LControl := fcon_CloneControlWithDB ( FPanelCloned.Controls [ k ], Owner );
+               FAutoControls.Add(LControl);
+               with LControl do
+                 Begin
+                  Parent := LPanel;
+                  Name := FPanelCloned.Controls [ k ].Name + LEndName;
+                  Caption:=FPanelCloned.Controls [ k ].Caption;
+                  Tag  := ltag;
+                 end;
+               ControlEvent(LControl);
+             end;
+            PanelClonedEvent ( LPanel );
+          end;
+      end;
 
+  if assigned ( FOnEndClones ) Then
+   FOnEndClones ( Self );
 end;
 
 procedure TExtClonedPanel.Notification(AComponent: TComponent;
@@ -205,6 +233,10 @@ begin
   FRows:=1;
   FCols:=1;
   FAutoControls := TFPList.Create;
+  FOnBeginClones:=nil;
+  FOnClone:=nil;
+  FOnCloningControl:=nil;
+  FOnCloningPanel:=nil;
 end;
 
 destructor TExtClonedPanel.Destroy;
