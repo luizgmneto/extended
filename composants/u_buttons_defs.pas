@@ -90,7 +90,7 @@ type
        property Glyph stored False;
        property GlyphSize : Integer read FGlyphSize write FGlyphSize default 24;
        property Height default 26;
-       property Width default 26;
+       property Width default 80;
      End;
 
     { TFWButtonList }
@@ -279,7 +279,7 @@ begin
   inherited Create(AOwner);
   FGlyphSize:=24;
   Height:=25;
-  Width :=25;
+  Width :=80;
 end;
 
 procedure TFWButton.Loaded;
