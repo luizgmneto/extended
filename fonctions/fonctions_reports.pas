@@ -50,13 +50,10 @@ const
   CST_PRINT_COLUMN_TITLE_FONT_STYLE = [fsBold];
   CST_PRINT_COLUMN_BREAKCAPTION = 'BreakCaption' ;
   CST_PRINT_COLUMN_LINEBREAK = 'LineBreak' ;
+  CST_PRINT_COMPONENT_EVENT = 'DrawReportImage';
 
 type TBoolArray = Array of Boolean;
   TPrintDrawReportImage= procedure ( Sender:TObject; var PrintIt:boolean) of object;
-  IPrintComponent = interface
-   ['{B606C7AA-E8CC-4503-ACC7-68A5B3EF1151}']
-   procedure DrawReportImage( Sender:TObject; var PrintIt:boolean);
-  End;
   { TExtPrintColumn }
 
   TExtPrintColumn = class(TCollectionItem)
@@ -106,7 +103,20 @@ type TBoolArray = Array of Boolean;
   {$ENDIF}
     property Items[Index: Integer]: TExtPrintColumn read GetColumn write SetColumn; default;
   end;
+  { TDMAdaptForms }
 
+  { TDMPrintModule }
+
+  TDMPrintModule = class(TDataModule)
+    procedure DrawReportImage ( Sender:TObject; var PrintIt:boolean);
+  private
+    { private declarations }
+  public
+    constructor Create ( AOwner : TComponent ); override;
+  published
+    { published declarations }
+
+  end;
 
 var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     RLListImages : array of record
@@ -130,10 +140,10 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtColumnColorBack   : TColor = clWhite;
     ExtLandscapeColumnsCount : Integer = 9;
     ExtHeader  : TRLBand = nil;
+    ExtPrintModule : TDMPrintModule = nil;
 
-function fb_CreateReport ( const AReportComponent : TComponent ; const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
-function fref_CreateReport ( const AReportComponent : TComponent ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
-procedure p_DrawReportImage( Sender:TObject; var PrintIt:boolean);
+function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
+function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
 
 implementation
 
@@ -142,6 +152,70 @@ uses fonctions_proprietes,
      RLTypes, unite_messages,
      fonctions_string,
      Math,strutils;
+
+{ TDMPrintModule }
+
+procedure TDMPrintModule.DrawReportImage(Sender: TObject; var PrintIt: boolean);
+var aimageindex : Integer;
+    Abitmap : Tbitmap ;
+    ADatasource : TDatasource;
+    I : Integer;
+Begin
+  for i := 0 to high ( RLListImages ) do
+   with RLListImages [ i ] do
+    if AImage = Sender Then
+      Begin
+        aimageIndex:=-1;
+        if assigned ( AGetImageIndex )
+         Then aimageIndex := AGetImageIndex ( AImage, AField )
+         Else
+          if Assigned(AMapImages) Then
+           aimageIndex := AMapImages.ImageIndexOf ( AField.Asstring )
+          else
+           if AField is tNumericField Then
+            Begin
+              aimageIndex := AField.AsInteger;
+            end;
+        if aimageIndex <> -1 Then
+         Begin
+           ABitmap := TBitmap.Create;
+           Aimages.GetBitmap ( aimageIndex, ABitmap );
+           with AImage do
+            p_ChangeTailleBitmap(ABitmap,Height,Width,True);
+           ABitmap.Transparent:=True;
+           with AImage.Picture.Bitmap do
+            Begin
+             Canvas.Brush.Color := clWhite;
+             Width  := ACellWidth;
+             Height := Abitmap.Height;
+             Canvas.FillRect(
+               {$IFNDEF FPC} Rect (  {$ENDIF}
+               0, 0, ACellWidth, Height {$IFNDEF FPC}){$ENDIF});
+             Canvas.Draw (( ACellWidth - Width ) div 2, 0, Abitmap );
+             Modified := True;
+            end;
+           with Abitmap do
+            Begin
+             {$IFNDEF FPC}
+             Dormant;
+             {$ENDIF}
+             FreeImage;
+             Free;
+            end;
+         end;
+      End;
+End;
+
+constructor TDMPrintModule.Create(AOwner: TComponent);
+begin
+  CreateNew(AOwner);
+  if (ClassType <> TDataModule) and
+     not (csDesigning in ComponentState) then
+    begin
+    if OldCreateOrder then
+      DoCreate;
+    end;
+end;
 
 { TExtPrintColumns }
 
@@ -224,62 +298,17 @@ begin
   FDBTitle:='';
   FFieldName:='';
   FDatasource := nil;
+  FLineBreak:=-1;
 end;
 
-procedure p_DrawReportImage( Sender:TObject; var PrintIt:boolean);
-var aimageindex : Integer;
-    Abitmap : Tbitmap ;
-    ADatasource : TDatasource;
-    I : Integer;
-Begin
-  for i := 0 to high ( RLListImages ) do
-   with RLListImages [ i ] do
-    if AImage = Sender Then
-      Begin
-        aimageIndex:=-1;
-        if assigned ( AGetImageIndex )
-         Then aimageIndex := AGetImageIndex ( AImage, AField )
-         Else
-          if Assigned(AMapImages) Then
-           aimageIndex := AMapImages.ImageIndexOf ( AField.Asstring )
-          else
-           if AField is tNumericField Then
-            Begin
-              aimageIndex := AField.AsInteger;
-            end;
-        if aimageIndex <> -1 Then
-         Begin
-           ABitmap := TBitmap.Create;
-           Aimages.GetBitmap ( aimageIndex, ABitmap );
-           with AImage do
-            p_ChangeTailleBitmap(ABitmap,Height,Width,True);
-           with AImage.Picture,Abitmap do
-            Begin
-             Bitmap.Canvas.Brush.Color := clWhite;
-             Bitmap.Width  := Width;
-             Bitmap.Height := Height;
-             Bitmap.Canvas.FillRect(
-               {$IFNDEF FPC} Rect (  {$ENDIF}
-               0, 0, ACellWidth, Height {$IFNDEF FPC}){$ENDIF});
-             Bitmap.Canvas.Draw (( ACellWidth - Width ) div 2, 0, Abitmap );
-             Bitmap.Modified := True;
-             {$IFNDEF FPC}
-             Dormant;
-             {$ENDIF}
-             FreeImage;
-             Free;
-            end;
-         end;
-      End;
-End;
 
-function fb_CreateReport ( const AReportComponent : TComponent ;const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
+function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth, ALinesAddedHeader, ALinesAddedColumns : Integer;
     ARLLabel : TRLLabel;
     ARLDBText : TRLDBText;
     ARLImage : TRLImage;
     ARLBand : TRLBand;
-    AImages : TCustomImageList;
+    LImages : TCustomImageList;
     ARLSystemInfo : TRLSystemInfo;
   // procedure p_AdaptBands;
   // Compressing
@@ -416,7 +445,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
             if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Resize, True )
               Then inc ( aresizecolumns );
            end;
-          if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 ) <> -1
+          if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 ) > -1
            Then
             Begin
               inc ( ALinesAddedColumns );
@@ -523,7 +552,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
             Alines:= high ( LString )+1;
            inc ( SomeLeft, aWidth );
            LIsFirst := False;
-           if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 ) >= 0 Then
+           if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK ) > -1 Then
             Break;
          end;
 
@@ -537,7 +566,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
   procedure p_DesignCell(const AItem : TCollectionItem ;var AIsFirst : Boolean; var ATop,Aline : Integer);
   Begin
     p_DrawBorders ( ARLDBText.Borders, ExtColumnColorBorder, AIsFirst, ExtColumnHBorders, ExtColumnVBorders );
-    if flin_getComponentProperty ( AItem, CST_PRINT_COLUMN_LINEBREAK, -1 ) <> -1 Then
+    if assigned ( AItem )
+    and ( flin_getComponentProperty ( AItem, CST_PRINT_COLUMN_LINEBREAK ) > -1 ) Then
      Begin
        inc ( Atop, ARLDBText.Height );
        SomeLeft:=0;
@@ -548,36 +578,42 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
 
   procedure p_CreatePrintField ( const AItem : TCollectionItem ; var AIsFirst : Boolean; var ATop, Aline : Integer ; const AIWidth : Integer ; const Adataset : TDataset );
   var I : Integer;
+      lmet_Methode: TMethod;
   Begin
-    AImages:= fobj_getComponentObjectProperty ( AItem,'Images') as TCustomImageList;
-    if AImages <> nil Then
+    if assigned ( AItem ) Then
      Begin
-       p_createImage (SomeLeft,2,aWidth-4);
-       p_DrawBorders ( ARLImage.Borders, ExtColumnColorBorder, AIsFirst, ExtColumnHBorders, ExtColumnVBorders );
-       ARLImage.BeforePrint := TRLBeforePrintEvent ( fmet_getComponentMethodProperty  ( AReportComponent, 'DrawReportImage' ));
-       SetLength ( RLListImages, high ( RLListImages ) + 2 );
-       with RLListImages [ high ( RLListImages )] do
-        Begin
-          AImage := ARLImage ;
-          AField := Adataset.FieldByName ( fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME));
-          AGetImageIndex := TFieldIndexEvent (fmet_getComponentMethodProperty( AItem, 'OnGetImageIndex' ));
-          AMapImages := fobj_getComponentObjectProperty( AItem, 'MapImages' ) as TExtMapImages;
-          AWidth  := flin_getComponentProperty ( AItem, CST_COLUMN_Width );
-          ABand   := ARLBand;
-        end;
-     end
-    Else
-    { for i := 0 to ALinesAddedColumns do
-      if i = Aline Then}
+      LImages:= fobj_getComponentObjectProperty ( AItem,'Images') as TCustomImageList;
+      if LImages <> nil Then
+       Begin
+         p_createImage (SomeLeft,ATop,aWidth-4);
+         p_DrawBorders ( ARLImage.Borders, ExtColumnColorBorder, AIsFirst, ExtColumnHBorders, ExtColumnVBorders );
+         lmet_Methode.Data :=  ExtPrintModule ;
+         lmet_Methode.Code := ExtPrintModule.MethodAddress(CST_PRINT_COMPONENT_EVENT);
+         ARLImage.BeforePrint := TRLBeforePrintEvent ( lmet_Methode );
+         SetLength ( RLListImages, high ( RLListImages ) + 2 );
+         with RLListImages [ high ( RLListImages )] do
+          Begin
+            AImage  := ARLImage ;
+            AImages := LImages ;
+            ACellWidth:=AIWidth;
+            AField := Adataset.FieldByName ( fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME));
+            AGetImageIndex := TFieldIndexEvent (fmet_getComponentMethodProperty( AItem, 'OnGetImageIndex' ));
+            AMapImages := fobj_getComponentObjectProperty( AItem, 'MapImages' ) as TExtMapImages;
+            AWidth  := flin_getComponentProperty ( AItem, CST_COLUMN_Width );
+            ABand   := ARLBand;
+          end;
+       end
+      Else
        Begin
         p_createDBText(SomeLeft,ATop,aWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME));
         p_DesignCell( AItem, AIsFirst, ATop, Aline );
-{       end
-       Else
-       Begin
-        p_createLabel(SomeLeft,ATop,aWidth, ExtColumnFont, '' );
-        p_DesignCell( AItem, AIsFirst, ATop, Aline );}
        end
+    End
+   Else
+     Begin
+      p_createLabel(SomeLeft,ATop,aWidth, ExtColumnFont, '' );
+      p_DesignCell( AItem, AIsFirst, ATop, Aline );
+     end
   end;
 
   procedure p_InitList(var ATop : Integer; var AIsFirst : Boolean );
@@ -611,7 +647,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
     p_AdaptBands ( LIsFirst );
   end;
   procedure CreateListPrint;
-  var i,ALine, ATop, ADecColumn : Integer;
+  var i,j,Aline,ATop, ADecColumn : Integer;
       LIsFirst : Boolean;
   Begin
     ALine := 0;
@@ -627,14 +663,28 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
            awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ), i );
            p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
            inc ( ADecColumn );
-           if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 ) <> -1 Then
-            ADecColumn := flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 ) ;
-           inc ( SomeLeft, aWidth );
-           LIsFirst := False;
+           if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK ) > -1 Then
+            Begin
+              ADecColumn := flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK ) ;
+              SomeLeft:=0;
+              LIsFirst := True;
+              for j := 0 to ADecColumn - 1 do
+               if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Visible, True ) Then
+                  Begin
+                    awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ), i );
+                    p_CreatePrintField ( nil, LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
+                    inc(SomeLeft,aWidth);
+                   end
+            end
+           else
+            Begin
+              inc ( SomeLeft, aWidth );
+              LIsFirst := False;
+            end;
          end;
 
       End;
-    p_AdaptBands ( LIsFirst, ALinesAddedColumns );
+    p_AdaptBands ( LIsFirst, ALinesAddedColumns + 1 );
   end;
 Begin
   Result := False;
@@ -650,11 +700,11 @@ Begin
   AReport.DataSource:=ADatasource;
 end;
 
-function fref_CreateReport ( const AReportComponent : TComponent ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
+function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
 Begin
   Result := TReportForm.create ( Application );
   Result.RLReport.DefaultFilter:=acf_filter;
-  fb_CreateReport ( AReportComponent, Result.RLReport, agrid, ADatasource, AColumns, Result.Canvas, as_Title );
+  fb_CreateReport ( Result.RLReport, agrid, ADatasource, AColumns, Result.Canvas, as_Title );
 end;
 
 initialization
@@ -671,8 +721,10 @@ initialization
   ExtColumnHeaderFont.Color := CST_PRINT_COLUMN_TITLE_FONT_COLOR;
   ExtColumnHeaderFont.Style := CST_PRINT_COLUMN_TITLE_FONT_STYLE;
   ExtColumnFont      .Color := CST_PRINT_COLUMN_FONT_COLOR;
+  ExtPrintModule := TDMPrintModule.Create(Application);
 finalization
   ExtTitleColorFont  .Free;
   ExtColumnHeaderFont.Free;
   ExtColumnFont      .Free;
+//  ExtPrintModule     .Free;
 end.
