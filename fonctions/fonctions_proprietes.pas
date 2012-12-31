@@ -53,7 +53,7 @@ procedure p_SetComponentProperty ( const aComp_ComponentToSet : TObject ; const 
 procedure p_SetComponentProperty ( const aComp_ComponentToSet : TObject ; const as_PropertyName : String ; const aTyp_PropertyType : TTypeKind ; const a_ValueToSet : Variant ); overload;
 function fvar_getComponentProperty ( const aComp_ComponentToSet : TObject ; const as_PropertyName : String ; const aTyp_PropertyType : TTypeKind ) : Variant ; overload;
 function fvar_getComponentProperty ( const aComp_ComponentToSet : TObject ; const as_PropertyName : String ) : Variant ; overload;
-function flin_getComponentProperty ( const aComp_ComponentToSet : TObject ; const as_PropertyName : String ) : LongInt ; overload;
+function flin_getComponentProperty ( const aComp_ComponentToSet : TObject ; const as_PropertyName : String ; const AResult : Longint = -1 ) : LongInt ; overload;
 function fs_getComponentProperty ( const aComp_ComponentToSet : TObject ; const as_PropertyName : String ) : String ; overload;
 function fb_getComponentBoolProperty ( const aComp_ComponentToSet : TObject ; const as_PropertyName : String ; const AResult : Boolean = False ) : Boolean ;
 procedure p_SetComponentBoolProperty ( const aComp_ComponentToSet : TObject ; const as_PropertyName : String ; const a_ValueToSet : Boolean );
@@ -155,9 +155,9 @@ End ;
 // récupère une propriété avec un certain type
 // aComp_ComponentToSet : Composant cible
 // as_PropertyName      : Propriété cible
-function flin_getComponentProperty ( const aComp_ComponentToSet : TObject ; const as_PropertyName : String ) : LongInt ;
+function flin_getComponentProperty ( const aComp_ComponentToSet : TObject ; const as_PropertyName : String ; const AResult : Longint = -1 ) : LongInt ;
 Begin
-  Result := -1 ;
+  Result := AResult ;
   if   assigned ( GetPropInfo ( aComp_ComponentToSet, as_PropertyName ))
   Then Result := getPropValue    ( aComp_ComponentToSet, as_PropertyName, False );
 End ;
