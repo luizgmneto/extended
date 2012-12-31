@@ -71,18 +71,13 @@ end;
 
 constructor TDMAdaptForms.Create(AOwner: TComponent);
 begin
-  Try
-    GlobalNameSpace.BeginWrite;
-
-    {$IFDEF FPC}
-    CreateNew(AOwner, 1 );
-    {$ELSE}
-    CreateNew(AOwner);
-    {$ENDIF}
-  Finally
-    GlobalNameSpace.EndWrite;
-  End
-
+  CreateNew(AOwner);
+  if (ClassType <> TDataModule) and
+     not (csDesigning in ComponentState) then
+    begin
+    if OldCreateOrder then
+      DoCreate;
+    end;
 end;
 
 function fb_CalculateScale ( var AEchelle : Extended ):Boolean;

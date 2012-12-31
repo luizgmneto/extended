@@ -52,7 +52,7 @@ type
 
   { TFWPrintData }
 
-  TFWPrintData = class(TComponent,IPrintComponent)
+  TFWPrintData = class(TComponent)
   private
     FFilter: TRLCustomPrintFilter;
     FDataLink: TDataLink;
@@ -76,7 +76,6 @@ type
     procedure AddPreview ( const AReport : TRLReport ); virtual;
     property  ResultForm : TReportForm read FReportForm;
   published
-    procedure DrawReportImage( Sender:TObject; var PrintIt:boolean);  virtual;
     property Datasource: TDatasource read GetDatasource write SetDatasource;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
     property DBTitle: string read FDBTitle write FDBTitle;
@@ -87,7 +86,7 @@ type
 
   { TFWPrintGrid }
 
-  TFWPrintGrid = class(TFWPrint,IPrintComponent)
+  TFWPrintGrid = class(TFWPrint)
   private
     FFilter: TRLCustomPrintFilter;
     FDBGrid: TCustomDBGrid;
@@ -100,7 +99,6 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure Click; override;
   published
-    procedure DrawReportImage( Sender:TObject; var PrintIt:boolean); virtual;
     property DBGrid: TCustomDBGrid read FDBGrid write SetDBGrid;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
     property DBTitle: string read FDBTitle write FDBTitle;
@@ -211,16 +209,11 @@ begin
   if assigned(FDataLink) then
   if AReport = nil
    Then
-     FReportForm := fref_CreateReport(Self,nil, FDataLink.DataSource, FColumns, FDBTitle,  FFilter)
+     FReportForm := fref_CreateReport(nil, FDataLink.DataSource, FColumns, FDBTitle,  FFilter)
    Else
      Begin
-       fb_CreateReport(Self,AReport,nil, FDataLink.DataSource, FColumns, AReport.Background.Picture.Bitmap.Canvas, FDBTitle);
+       fb_CreateReport(AReport,nil, FDataLink.DataSource, FColumns, AReport.Background.Picture.Bitmap.Canvas, FDBTitle);
      end;
-end;
-
-procedure TFWPrintData.DrawReportImage(Sender: TObject; var PrintIt: boolean);
-begin
-  p_DrawReportImage ( Sender, PrintIt );
 end;
 
 procedure TFWPrintData.ActiveChanged;
@@ -269,7 +262,7 @@ begin
       fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)).DataSet do
   begin
     DisableControls;
-    with fref_CreateReport(Self,FDBGrid, TDataSource(
+    with fref_CreateReport(FDBGrid, TDataSource(
       fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)), TCollection(
       fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, FFilter) do
         try
@@ -282,10 +275,6 @@ begin
   end;
 end;
 
-procedure TFWPrintGrid.DrawReportImage(Sender: TObject; var PrintIt: boolean);
-begin
-  p_DrawReportImage ( Sender, PrintIt );
-end;
 
 {$IFDEF VERSIONS}
 initialization
