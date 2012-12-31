@@ -48,6 +48,8 @@ const
   CST_PRINT_TITLE_FONT_COLOR  = clBlack;
   CST_PRINT_COLUMN_TITLE_FONT_COLOR = clBlack;
   CST_PRINT_COLUMN_TITLE_FONT_STYLE = [fsBold];
+  CST_PRINT_COLUMN_BREAKCAPTION = 'BreakCaption' ;
+  CST_PRINT_COLUMN_LINEBREAK = 'LineBreak' ;
 
 type TBoolArray = Array of Boolean;
   TPrintDrawReportImage= procedure ( Sender:TObject; var PrintIt:boolean) of object;
@@ -59,11 +61,12 @@ type TBoolArray = Array of Boolean;
 
   TExtPrintColumn = class(TCollectionItem)
    private
-     FWidth   : Integer ;
      FLineBreak,
+     FWidth   : Integer ;
      FResize   ,
      FVisible  : Boolean;
-     FDBTitle : string;
+     FBreakCaption,
+     FDBTitle ,
      FFieldName : String;
      FDatasource : TDatasource;
      FImages : TCustomImageList;
@@ -78,7 +81,8 @@ type TBoolArray = Array of Boolean;
      property Width     : Integer  read FWidth   write FWidth default 40;
      property Resize    : Boolean  read FResize  write FResize  default False;
      property Visible   : Boolean  read FVisible write FVisible default true;
-     property LineBreak : Boolean  read FLineBreak write FLineBreak default False;
+     property LineBreak : Integer  read FLineBreak write FLineBreak default -1;
+     property BreakCaption : String  read FBreakCaption write FBreakCaption;
      property DBTitle   : string   read FDBTitle write FDBTitle;
      property FieldName : string   read GetFieldName write FFieldName;
      property Images    : TCustomImageList read FImages    write SetImages;
@@ -392,9 +396,11 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
 
   procedure PreparePrint;
   var i, Aline : Integer;
+      lcountedcolumn : Boolean;
   Begin
     ALinesAddedHeader:=0;
     ALinesAddedColumns:=0;
+    lcountedcolumn := True;
     with agrid,AReport do
      Begin
       Clear;
@@ -403,12 +409,19 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
         if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Visible, True )
         and ( flin_getComponentProperty( Items [ i ], CST_COLUMN_Width ) > 4 ) Then
          Begin
-          inc ( totalgridwidth, flin_getComponentProperty(Items [ i ], CST_COLUMN_Width ) );
-          inc ( aVisibleColumns );
-          if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Resize, True )
-            Then inc ( aresizecolumns );
-          if fb_getComponentBoolProperty ( Items [ i ], 'LineBreak', False )
-           Then inc ( ALinesAddedColumns );
+          if lcountedcolumn Then
+           Begin
+            inc ( totalgridwidth, flin_getComponentProperty(Items [ i ], CST_COLUMN_Width ) );
+            inc ( aVisibleColumns );
+            if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Resize, True )
+              Then inc ( aresizecolumns );
+           end;
+          if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 ) <> -1
+           Then
+            Begin
+              inc ( ALinesAddedColumns );
+              lcountedcolumn := False;
+            end;
          end;
       if aVisibleColumns >= ExtLandscapeColumnscount
        Then PageSetup.Orientation:=poLandscape
@@ -487,6 +500,13 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
       for i := 0 to Count - 1 do
         if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Visible, True ) Then
          Begin
+          if fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION ) <> '' Then
+            Begin
+             ATempCanvas.font.Assign(ExtColumnFont);
+             aWidth:=ATempCanvas.TextWidth(fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION ));
+             ATempCanvas.font.Assign(ExtColumnHeaderFont);
+             inc ( SomeLeft, aWidth );
+            end;
            awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
           if agrid = nil
            Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' ')
@@ -503,6 +523,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
             Alines:= high ( LString )+1;
            inc ( SomeLeft, aWidth );
            LIsFirst := False;
+           if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 ) >= 0 Then
+            Break;
          end;
 
     finally
@@ -511,10 +533,11 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
    p_AdaptBands ( LIsFirst, Alines );
   end;
 
+  // borders and line break
   procedure p_DesignCell(const AItem : TCollectionItem ;var AIsFirst : Boolean; var ATop,Aline : Integer);
   Begin
     p_DrawBorders ( ARLDBText.Borders, ExtColumnColorBorder, AIsFirst, ExtColumnHBorders, ExtColumnVBorders );
-    if fb_getComponentBoolProperty ( AItem, 'LineBreak', False ) then
+    if flin_getComponentProperty ( AItem, CST_PRINT_COLUMN_LINEBREAK, -1 ) <> -1 Then
      Begin
        inc ( Atop, ARLDBText.Height );
        SomeLeft:=0;
@@ -544,16 +567,16 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
         end;
      end
     Else
-     for i := 0 to ALinesAddedColumns do
-      if i = Aline Then
+    { for i := 0 to ALinesAddedColumns do
+      if i = Aline Then}
        Begin
         p_createDBText(SomeLeft,ATop,aWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME));
         p_DesignCell( AItem, AIsFirst, ATop, Aline );
-       end
+{       end
        Else
        Begin
         p_createLabel(SomeLeft,ATop,aWidth, ExtColumnFont, '' );
-        p_DesignCell( AItem, AIsFirst, ATop, Aline );
+        p_DesignCell( AItem, AIsFirst, ATop, Aline );}
        end
   end;
 
@@ -588,10 +611,11 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
     p_AdaptBands ( LIsFirst );
   end;
   procedure CreateListPrint;
-  var i,ALine, ATop : Integer;
+  var i,ALine, ATop, ADecColumn : Integer;
       LIsFirst : Boolean;
   Begin
     ALine := 0;
+    ADecColumn := 0;
     with ADatasource.DataSet,AReport do
      Begin
       p_InitList ( ATop, LIsFirst );
@@ -600,14 +624,17 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
         if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Visible, True )
         and ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ) > 4 ) Then
          Begin
-           awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
+           awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ), i );
            p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
+           inc ( ADecColumn );
+           if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 ) <> -1 Then
+            ADecColumn := flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 ) ;
            inc ( SomeLeft, aWidth );
            LIsFirst := False;
          end;
 
       End;
-    p_AdaptBands ( LIsFirst );
+    p_AdaptBands ( LIsFirst, ALinesAddedColumns );
   end;
 Begin
   Result := False;
