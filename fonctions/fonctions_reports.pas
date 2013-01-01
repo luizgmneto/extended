@@ -651,27 +651,30 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
       LIsFirst : Boolean;
   Begin
     ALine := 0;
-    ADecColumn := 0;
+    ADecColumn := -1;
     with ADatasource.DataSet,AReport do
      Begin
       p_InitList ( ATop, LIsFirst );
       with aColumns do
       for i := 0 to Count - 1 do
-        if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Visible, True )
-        and ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ) > 4 ) Then
+       Begin
+        inc ( ADecColumn );
+        if fb_getComponentBoolProperty ( Items [ ADecColumn ], CST_COLUMN_Visible, True )
+        and ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ) > 4 ) Then
          Begin
-           awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ), i );
+           awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ), ADecColumn );
            p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
-           inc ( ADecColumn );
-           if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK ) > -1 Then
+           j := flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK );
+           if  ( j > -1 )
+           and ( j < ADecColumn ) Then
             Begin
-              ADecColumn := flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK ) ;
+              ADecColumn := j - 1;
               SomeLeft:=0;
               LIsFirst := True;
-              for j := 0 to ADecColumn - 1 do
-               if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Visible, True ) Then
+              for j := 0 to ADecColumn do
+               if fb_getComponentBoolProperty ( Items [ j ], CST_COLUMN_Visible, True ) Then
                   Begin
-                    awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ), i );
+                    awidth:=fi_resize ( flin_getComponentProperty ( Items [ j ], CST_COLUMN_Width ), j );
                     p_CreatePrintField ( nil, LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
                     inc(SomeLeft,aWidth);
                    end
@@ -682,6 +685,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
               LIsFirst := False;
             end;
          end;
+       End;
 
       End;
     p_AdaptBands ( LIsFirst, ALinesAddedColumns + 1 );

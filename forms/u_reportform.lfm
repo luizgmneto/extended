@@ -24,4 +24,30 @@ inherited ReportForm: TReportForm
     Align = alTop
     TabOrder = 1
   end
+  object RLRichFilter: TRLRichFilter[2]
+    DisplayName = 'Format RichText'
+    left = 103
+    top = 76
+  end
+  object RLPDFFilter: TRLPDFFilter[3]
+    DocumentInfo.Creator = 'FortesReport (Open Source) v3.24(B14)  \251 Copyright © 1999-2008 Fortes Informática'
+    DocumentInfo.ModDate = 0
+    ViewerOptions = []
+    FontEncoding = feNoEncoding
+    DisplayName = 'Document PDF'
+    left = 103
+    top = 157
+  end
+  object RLHTMLFilter: TRLHTMLFilter[4]
+    DocumentStyle = dsCSS2
+    DisplayName = 'Page Web'
+    left = 227
+    top = 79
+  end
+  object RLDraftFilter1: TRLDraftFilter[5]
+    FontSizeReal = False
+    DisplayName = 'RLDraftFilter'
+    left = 217
+    top = 166
+  end
 end

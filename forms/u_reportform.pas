@@ -13,15 +13,20 @@ uses
 {$ELSE}
 {$ENDIF}
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  CompSuperForm, RLReport;
+  CompSuperForm, RLReport, RLRichFilter, RLPDFFilter, RLHTMLFilter,
+  RLDraftFilter;
 
 type
 
   { TReportForm }
 
   TReportForm = class(TSuperForm)
+    RLDraftFilter1: TRLDraftFilter;
+    RLHTMLFilter: TRLHTMLFilter;
+    RLPDFFilter: TRLPDFFilter;
     RLReport: TRLReport;
     Panel1: TPanel;
+    RLRichFilter: TRLRichFilter;
   private
     { private declarations }
   public

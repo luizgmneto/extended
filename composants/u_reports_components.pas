@@ -74,7 +74,7 @@ type
     destructor  Destroy; override;
     procedure ShowPreview; virtual;
     procedure AddPreview ( const AReport : TRLReport ); virtual;
-    property  ResultForm : TReportForm read FReportForm;
+    property  FormReport : TReportForm read FReportForm;
   published
     property Datasource: TDatasource read GetDatasource write SetDatasource;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
@@ -199,8 +199,6 @@ begin
    Finally
      FDataLink.DataSet.EnableControls;
      Finalize ( RLListImages );
-     Destroy;
-     FReportForm := nil;
    End;
 end;
 
@@ -209,7 +207,15 @@ begin
   if assigned(FDataLink) then
   if AReport = nil
    Then
-     FReportForm := fref_CreateReport(nil, FDataLink.DataSource, FColumns, FDBTitle,  FFilter)
+    Begin
+      if FReportForm = nil Then
+       FReportForm := fref_CreateReport(nil, FDataLink.DataSource, FColumns, FDBTitle,  FFilter)
+      Else
+       Begin
+         FReportForm.Destroy;
+         FReportForm := fref_CreateReport(nil, FDataLink.DataSource, FColumns, FDBTitle,  FFilter)
+       end;
+    end
    Else
      Begin
        fb_CreateReport(AReport,nil, FDataLink.DataSource, FColumns, AReport.Background.Picture.Bitmap.Canvas, FDBTitle);
