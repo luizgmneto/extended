@@ -40,6 +40,7 @@ const
 {$ENDIF}
   CST_COLUMN_Visible = 'Visible';
   CST_COLUMN_Width   = 'Width';
+  CST_COLUMN_MIN_Width= 4;
   CST_COLUMN_Resize  = 'Resize';
   CST_COLUMN_Title   = 'Title';
   CST_COLUMN_Images  = 'Images';
@@ -424,7 +425,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
   end;
 
   procedure PreparePrint;
-  var i, Aline : Integer;
+  var i, Aline, ATemp : Integer;
       lcountedcolumn : Boolean;
   Begin
     ALinesAddedHeader:=0;
@@ -436,7 +437,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
       for i := 0 to aColumns.Count - 1 do
        with aColumns do
         if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Visible, True )
-        and ( flin_getComponentProperty( Items [ i ], CST_COLUMN_Width ) > 4 ) Then
+        and ( flin_getComponentProperty( Items [ i ], CST_COLUMN_Width ) > CST_COLUMN_MIN_Width ) Then
          Begin
           if lcountedcolumn Then
            Begin
@@ -445,7 +446,9 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
             if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Resize, True )
               Then inc ( aresizecolumns );
            end;
-          if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 ) > -1
+          ATemp := flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 );
+          if  ( ATemp > -1 )
+          and ( ATemp < i  )
            Then
             Begin
               inc ( ALinesAddedColumns );
@@ -585,7 +588,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
       LImages:= fobj_getComponentObjectProperty ( AItem,'Images') as TCustomImageList;
       if LImages <> nil Then
        Begin
-         p_createImage (SomeLeft,ATop,aWidth-4);
+         p_createImage (SomeLeft,ATop,aiWidth-4);
          p_DrawBorders ( ARLImage.Borders, ExtColumnColorBorder, AIsFirst, ExtColumnHBorders, ExtColumnVBorders );
          lmet_Methode.Data :=  ExtPrintModule ;
          lmet_Methode.Code := ExtPrintModule.MethodAddress(CST_PRINT_COMPONENT_EVENT);
@@ -599,19 +602,18 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
             AField := Adataset.FieldByName ( fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME));
             AGetImageIndex := TFieldIndexEvent (fmet_getComponentMethodProperty( AItem, 'OnGetImageIndex' ));
             AMapImages := fobj_getComponentObjectProperty( AItem, 'MapImages' ) as TExtMapImages;
-            AWidth  := flin_getComponentProperty ( AItem, CST_COLUMN_Width );
             ABand   := ARLBand;
           end;
        end
       Else
        Begin
-        p_createDBText(SomeLeft,ATop,aWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME));
+        p_createDBText(SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME));
         p_DesignCell( AItem, AIsFirst, ATop, Aline );
        end
     End
    Else
      Begin
-      p_createLabel(SomeLeft,ATop,aWidth, ExtColumnFont, '' );
+      p_createLabel(SomeLeft,ATop,aiWidth, ExtColumnFont, '' );
       p_DesignCell( AItem, AIsFirst, ATop, Aline );
      end
   end;
@@ -625,6 +627,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
     ATop := 0;
   end;
 
+  // Print TFWPrintGrid
   procedure CreateListGrid;
   var i,ALine, ATop : Integer;
       LIsFirst : Boolean;
@@ -636,7 +639,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
       with aColumns do
       for i := 0 to Count - 1 do
         if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Visible, True )
-        and ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ) > 4 ) Then
+        and ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ) > CST_COLUMN_MIN_Width ) Then
          Begin
            awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
            p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
@@ -646,6 +649,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
       End;
     p_AdaptBands ( LIsFirst );
   end;
+  // Print TFWPrintData
   procedure CreateListPrint;
   var i,j,Aline,ATop, ADecColumn : Integer;
       LIsFirst : Boolean;
@@ -658,21 +662,22 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
       with aColumns do
       for i := 0 to Count - 1 do
        Begin
-        inc ( ADecColumn );
+        inc ( ADecColumn ); // for linebreak
         if fb_getComponentBoolProperty ( Items [ ADecColumn ], CST_COLUMN_Visible, True )
-        and ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ) > 4 ) Then
+        and ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ) > CST_COLUMN_MIN_Width ) Then
          Begin
            awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ), ADecColumn );
            p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
            j := flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK );
-           if  ( j > -1 )
+           if  ( j > -1 ) // linebreak ?
            and ( j < ADecColumn ) Then
             Begin
               ADecColumn := j - 1;
               SomeLeft:=0;
-              LIsFirst := True;
+              // aligning
               for j := 0 to ADecColumn do
-               if fb_getComponentBoolProperty ( Items [ j ], CST_COLUMN_Visible, True ) Then
+               if fb_getComponentBoolProperty ( Items [ j ], CST_COLUMN_Visible, True )
+               and ( flin_getComponentProperty ( Items [ j ], CST_COLUMN_Width ) > CST_COLUMN_MIN_Width ) Then
                   Begin
                     awidth:=fi_resize ( flin_getComponentProperty ( Items [ j ], CST_COLUMN_Width ), j );
                     p_CreatePrintField ( nil, LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
