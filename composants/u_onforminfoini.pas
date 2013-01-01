@@ -409,7 +409,8 @@ var
 
     // lecture de la position des objets Panels et Rxsplitters
     if  ( sfSaveSizes in FSaveForm )
-    and (   lcom_Component is {$IFDEF FPC}TCustomSplitter{$ELSE}TSplitter{$ENDIF})
+     and (   lcom_Component is {$IFDEF FPC}TCustomSplitter{$ELSE}TSplitter{$ENDIF})
+     and (   lcom_Component as TControl ).Visible
      then
       begin
         lal_Align := ( lcom_Component as TControl).Align;
@@ -801,6 +802,7 @@ var
     and ((   lcom_Component is {$IFDEF FPC}TCustomSplitter{$ELSE}TSplitter{$ENDIF}  )
           or lcom_Component.ClassNameIs(CST_ONFORMINI_JVSPLITTER)
           or lcom_Component.ClassNameIs(CST_ONFORMINI_RXSPLITTER))
+    and (   lcom_Component as TControl ).Visible
       then
        begin
         lal_Align := ( lcom_Component as TControl).Align;
