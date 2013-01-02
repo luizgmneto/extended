@@ -1,4 +1,4 @@
-unit u_scrollclones;
+﻿unit u_scrollclones;
 
 {$i ..\extends.inc}
 {$IFDEF FPC}
@@ -36,11 +36,11 @@ type
   private
     FPanelCloned : TPanel;
     FCols, FRows : Word;
-    FAutoControls : TFPList;
+    FAutoControls : {$IFDEF FPC}TFPList{$ELSE}TList{$ENDIF};
     FOnClone, FOnCloningControl,
     FOnCloningPanel, FOnBeginClones,
     FOnEndClones : TNotifyEvent;
-    function GetAutoControl ( const Index : Integer ):TControl;
+    function GetAutoControl ( Index : Integer ):TControl;
     function GetAutoControlCount : Integer;
   protected
     procedure Loaded; override;
@@ -72,7 +72,7 @@ type
 
 implementation
 
-uses fonctions_dbcomponents;
+uses fonctions_dbcomponents, fonctions_proprietes;
 { TExtClonedPanel }
 
 procedure TExtClonedPanel.SetCols(const Avalue: Word);
@@ -85,7 +85,7 @@ begin
    end;
 end;
 
-function TExtClonedPanel.GetAutoControl(const Index: Integer):TControl;
+function TExtClonedPanel.GetAutoControl( Index: Integer):TControl;
 begin
   if  ( Index >= 0 )
   and ( Index < FAutoControls.Count )
@@ -201,7 +201,7 @@ Begin
                  Begin
                   Parent := LPanel;
                   Name := FPanelCloned.Controls [ k ].Name + LEndName;
-                  Caption:=FPanelCloned.Controls [ k ].Caption;
+                  p_SetComponentProperty ( LControl, CST_PROPERTY_CAPTION, fs_getComponentProperty ( FPanelCloned.Controls [ k ], CST_PROPERTY_CAPTION ));
                   Tag  := ltag;
                  end;
                ControlEvent(LControl);
@@ -232,7 +232,7 @@ begin
   FPanelCloned:=nil;
   FRows:=1;
   FCols:=1;
-  FAutoControls := TFPList.Create;
+  FAutoControls := {$IFDEF FPC}TFPList{$ELSE}TList{$ENDIF}.Create;
   FOnBeginClones:=nil;
   FOnClone:=nil;
   FOnCloningControl:=nil;

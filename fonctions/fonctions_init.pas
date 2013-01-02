@@ -66,12 +66,6 @@ const
   INIPAR_CONNEXION = 'String de connexion';
   INIPAR_ACCESS    = 'String d''acces';
 
-  CST_INI_COLUMNS     = 'Columns' ;
-  CST_INI_TEXT        = 'Text' ;
-  CST_INI_ITEMS       = 'Items'  ;
-  CST_INI_ITEMINDEX   = 'ItemIndex'  ;
-  CST_INI_COUNT       = 'Count'  ;
-
   CST_MACHINE = 'MACHINE';
   CST_INI_DB   = 'db_';
   CST_INI_SOFT   = 'soft_';
@@ -353,7 +347,7 @@ var k, li_Width : Integer ;
     AColumns : TDBGridColumns;
 begin
   Result := False ;
-  AColumns := TDBGridColumns ( fobj_getComponentObjectProperty( agd_grid, CST_INI_COLUMNS));
+  AColumns := TDBGridColumns ( fobj_getComponentObjectProperty( agd_grid, CST_PROPERTY_COLUMNS));
   for k := 0 to aColumns.Count - 1 do
     Begin
 {$IFDEF FPC}
@@ -380,7 +374,7 @@ procedure p_IniWriteGridToIni ( const aini_IniFile : TCustomInifile ; const as_F
 var k : Integer ;
   AColumns : TDBGridColumns;
 begin
-  AColumns := TDBGridColumns ( fobj_getComponentObjectProperty( agd_grid, CST_INI_COLUMNS));
+  AColumns := TDBGridColumns ( fobj_getComponentObjectProperty( agd_grid, CST_PROPERTY_COLUMNS));
 
   for k := 0 to aColumns.Count - 1 do
 {$IFDEF FPC}
@@ -570,13 +564,13 @@ begin
     try
       LeTStrings.Clear;
       LeTStrings.BeginUpdate;
-      li_count:=FIni.ReadInteger(SectionIni, CST_INI_COUNT, 0 );
+      li_count:=FIni.ReadInteger(SectionIni, CST_PROPERTY_COUNT, 0 );
       for li_i := 1 to li_count do
        if FIni.ValueExists(SectionIni, 'L' + IntToStr(li_i))
         Then LeTStrings.Add(FIni.ReadString(SectionIni, 'L' + IntToStr(li_i), ''))
         Else LeTStrings.Add('');
       LeTStrings.EndUpdate;
-      ItemIndex := Fini.ReadInteger(SectionIni, CST_INI_ITEMINDEX, 0);
+      ItemIndex := Fini.ReadInteger(SectionIni, CST_PROPERTY_ITEMINDEX, 0);
     except
     end;
 end;
@@ -598,8 +592,8 @@ begin
     // L0= suivi du contenu de la première ligne du TStrings. puis L1= etc..
     FIni.WriteString(SectionIni, 'L' + IntToStr(li_i), LeTStrings[li_i-1]);// écrit dans le fichier ini
   end;
-  FIni.WriteInteger(SectionIni, CST_INI_ITEMINDEX, ItemIndex);
-  FIni.WriteInteger(SectionIni, CST_INI_COUNT, LeTStrings.Count);
+  FIni.WriteInteger(SectionIni, CST_PROPERTY_ITEMINDEX, ItemIndex);
+  FIni.WriteInteger(SectionIni, CST_PROPERTY_COUNT, LeTStrings.Count);
 end;
 
 procedure p_ReadComboBoxItems (  const acom_combobox : TComponent ;const Astl_Items : TStrings );
@@ -611,14 +605,14 @@ Begin
   and ( valItemIndex<=Astl_Items.Count-1)
    then
      try
-       p_SetComponentProperty(acom_combobox,CST_INI_ITEMINDEX,valItemIndex);
+       p_SetComponentProperty(acom_combobox,CST_PROPERTY_ITEMINDEX,valItemIndex);
      except
      end;
 
 end;
 procedure p_writeComboBoxItems (  const acom_combobox : TComponent ;const Astl_Items : TStrings );
 Begin
-  SauveTStringsDansIni(FInifile, acom_combobox.Name,Astl_Items,flin_getComponentProperty(acom_combobox, CST_INI_ITEMINDEX));
+  SauveTStringsDansIni(FInifile, acom_combobox.Name,Astl_Items,flin_getComponentProperty(acom_combobox, CST_PROPERTY_ITEMINDEX));
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

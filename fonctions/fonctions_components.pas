@@ -1,4 +1,4 @@
-unit fonctions_components;
+﻿unit fonctions_components;
 
 interface
 
@@ -81,9 +81,10 @@ Begin
     Height := acon_AControl.Height;
     Align  := acon_AControl.Align;
     Visible:= acon_AControl.Visible;
-    Caption:= acon_AControl.Caption;
-    Color  := acon_AControl.Color;
-    Font.Assign(acon_AControl.Font);
+    p_SetComponentProperty ( Result, CST_PROPERTY_TEXT      , fs_getComponentProperty ( acon_AControl, CST_PROPERTY_TEXT ));
+    p_SetComponentProperty ( Result, CST_PROPERTY_CAPTION   , fs_getComponentProperty ( acon_AControl, CST_PROPERTY_CAPTION ));
+    p_SetComponentProperty ( Result, CST_PROPERTY_COLOR     , fs_getComponentProperty ( acon_AControl, CST_PROPERTY_COLOR ));
+    p_SetComponentObjectProperty ( Result, CST_PROPERTY_FONT, fobj_getComponentObjectProperty ( acon_AControl, CST_PROPERTY_FONT ));
    end;
 End;
 
@@ -207,7 +208,7 @@ function fb_AutoComboInit ( const acom_Combo : TComponent ):Boolean;
 var astl_Items : TStrings;
 Begin
 
-  astl_Items:= TStrings( fobj_getComponentObjectProperty ( acom_Combo, CST_INI_ITEMS ));
+  astl_Items:= TStrings( fobj_getComponentObjectProperty ( acom_Combo, CST_PROPERTY_ITEMS ));
   if ( astl_Items = nil )
   or ( astl_Items.Count = 0 )
    Then
@@ -215,10 +216,10 @@ Begin
       Result:=False;
       Exit;
      end;
-  if ( flin_getComponentProperty( acom_Combo, CST_INI_ITEMINDEX ) < 0 )
+  if ( flin_getComponentProperty( acom_Combo, CST_PROPERTY_ITEMINDEX ) < 0 )
    Then
-    p_SetComponentProperty( acom_Combo, CST_INI_ITEMINDEX, 0 );
-  p_SetComponentProperty( acom_Combo, CST_INI_TEXT, astl_Items[flin_getComponentProperty( acom_Combo, CST_INI_ITEMINDEX )]);
+    p_SetComponentProperty( acom_Combo, CST_PROPERTY_ITEMINDEX, 0 );
+  p_SetComponentProperty( acom_Combo, CST_PROPERTY_TEXT, astl_Items[flin_getComponentProperty( acom_Combo, CST_PROPERTY_ITEMINDEX )]);
   Result := True;
 end;
 

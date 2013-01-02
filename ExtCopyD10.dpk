@@ -3,6 +3,7 @@ package ExtCopyD10;
 {$R *.res}
 {$R 'composants\u_traducefile.dcr'}
 {$R 'composants\U_ExtFileCopy.dcr'}
+{$R 'composants\u_traducefile.dcr'}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -66,15 +67,21 @@ requires
   JvDBD10R,
   JvCtrlsD10R,
   JvDlgsD10R,
-  JvCustomD10R;
+  JvCustomD10R,
+  ExtComponents,
+  dmenutoolbar,
+  TntUnicodeVcl_R90,
+  dcldklang10,
+  JvPageCompsD10R,
+  JvHMID10R,
+  JvCmpD10R,
+  JvGlobusD10R;
 
 contains
-  u_extabscopy in 'composants\u_extabscopy.pas',
-  fonctions_file in 'fonctions\fonctions_file.pas',
   U_ExtFileCopy in 'composants\U_ExtFileCopy.pas',
   u_regextfilecopy in 'composants\u_regextfilecopy.pas',
-  u_traducefile in 'composants\u_traducefile.pas',
   u_extractfile in 'composants\u_extractfile.pas',
-  unit_messagescopy_delphi in 'fonctions\unit_messagescopy_delphi.pas';
+  u_extabscopy in 'composants\u_extabscopy.pas',
+  u_traducefile in 'composants\u_traducefile.pas';
 
 end.

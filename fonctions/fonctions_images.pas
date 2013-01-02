@@ -1,4 +1,4 @@
-unit fonctions_images;
+﻿unit fonctions_images;
 
 interface
 
@@ -427,6 +427,7 @@ Begin
   Result := -1 ;
   // Peut ajouter un bitmap
   if ab_AjouteBitmap
+  and not aBmp_Picture.Empty
    Then
     Begin
       // Récupère le bitmap en petit
