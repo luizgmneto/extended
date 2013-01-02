@@ -81,9 +81,9 @@ Begin
     Height := acon_AControl.Height;
     Align  := acon_AControl.Align;
     Visible:= acon_AControl.Visible;
-    p_SetComponentProperty ( Result, CST_PROPERTY_TEXT      , fs_getComponentProperty ( acon_AControl, CST_PROPERTY_TEXT ));
-    p_SetComponentProperty ( Result, CST_PROPERTY_CAPTION   , fs_getComponentProperty ( acon_AControl, CST_PROPERTY_CAPTION ));
-    p_SetComponentProperty ( Result, CST_PROPERTY_COLOR     , fs_getComponentProperty ( acon_AControl, CST_PROPERTY_COLOR ));
+    p_SetComponentProperty ( Result, CST_PROPERTY_TEXT      , fs_getComponentProperty   ( acon_AControl, CST_PROPERTY_TEXT ));
+    p_SetComponentProperty ( Result, CST_PROPERTY_CAPTION   , fs_getComponentProperty   ( acon_AControl, CST_PROPERTY_CAPTION ));
+    p_SetComponentProperty ( Result, CST_PROPERTY_COLOR     , flin_getComponentProperty ( acon_AControl, CST_PROPERTY_COLOR ));
     p_SetComponentObjectProperty ( Result, CST_PROPERTY_FONT, fobj_getComponentObjectProperty ( acon_AControl, CST_PROPERTY_FONT ));
    end;
 End;
