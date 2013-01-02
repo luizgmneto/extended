@@ -490,10 +490,12 @@ begin
     MinButtonSize := Point(20, 20)
   else
     MinButtonSize := Point(32, 30);
-
+{$IFNDEF FPC}
   if Parent = nil
     Then CalcMinSize(Width,Height)
-    Else CalcMinSize(ClientWidth,ClientHeight);
+    Else
+{$ENDIF}
+      CalcMinSize(ClientWidth,ClientHeight);
 {$IFDEF DELPHI}
   ResInstance:= FindResourceHInstance(HInstance);
 {$ENDIF}
