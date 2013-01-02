@@ -491,7 +491,9 @@ begin
   else
     MinButtonSize := Point(32, 30);
 
-  CalcMinSize(ClientWidth,ClientHeight);
+  if Parent = nil
+    Then CalcMinSize(Width,Height)
+    Else CalcMinSize(ClientWidth,ClientHeight);
 {$IFDEF DELPHI}
   ResInstance:= FindResourceHInstance(HInstance);
 {$ENDIF}
@@ -501,6 +503,7 @@ begin
      Then
        FButtons [ i ] := TExtNavButton.Create (Self);
     Btn := FButtons [ i ];
+    Btn.Parent := Self;
     Btn.Flat := Flat;
     Btn.Index := I;
     LoadImageButton ( Btn );
@@ -511,7 +514,6 @@ begin
 
     Btn.OnClick := ButtonClickHandler;
     Btn.OnMouseDown := ButtonMouseDown;
-    Btn.Parent := Self;
   end;
 
   FButtons[nbEPrior].NavStyle := FButtons[nbEPrior].NavStyle + [nsAllowTimer];

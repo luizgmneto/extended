@@ -490,8 +490,8 @@ var
         or lcom_Component.ClassNameIs ( 'TFileNameEdit' ))
       then
         Begin
-         if IsPublishedProp(lcom_Component, CST_INI_TEXT )
-          Then ls_FilenameProp:=CST_INI_TEXT
+         if IsPublishedProp(lcom_Component, CST_PROPERTY_TEXT )
+          Then ls_FilenameProp:=CST_PROPERTY_TEXT
           Else ls_FilenameProp:=CST_ONFORMINI_FILENAME;
            p_SetComponentProperty (lcom_Component, ls_FilenameProp,
                                     fs_ReadString( lcom_Component.Name,
@@ -511,7 +511,7 @@ var
       Begin
        if IsPublishedProp(lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR )
         Then ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR
-        Else ls_DirnameProp:=CST_INI_TEXT;
+        Else ls_DirnameProp:=CST_PROPERTY_TEXT;
         ls_Temp := fs_ReadString(lcom_Component.Name, fs_getComponentProperty(lcom_Component, ls_DirnameProp));
         If DirectoryExists( ls_Temp ) Then
           Begin
@@ -572,10 +572,10 @@ var
     and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      then
       try
-        if   assigned ( GetPropInfo ( lcom_Component, CST_INI_TEXT ))
-        then SetPropValue    ( lcom_Component, CST_INI_TEXT ,fs_ReadString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_INI_TEXT,''))
-        Else if   assigned ( GetPropInfo ( lcom_Component, CST_INI_ITEMINDEX ))
-        Then SetPropValue    ( lcom_Component, CST_INI_ITEMINDEX ,fli_ReadInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_INI_ITEMINDEX,0));
+        if   assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_TEXT ))
+        then SetPropValue    ( lcom_Component, CST_PROPERTY_TEXT ,fs_ReadString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_PROPERTY_TEXT,''))
+        Else if   assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_ITEMINDEX ))
+        Then SetPropValue    ( lcom_Component, CST_PROPERTY_ITEMINDEX ,fli_ReadInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_PROPERTY_ITEMINDEX,0));
       Except
       End;
     if (lcom_Component.CLassNameIs( CST_ONFORMINI_EXTCOLOR)) and GetfeSauveEdit(FSaveEdits ,feTColorCombo)
@@ -889,7 +889,7 @@ var
       begin
        if IsPublishedProp(lcom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR )
         Then ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR
-        Else ls_DirnameProp:=CST_INI_TEXT;
+        Else ls_DirnameProp:=CST_PROPERTY_TEXT;
         p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component,ls_DirnameProp));
         Result := True;
       end;
@@ -905,8 +905,8 @@ var
         or lcom_Component.ClassNameIs ( 'TFileNameEdit' ))
       then
         Begin
-         if IsPublishedProp(lcom_Component, CST_INI_TEXT )
-          Then ls_FilenameProp:=CST_INI_TEXT
+         if IsPublishedProp(lcom_Component, CST_PROPERTY_TEXT )
+          Then ls_FilenameProp:=CST_PROPERTY_TEXT
           Else ls_FilenameProp:=CST_ONFORMINI_FILENAME;
         p_WriteString( lcom_Component.Name,
                        fs_getComponentProperty (lcom_Component, ls_FilenameProp ));
@@ -948,10 +948,10 @@ var
     and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      Then
       begin
-        if   assigned ( GetPropInfo ( lcom_Component, CST_INI_TEXT ))
-        then p_WriteString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_INI_TEXT, GetPropValue    ( lcom_Component, CST_INI_TEXT))
-        Else if   assigned ( GetPropInfo ( lcom_Component, CST_INI_ITEMINDEX ))
-        Then p_WriteInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_INI_ITEMINDEX, GetPropValue ( lcom_Component, CST_INI_ITEMINDEX ));
+        if   assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_TEXT ))
+        then p_WriteString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_PROPERTY_TEXT, GetPropValue    ( lcom_Component, CST_PROPERTY_TEXT))
+        Else if   assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_ITEMINDEX ))
+        Then p_WriteInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_PROPERTY_ITEMINDEX, GetPropValue ( lcom_Component, CST_PROPERTY_ITEMINDEX ));
           // No continue : Maybe a customcombo
         Result := True;
       End;

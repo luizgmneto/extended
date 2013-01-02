@@ -791,6 +791,16 @@ begin
     Color := gCol_Edit ;
 end;
 
+procedure TFWDBDateTimePicker.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited;
+  if Operation <> opRemove then
+   Exit;
+  if AComponent = FLabel then
+    MyLabel := nil;
+end;
+
 procedure TFWDBDateTimePicker.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
 Begin
   p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
