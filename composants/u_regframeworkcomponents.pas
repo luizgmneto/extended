@@ -81,8 +81,10 @@ initialization
   {$i U_ExtDBImageList.lrs}
   {$i u_extmapimageindex.lrs}
   {$i u_extimage.lrs}
+  {$i u_scrollclones.lrs}
   {$i PDBCheck.lrs}
   {$i PCheck.lrs}
+  {$I u_extmenucustomize.lrs}
 {$ENDIF}
 end.
 
