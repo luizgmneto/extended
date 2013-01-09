@@ -38,7 +38,7 @@ uses  {$IFDEF FPC}
      U_ExtDBImage, U_ExtDBImageList, U_ExtImage,
      U_ExtPictCombo, U_ExtDBPictCombo, U_ExtMapImageIndex,
      u_extdbgrid, PDBCheck, PCheck, u_scrollclones,
-     u_extradios;
+     u_extradios, u_extimagelist;
 
 procedure Register;
 begin
@@ -56,7 +56,8 @@ begin
                                                 TExtSearchDBEdit,TFWDBSpinEdit]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,TExtClonedPanel,TExtColorCombo,
                                                 TFWComboBox, TFWDateEdit,
-                                                TFWDateTimePicker, TFWEdit,TFWGrid,TExtImage,
+                                                TFWDateTimePicker, TFWEdit,TFWGrid,
+                                                TExtImage,TExtImageList,
                                                 TFWLabel,TFWMemo,
                                                 TExtNumEdit,TExtPictCombo,TExtRadioGroup,TFWSpinEdit]);
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
@@ -79,6 +80,7 @@ initialization
   {$i u_extdbgrid.lrs}
   {$i U_ExtPictCombo.lrs}
   {$i U_ExtDBImageList.lrs}
+  {$i U_ExtImageList.lrs}
   {$i u_extmapimageindex.lrs}
   {$i u_extimage.lrs}
   {$i u_scrollclones.lrs}

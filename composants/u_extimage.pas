@@ -16,7 +16,8 @@ uses Graphics,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-     Classes;
+     Classes,
+  u_extcomponent;
 
 {$IFDEF VERSIONS}
   const
@@ -34,7 +35,7 @@ type
 
 { TExtImage }
 
-TExtImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF} )
+TExtImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF}, IFWComponent )
      private
        FShowErrors : Boolean ;
        procedure p_SetFileName  ( const Value : String ); virtual;
