@@ -20,8 +20,8 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Minor="2" Release="3" Build="4"/>
-    <Files Count="26">
+    <Version Major="1" Minor="2" Release="4"/>
+    <Files Count="27">
       <Item1>
         <Filename Value="composants/u_onforminfoini.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
@@ -99,8 +99,8 @@
         <UnitName Value="U_ExtMapImageIndex"/>
       </Item19>
       <Item20>
-        <Filename Value="composants/u_extdbimagelist.pas"/>
-        <UnitName Value="U_ExtDBImageList"/>
+        <Filename Value="composants/u_extimagelist.pas"/>
+        <UnitName Value="u_extimagelist"/>
       </Item20>
       <Item21>
         <Filename Value="composants/u_extdbpictcombo.pas"/>
@@ -126,6 +126,10 @@
         <Filename Value="composants/u_scrollclones.pas"/>
         <UnitName Value="u_scrollclones"/>
       </Item26>
+      <Item27>
+        <Filename Value="composants/u_extdbimagelist.pas"/>
+        <UnitName Value="U_ExtDBImageList"/>
+      </Item27>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>

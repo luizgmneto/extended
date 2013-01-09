@@ -151,7 +151,11 @@ end;
 
 procedure TExtClonedPanel.SetPanelCloned(const Apanel: TPanel);
 begin
-  FPanelCloned:=Apanel;
+  if FPanelCloned <> Apanel Then
+    Begin
+     FPanelCloned:=Apanel;
+     AutoCreateColsRows;
+    end;
 end;
 
 procedure TExtClonedPanel.AutoCreateColsRows;
@@ -192,6 +196,7 @@ Begin
             Caption:=FPanelCloned.Caption;
             lTag := i * CST_MAX_CLONED_COLS + j;
             Tag  := ltag;
+            TabOrder:=j*FCols+i;
             PanelCloningEvent ( LPanel );
             for k := 0 to FPanelCloned.ControlCount - 1 do
              Begin
@@ -222,7 +227,6 @@ begin
   and ( AComponent = FPanelCloned ) Then
    Begin
      PanelCloned:=nil;
-     AutoCreateColsRows;
    end;
 end;
 
