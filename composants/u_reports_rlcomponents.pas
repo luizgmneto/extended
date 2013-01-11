@@ -261,8 +261,6 @@ type TBoolArray = Array of Boolean;
   {$ENDIF}
     property Items[Index: Integer]: TExtPrintColumn read GetColumn write SetColumn; default;
   end;
-  { TDMAdaptForms }
-
 
 
 implementation
@@ -284,7 +282,6 @@ var aimageIndex : Integer;
   ABitmap : TBitmap;
   f:TField;
 begin
-  Picture.Graphic:=nil;
   f := GetField;
   aimageIndex:=-1;
   if assigned ( FGetImageIndex )
@@ -302,17 +299,17 @@ begin
      Begin
        ABitmap := TBitmap.Create;
        FImageList.GetBitmap ( aimageIndex, ABitmap );
-       p_ChangeTailleBitmap(ABitmap,Height,Width,True);
+       p_ChangeTailleBitmap(ABitmap,ClientWidth,ClientHeight,True);
        ABitmap.Transparent:=True;
        with Picture.Bitmap do
         Begin
-         Canvas.Brush.Color := clWhite;
-         Width  := Self.Width;
+         Canvas.Brush.Color := Color;
+         Width  := ClientWidth;
          Height := Abitmap.Height;
          Canvas.FillRect(
            {$IFNDEF FPC} Rect (  {$ENDIF}
-           0, 0, Self.Width, Height {$IFNDEF FPC}){$ENDIF});
-         Canvas.Draw (( Self.Width - Width ) div 2, 0, Abitmap );
+           0, 0, ClientWidth, Height {$IFNDEF FPC}){$ENDIF});
+         Canvas.Draw (( ClientWidth - Width ) div 2, 0, Abitmap );
          Modified := True;
         end;
        with Abitmap do
@@ -323,7 +320,9 @@ begin
          FreeImage;
          Free;
         end;
-     end;
+     end
+   Else
+   Picture.Bitmap.Assign(nil);
 
 end;
 
@@ -512,11 +511,9 @@ begin
   FDatasource := nil;
   FLineBreak:=-1;
 end;
-end.
-
 
 {$IFDEF VERSIONS}
 initialization
-  p_ConcatVersion(gVer_reports_components);
+  p_ConcatVersion(gVer_reports_rlcomponents);
 {$ENDIF}
 end.

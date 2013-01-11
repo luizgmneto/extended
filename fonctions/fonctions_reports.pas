@@ -56,12 +56,6 @@ const
 
 
 var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
-    RLListImages : array of record
-                            AImage : TRLImage ;
-                            AField : TField ;
-                            ACellWidth  : Integer;
-                            ABand   : TRLBand;
-                           end;
     ExtTitleColorBack : TColor = clSkyBlue;
     ExtTitleColorBorder : TColor = clBlue;
     ExtTitleColorFont : TFont  = nil;
@@ -257,11 +251,11 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
   Begin
     ALinesAddedHeader:=0;
     ALinesAddedColumns:=0;
-    totalgridwidth := 0;
-    aVisibleColumns:=0;
-    aresizecolumns:=0;
+    aresizecolumns  := 0 ;
+    aVisibleColumns := 0;
+    totalgridwidth  := 0;
     lcountedcolumn := True;
-    with agrid,AReport do
+    with AReport do
      Begin
       Clear;
       for i := 0 to aColumns.Count - 1 do
@@ -313,14 +307,14 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
       Alines : Integer;
       LString : TStringArray;
   Begin
-   with agrid,AReport do
+   with AReport do
     try
       Alines := 1;
       if ExtHeader = nil Then
        Begin
         if as_Title > '' Then
           Begin
-            atitleHeight := round ( ( Width - 150 ) div length ( as_Title )*1.9 );
+            atitleHeight := round ( ( Width - 160 ) div length ( as_Title )*1.9 );
             atitleHeight := Min ( 32, atitleHeight );
             with RLLeftTopPage do
               p_createBand ( X, Y, atitleHeight + 4, btHeader, ExtTitleColorBack );
@@ -333,6 +327,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
          p_createSystemInfo(ARLBand.Width,2,itFullDate, ExtTitleColorFont, 0,'',faRightTop);
          p_createSystemInfo(ARLBand.Width,2,itLastPageNumber, ExtTitleColorFont, 0, '/', faRightBottom);
          p_createSystemInfo(ARLBand.Width,2,itPageNumber, ExtTitleColorFont, 0, '', faRightBottom);
+         ARLBand.Height:=Max(ARLSystemInfo.Height*2,ARLBand.Height);  // adapt height to 2 lines of system info
        end
       Else
        ExtHeader.Parent:=AReport;
@@ -409,9 +404,9 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
      end;
   end;
 
+  // set a printed field
   procedure p_CreatePrintField ( const AItem : TCollectionItem ; var AIsFirst : Boolean; var ATop, Aline : Integer ; const AIWidth : Integer ; const Adataset : TDataset );
   var I : Integer;
-      lmet_Methode: TMethod;
   Begin
     if assigned ( AItem ) Then
      Begin
@@ -441,6 +436,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
      end
   end;
 
+  // initing columns
   procedure p_InitList(var ATop : Integer; var AIsFirst : Boolean );
   Begin
     SomeLeft:=0;
@@ -456,7 +452,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
       LIsFirst : Boolean;
   Begin
     ALine := 0;
-    with agrid,AReport do
+    with AReport do
      Begin
       p_InitList ( ATop, LIsFirst );
       with aColumns do
@@ -517,9 +513,6 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
   end;
 Begin
   Result := False;
-  aresizecolumns  := 0 ;
-  aVisibleColumns := 0;
-  totalgridwidth  := 0;
   PreparePrint;
   if totalgridwidth = 0 Then Exit;
   CreateHeader;
@@ -554,5 +547,4 @@ finalization
   ExtTitleColorFont  .Free;
   ExtColumnHeaderFont.Free;
   ExtColumnFont      .Free;
-//  ExtPrintModule     .Free;
 end.

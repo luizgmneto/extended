@@ -21,7 +21,7 @@ type
   { TReportForm }
 
   TReportForm = class(TSuperForm)
-    RLDraftFilter1: TRLDraftFilter;
+    RLDraftFilter: TRLDraftFilter;
     RLHTMLFilter: TRLHTMLFilter;
     RLPDFFilter: TRLPDFFilter;
     RLReport: TRLReport;

@@ -214,7 +214,6 @@ begin
      RLReport.Preview(FPreview);
    Finally
      FDataLink.DataSet.EnableControls;
-     Finalize ( RLListImages );
    End;
 end;
 
@@ -229,13 +228,8 @@ begin
   if AReport = nil
    Then
     Begin
-      if FReportForm = nil Then
+       FReportForm.Free;
        FReportForm := fref_CreateReport(nil, FDataLink.DataSource, FColumns, FDBTitle,  FFilter)
-      Else
-       Begin
-         FReportForm.Destroy;
-         FReportForm := fref_CreateReport(nil, FDataLink.DataSource, FColumns, FDBTitle,  FFilter)
-       end;
     end
    Else
      CreateAReport ( AReport );
@@ -292,7 +286,6 @@ begin
       fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, FFilter) do
         try
           RLReport.Preview(FPReview);
-          Finalize ( RLListImages );
           Destroy;
         finally
           EnableControls;
