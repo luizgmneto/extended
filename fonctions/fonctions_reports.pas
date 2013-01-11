@@ -33,10 +33,11 @@ const
   gVer_fonctions_reports : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_reports' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Reports'' Functions, with grid reports.' ;
-                        			                 BugsStory : 'Version 1.0.0.1 : image centering.' + #13#10 +
+                        			                 BugsStory : 'Version 1.0.0.2 : Testing reports.' + #13#10 +
+                                                                             'Version 1.0.0.1 : image centering.' + #13#10 +
                                                                              'Version 1.0.0.0 : Working.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
+                        			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
 {$ENDIF}
   CST_COLUMN_Visible = 'Visible';
   CST_COLUMN_Width   = 'Width';
@@ -53,79 +54,11 @@ const
   CST_PRINT_COLUMN_LINEBREAK = 'LineBreak' ;
   CST_PRINT_COMPONENT_EVENT = 'DrawReportImage';
 
-type TBoolArray = Array of Boolean;
-  TPrintDrawReportImage= procedure ( Sender:TObject; var PrintIt:boolean) of object;
-  { TExtPrintColumn }
-
-  TExtPrintColumn = class(TCollectionItem)
-   private
-     FLineBreak,
-     FWidth   : Integer ;
-     FResize   ,
-     FVisible  : Boolean;
-     FBreakCaption,
-     FDBTitle ,
-     FFieldName : String;
-     FDatasource : TDatasource;
-     FImages : TCustomImageList;
-     FMapImages : TExtMapImages;
-     procedure SetImages( const AValue : TCustomImageList );
-     procedure SetMapImages( const AValue : TExtMapImages );
-     function  GetFieldName: String;
-   public
-     constructor Create(ACollection: TCollection); override;
-     property Datasource : TDataSource read FDatasource write FDatasource;
-   published
-     property Width     : Integer  read FWidth   write FWidth default 40;
-     property Resize    : Boolean  read FResize  write FResize  default False;
-     property Visible   : Boolean  read FVisible write FVisible default true;
-     property LineBreak : Integer  read FLineBreak write FLineBreak default -1;
-     property BreakCaption : String  read FBreakCaption write FBreakCaption;
-     property DBTitle   : string   read FDBTitle write FDBTitle;
-     property FieldName : string   read GetFieldName write FFieldName;
-     property Images    : TCustomImageList read FImages    write SetImages;
-     property MapImages : TExtMapImages    read FMapImages write SetMapImages;
-   end;
-
-  { TExtPrintColumns }
-  TExtPrintColumns = class(TCollection)
-  private
-    FOwner : TComponent;
-    function  GetColumn ( Index: Integer): TExtPrintColumn;
-    procedure SetColumn ( Index: Integer; Value: TExtPrintColumn);
-  public
-    procedure SetDatasource(const AColumn: TExtPrintColumn); overload; virtual;
-    procedure SetDatasource; overload; virtual;
-    constructor Create(const AOwner: TComponent; const aItemClass: TCollectionItemClass); virtual;
-    function Add: TExtPrintColumn;
-    property Owner : TComponent read FOwner;
-  {$IFDEF FPC}
-  published
-  {$ENDIF}
-    property Items[Index: Integer]: TExtPrintColumn read GetColumn write SetColumn; default;
-  end;
-  { TDMAdaptForms }
-
-  { TDMPrintModule }
-
-  TDMPrintModule = class(TDataModule)
-    procedure DrawReportImage ( Sender:TObject; var PrintIt:boolean);
-  private
-    { private declarations }
-  public
-    constructor Create ( AOwner : TComponent ); override;
-  published
-    { published declarations }
-
-  end;
 
 var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     RLListImages : array of record
                             AImage : TRLImage ;
                             AField : TField ;
-                            AGetImageIndex : TFieldIndexEvent;
-                            AMapImages : TExtMapImages;
-                            AImages : TCustomImageList;
                             ACellWidth  : Integer;
                             ABand   : TRLBand;
                            end;
@@ -141,7 +74,6 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtColumnColorBack   : TColor = clWhite;
     ExtLandscapeColumnsCount : Integer = 9;
     ExtHeader  : TRLBand = nil;
-    ExtPrintModule : TDMPrintModule = nil;
 
 function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
@@ -152,162 +84,16 @@ uses fonctions_proprietes,
      fonctions_images,Printers,
      RLTypes, unite_messages,
      fonctions_string,
+     u_reports_rlcomponents,
      Math,strutils;
 
-{ TDMPrintModule }
-
-procedure TDMPrintModule.DrawReportImage(Sender: TObject; var PrintIt: boolean);
-var aimageindex : Integer;
-    Abitmap : Tbitmap ;
-    ADatasource : TDatasource;
-    I : Integer;
-Begin
-  for i := 0 to high ( RLListImages ) do
-   with RLListImages [ i ] do
-    if AImage = Sender Then
-      Begin
-        aimageIndex:=-1;
-        if assigned ( AGetImageIndex )
-         Then aimageIndex := AGetImageIndex ( AImage, AField )
-         Else
-          if Assigned(AMapImages) Then
-           aimageIndex := AMapImages.ImageIndexOf ( AField.Asstring )
-          else
-           if AField is tNumericField Then
-            Begin
-              aimageIndex := AField.AsInteger;
-            end;
-        if aimageIndex <> -1 Then
-         Begin
-           ABitmap := TBitmap.Create;
-           Aimages.GetBitmap ( aimageIndex, ABitmap );
-           with AImage do
-            p_ChangeTailleBitmap(ABitmap,Height,Width,True);
-           ABitmap.Transparent:=True;
-           with AImage.Picture.Bitmap do
-            Begin
-             Canvas.Brush.Color := clWhite;
-             Width  := ACellWidth;
-             Height := Abitmap.Height;
-             Canvas.FillRect(
-               {$IFNDEF FPC} Rect (  {$ENDIF}
-               0, 0, ACellWidth, Height {$IFNDEF FPC}){$ENDIF});
-             Canvas.Draw (( ACellWidth - Width ) div 2, 0, Abitmap );
-             Modified := True;
-            end;
-           with Abitmap do
-            Begin
-             {$IFNDEF FPC}
-             Dormant;
-             {$ENDIF}
-             FreeImage;
-             Free;
-            end;
-         end;
-      End;
-End;
-
-constructor TDMPrintModule.Create(AOwner: TComponent);
-begin
-  CreateNew(AOwner);
-  if (ClassType <> TDataModule) and
-     not (csDesigning in ComponentState) then
-    begin
-    if OldCreateOrder then
-      DoCreate;
-    end;
-end;
-
-{ TExtPrintColumns }
-
-function TExtPrintColumns.GetColumn(Index: Integer): TExtPrintColumn;
-begin
-  result := TExtPrintColumn( inherited Items[Index] );
-end;
-
-procedure TExtPrintColumns.SetColumn(Index: Integer;
-   Value: TExtPrintColumn);
-begin
-  Items[Index].Assign( Value );
-end;
-
-procedure TExtPrintColumns.SetDatasource ( const AColumn: TExtPrintColumn );
-var ADatasource : TDataSource;
-begin
-  AColumn.Datasource := fobj_getComponentObjectProperty(FOwner,CST_PROPERTY_DATASOURCE) as TDataSource;
-end;
-
-procedure TExtPrintColumns.SetDatasource;
-var i : Integer;
-begin
-  for i := 0 to Count - 1 do
-    SetDatasource(Items[i]);
-end;
-
-constructor TExtPrintColumns.Create(const AOwner: TComponent;
-  const aItemClass: TCollectionItemClass);
-begin
-  Inherited create ( aItemClass );
-  FOwner:=AOwner;
-end;
-
-function TExtPrintColumns.Add: TExtPrintColumn;
-begin
-  result := TExtPrintColumn (inherited Add);
-  SetDatasource ( Result );
-end;
-
-{ TExtPrintColumn }
-
-procedure TExtPrintColumn.SetImages(const AValue: TCustomImageList);
-begin
-  if AValue<> FImages then
-   FImages := AValue;
-end;
-
-procedure TExtPrintColumn.SetMapImages(const AValue: TExtMapImages);
-begin
-  if AValue<> FMapImages then
-   FMapImages := AValue;
-end;
-
-function TExtPrintColumn.GetFieldName: String;
-begin
-  if FFieldName <> ''
-   Then Result:=FFieldName
-   Else
-    if    Assigned(FDatasource)
-    and   Assigned(FDatasource.DataSet) Then
-     with FDatasource.DataSet do
-      if Active
-      and ( Index < FieldDefs.Count )
-       then
-        Begin
-          Result := FieldDefs [ Index ].Name;
-          FFieldName:=Result;
-        end;
-end;
-
-constructor TExtPrintColumn.Create(ACollection: TCollection);
-begin
-  inherited Create(ACollection);
-  FWidth  :=40;
-  FResize :=False;
-  FVisible:=True;
-  FImages := nil;
-  FMapImages := nil;
-  FDBTitle:='';
-  FFieldName:='';
-  FDatasource := nil;
-  FLineBreak:=-1;
-end;
 
 
 function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
-var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth, ALinesAddedHeader, ALinesAddedColumns : Integer;
+var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth, ALinesAddedHeader, ALinesAddedColumns : Integer;
     ARLLabel : TRLLabel;
     ARLDBText : TRLDBText;
-    ARLImage : TRLImage;
+    ARLImage : TRLCustomImage;
     ARLBand : TRLBand;
     LImages : TCustomImageList;
     ARLSystemInfo : TRLSystemInfo;
@@ -320,7 +106,10 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
     ARLBand.InsideMargins.BottomMargin:=0;
     ARLBand.InsideMargins.TopMargin   :=0;
     if not AIsFirst Then
+     Begin
       ARLBand.Height:=ARLLabel.Height*ALines;
+      AlineHeight := ARLLabel.Height;
+     end;
   end;
 
   procedure p_createLabel ( const ALeft, ATop, AWidth : Integer ; const afont : TFont; const as_Text : String = '' ; const ai_SizeFont : Integer = 0 );
@@ -405,6 +194,13 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
      end;
   end;
 
+  function fb_Visible ( const AItem : TCollectionItem ) : Boolean;
+  Begin
+    Result :=    fb_getComponentBoolProperty ( AItem, CST_COLUMN_Visible, True )
+           and ( flin_getComponentProperty ( AItem, CST_COLUMN_Width ) > CST_COLUMN_MIN_Width );
+
+  end;
+
   procedure p_createImage ( const ALeft, ATop, AWidth : Integer);
   Begin
     ARLImage := TRLImage.Create(AReport);
@@ -414,6 +210,37 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
       Top:=ATop;
       Left:=ALeft;
       Width:=AWidth;
+     end;
+  end;
+
+  procedure p_createDBImage ( const ALeft, ATop, AWidth, AHeight : Integer; const AField : String );
+  Begin
+    ARLImage := TRLDBExtImage.Create(AReport);
+    with ARLImage as TRLDBExtImage do
+     Begin
+      Parent:=ARLBand;
+      Top:=ATop;
+      Left:=ALeft;
+      Height := AHeight;
+      Width:=AWidth;
+      DataField:=AField;
+      DataSource:=ADatasource;
+     end;
+  end;
+
+  procedure p_createDBImageList ( const ALeft, ATop, AWidth, AHeight : Integer; const AField : String ; const AImages : TCustomImageList);
+  Begin
+    ARLImage := TRLDBExtImageList.Create(AReport);
+    with ARLImage as TRLDBExtImageList do
+     Begin
+      Parent:=ARLBand;
+      Top:=ATop;
+      Left:=ALeft;
+      Height := AHeight;
+      Width:=AWidth;
+      DataField:=AField;
+      DataSource:=ADatasource;
+      Images := AImages;
      end;
   end;
 
@@ -430,14 +257,16 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
   Begin
     ALinesAddedHeader:=0;
     ALinesAddedColumns:=0;
+    totalgridwidth := 0;
+    aVisibleColumns:=0;
+    aresizecolumns:=0;
     lcountedcolumn := True;
     with agrid,AReport do
      Begin
       Clear;
       for i := 0 to aColumns.Count - 1 do
        with aColumns do
-        if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Visible, True )
-        and ( flin_getComponentProperty( Items [ i ], CST_COLUMN_Width ) > CST_COLUMN_MIN_Width ) Then
+        if fb_Visible ( Items [ i ] ) Then
          Begin
           if lcountedcolumn Then
            Begin
@@ -516,10 +345,11 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
        end;
       ATempCanvas.font.Assign(ExtColumnHeaderFont);
       if aresizecolumns > 0 Then
-        aresizecolumns:= ( Width - totalgridwidth ) div aresizecolumns;
+        aresizecolumns:= ( ARLBand.Width - totalgridwidth ) div aresizecolumns;
       LIsFirst := True;
       with aColumns do
       for i := 0 to Count - 1 do
+       if fb_Visible ( Items [ i ] ) Then
        Begin
         awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
         if agrid = nil
@@ -530,7 +360,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
        end;
       with aColumns do
       for i := 0 to Count - 1 do
-        if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Visible, True ) Then
+       if fb_Visible ( Items [ i ] ) Then
          Begin
           if fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION ) <> '' Then
             Begin
@@ -566,13 +396,13 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
   end;
 
   // borders and line break
-  procedure p_DesignCell(const AItem : TCollectionItem ;var AIsFirst : Boolean; var ATop,Aline : Integer);
+  procedure p_DesignCell(const ARLControl : TRLCustomControl; const AItem : TCollectionItem ;var AIsFirst : Boolean; var ATop,Aline : Integer);
   Begin
-    p_DrawBorders ( ARLDBText.Borders, ExtColumnColorBorder, AIsFirst, ExtColumnHBorders, ExtColumnVBorders );
+    p_DrawBorders ( ARLControl.Borders, ExtColumnColorBorder, AIsFirst, ExtColumnHBorders, ExtColumnVBorders );
     if assigned ( AItem )
     and ( flin_getComponentProperty ( AItem, CST_PRINT_COLUMN_LINEBREAK ) > -1 ) Then
      Begin
-       inc ( Atop, ARLDBText.Height );
+       inc ( Atop, ARLControl.Height );
        SomeLeft:=0;
        inc(Aline);
        AIsFirst:=True;
@@ -588,33 +418,26 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
       LImages:= fobj_getComponentObjectProperty ( AItem,'Images') as TCustomImageList;
       if LImages <> nil Then
        Begin
-         p_createImage (SomeLeft,ATop,aiWidth-4);
-         p_DrawBorders ( ARLImage.Borders, ExtColumnColorBorder, AIsFirst, ExtColumnHBorders, ExtColumnVBorders );
-         lmet_Methode.Data :=  ExtPrintModule ;
-         lmet_Methode.Code := ExtPrintModule.MethodAddress(CST_PRINT_COMPONENT_EVENT);
-         ARLImage.BeforePrint := TRLBeforePrintEvent ( lmet_Methode );
-         SetLength ( RLListImages, high ( RLListImages ) + 2 );
-         with RLListImages [ high ( RLListImages )] do
+         p_createDBImageList (SomeLeft,ATop,aiWidth-4,AlineHeight, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME),LImages);
+         with ARLImage as TRLCustomDBExtImageList do
           Begin
-            AImage  := ARLImage ;
-            AImages := LImages ;
-            ACellWidth:=AIWidth;
-            AField := Adataset.FieldByName ( fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME));
-            AGetImageIndex := TFieldIndexEvent (fmet_getComponentMethodProperty( AItem, 'OnGetImageIndex' ));
-            AMapImages := fobj_getComponentObjectProperty( AItem, 'MapImages' ) as TExtMapImages;
-            ABand   := ARLBand;
+            OnGetImageIndex := TFieldIndexEvent (fmet_getComponentMethodProperty( AItem, 'OnGetImageIndex' ));
+            MapImages := fobj_getComponentObjectProperty( AItem, 'MapImages' ) as TExtMapImages;
           end;
+         p_DesignCell( ARLImage, AItem, AIsFirst, ATop, Aline );
        end
       Else
        Begin
-        p_createDBText(SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME));
-        p_DesignCell( AItem, AIsFirst, ATop, Aline );
+        if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TBlobField
+         Then Begin p_createDBImage (SomeLeft,ATop,aiWidth, AlineHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLImage , AItem, AIsFirst, ATop, Aline ); End
+         Else Begin p_createDBText  (SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLDBText, AItem, AIsFirst, ATop, Aline ); End;
+
        end
     End
    Else
      Begin
       p_createLabel(SomeLeft,ATop,aiWidth, ExtColumnFont, '' );
-      p_DesignCell( AItem, AIsFirst, ATop, Aline );
+      p_DesignCell( ARLLabel, AItem, AIsFirst, ATop, Aline );
      end
   end;
 
@@ -638,8 +461,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
       p_InitList ( ATop, LIsFirst );
       with aColumns do
       for i := 0 to Count - 1 do
-        if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Visible, True )
-        and ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ) > CST_COLUMN_MIN_Width ) Then
+       if fb_Visible ( Items [ i ] ) Then
          Begin
            awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
            p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
@@ -663,8 +485,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
       for i := 0 to Count - 1 do
        Begin
         inc ( ADecColumn ); // for linebreak
-        if fb_getComponentBoolProperty ( Items [ ADecColumn ], CST_COLUMN_Visible, True )
-        and ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ) > CST_COLUMN_MIN_Width ) Then
+        if fb_Visible ( Items [ i ] ) Then
          Begin
            awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ), ADecColumn );
            p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
@@ -676,8 +497,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, aVisibleColumns, SomeLeft, tot
               SomeLeft:=0;
               // aligning
               for j := 0 to ADecColumn do
-               if fb_getComponentBoolProperty ( Items [ j ], CST_COLUMN_Visible, True )
-               and ( flin_getComponentProperty ( Items [ j ], CST_COLUMN_Width ) > CST_COLUMN_MIN_Width ) Then
+               if fb_Visible ( Items [ i ] ) Then
                   Begin
                     awidth:=fi_resize ( flin_getComponentProperty ( Items [ j ], CST_COLUMN_Width ), j );
                     p_CreatePrintField ( nil, LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
@@ -730,7 +550,6 @@ initialization
   ExtColumnHeaderFont.Color := CST_PRINT_COLUMN_TITLE_FONT_COLOR;
   ExtColumnHeaderFont.Style := CST_PRINT_COLUMN_TITLE_FONT_STYLE;
   ExtColumnFont      .Color := CST_PRINT_COLUMN_FONT_COLOR;
-  ExtPrintModule := TDMPrintModule.Create(Application);
 finalization
   ExtTitleColorFont  .Free;
   ExtColumnHeaderFont.Free;

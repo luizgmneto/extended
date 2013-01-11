@@ -31,8 +31,8 @@
         <UnitName Value="u_reportform"/>
       </Item3>
       <Item4>
-        <Filename Value="composants/u_reports_components.pas"/>
-        <UnitName Value="u_reports_components"/>
+        <Filename Value="composants/u_reports_rlcomponents.pas"/>
+        <UnitName Value="u_reports_rlcomponents"/>
       </Item4>
     </Files>
     <Type Value="RunAndDesignTime"/>
