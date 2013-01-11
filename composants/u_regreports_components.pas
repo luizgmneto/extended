@@ -22,14 +22,16 @@ procedure Register;
 implementation
 
 uses u_reports_components,
+     u_reports_rlcomponents,
      unite_messages,
+     fonctions_reports,
      Forms;
 
 { TFWPrintGrid }
 
 procedure Register;
 begin
-  RegisterComponents(CST_PALETTE_COMPOSANTS, [ TFWPrintGrid, TFWPrintData ]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS, [ TFWPrintGrid, TFWPrintData, TRLDBExtImage, TRLDBExtImageList ]);
 End ;
 
 

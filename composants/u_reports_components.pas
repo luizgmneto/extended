@@ -17,7 +17,7 @@ uses
   fonctions_version,
 {$ENDIF}
   DBGrids, DB, fonctions_reports, RLReport,
-  RLPreview, u_reportform,
+  RLPreview, u_reportform, u_reports_rlcomponents,
   u_buttons_appli, RLFilters, Graphics;
 
 
@@ -64,8 +64,11 @@ type
     procedure SetDatasource(AValue: TDatasource);
     function  GetDatasource: TDatasource;
     procedure SetColumns(AValue: TExtPrintColumns);
+    function  GetFalse : Boolean;
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+    procedure SetCreateReport ( const AValue : Boolean ); virtual;
+    procedure CreateAReport( const AReport : TRLReport ); virtual;
     function CreateColumns: TExtPrintColumns; virtual;
     procedure ActiveChanged; virtual;
     procedure AddColumns; virtual;
@@ -82,6 +85,7 @@ type
     property Columns: TExtPrintColumns read FColumns write SetColumns;
     property Report : TRLReport read FReport write FReport;
     property Preview : TRLPreview read FPreview write FPreview;
+    property CreateReport : Boolean read GetFalse write SetCreateReport default False;
   end;
 
   { TFWPrintGrid }
@@ -145,6 +149,11 @@ begin
   FColumns.Assign(AValue);
 end;
 
+function TFWPrintData.GetFalse: Boolean;
+begin
+  Result := False;
+end;
+
 procedure TFWPrintData.AddColumns;
 begin
   if Assigned(FDataLink.DataSet) then
@@ -165,6 +174,13 @@ begin
    end;
   if (AComponent = Filter    ) then Filter     := nil;
   if (AComponent = Report    ) then Report     := nil;
+end;
+
+procedure TFWPrintData.SetCreateReport(const AValue: Boolean);
+begin
+  if  ( AValue =  True )
+  and ( FReport <> nil )  Then
+    CreateAReport ( FReport );
 end;
 
 function TFWPrintData.CreateColumns: TExtPrintColumns;
@@ -202,6 +218,11 @@ begin
    End;
 end;
 
+procedure TFWPrintData.CreateAReport ( const AReport : TRLReport );
+begin
+  fb_CreateReport(AReport,nil, FDataLink.DataSource, FColumns, AReport.Background.Picture.Bitmap.Canvas, FDBTitle);
+End;
+
 procedure TFWPrintData.AddPreview(const AReport: TRLReport);
 begin
   if assigned(FDataLink) then
@@ -217,9 +238,7 @@ begin
        end;
     end
    Else
-     Begin
-       fb_CreateReport(AReport,nil, FDataLink.DataSource, FColumns, AReport.Background.Picture.Bitmap.Canvas, FDBTitle);
-     end;
+     CreateAReport ( AReport );
 end;
 
 procedure TFWPrintData.ActiveChanged;
