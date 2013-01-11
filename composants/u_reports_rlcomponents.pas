@@ -1,4 +1,4 @@
-unit u_reports_rlcomponents;
+﻿unit u_reports_rlcomponents;
 
 {$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
@@ -11,6 +11,9 @@ interface
 uses
     SysUtils, RLReport, DBGrids, DB,
     u_extdbgrid,U_ExtMapImageIndex,Forms,
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
     u_reportform,ImgList, Graphics,
     RLFilters,Classes, RLPreview;
 
@@ -414,7 +417,7 @@ begin
   begin
     Result:=DataSet.FindField(fDataField);
     if Result=nil then
-      raise Exception.Create(LS_NotFoundStr+': '+Name+'.DataField "'+fDataField+'"');
+      raise Exception.Create({$IFNDEF FPC}LocaleStrings.{$ENDIF}LS_NotFoundStr+': '+Name+'.DataField "'+fDataField+'"');
   end
   else
     Result:=nil;
