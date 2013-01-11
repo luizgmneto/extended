@@ -68,7 +68,9 @@ requires
   xmlrtl,
   vclactnband,
   dclado,
-  VirtualTreesD10;
+  VirtualTreesD10,
+  rxdb,
+  rxctl;
 
 contains
   U_ExtComboInsert in 'composants\U_ExtComboInsert.pas',
@@ -102,6 +104,7 @@ contains
   u_regsbbuttons in 'composants\u_regsbbuttons.pas',
   U_RegVersion in 'composants\U_RegVersion.pas',
   u_reports_components in 'composants\u_reports_components.pas',
-  u_buttons_speed in 'composants\u_buttons_speed.pas';
+  u_buttons_speed in 'composants\u_buttons_speed.pas',
+  u_reports_rlcomponents in 'composants\u_reports_rlcomponents.pas';
 
 end.
