@@ -27,7 +27,7 @@ inherited ReportForm: TReportForm
   object RLRichFilter: TRLRichFilter[2]
     DisplayName = 'Format RichText'
     left = 103
-    top = 76
+    top = 80
   end
   object RLPDFFilter: TRLPDFFilter[3]
     DocumentInfo.Creator = 'FortesReport (Open Source) v3.24(B14)  \251 Copyright © 1999-2008 Fortes Informática'
@@ -44,9 +44,8 @@ inherited ReportForm: TReportForm
     left = 227
     top = 79
   end
-  object RLDraftFilter1: TRLDraftFilter[5]
+  object RLDraftFilter: TRLDraftFilter[5]
     FontSizeReal = False
-    DisplayName = 'RLDraftFilter'
     left = 217
     top = 166
   end
