@@ -7,7 +7,8 @@ unit extreports;
 interface
 
 uses
-  fonctions_reports, u_reportform, u_reports_rlcomponents, LazarusPackageIntf;
+  fonctions_reports, u_reportform, u_reports_rlcomponents, 
+  u_reports_components, LazarusPackageIntf;
 
 implementation
 
