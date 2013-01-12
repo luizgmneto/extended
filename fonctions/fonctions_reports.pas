@@ -334,6 +334,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
          with ARLBand do
           Begin
            p_createSystemInfo(Width,2,0,itFullDate, ExtTitleColorFont, 0,'',faRightTop);
+           Height:=Max(ARLSystemInfo.Height*2,Height);  // adapt height to 2 lines of system info
            p_createSystemInfo(Width,Height,0,itLastPageNumber, ExtTitleColorFont, 0, '/', faRightBottom,TRLTextAlignment.taLeftJustify);
            // due to autosize bug
            ARLSystemInfo.Anchors:=[fkRight,fkBottom];
@@ -344,7 +345,6 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
            ARLSystemInfo.Anchors:=[fkRight,fkBottom];
            ARLSystemInfo.Width:=44;
            ARLSystemInfo.Left := Width - 88;
-           Height:=Max(ARLSystemInfo.Height*2,Height);  // adapt height to 2 lines of system info
           end;
        end
       Else
