@@ -108,7 +108,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
 
   procedure p_createLabel ( const ALeft, ATop, AWidth : Integer ; const afont : TFont; const as_Text : String = '' ; const ai_SizeFont : Integer = 0 );
   Begin
-    ARLLabel := TRLLabel.Create(AReport);
+    ARLLabel := TRLLabel.Create(AReport.Owner);
     with ARLLabel do
      Begin
       Parent:=ARLBand;
@@ -129,12 +129,13 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
      end;
   end;
 
-  procedure p_createSystemInfo ( const ALeft, ATop : Integer ; const AInfo:TRLInfoType; const afont : TFont; const AFontWidth : Integer = 0; const as_Text : String = '' ; const AAlign : TRLControlAlign = faRight; const ALayout : TRLTextLayout = {$IFDEF FPC }TRLTextLayout.{$ENDIF}tlJustify );
+  procedure p_createSystemInfo ( const ALeft, ATop, Awidth : Integer ; const AInfo:TRLInfoType; const afont : TFont; const AFontWidth : Integer = 0; const as_Text : String = '' ; const AAlign : TRLControlAlign = faRight ; const AAlignment : TRLTextAlignment = TRLTextAlignment.taRightJustify ; const ALayout : TRLTextLayout = {$IFDEF FPC }TRLTextLayout.{$ENDIF}tlJustify);
   Begin
-    ARLSystemInfo := TRLSystemInfo.Create(AReport);
+    ARLSystemInfo := TRLSystemInfo.Create(AReport.Owner);
     with ARLSystemInfo do
      Begin
       Parent:=ARLBand;
+      HoldStyle:=hsRelatively;
       Top:=ATop;
       Left:=ALeft;
       with Font do
@@ -144,15 +145,21 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
             Size:=AFontWidth;
         end;
       Align:=AAlign;
+      Alignment:=AAlignment;
       Layout:=ALayout;
       Text:=as_Text;
       Info:=AInfo;
+      if awidth <> 0 Then
+       Begin
+        AutoSize:=False;
+        Width := Awidth;
+       end;
      end;
   end;
 
   procedure p_createBand ( const ALeft, ATop, Aheight : Integer ; const Abandtype : TRLBandType ; const AColor : TColor = clWhite );
   Begin
-    ARLBand := TRLBand.Create(AReport);
+    ARLBand := TRLBand.Create(AReport.Owner);
     with ARLBand do
      Begin
       Parent:=AReport;
@@ -166,7 +173,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
   end;
   procedure p_createDBText ( const ALeft, ATop, AWidth : Integer ; const afont : TFont; const as_Fieldname : String ; const ai_SizeFont : Integer = 0);
   Begin
-    ARLDBText := TRLDBText.Create(AReport);
+    ARLDBText := TRLDBText.Create(AReport.Owner);
     with ARLDBText do
      Begin
       Parent:=ARLBand;
@@ -197,7 +204,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
 
   procedure p_createImage ( const ALeft, ATop, AWidth : Integer);
   Begin
-    ARLImage := TRLImage.Create(AReport);
+    ARLImage := TRLImage.Create(AReport.Owner);
     with ARLImage do
      Begin
       Parent:=ARLBand;
@@ -209,7 +216,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
 
   procedure p_createDBImage ( const ALeft, ATop, AWidth, AHeight : Integer; const AField : String );
   Begin
-    ARLImage := TRLDBExtImage.Create(AReport);
+    ARLImage := TRLDBExtImage.Create(AReport.Owner);
     with ARLImage as TRLDBExtImage do
      Begin
       Parent:=ARLBand;
@@ -224,7 +231,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
 
   procedure p_createDBImageList ( const ALeft, ATop, AWidth, AHeight : Integer; const AField : String ; const AImages : TCustomImageList);
   Begin
-    ARLImage := TRLDBExtImageList.Create(AReport);
+    ARLImage := TRLDBExtImageList.Create(AReport.Owner);
     with ARLImage as TRLDBExtImageList do
      Begin
       Parent:=ARLBand;
@@ -324,10 +331,21 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
          Else
          with RLLeftTopPage do
           p_createBand ( X, Y, 10, btHeader, ExtTitleColorBack );
-         p_createSystemInfo(ARLBand.Width,2,itFullDate, ExtTitleColorFont, 0,'',faRightTop);
-         p_createSystemInfo(ARLBand.Width,2,itLastPageNumber, ExtTitleColorFont, 0, '/', faRightBottom);
-         p_createSystemInfo(ARLBand.Width,2,itPageNumber, ExtTitleColorFont, 0, '', faRightBottom);
-         ARLBand.Height:=Max(ARLSystemInfo.Height*2,ARLBand.Height);  // adapt height to 2 lines of system info
+         with ARLBand do
+          Begin
+           p_createSystemInfo(Width,2,0,itFullDate, ExtTitleColorFont, 0,'',faRightTop);
+           p_createSystemInfo(Width,Height,0,itLastPageNumber, ExtTitleColorFont, 0, '/', faRightBottom,TRLTextAlignment.taLeftJustify);
+           // due to autosize bug
+           ARLSystemInfo.Anchors:=[fkRight,fkBottom];
+           ARLSystemInfo.Width:=43;
+           ARLSystemInfo.Left := Width - 44;
+           p_createSystemInfo(Width,Height,0,itPageNumber, ExtTitleColorFont, 0, '', faRightBottom);
+           // due to autosize bug
+           ARLSystemInfo.Anchors:=[fkRight,fkBottom];
+           ARLSystemInfo.Width:=44;
+           ARLSystemInfo.Left := Width - 88;
+           Height:=Max(ARLSystemInfo.Height*2,Height);  // adapt height to 2 lines of system info
+          end;
        end
       Else
        ExtHeader.Parent:=AReport;
