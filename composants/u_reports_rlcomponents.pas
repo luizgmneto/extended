@@ -286,6 +286,8 @@ var aimageIndex : Integer;
   f:TField;
 begin
   f := GetField;
+  if f = nil Then Exit;
+
   aimageIndex:=-1;
   if assigned ( FGetImageIndex )
    Then aimageIndex := FGetImageIndex ( Self, f )
@@ -365,7 +367,7 @@ var
 begin
   Picture.Graphic:=nil;
   f:=GetField;
-  if (f<>nil) and f.DataSet.Active and not f.DataSet.Eof then
+  if (f<>nil) and not f.DataSet.Eof then
     p_FieldToImage ( f, Picture.Bitmap, Width, Height );
 end;
 
