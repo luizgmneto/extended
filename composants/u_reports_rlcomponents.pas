@@ -413,7 +413,7 @@ end;
 
 function TRLCustomDBExtImage.GetField:TField;
 begin
-  if (DataSet<>nil) and (fDataField<>emptystr) then
+  if (DataSet<>nil) and (DataSet.Active) and (fDataField<>emptystr) then
   begin
     Result:=DataSet.FindField(fDataField);
     if Result=nil then

@@ -80,7 +80,7 @@ type
     destructor  Destroy; override;
     procedure CreateAReport( const AReport : TRLReport ); virtual;
     procedure ShowPreview; virtual;
-    procedure AddPreview ( const AReport : TRLReport ); virtual;
+    procedure AddPreview ( const AReport : TRLReport = nil ); virtual;
     property  FormReport : TReportForm read FReportForm;
   published
     property Datasource: TDatasource read GetDatasource write SetDatasource;
