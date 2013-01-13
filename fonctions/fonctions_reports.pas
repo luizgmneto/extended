@@ -268,14 +268,16 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
       Clear;
       for i := 0 to aColumns.Count - 1 do
        with aColumns do
-        if fb_Visible ( Items [ i ] ) Then
-         Begin
-          if lcountedcolumn Then
+        Begin
+          if fb_Visible ( Items [ i ] ) Then
            Begin
-            inc ( totalgridwidth, flin_getComponentProperty(Items [ i ], CST_COLUMN_Width ) );
-            inc ( aVisibleColumns );
-            if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Resize, True )
-              Then inc ( aresizecolumns );
+            if lcountedcolumn Then
+             Begin
+              inc ( totalgridwidth, flin_getComponentProperty(Items [ i ], CST_COLUMN_Width ) );
+              inc ( aVisibleColumns );
+              if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Resize, True )
+                Then inc ( aresizecolumns );
+             end;
            end;
           ATemp := flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 );
           if  ( ATemp > -1 )
@@ -285,7 +287,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
               inc ( ALinesAddedColumns );
               lcountedcolumn := False;
             end;
-         end;
+        end;
       if aVisibleColumns >= ExtLandscapeColumnscount
        Then PageSetup.Orientation:=poLandscape
        Else PageSetup.Orientation:=poPortrait;
@@ -374,34 +376,36 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
        end;
       with aColumns do
       for i := 0 to Count - 1 do
-       if fb_Visible ( Items [ i ] ) Then
-         Begin
-          if fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION ) <> '' Then
-            Begin
-             ATempCanvas.font.Assign(ExtColumnFont);
-             aWidth:=ATempCanvas.TextWidth(fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION ));
-             ATempCanvas.font.Assign(ExtColumnHeaderFont);
+       Begin
+         if fb_Visible ( Items [ i ] ) Then
+           Begin
+            if fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION ) <> '' Then
+              Begin
+               ATempCanvas.font.Assign(ExtColumnFont);
+               aWidth:=ATempCanvas.TextWidth(fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION ));
+               ATempCanvas.font.Assign(ExtColumnHeaderFont);
+               inc ( SomeLeft, aWidth );
+              end;
+             awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
+            if agrid = nil
+             Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' ')
+             Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' ');
+  //          RLColumnHeaderFont.GetTextSize(LString,Apos,j);
+             for j := 0 to ALinesAddedHeader do
+              Begin
+               if j <= high ( LString )
+                Then p_createLabel (SomeLeft,2+j*ARLLabel.Height,aWidth, ExtColumnHeaderFont, LString [ j ] )
+                Else p_createLabel (SomeLeft,2+j*ARLLabel.Height,aWidth, ExtColumnHeaderFont, '' );
+               p_DrawBorders ( ARLLabel.Borders, ExtColumnColorBorder, LIsFirst, ExtColumnHBorders, ExtColumnVBorders );
+              end;
+             if high ( LString ) + 1 > Alines Then
+              Alines:= high ( LString )+1;
              inc ( SomeLeft, aWidth );
-            end;
-           awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
-          if agrid = nil
-           Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' ')
-           Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' ');
-//          RLColumnHeaderFont.GetTextSize(LString,Apos,j);
-           for j := 0 to ALinesAddedHeader do
-            Begin
-             if j <= high ( LString )
-              Then p_createLabel (SomeLeft,2+j*ARLLabel.Height,aWidth, ExtColumnHeaderFont, LString [ j ] )
-              Else p_createLabel (SomeLeft,2+j*ARLLabel.Height,aWidth, ExtColumnHeaderFont, '' );
-             p_DrawBorders ( ARLLabel.Borders, ExtColumnColorBorder, LIsFirst, ExtColumnHBorders, ExtColumnVBorders );
-            end;
-           if high ( LString ) + 1 > Alines Then
-            Alines:= high ( LString )+1;
-           inc ( SomeLeft, aWidth );
-           LIsFirst := False;
-           if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK ) > -1 Then
-            Break;
-         end;
+             LIsFirst := False;
+           end;
+        if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK ) > -1 Then
+         Break;
+       end;
 
     finally
     end;
@@ -410,21 +414,14 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
   end;
 
   // borders and line break
-  procedure p_DesignCell(const ARLControl : TRLCustomControl; const AItem : TCollectionItem ;var AIsFirst : Boolean; var ATop,Aline : Integer);
+  procedure p_DesignCell(const ARLControl : TRLCustomControl; const AItem : TCollectionItem ;var AIsFirst : Boolean; var ATop,Aline, Aheight : Integer);
   Begin
     p_DrawBorders ( ARLControl.Borders, ExtColumnColorBorder, AIsFirst, ExtColumnHBorders, ExtColumnVBorders );
-    if assigned ( AItem )
-    and ( flin_getComponentProperty ( AItem, CST_PRINT_COLUMN_LINEBREAK ) > -1 ) Then
-     Begin
-       inc ( Atop, ARLControl.Height );
-       SomeLeft:=0;
-       inc(Aline);
-       AIsFirst:=True;
-     end;
+    Aheight:=ARLControl.Height;
   end;
 
   // set a printed field
-  procedure p_CreatePrintField ( const AItem : TCollectionItem ; var AIsFirst : Boolean; var ATop, Aline : Integer ; const AIWidth : Integer ; const Adataset : TDataset );
+  procedure p_CreatePrintField ( const AItem : TCollectionItem ; var AIsFirst : Boolean; var ATop, Aline, Aheight : Integer ; const AIWidth : Integer ; const Adataset : TDataset ; const ASBreakCaption : String = '' );
   var I : Integer;
   Begin
     if assigned ( AItem ) Then
@@ -438,20 +435,20 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
             OnGetImageIndex := TFieldIndexEvent (fmet_getComponentMethodProperty( AItem, 'OnGetImageIndex' ));
             MapImages := fobj_getComponentObjectProperty( AItem, 'MapImages' ) as TExtMapImages;
           end;
-         p_DesignCell( ARLImage, AItem, AIsFirst, ATop, Aline );
+         p_DesignCell( ARLImage, AItem, AIsFirst, ATop, Aline, Aheight );
        end
       Else
        Begin
         if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TBlobField
-         Then Begin p_createDBImage (SomeLeft,ATop,aiWidth, AlineHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLImage , AItem, AIsFirst, ATop, Aline ); End
-         Else Begin p_createDBText  (SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLDBText, AItem, AIsFirst, ATop, Aline ); End;
+         Then Begin p_createDBImage (SomeLeft,ATop,aiWidth, AlineHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLImage , AItem, AIsFirst, ATop, Aline, Aheight ); End
+         Else Begin p_createDBText  (SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLDBText, AItem, AIsFirst, ATop, Aline, Aheight ); End;
 
        end
     End
    Else
      Begin
-      p_createLabel(SomeLeft,ATop,aiWidth, ExtColumnFont, '' );
-      p_DesignCell( ARLLabel, AItem, AIsFirst, ATop, Aline );
+      p_createLabel(SomeLeft,ATop,aiWidth, ExtColumnFont, ASBreakCaption );
+      p_DesignCell( ARLLabel, AItem, AIsFirst, ATop, Aline, Aheight );
      end
   end;
 
@@ -464,10 +461,44 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     AIsFirst := True;
     ATop := 0;
   end;
+  procedure p_Linebreak ( const AItem : TCollectionItem; var AHeight, ATop, Aline, ADecColumn : Integer; var AIsFirst : Boolean );
+  var ABreak, j : Integer;
+      LSBreakCaption : String;
+  Begin
+    ABreak := flin_getComponentProperty ( AItem, CST_PRINT_COLUMN_LINEBREAK );
+    if assigned ( AItem )
+    and ( ABreak > -1 )
+    and ( ABreak < ADecColumn )Then
+     Begin
+       LSBreakCaption:=fs_getComponentProperty(AItem,CST_PRINT_COLUMN_BREAKCAPTION);
+       inc ( Atop, AHeight );
+       SomeLeft:=0;
+       inc(Aline);
+       ADecColumn := ABreak - 1;
+       SomeLeft:=0;
+       aWidth:=0;
+       AIsFirst:=True;
+       // aligning
+       with AColumns do
+         for j := 0 to ADecColumn do
+           if fb_Visible ( items [ j ] ) Then
+              Begin
+                inc(awidth,fi_resize ( flin_getComponentProperty ( Items [ j ], CST_COLUMN_Width ), j ));
+               end;
+       if aWidth > 0 Then
+          Begin
+            p_CreatePrintField ( nil, AIsFirst,ATop,ALine,AHeight,AWidth,ADataSource.DataSet,LSBreakCaption);
+            ARLLabel.Alignment:=TRLTextAlignment.taRightJustify;
+            ARLLabel.Font.Assign(ExtColumnHeaderFont);
+            inc(SomeLeft,aWidth);
+            AIsFirst:=False;
+          end;
+     end;
+  End;
 
   // Print TFWPrintGrid
   procedure CreateListGrid;
-  var i,ALine, ATop : Integer;
+  var i,ALine, ATop, Aheight : Integer;
       LIsFirst : Boolean;
   Begin
     ALine := 0;
@@ -476,22 +507,24 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
       p_InitList ( ATop, LIsFirst );
       with aColumns do
       for i := 0 to Count - 1 do
-       if fb_Visible ( Items [ i ] ) Then
-         Begin
-           awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
-           p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
-           inc ( SomeLeft, aWidth );
-           LIsFirst := False;
-         end;
+         if fb_Visible ( Items [ i ] ) Then
+           Begin
+             awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
+             p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,Aheight,AWidth,ADataSource.DataSet);
+             inc ( SomeLeft, aWidth );
+             LIsFirst := False;
+           end;
       End;
     p_AdaptBands ( LIsFirst );
   end;
   // Print TFWPrintData
   procedure CreateListPrint;
-  var i,j,Aline,ATop, ADecColumn : Integer;
+  var i,j,Aline,ATop, AHeight, ADecColumn : Integer;
       LIsFirst : Boolean;
+      LSBreakCaption : String ;
   Begin
     ALine := 0;
+    AHeight := 0 ;
     ADecColumn := -1;
     with ADatasource.DataSet,AReport do
      Begin
@@ -503,28 +536,16 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
         if fb_Visible ( Items [ i ] ) Then
          Begin
            awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ), ADecColumn );
-           p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
-           j := flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK );
-           if  ( j > -1 ) // linebreak ?
-           and ( j < ADecColumn ) Then
-            Begin
-              ADecColumn := j - 1;
-              SomeLeft:=0;
-              // aligning
-              for j := 0 to ADecColumn do
-               if fb_Visible ( Items [ i ] ) Then
-                  Begin
-                    awidth:=fi_resize ( flin_getComponentProperty ( Items [ j ], CST_COLUMN_Width ), j );
-                    p_CreatePrintField ( nil, LIsFirst,ATop,ALine,AWidth,ADataSource.DataSet);
-                    inc(SomeLeft,aWidth);
-                   end
-            end
-           else
+           p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,Aheight,AWidth,ADataSource.DataSet);
+           // linebreak ?
+           if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK ) < 0 Then
             Begin
               inc ( SomeLeft, aWidth );
               LIsFirst := False;
             end;
          end;
+        // optional line break
+        p_Linebreak ( Items [ i ], AHeight, ATop, Aline , ADecColumn, LIsFirst );
        End;
 
       End;

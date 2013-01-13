@@ -165,7 +165,8 @@ end;
 
 procedure TFWPrintData.AddColumns;
 begin
-  if Assigned(FDataLink.DataSet) then
+  if Assigned(FDataLink.DataSet)
+  and ( csDesigning in ComponentState ) then
     with FDataLink.DataSet.FieldDefs do
       while FColumns.Count < Count do
         FColumns.Add;
