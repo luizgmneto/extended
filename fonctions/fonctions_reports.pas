@@ -198,7 +198,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
   function fb_Visible ( const AItem : TCollectionItem ) : Boolean;
   Begin
     Result :=    fb_getComponentBoolProperty ( AItem, CST_COLUMN_Visible, True )
-           and ( flin_getComponentProperty ( AItem, CST_COLUMN_Width ) > CST_COLUMN_MIN_Width );
+           and ( flin_getComponentProperty ( AItem, CST_COLUMN_Width ) > CST_COLUMN_MIN_Width )
+           and assigned ( ADatasource.DataSet.FindField(fs_getComponentProperty ( AItem, CST_PROPERTY_FIELDNAME )));
 
   end;
 
