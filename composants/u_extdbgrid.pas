@@ -815,8 +815,7 @@ begin
             Free;
            End;
         End
-      End
-     Else writeln ( Field.FieldName );
+      End;
      if not FPainted Then
       inherited DrawCell(aCol, aRow, aRect, aState);
    end

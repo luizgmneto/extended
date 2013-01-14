@@ -129,7 +129,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
      end;
   end;
 
-  procedure p_createSystemInfo ( const ALeft, ATop, Awidth : Integer ; const AInfo:TRLInfoType; const afont : TFont; const AFontWidth : Integer = 0; const as_Text : String = '' ; const AAlign : TRLControlAlign = faRight ; const AAlignment : TRLTextAlignment = TRLTextAlignment.taRightJustify ; const ALayout : TRLTextLayout = {$IFDEF FPC }TRLTextLayout.{$ENDIF}tlJustify);
+  procedure p_createSystemInfo ( const ALeft, ATop, Awidth : Integer ; const AInfo:TRLInfoType; const afont : TFont; const AFontWidth : Integer = 0; const as_Text : String = '' ; const AAlign : TRLControlAlign = faRight ; const AAlignment : TRLTextAlignment = TRLTextAlignment(taRightJustify) ; const ALayout : TRLTextLayout = {$IFDEF FPC }TRLTextLayout.{$ENDIF}tlJustify);
   Begin
     ARLSystemInfo := TRLSystemInfo.Create(AReport.Owner);
     with ARLSystemInfo do
@@ -338,7 +338,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
           Begin
            p_createSystemInfo(Width,2,0,itFullDate, ExtTitleColorFont, 0,'',faRightTop);
            Height:=Max(ARLSystemInfo.Height*2,Height);  // adapt height to 2 lines of system info
-           p_createSystemInfo(Width,Height,0,itLastPageNumber, ExtTitleColorFont, 0, '/', faRightBottom,TRLTextAlignment.taLeftJustify);
+           p_createSystemInfo(Width,Height,0,itLastPageNumber, ExtTitleColorFont, 0, '/', faRightBottom,TRLTextAlignment(taLeftJustify));
            // due to autosize bug
            ARLSystemInfo.Anchors:=[fkRight,fkBottom];
            ARLSystemInfo.Width:=43;
@@ -488,7 +488,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
        if aWidth > 0 Then
           Begin
             p_CreatePrintField ( nil, AIsFirst,ATop,ALine,AHeight,AWidth,ADataSource.DataSet,LSBreakCaption);
-            ARLLabel.Alignment:=TRLTextAlignment.taRightJustify;
+            ARLLabel.Alignment:=TRLTextAlignment(taRightJustify);
             ARLLabel.Font.Assign(ExtColumnHeaderFont);
             inc(SomeLeft,aWidth);
             AIsFirst:=False;
