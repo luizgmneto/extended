@@ -9,12 +9,6 @@
     <module name="u_traducefile">
       <short/>
       <descr/>
-      <!-- constant Visibility: default -->
-      <element name="gVer_TTraduceFile">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
       <!-- enumeration type Visibility: default -->
       <element name="TEImageFileOption">
         <short/>

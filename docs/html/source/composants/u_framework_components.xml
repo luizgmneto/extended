@@ -9,12 +9,6 @@
     <module name="u_framework_components">
       <short/>
       <descr/>
-      <!-- constant Visibility: default -->
-      <element name="gVer_framework_components">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
       <!-- class Visibility: default -->
       <element name="TFWLabel">
         <short/>
@@ -144,6 +138,21 @@
       </element>
       <!-- argument Visibility: default -->
       <element name="TFWEdit.MouseDown.Y">
+        <short/>
+      </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TFWEdit.Notification">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWEdit.Notification.AComponent">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWEdit.Notification.Operation">
         <short/>
       </element>
       <!-- constructor Visibility: public -->
@@ -399,6 +408,21 @@
       <element name="TFWSpinEdit.MouseDown.Y">
         <short/>
       </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TFWSpinEdit.Notification">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWSpinEdit.Notification.AComponent">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWSpinEdit.Notification.Operation">
+        <short/>
+      </element>
       <!-- constructor Visibility: public -->
       <element name="TFWSpinEdit.Create">
         <short/>
@@ -650,6 +674,21 @@
       </element>
       <!-- argument Visibility: default -->
       <element name="TFWDateEdit.MouseDown.Y">
+        <short/>
+      </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TFWDateEdit.Notification">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWDateEdit.Notification.AComponent">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWDateEdit.Notification.Operation">
         <short/>
       </element>
       <!-- constructor Visibility: public -->
@@ -905,6 +944,21 @@
       <element name="TFWComboBox.MouseDown.Y">
         <short/>
       </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TFWComboBox.Notification">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWComboBox.Notification.AComponent">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWComboBox.Notification.Operation">
+        <short/>
+      </element>
       <!-- constructor Visibility: public -->
       <element name="TFWComboBox.Create">
         <short/>
@@ -1078,6 +1132,21 @@
       </element>
       <!-- argument Visibility: default -->
       <element name="TFWLabel.CMMouseLeave.Message">
+        <short/>
+      </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TFWLabel.Notification">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWLabel.Notification.AComponent">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWLabel.Notification.Operation">
         <short/>
       </element>
       <!-- procedure Visibility: public -->
@@ -1444,6 +1513,21 @@
       <element name="TFWMemo.MouseDown.Y">
         <short/>
       </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TFWMemo.Notification">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWMemo.Notification.AComponent">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWMemo.Notification.Operation">
+        <short/>
+      </element>
       <!-- constructor Visibility: public -->
       <element name="TFWMemo.Create">
         <short/>
@@ -1689,6 +1773,21 @@
       </element>
       <!-- argument Visibility: default -->
       <element name="TFWDateTimePicker.MouseDown.Y">
+        <short/>
+      </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TFWDateTimePicker.Notification">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWDateTimePicker.Notification.AComponent">
+        <short/>
+      </element>
+      <!-- argument Visibility: default -->
+      <element name="TFWDateTimePicker.Notification.Operation">
         <short/>
       </element>
       <!-- constructor Visibility: public -->

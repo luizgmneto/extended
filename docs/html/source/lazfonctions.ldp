@@ -10,7 +10,7 @@ ShowPrivate=0
 Import=
 
 [Descriptions]
-Count=23
+Count=24
 File1=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\docs\html\source\fonctions\fonctions_array.xml
 File2=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\docs\html\source\fonctions\unite_messages.xml
 File3=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\docs\html\source\fonctions\fonctions_erreurs.xml
@@ -34,9 +34,10 @@ File20=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\d
 File21=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\docs\html\source\fonctions\unit_messagescopy.xml
 File22=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\docs\html\source\fonctions\fonctions_dbcomponents.xml
 File23=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\docs\html\source\fonctions\fonctions_forms.xml
+File24=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\docs\html\source\fonctions\fonctions_reports.xml
 
 [Sources]
-Count=23
+Count=24
 File1=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\fonctions\fonctions_array.pas
 File2=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\fonctions\unite_messages.pas
 File3=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\fonctions\fonctions_erreurs.pas
@@ -60,6 +61,7 @@ File20=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\f
 File21=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\fonctions\unit_messagescopy.pas
 File22=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\fonctions\fonctions_dbcomponents.pas
 File23=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\fonctions\fonctions_forms.pas
+File24=C:\users\matthieu\Bureau\Matthieu\Programmation\Lazarus-Delphi\Extended\fonctions\fonctions_reports.pas
 Options1=
 Options2=
 Options3=

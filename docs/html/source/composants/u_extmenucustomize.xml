@@ -15,12 +15,6 @@
         <descr/>
         <seealso/>
       </element>
-      <!-- constant Visibility: default -->
-      <element name="gVer_TExtMenuCustomize">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
       <!-- class Visibility: default -->
       <element name="TExtMenuCustomize">
         <short/>

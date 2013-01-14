@@ -9,12 +9,6 @@
     <module name="U_GroupView">
       <short/>
       <descr/>
-      <!-- constant Visibility: default -->
-      <element name="gVer_TDBGroupView">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
       <!-- function type Visibility: default -->
       <element name="EBasketAllEvent">
         <short/>
@@ -85,6 +79,12 @@
       </element>
       <!-- variable Visibility: private -->
       <element name="TDBGroupView.gsts_SQLQuery">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TDBGroupView.gstl_params">
         <short/>
         <descr/>
         <seealso/>

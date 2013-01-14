@@ -69,12 +69,6 @@
         <descr/>
         <seealso/>
       </element>
-      <!-- constant Visibility: default -->
-      <element name="gVer_ExTComponent">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
       <!-- interface Visibility: default -->
       <element name="IFWComponent">
         <short/>

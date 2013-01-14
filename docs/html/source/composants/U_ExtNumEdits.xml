@@ -10,18 +10,6 @@
       <short/>
       <descr/>
       <!-- constant Visibility: default -->
-      <element name="gVer_TExtNumEdit">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
-      <!-- constant Visibility: default -->
-      <element name="gVer_TExtDBNumEdit">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
-      <!-- constant Visibility: default -->
       <element name="CST_MC_NEGATIVE">
         <short/>
         <descr/>

@@ -9,12 +9,6 @@
     <module name="U_ExtDBImageList">
       <short/>
       <descr/>
-      <!-- constant Visibility: default -->
-      <element name="gVer_TExtDBImageList">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
       <!-- class Visibility: default -->
       <element name="TExtDBImageList">
         <short/>
@@ -23,31 +17,13 @@
         <seealso/>
       </element>
       <!-- variable Visibility: private -->
-      <element name="TExtDBImageList.FDataLink">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
-      <!-- variable Visibility: private -->
-      <element name="TExtDBImageList.FNotifyOrder">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
-      <!-- variable Visibility: private -->
-      <element name="TExtDBImageList.FImages">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
-      <!-- variable Visibility: private -->
-      <element name="TExtDBImageList.FImageIndex">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
-      <!-- variable Visibility: private -->
       <element name="TExtDBImageList.FMapImages">
+        <short/>
+        <descr/>
+        <seealso/>
+      </element>
+      <!-- variable Visibility: private -->
+      <element name="TExtDBImageList.FDataLink">
         <short/>
         <descr/>
         <seealso/>
@@ -74,28 +50,6 @@
       <element name="TExtDBImageList.p_SetDatasource.Value">
         <short/>
       </element>
-      <!-- procedure Visibility: private -->
-      <element name="TExtDBImageList.p_SetImages">
-        <short/>
-        <descr/>
-        <errors/>
-        <seealso/>
-      </element>
-      <!-- argument Visibility: default -->
-      <element name="TExtDBImageList.p_SetImages.Value">
-        <short/>
-      </element>
-      <!-- procedure Visibility: private -->
-      <element name="TExtDBImageList.p_SetImagesMap">
-        <short/>
-        <descr/>
-        <errors/>
-        <seealso/>
-      </element>
-      <!-- argument Visibility: default -->
-      <element name="TExtDBImageList.p_SetImagesMap.Value">
-        <short/>
-      </element>
       <!-- function Visibility: private -->
       <element name="TExtDBImageList.fds_GetDatasource">
         <short/>
@@ -118,19 +72,16 @@
       <element name="TExtDBImageList.fs_GetDatafield.Result">
         <short/>
       </element>
-      <!-- procedure Visibility: protected -->
-      <element name="TExtDBImageList.SetOrder">
+      <!-- procedure Visibility: private -->
+      <element name="TExtDBImageList.p_SetImagesMap">
         <short/>
         <descr/>
         <errors/>
         <seealso/>
       </element>
-      <!-- procedure Visibility: protected -->
-      <element name="TExtDBImageList.p_SetImage">
+      <!-- argument Visibility: default -->
+      <element name="TExtDBImageList.p_SetImagesMap.Value">
         <short/>
-        <descr/>
-        <errors/>
-        <seealso/>
       </element>
       <!-- procedure Visibility: protected -->
       <element name="TExtDBImageList.p_ActiveChange">
@@ -154,6 +105,13 @@
       <element name="TExtDBImageList.p_DataChange.Sender">
         <short/>
       </element>
+      <!-- procedure Visibility: protected -->
+      <element name="TExtDBImageList.p_SetImage">
+        <short/>
+        <descr/>
+        <errors/>
+        <seealso/>
+      </element>
       <!-- constructor Visibility: public -->
       <element name="TExtDBImageList.Create">
         <short/>
@@ -173,12 +131,6 @@
         <seealso/>
       </element>
       <!-- property Visibility: public -->
-      <element name="TExtDBImageList.Filename">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
-      <!-- property Visibility: public -->
       <element name="TExtDBImageList.ImageIndex">
         <short/>
         <descr/>
@@ -192,12 +144,6 @@
       </element>
       <!-- property Visibility: published -->
       <element name="TExtDBImageList.Datasource">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
-      <!-- property Visibility: published -->
-      <element name="TExtDBImageList.Images">
         <short/>
         <descr/>
         <seealso/>
