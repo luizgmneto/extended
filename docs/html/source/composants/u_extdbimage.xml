@@ -9,12 +9,6 @@
     <module name="U_ExtDBImage">
       <short/>
       <descr/>
-      <!-- constant Visibility: default -->
-      <element name="gVer_TExtDBImage">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
       <!-- class Visibility: default -->
       <element name="TExtDBImage">
         <short/>

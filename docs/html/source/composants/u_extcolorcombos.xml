@@ -10,18 +10,6 @@
       <short/>
       <descr/>
       <!-- constant Visibility: default -->
-      <element name="gVer_TExtColorCombo">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
-      <!-- constant Visibility: default -->
-      <element name="gVer_TDBColorCombo">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
-      <!-- constant Visibility: default -->
       <element name="CST_COLOR_COMBO_DEFAULT_COLOR_VALUE">
         <short/>
         <descr/>

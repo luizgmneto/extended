@@ -9,12 +9,6 @@
     <module name="u_buttons_speed">
       <short/>
       <descr/>
-      <!-- constant Visibility: default -->
-      <element name="gVer_buttons_speed">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
       <!-- class Visibility: default -->
       <element name="TSBButton">
         <short/>

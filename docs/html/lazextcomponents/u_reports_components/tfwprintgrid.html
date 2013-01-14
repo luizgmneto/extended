@@ -9,7 +9,7 @@
 <body>
 <table class="bar" width="100%" border="0" cellpadding="4" cellspacing="0">
 <tr>
-<td><b>[<a href="../u_reports_components/index.html">Overview</a>][<a href="../u_reports_components/index-2.html">Constants</a>][<a href="../u_reports_components/index-4.html">Classes</a>][<a href="../u_reports_components/index-8.html">Index</a>]</b></td>
+<td><b>[<a href="../u_reports_components/index.html">Overview</a>][<a href="../u_reports_components/index-4.html">Classes</a>][<a href="../u_reports_components/index-8.html">Index</a>]</b></td>
 <td align="right"><span class="bartitle">Reference for unit 'u_reports_components' (<a href="../index.html">#lazextcomponents</a>)</span></td>
 </tr>
 </table>
@@ -17,7 +17,7 @@
 <p>[<a href="../u_reports_components/tfwprintgrid-1.html" onClick="window.open('../u_reports_components/tfwprintgrid-1.html', 'list', 'dependent=yes,resizable=yes,scrollbars=yes,height=400,width=300'); return false;">Properties</a> (<a href="../u_reports_components/tfwprintgrid-2.html" onClick="window.open('../u_reports_components/tfwprintgrid-2.html', 'list', 'dependent=yes,resizable=yes,scrollbars=yes,height=400,width=300'); return false;">by Name</a>)] [<a href="../u_reports_components/tfwprintgrid-3.html" onClick="window.open('../u_reports_components/tfwprintgrid-3.html', 'list', 'dependent=yes,resizable=yes,scrollbars=yes,height=400,width=300'); return false;">Methods</a> (<a href="../u_reports_components/tfwprintgrid-4.html" onClick="window.open('../u_reports_components/tfwprintgrid-4.html', 'list', 'dependent=yes,resizable=yes,scrollbars=yes,height=400,width=300'); return false;">by Name</a>)] [<a href="../u_reports_components/tfwprintgrid-5.html" onClick="window.open('../u_reports_components/tfwprintgrid-5.html', 'list', 'dependent=yes,resizable=yes,scrollbars=yes,height=400,width=300'); return false;">Events</a> (<a href="../u_reports_components/tfwprintgrid-6.html" onClick="window.open('../u_reports_components/tfwprintgrid-6.html', 'list', 'dependent=yes,resizable=yes,scrollbars=yes,height=400,width=300'); return false;">by Name</a>)] </p>
 <p></p>
 <h2>Declaration</h2>
-<p>Source position: u_reports_components.pas line 39</p>
+<p>Source position: u_reports_components.pas line 97</p>
 <table cellpadding="0" cellspacing="0">
 <tr>
 <td><p><tt><span class="code"><span class="kw">type</span> TFWPrintGrid <span class="sym">=</span> <span class="kw">class</span><span class="sym">(</span>TFWPrint<span class="sym">)</span></span></tt></p></td>
@@ -31,10 +31,25 @@
 <td><p class="cmt"></p></td>
 </tr>
 <tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">procedure </span><a href="../u_reports_components/tfwprintgrid.setcreatereport.html">SetCreateReport</a><span class="sym">();</span><span class="kw"> virtual</span><span class="sym">;</span></span></tt></p></td>
+<td><p>&nbsp;&nbsp;</p></td>
+<td><p class="cmt"></p></td>
+</tr>
+<tr>
 <td><p><tt><span class="code"><span class="kw">public</span></span></tt></p></td>
 </tr>
 <tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">constructor </span><a href="../u_reports_components/tfwprintgrid.create.html">Create</a><span class="sym">();</span><span class="kw"> override</span><span class="sym">;</span></span></tt></p></td>
+<td><p>&nbsp;&nbsp;</p></td>
+<td><p class="cmt"></p></td>
+</tr>
+<tr>
 <td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">procedure </span><a href="../u_reports_components/tfwprintgrid.click.html">Click</a><span class="sym">;</span><span class="kw"> override</span><span class="sym">;</span></span></tt></p></td>
+<td><p>&nbsp;&nbsp;</p></td>
+<td><p class="cmt"></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">procedure </span><a href="../u_reports_components/tfwprintgrid.createareport.html">CreateAReport</a><span class="sym">();</span><span class="kw"> virtual</span><span class="sym">;</span></span></tt></p></td>
 <td><p>&nbsp;&nbsp;</p></td>
 <td><p class="cmt"></p></td>
 </tr>
@@ -53,6 +68,21 @@
 </tr>
 <tr>
 <td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../u_reports_components/tfwprintgrid.dbtitle.html">DBTitle</a><span class="sym">: </span>String<span class="sym">;</span>  [rw]</span></tt></p></td>
+<td><p>&nbsp;&nbsp;</p></td>
+<td><p class="cmt"></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../u_reports_components/tfwprintgrid.preview.html">Preview</a><span class="sym">: </span>TRLPreview<span class="sym">;</span>  [rw]</span></tt></p></td>
+<td><p>&nbsp;&nbsp;</p></td>
+<td><p class="cmt"></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../u_reports_components/tfwprintgrid.report.html">Report</a><span class="sym">: </span>TRLReport<span class="sym">;</span>  [rw]</span></tt></p></td>
+<td><p>&nbsp;&nbsp;</p></td>
+<td><p class="cmt"></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../u_reports_components/tfwprintgrid.createreport.html">CreateReport</a><span class="sym">: </span>Boolean<span class="sym">;</span>  [rw]</span></tt></p></td>
 <td><p>&nbsp;&nbsp;</p></td>
 <td><p class="cmt"></p></td>
 </tr>

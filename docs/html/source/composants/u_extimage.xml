@@ -9,12 +9,6 @@
     <module name="U_ExtImage">
       <short/>
       <descr/>
-      <!-- constant Visibility: default -->
-      <element name="gVer_TExtImage">
-        <short/>
-        <descr/>
-        <seealso/>
-      </element>
       <!-- class Visibility: default -->
       <element name="TExtImage">
         <short/>
