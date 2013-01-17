@@ -29,7 +29,7 @@ uses
 {$ENDIF}
   Graphics, Controls, Classes, ExtCtrls, Dialogs, Messages,
   Buttons, Forms, DBCtrls,
-  ComCtrls, StdCtrls, SysUtils,
+  StdCtrls, SysUtils,
   TypInfo, Variants, u_extcomponent,
 {$IFDEF TNT}
    TntGrids, TntStdCtrls, 
@@ -382,9 +382,6 @@ type
 
 
 implementation
-
-uses fonctions_db;
-
 
 
 { TFWEdit }

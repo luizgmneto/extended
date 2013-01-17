@@ -12,11 +12,11 @@ interface
 
 uses
 {$IFDEF FPC}
-  LCLIntf, MaskEdit,
+  LCLIntf,
 {$ELSE}
   Windows, AdoConEd, MaskUtils,
 {$ENDIF}
-  IniFiles, Forms, SysUtils, StrUtils, Classes, DB, ComCtrls,
+  Forms, SysUtils, StrUtils, Classes,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
@@ -102,7 +102,7 @@ const
 implementation
 
 {$IFDEF FPC}
-uses LCLType, LCLProc, type_string, FileUtil, UTF8Process, unite_messages ;
+uses LCLType, LCLProc, type_string, FileUtil, unite_messages ;
 {$ELSE}
 uses type_string_delphi, JclStrings, fonctions_system, unite_messages_delphi ;
 {$ENDIF}

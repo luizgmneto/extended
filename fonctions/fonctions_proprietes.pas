@@ -80,16 +80,6 @@ function fb_GetStrings (const acom_component : TObject ;const as_propertyname : 
 
 implementation
 
-uses
-{$IFDEF FPC}
-{$ELSE}
-{$ENDIF}
-  {$IFDEF FPC}
-  unite_messages;
-  {$ELSE}
-  unite_messages_delphi;
-  {$ENDIF}
-
 
 function fb_GetStrings (const acom_component : TObject ;const as_propertyname : String ; var astl_Strings : TStrings {$IFDEF DELPHI_9_UP}; var awst_Strings : TWideStrings {$ENDIF}): Boolean;
 var lobj_Strings : TObject ;

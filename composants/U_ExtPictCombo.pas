@@ -27,13 +27,13 @@ uses
 {$IFDEF FPC}
   LCLIntf, LCLType, lMessages, lresources,
 {$ELSE}
-  Windows, Variants,
+  Windows, Variants, Messages,
 {$ENDIF}
 {$IFDEF TNT}
    TntStdCtrls,
 {$ENDIF}
-  Messages, SysUtils, Classes, Graphics, Controls, Forms,
-  StdCtrls, DB, DBCtrls, fonctions_erreurs,
+  SysUtils, Classes, Graphics, Controls, Forms,
+  StdCtrls, DBCtrls, fonctions_erreurs,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
@@ -177,12 +177,7 @@ type
 
 implementation
 
-uses   {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi,
-  {$ENDIF}
- fonctions_proprietes, fonctions_images;
+uses fonctions_proprietes, fonctions_images;
 
 
 { TExtPictCombo }

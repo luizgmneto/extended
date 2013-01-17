@@ -118,15 +118,14 @@ type
 implementation
 
 uses {$IFDEF FPC}
-     ObjInspStrConsts,lclstrconsts,
-     RtlConsts,FileUtil, unite_messages,
+     FileUtil, unite_messages,
      {$ELSE}
      Consts, VDBConsts, unite_messages_delphi,
      {$ENDIF}
 
      fonctions_images,
      fonctions_system,
-     Forms, Math, sysutils,
+     Forms, sysutils,
      fonctions_string;
 
 
@@ -324,9 +323,6 @@ begin
 end;
 
 procedure TFWXPButton.Click;
-var lp_pos : TPoint;
-    Continue : Boolean;
-    APopupMenu : TPopupMenu;
 begin
   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
   inherited Click;

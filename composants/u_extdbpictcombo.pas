@@ -33,11 +33,11 @@ uses
    TntStdCtrls,
 {$ENDIF}
   Messages, SysUtils, Classes, Graphics, Controls, Forms,
-  StdCtrls, DB, DBCtrls, fonctions_erreurs,
+  DB, DBCtrls, fonctions_erreurs,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  u_extcomponent, ImgList, U_ExtMapImageIndex, U_ExtPictCombo ;
+  U_ExtPictCombo ;
 
 {$IFDEF VERSIONS}
 const
@@ -101,12 +101,6 @@ type
 
 implementation
 
-uses   {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi,
-  {$ENDIF}
- fonctions_proprietes, fonctions_images;
 
 { TExtDBPictCombo }
 constructor TExtDBPictCombo.Create(AOwner: TComponent);

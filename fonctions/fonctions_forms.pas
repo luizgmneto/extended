@@ -175,11 +175,6 @@ var
 implementation
 
 uses fonctions_proprietes, fonctions_erreurs, TypInfo,
-  {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi,
-  {$ENDIF}
   fonctions_system,
   fonctions_scaledpi,
   U_FormAdapt;

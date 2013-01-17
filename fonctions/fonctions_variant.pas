@@ -10,11 +10,11 @@ interface
 2004-08-27
 Création de l'unité par Matthieu Giroux
 }
-uses Variants, Classes,
+uses Variants,
   {$IFDEF VERSIONS}
   fonctions_version,
   {$ENDIF}
-  ComCtrls;
+  Classes;
 
 {$IFDEF VERSIONS}
 const
@@ -105,7 +105,7 @@ function fb_SettedList ( const at_Liste : tt_TableauVariant ) : Boolean ;
 
 implementation
 
-uses fonctions_string, SysUtils, fonctions_db ;
+uses SysUtils, fonctions_db ;
 
 // Cherche avar_ATrouver dans la liste alst_liste
 // alst_liste   : la liste de recherche

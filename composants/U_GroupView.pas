@@ -33,12 +33,9 @@ interface
 
 uses
 {$IFDEF FPC}
-  LCLIntf, LCLType, SQLDB, RxLookup, lresources,
+  LCLIntf, LCLType, SQLDB, lresources,
 {$ELSE}
   Windows, DBTables, JvListView,
-{$ENDIF}
-{$IFDEF SFORM}
-  CompSuperForm,
 {$ENDIF}
     SysUtils, Classes, Graphics, Controls,
      Forms, Dialogs, Db,
@@ -271,7 +268,6 @@ type
     function  fb_CanSort  : Boolean ; override;
     procedure DoSelectItem ( llsi_ItemsSelected : TListItem; ab_selected : Boolean ); {$IFNDEF FPC}virtual{$ELSE}override{$ENDIF};
     procedure LoadList; virtual;
-    procedure DataLinkScrolled; override;
     Procedure DataLinkClosed; virtual;
     procedure DblClick ; override;
     procedure DragOver ( aobj_Source : Tobject; ai_X, ai_Y : Integer ; ads_Etat : TDragState ; var ab_Accepte : Boolean ); override;
@@ -279,7 +275,7 @@ type
     procedure MouseDown( abt_Bouton : TMouseButton ; ass_EtatShift : TShiftState ; ai_x, ai_y : Integer ); override;
     procedure p_PostDataSourceOwner; virtual;
     procedure p_CreateSQL; virtual;
-
+    procedure DataLinkScrolled; override;
 
    public
     gb_OptionTotalList,
@@ -2047,7 +2043,6 @@ end;
 function TDBGroupView.fb_BeginOpen:Boolean;
 var ls_SQLCommands ,
     ls_Fields     : String;
-    li_i : Integer;
 begin
  Result := True;
  if gs_TableOwner <> '' Then

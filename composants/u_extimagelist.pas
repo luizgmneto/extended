@@ -22,7 +22,7 @@ uses Graphics,
   Windows,
 {$ENDIF}
   ImgList,
-  Classes, U_ExtImage, U_ExtMapImageIndex;
+  Classes, U_ExtImage;
 
 {$IFDEF VERSIONS}
 const

@@ -325,6 +325,7 @@ var lobj_Params1 :  TParams ;
 begin
   lobj_Params1 := nil;
   lprm_Param   := nil;
+  lstl_params  := nil;
   {$IFDEF EADO}
   lobj_Params2   := nil;
   lprm_Parameter := nil;
@@ -437,6 +438,7 @@ Begin
  lobj_SQL := fobj_getComponentObjectProperty ( adat_Dataset, CST_DBPROPERTY_SQL );
  if assigned ( lobj_SQL ) Then
    Begin
+     lprm_Params := nil;
      lstl_Params := nil;
      fb_GetParamsDataset ( adat_Dataset, lprm_Params, lstl_Params{$IFDEF EADO}, lprm_Parameters {$ENDIF});
      if assigned ( lprm_Params ) then

@@ -25,7 +25,7 @@ Administration
 
 uses Forms,
 {$IFDEF FPC}
-   LCLIntf, LCLType, ComCtrls, gettext, Translations,
+   LCLIntf, LCLType,  gettext, Translations,
 {$ELSE}
    Windows, ToolWin,
 {$ENDIF}
@@ -305,6 +305,7 @@ End;
 function GetUserLongLanguage: Ansistring;
 var ls_Language : AnsiString;
 begin
+  ls_language := '';
   GetLanguageIDs( ls_language, Result );  //LOCALE_SNATIVELANGNAME
 End;
 {$ELSE}

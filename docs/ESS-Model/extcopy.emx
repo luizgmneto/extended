@@ -1,0 +1,1207 @@
+<LogicPackage id="emx_1" name="" visibility="private">
+<UnitPackage id="emx_2" name="((Unknown))" visibility="private">
+<DataType id="emx_3" name="Boolean" visibility="private">
+</DataType>
+<DataType id="emx_4" name="String" visibility="private">
+</DataType>
+<Class id="emx_5" name="TComponent" visibility="private">
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<DataType id="emx_6" name="TECopyErrorEvent" visibility="private">
+</DataType>
+<DataType id="emx_7" name="Integer" visibility="private">
+</DataType>
+<DataType id="emx_8" name="Longint" visibility="private">
+</DataType>
+<DataType id="emx_9" name="TECopyEvent" visibility="private">
+</DataType>
+<DataType id="emx_10" name="TEChangeDirectoryEvent" visibility="private">
+</DataType>
+<DataType id="emx_11" name="TECopyFinishEvent" visibility="private">
+</DataType>
+<DataType id="emx_12" name="TEReturnEvent" visibility="private">
+</DataType>
+<DataType id="emx_13" name="TCustomMemo" visibility="private">
+</DataType>
+<DataType id="emx_14" name="TImageData" visibility="private">
+</DataType>
+<DataType id="emx_15" name="TImageFileFormat" visibility="private">
+</DataType>
+<DataType id="emx_16" name="TOperation" visibility="private">
+</DataType>
+<DataType id="emx_17" name="of char" visibility="private">
+</DataType>
+<DataType id="emx_18" name="Thandle" visibility="private">
+</DataType>
+<DataType id="emx_19" name="AnsiString" visibility="private">
+</DataType>
+<DataType id="emx_20" name="TDatasource" visibility="private">
+</DataType>
+</UnitPackage>
+<UnitPackage id="emx_21" name="ExtCopy" visibility="private">
+</UnitPackage>
+<UnitPackage id="emx_22" name="u_traducefile" visibility="private">
+<DataType id="emx_23" name="TEImageFileOption" visibility="private">
+</DataType>
+<DataType id="emx_24" name="TEImageFilesOption" visibility="private">
+</DataType>
+<DataType id="emx_25" name="TETraduceOptions" visibility="private">
+</DataType>
+<Class id="emx_26" name="TTraduceFile" visibility="public">
+<Feature>
+<Attribute id="emx_27" name="FTraduceOptions" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_25"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_28" name="FResizeHeight" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_8"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_29" name="FResizeWidth" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_8"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_30" name="FKeepProportion" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_3"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_31" name="FTraduceImage" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_3"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_32" name="FBeforeCopyBuffer" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_9"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_33" name="FOnChange" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_10"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_34" name="FBufferSize" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_7"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_35" name="FSizeProgress" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_7"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_36" name="FOnSuccess" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_11"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_37" name="FOnFailure" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_6"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_38" name="FBeforeCopy" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_12"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_39" name="FOnProgress" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_9"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_40" name="FDestinationOption" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_23"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_41" name="FHeader" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_13"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_42" name="FEndOfFile" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_13"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_43" name="FSource" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_44" name="FDestination" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_45" name="FInProgress" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_3"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_46" name="SetDestination" visibility="private">
+<Parameters>
+<Parameter id="emx_47" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_48" name="SetSource" visibility="private">
+<Parameters>
+<Parameter id="emx_49" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_50" name="FInited" visibility="protected">
+<TypeClassifier>
+<DataType idref="emx_3"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_51" name="SaveToFile" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_8"/>
+</ReturnParameter>
+<Parameter id="emx_52" name="Adata" visibility="private">
+<Parameter.type>
+<DataType idref="emx_14"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_53" name="as_source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_54" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_55" name="AFormat" visibility="private">
+<Parameter.type>
+<DataType idref="emx_15"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_56" name="AResized" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_57" name="DoInit" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_7"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_58" name="UnInit" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_7"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_59" name="BeforeCopy" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_60" name="CreateDestination" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_61" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_62" name="Notification" visibility="protected">
+<Parameters>
+<Parameter id="emx_63" name="AComponent" visibility="private">
+<Parameter.type>
+<Class idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_64" name="Operation" visibility="private">
+<Parameter.type>
+<DataType idref="emx_16"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_65" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_66" name="AOwner" visibility="private">
+<Parameter.type>
+<Class idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_67" name="IsCopyOk" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_68" name="ai_Error" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_69" name="as_Message" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_70" name="InternalDefaultCopyFile" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_71" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_72" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_73" name="InternalFinish" visibility="public">
+<Parameters>
+<Parameter id="emx_74" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_75" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_76" name="PrepareCopy" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Attribute id="emx_77" name="InProgress" visibility="public">
+</Attribute>
+<Operation id="emx_78" name="CopyFile" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_7"/>
+</ReturnParameter>
+<Parameter id="emx_79" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_80" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_81" name="CopySourceToDestination" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_82" name="Destroy" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Attribute id="emx_83" name="TraduceOptions" visibility="public">
+</Attribute>
+<Attribute id="emx_84" name="TraduceImage" visibility="public">
+</Attribute>
+<Attribute id="emx_85" name="BufferSize" visibility="public">
+</Attribute>
+<Attribute id="emx_86" name="Header" visibility="public">
+</Attribute>
+<Attribute id="emx_87" name="EndOfFile" visibility="public">
+</Attribute>
+<Attribute id="emx_88" name="ResizeHeight" visibility="public">
+</Attribute>
+<Attribute id="emx_89" name="ResizeWidth" visibility="public">
+</Attribute>
+<Attribute id="emx_90" name="KeepProportion" visibility="public">
+</Attribute>
+<Attribute id="emx_91" name="FileSource" visibility="public">
+</Attribute>
+<Attribute id="emx_92" name="FileDestination" visibility="public">
+</Attribute>
+<Attribute id="emx_93" name="ImageDestinationOption" visibility="public">
+</Attribute>
+<Attribute id="emx_94" name="OnSuccess" visibility="public">
+</Attribute>
+<Attribute id="emx_95" name="OnFailure" visibility="public">
+</Attribute>
+<Attribute id="emx_96" name="OnProgress" visibility="public">
+</Attribute>
+<Attribute id="emx_97" name="OnBeforeCopyBuffer" visibility="public">
+</Attribute>
+<Attribute id="emx_98" name="OnBeforeCopy" visibility="public">
+</Attribute>
+<Attribute id="emx_99" name="OnChange" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+<Class.Implements>
+</Class.Implements>
+</Class>
+</UnitPackage>
+<UnitPackage id="emx_100" name="u_extabscopy" visibility="private">
+<DataType id="emx_101" name="TESimpleCopyOption" visibility="private">
+</DataType>
+<Interface id="emx_102" name="IFileCopyComponent" visibility="public">
+<Feature>
+<Operation id="emx_103" name="BeforeCopy" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_104" name="InternalDefaultCopyFile" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_105" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_106" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_107" name="InternalFinish" visibility="public">
+<Parameters>
+<Parameter id="emx_108" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_109" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_110" name="CopySourceToDestination" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_111" name="CreateDestination" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_112" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+</Feature>
+<Interface.ImplementingClass>
+</Interface.ImplementingClass>
+</Interface>
+<Class id="emx_113" name="TAbsFileCopy" visibility="public">
+<Feature>
+<Attribute id="emx_114" name="FOnFailure" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_6"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_115" name="FErrors" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_7"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_116" name="PrepareFileSourceAndDestination" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_7"/>
+</ReturnParameter>
+<Parameter id="emx_117" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_118" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_119" name="ab_AppendFile" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_120" name="ab_CreateBackup" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_121" name="IsCopyOk" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_122" name="ai_Error" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_123" name="as_Message" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_124" name="Errors" visibility="public">
+</Attribute>
+<Attribute id="emx_125" name="OnFailure" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+</UnitPackage>
+<UnitPackage id="emx_126" name="U_ExtFileCopy" visibility="private">
+<DataType id="emx_127" name="TEMultipleCopyOption" visibility="private">
+</DataType>
+<DataType id="emx_128" name="TECopyFileOptions" visibility="private">
+</DataType>
+<DataType id="emx_129" name="TECopyFilesOptions" visibility="private">
+</DataType>
+<DataType id="emx_130" name="IntCopy" visibility="private">
+</DataType>
+<Class id="emx_131" name="TExtFileCopy" visibility="public">
+<Feature>
+<Attribute id="emx_132" name="FTraduceCopy" visibility="private">
+<TypeClassifier>
+<Interface idref="emx_102"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_133" name="FOnChange" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_10"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_134" name="FDoEraseDir" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_12"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_135" name="FSizeTotal" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_130"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_136" name="FSizeProgress" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_7"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_137" name="FOnSuccess" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_11"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_138" name="FBeforeCopy" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_12"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_139" name="FBeforeCopyBuffer" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_9"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_140" name="FOnProgress" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_9"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_141" name="FBufferSize" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_7"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_142" name="FFileOptions" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_128"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_143" name="FFilesOptions" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_129"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_144" name="FFilter" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_145" name="FSource" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_146" name="FDestination" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_147" name="FInProgress" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_3"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_148" name="SetBufferSize" visibility="private">
+<Parameters>
+<Parameter id="emx_149" name="Value" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_150" name="SetDestination" visibility="private">
+<Parameters>
+<Parameter id="emx_151" name="Value" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_152" name="SetSource" visibility="private">
+<Parameters>
+<Parameter id="emx_153" name="Value" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_154" name="FBuffer" visibility="protected">
+<TypeClassifier>
+<DataType idref="emx_17"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_155" name="CreateDestination" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_156" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_157" name="PrepareFileSourceAndDestination" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_7"/>
+</ReturnParameter>
+<Parameter id="emx_158" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_159" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_160" name="li_HandleSource" visibility="private">
+<Parameter.type>
+<DataType idref="emx_18"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_161" name="li_HandleDestination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_18"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_162" name="ab_AppendFile" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_163" name="ab_CreateBackup" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_164" name="fb_InternalCopyFile" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_165" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_166" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_167" name="ab_DestinationIsFile" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_168" name="ab_CreateBackup" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_169" name="fb_InternalCopyDirectory" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_170" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_171" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_172" name="as_Mask" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_173" name="ab_CopyStructure" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_174" name="ab_DestinationIsFile" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_175" name="ab_CopyAll" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_176" name="ab_CreateBackup" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_177" name="BeforeCopyBuffer" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_178" name="li_SizeRead" visibility="private">
+<Parameter.type>
+<DataType idref="emx_130"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_179" name="li_BytesTotal" visibility="private">
+<Parameter.type>
+<DataType idref="emx_130"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_180" name="BeforeCopy" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_181" name="AfterCopyBuffer" visibility="protected">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_182" name="InternalDefaultCopyFile" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_183" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_184" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_185" name="InternalFinish" visibility="public">
+<Parameters>
+<Parameter id="emx_186" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_19"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_187" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_19"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_188" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_189" name="AOwner" visibility="private">
+<Parameter.type>
+<Class idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_190" name="InProgress" visibility="public">
+</Attribute>
+<Operation id="emx_191" name="CopyFile" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_7"/>
+</ReturnParameter>
+<Parameter id="emx_192" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_193" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_194" name="ab_AppendFile" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_195" name="ab_CreateBackup" visibility="private">
+<Parameter.type>
+<DataType idref="emx_3"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_196" name="CopySourceToDestination" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Attribute id="emx_197" name="TraduceCopy" visibility="public">
+</Attribute>
+<Attribute id="emx_198" name="BufferSize" visibility="public">
+</Attribute>
+<Attribute id="emx_199" name="Source" visibility="public">
+</Attribute>
+<Attribute id="emx_200" name="Mask" visibility="public">
+</Attribute>
+<Attribute id="emx_201" name="Destination" visibility="public">
+</Attribute>
+<Attribute id="emx_202" name="FileOptions" visibility="public">
+</Attribute>
+<Attribute id="emx_203" name="FilesOptions" visibility="public">
+</Attribute>
+<Attribute id="emx_204" name="OnSuccess" visibility="public">
+</Attribute>
+<Attribute id="emx_205" name="OnProgress" visibility="public">
+</Attribute>
+<Attribute id="emx_206" name="OnBeforeCopyBuffer" visibility="public">
+</Attribute>
+<Attribute id="emx_207" name="OnBeforeCopy" visibility="public">
+</Attribute>
+<Attribute id="emx_208" name="OnChange" visibility="public">
+</Attribute>
+<Attribute id="emx_209" name="DoEraseDir" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+<Class.Implements>
+</Class.Implements>
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<Class id="emx_210" name="TExtFilePartialCopy" visibility="public">
+<Feature>
+<Attribute id="emx_211" name="lb_ExcludedFound" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_3"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_212" name="FExcludeStart" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_213" name="FExcludeEnd" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_214" name="FExcludeReading" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_3"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_215" name="BeforeCopyBuffer" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_216" name="li_SizeRead" visibility="private">
+<Parameter.type>
+<DataType idref="emx_130"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_217" name="li_BytesTotal" visibility="private">
+<Parameter.type>
+<DataType idref="emx_130"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_218" name="BeforeCopy" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_219" name="AfterCopyBuffer" visibility="protected">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_220" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_221" name="AOwner" visibility="private">
+<Parameter.type>
+<Class idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_222" name="ExcludeReading" visibility="public">
+</Attribute>
+<Attribute id="emx_223" name="ExcludeStart" visibility="public">
+</Attribute>
+<Attribute id="emx_224" name="ExcludeEnd" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+</UnitPackage>
+<UnitPackage id="emx_225" name="u_extractfile" visibility="private">
+<DataType id="emx_226" name="TEExtractOption" visibility="private">
+</DataType>
+<DataType id="emx_227" name="TEExtractOptions" visibility="private">
+</DataType>
+<Class id="emx_228" name="TExtractFile" visibility="public">
+<Feature>
+<Attribute id="emx_229" name="FExtractOptions" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_227"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_230" name="FOnChange" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_10"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_231" name="FOnSuccess" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_11"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_232" name="FOnFailure" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_6"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_233" name="FBeforeExtract" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_12"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_234" name="FOnProgress" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_9"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_235" name="FSource" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_236" name="FMiddleExtract" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_237" name="FBeginExtract" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_238" name="FEndExtract" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_239" name="FDestination" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_20"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_240" name="FFieldName" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_241" name="FInProgress" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_3"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_242" name="SetDestination" visibility="private">
+<Parameters>
+<Parameter id="emx_243" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_20"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_244" name="SetSource" visibility="private">
+<Parameters>
+<Parameter id="emx_245" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_246" name="SetFieldName" visibility="private">
+<Parameters>
+<Parameter id="emx_247" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_248" name="FInited" visibility="protected">
+<TypeClassifier>
+<DataType idref="emx_3"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_249" name="IsCopyOk" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_250" name="ai_Error" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_251" name="as_Message" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_252" name="BeforeCopy" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_253" name="CreateDestination" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_254" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_255" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_256" name="AOwner" visibility="private">
+<Parameter.type>
+<Class idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_257" name="InternalDefaultCopyFile" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_3"/>
+</ReturnParameter>
+<Parameter id="emx_258" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_259" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_260" name="InternalFinish" visibility="public">
+<Parameters>
+<Parameter id="emx_261" name="as_Source" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_262" name="as_Destination" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_263" name="PrepareCopy" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Attribute id="emx_264" name="InProgress" visibility="public">
+</Attribute>
+<Operation id="emx_265" name="CopySourceToDestination" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_266" name="Destroy" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Attribute id="emx_267" name="ExtractOptions" visibility="public">
+</Attribute>
+<Attribute id="emx_268" name="DirSource" visibility="public">
+</Attribute>
+<Attribute id="emx_269" name="FieldName" visibility="public">
+</Attribute>
+<Attribute id="emx_270" name="DataSource" visibility="public">
+</Attribute>
+<Attribute id="emx_271" name="OnSuccess" visibility="public">
+</Attribute>
+<Attribute id="emx_272" name="OnFailure" visibility="public">
+</Attribute>
+<Attribute id="emx_273" name="OnProgress" visibility="public">
+</Attribute>
+<Attribute id="emx_274" name="OnBeforeExtract" visibility="public">
+</Attribute>
+<Attribute id="emx_275" name="OnChange" visibility="public">
+</Attribute>
+<Attribute id="emx_276" name="BeginExtract" visibility="public">
+</Attribute>
+<Attribute id="emx_277" name="EndExtract" visibility="public">
+</Attribute>
+<Attribute id="emx_278" name="MiddleExtract" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+<Class.Implements>
+</Class.Implements>
+</Class>
+</UnitPackage>
+</LogicPackage>

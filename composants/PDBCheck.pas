@@ -33,7 +33,6 @@
 interface
 
 uses
-      Messages,
 {$IFDEF FPC}
       LCLIntf, lMessages, lresources,
 {$ELSE}
