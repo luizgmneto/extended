@@ -46,12 +46,7 @@ function fcon_CloneControl ( const acon_AControl : TControl  ; const AOwner : TC
 
 implementation
 
-uses Variants,  Math, fonctions_erreurs, fonctions_string,
-  {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi,
-  {$ENDIF}
+uses Variants, fonctions_string,
   fonctions_proprietes,
   fonctions_languages,
   fonctions_init ;
@@ -137,7 +132,8 @@ var i : Integer;
 
 Begin
   Acolumns := fobj_getComponentObjectProperty( AGrid, 'Columns' ) as TDBGridColumns;
-
+  IsFirst := True;
+  AString := '';
   if ab_header Then
    for i := 0 to Acolumns.count - 1 do
     with Acolumns [ i ] do

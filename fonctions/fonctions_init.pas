@@ -19,7 +19,7 @@ uses
 {$IFDEF EADO}
      ADODB, AdoConEd,
 {$ENDIF}
-     IniFiles, Forms, sysUtils, classes, DB, ComCtrls,
+     IniFiles, Forms, sysUtils, classes, ComCtrls,
 {$IFDEF VIRTUALTREES}
      VirtualTrees,
 {$ENDIF}
@@ -216,7 +216,7 @@ var
 implementation
 
 uses TypInfo, fonctions_string, fonctions_system,
-      fonctions_proprietes, fonctions_db ;
+      fonctions_proprietes;
 
 
       
@@ -538,7 +538,6 @@ end;
 // Retourne le répertoire du fichier ini
 ////////////////////////////////////////////////////////////////////////////////
 function fs_GetIniDir( const ab_Root : Boolean = False ; const ab_Create : Boolean = True ): String;
-var ls_Dir : String;
 begin
   if ab_Root and ( pos ( GetUserDir, Application.ExeName ) > 0 )
    Then Result := ExtractFileDir(Application.ExeName) + DirectorySeparator

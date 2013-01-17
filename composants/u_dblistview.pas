@@ -227,6 +227,7 @@ type
     procedure p_AssignColumnsSubitems;
     procedure p_AssignSort ( const as_ChampsOrdonner : String ) ; virtual;
     property HasLoad:Boolean read gb_HasLoaded ;
+    procedure DataLinkScrolled ; virtual;
    public
     // Bookmark pour le chargement intermédiaire
     gbm_DernierEnregistrement : TBookmarkStr ;
@@ -235,7 +236,6 @@ type
     procedure SelectAll ; dynamic;
     {$ENDIF}
     procedure DataLinkLoadList ; virtual;
-    procedure DataLinkScrolled ; virtual;
     procedure p_FreeBookmark ; virtual;
     // Met à jour le composant
     procedure p_MetAjour; virtual;

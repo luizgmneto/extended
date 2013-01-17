@@ -20,7 +20,7 @@ interface
 
 uses
 {$IFDEF FPC}
-   LCLType, LMessages,
+   LCLType,
 {$ELSE}
    Windows,
 {$ENDIF}
@@ -186,7 +186,11 @@ type
        {$IFDEF RX}
        procedure DoTitleClick(ACol: longint; AColumn: TRxColumn; Shift: TShiftState); override;
        {$ELSE}
+       {$IFDEF FPC}
+       procedure DoTitleClick(ACol: longint; AColumn: TRxColumn; Shift: TShiftState); override;
+       {$ELSE}
        procedure DoTitleClick(ACol: Longint; AField: TField); dynamic;
+       {$ENDIF}
        {$ENDIF}
        {$ENDIF}
        procedure Notification(AComponent: TComponent; Operation: TOperation); override;
@@ -713,7 +717,7 @@ var Aindex, LCol : Integer;
 {$ENDIF}
     FBitmap : TBitmap;
     FPainted : Boolean;
-    FVisible : Boolean;
+
    procedure PrepareCell;
    Begin
     {$IFDEF FPC}
@@ -900,7 +904,11 @@ procedure TExtDBGrid.TitleClick(Column: TColumn);
 {$IFDEF RX}
 procedure TExtDBGrid.DoTitleClick(ACol: longint; AColumn: TRxColumn; Shift: TShiftState);
 {$ELSE}
+{$IFDEF FPC}
+procedure TExtDBGrid.DoTitleClick(ACol: longint; AColumn: TRxColumn; Shift: TShiftState);
+{$ELSE}
 procedure TExtDBGrid.DoTitleClick(ACol: Longint; AField: TField);
+{$ENDIF}
 {$ENDIF}
 {$ENDIF}
 

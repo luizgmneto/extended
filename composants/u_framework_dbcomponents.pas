@@ -44,7 +44,7 @@ uses
 {$ENDIF}
   Graphics, Controls, Classes, ExtCtrls, Dialogs,
   Buttons, Forms, DBCtrls,
-  ComCtrls, SysUtils,
+  SysUtils,
   TypInfo, Variants, u_extcomponent,
 {$IFDEF TNT}
    TntStdCtrls, TntDBCtrls,
@@ -434,8 +434,6 @@ type
        end;
 
 implementation
-
-uses fonctions_proprietes;
 
 
 
@@ -1354,4 +1352,4 @@ initialization
   p_ConcatVersion(gVer_framework_DBcomponents);
 {$ENDIF}
 end.
-
+

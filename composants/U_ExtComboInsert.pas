@@ -27,7 +27,7 @@ uses Variants, Controls, Classes,
   {$ELSE}
      Windows, Mask, JvDBLookup, Messages,
   {$ENDIF}
-     Graphics, Menus, ComCtrls, DB,DBCtrls, Dialogs,
+     Graphics, Menus, DB,DBCtrls, Dialogs,
   {$IFDEF VERSIONS}
     fonctions_version,
   {$ENDIF}
@@ -68,8 +68,7 @@ type
     {$ENDIF}
     Flocated,
     FSet,
-    FHideSelection,
-    FFocused: Boolean;
+    FHideSelection : Boolean;
     FOnLocate,
     FOnSet : TNotifyEvent ;
     // En train de mettre à jour ou pas
@@ -133,11 +132,6 @@ uses
   LCLProc,
   {$ELSE}
   JvConsts, JvToolEdit,
-  {$ENDIF}
-    {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi,
   {$ENDIF}
  fonctions_db;
 

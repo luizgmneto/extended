@@ -250,12 +250,7 @@ type
 
 implementation
 
-uses   {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi,
-  {$ENDIF}
- fonctions_proprietes, fonctions_languages;
+uses fonctions_proprietes, fonctions_languages;
 
 const
   CST_COLOR_COMBO_LastDefinedColor = 19;

@@ -202,11 +202,6 @@ uses TypInfo, Grids, U_ExtNumEdits,
 {$IFDEF VIRTUALTREES}
      VirtualTrees ,
 {$ENDIF}
-  {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi,
-  {$ENDIF}
   Math,
   fonctions_proprietes;
 

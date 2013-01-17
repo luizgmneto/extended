@@ -296,7 +296,11 @@ type
 // transparency
 procedure CopyParentImage(Control: TControl; Dest: TCanvas);
 var
-  I, Count, X, Y, SaveIndex: Integer;
+  I, Count,
+{$IFDEF DELPHI}
+  X, Y,
+{$ENDIF}
+  SaveIndex: Integer;
   DC: HDC;
   R, SelfR, CtlR: TRect;
 begin
@@ -309,7 +313,9 @@ begin
 {$ENDIF}
     with Control do begin
       SelfR := Bounds(Left, Top, Width, Height);
+      {$IFDEF DELPHI}
       X := -Left; Y := -Top;
+      {$ENDIF}
     end;
     { Copy parent control image }
     SaveIndex := SaveDC(DC);

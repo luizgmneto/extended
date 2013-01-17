@@ -15,7 +15,7 @@ uses
 {$ELSE}
      ADODB, Mask,
 {$ENDIF}
-     SysUtils, DB ;
+     SysUtils ;
 
 type
     TNumRounded = (nrNone,nrErase,nrMiddle);
@@ -38,8 +38,7 @@ const
 {$ENDIF}
 implementation
 
-uses fonctions_string, Math,
-     DBGrids;
+uses fonctions_string, Math;
 // A ne pas utiliser
 // Evènement sur touche enlevée d'un dbedit et d'une grille
 // Paramètres : pour créer l'évènement

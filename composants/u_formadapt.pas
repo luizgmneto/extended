@@ -22,9 +22,9 @@ uses
   CompSuperForm,
 {$ENDIF}
 {$IFDEF FPC}
-  LCLIntf, LCLType, lmessages,
+  LCLIntf, LCLType,
 {$ELSE}
-  Windows, OleDb, Messages,
+  Windows, OleDb,
 {$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,
@@ -33,7 +33,7 @@ uses
   TNTForms,
 {$ENDIF}
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, fonctions_init, IniFiles,
+  Dialogs, ExtCtrls, fonctions_init,
   fonctions_scaledpi;
 
 {$IFDEF VERSIONS}
@@ -64,12 +64,7 @@ type
 implementation
 
 uses fonctions_erreurs, TypInfo,
-  {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi,
-  {$ENDIF}
-   fonctions_system, fonctions_forms;
+   fonctions_system;
 
 { TF_FormAdapt }
 

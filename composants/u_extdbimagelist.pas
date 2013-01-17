@@ -21,8 +21,8 @@ uses Graphics,
 {$ELSE}
   Windows,
 {$ENDIF}
-  DB, DBCtrls, ImgList, u_extimagelist,
-  Classes, U_ExtImage, U_ExtMapImageIndex;
+  DB, DBCtrls, u_extimagelist,
+  Classes, U_ExtMapImageIndex;
 
 {$IFDEF VERSIONS}
 const

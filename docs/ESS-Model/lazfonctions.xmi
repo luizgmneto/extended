@@ -1,0 +1,929 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.0">
+<XMI.header>
+<XMI.metamodel xmi.name="UML" xmi.version="1.3"/>
+<XMI.documentation>
+<XMI.exporter>Eldean ESS-Model</XMI.exporter>
+<XMI.exporterVersion>2.2</XMI.exporterVersion>
+</XMI.documentation>
+</XMI.header>
+<XMI.content>
+<Model_Management.Model>
+<Model_Management.Package xmi.id="xmi_1">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Model_Management.Package xmi.id="xmi_2">
+<Foundation.Core.ModelElement.name>((Unknown))</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Class xmi.id="xmi_3">
+<Foundation.Core.ModelElement.name>TDataLink</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.GeneralizableElement.specialization>
+<Foundation.Core.Generalization xmi.idref="xmi_4"/>
+</Foundation.Core.GeneralizableElement.specialization>
+</Foundation.Core.Class>
+<Foundation.Core.DataType xmi.id="xmi_6">
+<Foundation.Core.ModelElement.name>TList</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="xmi_7">
+<Foundation.Core.ModelElement.name>TStringList</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="xmi_8">
+<Foundation.Core.ModelElement.name>Boolean</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="xmi_9">
+<Foundation.Core.ModelElement.name>TPersistentClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="xmi_10">
+<Foundation.Core.ModelElement.name>string</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="xmi_11">
+<Foundation.Core.ModelElement.name>TRTLCriticalSection</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="xmi_12">
+<Foundation.Core.ModelElement.name>Integer</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.Class xmi.id="xmi_13">
+<Foundation.Core.ModelElement.name>TDataModule</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.GeneralizableElement.specialization>
+<Foundation.Core.Generalization xmi.idref="xmi_14"/>
+</Foundation.Core.GeneralizableElement.specialization>
+</Foundation.Core.Class>
+<Foundation.Core.DataType xmi.id="xmi_16">
+<Foundation.Core.ModelElement.name>TObject</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="xmi_17">
+<Foundation.Core.ModelElement.name>TComponent</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.Class xmi.id="xmi_18">
+<Foundation.Core.ModelElement.name>TForm</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.GeneralizableElement.specialization>
+<Foundation.Core.Generalization xmi.idref="xmi_19"/>
+</Foundation.Core.GeneralizableElement.specialization>
+</Foundation.Core.Class>
+<Foundation.Core.DataType xmi.id="xmi_21">
+<Foundation.Core.ModelElement.name>Extended</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.Generalization xmi.id="xmi_4">
+<Foundation.Core.Generalization.child>
+<Foundation.Core.Class xmi.idref="xmi_5"/>
+</Foundation.Core.Generalization.child>
+<Foundation.Core.Generalization.parent>
+<Foundation.Core.Class xmi.idref="xmi_3"/>
+</Foundation.Core.Generalization.parent>
+</Foundation.Core.Generalization>
+<Foundation.Core.Generalization xmi.id="xmi_14">
+<Foundation.Core.Generalization.child>
+<Foundation.Core.Class xmi.idref="xmi_15"/>
+</Foundation.Core.Generalization.child>
+<Foundation.Core.Generalization.parent>
+<Foundation.Core.Class xmi.idref="xmi_13"/>
+</Foundation.Core.Generalization.parent>
+</Foundation.Core.Generalization>
+<Foundation.Core.Generalization xmi.id="xmi_19">
+<Foundation.Core.Generalization.child>
+<Foundation.Core.Class xmi.idref="xmi_20"/>
+</Foundation.Core.Generalization.child>
+<Foundation.Core.Generalization.parent>
+<Foundation.Core.Class xmi.idref="xmi_18"/>
+</Foundation.Core.Generalization.parent>
+</Foundation.Core.Generalization>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_22">
+<Foundation.Core.ModelElement.name>lazfonctions</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.ModelElement.documentation>
+This file was automatically created by Lazarus. Do not edit!
+  This source is only used to compile and install the package.
+ 
+</Foundation.Core.ModelElement.documentation>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_23">
+<Foundation.Core.ModelElement.name>unite_messages</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_24">
+<Foundation.Core.ModelElement.name>fonctions_erreurs</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_25">
+<Foundation.Core.ModelElement.name>unite_messages_delphi</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_26">
+<Foundation.Core.ModelElement.name>fonctions_string</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.ModelElement.documentation>
+unité contenant des fonctions de traitements de chaine
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.DataType xmi.id="xmi_27">
+<Foundation.Core.ModelElement.name>TUArray</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="xmi_28">
+<Foundation.Core.ModelElement.name>TStringArray</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="xmi_29">
+<Foundation.Core.ModelElement.name>TModeFormatText</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_30">
+<Foundation.Core.ModelElement.name>type_string_delphi</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.ModelElement.documentation>
+unit? contenant des fonctions de traitements de chaine
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.DataType xmi.id="xmi_31">
+<Foundation.Core.ModelElement.name>TCharToUTF8Table</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_32">
+<Foundation.Core.ModelElement.name>fonctions_system</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.ModelElement.documentation>
+unité contenant des fonctions de traitements de chaine
+</Foundation.Core.ModelElement.documentation>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_33">
+<Foundation.Core.ModelElement.name>fonctions_dbcomponents</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_34">
+<Foundation.Core.ModelElement.name>fonctions_db</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Interface xmi.id="xmi_35">
+<Foundation.Core.ModelElement.name>IDatalinkOwner</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.Classifier.feature>
+<Foundation.Core.Operation xmi.id="xmi_36">
+<Foundation.Core.ModelElement.name>EditingChanged</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_37">
+<Foundation.Core.ModelElement.name>DataSetChanged</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_38">
+<Foundation.Core.ModelElement.name>ActiveChanged</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+</Foundation.Core.Classifier.feature>
+</Foundation.Core.Interface>
+<Foundation.Core.Class xmi.id="xmi_5">
+<Foundation.Core.ModelElement.name>TDataLinkOwnered</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+TDataLinkOwnered 
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.Classifier.feature>
+<Foundation.Core.Attribute xmi.id="xmi_39">
+<Foundation.Core.ModelElement.name>FOwner</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.Interface xmi.idref="xmi_35"/>
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+<Foundation.Core.Operation xmi.id="xmi_40">
+<Foundation.Core.ModelElement.name>EditingChanged</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="protected"/>
+<Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_41">
+<Foundation.Core.ModelElement.name>DataSetChanged</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="protected"/>
+<Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_42">
+<Foundation.Core.ModelElement.name>ActiveChanged</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="protected"/>
+<Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_43">
+<Foundation.Core.ModelElement.name>Create</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_44">
+<Foundation.Core.ModelElement.name>AOwner</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.Interface xmi.idref="xmi_35"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+</Foundation.Core.Classifier.feature>
+<Foundation.Core.GeneralizableElement.generalization>
+<Foundation.Core.Generalization xmi.idref="xmi_4"/>
+</Foundation.Core.GeneralizableElement.generalization>
+</Foundation.Core.Class>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_45">
+<Foundation.Core.ModelElement.name>fonctions_proprietes</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.DataType xmi.id="xmi_46">
+<Foundation.Core.ModelElement.name>tt_TableauVarOption</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_47">
+<Foundation.Core.ModelElement.name>fonctions_init</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.ModelElement.documentation>
+Unité de gestion du fichier INI dont dépendant l&apos;unité FormMainIni
+ intégrant une form de gestion de fichier INI
+</Foundation.Core.ModelElement.documentation>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_48">
+<Foundation.Core.ModelElement.name>fonctions_components</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_49">
+<Foundation.Core.ModelElement.name>fonctions_languages</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.DataType xmi.id="xmi_50">
+<Foundation.Core.ModelElement.name>TALanguage</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="xmi_51">
+<Foundation.Core.ModelElement.name>TTheLanguages</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_52">
+<Foundation.Core.ModelElement.name>fonctions_images</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_53">
+<Foundation.Core.ModelElement.name>fonctions_numedit</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.DataType xmi.id="xmi_54">
+<Foundation.Core.ModelElement.name>TNumRounded</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_55">
+<Foundation.Core.ModelElement.name>fonctions_variant</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.DataType xmi.id="xmi_56">
+<Foundation.Core.ModelElement.name>tt_TableauVarOption</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_57">
+<Foundation.Core.ModelElement.name>fonctions_web</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_58">
+<Foundation.Core.ModelElement.name>fonctions_array</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_59">
+<Foundation.Core.ModelElement.name>fonctions_objects</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_60">
+<Foundation.Core.ModelElement.name>type_string</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.ModelElement.documentation>
+unité contenant des fonctions de traitements de chaine
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.DataType xmi.id="xmi_61">
+<Foundation.Core.ModelElement.name>TCharToUTF8Table</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Foundation.Core.DataType>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_62">
+<Foundation.Core.ModelElement.name>fonctions_file</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_63">
+<Foundation.Core.ModelElement.name>unit_messagescopy</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_64">
+<Foundation.Core.ModelElement.name>fonctions_forms</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Class xmi.id="xmi_65">
+<Foundation.Core.ModelElement.name>TRegGroup</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+TRegGroup 
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.Classifier.feature>
+<Foundation.Core.Attribute xmi.id="xmi_66">
+<Foundation.Core.ModelElement.name>FClassList</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="xmi_6"/>
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+<Foundation.Core.Attribute xmi.id="xmi_67">
+<Foundation.Core.ModelElement.name>FAliasList</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="xmi_7"/>
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+<Foundation.Core.Attribute xmi.id="xmi_68">
+<Foundation.Core.ModelElement.name>FGroupClasses</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="xmi_6"/>
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+<Foundation.Core.Attribute xmi.id="xmi_69">
+<Foundation.Core.ModelElement.name>FActive</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="xmi_8"/>
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+<Foundation.Core.Operation xmi.id="xmi_70">
+<Foundation.Core.ModelElement.name>BestClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter>
+<Foundation.Core.Parameter.kind xmi.value="return"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_71">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_72">
+<Foundation.Core.ModelElement.name>Create</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+constrcuteur
+ AClass is in both groups, select the group with the closest ancestor
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_73">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_74">
+<Foundation.Core.ModelElement.name>Destroy</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+destructeur
+
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_75">
+<Foundation.Core.ModelElement.name>BestGroup</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter>
+<Foundation.Core.Parameter.kind xmi.value="return"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.Class xmi.idref="xmi_65"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_76">
+<Foundation.Core.ModelElement.name>Group1</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.Class xmi.idref="xmi_65"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_77">
+<Foundation.Core.ModelElement.name>Group2</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.Class xmi.idref="xmi_65"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_78">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_79">
+<Foundation.Core.ModelElement.name>AddClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+Ajoute un type de classe
+ AClass : type de classe
+ Ajoute un type de classe
+ AClass : type de classe
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_80">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_81">
+<Foundation.Core.ModelElement.name>GetClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter>
+<Foundation.Core.Parameter.kind xmi.value="return"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_82">
+<Foundation.Core.ModelElement.name>AClassName</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_10"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_83">
+<Foundation.Core.ModelElement.name>InGroup</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter>
+<Foundation.Core.Parameter.kind xmi.value="return"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_8"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_84">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_85">
+<Foundation.Core.ModelElement.name>RegisterClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_86">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_87">
+<Foundation.Core.ModelElement.name>RegisterClassAlias</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_88">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_89">
+<Foundation.Core.ModelElement.name>Alias</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_10"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_90">
+<Foundation.Core.ModelElement.name>Registered</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter>
+<Foundation.Core.Parameter.kind xmi.value="return"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_8"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_91">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_92">
+<Foundation.Core.ModelElement.name>UnregisterClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_93">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Attribute xmi.id="xmi_94">
+<Foundation.Core.ModelElement.name>Active</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+</Foundation.Core.Attribute>
+</Foundation.Core.Classifier.feature>
+</Foundation.Core.Class>
+<Foundation.Core.Class xmi.id="xmi_95">
+<Foundation.Core.ModelElement.name>TRegGroups</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.Classifier.feature>
+<Foundation.Core.Attribute xmi.id="xmi_96">
+<Foundation.Core.ModelElement.name>FGroups</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="xmi_6"/>
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+<Foundation.Core.Attribute xmi.id="xmi_97">
+<Foundation.Core.ModelElement.name>FLock</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="xmi_11"/>
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+<Foundation.Core.Attribute xmi.id="xmi_98">
+<Foundation.Core.ModelElement.name>FActiveClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+<Foundation.Core.Operation xmi.id="xmi_99">
+<Foundation.Core.ModelElement.name>FindGroup</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter>
+<Foundation.Core.Parameter.kind xmi.value="return"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.Class xmi.idref="xmi_65"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_100">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_101">
+<Foundation.Core.ModelElement.name>Create</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_102">
+<Foundation.Core.ModelElement.name>Destroy</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+Initialize default group
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_103">
+<Foundation.Core.ModelElement.name>Activate</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+TRegGroups 
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_104">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_105">
+<Foundation.Core.ModelElement.name>AddClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_106">
+<Foundation.Core.ModelElement.name>ID</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_12"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_107">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_108">
+<Foundation.Core.ModelElement.name>GetClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter>
+<Foundation.Core.Parameter.kind xmi.value="return"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_109">
+<Foundation.Core.ModelElement.name>AClassName</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_10"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_110">
+<Foundation.Core.ModelElement.name>GroupedWith</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter>
+<Foundation.Core.Parameter.kind xmi.value="return"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_111">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_112">
+<Foundation.Core.ModelElement.name>GroupWith</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_113">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_114">
+<Foundation.Core.ModelElement.name>AGroupClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_115">
+<Foundation.Core.ModelElement.name>Lock</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+Check CurrentClass should be put into Group based on the new
+ criterion. Their might be a descendent of AClass registered that
+ overrides Group&apos;s criterion.
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_116">
+<Foundation.Core.ModelElement.name>RegisterClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_117">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_118">
+<Foundation.Core.ModelElement.name>RegisterClassAlias</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_119">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_120">
+<Foundation.Core.ModelElement.name>Alias</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_10"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_121">
+<Foundation.Core.ModelElement.name>Registered</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter>
+<Foundation.Core.Parameter.kind xmi.value="return"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_8"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+<Foundation.Core.Parameter xmi.id="xmi_122">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_123">
+<Foundation.Core.ModelElement.name>StartGroup</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_124">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_125">
+<Foundation.Core.ModelElement.name>Unlock</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+Create the group
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_126">
+<Foundation.Core.ModelElement.name>UnregisterClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_127">
+<Foundation.Core.ModelElement.name>AClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_9"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Attribute xmi.id="xmi_128">
+<Foundation.Core.ModelElement.name>ActiveClass</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+</Foundation.Core.Attribute>
+</Foundation.Core.Classifier.feature>
+</Foundation.Core.Class>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_129">
+<Foundation.Core.ModelElement.name>fonctions_scaledpi</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Class xmi.id="xmi_15">
+<Foundation.Core.ModelElement.name>TDMAdaptForms</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+TDMAdaptForms 
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.Classifier.feature>
+<Foundation.Core.Operation xmi.id="xmi_130">
+<Foundation.Core.ModelElement.name>ApplicationActivate</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_131">
+<Foundation.Core.ModelElement.name>Sender</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_16"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_132">
+<Foundation.Core.ModelElement.name>Create</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+published declarations 
+
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_133">
+<Foundation.Core.ModelElement.name>AOwner</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_17"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+</Foundation.Core.Classifier.feature>
+<Foundation.Core.GeneralizableElement.generalization>
+<Foundation.Core.Generalization xmi.idref="xmi_14"/>
+</Foundation.Core.GeneralizableElement.generalization>
+</Foundation.Core.Class>
+</Model_Management.Package>
+<Model_Management.Package xmi.id="xmi_134">
+<Foundation.Core.ModelElement.name>U_FormAdapt</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Class xmi.id="xmi_20">
+<Foundation.Core.ModelElement.name>TF_FormAdapt</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+TF_FormAdapt 
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.Classifier.feature>
+<Foundation.Core.Attribute xmi.id="xmi_135">
+<Foundation.Core.ModelElement.name>FScale</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="xmi_21"/>
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+<Foundation.Core.Operation xmi.id="xmi_136">
+<Foundation.Core.ModelElement.name>Create</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.ModelElement.documentation>
+Constructeur et destructeur
+ TF_FormAdapt 
+</Foundation.Core.ModelElement.documentation>
+<Foundation.Core.BehavioralFeature.parameter>
+<Foundation.Core.Parameter xmi.id="xmi_137">
+<Foundation.Core.ModelElement.name>AOwner</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="private"/>
+<Foundation.Core.Parameter.type>
+<Foundation.Core.DataType xmi.idref="xmi_17"/>
+</Foundation.Core.Parameter.type>
+</Foundation.Core.Parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Operation xmi.id="xmi_138">
+<Foundation.Core.ModelElement.name>Activate</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+<Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.BehavioralFeature.parameter>
+</Foundation.Core.Operation>
+<Foundation.Core.Attribute xmi.id="xmi_139">
+<Foundation.Core.ModelElement.name>Scale</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility xmi.value="public"/>
+</Foundation.Core.Attribute>
+</Foundation.Core.Classifier.feature>
+<Foundation.Core.GeneralizableElement.generalization>
+<Foundation.Core.Generalization xmi.idref="xmi_19"/>
+</Foundation.Core.GeneralizableElement.generalization>
+</Foundation.Core.Class>
+</Model_Management.Package>
+</Model_Management.Package>
+</Model_Management.Model>
+</XMI.content>
+</XMI>
