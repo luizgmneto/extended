@@ -31,7 +31,7 @@ uses u_reports_components,
 
 procedure Register;
 begin
-  RegisterComponents( 'ExtFortes', [ TFWPrintGrid, TFWPrintData, TRLDBExtImage, TRLDBExtImageList ]);
+  RegisterComponents( 'ExtFortes', [ TFWPrintGrid, TFWPrintVTree,  TFWPrintData, TRLDBExtImage, TRLDBExtImageList ]);
 End ;
 
 
