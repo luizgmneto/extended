@@ -18,7 +18,7 @@ uses
 {$ENDIF}
   DBGrids, DB, fonctions_reports,
   fonctions_proprietes,
-  RLReport,
+  RLReport, VirtualTrees,
   RLPreview, u_reportform, u_reports_rlcomponents,
   u_buttons_appli, RLFilters, Graphics;
 
@@ -92,35 +92,159 @@ type
     property CreateReport : Boolean read GetFalse write SetCreateReport default False;
   end;
 
-  { TFWPrintGrid }
+  { TFWPrintComp }
 
-  TFWPrintGrid = class(TFWPrint)
+  TFWPrintComp = class(TFWPrint)
   private
     FFilter: TRLCustomPrintFilter;
     FReport : TRLReport;
-    FDBGrid: TCustomDBGrid;
     FDBTitle: string;
     FPreview : TRLPReview;
-    function GetFalse: Boolean;
-    procedure SetDBGrid( const AValue: TCustomDBGrid);
   protected
+    function GetFalse: Boolean;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure SetCreateReport ( const AValue : Boolean ); virtual;
   public
     constructor Create(AOwner: TComponent); override;
-    procedure Click; override;
-    procedure CreateAReport( const AReport : TRLReport ); virtual;
+    procedure CreateAReport( const AReport : TRLReport );  virtual; abstract;
   published
-    property DBGrid: TCustomDBGrid read FDBGrid write SetDBGrid;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
     property DBTitle: string read FDBTitle write FDBTitle;
     property Preview : TRLPreview read FPreview write FPreview;
     property Report : TRLReport read FReport write FReport;
     property CreateReport : Boolean read GetFalse write SetCreateReport default False;
   end;
+
+
+  { TFWPrintGrid }
+
+  TFWPrintGrid = class(TFWPrintComp)
+  private
+    FDBGrid: TCustomDBGrid;
+    procedure SetDBGrid( const AValue: TCustomDBGrid);
+  protected
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Click; override;
+    procedure CreateAReport( const AReport : TRLReport ); override;
+  published
+    property DBGrid: TCustomDBGrid read FDBGrid write SetDBGrid;
+  end;
+
+    { TFWPrintVTree }
+
+  TFWPrintVTree = class(TFWPrintComp)
+  private
+    FTree : TCustomVirtualStringTree;
+    procedure SetTree( const AValue: TCustomVirtualStringTree);
+  protected
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Click; override;
+    procedure CreateAReport( const AReport : TRLReport ); override;
+  published
+    property Tree: TCustomVirtualStringTree read FTree write SetTree;
+  end;
+
+
 implementation
 
 uses Forms, u_extdbgrid;
+
+
+{ TFWPrintVTree }
+
+procedure TFWPrintVTree.SetTree(const AValue: TCustomVirtualStringTree);
+begin
+  if AValue <> FTree Then
+   Begin
+     FTree := AValue;
+   end;
+end;
+
+procedure TFWPrintVTree.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation <> opRemove) or (csDestroying in ComponentState) then
+    exit;
+  if (AComponent = FTree) then
+    Tree := nil;
+end;
+
+constructor TFWPrintVTree.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FTree := nil;
+end;
+
+procedure TFWPrintVTree.Click;
+var ADatasource : TDataSource;
+begin
+  inherited Click;
+  if assigned(FTree) then
+   Begin
+     if Assigned(FReport)
+      Then CreateAReport(FReport)
+     Else
+      Begin
+        ADatasource := TDataSource(fobj_getComponentObjectProperty(FTree, CST_PROPERTY_DATASOURCE));
+        if Assigned(ADatasource) Then ADatasource.DataSet.DisableControls;
+        with fref_CreateReport( FTree, FDBTitle, FFilter) do
+            try
+              RLReport.Preview(FPReview);
+              Destroy;
+            finally
+              if Assigned(ADatasource) Then ADatasource.DataSet.EnableControls;
+            end;
+      end;
+   end;
+end;
+
+procedure TFWPrintVTree.CreateAReport(const AReport: TRLReport);
+begin
+  if Assigned(FTree) Then
+   fb_CreateReport(AReport,FTree,AReport.Background.Picture.Bitmap.Canvas,DBTitle);
+end;
+
+{ TFWPrintComp }
+
+function TFWPrintComp.GetFalse: Boolean;
+begin
+  Result := False;
+end;
+
+procedure TFWPrintComp.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation <> opRemove) or (csDestroying in ComponentState) then
+    exit;
+  if (AComponent = FReport) then
+    Report := nil;
+  if (AComponent = Filter) then
+    Filter := nil;
+  if (AComponent = FPreview) then
+    Preview := nil;
+end;
+
+procedure TFWPrintComp.SetCreateReport(const AValue: Boolean);
+begin
+  if  ( AValue =  True )
+  and ( FReport <> nil ) Then
+    CreateAReport ( FReport );
+end;
+
+constructor TFWPrintComp.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FDBTitle    :='';
+  FFilter     := nil;
+  FReport     := nil;
+  FPreview    := nil;
+end;
 
 { TDataLinkPrint }
 
@@ -266,11 +390,6 @@ begin
   end;
 end;
 
-function TFWPrintGrid.GetFalse: Boolean;
-begin
-  Result := False;
-end;
-
 procedure TFWPrintGrid.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
@@ -278,39 +397,22 @@ begin
     exit;
   if (AComponent = FDBGrid) then
     DBGrid := nil;
-  if (AComponent = FReport) then
-    Report := nil;
-  if (AComponent = Filter) then
-    Filter := nil;
-  if (AComponent = FPreview) then
-    Preview := nil;
-end;
-
-procedure TFWPrintGrid.SetCreateReport(const AValue: Boolean);
-begin
-  if  ( AValue =  True )
-  and ( FReport <> nil )
-  and ( FDBGrid <> nil ) Then
-    CreateAReport ( FReport );
 end;
 
 // automation , creating a report
 procedure TFWPrintGrid.CreateAReport(const AReport: TRLReport);
 begin
-  fb_CreateReport(AReport,FDBGrid, fobj_getComponentObjectProperty(FDBGrid,CST_PROPERTY_DATASOURCE) as TDataSource,
-                                   fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS  ) as TCollection,
-                                   AReport.Background.Picture.Bitmap.Canvas,
-                                   FDBTitle);
+  if Assigned(FDBGrid) Then
+    fb_CreateReport(AReport,FDBGrid, fobj_getComponentObjectProperty(FDBGrid,CST_PROPERTY_DATASOURCE) as TDataSource,
+                                     fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS  ) as TCollection,
+                                     AReport.Background.Picture.Bitmap.Canvas,
+                                     FDBTitle);
 end;
 
 constructor TFWPrintGrid.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FDBTitle    :='';
-  FFilter     := nil;
   FDBGrid     := nil;
-  FReport     := nil;
-  FPreview    := nil;
 end;
 
 procedure TFWPrintGrid.Click;
