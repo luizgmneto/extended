@@ -9,6 +9,8 @@ interface
 uses
 {$IFNDEF FPC}
   Windows,
+{$ELSE}
+  LCLIntf,
 {$ENDIF}
   SysUtils, RLReport, DBGrids, DB,
   u_extdbgrid,U_ExtMapImageIndex,Forms,
@@ -56,15 +58,6 @@ const
   CST_PRINT_COLUMN_LINEBREAK = 'LineBreak' ;
   CST_PRINT_COMPONENT_EVENT = 'DrawReportImage';
 
-type
-
-{ TReportTreeHack }
-
- TReportTreeHack = class ( TCustomVirtualStringTree )
-     public
-       procedure PaintTreeLines(const PaintInfo: TVTPaintInfo; VAlignment, IndentSize: Integer;
-         LineImage: TLineImage); override;
-     End;
 
 var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtTitleColorBack : TColor = clSkyBlue;
@@ -77,6 +70,7 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtColumnHBorders    : Boolean = False;
     ExtColumnVBorders    : Boolean = True;
     ExtColumnColorBack   : TColor = clWhite;
+    ExtIndentTree        : Cardinal = 18;
     ExtLandscapeColumnsCount : Integer = 9;
     ExtHeader  : TRLBand = nil;
 
@@ -506,19 +500,147 @@ begin
    end;
 end;
 
+//----------------------------------------------------------------------------------------------------------------------
+
+procedure p_DrawDottedHLine(const Canvas : TCanvas; const Left, Right, Top: Integer);
+
+// Draws a horizontal line with alternating pixels (this style is not supported for pens under Win9x).
+
+var
+  R: TRect;
+
+begin
+  with Canvas do
+  begin
+    R := Rect(Min(Left, Right), Top, Max(Left, Right) + 1, Top + 1);
+    LCLIntf.FillRect(Handle, R, Brush.Handle);
+  end;
+end;
+
+//----------------------------------------------------------------------------------------------------------------------
+
+procedure p_DrawDottedVLine(const Canvas : TCanvas; const Top, Bottom, Left: Integer);
+
+// Draws a vertical line with alternating pixels (this style is not supported for pens under Win9x).
+
+var
+  R: TRect;
+
+begin
+  with Canvas do
+  begin
+    R := Rect(Left, Min(Top, Bottom), Left + 1, Max(Top, Bottom) + 1);
+    LCLIntf.FillRect(Handle, R,  Brush.Handle);
+  end;
+end;
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+procedure p_DrawLineImage(const Canvas : TCanvas; const X, Y, H, VAlign: Integer; const Style: TVTLineType;
+ const Reverse: Boolean);
+
+// Draws (depending on Style) one of the 5 line types of the tree.
+// If Reverse is True then a right-to-left column is being drawn, hence horizontal lines must be mirrored.
+// X and Y describe the left upper corner of the line image rectangle, while H denotes its height (and width).
+
+var
+  HalfWidth,
+  TargetX: Integer;
+
+begin
+  HalfWidth := Integer(ExtIndentTree) div 2;
+  if Reverse then
+    TargetX := 0
+  else
+    TargetX := ExtIndentTree;
+
+  case Style of
+    ltBottomRight:
+      begin
+        p_DrawDottedVLine(Canvas,Y + VAlign, Y + H, X + HalfWidth);
+        p_DrawDottedHLine(Canvas,X + HalfWidth, X + TargetX, Y + VAlign);
+      end;
+    ltTopDown:
+      p_DrawDottedVLine(Canvas,Y, Y + H, X + HalfWidth);
+    ltTopDownRight:
+      begin
+        p_DrawDottedVLine(Canvas,Y, Y + H, X + HalfWidth);
+        p_DrawDottedHLine(Canvas,X + HalfWidth, X + TargetX, Y + VAlign);
+      end;
+    ltRight:
+      p_DrawDottedHLine(Canvas,X + HalfWidth, X + TargetX, Y + VAlign);
+    ltTopRight:
+      begin
+        p_DrawDottedVLine(Canvas,Y, Y + VAlign, X + HalfWidth);
+        p_DrawDottedHLine(Canvas,X + HalfWidth, X + TargetX, Y + VAlign);
+      end;
+    ltLeft: // left can also mean right for RTL context
+      if Reverse then
+        p_DrawDottedVLine(Canvas,Y, Y + H, X + Integer(ExtIndentTree))
+      else
+        p_DrawDottedVLine(Canvas,Y, Y + H, X);
+    ltLeftBottom:
+      if Reverse then
+      begin
+        p_DrawDottedVLine(Canvas,Y, Y + H, X + Integer(ExtIndentTree));
+        p_DrawDottedHLine(Canvas,X, X + Integer(ExtIndentTree), Y + H);
+      end
+      else
+      begin
+        p_DrawDottedVLine(Canvas,Y, Y + H, X);
+        p_DrawDottedHLine(Canvas,X, X + Integer(ExtIndentTree), Y + H);
+      end;
+  end;
+end;
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+procedure p_PaintTreeLines(const Canvas : TCanvas; const CellRect : TRect; const BidiMode : TBiDiMode; const VAlignment, IndentSize, NodeHeight: Integer;
+ const LineImage: TLineImage);
+
+var
+  I: Integer;
+  XPos,
+  Offset: Integer;
+  NewStyles: TLineImage;
+
+begin
+  NewStyles := nil;
+
+  if BidiMode = bdLeftToRight then
+  begin
+    XPos := CellRect.Left;
+    Offset := ExtIndentTree;
+  end
+  else
+  begin
+    Offset := -Integer(ExtIndentTree);
+    XPos := CellRect.Right + Offset;
+  end;
+
+  for I := 0 to IndentSize - 1 do
+    begin
+      p_DrawLineImage(Canvas,  XPos, CellRect.Top, NodeHeight, VAlignment, LineImage[I],
+        BidiMode <> bdLeftToRight);
+      Inc(XPos, Offset);
+    end;
+end;
+
+
 function fb_CreateReport ( const AReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, SomeLeft, aSpaceWidth, ALinesAdded: Integer;
-    ARLLabel : TRLLabel;
+    ARLLabel : TRLLabel = nil;
     ARLDBText : TRLDBText;
     ARLImage : TRLCustomImage;
     ARLBand : TRLBand;
     LImages : TLineImage;
     ATreeOptions: TStringTreeOptions;
-    APaintInfo : TVTPaintInfo;
     LMinusBM : TBitmap;
     AText : String;
+    AKeepedColor : TColor;
 
-const CST_PictureWidth = 16;
     procedure p_BeginPage;
     Begin
       ATitleHeight := 0;
@@ -536,33 +658,31 @@ const CST_PictureWidth = 16;
         ARealTop : Integer;
         LLine : TBitmap;
     Begin
-      with TReportTreeHack ( atree ), ARect do
+      with atree, ARect do
        Begin
         Left:=0;
         LLine := TBitmap.Create;
         if aSpaceWidth > 0 Then
          try
-          APaintInfo.Node:=ANode;
           Top:=0;
           Right:=aSpaceWidth;
-          Bottom:=ATempCanvas.Font.Height;
-          APaintInfo.CellRect := Arect;
-          APaintInfo.Alignment:=taLeftJustify;
-          APaintInfo.BidiMode:=bdLeftToRight;
+          Bottom:= ARLLabel.Height;
           ARealTop := ARLLabel.Top+ARLLabel.Height;
           ARLImage := frlc_createImage(AReport, ARLBand, Left, ARealTop, aSpaceWidth );
           LLine.Width:=aSpaceWidth;
-          LLine.Height:=CST_PictureWidth;
+          LLine.Height:=ARLLabel.Height;
           LLine.Canvas.Brush.Color := ARLImage.Color;
+          atree.Color:=ARLImage.Color;
+          LLine.Canvas.Pen  .Color := ExtColumnFont.Color;
           LLine.Canvas.FillRect(
             {$IFNDEF FPC} Rect (  {$ENDIF}
-            0, 0, aSpaceWidth, CST_PictureWidth {$IFNDEF FPC}){$ENDIF});
-          APaintInfo.Canvas := LLine.Canvas;
+            0, 0, aSpaceWidth, ARLLabel.Height {$IFNDEF FPC}){$ENDIF});
+          LLine.Canvas.Brush.Color := ExtColumnFont.Color;
+       //   p_DrawDottedVLine( LLine.Canvas, Top,Bottom,Left );
           DetermineLineImagesAndSelectLevel( atree, ATreeOptions, ANode, LImages );
           if (toShowTreeLines in ATreeOptions.PaintOptions) and
              (not (toHideTreeLinesIfThemed in ATreeOptions.PaintOptions)) then
-            PaintTreeLines(APaintInfo, 0, IfThen(toFixedIndent in ATreeOptions.PaintOptions, 1,
-                           GetNodeLevel(ANode)+1), LImages);
+            p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, 0, GetNodeLevel(ANode)+1,ARLLabel.Height, LImages);
           ARLImage.Picture.Bitmap.Assign(LLine);
          finally
            LLine.Free;
@@ -571,13 +691,13 @@ const CST_PictureWidth = 16;
           Begin
            ARealTop := 0;
           end;
-        ARLImage := frlc_createImage(AReport, ARLBand, aSpaceWidth, ARealTop, CST_PictureWidth );
-        ARLImage.Picture.Bitmap.Assign(LMinusBM);
-        Left:=aSpaceWidth+CST_PictureWidth;
-        Right:=aSpaceWidth-ARLBand.Width;
         GetTextInfo(ANode,-1,ARLBand.Font,ARect,AText);
         with ARect do
           ARLLabel := frlc_createLabel(AReport,ARLBand,Left,ARealTop,Right,ExtColumnFont,AText);
+        Left:=aSpaceWidth+ARLLabel.Height;
+        Right:=aSpaceWidth-ARLBand.Width;
+        ARLImage := frlc_createImage(AReport, ARLBand, aSpaceWidth, ARealTop+ ( ARLLabel.Height - LMinusBM.Height ) div 2, LMinusBM.Height );
+        ARLImage.Picture.Bitmap.Assign(LMinusBM);
        end;
     end;
 
@@ -588,7 +708,9 @@ const CST_PictureWidth = 16;
        Begin
         if ANode <> RootNode Then
          Begin
-          aSpaceWidth := GetNodeLevel(ANode)*CST_PictureWidth;
+          if ARLLabel = nil
+           Then aSpaceWidth := 0
+           Else aSpaceWidth := GetNodeLevel(ANode)*ARLLabel.Height;
           p_paintMainColumn ( ANode );
           if NextSibling <> nil Then p_labelNode(NextSibling);
          end;
@@ -597,6 +719,7 @@ const CST_PictureWidth = 16;
     end;
 
 Begin
+  AKeepedColor := atree.Color;
   LMinusBM := TBitmap.Create;
   try
     LMinusBM.LoadFromLazarusResource('VT_XPBUTTONMINUS');
@@ -607,6 +730,7 @@ Begin
     p_labelNode ( atree.RootNode );
   finally
     lMinusBM.Free;
+    atree.Color := AKeepedColor;
   end;
 end;
 
@@ -907,14 +1031,6 @@ Begin
   Result := TReportForm.create ( Application );
   Result.RLReport.DefaultFilter:=acf_filter;
   fb_CreateReport ( Result.RLReport, agrid, ADatasource, AColumns, Result.Canvas, as_Title );
-end;
-
-{ TReportTreeHack }
-
-procedure TReportTreeHack.PaintTreeLines(const PaintInfo: TVTPaintInfo;
-  VAlignment, IndentSize: Integer; LineImage: TLineImage);
-begin
-  inherited PaintTreeLines(PaintInfo, VAlignment, IndentSize, LineImage);
 end;
 
 initialization
