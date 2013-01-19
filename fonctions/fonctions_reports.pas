@@ -50,6 +50,7 @@ const
   CST_COLUMN_Title   = 'Title';
   CST_COLUMN_Images  = 'Images';
   CST_PRINT_FONT_SIZE = 9;
+  CST_PRINT_FONT_SIZE_TREE = 8;
   CST_PRINT_COLUMN_FONT_COLOR = clBlack;
   CST_PRINT_TITLE_FONT_COLOR  = clBlack;
   CST_PRINT_COLUMN_TITLE_FONT_COLOR = clBlack;
@@ -67,10 +68,10 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtColumnHeaderFont  : TFont  = nil;
     ExtColumnHeaderColorBack : TColor = clSkyBlue;
     ExtColumnFont        : TFont  = nil;
+    ExtTreeFont          : TFont  = nil;
     ExtColumnHBorders    : Boolean = False;
     ExtColumnVBorders    : Boolean = True;
     ExtColumnColorBack   : TColor = clWhite;
-    ExtIndentTree        : Cardinal = 18;
     ExtLandscapeColumnsCount : Integer = 9;
     ExtHeader  : TRLBand = nil;
 
@@ -537,7 +538,7 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-procedure p_DrawLineImage(const Canvas : TCanvas; const X, Y, H, VAlign: Integer; const Style: TVTLineType;
+procedure p_DrawLineImage(const Canvas : TCanvas; const X, Y, H, VAlign, IndentTree : Integer; const Style: TVTLineType;
  const Reverse: Boolean);
 
 // Draws (depending on Style) one of the 5 line types of the tree.
@@ -549,11 +550,11 @@ var
   TargetX: Integer;
 
 begin
-  HalfWidth := Integer(ExtIndentTree) div 2;
+  HalfWidth := Integer(IndentTree) div 2;
   if Reverse then
     TargetX := 0
   else
-    TargetX := ExtIndentTree;
+    TargetX := IndentTree;
 
   case Style of
     ltBottomRight:
@@ -577,19 +578,19 @@ begin
       end;
     ltLeft: // left can also mean right for RTL context
       if Reverse then
-        p_DrawDottedVLine(Canvas,Y, Y + H, X + Integer(ExtIndentTree))
+        p_DrawDottedVLine(Canvas,Y, Y + H, X + Integer(IndentTree))
       else
         p_DrawDottedVLine(Canvas,Y, Y + H, X);
     ltLeftBottom:
       if Reverse then
       begin
-        p_DrawDottedVLine(Canvas,Y, Y + H, X + Integer(ExtIndentTree));
-        p_DrawDottedHLine(Canvas,X, X + Integer(ExtIndentTree), Y + H);
+        p_DrawDottedVLine(Canvas,Y, Y + H, X + Integer(IndentTree));
+        p_DrawDottedHLine(Canvas,X, X + Integer(IndentTree), Y + H);
       end
       else
       begin
         p_DrawDottedVLine(Canvas,Y, Y + H, X);
-        p_DrawDottedHLine(Canvas,X, X + Integer(ExtIndentTree), Y + H);
+        p_DrawDottedHLine(Canvas,X, X + Integer(IndentTree), Y + H);
       end;
   end;
 end;
@@ -597,7 +598,7 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-procedure p_PaintTreeLines(const Canvas : TCanvas; const CellRect : TRect; const BidiMode : TBiDiMode; const VAlignment, IndentSize, NodeHeight: Integer;
+procedure p_PaintTreeLines(const Canvas : TCanvas; const CellRect : TRect; const BidiMode : TBiDiMode; const VAlignment, IndentSize, NodeHeight, IndentTree: Integer;
  const LineImage: TLineImage);
 
 var
@@ -612,17 +613,17 @@ begin
   if BidiMode = bdLeftToRight then
   begin
     XPos := CellRect.Left;
-    Offset := ExtIndentTree;
+    Offset := IndentTree;
   end
   else
   begin
-    Offset := -Integer(ExtIndentTree);
+    Offset := -Integer(IndentTree);
     XPos := CellRect.Right + Offset;
   end;
 
   for I := 0 to IndentSize - 1 do
     begin
-      p_DrawLineImage(Canvas,  XPos, CellRect.Top, NodeHeight, VAlignment, LineImage[I],
+      p_DrawLineImage(Canvas,  XPos, CellRect.Top, NodeHeight, VAlignment, IndentTree, LineImage[I],
         BidiMode <> bdLeftToRight);
       Inc(XPos, Offset);
     end;
@@ -640,6 +641,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     LMinusBM : TBitmap;
     AText : String;
     AKeepedColor : TColor;
+    ATextHeight : Integer;
+    ATreeLevel : Integer;
 
     procedure p_BeginPage;
     Begin
@@ -662,41 +665,41 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
        Begin
         Left:=0;
         LLine := TBitmap.Create;
-        if aSpaceWidth > 0 Then
          try
           Top:=0;
           Right:=aSpaceWidth;
-          Bottom:= ARLLabel.Height;
-          ARealTop := ARLLabel.Top+ARLLabel.Height;
+          Bottom:= ATextHeight;
+          if ARLLabel = nil
+           Then ARealTop := ATextHeight div 2
+           Else ARealTop := ARLLabel.Top+round(1.5 * ATextHeight);
           ARLImage := frlc_createImage(AReport, ARLBand, Left, ARealTop, aSpaceWidth );
+          if ARLLabel = nil
+           Then ARealTop := 0
+           Else ARealTop := ARLLabel.Top+ATextHeight;
           LLine.Width:=aSpaceWidth;
-          LLine.Height:=ARLLabel.Height;
+          LLine.Height:=ATextHeight;
           LLine.Canvas.Brush.Color := ARLImage.Color;
           atree.Color:=ARLImage.Color;
-          LLine.Canvas.Pen  .Color := ExtColumnFont.Color;
+          LLine.Canvas.Pen  .Color := ExtTreeFont.Color;
           LLine.Canvas.FillRect(
             {$IFNDEF FPC} Rect (  {$ENDIF}
-            0, 0, aSpaceWidth, ARLLabel.Height {$IFNDEF FPC}){$ENDIF});
-          LLine.Canvas.Brush.Color := ExtColumnFont.Color;
+            0, 0, aSpaceWidth, ATextHeight {$IFNDEF FPC}){$ENDIF});
+          LLine.Canvas.Brush.Color := ExtTreeFont.Color;
        //   p_DrawDottedVLine( LLine.Canvas, Top,Bottom,Left );
           DetermineLineImagesAndSelectLevel( atree, ATreeOptions, ANode, LImages );
           if (toShowTreeLines in ATreeOptions.PaintOptions) and
              (not (toHideTreeLinesIfThemed in ATreeOptions.PaintOptions)) then
-            p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, 0, GetNodeLevel(ANode)+1,ARLLabel.Height, LImages);
+            p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, 0, ATreeLevel+1,ATextHeight, ATextHeight, LImages);
           ARLImage.Picture.Bitmap.Assign(LLine);
          finally
            LLine.Free;
-         end
-        else
-          Begin
-           ARealTop := 0;
-          end;
+         end;
         GetTextInfo(ANode,-1,ARLBand.Font,ARect,AText);
+        Left:=aSpaceWidth+LMinusBM.width;
+        Right:=ARLBand.Width-aSpaceWidth;
         with ARect do
-          ARLLabel := frlc_createLabel(AReport,ARLBand,Left,ARealTop,Right,ExtColumnFont,AText);
-        Left:=aSpaceWidth+ARLLabel.Height;
-        Right:=aSpaceWidth-ARLBand.Width;
-        ARLImage := frlc_createImage(AReport, ARLBand, aSpaceWidth, ARealTop+ ( ARLLabel.Height - LMinusBM.Height ) div 2, LMinusBM.Height );
+          ARLLabel := frlc_createLabel(AReport,ARLBand,Left,ARealTop,Right,ExtTreeFont,AText);
+        ARLImage := frlc_createImage(AReport, ARLBand, aSpaceWidth, ARealTop+ ( ATextHeight - LMinusBM.Height ) div 2, LMinusBM.Height );
         ARLImage.Picture.Bitmap.Assign(LMinusBM);
        end;
     end;
@@ -704,13 +707,12 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     procedure p_labelNode ( const ANode : PVirtualNode );
     var ARect : TRect;
     Begin
+      ATreeLevel := GetNodeLevel(ANode);
       with atree, ANode^ do
        Begin
         if ANode <> RootNode Then
          Begin
-          if ARLLabel = nil
-           Then aSpaceWidth := 0
-           Else aSpaceWidth := GetNodeLevel(ANode)*ARLLabel.Height;
+          aSpaceWidth := (ATreeLevel-1)*ATextHeight;
           p_paintMainColumn ( ANode );
           if NextSibling <> nil Then p_labelNode(NextSibling);
          end;
@@ -721,12 +723,14 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
 Begin
   AKeepedColor := atree.Color;
   LMinusBM := TBitmap.Create;
+  ATempCanvas.Font.Assign(ExtTreeFont);
+  ATextHeight := ATempCanvas.TextHeight('W');
   try
     LMinusBM.LoadFromLazarusResource('VT_XPBUTTONMINUS');
     ARLLabel := nil;
     p_BeginPage;
     ATreeOptions := TStringTreeOptions ( fobj_getComponentObjectProperty(atree,'TreeOptions'));
-    ATempCanvas.Font.Assign(ExtColumnFont);
+    ATempCanvas.Font.Assign(ExtTreeFont);
     p_labelNode ( atree.RootNode );
   finally
     lMinusBM.Free;
@@ -1040,6 +1044,8 @@ initialization
   ExtTitleColorFont   := TFont.create;
   ExtColumnHeaderFont := TFont.Create;
   ExtColumnFont       := TFont.Create;
+  ExtTreeFont         := TFont.Create;
+  ExtTreeFont        .Size  := CST_PRINT_FONT_SIZE_TREE;
   ExtColumnFont      .Size  := CST_PRINT_FONT_SIZE;
   ExtColumnHeaderFont.Size  := CST_PRINT_FONT_SIZE;
   ExtTitleColorFont  .Size  := CST_PRINT_FONT_SIZE;
