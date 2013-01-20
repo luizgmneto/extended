@@ -19,6 +19,7 @@ uses Forms,
   fonctions_version,
 {$ENDIF}
   DB, Graphics, Classes,
+  ImgList,
   ImagingTypes, ImagingComponents, Imaging,
   Controls, Dialogs ;
 
@@ -73,13 +74,15 @@ procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; co
 procedure p_FileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean = False );
 procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF};
                                  const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
-
+procedure p_DrawImageFromList ( const ACanvas : TCanvas; const AImages : TCustomImageList ; const AImageIndex : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
+procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
+procedure p_DrawEventualImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
 function fb_ResizeImaging ( var Fdata : TImageData; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
 
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
                                   const ab_AjouteBitmap      ,
                                         ab_ImageDefaut       : Boolean     ;
-                                  const aIma_ImagesMenus     : TImageList  ;
+                                  const aIma_ImagesMenus     : TCustomImageList  ;
                                   const ai_CompteurImageDef : Integer     ) : Integer ; overload ;
 // Ajoute une image bmp dans une imagelist et efface le handle
 //  aBmp_Picture : L'image
@@ -88,7 +91,7 @@ function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
 // aIma_ImagesMenus : Liste d'iamges
 // ai_CompteurImageDef : Compteur d'image par défaut
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
-                                  const aIma_ImagesMenus     : TImageList  ) : Integer ; overload ;
+                                  const aIma_ImagesMenus     : TCustomImageList  ) : Integer ; overload ;
 // Transforme un bitmap en tout petit bitmap
 // Entrée : Le Bitmap source
 // Sortie : Le petit bitmap
@@ -421,7 +424,7 @@ end ;
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
                                   const ab_AjouteBitmap      ,
                                         ab_ImageDefaut       : Boolean     ;
-                                  const aIma_ImagesMenus     : TImageList  ;
+                                  const aIma_ImagesMenus     : TCustomImageList  ;
                                   const ai_CompteurImageDef : Integer     ) : Integer ;
 Begin
   Result := -1 ;
@@ -452,6 +455,51 @@ Begin
       Result := ai_CompteurImageDef ;
 End ;
 
+// Peindre une image d'une liste d'images
+// ACanvas : À peindre
+procedure p_DrawImageFromList ( const ACanvas : TCanvas; const AImages : TCustomImageList ; const AImageIndex : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
+var  ABitmap : TBitmap;
+Begin
+  ABitmap := TBitmap.Create;
+  AImages.GetBitmap ( aimageIndex, ABitmap );
+  ABitmap.Transparent:=True;
+  ACanvas.Draw ( X, Y, Abitmap );
+  with Abitmap do
+   Begin
+    {$IFNDEF FPC}
+    Dormant;
+    {$ENDIF}
+    FreeImage;
+    Free;
+   end;
+end;
+
+procedure p_DrawEventualImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
+Begin
+  if  ( AImageIndex <> -1 )
+  and ( AImages <> nil ) Then
+     Begin
+       p_ChangeTailleBitmap(ABitmap,AWidth,AHeight,True);
+       p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, AWidth, AHeight, X, Y );
+     End
+   Else
+    ABitmap.Assign(nil);
+end;
+
+procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
+Begin
+  with ABitmap do
+   Begin
+     Width  := AWidth;
+     Height := AHeight;
+     Canvas.FillRect(
+           {$IFNDEF FPC} Rect (  {$ENDIF}
+           0, 0, AWidth, AHeight {$IFNDEF FPC}){$ENDIF});
+     p_DrawImageFromList ( Canvas, AImages, AImageIndex, X, Y );
+     Modified := True;
+   end;
+end;
+
 // Ajoute une image bmp dans une imagelist et efface le handle
 //  aBmp_Picture : L'image
 // ab_AjouteBitmap : Ajoute l'image
@@ -459,7 +507,7 @@ End ;
 // aIma_ImagesMenus : Liste d'iamges
 // ai_CompteurImageDef : Compteur d'image par défaut
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
-                                  const aIma_ImagesMenus     : TImageList  ) : Integer ;
+                                  const aIma_ImagesMenus     : TCustomImageList  ) : Integer ;
 
 //var lIco_Icon : TIcon ;
 Begin

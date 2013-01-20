@@ -33,6 +33,47 @@ const
 type TBoolArray = Array of Boolean;
   {@class TRLCustomDBExtImage - Classe base para caixa de imagem ligada a campo de dataset.
    @ancestor TRLCustomImage. }
+
+  { TRLCustomImageList }
+
+  TRLCustomImageList=class(TRLCustomImage)
+  private
+
+    // variables
+
+    fImages :TCustomImageList;
+    fImageIndex:Integer;
+    procedure SetImages( const AValue: TCustomImageList);
+
+  protected
+    // custom methods
+
+    procedure   LoadPicture; virtual;
+
+
+    // override methods
+
+    procedure   Notification(aComponent:TComponent; Operation:TOperation); override;
+    procedure   InternalPrint; override;
+
+  public
+
+    // constructors & destructors
+
+    constructor Create(aOwner:TComponent); override;
+
+    // custom properties
+
+    {@prop DataField - Nome do campo associado.
+     @links TRLDataFieldProperty. :/}
+    property    Images :TCustomImageList read fImages   write SetImages;
+
+    {@prop DataSource - Referência ao DataSource que controle utiliza para se conectar ao DataSet. :/}
+    property    ImageIndex:Integer         read fImageIndex write fImageIndex default -1;
+  end;
+
+  {@class TRLCustomDBExtImage - Classe base para caixa de imagem ligada a campo de dataset.
+   @ancestor TRLCustomImage. }
   TRLCustomDBExtImage=class(TRLCustomImage)
   private
 
@@ -122,6 +163,61 @@ type TBoolArray = Array of Boolean;
     property    DataField;
     {@prop DataSource = ancestor /}
     property    DataSource;
+    {@prop Font = ancestor /}
+    property    Font;
+    {@prop FriendlyName = ancestor /}
+    property    FriendlyName;
+    {@prop Holder = ancestor /}
+    property    Holder;
+    {@prop HoldStyle = ancestor /}
+    property    HoldStyle;
+    {@prop RealBounds = ancestor /}
+    property    RealBounds;
+    {@prop Scaled = ancestor /}
+    property    Scaled;
+    {@prop SecondHolder = ancestor /}
+    property    SecondHolder;
+    {@prop SecondHoldStyle = ancestor /}
+    property    SecondHoldStyle;
+    {@prop Stretch = ancestor /}
+    property    Stretch;
+    {@prop Transparent = ancestor /}
+    property    Transparent;
+    {@prop Visible = ancestor /}
+    property    Visible;
+
+    // events
+
+    {@event AfterPrint = ancestor /}
+    property    AfterPrint;
+    {@event BeforePrint = ancestor /}
+    property    BeforePrint;
+    {@event OnMeasureHeight = ancestor /}
+    property    OnMeasureHeight;
+
+  end;
+
+  TRLExtImageList=class(TRLCustomImageList)
+  published
+
+    // properties
+
+    {@prop Align = ancestor /}
+    property    Align;
+    {@prop Anchors = ancestor /}
+    property    Anchors;
+    {@prop AutoSize = ancestor /}
+    property    AutoSize;
+    {@prop Behavior = ancestor /}
+    property    Behavior;
+    {@prop Borders = ancestor /}
+    property    Borders;
+    {@prop Center = ancestor /}
+    property    Center;
+    {@prop Images = ancestor /}
+    property    Images;
+    {@prop ImageIndex = ancestor /}
+    property    ImageIndex;
     {@prop Font = ancestor /}
     property    Font;
     {@prop FriendlyName = ancestor /}
@@ -270,6 +366,42 @@ implementation
 
 uses RLConsts,fonctions_proprietes,fonctions_images;
 
+{ TRLCustomImageList }
+
+procedure TRLCustomImageList.SetImages( const AValue: TCustomImageList);
+begin
+  if fImages=AValue then Exit;
+  fImages:=AValue;
+end;
+
+procedure TRLCustomImageList.LoadPicture;
+begin
+  p_DrawEventualImageFromListToBitmap ( Picture.Bitmap, fImages, fImageIndex, ClientWidth, ClientHeight, ( ClientWidth - Width ) div 2, 0 );
+end;
+
+procedure TRLCustomImageList.Notification(aComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(aComponent, Operation);
+  if Operation <> opRemove
+   Then Exit;
+  if aComponent = fImages Then
+   Images := nil;
+end;
+
+procedure TRLCustomImageList.InternalPrint;
+begin
+  LoadPicture;
+  inherited InternalPrint;
+end;
+
+constructor TRLCustomImageList.Create(aOwner: TComponent);
+begin
+  inherited Create(aOwner);
+  fImages     := nil;
+  fImageIndex := -1;
+end;
+
 { TRLCustomDBExtImageList }
 
 procedure TRLCustomDBExtImageList.SetImages(const Avalue: TCustomImageList);
@@ -299,35 +431,8 @@ begin
       Begin
         aimageIndex := f.AsInteger;
       end;
-  if  ( aimageIndex <> -1 )
-  and ( FImageList <> nil ) Then
-     Begin
-       ABitmap := TBitmap.Create;
-       FImageList.GetBitmap ( aimageIndex, ABitmap );
-       p_ChangeTailleBitmap(ABitmap,ClientWidth,ClientHeight,True);
-       ABitmap.Transparent:=True;
-       with Picture.Bitmap do
-        Begin
-         Canvas.Brush.Color := Color;
-         Width  := ClientWidth;
-         Height := Abitmap.Height;
-         Canvas.FillRect(
-           {$IFNDEF FPC} Rect (  {$ENDIF}
-           0, 0, ClientWidth, Height {$IFNDEF FPC}){$ENDIF});
-         Canvas.Draw (( ClientWidth - Width ) div 2, 0, Abitmap );
-         Modified := True;
-        end;
-       with Abitmap do
-        Begin
-         {$IFNDEF FPC}
-         Dormant;
-         {$ENDIF}
-         FreeImage;
-         Free;
-        end;
-     end
-   Else
-   Picture.Bitmap.Assign(nil);
+
+  p_DrawEventualImageFromListToBitmap ( ABitmap, FImageList, aimageIndex, ClientWidth, ClientHeight, ( ClientWidth - Width ) div 2, 0 );
 
 end;
 
