@@ -39,6 +39,7 @@ const
     CST_PROPERTY_COLUMNS        = 'Columns';
     CST_PROPERTY_LOOKUPFIELD    = 'LookupField';
     CST_PROPERTY_TEXT           = 'Text' ;
+    CST_PROPERTY_IMAGES         = 'Images' ;
     CST_PROPERTY_CAPTION        = 'Caption' ;
     CST_PROPERTY_ITEMS          = 'Items'  ;
     CST_PROPERTY_ITEMINDEX      = 'ItemIndex'  ;

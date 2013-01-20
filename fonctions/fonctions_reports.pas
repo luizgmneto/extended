@@ -191,6 +191,20 @@ Begin
    end;
 end;
 
+function frlc_createImageList ( const AReport : TRLReport; const ARLBand : TRLBand; const AImages : TCustomImageList; const ALeft, ATop, AWidth, AImageIndex : Integer):TRLExtImageList;
+Begin
+  Result := TRLExtImageList.Create(AReport.Owner);
+  with Result do
+   Begin
+    Parent:=ARLBand;
+    Top:=ATop;
+    Left:=ALeft;
+    Width:=AWidth;
+    ImageIndex:=AImageIndex;
+    Images := AImages;
+   end;
+end;
+
 function frlc_createDBImage ( const AReport : TRLReport; const ARLBand : TRLBand; const ADatasource : TDatasource; const ALeft, ATop, AWidth, AHeight : Integer; const AField : String ):TRLDBExtImage;
 Begin
   Result := TRLDBExtImage.Create(AReport.Owner);
@@ -304,6 +318,18 @@ Begin
      end;
 end;
 
+
+function NodeIsVisible(const Node: PVirtualNode): Boolean;
+
+// Checks if a node will effectively be hidden as this depends on the nodes state and the paint options.
+
+begin
+  if Assigned(Node) then
+    Result := ( vsVisible in Node.States ) and not (vsHidden in Node.States)
+  else
+    Result := False;
+end;
+
 //----------------------------------------------------------------------------------------------------------------------
 
 function HasVisibleNextSibling(Node: PVirtualNode): Boolean;
@@ -319,7 +345,7 @@ begin
   begin
     repeat
       Node := Node.NextSibling;
-      Result := vsVisible in Node.States;
+      Result := NodeIsVisible ( Node );
     until Result or (Node.NextSibling = nil);
   end;
 end;
@@ -338,7 +364,7 @@ begin
   begin
     repeat
       Node := Node.PrevSibling;
-      Result := vsVisible in Node.States;
+      Result := NodeIsVisible ( Node );
     until Result or (Node.PrevSibling = nil);
   end;
 end;
@@ -353,7 +379,7 @@ var
 begin
   // Find first visible child.
   Run := Parent.FirstChild;
-  while Assigned(Run) and not (vsVisible in Node.States) do
+  while Assigned(Run) and not (NodeIsVisible ( Node )) do
     Run := Run.NextSibling;
 
   Result := Assigned(Run) and (Run = Node);
@@ -369,7 +395,7 @@ var
 begin
   // Find last visible child.
   Run := Parent.LastChild;
-  while Assigned(Run) and not (vsVisible in Node.States) do
+  while Assigned(Run) and not (NodeIsVisible ( Node )) do
     Run := Run.PrevSibling;
 
   Result := Assigned(Run) and (Run = Node);
@@ -636,14 +662,20 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     ARLDBText : TRLDBText;
     ARLImage : TRLCustomImage;
     ARLBand : TRLBand;
-    LImages : TLineImage;
+    ATreeNodeSigns : TLineImage;
+    AImages : TCustomImageList;
     ATreeOptions: TStringTreeOptions;
     LMinusBM : TBitmap;
     AText : String;
     AKeepedColor : TColor;
+    AGhosted : Boolean;
     ATextHeight : Integer;
     ATreeLevel : Integer;
+    AOnGetImage: TVTGetImageEvent;               // Used to retrieve the image index of a given node.
+    AOnGetImageEx: TVTGetImageExEvent;           // Used to retrieve the image index of a given node along with a custom
 
+    const CST_PROPERTY_OnGetImageIndex = 'OnGetImageIndex';
+          CST_PROPERTY_OnGetImageIndexEX = 'OnGetImageIndexEx';
     procedure p_BeginPage;
     Begin
       ATitleHeight := 0;
@@ -660,6 +692,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     var Arect : TRect;
         ARealTop : Integer;
         LLine : TBitmap;
+        AImageIndex : Integer;
     Begin
       with atree, ARect do
        Begin
@@ -686,16 +719,29 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
             0, 0, aSpaceWidth, ATextHeight {$IFNDEF FPC}){$ENDIF});
           LLine.Canvas.Brush.Color := ExtTreeFont.Color;
        //   p_DrawDottedVLine( LLine.Canvas, Top,Bottom,Left );
-          DetermineLineImagesAndSelectLevel( atree, ATreeOptions, ANode, LImages );
+          DetermineLineImagesAndSelectLevel( atree, ATreeOptions, ANode, ATreeNodeSigns );
           if (toShowTreeLines in ATreeOptions.PaintOptions) and
              (not (toHideTreeLinesIfThemed in ATreeOptions.PaintOptions)) then
-            p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, 0, ATreeLevel+1,ATextHeight, ATextHeight, LImages);
+            p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, 0, ATreeLevel+1,ATextHeight, ATextHeight, ATreeNodeSigns);
           ARLImage.Picture.Bitmap.Assign(LLine);
          finally
            LLine.Free;
          end;
         GetTextInfo(ANode,-1,ARLBand.Font,ARect,AText);
         Left:=aSpaceWidth+LMinusBM.width;
+        AImages       := fobj_getComponentObjectProperty ( atree, CST_PROPERTY_IMAGES ) as TCustomImageList;
+        if (( AImages <> nil ) and  Assigned ( AOnGetImage ))
+        or Assigned ( AOnGetImageEx ) Then
+         Begin
+           // First try the enhanced event to allow for custom image lists.
+           if Assigned(AOnGetImageEx) then
+             AOnGetImageEx(atree, ANode, ikNormal, -1, AGhosted, AImageIndex, AImages )
+           else
+             if Assigned(AOnGetImage) then
+               AOnGetImage(atree, ANode, ikNormal, -1, AGhosted, AImageIndex);
+           ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth + LMinusBM.width, ARealTop+ ( ATextHeight - AImages.Height ) div 2, AImages.Height, AImageIndex );
+           Left:=Left+AImages.Width;
+         end;
         Right:=ARLBand.Width-aSpaceWidth;
         with ARect do
           ARLLabel := frlc_createLabel(AReport,ARLBand,Left,ARealTop,Right,ExtTreeFont,AText);
@@ -725,6 +771,9 @@ Begin
   LMinusBM := TBitmap.Create;
   ATempCanvas.Font.Assign(ExtTreeFont);
   ATextHeight := ATempCanvas.TextHeight('W');
+  AGhosted := False;
+  AOnGetImage   := TVTGetImageEvent   ( fmet_getComponentMethodProperty ( atree, CST_PROPERTY_OnGetImageIndex   ));
+  AOnGetImageEx := TVTGetImageExEvent ( fmet_getComponentMethodProperty ( atree, CST_PROPERTY_OnGetImageIndexEX ));
   try
     LMinusBM.LoadFromLazarusResource('VT_XPBUTTONMINUS');
     ARLLabel := nil;
@@ -887,7 +936,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
   Begin
     if assigned ( AItem ) Then
      Begin
-      LImages:= fobj_getComponentObjectProperty ( AItem,'Images') as TCustomImageList;
+      LImages:= fobj_getComponentObjectProperty ( AItem,CST_PROPERTY_IMAGES ) as TCustomImageList;
       if LImages <> nil Then
        Begin
          ARLImage := frlc_createDBImageList ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth-4,AlineHeight, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME),LImages);
