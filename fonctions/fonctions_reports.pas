@@ -50,7 +50,7 @@ const
   CST_COLUMN_Title   = 'Title';
   CST_COLUMN_Images  = 'Images';
   CST_PRINT_FONT_SIZE = 9;
-  CST_PRINT_FONT_SIZE_TREE = 8;
+  CST_PRINT_FONT_SIZE_TREE = 9;
   CST_PRINT_COLUMN_FONT_COLOR = clBlack;
   CST_PRINT_TITLE_FONT_COLOR  = clBlack;
   CST_PRINT_COLUMN_TITLE_FONT_COLOR = clBlack;
@@ -76,7 +76,7 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtHeader  : TRLBand = nil;
 
 function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean; overload;
-function fb_CreateReport ( const AReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String): Boolean; overload;
+function fb_CreateReport ( const AParentReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String): Boolean; overload;
 function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
 function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
 
@@ -271,6 +271,35 @@ Begin
    Result := 0;
 end;
 
+function frlc_addTitle (const AReport : TRLReport ; const as_Title : String; var atitleHeight : Integer ) :TRLBand ;
+var astl_Title : TStringList;
+    i, AHeight, ALineHeight : Integer;
+    arlabel : TRLLabel;
+Begin
+  astl_Title := nil;
+  arlabel   := nil;
+  atitleHeight := 0;
+  p_ChampsVersListe(astl_Title, StringReplace ( as_Title, #10, '', [rfReplaceAll] ), #13);
+  with AReport do
+  for i := 0 to astl_Title.Count -1 do
+   Begin
+    ALineHeight := Min ( 32, round ( ( Width - 160 ) div length ( astl_Title [ i ] )*1.9 ));
+    inc ( atitleHeight, ALineHeight + 1 );
+   end;
+  with RLLeftTopPage do
+    Result := frlc_createBand ( AReport, X, Y, atitleHeight + 4, btHeader, ExtTitleColorBack );
+  p_DrawBorders ( Result.Borders, ExtTitleColorBorder, True, ExtColumnVBorders, True );
+  for i := 0 to astl_Title.Count -1 do
+   Begin
+     if arlabel = nil
+      Then AHeight:=2
+      Else AHeight:=arlabel.Top+arlabel.Height;
+     arlabel := frlc_createLabel ( AReport, Result,2,AHeight,0, ExtTitleColorFont, astl_Title [ i ],aLineHeight*2 div 3);
+
+   end;
+
+end;
+
 function frlc_CreateHeader (const AReport : TRLReport ; const as_Title : String; var atitleHeight : Integer ):TRLBand;
 var
     ARLSystemInfo : TRLSystemInfo;
@@ -282,13 +311,7 @@ Begin
      Begin
       if as_Title > '' Then
         Begin
-          atitleHeight := round ( ( Width - 160 ) div length ( as_Title )*1.9 );
-          atitleHeight := Min ( 32, atitleHeight );
-          with RLLeftTopPage do
-            Result := frlc_createBand ( AReport, X, Y, atitleHeight + 4, btHeader, ExtTitleColorBack );
-          p_DrawBorders ( Result.Borders, ExtTitleColorBorder, True, ExtColumnVBorders, True );
-          frlc_createLabel ( AReport, Result,2,2,0, ExtTitleColorFont, as_Title,atitleHeight*2 div 3);
-
+          Result := frlc_addTitle ( AReport, as_Title, atitleHeight );
         end
        Else
        with RLLeftTopPage do
@@ -332,7 +355,7 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function HasVisibleNextSibling(Node: PVirtualNode): Boolean;
+function HasVisibleNextSibling( Node: PVirtualNode): Boolean;
 
 // Helper method to determine if the given node has a visible next sibling. This is needed to
 // draw correct tree lines.
@@ -656,9 +679,10 @@ begin
 end;
 
 
-function fb_CreateReport ( const AReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String): Boolean;
+function fb_CreateReport ( const AParentReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, SomeLeft, aSpaceWidth, ALinesAdded: Integer;
     ARLLabel : TRLLabel = nil;
+    AReport : TRLReport;
     ARLDBText : TRLDBText;
     ARLImage : TRLCustomImage;
     ARLBand : TRLBand;
@@ -703,8 +727,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
           Right:=aSpaceWidth;
           Bottom:= ATextHeight;
           if ARLLabel = nil
-           Then ARealTop := ATextHeight div 2
-           Else ARealTop := ARLLabel.Top+round(1.5 * ATextHeight);
+           Then ARealTop := 0
+           Else ARealTop := ARLLabel.Top+ ATextHeight ;
           ARLImage := frlc_createImage(AReport, ARLBand, Left, ARealTop, aSpaceWidth );
           if ARLLabel = nil
            Then ARealTop := 0
@@ -722,14 +746,15 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
           DetermineLineImagesAndSelectLevel( atree, ATreeOptions, ANode, ATreeNodeSigns );
           if (toShowTreeLines in ATreeOptions.PaintOptions) and
              (not (toHideTreeLinesIfThemed in ATreeOptions.PaintOptions)) then
-            p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, 0, ATreeLevel+1,ATextHeight, ATextHeight, ATreeNodeSigns);
+            p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, ATextHeight div 2, ATreeLevel+1,ATextHeight, ATextHeight, ATreeNodeSigns);
+          LLine.Canvas.Draw(aSpaceWidth - ATextHeight + ( ATextHeight - LMinusBM.Height ) div 2 + 1, (ATextHeight - LMinusBM.Height ) div 2 + 1, LMinusBM);
           ARLImage.Picture.Bitmap.Assign(LLine);
          finally
            LLine.Free;
          end;
         GetTextInfo(ANode,-1,ARLBand.Font,ARect,AText);
-        Left:=aSpaceWidth+LMinusBM.width;
         AImages       := fobj_getComponentObjectProperty ( atree, CST_PROPERTY_IMAGES ) as TCustomImageList;
+        Left:=aSpaceWidth;
         if (( AImages <> nil ) and  Assigned ( AOnGetImage ))
         or Assigned ( AOnGetImageEx ) Then
          Begin
@@ -739,19 +764,18 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
            else
              if Assigned(AOnGetImage) then
                AOnGetImage(atree, ANode, ikNormal, -1, AGhosted, AImageIndex);
-           ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth + LMinusBM.width, ARealTop+ ( ATextHeight - AImages.Height ) div 2, AImages.Height, AImageIndex );
+           ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop+ ( ATextHeight - AImages.Height ) div 2, AImages.Height, AImageIndex );
            Left:=Left+AImages.Width;
          end;
-        Right:=ARLBand.Width-aSpaceWidth;
+        Right:=ARLBand.Width-Left;
         with ARect do
           ARLLabel := frlc_createLabel(AReport,ARLBand,Left,ARealTop,Right,ExtTreeFont,AText);
-        ARLImage := frlc_createImage(AReport, ARLBand, aSpaceWidth, ARealTop+ ( ATextHeight - LMinusBM.Height ) div 2, LMinusBM.Height );
-        ARLImage.Picture.Bitmap.Assign(LMinusBM);
        end;
     end;
 
     procedure p_labelNode ( const ANode : PVirtualNode );
     var ARect : TRect;
+        APriorReport : TRLReport;
     Begin
       ATreeLevel := GetNodeLevel(ANode);
       with atree, ANode^ do
@@ -760,13 +784,25 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
          Begin
           aSpaceWidth := (ATreeLevel-1)*ATextHeight;
           p_paintMainColumn ( ANode );
-          if NextSibling <> nil Then p_labelNode(NextSibling);
+          if  ARLLabel.Top + ( ARLLabel.Height + 1) * 2 > ARLBand.Height Then
+            Begin
+              APriorReport := AReport;
+              areport := TRLReport.Create(AParentReport);
+              areport.PriorReport:=APriorReport;
+              ARLLabel := nil;
+              p_BeginPage;
+            end;
          end;
-        if FirstChild <> nil Then p_labelNode(FirstChild);
+        if FirstChild <> nil  Then p_labelNode(FirstChild);
+        if  ( ANode <> RootNode )
+        and ( NextSibling <> nil )
+          Then p_labelNode(NextSibling);
        end;
     end;
 
 Begin
+  AReport := AParentReport;
+  AReport.ForcePrepare:= False;
   AKeepedColor := atree.Color;
   LMinusBM := TBitmap.Create;
   ATempCanvas.Font.Assign(ExtTreeFont);
