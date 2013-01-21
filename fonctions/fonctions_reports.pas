@@ -72,6 +72,7 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtColumnHeaderColorBack : TColor = clSkyBlue;
     ExtColumnFont        : TFont  = nil;
     ExtTreeFont          : TFont  = nil;
+    ExtTreeLineColor     : TColor = clBlack;
     ExtColumnHBorders    : Boolean = False;
     ExtColumnVBorders    : Boolean = True;
     ExtColumnColorBack   : TColor = clWhite;
@@ -355,7 +356,7 @@ Begin
      end;
 end;
 
-
+//   virtual tree sources
 function NodeIsVisible(const Node: PVirtualNode): Boolean;
 
 // Checks if a node will effectively be hidden as this depends on the nodes state and the paint options.
@@ -368,7 +369,7 @@ begin
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
-
+//   virtual tree sources
 function HasVisibleNextSibling( Node: PVirtualNode): Boolean;
 
 // Helper method to determine if the given node has a visible next sibling. This is needed to
@@ -388,6 +389,7 @@ begin
 end;
 
 
+//   virtual tree sources
 function HasVisiblePreviousSibling( Node: PVirtualNode): Boolean;
 
 // Helper method to determine if the given node has a visible previous sibling. This is needed to
@@ -406,6 +408,7 @@ begin
   end;
 end;
 
+//   virtual tree sources
 function IsFirstVisibleChild(Parent, Node: PVirtualNode): Boolean;
 
 // Helper method to check if Node is the same as the first visible child of Parent.
@@ -439,7 +442,7 @@ begin
 end;
 
 
-
+//   virtual tree sources
 function DetermineLineImagesAndSelectLevel( const ATree : TBaseVirtualTree; const ATreeOptions : TStringTreeOptions; const Node: PVirtualNode; out LineImage: TLineImage): Integer;
 
 // This method is used during paint cycles and initializes an array of line type IDs. These IDs are used to paint
@@ -567,7 +570,7 @@ end;
 //----------------------------------------------------------------------------------------------------------------------
 
 procedure p_DrawDottedHLine(const Canvas : TCanvas; const Left, Right, Top: Integer);
-
+//   virtual tree sources
 // Draws a horizontal line with alternating pixels (this style is not supported for pens under Win9x).
 
 var
@@ -582,7 +585,7 @@ begin
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
-
+//   virtual tree sources
 procedure p_DrawDottedVLine(const Canvas : TCanvas; const Top, Bottom, Left: Integer);
 
 // Draws a vertical line with alternating pixels (this style is not supported for pens under Win9x).
@@ -600,7 +603,7 @@ end;
 
 
 //----------------------------------------------------------------------------------------------------------------------
-
+//   virtual tree sources
 procedure p_DrawLineImage(const Canvas : TCanvas; const X, Y, H, VAlign, IndentTree : Integer; const Style: TVTLineType;
  const Reverse: Boolean);
 
@@ -660,7 +663,7 @@ end;
 
 
 //----------------------------------------------------------------------------------------------------------------------
-
+//   virtual tree sources
 procedure p_PaintTreeLines(const Canvas : TCanvas; const CellRect : TRect; const BidiMode : TBiDiMode; const VAlignment, IndentSize, NodeHeight, IndentTree: Integer;
  const LineImage: TLineImage);
 
@@ -692,7 +695,6 @@ begin
     end;
 end;
 
-
 function fb_CreateReport ( const AParentReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, SomeLeft, aSpaceWidth, ALinesAdded: Integer;
     ARLLabel : TRLLabel = nil;
@@ -708,7 +710,6 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     ARightReports : array of TRLReport;
     LMinusBM : TBitmap;
     AText : String;
-    AKeepedColor : TColor;
     AGhosted : Boolean;
     ATextHeight : Integer;
     ATreeLevel : Integer;
@@ -783,9 +784,10 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
       with atree, ARect do
        Begin
         Left:=0;
+        Top :=0;
         LLine := TBitmap.Create;
          try
-          Top:=0;
+
           Right:=aSpaceWidth;
           Bottom:= ATextHeight;
           if ARLLabel = nil
@@ -795,20 +797,15 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
           if ARLLabel = nil
            Then ARealTop := 0
            Else ARealTop := ARLLabel.Top+ATextHeight;
-          LLine.Width:=aSpaceWidth;
-          LLine.Height:=ATextHeight;
-          LLine.Canvas.Brush.Color := ARLImage.Color;
-          atree.Color:=ARLImage.Color;
-          LLine.Canvas.Pen  .Color := ExtTreeFont.Color;
-          LLine.Canvas.FillRect(
-            {$IFNDEF FPC} Rect (  {$ENDIF}
-            0, 0, aSpaceWidth, ATextHeight {$IFNDEF FPC}){$ENDIF});
-          LLine.Canvas.Brush.Color := ExtTreeFont.Color;
-       //   virtual tree sources
+          p_SetAndFillBitmap ( LLine, Right, Bottom, ARLImage.Color );
+          //   virtual tree sources
           DetermineLineImagesAndSelectLevel( atree, ATreeOptions, ANode, ATreeNodeSigns );
           if (toShowTreeLines in ATreeOptions.PaintOptions) and
              (not (toHideTreeLinesIfThemed in ATreeOptions.PaintOptions)) then
-            p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, ATextHeight div 2, ATreeLevel+1,ATextHeight, ATextHeight, ATreeNodeSigns);
+            Begin
+              LLine.Canvas.Brush.Color := ExtTreeLineColor;
+              p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, ATextHeight div 2, ATreeLevel+1,ATextHeight, ATextHeight, ATreeNodeSigns);
+            end;
           // place the minus
           LLine.Canvas.Draw(aSpaceWidth - ATextHeight + ( ATextHeight - LMinusBM.Height ) div 2 + 1, (ATextHeight - LMinusBM.Height ) div 2 + 1, LMinusBM);
           ARLImage.Picture.Bitmap.Assign(LLine);
@@ -861,11 +858,34 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
           Then p_labelNode(NextSibling);
        end;
     end;
+    procedure p_drawMinus ( const ABitmap : TBitmap );
+    var AInterleaving : Integer;
+        procedure p_drawPosition ( const X, Y : Integer ; const AColor1, AColor2 : TColor );
+        Begin
+          with ABitmap.Canvas do
+           Begin
+            Pen.Color := AColor1;
+            Rectangle(X, Y, Width, Height);
+            Pen.Color := AColor2;
+            MoveTo(AInterleaving+X, Width div 2+Y);
+            LineTo(Width - AInterleaving+X , Width div 2+Y);
+           End;
+        end;
+
+    Begin
+      with ABitmap do
+       Begin
+        AInterleaving:=ATextHeight div 3;
+        p_SetAndFillBitmap(ABitmap,ATextHeight - AInterleaving+1,ATextHeight - AInterleaving+1,clWhite);
+        dec ( AInterleaving, ATextHeight div 5 );
+        p_drawPosition ( 1, 1, clGray, clGray );
+        p_drawPosition ( 0, 0, ExtTreeLineColor, ExtTreeFont.Color );
+       End;
+    end;
 
 Begin
   AReport := AParentReport;
   AReport.ForcePrepare:= False;
-  AKeepedColor := atree.Color;
   LMinusBM := TBitmap.Create;
   ATempCanvas.Font.Assign(ExtTreeFont);
   ATextHeight := ATempCanvas.TextHeight('W');
@@ -873,7 +893,7 @@ Begin
   AOnGetImage   := TVTGetImageEvent   ( fmet_getComponentMethodProperty ( atree, CST_PROPERTY_OnGetImageIndex   ));
   AOnGetImageEx := TVTGetImageExEvent ( fmet_getComponentMethodProperty ( atree, CST_PROPERTY_OnGetImageIndexEX ));
   try
-    LMinusBM.LoadFromLazarusResource('VT_XPBUTTONMINUS');
+    p_drawMinus ( LMinusBM );
     p_BeginPage;
     ATreeOptions := TStringTreeOptions ( fobj_getComponentObjectProperty(atree,'TreeOptions'));
     ATempCanvas.Font.Assign(ExtTreeFont);
@@ -882,7 +902,6 @@ Begin
       AReport.NextReport := ARightReports[0];
   finally
     lMinusBM.Free;
-    atree.Color := AKeepedColor;
   end;
 end;
 

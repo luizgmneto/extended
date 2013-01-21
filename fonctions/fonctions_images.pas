@@ -113,6 +113,7 @@ function fb_FichierIcoBmpVersBitmap ( const as_Fichier : String; const aBmp_Sort
 // aico_Destination   : Image retour icon
 
 procedure p_BitmapVersIco ( const aBmp_Bitmap : TBitmap ; const aIco_Destination : TIcon );
+procedure p_SetAndFillBitmap ( const ABitmap : TBitmap ; const AWidth, AHeight : Integer; const AColor : TColor );
 
 implementation
 uses
@@ -128,6 +129,20 @@ uses
   {$ENDIF}
      SysUtils ;
 
+// fill acanvas with acolor
+procedure p_SetAndFillBitmap ( const ABitmap : TBitmap ; const AWidth, AHeight : Integer; const AColor : TColor );
+Begin
+  ABitmap.Width :=AWidth;
+  ABitmap.Height:=AHeight;
+  with ABitmap.Canvas do
+   Begin
+     Brush.Color:=AColor;
+     Pen  .Color:=AColor;
+     FillRect(
+            {$IFNDEF FPC} Rect (  {$ENDIF}
+            0, 0, AWidth, AHeight {$IFNDEF FPC}){$ENDIF});
+   end;
+End;
 
 
 // Transformation d'un champ bitmap en TIcon
