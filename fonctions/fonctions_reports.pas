@@ -16,6 +16,7 @@ uses
   u_extdbgrid,U_ExtMapImageIndex,Forms,
   u_reportform,ImgList, Graphics,
   RLFilters,
+  Printers,
   {$IFDEF JEDI}
    JvDBUltimGrid, JvDBGrid,
   {$ELSE}
@@ -30,6 +31,7 @@ uses
 {$ENDIF}
   Classes, Grids,
   VirtualTrees,
+  RLTypes,
   RLPreview;
 
 const
@@ -58,6 +60,7 @@ const
   CST_PRINT_COLUMN_BREAKCAPTION = 'BreakCaption' ;
   CST_PRINT_COLUMN_LINEBREAK = 'LineBreak' ;
   CST_PRINT_COMPONENT_EVENT = 'DrawReportImage';
+  CST_PRINT_INTERNAL_BAND_MARGIN = 2;
 
 
 var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
@@ -77,18 +80,29 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
 
 function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean; overload;
 function fb_CreateReport ( const AParentReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String): Boolean; overload;
-function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
-function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
+function fref_CreateReport ( const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm; overload;
+function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
+function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
 
 implementation
 
 uses fonctions_proprietes,
-     fonctions_images,Printers,
-     RLTypes, unite_messages,
+     fonctions_images,
+     unite_messages,
      fonctions_string,
      fonctions_vtree,
      u_reports_rlcomponents,
      Math,strutils;
+
+function frlr_CreateNewReport ( const ASourceReport : TRLReport ):TRLReport;
+Begin
+  Result := TRLReport.Create(ASourceReport.Owner);
+  with Result.PageSetup, ASourceReport do
+   Begin
+     Orientation:=PageSetup.Orientation;
+     PaperSize  :=PageSetup.PaperSize;
+   end;
+end;
 
 function frlc_createLabel ( const AReport : TRLReport; const ARLBand : TRLBand;const ALeft, ATop, AWidth : Integer ; const afont : TFont; const as_Text : String = '' ; const ai_SizeFont : Integer = 0 ): TRLLabel;
 Begin
@@ -152,7 +166,7 @@ Begin
     Left:=ALeft;
     Color:=AColor;
     Height:=Aheight;
-    Width:=aReport.Width-RLLeftTopPage.X*2;
+    Width:=aReport.Width-RLLeftTopPage.X*CST_PRINT_INTERNAL_BAND_MARGIN;
    end;
 end;
 function frlc_createDBText ( const AReport : TRLReport; const ARLBand : TRLBand; const ADatasource : TDatasource; const ALeft, ATop, AWidth : Integer ; const afont : TFont; const as_Fieldname : String ; const ai_SizeFont : Integer = 0):TRLDBText;
@@ -292,9 +306,9 @@ Begin
   for i := 0 to astl_Title.Count -1 do
    Begin
      if arlabel = nil
-      Then AHeight:=2
+      Then AHeight:=CST_PRINT_INTERNAL_BAND_MARGIN
       Else AHeight:=arlabel.Top+arlabel.Height;
-     arlabel := frlc_createLabel ( AReport, Result,2,AHeight,0, ExtTitleColorFont, astl_Title [ i ],aLineHeight*2 div 3);
+     arlabel := frlc_createLabel ( AReport, Result,CST_PRINT_INTERNAL_BAND_MARGIN,AHeight,0, ExtTitleColorFont, astl_Title [ i ],aLineHeight*2 div 3);
 
    end;
 
@@ -318,7 +332,7 @@ Begin
         Result := frlc_createBand ( AReport, X, Y, 10, btHeader, ExtTitleColorBack );
        with Result do
         Begin
-         ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,2,0,itFullDate, ExtTitleColorFont, 0,'',faRightTop);
+         ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,CST_PRINT_INTERNAL_BAND_MARGIN,0,itFullDate, ExtTitleColorFont, 0,'',faRightTop);
          Height:=Max(ARLSystemInfo.Height*2,Height);  // adapt height to 2 lines of system info
          ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,Height,0,itLastPageNumber, ExtTitleColorFont, 0, '/', faRightBottom,TRLTextAlignment(taLeftJustify));
          // due to autosize bug
@@ -689,6 +703,9 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     ATreeNodeSigns : TLineImage;
     AImages : TCustomImageList;
     ATreeOptions: TStringTreeOptions;
+    ARightReport  : TRLReport;
+    ARightBand  : TRLBand;
+    ARightReports : array of TRLReport;
     LMinusBM : TBitmap;
     AText : String;
     AKeepedColor : TColor;
@@ -700,23 +717,68 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
 
     const CST_PROPERTY_OnGetImageIndex = 'OnGetImageIndex';
           CST_PROPERTY_OnGetImageIndexEX = 'OnGetImageIndexEx';
-    procedure p_BeginPage;
+
+    procedure p_AddHeader ( const AReport : TRLReport; var ABand : TRLBand  );
+    var ATempBand : TRLBand;
     Begin
-      ATitleHeight := 0;
-      ARLBand:=frlc_CreateHeader ( AReport, as_Title, ATitleHeight );
+      ATempBand:=frlc_CreateHeader ( AReport, as_Title, ATitleHeight );
       with AReport, Margins, RLLeftTopPage do
        Begin
-        ARLBand := frlc_createBand ( AReport, 0, Y + atitleHeight + 1, 4, btHeader, clWhite );
-        inc ( atitleHeight, ARLBand.Height );
-        ARLBand := frlc_createBand ( AReport, 0, Y + atitleHeight + 1, ClientHeight - atitleHeight - round ( BottomMargin + TopMargin ) - 1, btColumnHeader, ExtColumnColorBack  );
+        ATempBand := frlc_createBand ( AReport, 0, Y + atitleHeight + 1, 4, btHeader, clWhite );
+        inc ( atitleHeight, ATempband.Height );
+        ABand := frlc_createBand ( AReport, 0, Y + atitleHeight + 1, ClientHeight - atitleHeight - round ( BottomMargin + TopMargin ) - 1, btColumnHeader, ExtColumnColorBack  );
        end;
+
+    end;
+
+    procedure p_addEventualRightReport ( const ARealTop : Integer );
+    var ARightLabel : TRLLabel;
+        Aindex      : Integer;
+        AWidth,ADotWidth, ALeftLength      : Integer;
+        ARightString : String;
+    Begin
+       with ARLLabel do
+         Begin
+          if Width + Left > ARLBand.Width Then
+           Begin
+             if not Assigned( ARightReport ) Then
+              Begin
+                ARightReport := frlr_CreateNewReport ( AParentReport );
+                AIndex:=High(ARightReports)+1;
+                SetLength(ARightReports, AIndex + 1 );
+                ARightReports[AIndex]:=ARightReport;
+                if AIndex > 0 Then
+                 ARightReport.PriorReport := ARightReports [ AIndex - 1 ];
+                p_AddHeader ( ARightReport, ARightBand );
+              end;
+             ADotWidth := ATempCanvas.TextWidth('…')+CST_PRINT_INTERNAL_BAND_MARGIN * 2+Left;
+             ALeftLength := Length(Caption);
+             while ( Width + ADotWidth > ARLBand.Width )
+             and ( ALeftLength > 0 ) do
+              Begin
+                ARightString := Caption [ ALeftLength ]+ ARightString;
+                dec ( ALeftLength );
+                Caption:= copy ( Caption, 1, ALeftLength );
+              end;
+             Caption:= Caption + '…';
+             ARightLabel := frlc_createLabel(ARightReport,ARightBand,CST_PRINT_INTERNAL_BAND_MARGIN,ARealTop,ARLBand.Width-CST_PRINT_INTERNAL_BAND_MARGIN,ExtTreeFont,ARightString);
+           end;
+         end;
+
+    end;
+    procedure p_BeginPage;
+    Begin
+      ARLLabel := nil;
+      ARightReport := nil;
+      ATitleHeight := 0;
+      p_AddHeader ( AReport, ARLBand );
 
     end;
     procedure p_paintMainColumn ( const ANode : PVirtualNode );
     var Arect : TRect;
         ARealTop : Integer;
         LLine : TBitmap;
-        AImageIndex : Integer;
+        AIndex : Integer;
     Begin
       with atree, ARect do
        Begin
@@ -742,11 +804,12 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
             {$IFNDEF FPC} Rect (  {$ENDIF}
             0, 0, aSpaceWidth, ATextHeight {$IFNDEF FPC}){$ENDIF});
           LLine.Canvas.Brush.Color := ExtTreeFont.Color;
-       //   p_DrawDottedVLine( LLine.Canvas, Top,Bottom,Left );
+       //   virtual tree sources
           DetermineLineImagesAndSelectLevel( atree, ATreeOptions, ANode, ATreeNodeSigns );
           if (toShowTreeLines in ATreeOptions.PaintOptions) and
              (not (toHideTreeLinesIfThemed in ATreeOptions.PaintOptions)) then
             p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, ATextHeight div 2, ATreeLevel+1,ATextHeight, ATextHeight, ATreeNodeSigns);
+          // place the minus
           LLine.Canvas.Draw(aSpaceWidth - ATextHeight + ( ATextHeight - LMinusBM.Height ) div 2 + 1, (ATextHeight - LMinusBM.Height ) div 2 + 1, LMinusBM);
           ARLImage.Picture.Bitmap.Assign(LLine);
          finally
@@ -760,16 +823,16 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
          Begin
            // First try the enhanced event to allow for custom image lists.
            if Assigned(AOnGetImageEx) then
-             AOnGetImageEx(atree, ANode, ikNormal, -1, AGhosted, AImageIndex, AImages )
+             AOnGetImageEx(atree, ANode, ikNormal, -1, AGhosted, AIndex, AImages )
            else
              if Assigned(AOnGetImage) then
-               AOnGetImage(atree, ANode, ikNormal, -1, AGhosted, AImageIndex);
-           ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop+ ( ATextHeight - AImages.Height ) div 2, AImages.Height, AImageIndex );
+               AOnGetImage(atree, ANode, ikNormal, -1, AGhosted, AIndex);
+           ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop+ ( ATextHeight - AImages.Height ) div 2, AImages.Height, AIndex );
            Left:=Left+AImages.Width;
          end;
-        Right:=ARLBand.Width-Left;
         with ARect do
-          ARLLabel := frlc_createLabel(AReport,ARLBand,Left,ARealTop,Right,ExtTreeFont,AText);
+          ARLLabel := frlc_createLabel(AReport,ARLBand,Left,ARealTop,0,ExtTreeFont,AText);
+        p_addEventualRightReport ( ARealTop );
        end;
     end;
 
@@ -787,9 +850,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
           if  ARLLabel.Top + ( ARLLabel.Height + 1) * 2 > ARLBand.Height Then
             Begin
               APriorReport := AReport;
-              areport := TRLReport.Create(AParentReport);
+              areport := frlr_CreateNewReport (AParentReport);
               areport.PriorReport:=APriorReport;
-              ARLLabel := nil;
               p_BeginPage;
             end;
          end;
@@ -812,11 +874,12 @@ Begin
   AOnGetImageEx := TVTGetImageExEvent ( fmet_getComponentMethodProperty ( atree, CST_PROPERTY_OnGetImageIndexEX ));
   try
     LMinusBM.LoadFromLazarusResource('VT_XPBUTTONMINUS');
-    ARLLabel := nil;
     p_BeginPage;
     ATreeOptions := TStringTreeOptions ( fobj_getComponentObjectProperty(atree,'TreeOptions'));
     ATempCanvas.Font.Assign(ExtTreeFont);
     p_labelNode ( atree.RootNode );
+    if high ( ARightReports ) > 0 Then
+      AReport.NextReport := ARightReports[0];
   finally
     lMinusBM.Free;
     atree.Color := AKeepedColor;
@@ -940,8 +1003,8 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
              for j := 0 to ALinesAddedHeader do
               Begin
                if j <= high ( LString )
-                Then ARLLabel := frlc_createLabel ( AReport, ARLBand,SomeLeft,2+j*ARLLabel.Height,aWidth, ExtColumnHeaderFont, LString [ j ] )
-                Else ARLLabel := frlc_createLabel ( AReport, ARLBand,SomeLeft,2+j*ARLLabel.Height,aWidth, ExtColumnHeaderFont, '' );
+                Then ARLLabel := frlc_createLabel ( AReport, ARLBand,SomeLeft,CST_PRINT_INTERNAL_BAND_MARGIN+j*ARLLabel.Height,aWidth, ExtColumnHeaderFont, LString [ j ] )
+                Else ARLLabel := frlc_createLabel ( AReport, ARLBand,SomeLeft,CST_PRINT_INTERNAL_BAND_MARGIN+j*ARLLabel.Height,aWidth, ExtColumnHeaderFont, '' );
                p_DrawBorders ( ARLLabel.Borders, ExtColumnColorBorder, LIsFirst, ExtColumnHBorders, ExtColumnVBorders );
               end;
              if high ( LString ) + 1 > Alines Then
@@ -1108,17 +1171,26 @@ Begin
   AReport.DataSource:=ADatasource;
 end;
 
-function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
+function fref_CreateReport ( const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm;
 Begin
   Result := TReportForm.create ( Application );
-  Result.RLReport.DefaultFilter:=acf_filter;
+  with Result.RLReport, PageSetup do
+   Begin
+    DefaultFilter:=acf_filter;
+    Orientation:=AOrientation;
+    PaperSize:=APaperSize;
+   end;
+End;
+
+function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String; const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm;
+Begin
+  Result := fref_CreateReport ( AOrientation, APaperSize, acf_filter );
   fb_CreateReport ( Result.RLReport, atree, Result.Canvas, as_Title );
 end;
 
-function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
+function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
 Begin
-  Result := TReportForm.create ( Application );
-  Result.RLReport.DefaultFilter:=acf_filter;
+  Result := fref_CreateReport ( AOrientation, APaperSize, acf_filter );
   fb_CreateReport ( Result.RLReport, agrid, ADatasource, AColumns, Result.Canvas, as_Title );
 end;
 

@@ -19,7 +19,9 @@ uses
   DBGrids, DB, fonctions_reports,
   fonctions_proprietes,
   RLReport, VirtualTrees,
-  RLPreview, u_reportform, u_reports_rlcomponents,
+  RLPreview, u_reportform,
+  u_reports_rlcomponents,
+  Printers, RLTypes,
   u_buttons_appli, RLFilters, Graphics;
 
 
@@ -65,6 +67,8 @@ type
     FReport : TRLReport;
     FReportForm : TReportForm;
     FPreview : TRLPReview;
+    FOrientation : TPrinterOrientation;
+    FPaperSize     :TRLPaperSize;
     function GetFalse: Boolean;
     procedure SetDatasource(AValue: TDatasource);
     function  GetDatasource: TDatasource;
@@ -90,6 +94,8 @@ type
     property Report : TRLReport read FReport write FReport;
     property Preview : TRLPreview read FPreview write FPreview;
     property CreateReport : Boolean read GetFalse write SetCreateReport default False;
+    property Orientation : TPrinterOrientation read FOrientation write FOrientation default poPortrait;
+    property PaperSize   :TRLPaperSize read FPaperSize write FPaperSize default fpA4;
   end;
 
   { TFWPrintComp }
@@ -100,12 +106,15 @@ type
     FReport : TRLReport;
     FDBTitle: string;
     FPreview : TRLPReview;
+    FOrientation : TPrinterOrientation;
+    FPaperSize     :TRLPaperSize;
   protected
     function GetFalse: Boolean;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure SetCreateReport ( const AValue : Boolean ); virtual;
   public
     constructor Create(AOwner: TComponent); override;
+    procedure p_SetReport ( const Areport : TRLReport ); virtual;
     procedure CreateAReport( const AReport : TRLReport );  virtual; abstract;
   published
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
@@ -113,6 +122,8 @@ type
     property Preview : TRLPreview read FPreview write FPreview;
     property Report : TRLReport read FReport write FReport;
     property CreateReport : Boolean read GetFalse write SetCreateReport default False;
+    property Orientation : TPrinterOrientation read FOrientation write FOrientation default poPortrait;
+    property PaperSize   :TRLPaperSize read FPaperSize write FPaperSize default fpA4;
   end;
 
 
@@ -192,7 +203,7 @@ begin
       Begin
         ADatasource := TDataSource(fobj_getComponentObjectProperty(FTree, CST_PROPERTY_DATASOURCE));
         if Assigned(ADatasource) Then ADatasource.DataSet.DisableControls;
-        with fref_CreateReport( FTree, FDBTitle, FFilter) do
+        with fref_CreateReport( FTree, FDBTitle, FOrientation, FPaperSize, FFilter ) do
             try
               RLReport.Preview(FPReview);
               Destroy;
@@ -205,6 +216,7 @@ end;
 
 procedure TFWPrintVTree.CreateAReport(const AReport: TRLReport);
 begin
+  p_SetReport(AReport);
   if Assigned(FTree) Then
    fb_CreateReport(AReport,FTree,AReport.Background.Picture.Bitmap.Canvas,DBTitle);
 end;
@@ -240,10 +252,21 @@ end;
 constructor TFWPrintComp.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FOrientation:=poPortrait;
+  FPaperSize  :=fpA4;
   FDBTitle    :='';
   FFilter     := nil;
   FReport     := nil;
   FPreview    := nil;
+end;
+
+procedure TFWPrintComp.p_SetReport(const Areport: TRLReport);
+begin
+  with Areport.PageSetup do
+     Begin
+       Orientation:=FOrientation;
+       PaperSize  :=FPaperSize;
+     end;
 end;
 
 { TDataLinkPrint }
@@ -326,6 +349,8 @@ end;
 constructor TFWPrintData.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FOrientation:=poPortrait;
+  FPaperSize  :=fpA4;
   FColumns := CreateColumns;
   FDataLink := TDataLinkPrint.Create(Self);
   FDBTitle := '';
@@ -365,7 +390,7 @@ begin
    Then
     Begin
        FReportForm.Free;
-       FReportForm := fref_CreateReport(nil, FDataLink.DataSource, FColumns, FDBTitle,  FFilter)
+       FReportForm := fref_CreateReport(nil, FDataLink.DataSource, FColumns, FDBTitle, FOrientation, FPaperSize, FFilter)
     end
    Else
      CreateAReport ( AReport );
@@ -402,6 +427,7 @@ end;
 // automation , creating a report
 procedure TFWPrintGrid.CreateAReport(const AReport: TRLReport);
 begin
+  p_SetReport(AReport);
   if Assigned(FDBGrid) Then
     fb_CreateReport(AReport,FDBGrid, fobj_getComponentObjectProperty(FDBGrid,CST_PROPERTY_DATASOURCE) as TDataSource,
                                      fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS  ) as TCollection,
@@ -420,7 +446,10 @@ begin
   inherited Click;
   if assigned(FDBGrid) then
    if Assigned(FReport)
-    Then CreateAReport(FReport)
+    Then
+     Begin
+       CreateAReport(FReport);
+     end
    Else
     with TDataSource(
         fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)).DataSet do
@@ -428,7 +457,7 @@ begin
       DisableControls;
       with fref_CreateReport(FDBGrid, TDataSource(
         fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)), TCollection(
-        fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, FFilter) do
+        fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, Orientation, PaperSize, FFilter) do
           try
             RLReport.Preview(FPReview);
             Destroy;
