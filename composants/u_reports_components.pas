@@ -57,7 +57,7 @@ type
   End;
 
   { TFWPrintData }
-
+ // create a report from datasource
   TFWPrintData = class(TComponent)
   private
     FFilter: TRLCustomPrintFilter;
@@ -70,9 +70,9 @@ type
     FOrientation : TPrinterOrientation;
     FPaperSize     :TRLPaperSize;
     function GetFalse: Boolean;
-    procedure SetDatasource(AValue: TDatasource);
+    procedure SetDatasource(const AValue: TDatasource);
     function  GetDatasource: TDatasource;
-    procedure SetColumns(AValue: TExtPrintColumns);
+    procedure SetColumns(const AValue: TExtPrintColumns);
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure SetCreateReport ( const AValue : Boolean ); virtual;
@@ -93,13 +93,13 @@ type
     property Columns: TExtPrintColumns read FColumns write SetColumns;
     property Report : TRLReport read FReport write FReport;
     property Preview : TRLPreview read FPreview write FPreview;
-    property CreateReport : Boolean read GetFalse write SetCreateReport default False;
+    property CreateReport : Boolean read GetFalse write SetCreateReport default False; // design only property
     property Orientation : TPrinterOrientation read FOrientation write FOrientation default poPortrait;
     property PaperSize   :TRLPaperSize read FPaperSize write FPaperSize default fpA4;
   end;
 
   { TFWPrintComp }
-
+  // create a report from component ( abstract )
   TFWPrintComp = class(TFWPrint)
   private
     FFilter: TRLCustomPrintFilter;
@@ -121,14 +121,14 @@ type
     property DBTitle: string read FDBTitle write FDBTitle;
     property Preview : TRLPreview read FPreview write FPreview;
     property Report : TRLReport read FReport write FReport;
-    property CreateReport : Boolean read GetFalse write SetCreateReport default False;
+    property CreateReport : Boolean read GetFalse write SetCreateReport default False; // design only property
     property Orientation : TPrinterOrientation read FOrientation write FOrientation default poPortrait;
     property PaperSize   :TRLPaperSize read FPaperSize write FPaperSize default fpA4;
   end;
 
 
   { TFWPrintGrid }
-
+  // create a report from grid
   TFWPrintGrid = class(TFWPrintComp)
   private
     FDBGrid: TCustomDBGrid;
@@ -144,7 +144,7 @@ type
   end;
 
     { TFWPrintVTree }
-
+    // create a report from virtual tree
   TFWPrintVTree = class(TFWPrintComp)
   private
     FTree : TCustomVirtualStringTree;
@@ -167,6 +167,7 @@ uses Forms, u_extdbgrid;
 
 { TFWPrintVTree }
 
+// tree property setter
 procedure TFWPrintVTree.SetTree(const AValue: TCustomVirtualStringTree);
 begin
   if AValue <> FTree Then
@@ -175,6 +176,7 @@ begin
    end;
 end;
 
+// auto unlinking
 procedure TFWPrintVTree.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -185,12 +187,14 @@ begin
     Tree := nil;
 end;
 
+// initing
 constructor TFWPrintVTree.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FTree := nil;
 end;
 
+// on click : report's preview
 procedure TFWPrintVTree.Click;
 var ADatasource : TDataSource;
 begin
@@ -214,6 +218,7 @@ begin
    end;
 end;
 
+// for design
 procedure TFWPrintVTree.CreateAReport(const AReport: TRLReport);
 begin
   p_SetReport(AReport);
@@ -223,11 +228,13 @@ end;
 
 { TFWPrintComp }
 
+// for design
 function TFWPrintComp.GetFalse: Boolean;
 begin
   Result := False;
 end;
 
+// auto unlinking
 procedure TFWPrintComp.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -242,6 +249,7 @@ begin
     Preview := nil;
 end;
 
+// design report's creating property setter
 procedure TFWPrintComp.SetCreateReport(const AValue: Boolean);
 begin
   if  ( AValue =  True )
@@ -249,6 +257,7 @@ begin
     CreateAReport ( FReport );
 end;
 
+// initing
 constructor TFWPrintComp.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -260,6 +269,7 @@ begin
   FPreview    := nil;
 end;
 
+// properties set to report
 procedure TFWPrintComp.p_SetReport(const Areport: TRLReport);
 begin
   with Areport.PageSetup do
@@ -271,12 +281,14 @@ end;
 
 { TDataLinkPrint }
 
+// designing only
 procedure TDataLinkPrint.ActiveChanged;
 begin
   inherited ActiveChanged;
   FOwner.ActiveChanged;
 end;
 
+// initing
 constructor TDataLinkPrint.Create(const AOwner: TFWPrintData);
 begin
   Inherited Create;
@@ -285,7 +297,8 @@ end;
 
 { TFWPrintData }
 
-procedure TFWPrintData.SetDatasource(AValue: TDatasource);
+// datasource property setter
+procedure TFWPrintData.SetDatasource(const AValue: TDatasource);
 begin
   if AValue <> FDataLink.DataSource then
   begin
@@ -295,21 +308,25 @@ begin
   end;
 end;
 
+// designing only
 function TFWPrintData.GetFalse: Boolean;
 begin
   Result := False;
 end;
 
+// datasource property getter
 function TFWPrintData.GetDatasource: TDatasource;
 begin
   Result := FDataLink.DataSource;
 end;
 
-procedure TFWPrintData.SetColumns(AValue: TExtPrintColumns);
+// columns property setter
+procedure TFWPrintData.SetColumns(const AValue: TExtPrintColumns);
 begin
   FColumns.Assign(AValue);
 end;
 
+// designing only : create report
 procedure TFWPrintData.AddColumns;
 begin
   if Assigned(FDataLink.DataSet)
@@ -319,21 +336,19 @@ begin
         FColumns.Add;
 end;
 
+// unlinking
 procedure TFWPrintData.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
   if (Operation <> opRemove) or (csDestroying in ComponentState) then
     exit;
-  if (AComponent = Datasource) then
-   Begin
-     Datasource := nil;
-     FColumns.SetDatasource;
-   end;
+  if (AComponent = Datasource) then Datasource := nil;
   if (AComponent = Filter    ) then Filter  := nil;
   if (AComponent = Report    ) then Report  := nil;
   if (AComponent = FPreview  ) then Preview := nil;
 end;
 
+// designing only : create report
 procedure TFWPrintData.SetCreateReport(const AValue: Boolean);
 begin
   if  ( AValue =  True )
@@ -341,11 +356,13 @@ begin
     CreateAReport ( FReport );
 end;
 
+// initing
 function TFWPrintData.CreateColumns: TExtPrintColumns;
 begin
   Result := TExtPrintColumns.Create(Self, TExtPrintColumn);
 end;
 
+// initing
 constructor TFWPrintData.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -359,12 +376,14 @@ begin
   FPreview := nil;
 end;
 
+// free objects
 destructor TFWPrintData.Destroy;
 begin
   inherited Destroy;
   FDataLink.Free;
 end;
 
+// report's preview
 procedure TFWPrintData.ShowPreview;
 begin
   FDataLink.DataSet.DisableControls;
@@ -378,11 +397,13 @@ begin
    End;
 end;
 
+// create linked report
 procedure TFWPrintData.CreateAReport ( const AReport : TRLReport );
 begin
   fb_CreateReport(AReport,nil, FDataLink.DataSource, FColumns, AReport.Background.Picture.Bitmap.Canvas, FDBTitle);
 End;
 
+// create report
 procedure TFWPrintData.AddPreview(const AReport: TRLReport);
 begin
   if assigned(FDataLink) then
@@ -396,6 +417,7 @@ begin
      CreateAReport ( AReport );
 end;
 
+// auto add on design
 procedure TFWPrintData.ActiveChanged;
 begin
   AddColumns;
@@ -404,6 +426,7 @@ end;
 
 { TFWPrintGrid }
 
+// grid property setter
 procedure TFWPrintGrid.SetDBGrid(const AValue: TCustomDBGrid);
 var
   i: integer;
@@ -415,6 +438,7 @@ begin
   end;
 end;
 
+// auto unlinking
 procedure TFWPrintGrid.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
@@ -435,12 +459,14 @@ begin
                                      FDBTitle);
 end;
 
+// init
 constructor TFWPrintGrid.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FDBGrid     := nil;
 end;
 
+// on click : report's preview
 procedure TFWPrintGrid.Click;
 begin
   inherited Click;

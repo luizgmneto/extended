@@ -63,6 +63,7 @@ const
   CST_PRINT_INTERNAL_BAND_MARGIN = 2;
 
 
+  // customized's reports
 var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtTitleColorBack : TColor = clSkyBlue;
     ExtTitleColorBorder : TColor = clBlue;
@@ -206,7 +207,7 @@ Begin
    end;
 end;
 
-function frlc_createImageList ( const AReport : TRLReport; const ARLBand : TRLBand; const AImages : TCustomImageList; const ALeft, ATop, AWidth, AImageIndex : Integer):TRLExtImageList;
+function frlc_createImageList ( const AReport : TRLReport; const ARLBand : TRLBand; const AImages : TCustomImageList; const ALeft, ATop, AWidth, AHeight, AImageIndex : Integer):TRLExtImageList;
 Begin
   Result := TRLExtImageList.Create(AReport.Owner);
   with Result do
@@ -215,6 +216,7 @@ Begin
     Top:=ATop;
     Left:=ALeft;
     Width:=AWidth;
+    Height:=AHeight;
     ImageIndex:=AImageIndex;
     Images := AImages;
    end;
@@ -286,7 +288,8 @@ Begin
    Result := 0;
 end;
 
-function frlc_addTitle (const AReport : TRLReport ; const as_Title : String; var atitleHeight : Integer ) :TRLBand ;
+// dbtitle property to report's header
+procedure p_addTitle (const AReport : TRLReport ; const ABand : TRLBand; const as_Title : String; var atitleHeight : Integer );
 var astl_Title : TStringList;
     i, AHeight, ALineHeight : Integer;
     arlabel : TRLLabel;
@@ -299,22 +302,23 @@ Begin
   for i := 0 to astl_Title.Count -1 do
    Begin
     ALineHeight := Min ( 32, round ( ( Width - 160 ) div length ( astl_Title [ i ] )*1.9 ));
-    inc ( atitleHeight, ALineHeight + 1 );
+    inc ( atitleHeight, ALineHeight +1 );
    end;
-  with RLLeftTopPage do
-    Result := frlc_createBand ( AReport, X, Y, atitleHeight + 4, btHeader, ExtTitleColorBack );
-  p_DrawBorders ( Result.Borders, ExtTitleColorBorder, True, ExtColumnVBorders, True );
+  inc ( atitleHeight, CST_PRINT_INTERNAL_BAND_MARGIN * 2 );
+  ABand.Height:=atitleHeight;
+  p_DrawBorders ( ABand.Borders, ExtTitleColorBorder, True, ExtColumnVBorders, True );
   for i := 0 to astl_Title.Count -1 do
    Begin
      if arlabel = nil
       Then AHeight:=CST_PRINT_INTERNAL_BAND_MARGIN
       Else AHeight:=arlabel.Top+arlabel.Height;
-     arlabel := frlc_createLabel ( AReport, Result,CST_PRINT_INTERNAL_BAND_MARGIN,AHeight,0, ExtTitleColorFont, astl_Title [ i ],aLineHeight*2 div 3);
+     arlabel := frlc_createLabel ( AReport, ABand,CST_PRINT_INTERNAL_BAND_MARGIN,AHeight,0, ExtTitleColorFont, astl_Title [ i ],aLineHeight*2 div 3);
 
    end;
-
 end;
 
+// entête de rapport
+// report's header
 function frlc_CreateHeader (const AReport : TRLReport ; const as_Title : String; var atitleHeight : Integer ):TRLBand;
 var
     ARLSystemInfo : TRLSystemInfo;
@@ -324,13 +328,11 @@ Begin
   with AReport do
     if ExtHeader = nil Then
      Begin
-      if as_Title > '' Then
-        Begin
-          Result := frlc_addTitle ( AReport, as_Title, atitleHeight );
-        end
-       Else
        with RLLeftTopPage do
-        Result := frlc_createBand ( AReport, X, Y, 10, btHeader, ExtTitleColorBack );
+         Result := frlc_createBand ( AReport, X, Y, atitleHeight + 4, btHeader, ExtTitleColorBack );
+      if as_Title > '' Then    // title string ?
+         p_addTitle ( AReport, Result, as_Title, atitleHeight );
+
        with Result do
         Begin
          ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,CST_PRINT_INTERNAL_BAND_MARGIN,0,itFullDate, ExtTitleColorFont, 0,'',faRightTop);
@@ -568,7 +570,7 @@ begin
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
-
+//   virtual tree sources
 procedure p_DrawDottedHLine(const Canvas : TCanvas; const Left, Right, Top: Integer);
 //   virtual tree sources
 // Draws a horizontal line with alternating pixels (this style is not supported for pens under Win9x).
@@ -695,6 +697,7 @@ begin
     end;
 end;
 
+// create a report from a virtual tree
 function fb_CreateReport ( const AParentReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, SomeLeft, aSpaceWidth, ALinesAdded: Integer;
     ARLLabel : TRLLabel = nil;
@@ -719,6 +722,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     const CST_PROPERTY_OnGetImageIndex = 'OnGetImageIndex';
           CST_PROPERTY_OnGetImageIndexEX = 'OnGetImageIndexEx';
 
+    // add header to a report
     procedure p_AddHeader ( const AReport : TRLReport; var ABand : TRLBand  );
     var ATempBand : TRLBand;
     Begin
@@ -732,6 +736,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
 
     end;
 
+    // text can go right out
     procedure p_addEventualRightReport ( const ARealTop : Integer );
     var ARightLabel : TRLLabel;
         Aindex      : Integer;
@@ -767,14 +772,17 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
          end;
 
     end;
+
+    // New left and eventual right page
     procedure p_BeginPage;
     Begin
       ARLLabel := nil;
       ARightReport := nil;
       ATitleHeight := 0;
       p_AddHeader ( AReport, ARLBand );
-
     end;
+
+    // Paint only the tree's main column
     procedure p_paintMainColumn ( const ANode : PVirtualNode );
     var Arect : TRect;
         ARealTop : Integer;
@@ -797,6 +805,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
           if ARLLabel = nil
            Then ARealTop := 0
            Else ARealTop := ARLLabel.Top+ATextHeight;
+          // erase black canvas
           p_SetAndFillBitmap ( LLine, Right, Bottom, ARLImage.Color );
           //   virtual tree sources
           DetermineLineImagesAndSelectLevel( atree, ATreeOptions, ANode, ATreeNodeSigns );
@@ -812,8 +821,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
          finally
            LLine.Free;
          end;
-        GetTextInfo(ANode,-1,ARLBand.Font,ARect,AText);
-        AImages       := fobj_getComponentObjectProperty ( atree, CST_PROPERTY_IMAGES ) as TCustomImageList;
+        // Main column image
+        AImages := fobj_getComponentObjectProperty ( atree, CST_PROPERTY_IMAGES ) as TCustomImageList;
         Left:=aSpaceWidth;
         if (( AImages <> nil ) and  Assigned ( AOnGetImage ))
         or Assigned ( AOnGetImageEx ) Then
@@ -824,15 +833,23 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
            else
              if Assigned(AOnGetImage) then
                AOnGetImage(atree, ANode, ikNormal, -1, AGhosted, AIndex);
-           ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop+ ( ATextHeight - AImages.Height ) div 2, AImages.Height, AIndex );
-           Left:=Left+AImages.Width;
+           // report's image
+           if ATextHeight < AImages.Width
+            Then ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop, ATextHeight, ATextHeight, AIndex )
+            Else ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop+ ( ATextHeight - AImages.Width ) div 2, AImages.Width, AImages.Height, AIndex );
+           Left:=Left+ARLImage.Width;
+           inc ( aSpaceWidth, ARLImage.Width );
          end;
+        // Main column text
+        GetTextInfo(ANode,-1,ARLBand.Font,ARect,AText);
         with ARect do
-          ARLLabel := frlc_createLabel(AReport,ARLBand,Left,ARealTop,0,ExtTreeFont,AText);
+          ARLLabel := frlc_createLabel(AReport,ARLBand,aSpaceWidth,ARealTop,0,ExtTreeFont,AText);
+        // text can go right out
         p_addEventualRightReport ( ARealTop );
        end;
     end;
 
+    // recursive reports' print procedure
     procedure p_labelNode ( const ANode : PVirtualNode );
     var ARect : TRect;
         APriorReport : TRLReport;
@@ -858,8 +875,10 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
           Then p_labelNode(NextSibling);
        end;
     end;
+    // draw tree's minus
     procedure p_drawMinus ( const ABitmap : TBitmap );
     var AInterleaving : Integer;
+        // shadowed
         procedure p_drawPosition ( const X, Y : Integer ; const AColor1, AColor2 : TColor );
         Begin
           with ABitmap.Canvas do
@@ -875,9 +894,9 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     Begin
       with ABitmap do
        Begin
-        AInterleaving:=ATextHeight div 3;
+        AInterleaving:= round ( ATextHeight / 2.5 ) ;
         p_SetAndFillBitmap(ABitmap,ATextHeight - AInterleaving+1,ATextHeight - AInterleaving+1,clWhite);
-        dec ( AInterleaving, ATextHeight div 5 );
+        dec ( AInterleaving, ATextHeight div 4 );
         p_drawPosition ( 1, 1, clGray, clGray );
         p_drawPosition ( 0, 0, ExtTreeLineColor, ExtTreeFont.Color );
        End;
@@ -888,16 +907,19 @@ Begin
   AReport.ForcePrepare:= False;
   LMinusBM := TBitmap.Create;
   ATempCanvas.Font.Assign(ExtTreeFont);
+  // Max text height for lines height
   ATextHeight := ATempCanvas.TextHeight('W');
   AGhosted := False;
+  // from viewed HMI tree
   AOnGetImage   := TVTGetImageEvent   ( fmet_getComponentMethodProperty ( atree, CST_PROPERTY_OnGetImageIndex   ));
   AOnGetImageEx := TVTGetImageExEvent ( fmet_getComponentMethodProperty ( atree, CST_PROPERTY_OnGetImageIndexEX ));
   try
-    p_drawMinus ( LMinusBM );
+    p_drawMinus ( LMinusBM );  // draw tree's minus
     p_BeginPage;
     ATreeOptions := TStringTreeOptions ( fobj_getComponentObjectProperty(atree,'TreeOptions'));
     ATempCanvas.Font.Assign(ExtTreeFont);
     p_labelNode ( atree.RootNode );
+    // add right's reports at the and, so can not print them
     if high ( ARightReports ) > 0 Then
       AReport.NextReport := ARightReports[0];
   finally
@@ -905,6 +927,7 @@ Begin
   end;
 end;
 
+// create a datasource or grid report
 function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth, ALinesAddedHeader, ALinesAddedColumns : Integer;
     ARLLabel : TRLLabel;
@@ -914,6 +937,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
     LImages : TCustomImageList;
     ARLSystemInfo : TRLSystemInfo;
 
+  // resize property
   function fi_resize ( const ai_width, aindex : Integer ):Integer;
   Begin
     if  fb_getComponentBoolProperty ( aColumns.Items [ aindex ], CST_COLUMN_Resize, True )
@@ -921,6 +945,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
      Else Result:=ai_Width;
   end;
 
+  // really show column ?
   function fb_Visible ( const AItem : TCollectionItem ) : Boolean;
   Begin
     Result :=    fb_getComponentBoolProperty ( AItem, CST_COLUMN_Visible, True )
@@ -929,6 +954,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
 
   end;
 
+  // calculate lines and widths
   procedure PreparePrint;
   var i, Aline, ATemp : Integer;
       lcountedcolumn : Boolean;
@@ -964,12 +990,10 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
               lcountedcolumn := False;
             end;
         end;
-      if aVisibleColumns >= ExtLandscapeColumnscount
-       Then PageSetup.Orientation:=poLandscape
-       Else PageSetup.Orientation:=poPortrait;
      End;
   end;
 
+  // header and prepare report's columns
   procedure CreateHeaderAndPrepare;
   var i, j : Integer;
       LIsFirst : Boolean;
@@ -1002,7 +1026,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
         if high ( LString ) > ALinesAddedHeader Then
          ALinesAddedHeader:=high ( LString );
        end;
-      with aColumns do
+      with aColumns do // report's columns preparing
       for i := 0 to Count - 1 do
        Begin
          if fb_Visible ( Items [ i ] ) Then
@@ -1124,7 +1148,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
      end;
   End;
 
-  // Print TFWPrintGrid
+  // Print Grid ( TFWPrintGrid )
   procedure CreateListGrid;
   var i,ALine, ATop, Aheight : Integer;
       LIsFirst : Boolean;
@@ -1145,7 +1169,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
       End;
     p_AdaptBands ( ARLBand, ARLLabel, LIsFirst );
   end;
-  // Print TFWPrintData
+  // Print Datasource ( TFWPrintData )
   procedure CreateListPrint;
   var i,j,Aline,ATop, AHeight, ADecColumn : Integer;
       LIsFirst : Boolean;
@@ -1190,6 +1214,7 @@ Begin
   AReport.DataSource:=ADatasource;
 end;
 
+// create a blank report's form
 function fref_CreateReport ( const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm;
 Begin
   Result := TReportForm.create ( Application );
@@ -1201,12 +1226,14 @@ Begin
    end;
 End;
 
+// main create tree report
 function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String; const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm;
 Begin
   Result := fref_CreateReport ( AOrientation, APaperSize, acf_filter );
   fb_CreateReport ( Result.RLReport, atree, Result.Canvas, as_Title );
 end;
 
+// main create grid or data report's form
 function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
 Begin
   Result := fref_CreateReport ( AOrientation, APaperSize, acf_filter );
@@ -1217,6 +1244,7 @@ initialization
 {$IFDEF VERSIONS}
   p_ConcatVersion ( gVer_fonctions_reports );
 {$ENDIF}
+  // customized's reports
   ExtTitleColorFont   := TFont.create;
   ExtColumnHeaderFont := TFont.Create;
   ExtColumnFont       := TFont.Create;
