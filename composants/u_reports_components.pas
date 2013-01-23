@@ -44,6 +44,10 @@ const
 
 
 type
+  IFWPrintComp = interface
+    ['{AD143A16-9635-4C81-B064-33BEF0946DA2}']
+    procedure CreateAReport( const AReport : TRLReport );
+  End;
   TFWPrintData = class;
 
   { TDataLinkPrint }
@@ -58,7 +62,7 @@ type
 
   { TFWPrintData }
  // create a report from datasource
-  TFWPrintData = class(TComponent)
+  TFWPrintData = class(TComponent,IFWPrintComp)
   private
     FFilter: TRLCustomPrintFilter;
     FDataLink: TDataLink;
@@ -100,9 +104,10 @@ type
 
   { TFWPrintComp }
   // create a report from component ( abstract )
-  TFWPrintComp = class(TFWPrint)
+  TFWPrintComp = class(TFWPrint,IFWPrintComp)
   private
     FFilter: TRLCustomPrintFilter;
+    FReportForm : TReportForm;
     FReport : TRLReport;
     FDBTitle: string;
     FPreview : TRLPReview;
@@ -116,6 +121,7 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure p_SetReport ( const Areport : TRLReport ); virtual;
     procedure CreateAReport( const AReport : TRLReport );  virtual; abstract;
+    property  FormReport : TReportForm read FReportForm write FReportForm;
   published
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
     property DBTitle: string read FDBTitle write FDBTitle;
@@ -207,7 +213,9 @@ begin
       Begin
         ADatasource := TDataSource(fobj_getComponentObjectProperty(FTree, CST_PROPERTY_DATASOURCE));
         if Assigned(ADatasource) Then ADatasource.DataSet.DisableControls;
-        with fref_CreateReport( FTree, FDBTitle, FOrientation, FPaperSize, FFilter ) do
+        if FormReport = nil Then
+          FormReport := fref_CreateReport( FTree, FDBTitle, FOrientation, FPaperSize, FFilter );
+        with FormReport do
             try
               RLReport.Preview(FPReview);
               Destroy;
@@ -481,9 +489,11 @@ begin
         fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)).DataSet do
     begin
       DisableControls;
-      with fref_CreateReport(FDBGrid, TDataSource(
+      if FormReport = nil Then
+        FormReport := fref_CreateReport(FDBGrid, TDataSource(
         fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)), TCollection(
-        fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, Orientation, PaperSize, FFilter) do
+        fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, Orientation, PaperSize, FFilter);
+      with FormReport  do
           try
             RLReport.Preview(FPReview);
             Destroy;
