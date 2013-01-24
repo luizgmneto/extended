@@ -20,7 +20,9 @@ uses Forms,
 {$ENDIF}
   DB, Graphics, Classes,
   ImgList,
-  ImagingTypes, ImagingComponents, Imaging,
+  ImagingTypes,
+  ImagingComponents,
+  Imaging,
   Controls, Dialogs ;
 
 const CST_EXTENSION_JPEG           = '.jpg' ;

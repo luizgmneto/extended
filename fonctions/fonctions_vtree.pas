@@ -1,4 +1,4 @@
-unit fonctions_vtree;
+﻿unit fonctions_vtree;
 // Unité de la Version 2 du projet FormMain
 // La version 1 TFormMain n'est pas sa fenêtre parente
 
@@ -52,6 +52,6 @@ end;
 
 {$IFDEF VERSIONS}
 initialization
-  p_ConcatVersion ( gVer_fonctions_reports );
+  p_ConcatVersion ( gVer_fonctions_vtree );
 {$ENDIF}
 end.

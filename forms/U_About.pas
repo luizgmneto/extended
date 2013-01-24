@@ -518,7 +518,6 @@ begin
     Header.Font.Name := 'MS Sans Serif';
     Header.Font.Style := [];
     Header.Options := [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible];
-    Header.Style := hsXPStyle;
     APopupMenu := APopupMenu;
     TabOrder := 3;
     TreeOptions.AutoOptions := [toAutoDropExpand, toAutoScrollOnExpand, toAutoSort, toAutoTristateTracking, toAutoDeleteMovedNodes];

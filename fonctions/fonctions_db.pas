@@ -1,4 +1,4 @@
-unit fonctions_db;
+﻿unit fonctions_db;
 
 interface
 
@@ -122,14 +122,6 @@ var ge_DataSetErrorEvent : TDataSetErrorEvent = nil;
   Gi_ASYNCHRONE_NB_ENREGISTREMENTS : Integer = 300 ;
   Gi_CONNECTION_TIMEOUT_DEFAUT : Integer = 15 ;
 
-resourcestring
-  GS_MODE_ASYNCHRONE = 'Mode Asynchrone' ;
-  GS_ACCES_DIRECT_SERVEUR = 'Accès directs Serveur' ;
-  GS_MODE_CONNEXION_ASYNCHRONE = 'Connection Asynchrone' ;
-  GS_MODE_ASYNCHRONE_NB_ENREGISTREMENTS = 'Mode Asynchrone Enregistrements' ;
-  GS_MODE_ASYNCHRONE_TIMEOUT = 'Mode Asynchrone TimeOut' ;
-  GS_CONNECTION_TIMEOUT = 'Connection TimeOut' ;
-  GS_Set_KEYSET         = 'Set Keyset';
   
 implementation
 

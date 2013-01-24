@@ -52,7 +52,11 @@ requires
   VirtualTreesD10,
   dclado,
   adortl,
-  JvDBD10R;
+  JvDBD10R,
+  vclx,
+  vclactnband,
+  xmlrtl,
+  designide;
 
 contains
   fonctions_version in 'fonctions\fonctions_version.pas',
@@ -74,6 +78,7 @@ contains
   fonctions_languages in 'fonctions\fonctions_languages.pas',
   type_string_delphi in 'fonctions\type_string_delphi.pas',
   fonctions_reports in 'fonctions\fonctions_reports.pas',
-  u_reportform in 'forms\u_reportform.pas';
+  u_reportform in 'forms\u_reportform.pas',
+  u_reports_rlcomponents in 'composants\u_reports_rlcomponents.pas';
 
 end.
