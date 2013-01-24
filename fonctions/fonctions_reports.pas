@@ -1,4 +1,4 @@
-unit fonctions_reports;
+﻿unit fonctions_reports;
 
 {$IFDEF FPC}
   {$MODE Delphi}
@@ -82,9 +82,9 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
 
 function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean; overload;
 function fb_CreateReport ( const AParentReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String): Boolean; overload;
-function fref_CreateReport ( const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm; overload;
-function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
-function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
+function fref_CreateReport ( const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm; overload;
+function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
+function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
 
 implementation
 
@@ -365,7 +365,7 @@ function NodeIsVisible(const Node: PVirtualNode): Boolean;
 
 begin
   if Assigned(Node) then
-    Result := ( vsVisible in Node.States ) and not (vsHidden in Node.States)
+    Result := ( vsVisible in Node.States ) {$IFDEF FPC} and not ( vsHidden in Node.States){$ENDIF}
   else
     Result := False;
 end;
@@ -478,37 +478,8 @@ begin
     SetLength(LineImage, X);
 
     // Only use lines if requested.
-    if (toShowTreeLines in PaintOptions) and
-       (not (toHideTreeLinesIfThemed in PaintOptions)) then
+    if (toShowTreeLines in PaintOptions) then
     begin
-      if toChildrenAbove in PaintOptions then
-      begin
-        Dec(X);
-        if not HasVisiblePreviousSibling(Node) then
-        begin
-          if (Node.Parent <> RootNode) or HasVisibleNextSibling(Node) then
-            LineImage[X] := ltBottomRight
-          else
-            LineImage[X] := ltRight;
-        end
-        else if (Node.Parent = RootNode) and (not HasVisibleNextSibling(Node)) then
-          LineImage[X] := ltTopRight
-        else
-          LineImage[X] := ltTopDownRight;
-
-        // Now go up to the root to determine the rest.
-        Run := Node.Parent;
-        while Run <> RootNode do
-        begin
-          Dec(X);
-          if HasVisiblePreviousSibling(Run) then
-            LineImage[X] := ltTopDown;
-
-          Run := Run.Parent;
-        end;
-      end
-      else
-      begin
         // Start over parent traversal if necessary.
         Run := Node;
 
@@ -535,8 +506,7 @@ begin
         end;
 
         // Prepare root level. Run points at this stage to a top level node.
-        if (toShowRoot in PaintOptions) and ((toShowTreeLines in PaintOptions) and
-           (not (toHideTreeLinesIfThemed in PaintOptions))) then
+        if (toShowRoot in PaintOptions) and ((toShowTreeLines in PaintOptions)) then
         begin
           // Is the top node a root node?
           if Run = Node then
@@ -564,7 +534,6 @@ begin
               LineImage[0] := ltNone;
           end;
         end;
-      end;
     end;
    end;
 end;
@@ -582,7 +551,7 @@ begin
   with Canvas do
   begin
     R := Rect(Min(Left, Right), Top, Max(Left, Right) + 1, Top + 1);
-    LCLIntf.FillRect(Handle, R, Brush.Handle);
+    FillRect( R );
   end;
 end;
 
@@ -599,7 +568,7 @@ begin
   with Canvas do
   begin
     R := Rect(Left, Min(Top, Bottom), Left + 1, Max(Top, Bottom) + 1);
-    LCLIntf.FillRect(Handle, R,  Brush.Handle);
+    FillRect( R );
   end;
 end;
 
@@ -700,7 +669,7 @@ end;
 // create a report from a virtual tree
 function fb_CreateReport ( const AParentReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, SomeLeft, aSpaceWidth, ALinesAdded: Integer;
-    ARLLabel : TRLLabel = nil;
+    ARLLabel : TRLLabel;
     AReport : TRLReport;
     ARLDBText : TRLDBText;
     ARLImage : TRLCustomImage;
@@ -712,7 +681,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     ARightBand  : TRLBand;
     ARightReports : array of TRLReport;
     LMinusBM : TBitmap;
-    AText : String;
+    AText : {$IFDEF FPC}String{$ELSE}WideString{$ENDIF};
     AGhosted : Boolean;
     ATextHeight : Integer;
     ATreeLevel : Integer;
@@ -809,8 +778,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
           p_SetAndFillBitmap ( LLine, Right, Bottom, ARLImage.Color );
           //   virtual tree sources
           DetermineLineImagesAndSelectLevel( atree, ATreeOptions, ANode, ATreeNodeSigns );
-          if (toShowTreeLines in ATreeOptions.PaintOptions) and
-             (not (toHideTreeLinesIfThemed in ATreeOptions.PaintOptions)) then
+          if (toShowTreeLines in ATreeOptions.PaintOptions) then
             Begin
               LLine.Canvas.Brush.Color := ExtTreeLineColor;
               p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, ATextHeight div 2, ATreeLevel+1,ATextHeight, ATextHeight, ATreeNodeSigns);
@@ -881,7 +849,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
         // shadowed
         procedure p_drawPosition ( const X, Y : Integer ; const AColor1, AColor2 : TColor );
         Begin
-          with ABitmap.Canvas do
+          with ABitmap,Canvas do
            Begin
             Pen.Color := AColor1;
             Rectangle(X, Y, Width, Height);
@@ -909,6 +877,7 @@ Begin
   ATempCanvas.Font.Assign(ExtTreeFont);
   // Max text height for lines height
   ATextHeight := ATempCanvas.TextHeight('W');
+  ARLLabel := nil;
   AGhosted := False;
   // from viewed HMI tree
   AOnGetImage   := TVTGetImageEvent   ( fmet_getComponentMethodProperty ( atree, CST_PROPERTY_OnGetImageIndex   ));
@@ -1215,7 +1184,7 @@ Begin
 end;
 
 // create a blank report's form
-function fref_CreateReport ( const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm;
+function fref_CreateReport ( const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF}; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm;
 Begin
   Result := TReportForm.create ( Application );
   with Result.RLReport, PageSetup do
@@ -1227,14 +1196,14 @@ Begin
 End;
 
 // main create tree report
-function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String; const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm;
+function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm;
 Begin
   Result := fref_CreateReport ( AOrientation, APaperSize, acf_filter );
   fb_CreateReport ( Result.RLReport, atree, Result.Canvas, as_Title );
 end;
 
 // main create grid or data report's form
-function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : TPrinterOrientation ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
+function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
 Begin
   Result := fref_CreateReport ( AOrientation, APaperSize, acf_filter );
   fb_CreateReport ( Result.RLReport, agrid, ADatasource, AColumns, Result.Canvas, as_Title );

@@ -164,11 +164,20 @@ resourcestring
   GS_DECONNECTER_ANNULE = 'Annulation de la déconnexion';
   GS_PLEASE_SET_PROPERTY = 'Veuillez renseigner cette propriété : ';
 
+  GS_MODE_ASYNCHRONE = 'Mode Asynchrone' ;
+  GS_ACCES_DIRECT_SERVEUR = 'Accès directs Serveur' ;
+  GS_MODE_CONNEXION_ASYNCHRONE = 'Connection Asynchrone' ;
+  GS_MODE_ASYNCHRONE_NB_ENREGISTREMENTS = 'Mode Asynchrone Enregistrements' ;
+  GS_MODE_ASYNCHRONE_TIMEOUT = 'Mode Asynchrone TimeOut' ;
+  GS_CONNECTION_TIMEOUT = 'Connection TimeOut' ;
+  GS_Set_KEYSET         = 'Set Keyset';
+
 var
   gb_MainFormIniOneUserOnServer : Boolean = False ;
 {$IFDEF EADO}
   GB_ASYNCHRONE_PAR_DEFAUT : Boolean = False ;
 {$ENDIF}
+
 implementation
 
 initialization

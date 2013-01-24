@@ -1,4 +1,4 @@
-unit u_framework_components;
+﻿unit u_framework_components;
 
 {$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
@@ -145,7 +145,7 @@ type
 
      { TFWDateEdit }
 
-     TFWDateEdit = class ( {$IFDEF FPC}TDateEdit{$ELSE}TDateTimePicker{$ENDIF}, IFWComponent, IFWComponentEdit )
+     TFWDateEdit = class ( {$IFDEF FPC}TDateEdit{$ELSE}TJvDateTimePicker{$ENDIF}, IFWComponent, IFWComponentEdit )
         private
          FBeforeEnter, FBeforeExit : TNotifyEvent;
          FLabel : TFWLabel ;

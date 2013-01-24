@@ -24,10 +24,11 @@ const
     FileUnit: 'u_reports_rlcomponents';
     Owner: 'Matthieu Giroux';
     Comment: 'Customized Fortes Reports components.';
-    BugsStory: '1.0.0.0 : From fonctions_reports.' + #13#10 +
+    BugsStory: '1.0.1.0 : TRLImageList.' + #13#10 +
+               '1.0.0.0 : From fonctions_reports.' + #13#10 +
                '0.9.0.0 : To test.';
     UnitType: 3;
-    Major: 1; Minor: 0; Release: 0; Build: 0);
+    Major: 1; Minor: 0; Release: 1; Build: 0);
 {$ENDIF}
 
 type TBoolArray = Array of Boolean;

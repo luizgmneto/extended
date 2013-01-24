@@ -31,7 +31,8 @@ const
     FileUnit: 'u_reports_components';
     Owner: 'Matthieu Giroux';
     Comment: 'Customized Reports Buttons components.';
-    BugsStory: '1.1.1.0 : TFWPrintGrid CreateReport porperty.' + #13#10 +
+    BugsStory: '1.1.2.0 : Adding Orientation and PaperSize.' + #13#10 +
+               '1.1.1.0 : TFWPrintGrid CreateReport porperty.' + #13#10 +
                '1.1.0.0 : TFWPrintData Component.' + #13#10 +
                '1.0.1.2 : No notification verify on destroy.' + #13#10 +
                '1.0.1.1 : Renaming DBFilter to Filter.' + #13#10 +
@@ -39,7 +40,7 @@ const
       #13#10 + '1.0.0.0 : Tested.' + #13#10 +
                '0.9.0.0 : To test.';
     UnitType: 3;
-    Major: 1; Minor: 1; Release: 1; Build: 0);
+    Major: 1; Minor: 1; Release: 2; Build: 0);
 {$ENDIF}
 
 
@@ -71,7 +72,7 @@ type
     FReport : TRLReport;
     FReportForm : TReportForm;
     FPreview : TRLPReview;
-    FOrientation : TPrinterOrientation;
+    FOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF};
     FPaperSize     :TRLPaperSize;
     function GetFalse: Boolean;
     procedure SetDatasource(const AValue: TDatasource);
@@ -98,7 +99,7 @@ type
     property Report : TRLReport read FReport write FReport;
     property Preview : TRLPreview read FPreview write FPreview;
     property CreateReport : Boolean read GetFalse write SetCreateReport default False; // design only property
-    property Orientation : TPrinterOrientation read FOrientation write FOrientation default poPortrait;
+    property Orientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} read FOrientation write FOrientation default poPortrait;
     property PaperSize   :TRLPaperSize read FPaperSize write FPaperSize default fpA4;
   end;
 
@@ -111,7 +112,7 @@ type
     FReport : TRLReport;
     FDBTitle: string;
     FPreview : TRLPReview;
-    FOrientation : TPrinterOrientation;
+    FOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF};
     FPaperSize     :TRLPaperSize;
   protected
     function GetFalse: Boolean;
@@ -128,7 +129,7 @@ type
     property Preview : TRLPreview read FPreview write FPreview;
     property Report : TRLReport read FReport write FReport;
     property CreateReport : Boolean read GetFalse write SetCreateReport default False; // design only property
-    property Orientation : TPrinterOrientation read FOrientation write FOrientation default poPortrait;
+    property Orientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} read FOrientation write FOrientation default poPortrait;
     property PaperSize   :TRLPaperSize read FPaperSize write FPaperSize default fpA4;
   end;
 

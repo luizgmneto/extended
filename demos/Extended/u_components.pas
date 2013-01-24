@@ -17,7 +17,7 @@ uses
   FileUtil, LResources, process, AsyncProcess,
 {$ELSE}
   DBCtrls, JvExControls, JvDBLookup, JvExMask, JvSpin, JvExDBGrids, JvDBGrid, JvDBUltimGrid,
-  JvExComCtrls, JvListView, Mask,  fonctions_version,
+  JvExComCtrls, JvListView, Mask,  fonctions_version, JvDateTimePicker,
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
   StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
@@ -27,7 +27,7 @@ uses
   IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage,
   U_ExtDBImageList, ImgList, ExtDlgs, IBCustomDataSet, U_ExtMapImageIndex,
   u_buttons_appli, u_reports_components, JvXPCore, JvXPButtons, u_buttons_defs,
-  U_ExtPictCombo, U_ExtImage, u_scrollclones ;
+  U_ExtPictCombo, U_ExtImage, u_scrollclones, u_extimagelist ;
 
 type
 
@@ -120,7 +120,6 @@ type
     procedure mc_CustomizeMenuChange(Sender: TObject);
     procedure mu_aproposClick(Sender: TObject);
     procedure mu_quitterClick(Sender: TObject);
-    procedure Panel5Click(Sender: TObject);
     procedure QuitterClick(Sender: TObject);
     procedure DbfNomsAfterPost(DataSet: TDataSet);
     procedure ExtMenuToolBarClickCustomize(Sender: TObject);
@@ -197,11 +196,6 @@ end;
 procedure TMyform.mu_quitterClick(Sender: TObject);
 begin
   Close;
-end;
-
-procedure TMyform.Panel5Click(Sender: TObject);
-begin
-
 end;
 
 procedure p_setLibrary (var libname: string);
