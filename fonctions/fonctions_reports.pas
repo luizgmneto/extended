@@ -54,7 +54,7 @@ const
   CST_COLUMN_Title   = 'Title';
   CST_COLUMN_Images  = 'Images';
   CST_PRINT_HEADER_FONT_NAME        = 'Tahoma';
-  CST_PRINT_COLUMN_FONT_NAME        = 'Tahoma';
+  CST_PRINT_COLUMN_FONT_NAME        = 'Undotum';
   CST_PRINT_COLUMN_HEADER_FONT_NAME = 'Tahoma';
   CST_PRINT_FONT_SIZE = 9;
   CST_PRINT_FONT_SIZE_TREE = 9;
@@ -67,7 +67,7 @@ const
   CST_PRINT_COLUMN_BORDER_COLOR = clBlue;
   CST_PRINT_COLUMN_COLOR = clWhite;
   CST_PRINT_TREE_LINE_COLOR = clBlack;
-  CST_PRINT_HEADER_FONT_STYLE = [fsBold];
+  CST_PRINT_COLUMN_HEADER_FONT_STYLE = [fsBold];
   CST_PRINT_COLUMN_BREAKCAPTION = 'BreakCaption' ;
   CST_PRINT_COLUMN_LINEBREAK = 'LineBreak' ;
   CST_PRINT_COMPONENT_EVENT = 'DrawReportImage';
@@ -155,6 +155,7 @@ Begin
   ExtHeaderColorBack       :=CST_PRINT_HEADER_BACK_COLOR;
   ExtColumnHeaderFont.Name :=CST_PRINT_COLUMN_HEADER_FONT_NAME;
   ExtColumnHeaderFont.Color:=CST_PRINT_COLUMN_HEADER_FONT_COLOR;
+  ExtColumnHeaderFont.Style:=CST_PRINT_COLUMN_HEADER_FONT_STYLE;
   ExtHeaderFont.Name       :=CST_PRINT_HEADER_FONT_NAME;
   ExtHeaderFont.Color      :=CST_PRINT_HEADER_FONT_COLOR;
   ExtColumnFont.Color      :=CST_PRINT_COLUMN_FONT_COLOR;
