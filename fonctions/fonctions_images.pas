@@ -77,7 +77,7 @@ procedure p_FileToImage ( const afile : String; const Image : TPicture ; const a
 procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF};
                                  const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
 procedure p_DrawImageFromList ( const ACanvas : TCanvas; const AImages : TCustomImageList ; const AImageIndex : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
-procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
+procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
 procedure p_DrawEventualImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer ; AAlign : TAlign = alLeft);
 function fb_ResizeImaging ( var Fdata : TImageData; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
 
@@ -509,12 +509,12 @@ Begin
           alClient : AAlign:=alTop;
          End;
        case AAlign of
-        alNone:p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, AWidth, AHeight, 0, 0 );
-        alTop : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, AWidth, AHeight, (AWidth-AImages.Width) div 2, 0 );
-        alBottom : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, AWidth, AHeight, (AWidth-AImages.Width) div 2, AHeight - AImages.Height );
-        alLeft : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, AWidth, AHeight, 0, ( AHeight - AImages.Height ) div 2 );
-        alRight : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, AWidth, AHeight, AWidth-AImages.Width, ( AHeight - AImages.Height ) div 2 );
-        alClient : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, AWidth, AHeight, (AWidth-AImages.Width) div 2, ( AHeight - AImages.Height ) div 2 );
+        alNone:p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, 0, 0 );
+        alTop : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, (AWidth-AImages.Width) div 2, 0 );
+        alBottom : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, (AWidth-AImages.Width) div 2, AHeight - AImages.Height );
+        alLeft : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, 0, ( AHeight - AImages.Height ) div 2 );
+        alRight : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, AWidth-AImages.Width, ( AHeight - AImages.Height ) div 2 );
+        alClient : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, (AWidth-AImages.Width) div 2, ( AHeight - AImages.Height ) div 2 );
        End;
        p_ChangeTailleBitmap(ABitmap,AWidth,AHeight,True);
      end
@@ -522,7 +522,7 @@ Begin
     ABitmap.Assign(nil);
 end;
 
-procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
+procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
 Begin
   with ABitmap do
    Begin
@@ -530,7 +530,7 @@ Begin
      Height := AImages.Height;
      Canvas.FillRect(
            {$IFNDEF FPC} Rect (  {$ENDIF}
-           0, 0, AWidth, AHeight {$IFNDEF FPC}){$ENDIF});
+           0, 0, Width, Height {$IFNDEF FPC}){$ENDIF});
      p_DrawImageFromList ( Canvas, AImages, AImageIndex, X, Y );
      Modified := True;
    end;

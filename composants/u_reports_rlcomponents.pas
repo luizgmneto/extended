@@ -415,7 +415,6 @@ end;
 
 procedure TRLCustomDBExtImageList.LoadPicture;
 var aimageIndex : Integer;
-  ABitmap : TBitmap;
   f:TField;
 begin
   f := GetField;
@@ -433,7 +432,7 @@ begin
         aimageIndex := f.AsInteger;
       end;
 
-  p_DrawEventualImageFromListToBitmap ( ABitmap, FImageList, aimageIndex, ClientWidth, ClientHeight );
+  p_DrawEventualImageFromListToBitmap ( Picture.Bitmap, FImageList, aimageIndex, ClientWidth, ClientHeight );
 
 end;
 

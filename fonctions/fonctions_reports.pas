@@ -74,13 +74,14 @@ const
   CST_PRINT_INTERNAL_BAND_MARGIN = 2;
   CST_PRINT_INI_SECTION_REPORT = 'Reports' ;
   CST_PRINT_INI_COLOR_HEADER   = 'HeaderColor';
+  CST_PRINT_INI_COLOR_COLUMN_HEADER   = 'ColumnHeaderColor';
   CST_PRINT_INI_COLOR_COLUMN   = 'ColumnColor';
   CST_PRINT_INI_COLOR_FONT_HEADER = 'HeaderFontColor';
   CST_PRINT_INI_COLOR_FONT_COLUMN = 'ColumnFontColor';
-  CST_PRINT_INI_COLOR_FONT_COLUMN_HEADER = 'ColumnFontColor';
-  CST_PRINT_INI_HEADER_FONT        = 'FontHeader';
-  CST_PRINT_INI_COLUMN_FONT        = 'FontColumn';
-  CST_PRINT_INI_COLUMN_HEADER_FONT = 'FontColumn';
+  CST_PRINT_INI_COLOR_FONT_COLUMN_HEADER = 'ColumnHeaderFontColor';
+  CST_PRINT_INI_HEADER_FONT        = 'HeaderFont';
+  CST_PRINT_INI_COLUMN_FONT        = 'ColumnFont';
+  CST_PRINT_INI_COLUMN_HEADER_FONT = 'ColumnHeaderFont';
 
 
 
@@ -123,7 +124,7 @@ uses fonctions_proprietes,
 procedure p_ReadReportsViewFromIni ( const AIniFile : TIniFile );
 Begin
   ExtColumnColorBack       :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_COLUMN,ExtColumnColorBack);
-  ExtColumnHeaderColorBack :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_HEADER,ExtColumnHeaderColorBack);
+  ExtColumnHeaderColorBack :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_COLUMN_HEADER,ExtColumnHeaderColorBack);
   ExtHeaderColorBack       :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_HEADER,ExtHeaderColorBack);
   ExtHeaderFont.Name       :=AIniFile.ReadString (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_HEADER_FONT,ExtHeaderFont.Name);
   ExtHeaderFont.Color      :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_HEADER,ExtHeaderFont.Color);
@@ -137,10 +138,10 @@ end;
 procedure p_WriteReportsViewFromIni ( const AIniFile : TIniFile );
 Begin
   AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_COLUMN,ExtColumnColorBack);
-  AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_HEADER,ExtColumnHeaderColorBack);
-  AIniFile.WriteString  (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLUMN_HEADER_FONT,ExtColumnHeaderFont.Name);
-  AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_HEADER,ExtColumnHeaderFont.Color);
+  AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_COLUMN_HEADER,ExtColumnHeaderColorBack);
   AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_HEADER,ExtHeaderColorBack);
+  AIniFile.WriteString  (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLUMN_HEADER_FONT,ExtColumnHeaderFont.Name);
+  AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_HEADER,ExtHeaderFont.Color);
   AIniFile.WriteString  (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_HEADER_FONT,ExtHeaderFont.Name);
   AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_COLUMN,ExtColumnFont.Color);
   AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_COLUMN_HEADER,ExtColumnHeaderFont.Color);
@@ -151,9 +152,9 @@ procedure p_ReinitValues;
 Begin
   ExtColumnColorBack       :=CST_PRINT_COLUMN_COLOR;
   ExtColumnHeaderColorBack :=CST_PRINT_COLUMN_HEADER_BACK_COLOR;
+  ExtHeaderColorBack       :=CST_PRINT_HEADER_BACK_COLOR;
   ExtColumnHeaderFont.Name :=CST_PRINT_COLUMN_HEADER_FONT_NAME;
   ExtColumnHeaderFont.Color:=CST_PRINT_COLUMN_HEADER_FONT_COLOR;
-  ExtHeaderColorBack       :=CST_PRINT_HEADER_BACK_COLOR;
   ExtHeaderFont.Name       :=CST_PRINT_HEADER_FONT_NAME;
   ExtHeaderFont.Color      :=CST_PRINT_HEADER_FONT_COLOR;
   ExtColumnFont.Color      :=CST_PRINT_COLUMN_FONT_COLOR;
@@ -962,7 +963,7 @@ end;
 
 // create a datasource or grid report
 function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
-var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth, ALinesAddedHeader, ALinesAddedColumns : Integer;
+var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth, ALinesAddedHeader, ALinesAddedColumns : Integer;
     ARLLabel : TRLLabel;
     ARLDBText : TRLDBText;
     ARLImage : TRLCustomImage;
@@ -1099,14 +1100,13 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
   end;
 
   // borders and line break
-  procedure p_DesignCell(const ARLControl : TRLCustomControl; const AItem : TCollectionItem ;var AIsFirst : Boolean; var ATop,Aline, Aheight : Integer);
+  procedure p_DesignCell(const ARLControl : TRLCustomControl; const AItem : TCollectionItem ;var AIsFirst : Boolean );
   Begin
     p_DrawBorders ( ARLControl.Borders, ExtColumnColorBorder, AIsFirst, ExtColumnHBorders, ExtColumnVBorders );
-    Aheight:=ARLControl.Height;
   end;
 
   // set a printed field
-  procedure p_CreatePrintField ( const AItem : TCollectionItem ; var AIsFirst : Boolean; var ATop, Aline, Aheight : Integer ; const AIWidth : Integer ; const Adataset : TDataset ; const ASBreakCaption : String = '' );
+  procedure p_CreatePrintField ( const AItem : TCollectionItem ; var AIsFirst : Boolean; const ATop, Aline, Aheight : Integer ; const AIWidth : Integer ; const Adataset : TDataset ; const ASBreakCaption : String = '' );
   var I : Integer;
   Begin
     if assigned ( AItem ) Then
@@ -1114,26 +1114,26 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
       LImages:= fobj_getComponentObjectProperty ( AItem,CST_PROPERTY_IMAGES ) as TCustomImageList;
       if LImages <> nil Then
        Begin
-         ARLImage := frlc_createDBImageList ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth-4,AlineHeight, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME),LImages);
+         ARLImage := frlc_createDBImageList ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth,AHeight, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME),LImages);
          with ARLImage as TRLCustomDBExtImageList do
           Begin
             OnGetImageIndex := TFieldIndexEvent (fmet_getComponentMethodProperty( AItem, 'OnGetImageIndex' ));
             MapImages := fobj_getComponentObjectProperty( AItem, 'MapImages' ) as TExtMapImages;
           end;
-         p_DesignCell( ARLImage, AItem, AIsFirst, ATop, Aline, Aheight );
+         p_DesignCell( ARLImage, AItem, AIsFirst);
        end
       Else
        Begin
         if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TBlobField
-         Then Begin ARLImage := frlc_createDBImage ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, AlineHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLImage , AItem, AIsFirst, ATop, Aline, Aheight ); End
-         Else Begin ARLDBText := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLDBText, AItem, AIsFirst, ATop, Aline, Aheight ); End;
+         Then Begin ARLImage := frlc_createDBImage ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, AHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLImage , AItem, AIsFirst ); End
+         Else Begin ARLDBText := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLDBText, AItem, AIsFirst ); End;
 
        end
     End
    Else
      Begin
       ARLLabel := frlc_createLabel ( AReport, ARLBand, SomeLeft,ATop,aiWidth, ExtColumnFont, ASBreakCaption );
-      p_DesignCell( ARLLabel, AItem, AIsFirst, ATop, Aline, Aheight );
+      p_DesignCell( ARLLabel, AItem, AIsFirst );
      end
   end;
 
@@ -1187,6 +1187,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
       LIsFirst : Boolean;
   Begin
     ALine := 0;
+    AHeight := ATempCanvas.TextHeight('W');
     with AReport do
      Begin
       p_InitList ( ATop, LIsFirst );
@@ -1209,7 +1210,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, AlineHeight, aVisibleColumns, 
       LSBreakCaption : String ;
   Begin
     ALine := 0;
-    AHeight := 0 ;
+    AHeight := ATempCanvas.TextHeight('W');
     ADecColumn := -1;
     with ADatasource.DataSet,AReport do
      Begin

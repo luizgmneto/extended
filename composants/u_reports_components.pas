@@ -219,8 +219,9 @@ begin
         with FormReport do
             try
               RLReport.Preview(FPReview);
-              Destroy;
             finally
+              Destroy;
+              FormReport := nil;
               if Assigned(ADatasource) Then ADatasource.DataSet.EnableControls;
             end;
       end;
@@ -383,6 +384,7 @@ begin
   FFilter  := nil;
   FReport  := nil;
   FPreview := nil;
+  FReportForm := nil;
 end;
 
 // free objects
@@ -497,7 +499,6 @@ begin
       with FormReport  do
           try
             RLReport.Preview(FPReview);
-            Destroy;
           finally
             EnableControls;
           end;
