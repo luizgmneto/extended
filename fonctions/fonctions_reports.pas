@@ -32,6 +32,7 @@ uses
   Classes, Grids,
   VirtualTrees,
   RLTypes,
+  IniFiles,
   RLPreview;
 
 const
@@ -39,11 +40,12 @@ const
   gVer_fonctions_reports : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_reports' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Reports'' Functions, with grid reports.' ;
-                        			                 BugsStory : 'Version 1.0.0.2 : Testing reports.' + #13#10 +
+                        			                 BugsStory : 'Version 1.0.1.0 : Ini management.' + #13#10 +
+                                                                             'Version 1.0.0.2 : Testing reports.' + #13#10 +
                                                                              'Version 1.0.0.1 : image centering.' + #13#10 +
                                                                              'Version 1.0.0.0 : Working.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
+                        			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 {$ENDIF}
   CST_COLUMN_Visible = 'Visible';
   CST_COLUMN_Width   = 'Width';
@@ -51,32 +53,50 @@ const
   CST_COLUMN_Resize  = 'Resize';
   CST_COLUMN_Title   = 'Title';
   CST_COLUMN_Images  = 'Images';
+  CST_PRINT_HEADER_FONT_NAME        = 'Tahoma';
+  CST_PRINT_COLUMN_FONT_NAME        = 'Tahoma';
+  CST_PRINT_COLUMN_HEADER_FONT_NAME = 'Tahoma';
   CST_PRINT_FONT_SIZE = 9;
   CST_PRINT_FONT_SIZE_TREE = 9;
+  CST_PRINT_COLUMN_HEADER_FONT_COLOR = clBlack;
   CST_PRINT_COLUMN_FONT_COLOR = clBlack;
-  CST_PRINT_TITLE_FONT_COLOR  = clBlack;
-  CST_PRINT_COLUMN_TITLE_FONT_COLOR = clBlack;
-  CST_PRINT_COLUMN_TITLE_FONT_STYLE = [fsBold];
+  CST_PRINT_HEADER_FONT_COLOR  = clBlack;
+  CST_PRINT_HEADER_COLOR = clNavy;
+  CST_PRINT_COLUMN_HEADER_BACK_COLOR = clSkyBlue;
+  CST_PRINT_HEADER_BACK_COLOR = clSkyBlue;
+  CST_PRINT_COLUMN_BORDER_COLOR = clBlue;
+  CST_PRINT_COLUMN_COLOR = clWhite;
+  CST_PRINT_TREE_LINE_COLOR = clBlack;
+  CST_PRINT_HEADER_FONT_STYLE = [fsBold];
   CST_PRINT_COLUMN_BREAKCAPTION = 'BreakCaption' ;
   CST_PRINT_COLUMN_LINEBREAK = 'LineBreak' ;
   CST_PRINT_COMPONENT_EVENT = 'DrawReportImage';
   CST_PRINT_INTERNAL_BAND_MARGIN = 2;
+  CST_PRINT_INI_SECTION_REPORT = 'Reports' ;
+  CST_PRINT_INI_COLOR_HEADER   = 'HeaderColor';
+  CST_PRINT_INI_COLOR_COLUMN   = 'ColumnColor';
+  CST_PRINT_INI_COLOR_FONT_HEADER = 'HeaderFontColor';
+  CST_PRINT_INI_COLOR_FONT_COLUMN = 'ColumnFontColor';
+  CST_PRINT_INI_COLOR_FONT_COLUMN_HEADER = 'ColumnFontColor';
+  CST_PRINT_INI_HEADER_FONT        = 'FontHeader';
+  CST_PRINT_INI_COLUMN_FONT        = 'FontColumn';
+  CST_PRINT_INI_COLUMN_HEADER_FONT = 'FontColumn';
+
 
 
   // customized's reports
 var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
-    ExtTitleColorBack : TColor = clSkyBlue;
-    ExtTitleColorBorder : TColor = clBlue;
-    ExtTitleColorFont : TFont  = nil;
-    ExtColumnColorBorder : TColor = clBlue;
+    ExtHeaderColorBack : TColor = CST_PRINT_HEADER_COLOR;
+    ExtTitleColorBorder : TColor = CST_PRINT_COLUMN_BORDER_COLOR;
+    ExtHeaderFont : TFont  = nil;
+    ExtColumnColorBorder : TColor = CST_PRINT_COLUMN_BORDER_COLOR;
     ExtColumnHeaderFont  : TFont  = nil;
-    ExtColumnHeaderColorBack : TColor = clSkyBlue;
+    ExtColumnHeaderColorBack : TColor = CST_PRINT_COLUMN_HEADER_BACK_COLOR;
     ExtColumnFont        : TFont  = nil;
-    ExtTreeFont          : TFont  = nil;
-    ExtTreeLineColor     : TColor = clBlack;
+    ExtTreeLineColor     : TColor = CST_PRINT_TREE_LINE_COLOR;
     ExtColumnHBorders    : Boolean = False;
     ExtColumnVBorders    : Boolean = True;
-    ExtColumnColorBack   : TColor = clWhite;
+    ExtColumnColorBack   : TColor = CST_PRINT_COLUMN_COLOR;
     ExtLandscapeColumnsCount : Integer = 9;
     ExtHeader  : TRLBand = nil;
 
@@ -85,6 +105,9 @@ function fb_CreateReport ( const AParentReport : TRLReport ; const atree : TCust
 function fref_CreateReport ( const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm; overload;
 function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
 function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
+procedure p_ReadReportsViewFromIni ( const AIniFile : TIniFile );
+procedure p_WriteReportsViewFromIni ( const AIniFile : TIniFile );
+procedure p_ReinitValues;
 
 implementation
 
@@ -95,6 +118,47 @@ uses fonctions_proprietes,
      fonctions_vtree,
      u_reports_rlcomponents,
      Math,strutils;
+
+
+procedure p_ReadReportsViewFromIni ( const AIniFile : TIniFile );
+Begin
+  ExtColumnColorBack       :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_COLUMN,ExtColumnColorBack);
+  ExtColumnHeaderColorBack :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_HEADER,ExtColumnHeaderColorBack);
+  ExtHeaderColorBack       :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_HEADER,ExtHeaderColorBack);
+  ExtHeaderFont.Name       :=AIniFile.ReadString (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_HEADER_FONT,ExtHeaderFont.Name);
+  ExtHeaderFont.Color      :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_HEADER,ExtHeaderFont.Color);
+  ExtColumnHeaderFont.Name :=AIniFile.ReadString (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLUMN_HEADER_FONT,ExtColumnHeaderFont.Name);
+  ExtColumnHeaderFont.Color:=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_COLUMN_HEADER,ExtColumnHeaderFont.Color);
+  ExtColumnFont.Color      :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_COLUMN,ExtColumnFont.Color);
+  ExtColumnFont.Name       :=AIniFile.ReadString (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLUMN_FONT,ExtColumnFont.Name);
+end;
+
+
+procedure p_WriteReportsViewFromIni ( const AIniFile : TIniFile );
+Begin
+  AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_COLUMN,ExtColumnColorBack);
+  AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_HEADER,ExtColumnHeaderColorBack);
+  AIniFile.WriteString  (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLUMN_HEADER_FONT,ExtColumnHeaderFont.Name);
+  AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_HEADER,ExtColumnHeaderFont.Color);
+  AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_HEADER,ExtHeaderColorBack);
+  AIniFile.WriteString  (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_HEADER_FONT,ExtHeaderFont.Name);
+  AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_COLUMN,ExtColumnFont.Color);
+  AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_COLUMN_HEADER,ExtColumnHeaderFont.Color);
+  AIniFile.WriteString  (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLUMN_FONT,ExtColumnFont.Name);
+end;
+
+procedure p_ReinitValues;
+Begin
+  ExtColumnColorBack       :=CST_PRINT_COLUMN_COLOR;
+  ExtColumnHeaderColorBack :=CST_PRINT_COLUMN_HEADER_BACK_COLOR;
+  ExtColumnHeaderFont.Name :=CST_PRINT_COLUMN_HEADER_FONT_NAME;
+  ExtColumnHeaderFont.Color:=CST_PRINT_COLUMN_HEADER_FONT_COLOR;
+  ExtHeaderColorBack       :=CST_PRINT_HEADER_BACK_COLOR;
+  ExtHeaderFont.Name       :=CST_PRINT_HEADER_FONT_NAME;
+  ExtHeaderFont.Color      :=CST_PRINT_HEADER_FONT_COLOR;
+  ExtColumnFont.Color      :=CST_PRINT_COLUMN_FONT_COLOR;
+  ExtColumnFont.Name       :=CST_PRINT_COLUMN_FONT_NAME;
+end;
 
 function frlr_CreateNewReport ( const ASourceReport : TRLReport ):TRLReport;
 Begin
@@ -312,7 +376,7 @@ Begin
      if arlabel = nil
       Then AHeight:=CST_PRINT_INTERNAL_BAND_MARGIN
       Else AHeight:=arlabel.Top+arlabel.Height;
-     arlabel := frlc_createLabel ( AReport, ABand,CST_PRINT_INTERNAL_BAND_MARGIN,AHeight,0, ExtTitleColorFont, astl_Title [ i ],aLineHeight*2 div 3);
+     arlabel := frlc_createLabel ( AReport, ABand,CST_PRINT_INTERNAL_BAND_MARGIN,AHeight,0, ExtHeaderFont, astl_Title [ i ],aLineHeight*2 div 3);
 
    end;
 end;
@@ -329,20 +393,20 @@ Begin
     if ExtHeader = nil Then
      Begin
        with RLLeftTopPage do
-         Result := frlc_createBand ( AReport, X, Y, atitleHeight + 4, btHeader, ExtTitleColorBack );
+         Result := frlc_createBand ( AReport, X, Y, atitleHeight + 4, btHeader, ExtHeaderColorBack );
       if as_Title > '' Then    // title string ?
          p_addTitle ( AReport, Result, as_Title, atitleHeight );
 
        with Result do
         Begin
-         ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,CST_PRINT_INTERNAL_BAND_MARGIN,0,itFullDate, ExtTitleColorFont, 0,'',faRightTop);
+         ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,CST_PRINT_INTERNAL_BAND_MARGIN,0,itFullDate, ExtHeaderFont, 0,'',faRightTop);
          Height:=Max(ARLSystemInfo.Height*2,Height);  // adapt height to 2 lines of system info
-         ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,Height,0,itLastPageNumber, ExtTitleColorFont, 0, '/', faRightBottom,TRLTextAlignment(taLeftJustify));
+         ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,Height,0,itLastPageNumber, ExtHeaderFont, 0, '/', faRightBottom,TRLTextAlignment(taLeftJustify));
          // due to autosize bug
          ARLSystemInfo.Anchors:=[fkRight,fkBottom];
          ARLSystemInfo.Width:=43;
          ARLSystemInfo.Left := Width - 44;
-         ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,Height,0,itPageNumber, ExtTitleColorFont, 0, '', faRightBottom);
+         ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,Height,0,itPageNumber, ExtHeaderFont, 0, '', faRightBottom);
          // due to autosize bug
          ARLSystemInfo.Anchors:=[fkRight,fkBottom];
          ARLSystemInfo.Width:=44;
@@ -736,7 +800,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
                 Caption:= copy ( Caption, 1, ALeftLength );
               end;
              Caption:= Caption + '…';
-             ARightLabel := frlc_createLabel(ARightReport,ARightBand,CST_PRINT_INTERNAL_BAND_MARGIN,ARealTop,ARLBand.Width-CST_PRINT_INTERNAL_BAND_MARGIN,ExtTreeFont,ARightString);
+             ARightLabel := frlc_createLabel(ARightReport,ARightBand,CST_PRINT_INTERNAL_BAND_MARGIN,ARealTop,ARLBand.Width-CST_PRINT_INTERNAL_BAND_MARGIN,ExtColumnFont,ARightString);
            end;
          end;
 
@@ -811,7 +875,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
         // Main column text
         GetTextInfo(ANode,-1,ARLBand.Font,ARect,AText);
         with ARect do
-          ARLLabel := frlc_createLabel(AReport,ARLBand,aSpaceWidth,ARealTop,0,ExtTreeFont,AText);
+          ARLLabel := frlc_createLabel(AReport,ARLBand,aSpaceWidth,ARealTop,0,ExtColumnFont,AText);
         // text can go right out
         p_addEventualRightReport ( ARealTop );
        end;
@@ -866,7 +930,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
         p_SetAndFillBitmap(ABitmap,ATextHeight - AInterleaving+1,ATextHeight - AInterleaving+1,clWhite);
         dec ( AInterleaving, ATextHeight div 4 );
         p_drawPosition ( 1, 1, clGray, clGray );
-        p_drawPosition ( 0, 0, ExtTreeLineColor, ExtTreeFont.Color );
+        p_drawPosition ( 0, 0, ExtTreeLineColor, ExtColumnFont.Color );
        End;
     end;
 
@@ -874,7 +938,7 @@ Begin
   AReport := AParentReport;
   AReport.ForcePrepare:= False;
   LMinusBM := TBitmap.Create;
-  ATempCanvas.Font.Assign(ExtTreeFont);
+  ATempCanvas.Font.Assign(ExtColumnFont);
   // Max text height for lines height
   ATextHeight := ATempCanvas.TextHeight('W');
   ARLLabel := nil;
@@ -886,7 +950,7 @@ Begin
     p_drawMinus ( LMinusBM );  // draw tree's minus
     p_BeginPage;
     ATreeOptions := TStringTreeOptions ( fobj_getComponentObjectProperty(atree,'TreeOptions'));
-    ATempCanvas.Font.Assign(ExtTreeFont);
+    ATempCanvas.Font.Assign(ExtColumnFont);
     p_labelNode ( atree.RootNode );
     // add right's reports at the and, so can not print them
     if high ( ARightReports ) > 0 Then
@@ -1214,20 +1278,15 @@ initialization
   p_ConcatVersion ( gVer_fonctions_reports );
 {$ENDIF}
   // customized's reports
-  ExtTitleColorFont   := TFont.create;
+  ExtHeaderFont       := TFont.create;
   ExtColumnHeaderFont := TFont.Create;
   ExtColumnFont       := TFont.Create;
-  ExtTreeFont         := TFont.Create;
-  ExtTreeFont        .Size  := CST_PRINT_FONT_SIZE_TREE;
   ExtColumnFont      .Size  := CST_PRINT_FONT_SIZE;
   ExtColumnHeaderFont.Size  := CST_PRINT_FONT_SIZE;
-  ExtTitleColorFont  .Size  := CST_PRINT_FONT_SIZE;
-  ExtTitleColorFont  .Color := CST_PRINT_TITLE_FONT_COLOR;
-  ExtColumnHeaderFont.Color := CST_PRINT_COLUMN_TITLE_FONT_COLOR;
-  ExtColumnHeaderFont.Style := CST_PRINT_COLUMN_TITLE_FONT_STYLE;
-  ExtColumnFont      .Color := CST_PRINT_COLUMN_FONT_COLOR;
+  ExtHeaderFont      .Size  := CST_PRINT_FONT_SIZE;
+  p_ReinitValues;
 finalization
-  ExtTitleColorFont  .Free;
+  ExtHeaderFont      .Free;
   ExtColumnHeaderFont.Free;
   ExtColumnFont      .Free;
 end.
