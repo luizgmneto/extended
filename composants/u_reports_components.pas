@@ -166,10 +166,26 @@ type
     property Tree: TCustomVirtualStringTree read FTree write SetTree;
   end;
 
+procedure p_SetBtnPrint ( const btnPrint : TFWPrintComp; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean );
 
 implementation
 
-uses Forms, u_extdbgrid;
+uses Forms, u_extdbgrid,typinfo;
+
+// From interface : setting report button
+procedure p_SetBtnPrint ( const btnPrint : TFWPrintComp; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean );
+Begin
+with btnPrint do
+Begin
+  DBTitle:=ATitle;
+  if ab_portrait
+   Then Orientation:= poPortrait
+   Else Orientation:= poLandscape;
+end;
+if APaperSizeText <> '' then
+SetPropValue( btnPrint, 'PaperSize', 'fp' + APaperSizeText );
+End;
+
 
 
 { TFWPrintVTree }
