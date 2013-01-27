@@ -21,9 +21,10 @@ const
       Owner: 'Matthieu Giroux';
       Comment:
       'Gestion de liste d''images dans les données.';
-      BugsStory : '0.9.0.0 : Non testée.';
+      BugsStory : '1.0.0.0 : Tested, Reinit procedure.'+#13#10+
+                  '0.9.0.0 : Non testée.';
       UnitType: 3;
-      Major: 0; Minor: 9; Release: 0; Build: 0);
+      Major: 1; Minor: 0; Release: 0; Build: 0);
 
   {$ENDIF}
     CST_MAX_CLONED_COLS = 1000;
@@ -54,6 +55,7 @@ type
     procedure SetPanelCloned ( const Apanel : TPanel ); virtual;
   public
     procedure AutoCreateColsRows; virtual;
+    procedure Reinit; virtual;
     constructor Create ( AOwner : TComponent ); override;
     destructor  Destroy; override;
     property AutoControlCount : Integer read GetAutoControlCount;
@@ -217,6 +219,11 @@ Begin
 
   if assigned ( FOnEndClones ) Then
    FOnEndClones ( Self );
+end;
+
+procedure TExtClonedPanel.Reinit;
+begin
+  Cols := 1;
 end;
 
 procedure TExtClonedPanel.Notification(AComponent: TComponent;

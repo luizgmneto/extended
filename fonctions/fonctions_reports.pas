@@ -106,11 +106,13 @@ function fb_CreateReport ( const AParentReport : TRLReport ; const atree : TCust
 function fref_CreateReport ( const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm; overload;
 function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
 function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
+function frlr_CreateNewReport ( const ASourceReport : TRLReport ):TRLReport;
 procedure p_CreateAndPreviewReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
 procedure p_CreateAndPreviewReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
 procedure p_ReadReportsViewFromIni ( const AIniFile : TIniFile );
 procedure p_WriteReportsViewFromIni ( const AIniFile : TIniFile );
 procedure p_ReinitValues;
+function  fb_IsVisibleAPrintedColumn ( const AItem : TCollectionItem; const ADatasource : TDatasource = nil ) : Boolean;
 
 implementation
 
@@ -983,6 +985,16 @@ Begin
   end;
 end;
 
+// really show column ?
+function fb_IsVisibleAPrintedColumn ( const AItem : TCollectionItem; const ADatasource : TDatasource ) : Boolean;
+Begin
+  Result :=    fb_getComponentBoolProperty ( AItem, CST_COLUMN_Visible, True )
+         and ( flin_getComponentProperty ( AItem, CST_COLUMN_Width ) > CST_COLUMN_MIN_Width )
+         and ( not Assigned(ADatasource) or assigned ( ADatasource.DataSet.FindField(fs_getComponentProperty ( AItem, CST_PROPERTY_FIELDNAME ))));
+
+end;
+
+
 // create a datasource or grid report
 function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth, ALinesAddedHeader, ALinesAddedColumns : Integer;
@@ -999,15 +1011,6 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
     if  fb_getComponentBoolProperty ( aColumns.Items [ aindex ], CST_COLUMN_Resize, True )
      Then Result:=ai_width+aresizecolumns
      Else Result:=ai_Width;
-  end;
-
-  // really show column ?
-  function fb_Visible ( const AItem : TCollectionItem ) : Boolean;
-  Begin
-    Result :=    fb_getComponentBoolProperty ( AItem, CST_COLUMN_Visible, True )
-           and ( flin_getComponentProperty ( AItem, CST_COLUMN_Width ) > CST_COLUMN_MIN_Width )
-           and assigned ( ADatasource.DataSet.FindField(fs_getComponentProperty ( AItem, CST_PROPERTY_FIELDNAME )));
-
   end;
 
   // calculate lines and widths
@@ -1027,7 +1030,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
       for i := 0 to aColumns.Count - 1 do
        with aColumns do
         Begin
-          if fb_Visible ( Items [ i ] ) Then
+          if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
            Begin
             if lcountedcolumn Then
              Begin
@@ -1073,7 +1076,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
       LIsFirst := True;
       with aColumns do
       for i := 0 to Count - 1 do
-       if fb_Visible ( Items [ i ] ) Then
+       if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
        Begin
         awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
         if agrid = nil
@@ -1085,7 +1088,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
       with aColumns do // report's columns preparing
       for i := 0 to Count - 1 do
        Begin
-         if fb_Visible ( Items [ i ] ) Then
+         if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
            Begin
             if fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION ) <> '' Then
               Begin
@@ -1188,7 +1191,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
        // aligning
        with AColumns do
          for j := 0 to ADecColumn do
-           if fb_Visible ( items [ j ] ) Then
+           if fb_IsVisibleAPrintedColumn ( items [ j ], ADatasource ) Then
               Begin
                 inc(awidth,fi_resize ( flin_getComponentProperty ( Items [ j ], CST_COLUMN_Width ), j ));
                end;
@@ -1215,7 +1218,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
       p_InitList ( ATop, LIsFirst );
       with aColumns do
       for i := 0 to Count - 1 do
-         if fb_Visible ( Items [ i ] ) Then
+         if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
            Begin
              awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
              p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,Aheight,AWidth,ADataSource.DataSet);
@@ -1241,7 +1244,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
       for i := 0 to Count - 1 do
        Begin
         inc ( ADecColumn ); // for linebreak
-        if fb_Visible ( Items [ i ] ) Then
+        if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
          Begin
            awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ), ADecColumn );
            p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,Aheight,AWidth,ADataSource.DataSet);
