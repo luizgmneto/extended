@@ -166,24 +166,28 @@ type
     property Tree: TCustomVirtualStringTree read FTree write SetTree;
   end;
 
-procedure p_SetBtnPrint ( const btnPrint : TFWPrintComp; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean );
+procedure p_SetBtnPrint  ( const APrintComp   : TObject; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean );
+procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean );
 
 implementation
 
 uses Forms, u_extdbgrid,typinfo;
 
 // From interface : setting report button
-procedure p_SetBtnPrint ( const btnPrint : TFWPrintComp; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean );
+procedure p_SetBtnPrint  ( const APrintComp   : TObject; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean );
 Begin
-with btnPrint do
+  SetPropValue( APrintComp, 'DBTitle', ATitle );
+  p_SetPageSetup ( APrintComp, APaperSizeText, ab_portrait );
+End;
+
+// From interface : setting report button
+procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean );
 Begin
-  DBTitle:=ATitle;
   if ab_portrait
-   Then Orientation:= poPortrait
-   Else Orientation:= poLandscape;
-end;
-if APaperSizeText <> '' then
-SetPropValue( btnPrint, 'PaperSize', 'fp' + APaperSizeText );
+   Then SetPropValue( ARLPageSetup, 'Orientation', poPortrait )
+   Else SetPropValue( ARLPageSetup, 'Orientation', poLandscape );
+  if APaperSizeText <> '' then
+   SetPropValue( ARLPageSetup, 'PaperSize', 'fp' + APaperSizeText );
 End;
 
 
@@ -356,7 +360,8 @@ end;
 procedure TFWPrintData.AddColumns;
 begin
   if Assigned(FDataLink.DataSet)
-  and ( csDesigning in ComponentState ) then
+  and ( csDesigning in ComponentState )
+  or ( FColumns.Count = 0 ) then
     with FDataLink.DataSet.FieldDefs do
       while FColumns.Count < Count do
         FColumns.Add;
