@@ -69,13 +69,14 @@ Begin
   Result := TControl ( fcom_CloneObject ( acon_AControl, AOwner ));
   with Result do
    Begin
-    Parent := acon_AControl.Parent;
-    Top    := acon_AControl.Top;
-    Left   := acon_AControl.Left;
-    Width  := acon_AControl.Width;
-    Height := acon_AControl.Height;
-    Align  := acon_AControl.Align;
-    Visible:= acon_AControl.Visible;
+    Parent  := acon_AControl.Parent;
+    Top     := acon_AControl.Top;
+    Left    := acon_AControl.Left;
+    Width   := acon_AControl.Width;
+    Height  := acon_AControl.Height;
+    Align   := acon_AControl.Align;
+    Visible := acon_AControl.Visible;
+    Anchors := acon_AControl.Anchors;
     p_SetComponentProperty ( Result, CST_PROPERTY_TEXT      , fs_getComponentProperty   ( acon_AControl, CST_PROPERTY_TEXT ));
     p_SetComponentProperty ( Result, CST_PROPERTY_CAPTION   , fs_getComponentProperty   ( acon_AControl, CST_PROPERTY_CAPTION ));
     p_SetComponentProperty ( Result, CST_PROPERTY_COLOR     , flin_getComponentProperty ( acon_AControl, CST_PROPERTY_COLOR ));
