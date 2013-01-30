@@ -1,0 +1,396 @@
+<html>
+<link rel="stylesheet" href="styles.css" type="text/css">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body class="body">
+<table width="100%"><tr>
+<td><span class="p_name">Package: u_scrollclones</span></td>
+<td class="t_cell"><a href="p_xmi_2917_diagram.html">Diagram</a></td>
+<td class="t_cell"><a href="overview.html">Back to overview</a></td>
+</tr></table>
+<p></p>
+<a name="xmi_221"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TExtClonedPanel</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TExtClonedPanel 
+</p></td></tr></table>Inherits from:
+
+    TScrollBox<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FPanelCloned<br>
+</td>
+<td class="t_cell">TPanel
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FCols<br>
+</td>
+<td class="t_cell">Word
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FRows<br>
+</td>
+<td class="t_cell">Word
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FAutoControls<br>
+</td>
+<td class="t_cell">TList
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnClone<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnCloningControl<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnCloningPanel<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnBeginClones<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnEndClones<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">AutoControlCount<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AutoControls<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">PanelCloned<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Cols<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Rows<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnCloned<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnBeginClones<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnEndClones<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnCloningControl<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnCloningPanel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">GetAutoControl</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">Index</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">TControl
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">GetAutoControlCount</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">Integer
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Loaded</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">SetCols<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TExtClonedPanel 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">Word</td>
+<td class="t_cell">Avalue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">SetRows</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">Word</td>
+<td class="t_cell">Avalue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AComponent</td>
+</tr>
+<tr>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">AOperation</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">AutoSetPanel</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">ControlEvent</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TControl</td>
+<td class="t_cell">AControl</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">PanelClonedEvent</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TPanel</td>
+<td class="t_cell">Apanel</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">PanelCloningEvent</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TPanel</td>
+<td class="t_cell">Apanel</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">SetPanelCloned</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TPanel</td>
+<td class="t_cell">Apanel</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">AutoCreateColsRows</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Reinit</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Destroy</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br>
+</body>
+</html>

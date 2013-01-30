@@ -246,12 +246,14 @@ Begin
    end;
 end;
 
-function frlc_createBand ( const AReport : TRLReport; const ALeft, ATop, Aheight : Integer ; const Abandtype : TRLBandType ; const AColor : TColor = clWhite ) : TRLBand;
+function frlc_createBand ( const AReport : TRLReport; const ALeft, ATop, Aheight : Integer ; const Abandtype : TRLBandType ; const AName : String = ''; const AColor : TColor = clWhite ) : TRLBand;
 Begin
   Result := TRLBand.Create(AReport.Owner);
   with Result do
    Begin
     Parent:=AReport;
+    if AName <> '' Then
+      Name := AName;
     BandType:=Abandtype;
     Top:=ATop;
     Left:=ALeft;
@@ -284,7 +286,7 @@ Begin
    end;
 end;
 
-function frlc_createImage ( const AReport : TRLReport; const ARLBand : TRLBand; const ALeft, ATop, AWidth : Integer):TRLImage;
+function frlc_createImage ( const AReport : TRLReport; const ARLBand : TRLBand; const ALeft, ATop, AWidth : Integer; const AColor : TColor ):TRLImage;
 Begin
   Result := TRLImage.Create(AReport.Owner);
   with Result do
@@ -292,11 +294,12 @@ Begin
     Parent:=ARLBand;
     Top:=ATop;
     Left:=ALeft;
+    Color:=AColor;
     Width:=AWidth;
    end;
 end;
 
-function frlc_createImageList ( const AReport : TRLReport; const ARLBand : TRLBand; const AImages : TCustomImageList; const ALeft, ATop, AWidth, AHeight, AImageIndex : Integer):TRLExtImageList;
+function frlc_createImageList ( const AReport : TRLReport; const ARLBand : TRLBand; const AImages : TCustomImageList; const ALeft, ATop, AWidth, AHeight, AImageIndex : Integer; const AColor : TColor):TRLExtImageList;
 Begin
   Result := TRLExtImageList.Create(AReport.Owner);
   with Result do
@@ -311,7 +314,7 @@ Begin
    end;
 end;
 
-function frlc_createDBImage ( const AReport : TRLReport; const ARLBand : TRLBand; const ADatasource : TDatasource; const ALeft, ATop, AWidth, AHeight : Integer; const AField : String ):TRLDBExtImage;
+function frlc_createDBImage ( const AReport : TRLReport; const ARLBand : TRLBand; const ADatasource : TDatasource; const ALeft, ATop, AWidth, AHeight : Integer; const AField : String ; const AColor : TColor):TRLDBExtImage;
 Begin
   Result := TRLDBExtImage.Create(AReport.Owner);
   with Result do
@@ -378,7 +381,7 @@ Begin
 end;
 
 // dbtitle property to report's header
-procedure p_addTitle (const AReport : TRLReport ; const ABand : TRLBand; const as_Title : String; var atitleHeight : Integer );
+procedure p_addTitle (const AReport : TRLReport ; const ABand : TRLBand; const as_Title : String; var atitleHeight : Integer ; const aEndOfName : String = '' );
 var astl_Title : TStringList;
     i, AHeight, ALineHeight : Integer;
     arlabel : TRLLabel;
@@ -402,40 +405,46 @@ Begin
       Then AHeight:=CST_PRINT_INTERNAL_BAND_MARGIN
       Else AHeight:=arlabel.Top+arlabel.Height;
      arlabel := frlc_createLabel ( AReport, ABand,CST_PRINT_INTERNAL_BAND_MARGIN,AHeight,0, ExtHeaderFont, astl_Title [ i ],aLineHeight*2 div 3);
-
+     if astl_Title.Count > 0
+      Then arlabel.Name:='RLTitle'+IntToStr(i+1)+'_' + aEndOfName
+      Else arlabel.Name:='RLTitle' + aEndOfName;
    end;
 end;
 
 // entête de rapport
 // report's header
-function frlc_CreateHeader (const AReport : TRLReport ; const as_Title : String; var atitleHeight : Integer ):TRLBand;
+function frlc_CreateHeader (const AReport : TRLReport ; const as_Title : String; var atitleHeight : Integer ; const aEndOfName : String = '' ):TRLBand;
 var
     ARLSystemInfo : TRLSystemInfo;
 
 Begin
   atitleHeight := 0;
+
   with AReport do
     if ExtHeader = nil Then
      Begin
        with RLLeftTopPage do
-         Result := frlc_createBand ( AReport, X, Y, atitleHeight + 4, btHeader, ExtHeaderColorBack );
+        Result := frlc_createBand ( AReport, X, Y, atitleHeight + 4, btHeader, 'RLHeader'+AEndOfName, ExtHeaderColorBack );
       if as_Title > '' Then    // title string ?
-         p_addTitle ( AReport, Result, as_Title, atitleHeight );
+         p_addTitle ( AReport, Result, as_Title, atitleHeight, aEndOfName );
 
        with Result do
         Begin
          ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,CST_PRINT_INTERNAL_BAND_MARGIN,0,itFullDate, ExtHeaderFont, 0,'',faRightTop);
+         ARLSystemInfo.Name:='RLDate'+AEndOfName;
          Height:=Max(ARLSystemInfo.Height*2,Height);  // adapt height to 2 lines of system info
          ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,Height,0,itLastPageNumber, ExtHeaderFont, 0, '/', faRightBottom,TRLTextAlignment(taLeftJustify));
          // due to autosize bug
          ARLSystemInfo.Anchors:=[fkRight,fkBottom];
          ARLSystemInfo.Width:=43;
          ARLSystemInfo.Left := Width - 44;
+         ARLSystemInfo.Name:='RLLastPageNumber'+AEndOfName;
          ARLSystemInfo := frlc_createSystemInfo ( AReport, Result,Width,Height,0,itPageNumber, ExtHeaderFont, 0, '', faRightBottom);
          // due to autosize bug
          ARLSystemInfo.Anchors:=[fkRight,fkBottom];
          ARLSystemInfo.Width:=44;
          ARLSystemInfo.Left := Width - 88;
+         ARLSystemInfo.Name:='RLPageNumber'+AEndOfName;
          atitleHeight := Height;
         end;
      end
@@ -776,20 +785,22 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     ATreeLevel : Integer;
     AOnGetImage: TVTGetImageEvent;               // Used to retrieve the image index of a given node.
     AOnGetImageEx: TVTGetImageExEvent;           // Used to retrieve the image index of a given node along with a custom
+    LEndOfName : String;
+    LIndex : Word;
 
     const CST_PROPERTY_OnGetImageIndex = 'OnGetImageIndex';
           CST_PROPERTY_OnGetImageIndexEX = 'OnGetImageIndexEx';
 
     // add header to a report
-    procedure p_AddHeader ( const AReport : TRLReport; var ABand : TRLBand  );
+    procedure p_AddHeader ( const AReport : TRLReport; var ABand : TRLBand ; const aEndOfName : String );
     var ATempBand : TRLBand;
     Begin
-      ATempBand:=frlc_CreateHeader ( AReport, as_Title, ATitleHeight );
+      ATempBand:=frlc_CreateHeader ( AReport, as_Title, ATitleHeight, aEndOfName );
       with AReport, Margins, RLLeftTopPage do
        Begin
-        ATempBand := frlc_createBand ( AReport, 0, Y + atitleHeight + 1, 4, btHeader, clWhite );
+        ATempBand := frlc_createBand ( AReport, 0, Y + atitleHeight + 1, 4, btHeader );
         inc ( atitleHeight, ATempband.Height );
-        ABand := frlc_createBand ( AReport, 0, Y + atitleHeight + 1, ClientHeight - atitleHeight - round ( BottomMargin + TopMargin ) - 1, btColumnHeader, ExtColumnColorBack  );
+        ABand := frlc_createBand ( AReport, 0, Y + atitleHeight + 1, ClientHeight - atitleHeight - round ( BottomMargin + TopMargin ) - 1, btColumnHeader, 'RLColumnHeader'+aEndOfName, ExtColumnColorBack  );
        end;
 
     end;
@@ -813,7 +824,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
                 ARightReports[AIndex]:=ARightReport;
                 if AIndex > 0 Then
                  ARightReport.PriorReport := ARightReports [ AIndex - 1 ];
-                p_AddHeader ( ARightReport, ARightBand );
+                p_AddHeader ( ARightReport, ARightBand, 'Right' + IntToStr(LIndex) );
               end;
              ADotWidth := ATempCanvas.TextWidth('…')+CST_PRINT_INTERNAL_BAND_MARGIN * 2+Left;
              ALeftLength := Length(Caption);
@@ -837,7 +848,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
       ARLLabel := nil;
       ARightReport := nil;
       ATitleHeight := 0;
-      p_AddHeader ( AReport, ARLBand );
+      inc ( LIndex );
+      p_AddHeader ( AReport, ARLBand, IntToStr(LIndex));
     end;
 
     // Paint only the tree's main column
@@ -859,7 +871,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
           if ARLLabel = nil
            Then ARealTop := 0
            Else ARealTop := ARLLabel.Top+ ATextHeight ;
-          ARLImage := frlc_createImage(AReport, ARLBand, Left, ARealTop, aSpaceWidth );
+          ARLImage := frlc_createImage(AReport, ARLBand, Left, ARealTop, aSpaceWidth, ExtColumnColorBack );
           if ARLLabel = nil
            Then ARealTop := 0
            Else ARealTop := ARLLabel.Top+ATextHeight;
@@ -892,8 +904,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
                AOnGetImage(atree, ANode, ikNormal, -1, AGhosted, AIndex);
            // report's image
            if ATextHeight < AImages.Width
-            Then ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop, ATextHeight, ATextHeight, AIndex )
-            Else ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop+ ( ATextHeight - AImages.Width ) div 2, AImages.Width, AImages.Height, AIndex );
+            Then ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop, ATextHeight, ATextHeight, AIndex, ExtColumnColorBack )
+            Else ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop+ ( ATextHeight - AImages.Width ) div 2, AImages.Width, AImages.Height, AIndex, ExtColumnColorBack );
            Left:=Left+ARLImage.Width;
            inc ( aSpaceWidth, ARLImage.Width );
          end;
@@ -960,6 +972,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     end;
 
 Begin
+  LIndex:=0;
   AReport := AParentReport;
   AReport.ForcePrepare:= False;
   LMinusBM := TBitmap.Create;
@@ -1066,9 +1079,9 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
       SomeLeft:=0;
       with RLLeftTopPage do
        Begin
-        ARLBand := frlc_createBand ( AReport, 0, Y + atitleHeight, 4, btHeader, clWhite );
+        ARLBand := frlc_createBand ( AReport, 0, Y + atitleHeight, 4, btHeader );
         inc ( atitleHeight, 4 );
-        ARLBand := frlc_createBand ( AReport, 0, Y + atitleHeight, 30, btColumnHeader, ExtColumnHeaderColorBack  );
+        ARLBand := frlc_createBand ( AReport, 0, Y + atitleHeight, 30, btColumnHeader, 'RLColumnHeader', ExtColumnHeaderColorBack  );
        end;
       ATempCanvas.font.Assign(ExtColumnHeaderFont);
       if aresizecolumns > 0 Then
@@ -1150,8 +1163,8 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
       Else
        Begin
         if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TBlobField
-         Then Begin ARLImage := frlc_createDBImage ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, AHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLImage , AItem, AIsFirst ); End
-         Else Begin ARLDBText := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLDBText, AItem, AIsFirst ); End;
+         Then Begin ARLImage := frlc_createDBImage ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, AHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), ExtColumnColorBack); p_DesignCell( ARLImage , AItem, AIsFirst ); End
+         Else Begin ARLDBText := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), ExtColumnColorBack); p_DesignCell( ARLDBText, AItem, AIsFirst ); End;
 
        end
     End
@@ -1167,7 +1180,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
   Begin
     SomeLeft:=0;
     with RLLeftTopPage do
-     ARLBand := frlc_createBand ( AReport, X, Y + atitleHeight + 30, 30, btDetail, ExtColumnColorBack );
+     ARLBand := frlc_createBand ( AReport, X, Y + atitleHeight + 30, 30, btDetail, 'RLColumn', ExtColumnColorBack );
     AIsFirst := True;
     ATop := 0;
   end;
