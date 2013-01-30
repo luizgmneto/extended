@@ -62,6 +62,8 @@ function fb_ChargeIcoBmp ( const aod_ChargerImage : TOpenDialog ;
                            const ab_MontreMessage : Boolean     ;
                            const adxb_Image       : TBitmap     ) : Boolean ;
 
+procedure p_DestroyBitmapWithoutMemoryLeak ( const Abitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF} );
+procedure p_ClearBitmapWithoutMemoryLeak ( const Abitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF} );
 function  fb_ImageFieldToFile ( const field : TField ; const afile: String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
 function  fb_FiletoImageField ( const afile: String; const field : TField ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
 function  fid_StreamToImaging ( const Stream : TStream ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ) : TImageData;
@@ -76,9 +78,10 @@ procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; co
 procedure p_FileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean = False );
 procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF};
                                  const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
+function fPoi_FromAlignToCoord ( const AWidthIn, AHeightIn, ASurfaceWidth, ASurfaceHeight : Integer ; AAlign : TAlign ) : TPoint ;
 procedure p_DrawImageFromList ( const ACanvas : TCanvas; const AImages : TCustomImageList ; const AImageIndex : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
-procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex : Integer; const X : Integer = 0 ; const Y : Integer = 0 );
-procedure p_DrawEventualImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer; AAlign : TAlign = alLeft );
+procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex : Integer; const AColor : TColor; const X : Integer = 0 ; const Y : Integer = 0 );
+procedure p_DrawEventualImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer; const AColor : TColor; const AAlign : TAlign = alLeft );
 function fb_ResizeImaging ( var Fdata : TImageData; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
 
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
@@ -115,7 +118,8 @@ function fb_FichierIcoBmpVersBitmap ( const as_Fichier : String; const aBmp_Sort
 // aico_Destination   : Image retour icon
 
 procedure p_BitmapVersIco ( const aBmp_Bitmap : TBitmap ; const aIco_Destination : TIcon );
-procedure p_SetAndFillBitmap ( const ABitmap : TBitmap ; const AWidth, AHeight : Integer; const AColor : TColor );
+procedure p_FillBitmap ( const ABitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF} ; const AColor : TColor );
+procedure p_SetAndFillBitmap ( const ABitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF}; const AWidth, AHeight : Integer; const AColor : TColor );
 
 implementation
 uses
@@ -132,16 +136,22 @@ uses
      SysUtils ;
 
 // fill acanvas with acolor
-procedure p_SetAndFillBitmap ( const ABitmap : TBitmap ; const AWidth, AHeight : Integer; const AColor : TColor );
+procedure p_SetAndFillBitmap ( const ABitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF} ; const AWidth, AHeight : Integer; const AColor : TColor );
 Begin
   ABitmap.Width :=AWidth;
   ABitmap.Height:=AHeight;
+  p_FillBitmap ( ABitmap, AColor );
+End;
+
+// fill acanvas with acolor
+procedure p_FillBitmap ( const ABitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF} ; const AColor : TColor );
+Begin
   with ABitmap.Canvas do
    Begin
      Brush.Color:=AColor;
      FillRect(
             {$IFNDEF FPC} Rect (  {$ENDIF}
-            0, 0, AWidth, AHeight {$IFNDEF FPC}){$ENDIF});
+            0, 0, ABitmap.Width, ABitmap.Height {$IFNDEF FPC}){$ENDIF});
    end;
 End;
 
@@ -214,15 +224,11 @@ begin
          if  ( aGra_IconAChanger is TBitmap )
          and ( not ( aGra_IconAChanger as TBitmap ).Handle <> 0 ) Then
            Begin
-{$IFDEF DELPHI}
-             ( aGra_IconAChanger as TBitmap ).Dormant ;
-{$ENDIF}
-             ( aGra_IconAChanger as TBitmap ).FreeImage ;
+             p_ClearBitmapWithoutMemoryLeak( aGra_IconAChanger as TBitmap );
              try
                ( aGra_IconAChanger as TBitmap ).Canvas.Refresh ;
              Except
              End;
-             ( aGra_IconAChanger as TBitmap ).Handle := 0 ;
            End ;
       End ;
     if  Assigned ( aFie_FieldImage )
@@ -247,16 +253,7 @@ begin
 {$ENDIF}
             except
             End;
-            with lBmp_Bitmap do
-              if Handle <> 0 Then
-                Begin
-{$IFDEF DELPHI}
-                                    Dormant ;
-{$ENDIF}
-                  FreeImage ;
-                  Handle := 0 ;
-                End ;
-            lBmp_Bitmap.Free;
+            p_DestroyBitmapWithoutMemoryLeak(lBmp_Bitmap);
           end
          else
           begin
@@ -404,26 +401,10 @@ Begin
     {$ENDIF}
 
       // 2004-10-20 : MAJ destruction bitmap
-      with abmp_BitmapOrigine do
-        if Handle <> 0 Then
-          Begin
-    {$IFDEF DELPHI}
-            Dormant ;
-    {$ENDIF}
-            FreeImage ;
-            Handle := 0 ;
-          End ;
+      p_ClearBitmapWithoutMemoryLeak ( abmp_BitmapOrigine );
       abmp_BitmapOrigine.Assign ( lbmp_Tempo );
     end;
-  try
-{$IFDEF DELPHI}
-       lbmp_Tempo.Dormant ;
-{$ENDIF}
-       lbmp_Tempo.FreeImage ;
-       lbmp_Tempo.Handle := 0 ;
-  finally
-       lbmp_Tempo.Free;
-  End ;
+  p_DestroyBitmapWithoutMemoryLeak(lbmp_Tempo);
 end ;
 
 procedure p_RecuperePetitBitmap ( const abmp_BitmapOrigine : TBitmap );
@@ -456,11 +437,7 @@ Begin
       // Ajoute dans l'image liste
       aIma_ImagesMenus.AddMasked ( aBmp_Picture, aBmp_Picture.TransparentColor );
       // Libère l'image temporaire
-{$IFDEF DELPHI}
-      aBmp_Picture.Dormant ;
-{$ENDIF}
-      aBmp_Picture.FreeImage ;
-      aBmp_Picture.Handle := 0 ;
+      p_ClearBitmapWithoutMemoryLeak(aBmp_Picture);
       // Numero de l'image ajoutée
       Result := aIma_ImagesMenus.Count - 1 ;
     End
@@ -471,6 +448,66 @@ Begin
       Result := ai_CompteurImageDef ;
 End ;
 
+//from image align to TPoint
+function fPoi_FromAlignToCoord ( const AWidthIn, AHeightIn, ASurfaceWidth, ASurfaceHeight : Integer ; AAlign : TAlign ) : TPoint ;
+Begin
+  if (   ( ASurfaceWidth  > AWidthIn  )
+      or ( ASurfaceHeight > AHeightIn ))
+  and ( AAlign <> alNone ) Then
+   Begin
+    if ASurfaceWidth < AWidthIn Then
+      case AAlign of
+       alTop : AAlign:=alNone;
+       alBottom : AAlign:=alNone;
+       alClient : AAlign:=alLeft;
+      End;
+    if ASurfaceHeight < AHeightIn Then
+      case AAlign of
+       alLeft : AAlign:=alNone;
+       alRight : AAlign:=alNone;
+       alClient : AAlign:=alTop;
+      End;
+      case AAlign of
+       alNone:
+        begin
+         Result.X := 0;
+         Result.Y := 0;
+        end;
+       alTop :
+       begin
+        Result.X := (ASurfaceWidth-AWidthIn) div 2;
+        Result.Y := 0;
+       end;
+       alBottom :
+       begin
+        Result.X := (ASurfaceWidth-AWidthIn) div 2;
+        Result.Y := ASurfaceHeight - AHeightIn;
+       end;
+       alLeft :
+       begin
+        Result.X := 0;
+        Result.Y := ( ASurfaceHeight - AHeightIn ) div 2;
+       end;
+       alRight :
+       begin
+        Result.X := ASurfaceWidth-AWidthIn;
+        Result.Y := ( ASurfaceHeight - AHeightIn ) div 2;
+       end;
+       alClient :
+       begin
+        Result.X := (ASurfaceWidth-AWidthIn) div 2;
+        Result.Y := ( ASurfaceHeight - AHeightIn ) div 2;
+       end;
+      End
+   end
+  Else
+   Begin
+     Result.X := 0;
+     Result.Y := 0;
+   end;
+
+end;
+
 // Peindre une image d'une liste d'images
 // ACanvas : À peindre
 procedure p_DrawImageFromList ( const ACanvas : TCanvas; const AImages : TCustomImageList ; const AImageIndex : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
@@ -478,65 +515,67 @@ var  ABitmap : TBitmap;
 Begin
   ABitmap := TBitmap.Create;
   AImages.GetBitmap ( aimageIndex, ABitmap );
-  ABitmap.Transparent:=True;
   ACanvas.Draw ( X, Y, Abitmap );
-  with Abitmap do
+  p_DestroyBitmapWithoutMemoryLeak(ABitmap);
+end;
+
+// draw ABitmap from imagelist
+procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex : Integer ; const AColor : TColor; const X : Integer = 0 ; const Y : Integer = 0 );
+Begin
+  with ABitmap do
    Begin
-    {$IFNDEF FPC}
-    Dormant;
-    {$ENDIF}
-    FreeImage;
-    Free;
+     p_FillBitmap ( ABitmap, AColor );
+     p_DrawImageFromList ( Canvas, AImages, AImageIndex, X, Y );
+     Modified := True;
    end;
 end;
 
-procedure p_DrawEventualImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer; AAlign : TAlign = alLeft );
+// draw image from imagelist if exists
+procedure p_DrawEventualImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer; const AColor : TColor; const AAlign : TAlign = alLeft );
+var ACoord : TPoint;
 Begin
   if  ( AImageIndex <> -1 )
   and ( AImages <> nil ) Then
      Begin
-       if AWidth < AImages.Width Then
-         case AAlign of
-          alTop : AAlign:=alNone;
-          alBottom : AAlign:=alNone;
-          alClient : AAlign:=alLeft;
-         End;
-       if AHeight < AImages.Height Then
-         case AAlign of
-          alLeft : AAlign:=alNone;
-          alRight : AAlign:=alNone;
-          alClient : AAlign:=alTop;
-         End;
-       case AAlign of
-        alNone:p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, 0, 0 );
-        alTop : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, (AWidth-AImages.Width) div 2, 0 );
-        alBottom : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, (AWidth-AImages.Width) div 2, AHeight - AImages.Height );
-        alLeft : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, 0, ( AHeight - AImages.Height ) div 2 );
-        alRight : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, AWidth-AImages.Width, ( AHeight - AImages.Height ) div 2 );
-        alClient : p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, (AWidth-AImages.Width) div 2, ( AHeight - AImages.Height ) div 2 );
-       End;
+      ACoord := fPoi_FromAlignToCoord ( AImages.Width, AImages.Height, AWidth, AHeight, AAlign );
+      ABitmap.Width :=AWidth;
+      ABitmap.Height:=AHeight;
+      if ( ACoord.X > 0 )
+      or ( ACoord.Y > 0 )
+       Then p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, AColor, ACoord.X, ACoord.Y )
+       Else
+        Begin
+         AImages.GetBitmap(AImageIndex,ABitmap);
+         ABitmap.TransparentMode:=tmAuto;
+         ABitmap.TransparentColor:=clBlack;
+         ABitmap.Transparent:=True;
+        end;
        p_ChangeTailleBitmap(ABitmap,AWidth,AHeight,True);
      end
    Else
     ABitmap.Assign(nil);
 end;
 
-procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
+// Clear ABitmap Without Memory Leak
+procedure p_ClearBitmapWithoutMemoryLeak ( const Abitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF} );
 Begin
-  with AImages do
+  with Abitmap do
    Begin
-     p_SetAndFillBitmap(ABitmap,Width,Height,BkColor);
-     with ABitmap do
-      Begin
-       p_DrawImageFromList ( Canvas, AImages, AImageIndex, X, Y );
-       {$IFDEF FPC}
-       TransparentMode := tmAuto ;
-       {$ENDIF}
-       TransparentColor:=BkColor;
-       Transparent:=True;
-       Modified := True;
-      end;
+     {$IFDEF DELPHI}
+     Dormant ;
+     {$ENDIF}
+     FreeImage ;
+     Handle := 0 ;
    end;
+end;
+// Destroy ABitmap Without Memory Leak
+procedure p_DestroyBitmapWithoutMemoryLeak ( const Abitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF} );
+Begin
+  try
+    p_ClearBitmapWithoutMemoryLeak ( Abitmap );
+  finally
+    Abitmap.Destroy;
+  end;
 end;
 
 // Ajoute une image bmp dans une imagelist et efface le handle
@@ -562,11 +601,7 @@ Begin
       // Ajoute dans l'image liste
       aIma_ImagesMenus.AddMasked ( aBmp_Picture , aBmp_Picture.TransparentColor );
       // Libère l'image temporaire
-{$IFDEF DELPHI}
-      aBmp_Picture.Dormant ;
-{$ENDIF}
-      aBmp_Picture.FreeImage ;
-      aBmp_Picture.Handle := 0 ;
+      p_ClearBitmapWithoutMemoryLeak(aBmp_Picture);
       // Spécififique àl'xpbar
       aIma_ImagesMenus.BkColor := clBackground ;
       // Numero de l'image ajoutée
@@ -638,24 +673,12 @@ begin
                 LBmp_Tempo2.Height := ai_Taille ;
                 LBmp_Tempo2.Width  := ai_Taille ;
                 LBmp_Tempo2.Modified := True ;
-//                LBmp_Tempo2.Canvas.Refresh ;
-{$IFNDEF FPC}
-								LBmp_Tempo.Dormant ;
-{$ENDIF}
-								LBmp_Tempo.FreeImage ;
-								LBmp_Tempo.Handle := 0 ;
-								LBmp_Tempo.Assign ( LBmp_Tempo2 );
-								LBmp_Tempo.Transparent := True ;
-								Result := True ;
 
-								// Libération du bitmap de conversion
-{$IFNDEF FPC}
-								LBmp_Tempo2.Dormant ;
-{$ENDIF}
-								LBmp_Tempo2.FreeImage ;
-								LBmp_Tempo2.Handle := 0 ;
-								LBmp_Tempo2.Free ;
-
+                p_ClearBitmapWithoutMemoryLeak(LBmp_Tempo);
+		LBmp_Tempo.Assign ( LBmp_Tempo2 );
+		LBmp_Tempo.Transparent := True ;
+		Result := True ;
+                p_DestroyBitmapWithoutMemoryLeak(LBmp_Tempo2);
               End ;
 
 
@@ -671,15 +694,7 @@ begin
            Then
             Begin
             // 2004-10-20 : MAJ destruction bitmap
-              with adxb_Image do
-                if Handle <> 0 Then
-                  Begin
-  {$IFNDEF FPC}
-                    Dormant ;
-  {$ENDIF}
-                    FreeImage ;
-                    Handle := 0 ;
-                  End ;
+              p_ClearBitmapWithoutMemoryLeak(adxb_Image);
               adxb_Image.Assign ( aF_FieldImage );
               adxb_Image.Modified := True ;
             End ;
@@ -687,12 +702,7 @@ begin
           aF_FieldImage.Assign ( LBmp_Tempo );
           adat_DataSet.Post ;
          end;
-{$IFDEF DELPHI}
-      LBmp_Tempo.Dormant ;
-{$ENDIF}
-      LBmp_Tempo.FreeImage ;
-      LBmp_Tempo.Handle := 0 ;
-      LBmp_Tempo.Free ;
+      p_DestroyBitmapWithoutMemoryLeak(LBmp_Tempo);
     end;
 End ;
 
@@ -822,7 +832,7 @@ begin
         Image.Canvas.Refresh;
       end
      Else
-       Image.{$IFDEF FPC}Clear{$ELSE}FreeImage{$ENDIF};
+      p_ClearBitmapWithoutMemoryLeak ( Image );
   Except
     On E:Exception do
       if ab_ShowError Then
