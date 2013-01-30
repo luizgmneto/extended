@@ -77,8 +77,8 @@ procedure p_FileToImage ( const afile : String; const Image : TPicture ; const a
 procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF};
                                  const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = False );
 procedure p_DrawImageFromList ( const ACanvas : TCanvas; const AImages : TCustomImageList ; const AImageIndex : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
-procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
-procedure p_DrawEventualImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer ; AAlign : TAlign = alLeft);
+procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex : Integer; const X : Integer = 0 ; const Y : Integer = 0 );
+procedure p_DrawEventualImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer; AAlign : TAlign = alLeft );
 function fb_ResizeImaging ( var Fdata : TImageData; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
 
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
@@ -139,7 +139,6 @@ Begin
   with ABitmap.Canvas do
    Begin
      Brush.Color:=AColor;
-     Pen  .Color:=AColor;
      FillRect(
             {$IFNDEF FPC} Rect (  {$ENDIF}
             0, 0, AWidth, AHeight {$IFNDEF FPC}){$ENDIF});
@@ -491,7 +490,7 @@ Begin
    end;
 end;
 
-procedure p_DrawEventualImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer ; AAlign : TAlign = alLeft );
+procedure p_DrawEventualImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer; AAlign : TAlign = alLeft );
 Begin
   if  ( AImageIndex <> -1 )
   and ( AImages <> nil ) Then
@@ -524,15 +523,19 @@ end;
 
 procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
 Begin
-  with ABitmap do
+  with AImages do
    Begin
-     Width  := AImages.Width;
-     Height := AImages.Height;
-     Canvas.FillRect(
-           {$IFNDEF FPC} Rect (  {$ENDIF}
-           0, 0, Width, Height {$IFNDEF FPC}){$ENDIF});
-     p_DrawImageFromList ( Canvas, AImages, AImageIndex, X, Y );
-     Modified := True;
+     p_SetAndFillBitmap(ABitmap,Width,Height,BkColor);
+     with ABitmap do
+      Begin
+       p_DrawImageFromList ( Canvas, AImages, AImageIndex, X, Y );
+       {$IFDEF FPC}
+       TransparentMode := tmAuto ;
+       {$ENDIF}
+       TransparentColor:=BkColor;
+       Transparent:=True;
+       Modified := True;
+      end;
    end;
 end;
 
