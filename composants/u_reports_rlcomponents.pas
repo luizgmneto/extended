@@ -377,7 +377,7 @@ end;
 
 procedure TRLCustomImageList.LoadPicture;
 begin
-  p_DrawEventualImageFromListToBitmap ( Picture.Bitmap, fImages, fImageIndex, ClientWidth, ClientHeight );
+  p_DrawEventualImageFromListToBitmap ( Picture.Bitmap, fImages, fImageIndex, ClientWidth, ClientHeight, Color );
 end;
 
 procedure TRLCustomImageList.Notification(aComponent: TComponent;
@@ -432,7 +432,7 @@ begin
         aimageIndex := f.AsInteger;
       end;
 
-  p_DrawEventualImageFromListToBitmap ( Picture.Bitmap, FImageList, aimageIndex, ClientWidth, ClientHeight );
+  p_DrawEventualImageFromListToBitmap ( Picture.Bitmap, FImageList, aimageIndex, ClientWidth, ClientHeight, Color );
 
 end;
 

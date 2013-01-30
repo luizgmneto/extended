@@ -121,6 +121,7 @@ uses fonctions_proprietes,
      unite_messages,
      fonctions_string,
      fonctions_vtree,
+     controls,
      u_reports_rlcomponents,
      Math,strutils;
 
@@ -286,6 +287,19 @@ Begin
    end;
 end;
 
+procedure p_AdaptRLImage ( const ARLImage : TRLCustomImage ; const AImages : TCustomImageList; const AAlign : TAlign );
+var LPoint : TPoint;
+Begin
+  with ARLImage do
+   Begin
+    LPoint := fPoi_FromAlignToCoord(AImages.Width,AImages.Height,Width,Height,AAlign);
+    if LPoint.X > 0 Then
+     Left:=Left+LPoint.X;
+    if LPoint.Y > 0 Then
+     Top:=Top+LPoint.Y;
+   end;
+end;
+
 function frlc_createImage ( const AReport : TRLReport; const ARLBand : TRLBand; const ALeft, ATop, AWidth : Integer; const AColor : TColor ):TRLImage;
 Begin
   Result := TRLImage.Create(AReport.Owner);
@@ -308,10 +322,12 @@ Begin
     Top:=ATop;
     Left:=ALeft;
     Width:=AWidth;
+    Color:=AColor;
     Height:=AHeight;
     ImageIndex:=AImageIndex;
     Images := AImages;
    end;
+  p_AdaptRLImage ( Result, AImages, alLeft );
 end;
 
 function frlc_createDBImage ( const AReport : TRLReport; const ARLBand : TRLBand; const ADatasource : TDatasource; const ALeft, ATop, AWidth, AHeight : Integer; const AField : String ; const AColor : TColor):TRLDBExtImage;
@@ -324,12 +340,13 @@ Begin
     Left:=ALeft;
     Height := AHeight;
     Width:=AWidth;
+    Color:=AColor;
     DataField:=AField;
     DataSource:=ADatasource;
    end;
 end;
 
-function frlc_createDBImageList ( const AReport : TRLReport; const ARLBand : TRLBand; const ADatasource : TDatasource; const ALeft, ATop, AWidth, AHeight : Integer; const AField : String ; const AImages : TCustomImageList):TRLDBExtImageList;
+function frlc_createDBImageList ( const AReport : TRLReport; const ARLBand : TRLBand; const ADatasource : TDatasource; const ALeft, ATop, AWidth, AHeight : Integer; const AField : String ; const AColor : TColor; const AImages : TCustomImageList):TRLDBExtImageList;
 Begin
   Result := TRLDBExtImageList.Create(AReport.Owner);
   with Result do
@@ -339,10 +356,12 @@ Begin
     Left:=ALeft;
     Height := AHeight;
     Width:=AWidth;
+    Color:=AColor;
     DataField:=AField;
     DataSource:=ADatasource;
     Images := AImages;
    end;
+  p_AdaptRLImage ( Result, AImages, alLeft );
 end;
 
 procedure p_DrawBorders ( const ABorders : TRLBorders ; const AColor : TColor; const ADrawLeft, AHBorders, AVBorders : Boolean );
@@ -1152,7 +1171,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
       LImages:= fobj_getComponentObjectProperty ( AItem,CST_PROPERTY_IMAGES ) as TCustomImageList;
       if LImages <> nil Then
        Begin
-         ARLImage := frlc_createDBImageList ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth,AHeight, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME),LImages);
+         ARLImage := frlc_createDBImageList ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth,AHeight, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME),ExtColumnColorBack,LImages);
          with ARLImage as TRLCustomDBExtImageList do
           Begin
             OnGetImageIndex := TFieldIndexEvent (fmet_getComponentMethodProperty( AItem, 'OnGetImageIndex' ));
