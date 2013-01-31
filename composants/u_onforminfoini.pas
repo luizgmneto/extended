@@ -95,7 +95,8 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
                                            Comment : 'Ini management tu put on a form.' ;
-                                           BugsStory : '1.0.4.0 : Adding TSpeedButton.' +#13#10 +
+                                           BugsStory : '1.0.5.0 : Adding Components' events.' +#13#10 +
+                                                       '1.0.4.0 : Adding TSpeedButton.' +#13#10 +
                                                        '1.0.3.1 : Resolving "Optimising" SpinEdit bug.' +#13#10 +
                                                        '1.0.3.0 : Optimising.' +#13#10 +
                                                        '1.0.2.0 : To English, new management of forms not tested.' +#13#10 +
@@ -110,7 +111,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                                        '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
                                                        '1.0.0.0 : Gestion de beaucoup de composants.';
                                            UnitType : 3 ;
-                                           Major : 1 ; Minor : 0 ; Release : 4 ; Build : 0 );
+                                           Major : 1 ; Minor : 0 ; Release : 5 ; Build : 0 );
 
 {$ENDIF}
 
@@ -129,7 +130,8 @@ type
   TLoadOptions = set of TLoadOption;
   TSaveForm = (sfSavePos,sfSaveSizes,sfSameMonitor);
   TSavesForm = set of TSaveForm;
-  TEventIni = procedure ( const AInifile : TCustomInifile ; var Continue : Boolean ) of object;
+  TEventIni = procedure ( const AInifile : TCustomInifile ; var KeepOn : Boolean ) of object;
+  TOnIniComponent = procedure ( const AComponent : TComponent ; const AInifile : TCustomInifile ; var KeepOnComponent : Boolean ) of object;
   TSaveEdits = set of TSaveEdit;
 const CST_INI_OPTIONS_DEFAULT = [loFreeIni,loAutoUpdate,loAutoLoad];
 
@@ -141,6 +143,7 @@ type
     FSaveEdits: TSaveEdits;
     FSaveForm : TSavesForm;
     FOptions : TLoadOptions;
+    FOnReadComponent, FOnWriteComponent : TOnIniComponent;
     FOnFormDestroy,
     FOnFormShow   ,
     FOnFormCreate : TNotifyEvent ;
@@ -181,6 +184,8 @@ type
 //    property SameMonitor: Boolean read FSameMonitor  write FSameMonitor default False;
     property OnIniLoad  : TEventIni read FOnIniLoad write FOnIniLoad ;
     property OnIniWrite : TEventIni read FOnIniWrite write FOnIniWrite;
+    property OnWriteComponent : TOnIniComponent read FOnWriteComponent write FOnWriteComponent;
+    property OnReadComponent  : TOnIniComponent read FOnReadComponent  write FOnReadComponent;
     property OnFormShow : TNotifyEvent read FOnFormShow write FOnFormShow;
     property OnFormDestroy : TNotifyEvent read FOnFormDestroy write FOnFormDestroy;
     property OnFormCreate : TNotifyEvent read FOnFormCreate write FOnFormCreate;
@@ -216,6 +221,8 @@ begin
   Inherited Create(AOwner);
   FSaveForm      := [];
   FOptions       := CST_INI_OPTIONS_DEFAULT;
+  FOnReadComponent  := nil;
+  FOnWriteComponent := nil;
   FOnIniLoad     := nil;
   FOnIniWrite    := nil;
   if not (csDesigning in ComponentState)  //si on est pas en mode conception
@@ -364,7 +371,7 @@ var
   mit: TMenuItem;
   j, Rien, li_Taille : integer;
   ls_Temp : String ;
-  ab_continue : Boolean;
+  ab_keepon : Boolean;
   lcom_Component : Tcomponent ;
 
   function fli_ReadInteger (const as_ComponentName : String; const ali_Default : Longint ):Longint;
@@ -674,18 +681,26 @@ begin
   f_GetMemIniFile;
   if Assigned(FInifile) then
     try
-      ab_continue := True;
+      ab_keepon := True;
 
       If Assigned ( FOnIniLoad ) Then
-        FOnIniLoad ( FInifile, ab_continue );
+        FOnIniLoad ( FInifile, ab_keepon );
 
       // traitement des composants de la af_Form
-      if ab_continue
+      if ab_keepon
       and ( ( sfSaveSizes in FSaveForm ) or (FSaveEdits <> [])) Then
       for j := 0 to af_Form.ComponentCount - 1 do
           begin
             try
               lcom_Component := aF_Form.Components[j];
+
+              if Assigned(FOnReadComponent) Then
+               Begin
+                 FOnReadComponent(lcom_Component,FIniFile,ab_keepon);
+                 if not ab_keepon
+                  Then
+                   Continue;
+               end;
 
               if fb_ReadHighComponents Then
                 continue;
@@ -774,7 +789,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.p_ExecuteEcriture ( const af_Form : TCustomForm ) ;
 var
-  ab_continue : Boolean ;
+  ab_keepon : Boolean ;
   mit: TMenuItem;
   j: integer;
   lcom_Component : TComponent;
@@ -1064,10 +1079,10 @@ begin
   f_GetMemIniFile();
   //Erasing The current section before saving
   FIniFile.EraseSection(af_Form.Name);
-  ab_continue := True;
+  ab_keepon := True;
   If Assigned ( FOnIniWrite ) Then
-    FOnIniWrite ( FInifile, ab_continue );
-  If not ab_continue Then
+    FOnIniWrite ( FInifile, ab_keepon );
+  If not ab_keepon Then
     Exit;
   if not Assigned(FInifile) then Exit;
 
@@ -1081,6 +1096,14 @@ begin
   For j:=0 to af_Form.ComponentCount-1 do
     begin
       lcom_Component := af_Form.Components[j];
+      if Assigned(FOnWriteComponent) Then
+       Begin
+         FOnWriteComponent(lcom_Component,FIniFile,ab_keepon);
+         if not ab_keepon
+          Then
+           Continue;
+       end;
+
       Try
         if fb_WriteHighComponents Then
           Continue;
