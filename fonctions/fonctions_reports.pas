@@ -76,12 +76,16 @@ const
   CST_PRINT_INI_COLOR_HEADER   = 'HeaderColor';
   CST_PRINT_INI_COLOR_COLUMN_HEADER   = 'ColumnHeaderColor';
   CST_PRINT_INI_COLOR_COLUMN   = 'ColumnColor';
+  CST_PRINT_INI_COLOR_BORDER   = 'BorderColor';
   CST_PRINT_INI_COLOR_FONT_HEADER = 'HeaderFontColor';
   CST_PRINT_INI_COLOR_FONT_COLUMN = 'ColumnFontColor';
   CST_PRINT_INI_COLOR_FONT_COLUMN_HEADER = 'ColumnHeaderFontColor';
   CST_PRINT_INI_HEADER_FONT        = 'HeaderFont';
   CST_PRINT_INI_COLUMN_FONT        = 'ColumnFont';
   CST_PRINT_INI_COLUMN_HEADER_FONT = 'ColumnHeaderFont';
+  CST_PRINT_INI_HBORDERS           = 'HorizontalBorders';
+  CST_PRINT_INI_ROUNDED_BORDERS    = 'RoundedBorders';
+  CST_PRINT_INI_VBORDERS           = 'VerticalBorders';
 
 
 
@@ -90,13 +94,14 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtHeaderColorBack : TColor = CST_PRINT_HEADER_COLOR;
     ExtTitleColorBorder : TColor = CST_PRINT_COLUMN_BORDER_COLOR;
     ExtHeaderFont : TFont  = nil;
-    ExtColumnColorBorder : TColor = CST_PRINT_COLUMN_BORDER_COLOR;
+    ExtColorBorder : TColor = CST_PRINT_COLUMN_BORDER_COLOR;
     ExtColumnHeaderFont  : TFont  = nil;
     ExtColumnHeaderColorBack : TColor = CST_PRINT_COLUMN_HEADER_BACK_COLOR;
     ExtColumnFont        : TFont  = nil;
     ExtTreeLineColor     : TColor = CST_PRINT_TREE_LINE_COLOR;
     ExtColumnHBorders    : Boolean = False;
-    ExtColumnVBorders    : Boolean = True;
+    ExtColumnVBorders    : Boolean = False;
+    ExtColumnRoundedBorders : Boolean = True;
     ExtColumnColorBack   : TColor = CST_PRINT_COLUMN_COLOR;
     ExtLandscapeColumnsCount : Integer = 9;
     ExtHeader  : TRLBand = nil;
@@ -148,6 +153,7 @@ End;
 procedure p_ReadReportsViewFromIni ( const AIniFile : TIniFile );
 Begin
   ExtColumnColorBack       :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_COLUMN,ExtColumnColorBack);
+  ExtColorBorder     :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_BORDER,ExtColorBorder);
   ExtColumnHeaderColorBack :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_COLUMN_HEADER,ExtColumnHeaderColorBack);
   ExtHeaderColorBack       :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_HEADER,ExtHeaderColorBack);
   ExtHeaderFont.Name       :=AIniFile.ReadString (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_HEADER_FONT,ExtHeaderFont.Name);
@@ -156,12 +162,16 @@ Begin
   ExtColumnHeaderFont.Color:=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_COLUMN_HEADER,ExtColumnHeaderFont.Color);
   ExtColumnFont.Color      :=AIniFile.ReadInteger(CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_COLUMN,ExtColumnFont.Color);
   ExtColumnFont.Name       :=AIniFile.ReadString (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLUMN_FONT,ExtColumnFont.Name);
+  ExtColumnHBorders        :=AIniFile.ReadBool   (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_HBORDERS,ExtColumnHBorders);
+  ExtColumnVBorders        :=AIniFile.ReadBool   (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_VBORDERS,ExtColumnVBorders);
+  ExtColumnRoundedBorders  :=AIniFile.ReadBool   (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_ROUNDED_BORDERS,ExtColumnRoundedBorders);
 end;
 
 
 procedure p_WriteReportsViewFromIni ( const AIniFile : TIniFile );
 Begin
   AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_COLUMN,ExtColumnColorBack);
+  AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_BORDER,ExtColorBorder);
   AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_COLUMN_HEADER,ExtColumnHeaderColorBack);
   AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_HEADER,ExtHeaderColorBack);
   AIniFile.WriteString  (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLUMN_HEADER_FONT,ExtColumnHeaderFont.Name);
@@ -170,6 +180,9 @@ Begin
   AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_COLUMN,ExtColumnFont.Color);
   AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_FONT_COLUMN_HEADER,ExtColumnHeaderFont.Color);
   AIniFile.WriteString  (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLUMN_FONT,ExtColumnFont.Name);
+  AIniFile.WriteBool    (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_HBORDERS,ExtColumnHBorders);
+  AIniFile.WriteBool    (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_VBORDERS,ExtColumnVBorders);
+  AIniFile.WriteBool    (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_ROUNDED_BORDERS,ExtColumnRoundedBorders);
 end;
 
 procedure p_ReinitValues;
@@ -247,7 +260,7 @@ Begin
    end;
 end;
 
-function frlc_createBand ( const AReport : TRLReport; const ALeft, ATop, Aheight : Integer ; const Abandtype : TRLBandType ; const AName : String = ''; const AColor : TColor = clWhite ) : TRLBand;
+function frlc_createBand ( const AReport : TWinControl; const ALeft, ATop, Aheight : Integer ; const Abandtype : TRLBandType ; const AName : String = ''; const AColor : TColor = clWhite ) : TRLBand;
 Begin
   Result := TRLBand.Create(AReport.Owner);
   with Result do
@@ -275,7 +288,7 @@ Begin
     with Font do
      Begin
       Assign(afont);
-      if ai_SizeFont <> 0 Then
+      if ai_SizeFont > 0 Then
         Size:=ai_SizeFont;
      end;
     if AWidth > 0 Then
@@ -417,7 +430,7 @@ Begin
    end;
   inc ( atitleHeight, CST_PRINT_INTERNAL_BAND_MARGIN * 2 );
   ABand.Height:=atitleHeight;
-  p_DrawBorders ( ABand.Borders, ExtTitleColorBorder, True, ExtColumnVBorders, True );
+  p_DrawBorders ( ABand.Borders, ExtTitleColorBorder, ExtColumnRoundedBorders, ExtColumnRoundedBorders, ExtColumnRoundedBorders );
   for i := 0 to astl_Title.Count -1 do
    Begin
      if arlabel = nil
@@ -1139,7 +1152,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
                if j <= high ( LString )
                 Then ARLLabel := frlc_createLabel ( AReport, ARLBand,SomeLeft,CST_PRINT_INTERNAL_BAND_MARGIN+j*ARLLabel.Height,aWidth, ExtColumnHeaderFont, LString [ j ] )
                 Else ARLLabel := frlc_createLabel ( AReport, ARLBand,SomeLeft,CST_PRINT_INTERNAL_BAND_MARGIN+j*ARLLabel.Height,aWidth, ExtColumnHeaderFont, '' );
-               p_DrawBorders ( ARLLabel.Borders, ExtColumnColorBorder, LIsFirst, ExtColumnHBorders, ExtColumnVBorders );
+               p_DrawBorders ( ARLLabel.Borders, ExtColorBorder, LIsFirst, ExtColumnHBorders, ExtColumnVBorders );
               end;
              if high ( LString ) + 1 > Alines Then
               Alines:= high ( LString )+1;
@@ -1152,14 +1165,14 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
 
     finally
     end;
-   p_DrawBorders ( ARLBand.Borders, ExtColumnColorBorder, False, ExtColumnVBorders, False );
+   p_DrawBorders ( ARLBand.Borders, ExtColorBorder, False, ExtColumnVBorders, False );
    p_AdaptBands ( ARLBand, ARLLabel, LIsFirst, Alines );
   end;
 
   // borders and line break
   procedure p_DesignCell(const ARLControl : TRLCustomControl; const AItem : TCollectionItem ;var AIsFirst : Boolean );
   Begin
-    p_DrawBorders ( ARLControl.Borders, ExtColumnColorBorder, AIsFirst, ExtColumnHBorders, ExtColumnVBorders );
+    p_DrawBorders ( ARLControl.Borders, ExtColorBorder, AIsFirst, ExtColumnHBorders, ExtColumnVBorders );
   end;
 
   // set a printed field
@@ -1183,7 +1196,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
        Begin
         if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TBlobField
          Then Begin ARLImage := frlc_createDBImage ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, AHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), ExtColumnColorBack); p_DesignCell( ARLImage , AItem, AIsFirst ); End
-         Else Begin ARLDBText := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), ExtColumnColorBack); p_DesignCell( ARLDBText, AItem, AIsFirst ); End;
+         Else Begin ARLDBText := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLDBText, AItem, AIsFirst ); End;
 
        end
     End
@@ -1196,10 +1209,28 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
 
   // initing columns
   procedure p_InitList(var ATop : Integer; var AIsFirst : Boolean );
+  var AParent : TWinControl ;
   Begin
     SomeLeft:=0;
+    if ExtColumnRoundedBorders
+    and ( not ExtColumnHBorders or not ExtColumnVBorders )
+     Then
+      with RLLeftTopPage do
+      Begin
+       ARLBand := frlc_createBand ( AReport, X, Y + atitleHeight + 30, 0, btColumnHeader, 'RLBorders', ExtColumnColorBack );
+       p_DrawBorders ( ARLBand.Borders, ExtColorBorder, ExtColumnRoundedBorders and not ExtColumnvBorders, ExtColumnRoundedBorders and not ExtColumnHBorders,ExtColumnRoundedBorders and not ExtColumnVBorders );
+       AParent:=ARLBand;
+      end
+     else AParent := AReport;
+
     with RLLeftTopPage do
-     ARLBand := frlc_createBand ( AReport, X, Y + atitleHeight + 30, 30, btDetail, 'RLColumn', ExtColumnColorBack );
+     ARLBand := frlc_createBand ( AParent, X, Y + atitleHeight + 30, 30, btDetail, 'RLColumn', ExtColumnColorBack );
+    if AParent <> AReport
+     Then
+       Begin
+         ARLBand.Left:=0;
+         ARLBand.Top :=0;
+       end;
     AIsFirst := True;
     ATop := 0;
   end;

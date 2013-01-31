@@ -133,7 +133,7 @@ uses
   {$ELSE}
   unite_messages_delphi,
   {$ENDIF}
-     SysUtils ;
+  Math,   SysUtils ;
 
 // fill acanvas with acolor
 procedure p_SetAndFillBitmap ( const ABitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF} ; const AWidth, AHeight : Integer; const AColor : TColor );
@@ -538,19 +538,10 @@ Begin
   and ( AImages <> nil ) Then
      Begin
       ACoord := fPoi_FromAlignToCoord ( AImages.Width, AImages.Height, AWidth, AHeight, AAlign );
-      ABitmap.Width :=AWidth;
-      ABitmap.Height:=AHeight;
-      if ( ACoord.X > 0 )
-      or ( ACoord.Y > 0 )
-       Then p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, AColor, ACoord.X, ACoord.Y )
-       Else
-        Begin
-         AImages.GetBitmap(AImageIndex,ABitmap);
-         ABitmap.TransparentMode:=tmAuto;
-         ABitmap.TransparentColor:=clBlack;
-         ABitmap.Transparent:=True;
-        end;
-       p_ChangeTailleBitmap(ABitmap,AWidth,AHeight,True);
+      ABitmap.Width :=Max(AWidth ,AImages.Width);
+      ABitmap.Height:=Max(AHeight,AImages.Height);
+      p_DrawImageFromListToBitmap ( ABitmap, AImages, AImageIndex, AColor, ACoord.X, ACoord.Y ) ;
+      p_ChangeTailleBitmap(ABitmap,AWidth,AHeight,True);
      end
    Else
     ABitmap.Assign(nil);
