@@ -695,7 +695,8 @@ begin
               lcom_Component := aF_Form.Components[j];
 
               if Assigned(FOnReadComponent) Then
-               Begin
+               Begin  // filtering event
+                 ab_keepon := True;
                  FOnReadComponent(lcom_Component,FIniFile,ab_keepon);
                  if not ab_keepon
                   Then
@@ -1096,8 +1097,10 @@ begin
   For j:=0 to af_Form.ComponentCount-1 do
     begin
       lcom_Component := af_Form.Components[j];
+
       if Assigned(FOnWriteComponent) Then
-       Begin
+       Begin // filtering event
+         ab_keepon := True;
          FOnWriteComponent(lcom_Component,FIniFile,ab_keepon);
          if not ab_keepon
           Then
