@@ -833,6 +833,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
         ATempBand := frlc_createBand ( AReport, 0, Y + atitleHeight + 1, 4, btHeader );
         inc ( atitleHeight, ATempband.Height );
         ABand := frlc_createBand ( AReport, 0, Y + atitleHeight + 1, ClientHeight - atitleHeight - round ( BottomMargin + TopMargin ) - 1, btColumnHeader, 'RLColumnHeader'+aEndOfName, ExtColumnColorBack  );
+        p_DrawBorders(ABand.Borders,ExtColorBorder,True,True,ExtColumnRoundedBorders and ExtColumnHBorders,ExtColumnRoundedBorders and ExtColumnVBorders);
        end;
 
     end;
@@ -1010,7 +1011,7 @@ Begin
   LMinusBM := TBitmap.Create;
   ATempCanvas.Font.Assign(ExtColumnFont);
   // Max text height for lines height
-  ATextHeight := ATempCanvas.TextHeight('W');
+  ATextHeight := ATempCanvas.TextHeight('W')+2;
   ARLLabel := nil;
   AGhosted := False;
   // from viewed HMI tree
@@ -1103,7 +1104,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
       LString : TStringArray;
   Begin
    ATempCanvas.font.Assign(ExtColumnFont);
-   AHeight := ATempCanvas.TextHeight('W');
+   AHeight := ATempCanvas.TextHeight('W')+2;
    with AReport do
     try
       Alines := 1;
@@ -1114,6 +1115,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
         ARLBand := frlc_createBand ( AReport, 0, Y + atitleHeight, 4, btHeader );
         inc ( atitleHeight, 4 );
         ARLBand := frlc_createBand ( AReport, 0, Y + atitleHeight, 30, btColumnHeader, 'RLColumnHeader', ExtColumnHeaderColorBack  );
+        p_DrawBorders(ARLBand.Borders,ExtColorBorder,True,True,ExtColumnRoundedBorders and ExtColumnHBorders,ExtColumnRoundedBorders and ExtColumnVBorders);
        end;
       ATempCanvas.font.Assign(ExtColumnHeaderFont);
       if aresizecolumns > 0 Then
