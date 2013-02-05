@@ -71,7 +71,7 @@ const
   CST_PRINT_COLUMN_BREAKCAPTION = 'BreakCaption' ;
   CST_PRINT_COLUMN_LINEBREAK = 'LineBreak' ;
   CST_PRINT_COMPONENT_EVENT = 'DrawReportImage';
-  CST_PRINT_INTERNAL_BAND_MARGIN = 2;
+  CST_PRINT_INTERNAL_BAND_MARGIN = 1;
   CST_PRINT_INI_SECTION_REPORT = 'Reports' ;
   CST_PRINT_INI_COLOR_HEADER   = 'HeaderColor';
   CST_PRINT_INI_COLOR_COLUMN_HEADER   = 'ColumnHeaderColor';
@@ -273,12 +273,53 @@ Begin
     Left:=ALeft;
     Color:=AColor;
     Height:=Aheight;
-    Width:=aReport.Width-RLLeftTopPage.X*CST_PRINT_INTERNAL_BAND_MARGIN;
+    Width:=aReport.Width-RLLeftTopPage.X+CST_PRINT_INTERNAL_BAND_MARGIN*2;
+   end;
+end;
+function frlc_createPanel ( const AReport : TRLCustomControl; const ALeft, ATop, AWidth, Aheight : Integer ; const AName : String = ''; const AColor : TColor = clWhite ) : TRLPanel;
+Begin
+  Result := TRLPanel.Create(AReport.Owner);
+  with Result do
+   Begin
+    Parent:=AReport;
+    if AName <> '' Then
+      Name := AName;
+    Top:=ATop;
+    Left:=ALeft;
+    Width := AWidth ;
+    Color:=AColor;
+    if Aheight = 0
+     Then AutoSize:=True
+     Else Height:=Aheight;
    end;
 end;
 function frlc_createDBText ( const AReport : TRLReport; const ARLBand : TRLBand; const ADatasource : TDatasource; const ALeft, ATop, AWidth : Integer ; const afont : TFont; const as_Fieldname : String ; const ai_SizeFont : Integer = 0):TRLDBText;
 Begin
   Result := TRLDBText.Create(AReport.Owner);
+  with Result do
+   Begin
+    Parent:=ARLBand;
+    DataSource:=ADatasource;
+    Top:=ATop;
+    Left:=ALeft;
+    with Font do
+     Begin
+      Assign(afont);
+      if ai_SizeFont > 0 Then
+        Size:=ai_SizeFont;
+     end;
+    if AWidth > 0 Then
+     Begin
+       AutoSize:=False;
+       Width:=AWidth;
+     end;
+    DataField:=as_Fieldname;
+   end;
+end;
+
+function frlc_createDBMemo ( const AReport : TRLReport; const ARLBand : TRLBand; const ADatasource : TDatasource; const ALeft, ATop, AWidth : Integer ; const afont : TFont; const as_Fieldname : String ; const ai_SizeFont : Integer = 0):TRLDBMemo;
+Begin
+  Result := TRLDBMemo.Create(AReport.Owner);
   with Result do
    Begin
     Parent:=ARLBand;
@@ -377,16 +418,14 @@ Begin
   p_AdaptRLImage ( Result, AImages, alLeft );
 end;
 
-procedure p_DrawBorders ( const ABorders : TRLBorders ; const AColor : TColor; const ADrawLeft, ADrawRight, AHBorders, AVBorders : Boolean );
+procedure p_DrawBorders ( const ABorders : TRLBorders ; const AColor : TColor; const ADrawLeft, ADrawRight, ADrawTop, ADrawBottom : Boolean );
 Begin
-  ABorders.Color := AColor;
-  if AHBorders Then
+   ABorders.Color := AColor;
    with ABorders do
     Begin
-     DrawTop   :=True;
-     DrawBottom:=True;
+     DrawTop   :=ADrawTop;
+     DrawBottom:=ADrawBottom;
     end;
-  if AVBorders Then
    with ABorders do
     Begin
      DrawLeft   :=ADrawLeft;
@@ -397,19 +436,14 @@ end;
 
 // procedure p_AdaptBands;
 // Compressing
-function p_AdaptBands ( const ARLBand : TRLBand; const AHeight : Integer; const AIsFirst : Boolean ; const ALines : Integer = 1 ):Integer;
+procedure p_AdaptBands ( const ARLBand : TRLBand; const AHeight : Integer; const AIsFirst : Boolean ; const ALines : Integer = 1 );
 Begin
   ARLBand.Margins.BottomMargin:=0;
   ARLBand.Margins.TopMargin   :=0;
   ARLBand.InsideMargins.BottomMargin:=0;
   ARLBand.InsideMargins.TopMargin   :=0;
   if not AIsFirst Then
-   Begin
     ARLBand.Height:=AHeight*ALines;
-    Result := AHeight;
-   end
-  Else
-   Result := 0;
 end;
 
 // dbtitle property to report's header
@@ -420,16 +454,13 @@ var astl_Title : TStringList;
 Begin
   astl_Title := nil;
   arlabel   := nil;
-  atitleHeight := 0;
+  ALineHeight := 0;
   p_ChampsVersListe(astl_Title, StringReplace ( as_Title, #10, '', [rfReplaceAll] ), #13);
   with AReport do
   for i := 0 to astl_Title.Count -1 do
-   Begin
-    ALineHeight := Min ( 32, round ( ( Width - 160 ) div length ( astl_Title [ i ] )*1.9 ));
-    inc ( atitleHeight, ALineHeight +1 );
-   end;
-  inc ( atitleHeight, CST_PRINT_INTERNAL_BAND_MARGIN * 2 );
-  ABand.Height:=atitleHeight;
+   if astl_Title [ i ] <> '' Then
+    ALineHeight := Max ( ALineHeight, Min ( 32, round ( ( Width - 160 ) div length ( astl_Title [ i ] )*1.95 )));
+  atitleHeight := CST_PRINT_INTERNAL_BAND_MARGIN * 2 ;
   p_DrawBorders ( ABand.Borders, ExtTitleColorBorder, ExtColumnRoundedBorders, ExtColumnRoundedBorders, ExtColumnRoundedBorders, ExtColumnRoundedBorders );
   for i := 0 to astl_Title.Count -1 do
    Begin
@@ -437,10 +468,12 @@ Begin
       Then AHeight:=CST_PRINT_INTERNAL_BAND_MARGIN
       Else AHeight:=arlabel.Top+arlabel.Height;
      arlabel := frlc_createLabel ( AReport, ABand,CST_PRINT_INTERNAL_BAND_MARGIN,AHeight,0, ExtHeaderFont, astl_Title [ i ],aLineHeight*2 div 3);
+     inc ( atitleHeight, arlabel.Height + 1 );
      if astl_Title.Count > 0
       Then arlabel.Name:='RLTitle'+IntToStr(i+1)+'_' + aEndOfName
       Else arlabel.Name:='RLTitle' + aEndOfName;
    end;
+  ABand.Height:=atitleHeight;
 end;
 
 // entête de rapport
@@ -833,7 +866,8 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
         ATempBand := frlc_createBand ( AReport, 0, Y + atitleHeight + 1, 4, btHeader );
         inc ( atitleHeight, ATempband.Height );
         ABand := frlc_createBand ( AReport, 0, Y + atitleHeight + 1, ClientHeight - atitleHeight - round ( BottomMargin + TopMargin ) - 1, btColumnHeader, 'RLColumnHeader'+aEndOfName, ExtColumnColorBack  );
-        p_DrawBorders(ABand.Borders,ExtColorBorder,True,True,ExtColumnRoundedBorders and ExtColumnHBorders,ExtColumnRoundedBorders and ExtColumnVBorders);
+        p_DrawBorders(ABand.Borders,ExtColorBorder,ExtColumnRoundedBorders,ExtColumnRoundedBorders,
+                                                   ExtColumnRoundedBorders,ExtColumnRoundedBorders);
        end;
 
     end;
@@ -1043,7 +1077,7 @@ end;
 
 // create a datasource or grid report
 function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
-var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth, ALinesAddedHeader, ALinesAddedColumns : Integer;
+var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastResizedColumn, ATitleHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth, ALinesAddedHeader, ALinesAddedColumns : Integer;
     ARLControl : TRLCustomControl;
     ARLBand : TRLBand;
     LImages : TCustomImageList;
@@ -1053,8 +1087,13 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
   function fi_resize ( const ai_width, aindex : Integer ):Integer;
   Begin
     if  fb_getComponentBoolProperty ( aColumns.Items [ aindex ], CST_COLUMN_Resize, True )
-     Then Result:=ai_width+aresizecolumns
-     Else Result:=ai_Width;
+     Then
+       Begin
+         if aindex = ALastResizedColumn
+          Then Result := ai_width+aresizecolumns+AlastColumnAddedSize
+          Else Result := ai_width+aresizecolumns;
+       end
+     Else Result:=ai_Width ;
   end;
 
   // calculate lines and widths
@@ -1081,7 +1120,11 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
               inc ( totalgridwidth, flin_getComponentProperty(Items [ i ], CST_COLUMN_Width ) );
               inc ( aVisibleColumns );
               if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Resize, True )
-                Then inc ( aresizecolumns );
+                Then
+                 Begin
+                   ALastResizedColumn := i;
+                   inc ( aresizecolumns );
+                 end;
              end;
            end;
           ATemp := flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 );
@@ -1104,27 +1147,32 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
       LString : TStringArray;
   Begin
    ATempCanvas.font.Assign(ExtColumnFont);
-   AHeight := ATempCanvas.TextHeight('W')+2;
+   AHeight := ATempCanvas.TextHeight('W');
    with AReport do
     try
       Alines := 1;
       ARLBand:=frlc_CreateHeader ( AReport, as_Title, ATitleHeight );
-      SomeLeft:=0;
       with RLLeftTopPage do
        Begin
         ARLBand := frlc_createBand ( AReport, 0, Y + atitleHeight, 4, btHeader );
         inc ( atitleHeight, 4 );
         ARLBand := frlc_createBand ( AReport, 0, Y + atitleHeight, 30, btColumnHeader, 'RLColumnHeader', ExtColumnHeaderColorBack  );
-        p_DrawBorders(ARLBand.Borders,ExtColorBorder,True,True,ExtColumnRoundedBorders and ExtColumnHBorders,ExtColumnRoundedBorders and ExtColumnVBorders);
+        p_DrawBorders(ARLBand.Borders,ExtColorBorder,ExtColumnRoundedBorders,ExtColumnRoundedBorders,
+                                                     ExtColumnRoundedBorders,ExtColumnRoundedBorders);
        end;
       ATempCanvas.font.Assign(ExtColumnHeaderFont);
       if aresizecolumns > 0 Then
-        aresizecolumns:= ( ARLBand.Width - totalgridwidth ) div aresizecolumns;
+       Begin
+        AlastColumnAddedSize := ( ARLBand.Width - totalgridwidth - 2 ) mod aresizecolumns;
+        aresizecolumns:= ( ARLBand.Width - totalgridwidth - 2 ) div aresizecolumns;
+       end;
+      ALastVisible := -1;
       LIsFirst := True;
       with aColumns do
       for i := 0 to Count - 1 do
        if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
        Begin
+        ALastVisible := i;
         awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
         if agrid = nil
          Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' ')
@@ -1132,18 +1180,15 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
         if high ( LString ) > ALinesAddedHeader Then
          ALinesAddedHeader:=high ( LString );
        end;
+      SomeLeft:=1;
       with aColumns do // report's columns preparing
       for i := 0 to Count - 1 do
        Begin
          if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
            Begin
             if fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION ) <> '' Then
-              Begin
-               aWidth:=ATempCanvas.TextWidth(fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION ));
-               ATempCanvas.font.Assign(ExtColumnHeaderFont);
-               inc ( SomeLeft, aWidth );
-              end;
-             awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
+               inc ( SomeLeft, ATempCanvas.TextWidth(fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION )) );
+            awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
             if agrid = nil
              Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' ')
              Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' ');
@@ -1153,7 +1198,9 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
                if j <= high ( LString )
                 Then ARLControl := frlc_createLabel ( AReport, ARLBand,SomeLeft,CST_PRINT_INTERNAL_BAND_MARGIN+j*AHeight,aWidth, ExtColumnHeaderFont, LString [ j ] )
                 Else ARLControl := frlc_createLabel ( AReport, ARLBand,SomeLeft,CST_PRINT_INTERNAL_BAND_MARGIN+j*AHeight,aWidth, ExtColumnHeaderFont, '' );
-               p_DrawBorders ( ARLControl.Borders, ExtColorBorder, LIsFirst, ExtColumnVBorders, ExtColumnHBorders, ExtColumnVBorders );
+               p_DrawBorders ( ARLControl.Borders, ExtColorBorder, LIsFirst and ExtColumnVBorders and ( not ExtColumnRoundedBorders or ExtColumnHBorders ),
+                                                                   ExtColumnVBorders and ( not ExtColumnRoundedBorders or ExtColumnHBorders  or ( ALastVisible <> i )),
+                                                                   ExtColumnHBorders, ExtColumnHBorders );
               end;
              if high ( LString ) + 1 > Alines Then
               Alines:= high ( LString )+1;
@@ -1167,16 +1214,19 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
     finally
     end;
    p_AdaptBands ( ARLBand, AHeight, LIsFirst, Alines );
+   ARLBand.Height:=ARLBand.Height+CST_PRINT_INTERNAL_BAND_MARGIN*2;
   end;
 
   // borders and line break
-  procedure p_DesignCell(const ARLControl : TRLCustomControl; const AItem : TCollectionItem ;var AIsFirst : Boolean );
+  procedure p_DesignCell(const ARLControl : TRLCustomControl; const AItemIndex : Integer ;var AIsFirst : Boolean );
   Begin
-    p_DrawBorders ( ARLControl.Borders, ExtColorBorder, AIsFirst, ExtColumnVBorders, ExtColumnHBorders, ExtColumnRoundedBorders or ExtColumnVBorders );
+    p_DrawBorders ( ARLControl.Borders, ExtColorBorder, AIsFirst and ExtColumnVBorders and ( not ExtColumnRoundedBorders or ExtColumnHBorders ),
+                                                        ExtColumnVBorders and ( not ExtColumnRoundedBorders or ExtColumnHBorders  or ( ALastVisible <> AItemIndex )),
+                                                        False, ExtColumnHBorders );
   end;
 
   // set a printed field
-  procedure p_CreatePrintField ( const AItem : TCollectionItem ; var AIsFirst : Boolean; const ATop, Aline, Aheight : Integer ; const AIWidth : Integer ; const Adataset : TDataset ; const ASBreakCaption : String = '' );
+  procedure p_CreatePrintField ( const AItem : TCollectionItem ; var AIsFirst : Boolean; const ATop, Aline, Aheight : Integer ; const AIWidth, AItemIndex : Integer ; const Adataset : TDataset ; const ASBreakCaption : String = '' );
   var I : Integer;
   Begin
     if assigned ( AItem ) Then
@@ -1190,39 +1240,53 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
             OnGetImageIndex := TFieldIndexEvent (fmet_getComponentMethodProperty( AItem, 'OnGetImageIndex' ));
             MapImages := fobj_getComponentObjectProperty( AItem, 'MapImages' ) as TExtMapImages;
           end;
-         p_DesignCell( ARLControl, AItem, AIsFirst);
+         p_DesignCell( ARLControl, AItemIndex, AIsFirst);
        end
       Else
        Begin
         if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TBlobField
-         Then Begin ARLControl := frlc_createDBImage ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, AHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), ExtColumnColorBack); p_DesignCell( ARLControl , AItem, AIsFirst ); End
-         Else Begin ARLControl := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLControl, AItem, AIsFirst ); End;
-
+         Then Begin ARLControl := frlc_createDBImage ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, AHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), ExtColumnColorBack); p_DesignCell( ARLControl , AItemIndex, AIsFirst ); End
+         else if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TMemoField
+         Then Begin ARLControl := frlc_createDBMemo ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End
+         Else Begin ARLControl := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End;
+         if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TFloatField
+          Then ( ARLControl as TRLDBText ).DisplayMask := '#9'+DecimalSeparator+'9';
        end
     End
    Else
      Begin
       ARLControl := frlc_createLabel ( AReport, ARLBand, SomeLeft,ATop,aiWidth, ExtColumnFont, ASBreakCaption );
-      p_DesignCell( ARLControl, AItem, AIsFirst );
+      p_DesignCell( ARLControl, AItemIndex, AIsFirst );
      end
   end;
 
   // initing columns
-  procedure p_InitList(var ATop : Integer; var AIsFirst : Boolean );
-  var ABand : TRLBand;
+  procedure p_InitList(var ATop, ATextHeight : Integer; var AIsFirst : Boolean );
+  var APanel : TRLCustomControl;
+      AHeight : Integer;
   Begin
-    SomeLeft:=0;
-    with RLLeftTopPage do
+    SomeLeft:=1;
+    with RLLeftTopPage, AReport.ClientRect do
      Begin
-      ARLBand := frlc_createBand ( AReport, X, Y + atitleHeight + 30, 30, btDetail, 'RLColumn', ExtColumnColorBack );
-
       if ExtColumnRoundedBorders
-      and not ExtColumnHBorders
+      and ( not ExtColumnHBorders or not ExtColumnVBorders )
        Then
           Begin
-           ABand := frlc_createBand ( AReport, X, Y + atitleHeight + 30+ARLBand.Height, 1, btColumnHeader, 'RLBordersBottom', ExtColumnColorBack );
-           p_DrawBorders ( ABand.Borders, ExtColorBorder, False, False, True, False );
-          end;
+           AHeight:=AReport.ClientHeight-ATitleHeight;
+           if not ExtColumnHBorders Then
+            dec (AHeight,(AHeight  mod (ATextHeight + 1)));
+           APanel := frlc_createPanel ( AReport, Left,
+                                                 Top+ATitleHeight+2,
+                                                 AReport.ClientWidth,
+                                                 AHeight,
+                                        'RLBorders', ExtColumnColorBack );
+           p_DrawBorders ( APanel.Borders, ExtColorBorder, True, True, True, True );
+          end
+       Else
+        APanel := AReport;
+      ARLBand := frlc_createBand ( AReport, X, Y + atitleHeight, 30, btDetail, 'RLColumn', ExtColumnColorBack );
+      ARLBand.Parent := APanel;
+
      end;
 
     AIsFirst := True;
@@ -1239,10 +1303,9 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
      Begin
        LSBreakCaption:=fs_getComponentProperty(AItem,CST_PRINT_COLUMN_BREAKCAPTION);
        inc ( Atop, AHeight );
-       SomeLeft:=0;
        inc(Aline);
        ADecColumn := ABreak - 1;
-       SomeLeft:=0;
+       SomeLeft:=1;
        aWidth:=0;
        AIsFirst:=True;
        // aligning
@@ -1254,7 +1317,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
                end;
        if aWidth > 0 Then
           Begin
-            p_CreatePrintField ( nil, AIsFirst,ATop,ALine,AHeight,AWidth,ADataSource.DataSet,LSBreakCaption);
+            p_CreatePrintField ( nil, AIsFirst,ATop,ALine,AHeight,AWidth, ADecColumn,ADataSource.DataSet,LSBreakCaption);
             ARLControl.Alignment:=TRLTextAlignment(taRightJustify);
             ARLControl.Font.Assign(ExtColumnHeaderFont);
             inc(SomeLeft,aWidth);
@@ -1273,13 +1336,13 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
     AColumn    := -1;
     with AReport do
      Begin
-      p_InitList ( ATop, LIsFirst );
+      p_InitList ( ATop, Aheight, LIsFirst );
       with aColumns do
       for i := 0 to Count - 1 do
          if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
            Begin
              awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
-             p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,Aheight,AWidth,ADataSource.DataSet);
+             p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,Aheight,AWidth,i,ADataSource.DataSet);
              inc ( SomeLeft, aWidth );
              LIsFirst := False;
              AColumn := i;
@@ -1299,7 +1362,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
     AColumn    := -1;
     with ADatasource.DataSet,AReport do
      Begin
-      p_InitList ( ATop, LIsFirst );
+      p_InitList ( ATop, AHeight, LIsFirst );
       with aColumns do
       for i := 0 to Count - 1 do
        Begin
@@ -1308,7 +1371,7 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
          Begin
            AColumn := i;
            awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ), ADecColumn );
-           p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,Aheight,AWidth,ADataSource.DataSet);
+           p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,Aheight,AWidth,i,ADataSource.DataSet);
            // linebreak ?
            if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK ) < 0 Then
             Begin
@@ -1321,9 +1384,6 @@ var totalgridwidth, aresizecolumns, ATitleHeight, aVisibleColumns, SomeLeft, tot
        End;
 
       End;
-    if ExtColumnRoundedBorders
-    and not ExtColumnVBorders Then
-     ARLControl.Borders.DrawRight:=True;
     p_AdaptBands ( ARLBand, AHeight, LIsFirst, ALinesAddedColumns + 1 );
   end;
 Begin
