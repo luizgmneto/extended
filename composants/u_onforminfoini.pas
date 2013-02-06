@@ -95,7 +95,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
                                            Comment : 'Ini management tu put on a form.' ;
-                                           BugsStory : '1.0.5.0 : Adding Components' events.' +#13#10 +
+                                           BugsStory : '1.0.5.0 : Adding Components'' events.' +#13#10 +
                                                        '1.0.4.0 : Adding TSpeedButton.' +#13#10 +
                                                        '1.0.3.1 : Resolving "Optimising" SpinEdit bug.' +#13#10 +
                                                        '1.0.3.0 : Optimising.' +#13#10 +
