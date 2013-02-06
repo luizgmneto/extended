@@ -936,12 +936,9 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
           Right:=aSpaceWidth;
           Bottom:= ATextHeight;
           if ARLLabel = nil
-           Then ARealTop := 0
-           Else ARealTop := ARLLabel.Top+ ATextHeight ;
-          ARLImage := frlc_createImage(AReport, ARLBand, Left, ARealTop, aSpaceWidth, ExtColumnColorBack );
-          if ARLLabel = nil
-           Then ARealTop := 0
-           Else ARealTop := ARLLabel.Top+ATextHeight;
+           Then ARealTop := 1
+           Else ARealTop := ARLLabel.Top+ ATextHeight +1 ;
+          ARLImage := frlc_createImage(AReport, ARLBand, 1, ARealTop, aSpaceWidth - 1, ExtColumnColorBack );
           // erase black canvas
           p_SetAndFillBitmap ( LLine, Right, Bottom, ARLImage.Color );
           //   virtual tree sources
