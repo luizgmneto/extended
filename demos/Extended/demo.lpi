@@ -163,10 +163,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="108"/>
-        <CursorPos X="1" Y="123"/>
+        <TopLine Value="188"/>
+        <CursorPos X="45" Y="232"/>
         <UsageCount Value="85"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -1356,11 +1357,10 @@
       <Unit146>
         <Filename Value="../../../ibx/runtime/IBDatabase.pas"/>
         <UnitName Value="IBDatabase"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="875"/>
-        <CursorPos X="1" Y="884"/>
+        <TopLine Value="179"/>
+        <CursorPos X="82" Y="899"/>
         <UsageCount Value="18"/>
         <Loaded Value="True"/>
       </Unit146>

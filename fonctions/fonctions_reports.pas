@@ -206,6 +206,8 @@ Begin
    Begin
      Orientation:=PageSetup.Orientation;
      PaperSize  :=PageSetup.PaperSize;
+     PaperHeight:=PageSetup.PaperHeight;
+     PaperWidth :=PageSetup.PaperWidth;
    end;
 end;
 
