@@ -8,4 +8,4 @@ For Extended extensions : dlcompilers.inc and extend.inc must be the sames.
 
 ExtCopy may use imagemagick and magickwand development libraries.
 
-Use Fortes Report version 3.24
+Use Fortes Report version 3.24 from www.lazarus-components.org
