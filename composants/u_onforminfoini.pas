@@ -126,14 +126,14 @@ type
         feTDirectoryEdit,feTFileNameEdit,feTGrid,feTListBox, feTListView, feTMemo,
         feTPageControl, feTPopup, feTRadio, feTRadioGroup, feTRichEdit,feTSpeedButton,
         feTSpinEdit, feTVirtualTrees );
-  TLoadOption = (loFreeIni,loAutoUpdate,loAutoLoad);
+  TLoadOption = (loFreeIni,loAutoUpdate,loAutoLoad,loAutoWrite);
   TLoadOptions = set of TLoadOption;
   TSaveForm = (sfSavePos,sfSaveSizes,sfSameMonitor);
   TSavesForm = set of TSaveForm;
   TEventIni = procedure ( const AInifile : TCustomInifile ; var KeepOn : Boolean ) of object;
   TOnIniComponent = procedure ( const AComponent : TComponent ; const AInifile : TCustomInifile ; var KeepOnComponent : Boolean ) of object;
   TSaveEdits = set of TSaveEdit;
-const CST_INI_OPTIONS_DEFAULT = [loFreeIni,loAutoUpdate,loAutoLoad];
+const CST_INI_OPTIONS_DEFAULT = [loFreeIni,loAutoUpdate,loAutoLoad,loAutoWrite];
 
 type
   { TOnFormInfoIni }
@@ -161,6 +161,7 @@ type
     procedure p_EcriturePositionFenetre(const aFiche:TCustomForm);
     procedure p_Freeini; virtual;
     procedure DoSameMonitor(const aForm: TForm); virtual;
+    procedure PlaceForm; virtual;
 
   public
     Constructor Create(AOwner:TComponent); override;
@@ -239,6 +240,7 @@ begin
       FormOldShow          := TNotifyEvent ( fmet_getComponentMethodProperty ( FFormOwner, CST_ONFORMINI_ONSHOW ));  // Sauvegarde de l'événement OnShow
       lmet_MethodToAdd.Code := MethodAddress('LaFormShow' );
       p_SetComponentMethodProperty ( FFormOwner, CST_ONFORMINI_ONSHOW, lmet_MethodToAdd );     // Idem pour OnShow
+      p_SetComponentObjectProperty( FFormOwner, 'IniComponent', Self );
     End;
 end;
 
@@ -260,18 +262,14 @@ procedure TOnFormInfoIni.LaFormDestroy ( Sender: TObject );
 begin
   if Assigned(FormOldDestroy) then FormOldDestroy(Sender);
   if Assigned(FFormOwner)
+  and ( loAutoWrite in FOptions )
    then
     p_ExecuteEcriture(FFormOwner);
   if Assigned(FOnFormDestroy) then FOnFormDestroy(Sender);
 end;
 
-////////////////////////////////////////////////////////////////////////////////
-// À la fermeture de la form, on écrit les données dans le fichier ini
-////////////////////////////////////////////////////////////////////////////////
-procedure TOnFormInfoIni.LaFormCreate ( Sender: TObject );
-begin
-  FUpdateAll := False ;
-  if Assigned(FormOldCreate) then FormOldCreate(Sender);
+procedure TOnFormInfoIni.PlaceForm;
+Begin
   f_GetMemIniFile;
   if Assigned(FInifile) then
    with FFormOwner do
@@ -284,6 +282,16 @@ begin
     finally
       Updated;
     end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+// À la fermeture de la form, on écrit les données dans le fichier ini
+////////////////////////////////////////////////////////////////////////////////
+procedure TOnFormInfoIni.LaFormCreate ( Sender: TObject );
+begin
+  FUpdateAll := False ;
+  if Assigned(FormOldCreate) then FormOldCreate(Sender);
+  PlaceForm;
   if Assigned(FOnFormCreate) then FOnFormCreate(Sender);
 end;
 
@@ -295,7 +303,7 @@ begin //Positionne et redimentionne éventuellement aForm sur le moniteur de FMa
   or ( aForm = Application.MainForm )
    Then Exit;
 
-  RectMonitor:=Application.MainForm.Monitor.WorkareaRect;
+  RectMonitor:=Application.MainForm.Monitor.BoundsRect;
   with aForm do
    Begin
     Position:=poDesigned;
@@ -324,7 +332,7 @@ begin
   Except
 
   end;
-  if loAutoUpdate in FOptions then
+  if loAutoLoad in FOptions then
     p_ExecuteLecture(TForm(Self.Owner));
 
   if Assigned(FOnFormShow) then FOnFormShow(Sender);
@@ -418,6 +426,7 @@ var
      then
       begin
         lal_Align := ( lcom_Component as TControl).Align;
+//        ShowMessage( af_Form.Name + ' t ' +  lcom_Component.Name +' ' +IntToStr(fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT , TControl (lcom_Component).Left)));
         ASplit := {$IFDEF FPC}TCustomSplitter{$ELSE}TSplitter{$ENDIF}(lcom_Component);
         case lal_Align of
           alLeft,alRight : ASplit.{$IFDEF FPC}SetSplitterPosition{$ELSE}Left:={$ENDIF}(fli_ReadInteger ( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT , TControl (lcom_Component).Left));
@@ -760,6 +769,7 @@ var i : Integer ;
 begin
 
   if not assigned ( FFormOwner )
+  or not ( loAutoWrite in FOptions )
    Then
     Exit ;
   FUpdateAll := True ;
@@ -838,6 +848,7 @@ var
       then
        begin
         lal_Align := ( lcom_Component as TControl).Align;
+//        WriteLn( af_Form.Name + '  ' +  lcom_Component.Name +' ' +IntToStr(TControl (lcom_Component).Left));
         case lal_Align of
           alLeft,alRight : p_WriteInteger( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT , TControl (lcom_Component).Left);
           alTop,alBottom : p_WriteInteger( lcom_Component.Name +CST_ONFORMINI_DOT + CST_ONFORMINI_TOP, TControl (lcom_Component).Top);
@@ -1078,18 +1089,20 @@ var
 
 begin
   f_GetMemIniFile();
+  if not Assigned(FInifile) then Exit;
   //Erasing The current section before saving
   FIniFile.EraseSection(af_Form.Name);
+
   ab_keepon := True;
   If Assigned ( FOnIniWrite ) Then
     FOnIniWrite ( FInifile, ab_keepon );
   If not ab_keepon Then
     Exit;
-  if not Assigned(FInifile) then Exit;
+
 
       // traitement de la position de la af_Form
   if (TFormStyle ( flin_getComponentProperty ( af_Form, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild)
-  and ( sfSaveSizes in FSaveForm )  then
+  and ( sfSavePos in FSaveForm )  then
     p_EcriturePositionFenetre(af_Form);
 
       // Traitement des composants de la af_Form
@@ -1158,12 +1171,12 @@ end;
 // traitement de la position de la af_Form mise dans le create
 ////////////////////////////////////////////////////////////////////////////////
 procedure TOnFormInfoIni.p_LecturePositionFenetre(const aFiche: TCustomForm);
-var li_etat, li_top,li_left,li_next,li_previous: integer;
+var li_etat, li_top,li_left,li_next,li_previous,li_ScreenHeight,li_ScreenWidth: integer;
     lr_rect : TRect;
 begin
-  // résolution de li_left'écran
- // li_ScreenHeight := f_IniReadSectionInt (aFiche.Name,CST_ONFORMINI_SCREEN + CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,Screen.Height);
- // li_ScreenWidth := f_IniReadSectionInt (aFiche.Name,CST_ONFORMINI_SCREEN + CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,Screen.Width);
+  // résolution de l'écran
+  li_ScreenHeight := f_IniReadSectionInt (aFiche.Name,CST_ONFORMINI_SCREEN + CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,Screen.Height);
+  li_ScreenWidth := f_IniReadSectionInt (aFiche.Name,CST_ONFORMINI_SCREEN + CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,Screen.Width);
 
   with aFiche do
    begin
@@ -1182,12 +1195,12 @@ begin
       // positionnement de la fenêtre
       p_SetComponentProperty ( aFiche, CST_ONFORMINI_POSITION, poDesigned );
 
-      Width := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,Width) ;
-      Height:= f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,Height);
-      Top   := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_TOP,Top);
-      Left  := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT,Left);
+      Top    := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_TOP,Top);
+      Left   := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT,Left);
+      Width  := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,Width);
+      Height := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,Height);
 
-      // André Langlet 2011
+    // André Langlet 2011
       if Height>=Screen.Height then
       begin
         Height:=Screen.Height;
@@ -1199,7 +1212,6 @@ begin
         if (Top+Height)>Screen.Height then
           Top:=Screen.Height-Height;
       end;
-      Width:=f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,Width);
       if Width>=Screen.Width then
       begin
         Width:=Screen.Width;
@@ -1211,6 +1223,7 @@ begin
         if (Left+Width)>Screen.Width then
           Left:=Screen.Width-Width;
       end;
+
 
       li_top:=Top+Height div 2; //centre de la fenêtre
       li_left:=Left+Width div 2;
@@ -1233,7 +1246,8 @@ begin
         else
           li_next:=0;
       end;
-      lr_rect:=Screen.Monitors[li_next].WorkareaRect;
+      lr_rect:=Screen.Monitors[li_next].BoundsRect;
+
       //Replacement éventuel sur li_left'écran utilisé
       if (Top+Height)>lr_rect.Bottom then
         Top:=lr_rect.Bottom-Height;
@@ -1243,14 +1257,14 @@ begin
         Left:=lr_rect.Right-Width;
       if Left<lr_rect.Left then
         Left:=lr_rect.Left;
-   {   if Screen.Height <> li_ScreenHeight then
+     if Screen.Height <> li_ScreenHeight then
       begin
-        Width := Round(Width * Screen.Width / li_ScreenWidth)  ;
-        Height:= Round(Height * Screen.Height/li_ScreenHeight) ;
-        Top   := Round(Top * Screen.Height/li_ScreenHeight) ;
-        Left  := Round(Left * Screen.Width/li_ScreenWidth);
+        Width := Width * Screen.Width div li_ScreenWidth;
+        Height:= Height * Screen.Height div li_ScreenHeight ;
+        Top   := Top * Screen.Height div li_ScreenHeight ;
+        Left  := Left * Screen.Width div li_ScreenWidth;
       end;
-    }
+
     end;
   End;
   if Owner is TForm then
@@ -1282,6 +1296,8 @@ begin
       begin
         p_IniWriteSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_TOP,Top);
         p_IniWriteSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT,Left);
+        p_IniWriteSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,Width);
+        p_IniWriteSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,Height);
       end;
    end;
 end;

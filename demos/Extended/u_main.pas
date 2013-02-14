@@ -13,14 +13,14 @@ uses
   fonctions_version,
 {$ENDIF}
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
-  U_FormMainIni, U_OnFormInfoIni, U_Article, U_TypeArticle, U_Caracteristique,
+  U_OnFormInfoIni, U_Article, U_TypeArticle, U_Caracteristique,
   U_Gamme, U_DmArticles;
 
 type
 
   { TFMain }
 
-  TFMain = class(TF_FormMainIni)
+  TFMain = class(TForm)
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
     muapropos: TMenuItem;

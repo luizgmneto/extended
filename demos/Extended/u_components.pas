@@ -20,7 +20,7 @@ uses
   JvExComCtrls, JvListView, Mask,  fonctions_version, JvDateTimePicker,
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
-  StdCtrls, U_FormMainIni, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
+  StdCtrls, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
   u_framework_dbcomponents, U_ExtDBPictCombo, u_extsearchedit, U_ExtComboInsert,
   DBGrids, Menus, u_extmenucustomize, ToolWin, IBDatabase, IBQuery, IBIntf,
@@ -33,7 +33,7 @@ type
 
   { TMyform }
 
-  TMyform = class(TF_FormMainIni)
+  TMyform = class(TForm)
     ds_user: TDatasource;
     ds_dep: TDatasource;
     ds_dep2: TDatasource;
@@ -127,7 +127,6 @@ type
     { private declarations }
   public
     { public declarations }
-    constructor Create ( AOwner : TComponent ); override;
   end;
 
 var
@@ -246,12 +245,6 @@ end;
 procedure TMyform.QuitterClick(Sender: TObject);
 begin
   Close;
-end;
-
-constructor TMyform.Create(AOwner: TComponent);
-begin
-  AutoIni := True;
-  inherited Create(AOwner);
 end;
 
 {$IFDEF FPC}

@@ -71,8 +71,7 @@ type
     ge_ReadMainIni : TIniEvent ;
     gh_WindowHandle : HWND;
     FAutoIni    : Boolean ;
-    // Changer la date au moment où on quitte
-    procedure p_IniQuitte;
+
     procedure p_modalStart ( Aobj_Objet : Tobject );
     procedure p_modalEnded ( Aobj_Objet : Tobject );
   protected
@@ -100,11 +99,8 @@ type
     function CloseQuery: Boolean; override;
     // Touche enfoncée
     function IsShortCut(var ao_Msg: {$IFDEF FPC} TLMKey {$ELSE} TWMKey {$ENDIF}): Boolean; override;
-    // Libère le fichier ini en sauvant
-    procedure p_SauveIni ; virtual;
     // Constructeur et destructeur
     Constructor Create ( AOwner : TComponent ); override;
-    Destructor Destroy; override;
     {Lit le fichier ini
     pour le composant form TF_FormMainIni
     avec connexion d'une base ADO
@@ -130,12 +126,10 @@ type
     // Gestion du clavier
     // Entrée : les trois touches : MAJ NUM SCROLLLOCK
     procedure p_SortieMajNumScroll ( const ab_MajEnfoncee, ab_NumEnfoncee, ab_ScrollEnfoncee : boolean ) ; virtual;
-    // Procédure qui initialise la chaine de connexion de FConnexion
   published
     {$IFDEF SFORM}
     property BoxChilds : TWinControl read FBoxChilds write FBoxChilds stored True ;
     {$ENDIF}
-    // Propriété connection ADO
     property AutoIni    : Boolean read FAutoIni write FAutoIni stored True default True ;
     property ReadMainIni : TIniEvent read ge_ReadMainIni write ge_ReadMainIni ;
     property WriteMainIni : TIniEvent read ge_WriteMainIni write ge_WriteMainIni ;
@@ -199,61 +193,6 @@ begin
   if FAutoIni Then
     f_GetIniFile ;
 End ;
-{Écrit le fichier INI pour le composant form TF_FormMainIni.
-Appel de la procédure p_SauvegardeParamIni dans la form si AutoWriteIni,
-de la procédure Finifile.Free s'il n'existe pas de fichier INI.}
-Destructor TF_FormMainIni.Destroy;
-begin
-
-  if not (csDesigning in ComponentState) then // si on est pas en mode conception
-    begin
-      // Libère et sauve le INI
-      p_SauveIni;
-    end;
-
-  Inherited Destroy;
-end;
-
-// Libère le fichier INI en sauvant
-procedure TF_FormMainIni.p_SauveIni;
-{$IFDEF DhgELPHI}
-var i : Integer;
-{$ENDIF}
-begin
-  if Assigned(FIniFile) then
-    begin
-      // Enregistre la valeur quitte dans le fichier INI
-      p_IniQuitte;
-
-      // Appelle la procédure virtuelle
-      p_SauvegardeParamIni;
-
-     {$IFDEF DhgELPHI}
-      // Executing writing on ini failes without that
-      for I := 0 to ComponentCount - 1 do
-        if Components [ i ] is TOnFormInfoIni then
-          with Components [ i ] as TOnFormInfoIni do
-            Begin
-              p_ExecuteEcriture(Self);
-              Break;
-            End;
-     {$ENDIF}
-
-      // Mise à jour du fichier INI
-      fb_iniWriteFile ( FIniFile, False );
-     {$IFDEF DhgELPHI}
-      // Executing writing on ini failes without that
-      FIniFile.Free;
-      FIniFile := nil;
-     {$ENDIF}
-
-      // Appelle la procédure virtuelle
-      p_ApresSauvegardeParamIni;
-
-      Application.ProcessMessages;
-    end;
-end;
-
 
 procedure TF_FormMainIni.p_FreeChildForms;
 var lw_i : Word ;
@@ -351,12 +290,6 @@ Begin
   FiniFile := nil;
   Application.Terminate;
 End ;
-
-// Change la date au moment où on quitte
-procedure TF_FormMainIni.p_IniQuitte;
-begin
-  p_IniWriteSectionStr(INISEC_PAR, INIPAR_QUITTE ,'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time) );
-end;
 
 // Initialisation du fichier ini
 procedure TF_FormMainIni.p_InitialisationParamIni;

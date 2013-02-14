@@ -70,11 +70,11 @@ const
   CST_INI_DB   = 'db_';
   CST_INI_SOFT   = 'soft_';
   CST_INI_USERS   = 'user_config';
+  CST_INI_ROOT    = 'root_config';
   CST_INI_SQL   = 'sql_';
   CST_EXTENSION_INI = '.ini';
   CST_DBEXPRESS = 'DBEXPRESS' ;
   INIVAL_CDE  = 'cde';
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Fonctions à appeler pour la gestion des fichiers INI
@@ -249,6 +249,7 @@ begin
             FileSetAttr ( amem_Inifile.FileName, li_Attr - SysUtils.faReadOnly );
         {$ENDIF}
         amem_Inifile.UpdateFile ;
+        writeln ( 'written' + amem_Inifile.FileName );
         Result := True ;
       Except
         on e: Exception do
@@ -539,7 +540,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 function fs_GetIniDir( const ab_Root : Boolean = False ; const ab_Create : Boolean = True ): String;
 begin
-  if ab_Root and ( pos ( GetUserDir, Application.ExeName ) > 0 )
+  if ( pos ( GetUserDir, Application.ExeName ) > 0 )
    Then Result := ExtractFileDir(Application.ExeName) + DirectorySeparator
    Else Result := GetAppConfigDir ( ab_Root ) ;
   if ab_Create
@@ -629,7 +630,9 @@ begin
       else if gs_ModeConnexion = CST_MACHINE then
         ls_PathIni := ExtractFileDir(Application.ExeName) + DirectorySeparator + CST_INI_USERS  + fs_GetComputerName + CST_EXTENSION_INI
       else
-        ls_PathIni := fs_GetIniDir ( ab_Root ) + CST_INI_USERS + CST_EXTENSION_INI ;
+        if ab_Root
+         Then ls_PathIni := fs_GetIniDir ( ab_Root ) + CST_INI_ROOT  + CST_EXTENSION_INI
+         Else ls_PathIni := fs_GetIniDir ( ab_Root ) + CST_INI_USERS + CST_EXTENSION_INI ;
       if ab_Root
        Then  Begin FIniRoot := f_GetIniFile( ls_PathIni ); FIni := FIniRoot; End
        Else  Begin FIniFile := f_GetIniFile( ls_PathIni ); FIni := FIniFile; End;
@@ -852,6 +855,11 @@ Begin
 end;
 {$ENDIF}
 
+// Change la date au moment où on quitte
+procedure p_IniQuitte;
+begin
+  p_IniWriteSectionStr(INISEC_PAR, INIPAR_QUITTE ,'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time) );
+end;
 
 
 {$IFDEF VERSIONS}

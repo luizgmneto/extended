@@ -54,7 +54,7 @@ type
     procedure IB_Article1AfterInsert(DataSet: TDataSet);
 
   private
-    { D?clarations priv?es }
+    { D?clarations privées }
   public
     gi_AccesProduits : Integer ;
     { D?clarations publiques }
@@ -110,7 +110,7 @@ Begin
   if not FileExists(libname)
     Then libname:='/usr/lib/i386-linux-gnu/libfbembed.so.2.5';
   if not FileExists(libname)
-    Then libname:='/usr/lib/x86-linux-gnu/libfbembed.so.2.5';
+    Then libname:='/usr/lib/x86_64-linux-gnu/libfbembed.so.2.5';
   {$ENDIF}
 end;
 
