@@ -771,7 +771,6 @@ inherited Myform: TMyform
   object OnFormInfoIni: TOnFormInfoIni[6]
     SaveEdits = [feTEdit, feTComboValue, feTDateEdit, feTMemo, feTSpinEdit]
     SaveForm = [sfSavePos, sfSaveSizes]
-    Options = [loAutoUpdate, loAutoLoad]
     left = 56
     top = 216
   end
