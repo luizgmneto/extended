@@ -192,6 +192,8 @@ procedure p_writeComboBoxItems (  const acom_combobox : TComponent ;const Astl_I
 procedure SauveTStringsDansIni(const FIni:TCustomIniFile; SectionIni:string; const LeTStrings:TStrings; const ItemIndex:integer);
 procedure LitTstringsDeIni(const FIni: TCustomIniFile; SectionIni: string; const LeTStrings: TStrings; var ItemIndex: integer);
 procedure p_FreeConfigFile;
+procedure p_IniOuvre;
+procedure p_IniQuitte;
 
 var
   FIniFile: TIniFile = nil;
@@ -858,7 +860,13 @@ end;
 // Change la date au moment où on quitte
 procedure p_IniQuitte;
 begin
-  p_IniWriteSectionStr(INISEC_PAR, INIPAR_QUITTE ,'le ' +  DateToStr(Date)  + ' ' +  TimeToStr(Time) );
+  p_IniWriteSectionStr(INISEC_PAR, INIPAR_QUITTE , DateToStr(Date)  + ' ' +  TimeToStr(Time) );
+end;
+
+// Change la date au moment où on quitte
+procedure p_IniOuvre;
+begin
+  p_IniWriteSectionStr(INISEC_PAR, INIPAR_LANCEMENT , DateToStr(Date)  + ' ' +  TimeToStr(Time) );
 end;
 
 
