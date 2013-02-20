@@ -101,6 +101,7 @@ type
     function IsShortCut(var ao_Msg: {$IFDEF FPC} TLMKey {$ELSE} TWMKey {$ENDIF}): Boolean; override;
     // Constructeur et destructeur
     Constructor Create ( AOwner : TComponent ); override;
+    destructor Destroy; override;
     {Lit le fichier ini
     pour le composant form TF_FormMainIni
     avec connexion d'une base ADO
@@ -126,6 +127,7 @@ type
     // Gestion du clavier
     // Entrée : les trois touches : MAJ NUM SCROLLLOCK
     procedure p_SortieMajNumScroll ( const ab_MajEnfoncee, ab_NumEnfoncee, ab_ScrollEnfoncee : boolean ) ; virtual;
+    procedure DoShow; override;
   published
     {$IFDEF SFORM}
     property BoxChilds : TWinControl read FBoxChilds write FBoxChilds stored True ;
@@ -169,6 +171,14 @@ begin
   Inherited create  (AOwner);
   p_CreeFormMainIni (AOwner);
 end;
+
+destructor TF_FormMainIni.Destroy;
+begin
+  f_GetMemIniFile;
+  p_IniQuitte;
+  inherited Destroy;
+end;
+
 // A appeler si on n'appelle pas le constructeur
 procedure TF_FormMainIni.p_CreeFormMainIni (AOwner:TComponent);
 begin
@@ -280,7 +290,7 @@ begin
   p_InitialisationParamIni;
 
   // Sauvegarde du fichier INI
-  fb_iniWriteFile ( Result, False );
+//  fb_iniWriteFile ( Result, False );
 end;
 
 // Termine l'appli sans sauver le fichier INi
@@ -314,6 +324,13 @@ end;
 procedure TF_FormMainIni.p_SortieMajNumScroll ( const ab_MajEnfoncee, ab_NumEnfoncee, ab_ScrollEnfoncee : boolean ) ;
 begin
 // procédure réécrite dans le fils
+end;
+
+procedure TF_FormMainIni.DoShow;
+begin
+  inherited DoShow;
+  f_GetMemIniFile;
+  p_IniOuvre;
 end;
 
 // Met à jour la procédure virtuelle
