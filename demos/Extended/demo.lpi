@@ -163,10 +163,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="101"/>
-        <CursorPos X="89" Y="123"/>
+        <TopLine Value="199"/>
+        <CursorPos X="35" Y="231"/>
         <UsageCount Value="85"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -1358,7 +1359,7 @@
         <UnitName Value="IBDatabase"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="179"/>
+        <TopLine Value="844"/>
         <CursorPos X="82" Y="899"/>
         <UsageCount Value="18"/>
         <Loaded Value="True"/>
@@ -1571,7 +1572,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_FormMainIni"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="228"/>
@@ -2146,13 +2146,13 @@
         <UnitName Value="u_formmaindb"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="16"/>
+        <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit239>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="28" HistoryIndex="27">
       <Position1>
         <Filename Value="../../composants/u_extdbimagelist.pas"/>
         <Caret Line="176" Column="1" TopLine="144"/>
@@ -2242,33 +2242,29 @@
         <Caret Line="249" Column="5" TopLine="200"/>
       </Position22>
       <Position23>
-        <Filename Value="../../../ManFrames/composants/u_formmaindb.pas"/>
-        <Caret Line="1" Column="1" TopLine="16"/>
+        <Filename Value="../../composants/u_formmainini.pas"/>
+        <Caret Line="110" Column="22" TopLine="71"/>
       </Position23>
       <Position24>
         <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="110" Column="22" TopLine="71"/>
+        <Caret Line="194" Column="17" TopLine="146"/>
       </Position24>
       <Position25>
         <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="194" Column="17" TopLine="146"/>
+        <Caret Line="276" Column="37" TopLine="237"/>
       </Position25>
       <Position26>
         <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="276" Column="37" TopLine="237"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position26>
       <Position27>
         <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="110" Column="26" TopLine="63"/>
       </Position27>
       <Position28>
         <Filename Value="../../composants/u_formmainini.pas"/>
-        <Caret Line="110" Column="26" TopLine="63"/>
-      </Position28>
-      <Position29>
-        <Filename Value="../../composants/u_formmainini.pas"/>
         <Caret Line="194" Column="17" TopLine="146"/>
-      </Position29>
+      </Position28>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

@@ -251,7 +251,6 @@ begin
             FileSetAttr ( amem_Inifile.FileName, li_Attr - SysUtils.faReadOnly );
         {$ENDIF}
         amem_Inifile.UpdateFile ;
-        writeln ( 'written' + amem_Inifile.FileName );
         Result := True ;
       Except
         on e: Exception do
