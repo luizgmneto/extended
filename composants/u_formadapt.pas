@@ -57,7 +57,7 @@ type
     { Déclarations publiques }
     // Constructeur et destructeur
     Constructor Create ( AOwner : TComponent ); override;
-    procedure Activate; override;
+    procedure DoShow; override;
     property Scale : Extended read FScale;
   end;
 
@@ -75,12 +75,11 @@ begin
 end;
 
 
-procedure TF_FormAdapt.Activate;
+procedure TF_FormAdapt.DoShow;
 begin
+  inherited;
   if fb_CalculateScale ( FScale ) Then
     ScaleForm(Self,FScale);
-
-  inherited;
 end;
 
 

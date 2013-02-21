@@ -14,7 +14,7 @@ uses
   {$IFDEF VERSIONS}
     fonctions_version,
   {$ENDIF}
-  Controls, Classes;
+  Controls, Classes, sysutils;
 
 Const
   FromDPI=8;//Screen.MenuFont.Size de la conception
@@ -66,6 +66,8 @@ var ge_OldApplicationActivate : TNotifyEvent = nil;
 
 procedure TDMAdaptForms.ApplicationActivate ( Sender : TObject );
 Begin
+  if Assigned(ge_OldApplicationActivate) Then
+    ge_OldApplicationActivate ( Sender );
   HighDPI;
 end;
 
@@ -94,7 +96,7 @@ Begin
     Else LNewEchelle:=Screen.MenuFont.Size;
 
   LNewEchelle:=LNewEchelle/FromDPI;
-  Result := LNewEchelle<>LNewEchelle;
+  Result := LNewEchelle<>AEchelle;
   AEchelle:=LNewEchelle;
 End;
 
@@ -142,7 +144,7 @@ end;
 procedure ScaleFont(const Control: TControl;const ANewEchelle:Extended);
 var  AFont : TFont;
 Begin
-  if fb_getComponentBoolProperty(Control,'ParentFont', True ) Then
+  if not fb_getComponentBoolProperty(Control,'ParentFont', False ) Then
    Begin
     {$IFDEF FPC}
     AFont := Control.Font;
@@ -150,7 +152,9 @@ Begin
     AFont := TFont ( fobj_getComponentObjectProperty ( Control, 'Font' ));
     {$ENDIF}
     if assigned ( AFont ) then
+     Begin
       AFont.Size:=Scale(AFont.Size,ANewEchelle);
+     end;
    end;
 end;
 
