@@ -94,6 +94,10 @@ Begin
   if Screen.MenuFont.Size = 0
     Then LNewEchelle:=FromDPI
     Else LNewEchelle:=Screen.MenuFont.Size;
+  {WriteLn(IntToStr(Screen.SystemFont.Size));
+  WriteLn(IntToStr(Screen.HintFont.Size));
+  WriteLn(IntToStr(Screen.IconFont.Size));
+  WriteLn(IntToStr(Screen.MenuFont.Size));}
 
   LNewEchelle:=LNewEchelle/FromDPI;
   Result := LNewEchelle<>AEchelle;
@@ -132,6 +136,7 @@ Begin
        ScaleDPI(Control,ANewEchelle)
       Else
         Begin
+
           Font.Size:=Scale(Font.Size,ANewEchelle);
           for i:=0 to Control.ControlCount-1 do
             ScaleDPI(Control.Controls[i],ANewEchelle);
@@ -144,7 +149,8 @@ end;
 procedure ScaleFont(const Control: TControl;const ANewEchelle:Extended);
 var  AFont : TFont;
 Begin
-  if not fb_getComponentBoolProperty(Control,'ParentFont', False ) Then
+  if ( Control is TCustomForm )
+  or not fb_getComponentBoolProperty(Control,'ParentFont', False ) Then
    Begin
     {$IFDEF FPC}
     AFont := Control.Font;
