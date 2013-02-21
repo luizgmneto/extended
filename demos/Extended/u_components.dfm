@@ -14,7 +14,6 @@ object Myform: TMyform
   Menu = mu_MainMenu
   OldCreateOrder = False
   OnShow = FormShow
-  AutoIni = False
   PixelsPerInch = 120
   TextHeight = 17
   object Splitter1: TSplitter
@@ -53,7 +52,7 @@ object Myform: TMyform
           Expanded = False
           FieldName = 'NOM'
           Title.Caption = 'Name'
-          Width = 88
+          Width = 84
           Visible = True
           SomeEdit = Nom
           FieldTag = 0
@@ -64,7 +63,7 @@ object Myform: TMyform
           FieldName = 'PRENOM'
           Title.Alignment = taCenter
           Title.Caption = 'Surname'
-          Width = 88
+          Width = 84
           Visible = True
           SomeEdit = Prenom
           FieldTag = 0
@@ -89,7 +88,7 @@ object Myform: TMyform
           Expanded = False
           FieldName = 'NOM'
           Title.Caption = 'Name'
-          Width = 88
+          Width = 84
           Visible = True
           SomeEdit = Nom
           FieldTag = 0
@@ -100,7 +99,7 @@ object Myform: TMyform
           FieldName = 'PRENOM'
           Title.Alignment = taCenter
           Title.Caption = 'Surname'
-          Width = 88
+          Width = 84
           Visible = True
           SomeEdit = Prenom
           FieldTag = 0
@@ -110,7 +109,7 @@ object Myform: TMyform
     object Prenom: TFWDBEdit
       Left = 9
       Top = 106
-      Width = 88
+      Width = 84
       Height = 21
       DataField = 'PRENOM'
       DataSource = ds_user
@@ -123,7 +122,7 @@ object Myform: TMyform
     object Nom: TFWDBEdit
       Left = 9
       Top = 158
-      Width = 88
+      Width = 84
       Height = 21
       DataField = 'NOM'
       DataSource = ds_user
@@ -675,7 +674,7 @@ object Myform: TMyform
         ImageIndex = 7
       end>
     Left = 160
-    Top = 152
+    Top = 160
   end
   object mu_MenuIni: TMainMenu
     Images = ImageResources
