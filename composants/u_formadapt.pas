@@ -78,7 +78,8 @@ end;
 procedure TF_FormAdapt.DoShow;
 begin
   inherited;
-  if fb_CalculateScale ( FScale ) Then
+  if not ( csDesigning in ComponentState )
+  and fb_CalculateScale ( FScale ) Then
     ScaleForm(Self,FScale);
 end;
 
