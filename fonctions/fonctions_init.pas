@@ -213,6 +213,7 @@ var
   // Aide Help
   GS_AIDE           : String = 'aide';
   GS_CHEMIN_AIDE    : String = 'CHM\Aide.chm';
+  gs_AppConfigDir : Array [ 0..1 ] of String = ('','');
   gs_NomApp: string;
 
 implementation
@@ -542,12 +543,18 @@ end;
 function fs_GetIniDir( const ab_Root : Boolean = False ; const ab_Create : Boolean = True ): String;
 begin
   if ( pos ( GetUserDir, Application.ExeName ) > 0 )
-   Then Result := ExtractFileDir(Application.ExeName) + DirectorySeparator
-   Else Result := GetAppConfigDir ( ab_Root ) ;
+   Then Result := fs_getSoftDir
+   Else if gs_AppConfigDir [ Integer ( ab_Root )] <> ''
+    Then Result := gs_AppConfigDir [ Integer ( ab_Root ) ]
+    Else
+      Begin
+        Result := GetAppConfigDir ( ab_Root ) ;
+        gs_AppConfigDir [ Integer ( ab_Root ) ]:= Result;
+      end;
   if ab_Create
   and not Assigned(FIniFile) then
     begin
-      if not DirectoryExists(  Result )
+      if  not DirectoryExists(  Result )
       and not CreateDir (  Result ) Then
         Result := fs_getSoftDir;
    end;
