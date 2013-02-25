@@ -217,6 +217,8 @@ begin
        for i := 0 to AColumn.Count - 1 do
         Begin
           ScaleFont(AColumn [ i ],ANewEchelle);
+          with AColumn [ i ] as TGridColumn do
+           Width := Scale ( Width, ANewEchelle );
         end;
      end;
     ScaleFont(Control,ANewEchelle);
