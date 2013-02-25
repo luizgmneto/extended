@@ -18,7 +18,7 @@ uses
 
 Const
   FromDPI=8;//Screen.MenuFont.Size de la conception
-
+  SCALE_NODE_HEIGHT = 'DefaultNodeHeight';
   {$IFDEF VERSIONS}
   gver_fonctions_scaledpi : T_Version = ( Component : 'Fonctions d''adaptation de fontes' ;
                                      FileUnit : 'fonctions_scaledpi' ;
@@ -35,7 +35,8 @@ procedure p_addtoSoftware;
 procedure HighDPI;
 procedure ScaleDPI(const Control: TControl;const ANewEchelle:Extended);
 function Scale(const Valeur:Integer;const ANewEchelle:Extended):Integer;
-procedure ScaleForm(const Control: TCustomForm;const ANewEchelle:Extended);
+procedure ScaleFormShow(const Control: TCustomForm;const ANewEchelle:Extended);
+procedure ScaleFormCreate(const Control: TCustomForm;const ANewEchelle:Extended);
 function fb_CalculateScale ( var AEchelle : Extended ):Boolean;
 
 
@@ -55,14 +56,15 @@ type
 
 var
   gb_AdaptFormsToOS : Boolean = True;
+  ge_FontsScale:Extended=1;
 
 implementation
 
-uses fonctions_proprietes;
+uses fonctions_proprietes, math, typinfo, Grids;
 
 var ge_OldApplicationActivate : TNotifyEvent = nil;
     DMAdaptForms: TDMAdaptForms = nil;
-    ge_FontsScale:Extended=1;
+
 
 procedure TDMAdaptForms.ApplicationActivate ( Sender : TObject );
 Begin
@@ -99,7 +101,7 @@ Begin
   WriteLn(IntToStr(Screen.IconFont.Size));
   WriteLn(IntToStr(Screen.MenuFont.Size));}
 
-  LNewEchelle:=LNewEchelle/FromDPI;
+  LNewEchelle:=LNewEchelle/FromDPI*AEchelle;
   Result := LNewEchelle<>AEchelle;
   AEchelle:=LNewEchelle;
 End;
@@ -110,7 +112,7 @@ var
 begin
   if fb_CalculateScale ( ge_FontsScale ) then
     for i:=0 to Screen.FormCount-1 do
-      ScaleForm(Screen.Forms[i],ge_FontsScale);
+      ScaleFormShow(Screen.Forms[i],ge_FontsScale);
 end;
  
 function Scale(const Valeur:Integer;const ANewEchelle:Extended):Integer;
@@ -124,7 +126,7 @@ begin
     Result:=Trunc(Ext-0.5);
 end;
 
-procedure ScaleForm(const Control: TCustomForm;const ANewEchelle:Extended);
+procedure ScaleFormShow(const Control: TCustomForm;const ANewEchelle:Extended);
 var
   i: integer;
 Begin
@@ -132,31 +134,37 @@ Begin
    Begin
      {$IFDEF FPC}BeginUpdateBounds;{$ENDIF}
 
-     if WindowState=wsNormal Then
-       ScaleDPI(Control,ANewEchelle)
-      Else
-        Begin
-
-          Font.Size:=Scale(Font.Size,ANewEchelle);
-          for i:=0 to Control.ControlCount-1 do
-            ScaleDPI(Control.Controls[i],ANewEchelle);
-        end;
+     Font.Size:=Scale(Font.Size,ANewEchelle);
+     for i:=0 to Control.ControlCount-1 do
+      ScaleDPI(Control.Controls[i],ANewEchelle);
      {$IFDEF FPC}EndUpdateBounds;{$ENDIF}
 
    End;
 end;
+procedure ScaleFormCreate(const Control: TCustomForm;const ANewEchelle:Extended);
+var
+  ANew: integer;
+Begin
+  with Control do
+   Begin
+//     AutoSize:=True;
+     ANew   := Min ( Screen.{$IFDEF WINDOWS}WorkAreaWidth{$ELSE}Width{$ENDIF}, Scale(Width,ANewEchelle));
+     Left   := Max ( 0, Left + Width - ANew );
+     Width  := ANew;
+     ANew   := Min ( Screen.{$IFDEF WINDOWS}WorkAreaHeight{$ELSE}Height{$ENDIF}, Scale(Height,ANewEchelle));
+     Top    := Max ( 0, Top + Height - ANew );
+     Height := ANew;
 
-procedure ScaleFont(const Control: TControl;const ANewEchelle:Extended);
+   End;
+end;
+
+procedure ScaleFont(const Control: TObject;const ANewEchelle:Extended);
 var  AFont : TFont;
 Begin
   if ( Control is TCustomForm )
   or not fb_getComponentBoolProperty(Control,'ParentFont', False ) Then
    Begin
-    {$IFDEF FPC}
-    AFont := Control.Font;
-    {$ELSE}
     AFont := TFont ( fobj_getComponentObjectProperty ( Control, 'Font' ));
-    {$ENDIF}
     if assigned ( AFont ) then
      Begin
       AFont.Size:=Scale(AFont.Size,ANewEchelle);
@@ -168,6 +176,7 @@ procedure ScaleDPI(const Control: TControl;const ANewEchelle:Extended);
 var
   i: integer;
   WinControl: TWinControl;
+  AColumn : TGridColumns;
 begin
   with Control do
   begin
@@ -179,23 +188,37 @@ begin
       MinWidth:=Scale(MinWidth,ANewEchelle);
     end;
 
-    if Align<>alClient then
-    begin
-      if not (Align in [alTop,alBottom]) then
+    if not ( Control is TCustomForm )
+    and    ( Align   <> alClient    ) then
       begin
-        if (not (akRight in Anchors))and(Align<>alRight) then
-          Left:=Scale(Left,ANewEchelle);
-        if ([akRight,akLeft]*Anchors<>[akRight,akLeft]) then
-          Width:=Scale(Width,ANewEchelle);
+        if not (Align in [alTop,alBottom]) then
+        begin
+          if (not (akRight in Anchors))and(Align<>alRight) then
+            Left:=Scale(Left,ANewEchelle);
+          if ([akRight,akLeft]*Anchors<>[akRight,akLeft]) then
+            Width:=Scale(Width,ANewEchelle);
+        end;
+        if not (Align in [alLeft,alRight])then
+        begin
+          if (not (akBottom in Anchors))and(Align<>alBottom) then
+            Top:=Scale(Top,ANewEchelle);
+          if [akBottom,akTop]*Anchors<>[akBottom,akTop] then
+            Height:=Scale(Height,ANewEchelle);
+        end;
       end;
-      if not (Align in [alLeft,alRight])then
-      begin
-        if (not (akBottom in Anchors))and(Align<>alBottom) then
-          Top:=Scale(Top,ANewEchelle);
-        if [akBottom,akTop]*Anchors<>[akBottom,akTop] then
-          Height:=Scale(Height,ANewEchelle);
-      end;
-    end;
+    if assigned ( GetPropInfo ( Control, SCALE_NODE_HEIGHT )) Then
+     Begin
+      SetPropValue(Control, SCALE_NODE_HEIGHT, Scale ( GetPropValue (Control, SCALE_NODE_HEIGHT ), ANewEchelle));
+     end;
+    if ( Control is TCustomGrid )
+    and assigned ( GetPropInfo ( Control, CST_PROPERTY_COLUMNS )) Then
+     Begin
+       AColumn := GetObjectProp ( Control, CST_PROPERTY_COLUMNS ) as TGridColumns;
+       for i := 0 to AColumn.Count - 1 do
+        Begin
+          ScaleFont(AColumn [ i ],ANewEchelle);
+        end;
+     end;
     ScaleFont(Control,ANewEchelle);
   end;
 
