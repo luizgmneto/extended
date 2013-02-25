@@ -42,9 +42,10 @@ uses
                                        FileUnit : 'U_FormAdapt' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Fiche principale deuxième version.' ;
-                                       BugsStory : '1.0.0.0 : Adapting Fonts.';
+                                       BugsStory : '1.1.0.0 : oncreate event, ini procedures.' + #13#10 +
+                                                   '1.0.0.0 : Adapting Fonts.';
                                        UnitType : 3 ;
-                                       Major : 1 ; Minor : 1 ; Release : 1 ; Build : 1 );
+                                       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
 type
