@@ -25,9 +25,10 @@ Const
               			                 Owner : 'Matthieu Giroux' ;
               			                 Comment : 'Adapt forms to system.' + #13#10 +
                                                            'Il ne doit pas y avoir de lien vers les objets à créer.' ;
-              			                 BugsStory :  'Version 0.9.0.0 : To test.';
+              			                 BugsStory :  'Version 0.9.9.0 : OK on windows.' + #13#10 +
+                                                              'Version 0.9.0.0 : To test.';
               			                 UnitType : 1 ;
-              			                 Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+              			                 Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
 
 {$ENDIF}
 
