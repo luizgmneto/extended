@@ -33,7 +33,7 @@ uses
   TNTForms,
 {$ENDIF}
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, fonctions_init,
+  Dialogs, ExtCtrls, fonctions_init, IniFiles,
   fonctions_scaledpi;
 
 {$IFDEF VERSIONS}
@@ -53,34 +53,79 @@ type
   TF_FormAdapt = class({$IFDEF SFORM}TSuperForm{$ELSE}{$IFDEF TNT}TTntForm{$ELSE}TForm{$ENDIF}{$ENDIF})
   private
     FScale:Extended;
+    FOldCreate : TNotifyEvent;
+    procedure FormCreate(AForm: TObject);
   public
     { Déclarations publiques }
     // Constructeur et destructeur
-    Constructor Create ( AOwner : TComponent ); override;
+    constructor Create(AOwner: TComponent); override;
     procedure DoShow; override;
     property Scale : Extended read FScale;
   end;
+
+var ge_GlobalScaleForm : Extended = 1;
+
+const INI_SCALE = 'Scale' ;
+
+procedure p_writeScaleToIni ( const AIniFile : TIniFile );
+procedure p_ReadScaleFromIni  ( const AIniFile : TIniFile );
 
 implementation
 
 uses fonctions_erreurs, TypInfo,
    fonctions_system;
 
+procedure p_writeScaleToIni ( const AIniFile : TIniFile );
+Begin
+  AIniFile.WriteFloat(INISEC_PAR,INI_SCALE,ge_GlobalScaleForm);
+end;
+
+procedure p_ReadScaleFromIni  ( const AIniFile : TIniFile );
+Begin
+  ge_GlobalScaleForm := AIniFile.ReadFloat(INISEC_PAR,INI_SCALE,ge_GlobalScaleForm);
+end;
+
 { TF_FormAdapt }
 
 constructor TF_FormAdapt.Create(AOwner: TComponent);
 begin
-  inherited Create(AOwner);
+  inherited;
+  FOldCreate := OnCreate;
+  OnCreate:=FormCreate;
+end;
+procedure TF_FormAdapt.FormCreate(AForm: TObject);
+begin
   FScale:=1;
+  if  not ( csDesigning in ComponentState )
+  and not ( Owner is TCustomForm ) Then
+   Begin
+     p_ReadScaleFromIni  ( f_GetMemIniFile );
+     if ge_GlobalScaleForm <> 1 Then
+      Begin
+        ScaleFormCreate(Self,ge_GlobalScaleForm)
+      end
+    else if fb_CalculateScale ( FScale ) Then
+      ScaleFormCreate(Self,FScale);
+   End;
+  FScale:=1;
+  if Assigned(FOldCreate) Then
+    FOldCreate ( Self );
 end;
 
 
 procedure TF_FormAdapt.DoShow;
 begin
+  if not ( csDesigning in ComponentState ) Then
+   Begin
+     if ge_GlobalScaleForm <> 1 Then
+      Begin
+        if ge_GlobalScaleForm <> FScale
+          Then ScaleFormShow(Self,ge_GlobalScaleForm)
+      end
+     else if fb_CalculateScale ( FScale ) Then
+      ScaleFormShow(Self,FScale);
+   End;
   inherited;
-  if not ( csDesigning in ComponentState )
-  and fb_CalculateScale ( FScale ) Then
-    ScaleForm(Self,FScale);
 end;
 
 

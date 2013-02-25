@@ -115,7 +115,7 @@ function frlr_CreateNewReport ( const ASourceReport : TRLReport ):TRLReport;
 procedure p_CreateAndPreviewReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
 procedure p_CreateAndPreviewReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
 procedure p_ReadReportsViewFromIni ( const AIniFile : TIniFile );
-procedure p_WriteReportsViewFromIni ( const AIniFile : TIniFile );
+procedure p_WriteReportsViewToIni ( const AIniFile : TIniFile );
 procedure p_ReinitValues;
 function  fb_IsVisibleAPrintedColumn ( const AItem : TCollectionItem; const ADatasource : TDatasource = nil ) : Boolean;
 
@@ -168,7 +168,7 @@ Begin
 end;
 
 
-procedure p_WriteReportsViewFromIni ( const AIniFile : TIniFile );
+procedure p_WriteReportsViewToIni ( const AIniFile : TIniFile );
 Begin
   AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_COLUMN,ExtColumnColorBack);
   AIniFile.WriteInteger (CST_PRINT_INI_SECTION_REPORT,CST_PRINT_INI_COLOR_BORDER,ExtColorBorder);

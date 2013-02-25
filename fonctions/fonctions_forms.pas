@@ -699,7 +699,10 @@ function ffor_CreateForm ( const afor_FormClasse : TFormClass ) : TCustomForm;
 Begin
   Application.CreateForm ( afor_FormClasse, Result );
   if not ( Result is TF_FormAdapt ) Then
-    ScaleForm(Result,1);
+   Begin
+    ScaleFormCreate(Result,ge_GlobalScaleForm);
+    ScaleFormShow  (Result,ge_GlobalScaleForm);
+   end;
 end;
 
 {------------------------------------------------------------------------------
