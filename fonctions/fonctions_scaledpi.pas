@@ -23,8 +23,7 @@ Const
   gver_fonctions_scaledpi : T_Version = ( Component : 'Fonctions d''adaptation de fontes' ;
                                      FileUnit : 'fonctions_scaledpi' ;
               			                 Owner : 'Matthieu Giroux' ;
-              			                 Comment : 'Adapt forms to system.' + #13#10 +
-                                                           'Il ne doit pas y avoir de lien vers les objets à créer.' ;
+              			                 Comment : 'Adapt forms and controls to system.' ;
               			                 BugsStory :  'Version 1.0.0.0 : OK on linux with ini.' + #13#10 +
                                                               'Version 0.9.9.0 : OK on windows.' + #13#10 +
                                                               'Version 0.9.0.0 : To test.';
