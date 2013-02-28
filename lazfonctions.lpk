@@ -21,7 +21,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Minor="2" Release="1"/>
+    <Version Major="1" Minor="2" Release="3"/>
     <Files Count="23">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
