@@ -177,7 +177,7 @@ procedure ScaleDPI(const Control: TControl;const ANewEchelle:Extended);
 var
   i: integer;
   WinControl: TWinControl;
-  AColumn : TGridColumns;
+  AColumn : TCollection;
 begin
   with Control do
   begin
@@ -214,12 +214,15 @@ begin
     if ( Control is TCustomGrid )
     and assigned ( GetPropInfo ( Control, CST_PROPERTY_COLUMNS )) Then
      Begin
-       AColumn := GetObjectProp ( Control, CST_PROPERTY_COLUMNS ) as TGridColumns;
-       for i := 0 to AColumn.Count - 1 do
+       AColumn := GetObjectProp ( Control, CST_PROPERTY_COLUMNS ) as TCollection;
+       with AColumn do
+       for i := 0 to Count - 1 do
         Begin
-          ScaleFont(AColumn [ i ],ANewEchelle);
-          with AColumn [ i ] as TGridColumn do
-           Width := Scale ( Width, ANewEchelle );
+          ScaleFont( Items [ i ],ANewEchelle);
+          if assigned ( GetPropInfo ( Items [ i ], CST_PROPERTY_WIDTH )) Then
+            SetPropValue ( Items [ i ], CST_PROPERTY_WIDTH,
+                           Scale ( GetPropValue ( Items [ i ], CST_PROPERTY_WIDTH )
+                                  , ANewEchelle ));
         end;
      end;
     ScaleFont(Control,ANewEchelle);
