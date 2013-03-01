@@ -48,7 +48,6 @@ const
                         			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 {$ENDIF}
   CST_COLUMN_Visible = 'Visible';
-  CST_COLUMN_Width   = 'Width';
   CST_COLUMN_MIN_Width= 4;
   CST_COLUMN_Resize  = 'Resize';
   CST_COLUMN_Title   = 'Title';
@@ -1068,7 +1067,7 @@ end;
 function fb_IsVisibleAPrintedColumn ( const AItem : TCollectionItem; const ADatasource : TDatasource ) : Boolean;
 Begin
   Result :=    fb_getComponentBoolProperty ( AItem, CST_COLUMN_Visible, True )
-         and ( flin_getComponentProperty ( AItem, CST_COLUMN_Width ) > CST_COLUMN_MIN_Width )
+         and ( flin_getComponentProperty ( AItem, CST_PROPERTY_WIDTH ) > CST_COLUMN_MIN_Width )
          and ( not Assigned(ADatasource) or assigned ( ADatasource.DataSet.FindField(fs_getComponentProperty ( AItem, CST_PROPERTY_FIELDNAME ))));
 
 end;
@@ -1116,7 +1115,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
            Begin
             if lcountedcolumn Then
              Begin
-              inc ( totalgridwidth, flin_getComponentProperty(Items [ i ], CST_COLUMN_Width ) );
+              inc ( totalgridwidth, flin_getComponentProperty(Items [ i ], CST_PROPERTY_WIDTH ) );
               inc ( aVisibleColumns );
               if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Resize, True )
                 Then
@@ -1172,7 +1171,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
        if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
        Begin
         ALastVisible := i;
-        awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
+        awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_PROPERTY_WIDTH ), i );
         if agrid = nil
          Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' ')
          Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' ');
@@ -1187,7 +1186,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
            Begin
             if fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION ) <> '' Then
                inc ( SomeLeft, ATempCanvas.TextWidth(fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION )) );
-            awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
+            awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_PROPERTY_WIDTH ), i );
             if agrid = nil
              Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' ')
              Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' ');
@@ -1312,7 +1311,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
          for j := 0 to ADecColumn do
            if fb_IsVisibleAPrintedColumn ( items [ j ], ADatasource ) Then
               Begin
-                inc(awidth,fi_resize ( flin_getComponentProperty ( Items [ j ], CST_COLUMN_Width ), j ));
+                inc(awidth,fi_resize ( flin_getComponentProperty ( Items [ j ], CST_PROPERTY_WIDTH ), j ));
                end;
        if aWidth > 0 Then
           Begin
@@ -1340,7 +1339,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
       for i := 0 to Count - 1 do
          if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
            Begin
-             awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_COLUMN_Width ), i );
+             awidth:=fi_resize ( flin_getComponentProperty ( Items [ i ], CST_PROPERTY_WIDTH ), i );
              p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,Aheight,AWidth,i,ADataSource.DataSet);
              inc ( SomeLeft, aWidth );
              LIsFirst := False;
@@ -1369,7 +1368,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
         if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
          Begin
            AColumn := i;
-           awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_COLUMN_Width ), ADecColumn );
+           awidth:=fi_resize ( flin_getComponentProperty ( Items [ ADecColumn ], CST_PROPERTY_WIDTH ), ADecColumn );
            p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,Aheight,AWidth,i,ADataSource.DataSet);
            // linebreak ?
            if flin_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK ) < 0 Then
