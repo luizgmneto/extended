@@ -13,6 +13,9 @@ interface
 uses
 {$IFDEF FPC}
   LCLIntf,
+{$IFDEF UNIX}
+  Unix,
+{$ENDIF}
 {$ELSE}
   Windows,
 {$ENDIF}
@@ -41,6 +44,14 @@ const
 
 var
   GS_SUBDIR_IMAGES_SOFT : String = DirectorySeparator + 'Images'+DirectorySeparator;
+{$IFDEF UNIX}
+type TPackageType = ( ptTar, ptRpm, ptDeb, ptPkg, ptDmg );
+const
+     CST_PackageTypeString : Array [ TPackageType ] of String = ( 'tar.gz', 'rpm', 'deb', 'pkg', 'dmg' );
+var  gpt_UnixPackageType  : TPackageType;
+{$ENDIF}
+type TArchitectureType = ( at32, at64 );
+var  gat_ArchitectureType : TArchitectureType = {$IFDEF CPU64}at64{$ELSE}at32{$ENDIF};
 
 function fs_ExtractFileNameOnly ( const as_Path : String ): String;
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
@@ -56,8 +67,15 @@ function fs_getSoftImages:String;
 {$IFDEF WINDOWS}
 function GetWinDir ( const CSIDL : Integer ) : String ;
 {$ELSE}
+{$IFDEF UNIX}
+function fs_GetPackagesType : String;
+function fpt_GetPackagesType : TPackageType;
 {$ENDIF}
+{$ENDIF}
+function fs_GetArchitecture : String;
+function fat_GetArchitectureType : TArchitectureType;
 {$IFNDEF FPC}
+function fs_ExecuteProcess ( const AExecutable, AParameter : String ):String;
 function GetAppConfigDir ( const Global : Boolean ): string;
 function GetUserDir: string;
 function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
@@ -81,11 +99,17 @@ uses
   ShFolder,  ShlObj,
 {$ENDIF}
   fonctions_string;
-
-{$IFDEF LINUX}
-const LINUX_ARCHITECTURE = 'echo $(uname -m | sed ''s/x86_//;s/i[3-6]86/32/'')';
-      LINUX_PACKAGES     = 'echo $(lsb_release -si)';
-      LINUX_VERSION      = 'echo $(lsb_release -sr)';
+{$IFDEF WINDOWS}
+const WINDOWS_ARCHITECTURE = 'systeminfo';
+      CATCH_OUTPUT  = ' 4>&1';
+{$ELSE}
+{$IFDEF UNIX}
+const UNIX_UNAME = 'uname';
+      UNIX_ARCHITECTURE = '-m';
+      CATCH_OUTPUT  = ' > /dev/null';
+      UNIX_PACKAGES     = 'lsb_release -si';
+      UNIX_VERSION      = 'lsb_release -sr';
+{$ENDIF}
 {$ENDIF}
 
 function fs_getSoftDir : String;
@@ -246,17 +270,65 @@ begin
     Result:=0;
   FindClose(F);
 end;
-
-procedure p_OpenFileOrDirectory ( const AFilePath : String );
 {$IFDEF FPC}
+function fs_ExecuteProcess ( const AExecutable, AParameter : String ):String;
 var Process : TProcess;
-{$ENDIF}
+    lList: TStringList;
 Begin
-{$IFDEF FPC}
   Process := TProcess.Create(nil);
+  lList := TStringList.create;
+  Result := '';
   with Process do
     try
-      Executable :=
+      Options := Options+[poUsePipes, poStderrToOutPut, poNoConsole];
+      Executable := AExecutable;
+      Parameters.Add(AParameter);
+      Execute;
+      lList.LoadFromStream(Output);
+      Result := lList.Text;
+    finally
+      Destroy;
+      lList.Free;
+    end;
+End;
+
+{$IFDEF UNIX}
+function fs_GetPackagesType : String;
+Begin
+  Result:=CST_PackageTypeString[gpt_UnixPackageType];
+End;
+function fpt_GetPackagesType : TPackageType;
+Begin
+  {$IFDEF MACOSX}
+  Result:=ptDmg;
+  {$ELSE}
+  Result:=ptTar;
+  if FileExists('/usr/bin/apt-get' ) Then
+    Result:=ptDeb
+  else if FileExists('/usr/bin/yum' ) Then
+    Result:=ptRpm;
+  {$ENDIF}
+End;
+{$ENDIF}
+{$ENDIF}
+function fs_GetArchitecture : String;
+Begin
+  Result := fs_ExecuteProcess ( {$IFDEF WINDOWS}WINDOWS_ARCHITECTURE, ''{$ELSE}UNIX_UNAME, UNIX_ARCHITECTURE {$ENDIF});
+End;
+function fat_GetArchitectureType : TArchitectureType;
+var AString : String;
+Begin
+  AString:=fs_GetArchitecture;
+  if pos ( '64', AString ) > 0
+   Then Result := at64
+   ELse Result := at32;
+End;
+
+procedure p_OpenFileOrDirectory ( const AFilePath : String );
+
+Begin
+{$IFDEF FPC}
+  fs_ExecuteProcess (
       {$IFDEF WINDOWS}
       'explorer'
       {$ELSE}
@@ -265,20 +337,21 @@ Begin
       {$ELSE}
       'open'
       {$ENDIF}
-      {$ENDIF};
-      Parameters.Add(AFilePath);
-      Execute;
-    finally
-      Destroy;
-    end;
+      {$ENDIF},
+      AFilePath);
 {$ELSE}
   ShellExecute(0,'open', PChar(AFilePath), nil, nil, SW_SHOWNORMAL) ;
 {$ENDIF}
 End;
 
-{$IFDEF VERSIONS}
 initialization
+  {$IFDEF VERSIONS}
   p_ConcatVersion ( gVer_fonction_system );
-{$ENDIF}
+  {$ENDIF}
+  {$IFDEF UNIX}
+  gpt_UnixPackageType := fpt_GetPackagesType;
+  {$ENDIF}
+  if gat_ArchitectureType <> at64 Then
+    gat_ArchitectureType := fat_GetArchitectureType;
 end.
 
