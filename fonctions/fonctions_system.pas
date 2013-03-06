@@ -55,6 +55,7 @@ function GetDocDir: string;
 function fs_getSoftImages:String;
 {$IFDEF WINDOWS}
 function GetWinDir ( const CSIDL : Integer ) : String ;
+{$ELSE}
 {$ENDIF}
 {$IFNDEF FPC}
 function GetAppConfigDir ( const Global : Boolean ): string;
@@ -80,6 +81,12 @@ uses
   ShFolder,  ShlObj,
 {$ENDIF}
   fonctions_string;
+
+{$IFDEF LINUX}
+const LINUX_ARCHITECTURE = 'echo $(uname -m | sed ''s/x86_//;s/i[3-6]86/32/'')';
+      LINUX_PACKAGES     = 'echo $(lsb_release -si)';
+      LINUX_VERSION      = 'echo $(lsb_release -sr)';
+{$ENDIF}
 
 function fs_getSoftDir : String;
 Begin
