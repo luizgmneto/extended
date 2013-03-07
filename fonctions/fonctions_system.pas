@@ -49,6 +49,7 @@ var
 type TPackageType = ( ptTar, ptRpm, ptDeb, ptPkg, ptDmg );
 const
      CST_PackageTypeString : Array [ TPackageType ] of String = ( 'tar.gz', 'rpm', 'deb', 'pkg', 'dmg' );
+     CST_USER_BIN = '/usr/bin/';
 var  gpt_UnixPackageType  : TPackageType;
 {$ENDIF}
 type TArchitectureType = ( at32, at64 );
@@ -370,9 +371,11 @@ Begin
   Result:=ptDmg;
   {$ELSE}
   Result:=ptTar;
-  if FileExists('/usr/bin/apt-get' ) Then
+  if FileExists(CST_USER_BIN + 'apt-get' ) Then
     Result:=ptDeb
-  else if FileExists('/usr/bin/yum' ) Then
+  else if FileExists(CST_USER_BIN + 'yum' )
+       or FileExists(CST_USER_BIN + 'pkcon' )
+   Then
     Result:=ptRpm;
   {$ENDIF}
 End;
