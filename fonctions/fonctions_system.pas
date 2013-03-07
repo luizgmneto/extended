@@ -30,11 +30,12 @@ const
   gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_system' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'System Functions, with traducing and path management.' ;
-                        			                 BugsStory : 'Version 1.0.2.0 : fs_DocDir and library''s extension.' + #10
+                        			                 BugsStory : 'Version 1.1.0.0 : Linux and architecture functions.' + #10
+                                                                           + 'Version 1.0.2.0 : fs_DocDir and library''s extension.' + #10
                                                                            + 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
                                                                            + 'Version 1.0.0.0 : Creating from fonctions_string.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
+                        			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
 {$ENDIF}
 {$IFDEF DELPHI}
   DirectorySeparator = '\' ;
@@ -68,7 +69,7 @@ function fs_getSoftImages:String;
 function GetWinDir ( const CSIDL : Integer ) : String ;
 {$ELSE}
 {$IFDEF UNIX}
-function fs_GetPackagesType : String;
+function fs_GetPackagesExtension : String;
 function fpt_GetPackagesType : TPackageType;
 {$ENDIF}
 {$ENDIF}
@@ -359,9 +360,9 @@ End;
 {$IFDEF FPC}
 
 {$IFDEF UNIX}
-function fs_GetPackagesType : String;
+function fs_GetPackagesExtension : String;
 Begin
-  Result:=CST_PackageTypeString[gpt_UnixPackageType];
+  Result:='.'+CST_PackageTypeString[gpt_UnixPackageType];
 End;
 function fpt_GetPackagesType : TPackageType;
 Begin
