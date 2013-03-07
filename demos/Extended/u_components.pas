@@ -247,8 +247,8 @@ begin
   Close;
 end;
 
-{$IFDEF FPC}
 initialization
+{$IFDEF FPC}
   OnGetLibraryName:= TOnGetLibraryName( p_setLibrary);
 {$ENDIF}
 end.

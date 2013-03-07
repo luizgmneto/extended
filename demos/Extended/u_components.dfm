@@ -52,7 +52,7 @@ object Myform: TMyform
           Expanded = False
           FieldName = 'NOM'
           Title.Caption = 'Name'
-          Width = 84
+          Width = 80
           Visible = True
           SomeEdit = Nom
           FieldTag = 0
@@ -63,7 +63,7 @@ object Myform: TMyform
           FieldName = 'PRENOM'
           Title.Alignment = taCenter
           Title.Caption = 'Surname'
-          Width = 84
+          Width = 80
           Visible = True
           SomeEdit = Prenom
           FieldTag = 0
@@ -88,7 +88,7 @@ object Myform: TMyform
           Expanded = False
           FieldName = 'NOM'
           Title.Caption = 'Name'
-          Width = 84
+          Width = 80
           Visible = True
           SomeEdit = Nom
           FieldTag = 0
@@ -99,7 +99,7 @@ object Myform: TMyform
           FieldName = 'PRENOM'
           Title.Alignment = taCenter
           Title.Caption = 'Surname'
-          Width = 84
+          Width = 80
           Visible = True
           SomeEdit = Prenom
           FieldTag = 0
@@ -109,7 +109,7 @@ object Myform: TMyform
     object Prenom: TFWDBEdit
       Left = 9
       Top = 106
-      Width = 84
+      Width = 80
       Height = 21
       DataField = 'PRENOM'
       DataSource = ds_user
@@ -122,7 +122,7 @@ object Myform: TMyform
     object Nom: TFWDBEdit
       Left = 9
       Top = 158
-      Width = 84
+      Width = 80
       Height = 21
       DataField = 'NOM'
       DataSource = ds_user
