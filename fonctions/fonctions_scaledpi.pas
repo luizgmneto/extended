@@ -194,7 +194,7 @@ begin
       begin
         if not (Align in [alTop,alBottom]) then
         begin
-          if (not (akRight in Anchors))and(Align<>alRight) then
+          if not (akRight in Anchors) and (Align<>alRight) then
             Left:=Scale(Left,ANewEchelle);
           if ([akRight,akLeft]*Anchors<>[akRight,akLeft]) then
             Width:=Scale(Width,ANewEchelle);

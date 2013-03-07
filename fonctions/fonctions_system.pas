@@ -74,8 +74,8 @@ function fpt_GetPackagesType : TPackageType;
 {$ENDIF}
 function fs_GetArchitecture : String;
 function fat_GetArchitectureType : TArchitectureType;
-{$IFNDEF FPC}
 function fs_ExecuteProcess ( const AExecutable, AParameter : String ):String;
+{$IFNDEF FPC}
 function GetAppConfigDir ( const Global : Boolean ): string;
 function GetUserDir: string;
 function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
@@ -270,11 +270,27 @@ begin
     Result:=0;
   FindClose(F);
 end;
-{$IFDEF FPC}
 function fs_ExecuteProcess ( const AExecutable, AParameter : String ):String;
-var Process : TProcess;
+{$IFNDEF FPC}
+const
+     ReadBuffer = 2400;
+{$ENDIF}
+var {$IFDEF FPC}
+    Process : TProcess;
+    {$ELSE}
+    Security : TSecurityAttributes;
+    ReadPipe,WritePipe : THandle;
+    start : TStartUpInfo;
+    ProcessInfo : TProcessInformation;
+    Buffer : Pchar;
+    DosApp : String;
+    BytesRead : DWord;
+    Apprunning : DWord;
+    {$ENDIF}
     lList: TStringList;
-Begin
+begin
+
+{$IFDEF FPC}
   Process := TProcess.Create(nil);
   lList := TStringList.create;
   Result := '';
@@ -290,7 +306,57 @@ Begin
       Destroy;
       lList.Free;
     end;
+{$ELSE}
+  DosApp:=AExecutable + ' ' + AParameter;
+  With Security do begin
+    nlength := SizeOf(TSecurityAttributes) ;
+    binherithandle := true;
+    lpsecuritydescriptor := nil;
+   end;
+   if Createpipe (ReadPipe, WritePipe,
+                  @Security, 0) then begin
+    Buffer := AllocMem(ReadBuffer + 1) ;
+    FillChar(Start,Sizeof(Start),#0) ;
+    start.cb := SizeOf(start) ;
+    start.hStdOutput := WritePipe;
+    start.hStdInput := ReadPipe;
+    start.dwFlags := STARTF_USESTDHANDLES + STARTF_USESHOWWINDOW;
+    start.wShowWindow := SW_HIDE;
+
+    if CreateProcess(nil,
+           PChar(DosApp),
+           @Security,
+           @Security,
+           true,
+           NORMAL_PRIORITY_CLASS,
+           nil,
+           nil,
+           start,
+           ProcessInfo)
+    then
+    begin
+     repeat
+      Apprunning := WaitForSingleObject
+                   (ProcessInfo.hProcess,100) ;
+      Application.ProcessMessages;
+     until (Apprunning <> WAIT_TIMEOUT) ;
+      Repeat
+        BytesRead := 0;
+        ReadFile(ReadPipe,Buffer[0], ReadBuffer,BytesRead,nil) ;
+        Buffer[BytesRead]:= #0;
+        OemToAnsi(Buffer,Buffer) ;
+        Result := String(Buffer) ;
+      until (BytesRead < ReadBuffer) ;
+   end;
+   FreeMem(Buffer) ;
+   CloseHandle(ProcessInfo.hProcess) ;
+   CloseHandle(ProcessInfo.hThread) ;
+   CloseHandle(ReadPipe) ;
+   CloseHandle(WritePipe) ;
+   end;
+{$ENDIF}
 End;
+{$IFDEF FPC}
 
 {$IFDEF UNIX}
 function fs_GetPackagesType : String;
@@ -327,21 +393,13 @@ End;
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
 
 Begin
-{$IFDEF FPC}
   fs_ExecuteProcess (
-      {$IFDEF WINDOWS}
-      'explorer'
-      {$ELSE}
       {$IFDEF LINUX}
       'xdg-open'
       {$ELSE}
       'open'
-      {$ENDIF}
       {$ENDIF},
       AFilePath);
-{$ELSE}
-  ShellExecute(0,'open', PChar(AFilePath), nil, nil, SW_SHOWNORMAL) ;
-{$ENDIF}
 End;
 
 initialization
