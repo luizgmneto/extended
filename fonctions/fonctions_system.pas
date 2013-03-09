@@ -77,7 +77,7 @@ function fpt_GetPackagesType : TPackageType;
 {$ENDIF}
 function fs_GetArchitecture : String;
 function fat_GetArchitectureType : TArchitectureType;
-function fs_ExecuteProcess ( const AExecutable, AParameter : String ):String;
+function fs_ExecuteProcess ( const AExecutable, AParameter : String ; const HasOutput : Boolean = True):String;
 {$IFNDEF FPC}
 function GetAppConfigDir ( const Global : Boolean ): string;
 function GetUserDir: string;
@@ -273,7 +273,7 @@ begin
     Result:=0;
   FindClose(F);
 end;
-function fs_ExecuteProcess ( const AExecutable, AParameter : String ):String;
+function fs_ExecuteProcess ( const AExecutable, AParameter : String ; const HasOutput : Boolean = True):String;
 {$IFNDEF FPC}
 const
      ReadBuffer = 2400;
@@ -295,19 +295,26 @@ begin
 
 {$IFDEF FPC}
   Process := TProcess.Create(nil);
-  lList := TStringList.create;
+  if HasOutput Then
+    lList := TStringList.create;
   Result := '';
   with Process do
     try
-      Options := Options+[poUsePipes, poStderrToOutPut, poNoConsole];
+      if HasOutput Then
+        Options := Options+[poUsePipes, poStderrToOutPut, poNoConsole];
       Executable := AExecutable;
-      Parameters.Add(AParameter);
+      if AParameter > '' Then
+        Parameters.Add(AParameter);
       Execute;
-      lList.LoadFromStream(Output);
-      Result := lList.Text;
+      if HasOutput Then
+       Begin
+        lList.LoadFromStream(Output);
+        Result := lList.Text;
+       end;
     finally
       Destroy;
-      lList.Free;
+      if HasOutput Then
+        lList.Free;
     end;
 {$ELSE}
   DosApp:=AExecutable + ' ' + AParameter;
@@ -401,7 +408,8 @@ Begin
       {$ELSE}
       'open'
       {$ENDIF},
-      AFilePath);
+      AFilePath,
+      False);
 End;
 
 initialization
