@@ -167,7 +167,9 @@ type
   end;
 
 procedure p_SetBtnPrint  ( const APrintComp   : TObject; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean );
-procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean );
+procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean ); overload;
+procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String  ); overload;
+procedure p_SetPageSetup ( const ARLPageSetup : TObject; const ab_portrait : Boolean ); overload;
 
 implementation
 
@@ -179,15 +181,24 @@ Begin
   SetPropValue( APrintComp, 'DBTitle', ATitle );
   p_SetPageSetup ( APrintComp, APaperSizeText, ab_portrait );
 End;
-
 // From interface : setting report button
-procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean );
+procedure p_SetPageSetup ( const ARLPageSetup : TObject;const ab_portrait : Boolean );
 Begin
   if ab_portrait
    Then SetPropValue( ARLPageSetup, 'Orientation', poPortrait )
    Else SetPropValue( ARLPageSetup, 'Orientation', poLandscape );
+End;
+// From interface : setting report button
+procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String  );
+Begin
   if APaperSizeText <> '' then
    SetPropValue( ARLPageSetup, 'PaperSize', 'fp' + APaperSizeText );
+End;
+// From interface : setting report button
+procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean );
+Begin
+  p_SetPageSetup ( ARLPageSetup, ab_portrait );
+  p_SetPageSetup ( ARLPageSetup, APaperSizeText );
 End;
 
 
