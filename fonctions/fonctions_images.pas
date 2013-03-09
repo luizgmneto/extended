@@ -133,7 +133,8 @@ uses
   {$ELSE}
   unite_messages_delphi,
   {$ENDIF}
-  Math,   SysUtils ;
+  Math,   SysUtils,
+  FileUtil;
 
 // fill acanvas with acolor
 procedure p_SetAndFillBitmap ( const ABitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF} ; const AWidth, AHeight : Integer; const AColor : TColor );
@@ -950,9 +951,8 @@ begin
   Image.Bitmap.Canvas.Refresh;
 end;
 
-
-{$IFDEF VERSIONS}
 initialization
+  {$IFDEF VERSIONS}
   p_ConcatVersion ( gVer_fonctions_images );
-{$ENDIF}
+  {$ENDIF}
 end.

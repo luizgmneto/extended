@@ -19,6 +19,7 @@ uses
 Const
   FromDPI=8;//Screen.MenuFont.Size de la conception
   SCALE_NODE_HEIGHT = 'DefaultNodeHeight';
+  SCALE_GLYPH_SIZE  = 'GlyphSize';
   {$IFDEF VERSIONS}
   gver_fonctions_scaledpi : T_Version = ( Component : 'Fonctions d''adaptation de fontes' ;
                                      FileUnit : 'fonctions_scaledpi' ;
@@ -207,9 +208,14 @@ begin
             Height:=Scale(Height,ANewEchelle);
         end;
       end;
+
     if assigned ( GetPropInfo ( Control, SCALE_NODE_HEIGHT )) Then
      Begin
       SetPropValue(Control, SCALE_NODE_HEIGHT, Scale ( GetPropValue (Control, SCALE_NODE_HEIGHT ), ANewEchelle));
+     end;
+    if assigned ( GetPropInfo ( Control, SCALE_GLYPH_SIZE )) Then
+     Begin
+      SetPropValue(Control, SCALE_GLYPH_SIZE, Scale ( GetPropValue (Control, SCALE_GLYPH_SIZE ), ANewEchelle));
      end;
     if ( Control is TCustomGrid )
     and assigned ( GetPropInfo ( Control, CST_PROPERTY_COLUMNS )) Then
