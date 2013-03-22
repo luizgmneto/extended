@@ -134,6 +134,7 @@ uses Variants,  fonctions_erreurs, fonctions_string,
    fonctions_init;
 
 
+// cloning a control with data connection
 function fcon_CloneControlWithDB ( const acom_AObject : TControl ; const AOwner : TComponent ) : TControl;
 Begin
   Result:= fcon_CloneControl ( acom_AObject, AOwner );
@@ -141,16 +142,19 @@ Begin
   p_SetComponentProperty      ( Result, CST_DBPROPERTY_DATAFIELD , fs_getComponentProperty(acom_AObject, CST_DBPROPERTY_DATAFIELD));
 end;
 
+// Show db error
 procedure p_ShowSQLError ( const AException, ASQL : String );
 Begin
   Showmessage ( AException + ':' +#13#10+ ASQL );
 End;
 
+// getting sql from query
 function fb_GetSQLStrings (const adat_ADataset : Tdataset ; var astl_SQLQuery : TStrings{$IFDEF DELPHI_9_UP}; var awst_SQLQuery : TWideStrings {$ENDIF}):Boolean;
 Begin
   Result := fb_GetStrings(adat_ADataset,CST_DBPROPERTY_SQL,astl_SQLQuery{$IFDEF DELPHI_9_UP}, awst_SQLQuery {$ENDIF});
 end;
 
+// execute query with optional module
 procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
 Begin
   p_SetSQLQuery ( adat_Dataset, as_Query );
@@ -238,6 +242,7 @@ Begin
 
 End ;
 
+// Cloning a datasource with SQL
 function fds_GetOrCloneDataSource ( const acom_Component : TComponent ; const as_SourceProperty, as_Query : String ; const AOwner : TComponent ; const adat_ADatasetToCopy : Tdataset ) : Tdatasource;
 var lobj_source : TObject;
 Begin
@@ -258,6 +263,7 @@ Begin
     End;
 End;
 
+// Create a datasource with cloned no sql dataset
 function fdat_CloneDatasetWithoutSQLWithDataSource ( const adat_ADataset : TDataset ; const AOwner : TComponent ; var ads_Datasource : TDatasource  ) : TDataset;
 Begin
   Result := TDataset( fdat_CloneDatasetWithoutSQL ( adat_ADataset, AOwner ));
@@ -374,8 +380,7 @@ begin
     End;
 end;
 
-
-
+// universal opening a query
 procedure p_OpenSQLQuery ( const adat_Dataset : Tdataset ; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
 Begin
   if assigned ( adat_Dataset ) Then
@@ -501,6 +506,7 @@ Begin
    End;
 End ;
 
+// filtering adding a like on sql query
 function fb_DatasetFilterLikeRecord ( const as_DatasetValue, as_FilterValue : String ; const ab_CaseInsensitive : Boolean ): Boolean ;
 Begin
   Result := False ;
@@ -518,12 +524,13 @@ Begin
 End ;
 
 
-
+// simplyfying refresh
 function fb_RefreshDataset ( const aDat_Dataset : TDataset ): Boolean ;
 Begin
   Result := fb_RefreshDataset ( aDat_Dataset, True );
 End;
 
+// universal refresh ( maybe )
 function fb_RefreshDataset ( const aDat_Dataset : TDataset; const ab_GardePosition : Boolean ): Boolean ;
 var lbkm_Bookmark : TBookmarkStr ;
     lvar_Sort : Variant;
@@ -551,6 +558,7 @@ Begin
   End ;
 End ;
 
+// universal connect connection
 procedure p_AutoConnection ( const adat_Dataset : TDataset; const AConnect : Boolean = True );
 var lobj_Connect : TObject;
 Begin
@@ -672,6 +680,7 @@ Begin
     End ;
 End ;
 
+// auto table on query
 procedure p_LocateInit ( const aado_Seeker : TDataset ; const as_Table, as_Fields, as_Condition : String );
 var ls_Filter : String ;
 Begin

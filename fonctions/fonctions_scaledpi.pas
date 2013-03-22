@@ -35,7 +35,7 @@ Const
 
 procedure p_addtoSoftware;
 procedure HighDPI;
-procedure ScaleDPI(const Control: TControl;const ANewEchelle:Extended);
+procedure ScaleDPIControl(const Control: TControl;const ANewEchelle:Extended);
 function Scale(const Valeur:Integer;const ANewEchelle:Extended):Integer;
 procedure ScaleFormShow(const Control: TCustomForm;const ANewEchelle:Extended);
 procedure ScaleFormCreate(const Control: TCustomForm;const ANewEchelle:Extended);
@@ -67,7 +67,7 @@ uses fonctions_proprietes, math, typinfo, Grids;
 var ge_OldApplicationActivate : TNotifyEvent = nil;
     DMAdaptForms: TDMAdaptForms = nil;
 
-
+// Optional Application.OnActivate Event ( not using FormAdapt )
 procedure TDMAdaptForms.ApplicationActivate ( Sender : TObject );
 Begin
   if Assigned(ge_OldApplicationActivate) Then
@@ -75,6 +75,7 @@ Begin
   HighDPI;
 end;
 
+// no lfm ( not using FormAdapt )
 constructor TDMAdaptForms.Create(AOwner: TComponent);
 begin
   CreateNew(AOwner);
@@ -86,6 +87,7 @@ begin
     end;
 end;
 
+// calculate scale from system ( windows only )
 function fb_CalculateScale ( var AEchelle : Extended ):Boolean;
 var
   LNewEchelle : Extended;
@@ -108,6 +110,7 @@ Begin
   AEchelle:=LNewEchelle;
 End;
 
+// Scale all Applications forms
 procedure HighDPI;
 var
   i: integer;
@@ -116,7 +119,8 @@ begin
     for i:=0 to Screen.FormCount-1 do
       ScaleFormShow(Screen.Forms[i],ge_FontsScale);
 end;
- 
+
+// Scale a value
 function Scale(const Valeur:Integer;const ANewEchelle:Extended):Integer;
 Var
   Ext:Extended;
@@ -128,6 +132,7 @@ begin
     Result:=Trunc(Ext-0.5);
 end;
 
+// scale on Form Show
 procedure ScaleFormShow(const Control: TCustomForm;const ANewEchelle:Extended);
 var
   i: integer;
@@ -138,11 +143,12 @@ Begin
 
      Font.Size:=Scale(Font.Size,ANewEchelle);
      for i:=0 to Control.ControlCount-1 do
-      ScaleDPI(Control.Controls[i],ANewEchelle);
+      ScaleDPIControl(Control.Controls[i],ANewEchelle);
      {$IFDEF FPC}EndUpdateBounds;{$ENDIF}
 
    End;
 end;
+// scale on form create
 procedure ScaleFormCreate(const Control: TCustomForm;const ANewEchelle:Extended);
 var
   ANew: integer;
@@ -160,6 +166,7 @@ Begin
    End;
 end;
 
+// scale a font
 procedure ScaleFont(const Control: TObject;const ANewEchelle:Extended);
 var  AFont : TFont;
 Begin
@@ -174,7 +181,8 @@ Begin
    end;
 end;
 
-procedure ScaleDPI(const Control: TControl;const ANewEchelle:Extended);
+// scale a control
+procedure ScaleDPIControl(const Control: TControl;const ANewEchelle:Extended);
 var
   i: integer;
   WinControl: TWinControl;
@@ -238,10 +246,11 @@ begin
   begin
     WinControl:=TWinControl(Control);
     for i:=0 to WinControl.ControlCount-1 do
-      ScaleDPI(WinControl.Controls[i],ANewEchelle);
+      ScaleDPIControl(WinControl.Controls[i],ANewEchelle);
   end;
 end;
 
+// main optinal procedure ( not using FormAdapt )
 procedure p_addtoSoftware;
 Begin
   ge_OldApplicationActivate := Application.OnActivate;
