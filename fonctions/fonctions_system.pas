@@ -115,23 +115,25 @@ const UNIX_UNAME = 'uname';
 {$ENDIF}
 {$ENDIF}
 
+// application directory with Separator
 function fs_getSoftDir : String;
 Begin
   Result := ExtractFileDir( Application.ExeName ) + DirectorySeparator ;
 End;
 
+// Erase first Directory with Separator
 function fs_WithoutFirstDirectory ( const as_Path : String ) :String;
 Begin
  Result := copy ( as_Path, pos ( DirectorySeparator, as_Path ) + 1, length ( as_Path ) - pos ( DirectorySeparator, as_Path ));
 end;
 
-
-
+// Universal Images directory  with Separator, for Leonardi
 function fs_getSoftImages:String;
 Begin
   Result := ExtractFileDir(Application.ExeName)+GS_SUBDIR_IMAGES_SOFT;
 End;
 
+// Can change part of Directory to get universal file system
 function fs_GetCorrectPath ( const as_Path :String ): string;
 Begin
   {$IFNDEF FPC}
@@ -146,6 +148,8 @@ Begin
 
 end;
 
+// document directory  with Separator
+// Problem for Unix
 function GetDocDir: string;
 Begin
   {$IFDEF WINDOWS}
@@ -172,6 +176,7 @@ End;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Lit le nom de la session
+// universal ini session
 ////////////////////////////////////////////////////////////////////////////////
 function fs_GetUserSession: string;
 {$IFDEF FPC}
@@ -190,6 +195,7 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Lit le nom de la machine
+// not working on fpc (don't worry)
 ////////////////////////////////////////////////////////////////////////////////
 function fs_GetComputerName : string;
 {$IFDEF FPC}
@@ -207,6 +213,7 @@ begin
 {$ENDIF}
 end;
 
+// filename with no extension ( forced )
 function fs_ExtractFileNameOnly ( const as_Path : String ): String;
 Begin
   Result := ExtractFileName(as_path);
@@ -214,6 +221,8 @@ Begin
 End;
 
 {$IFDEF WINDOWS}
+// DELPHI and WINDOWS function
+// used in this unit
 function GetWinDir ( const CSIDL : Integer ) : string;
 var
   path: array[0..Max_Path] of Char;
@@ -221,9 +230,29 @@ begin
   ShGetSpecialFolderPath(0, path, CSIDL, False) ;
   Result := Path;
 end;
+{$ELSE}
+{$IFDEF UNIX}
+// Packaging functions for Unix systems
+function fs_GetPackagesExtension : String;
+Begin
+  Result:='.'+CST_PackageTypeString[gpt_UnixPackageType];
+End;
+function fpt_GetPackagesType : TPackageType;
+Begin
+  {$IFDEF MACOSX}
+  Result:=ptDmg;
+  {$ELSE}
+  Result:=ptTar;
+       if FileExists     (CST_VAR_LIB + 'dpkg/status'  ) Then Result:=ptDeb
+  else if FileExists     (CST_VAR_LIB + 'rpm/Packages' ) Then Result:=ptRpm
+  else if DirectoryExists(CST_VAR_LIB + 'pkgconfig'    ) Then Result:=ptPkg
+  {$ENDIF}
+End;
+{$ENDIF}
 {$ENDIF}
 
 {$IFNDEF FPC}
+// delphi ini config session directory
 function GetAppConfigDir ( const Global : Boolean ): string;
  begin
    if Global
@@ -232,21 +261,26 @@ function GetAppConfigDir ( const Global : Boolean ): string;
    Result := Result + DirectorySeparator + fs_ExtractFileNameOnly ( Application.ExeName );
  end;
 
+// delphi user directory
 function GetUserDir: string;
  begin
    Result := GetWinDir ( CSIDL_PERSONAL ) + DirectorySeparator;
  end;
 
+// no DirectoryExistsUTF8 on delphi
 function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
 Begin
   Result:= DirectoryExists ( as_path );
 End;
+
+// no FileExistsUTF8 on delphi
 function FileExistsUTF8 ( const as_path : String ):Boolean;
 Begin
   Result:= FileExists ( as_path );
 End;
 {$ENDIF}
 
+// universal name of exe with no extension ( for leonardi )
 function fs_GetNameSoft : String;
 var li_Pos : Integer;
 Begin
@@ -260,7 +294,7 @@ Begin
     End;
 End;
 
-
+// file size
 function fi_TailleFichier(NomFichier:String):Int64;
 var
   F:TSearchRec;
@@ -273,6 +307,8 @@ begin
     Result:=0;
   FindClose(F);
 end;
+
+// dos or unix process executing
 function fs_ExecuteProcess ( const AExecutable, AParameter : String ; const HasOutput : Boolean = True):String;
 {$IFNDEF FPC}
 const
@@ -366,30 +402,14 @@ begin
    end;
 {$ENDIF}
 End;
-{$IFDEF FPC}
 
-{$IFDEF UNIX}
-function fs_GetPackagesExtension : String;
-Begin
-  Result:='.'+CST_PackageTypeString[gpt_UnixPackageType];
-End;
-function fpt_GetPackagesType : TPackageType;
-Begin
-  {$IFDEF MACOSX}
-  Result:=ptDmg;
-  {$ELSE}
-  Result:=ptTar;
-       if FileExists     (CST_VAR_LIB + 'dpkg/status'  ) Then Result:=ptDeb
-  else if FileExists     (CST_VAR_LIB + 'rpm/Packages' ) Then Result:=ptRpm
-  else if DirectoryExists(CST_VAR_LIB + 'pkgconfig'    ) Then Result:=ptPkg
-  {$ENDIF}
-End;
-{$ENDIF}
-{$ENDIF}
+// architecture info
 function fs_GetArchitecture : String;
 Begin
   Result := fs_ExecuteProcess ( {$IFDEF WINDOWS}WINDOWS_ARCHITECTURE, ''{$ELSE}UNIX_UNAME, UNIX_ARCHITECTURE {$ENDIF});
 End;
+
+// 32 or 64 bits architecture
 function fat_GetArchitectureType : TArchitectureType;
 var AString : String;
 Begin
@@ -399,6 +419,7 @@ Begin
    ELse Result := at32;
 End;
 
+// Universal file or directory open
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
 
 Begin
@@ -414,11 +435,14 @@ End;
 
 initialization
   {$IFDEF VERSIONS}
+  // adding optional version infos
   p_ConcatVersion ( gVer_fonction_system );
   {$ENDIF}
   {$IFDEF UNIX}
+  // initing packaging variables
   gpt_UnixPackageType := fpt_GetPackagesType;
   {$ENDIF}
+  // initing cpu architecture variable
   if gat_ArchitectureType <> at64 Then
     gat_ArchitectureType := fat_GetArchitectureType;
 end.
