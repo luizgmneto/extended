@@ -133,8 +133,7 @@ uses
   {$ELSE}
   unite_messages_delphi,
   {$ENDIF}
-  Math,   SysUtils,
-  FileUtil;
+  Math,   SysUtils;
 
 // fill acanvas with acolor
 procedure p_SetAndFillBitmap ( const ABitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF} ; const AWidth, AHeight : Integer; const AColor : TColor );
@@ -150,9 +149,7 @@ Begin
   with ABitmap.Canvas do
    Begin
      Brush.Color:=AColor;
-     FillRect(
-            {$IFNDEF FPC} Rect (  {$ENDIF}
-            0, 0, ABitmap.Width, ABitmap.Height {$IFNDEF FPC}){$ENDIF});
+     FillRect( Rect ( 0, 0, ABitmap.Width, ABitmap.Height ));
    end;
 End;
 
