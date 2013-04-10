@@ -25,6 +25,9 @@ uses
 {$ENDIF}
   StrUtils, Classes ;
 
+type TPackageType = ( ptExe, ptTar, ptRpm, ptDeb, ptPkg, ptDmg );
+     TProcessorType = ( ptIntel, ptARM, ptPPC );
+
 const
 {$IFDEF VERSIONS}
   gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_system' ;
@@ -42,16 +45,16 @@ const
 
 {$ENDIF}
   CST_EXTENSION_LIBRARY = {$IFDEF WINDOWS}'.dll'{$ELSE}{$IFDEF DARWIN}'.dylib'{$ELSE}'.so'{$ENDIF}{$ENDIF};
+  CST_PackageTypeString : Array [ TPackageType ] of String = ( 'exe', 'tar.gz', 'rpm', 'deb', 'pkg', 'dmg' );
+  CST_ProcessorTypeString : Array [ TProcessorType ] of String = ( 'Intel', 'ARM', 'PPC' );
 
 var
   GS_SUBDIR_IMAGES_SOFT : String = DirectorySeparator + 'Images'+DirectorySeparator;
+  gpt_PackageType  : TPackageType;
 {$IFDEF UNIX}
-type TPackageType = ( ptTar, ptRpm, ptDeb, ptPkg, ptDmg );
 const
-     CST_PackageTypeString : Array [ TPackageType ] of String = ( 'tar.gz', 'rpm', 'deb', 'pkg', 'dmg' );
      CST_USER_BIN = '/usr/bin/';
      CST_VAR_LIB = '/var/lib/';
-var  gpt_UnixPackageType  : TPackageType;
 {$ENDIF}
 type TArchitectureType = ( at32, at64 );
 var  gat_ArchitectureType : TArchitectureType = {$IFDEF CPU64}at64{$ELSE}at32{$ENDIF};
@@ -67,12 +70,12 @@ function fs_GetCorrectPath ( const as_Path :String ): string;
 function fs_GetComputerName: string;
 function GetDocDir: string;
 function fs_getSoftImages:String;
+function fs_GetPackagesExtension : String;
+function fpt_GetPackagesType : TPackageType;
 {$IFDEF WINDOWS}
 function GetWinDir ( const CSIDL : Integer ) : String ;
 {$ELSE}
 {$IFDEF UNIX}
-function fs_GetPackagesExtension : String;
-function fpt_GetPackagesType : TPackageType;
 {$ENDIF}
 {$ENDIF}
 function fs_GetArchitecture : String;
@@ -235,10 +238,13 @@ end;
 // Packaging functions for Unix systems
 function fs_GetPackagesExtension : String;
 Begin
-  Result:='.'+CST_PackageTypeString[gpt_UnixPackageType];
+  Result:='.'+CST_PackageTypeString[gpt_PackageType];
 End;
 function fpt_GetPackagesType : TPackageType;
 Begin
+  {$IFDEF WINDOWS}
+  Result:=ptExe;
+  {$ELSE}
   {$IFDEF MACOSX}
   Result:=ptDmg;
   {$ELSE}
@@ -246,6 +252,7 @@ Begin
        if FileExists     (CST_VAR_LIB + 'dpkg/status'  ) Then Result:=ptDeb
   else if FileExists     (CST_VAR_LIB + 'rpm/Packages' ) Then Result:=ptRpm
   else if DirectoryExists(CST_VAR_LIB + 'pkgconfig'    ) Then Result:=ptPkg
+  {$ENDIF}
   {$ENDIF}
 End;
 {$ENDIF}
@@ -439,9 +446,9 @@ initialization
   p_ConcatVersion ( gVer_fonction_system );
   {$ENDIF}
   {$IFDEF UNIX}
-  // initing packaging variables
-  gpt_UnixPackageType := fpt_GetPackagesType;
   {$ENDIF}
+  // initing packaging variables
+  gpt_PackageType := fpt_GetPackagesType;
   // initing cpu architecture variable
   if gat_ArchitectureType <> at64 Then
     gat_ArchitectureType := fat_GetArchitectureType;
