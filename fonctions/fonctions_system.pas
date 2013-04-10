@@ -235,6 +235,8 @@ begin
 end;
 {$ELSE}
 {$IFDEF UNIX}
+{$ENDIF}
+{$ENDIF}
 // Packaging functions for Unix systems
 function fs_GetPackagesExtension : String;
 Begin
@@ -255,8 +257,6 @@ Begin
   {$ENDIF}
   {$ENDIF}
 End;
-{$ENDIF}
-{$ENDIF}
 
 {$IFNDEF FPC}
 // delphi ini config session directory
