@@ -38,7 +38,8 @@ const
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '1.0.1.2 : Testing on LAZARUS.'
+                                          BugsStory : '1.0.1.3 : Popup not erasing bug.'
+                                                    + '1.0.1.2 : Testing on LAZARUS.'
                                                     + '1.0.1.1 : Delphi compatible.'
                                                     + '1.0.1.0 : Simple Edit capability on Lazarus Only.'
                                                     + '1.0.0.0 : Popup list.'
@@ -48,7 +49,7 @@ const
                                                     + '0.9.0.1 : Not tested, compiling on DELPHI.'
                                                     + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
+                                          Major : 1 ; Minor : 0 ; Release : 1 ; Build : 3 );
 
 {$ENDIF}
   SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
@@ -457,7 +458,10 @@ begin
              Else
               if assigned ( FOnLocate ) Then
                 FOnLocate ( Self );
-          End ;
+          End
+         Else // not found : no popup
+          if Assigned(FPopup) Then
+            FPopup.Visible:=False;
       end
 
 end;
