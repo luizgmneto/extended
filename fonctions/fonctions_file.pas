@@ -3,6 +3,9 @@ unit fonctions_file;
 interface
 
 uses
+  {$IFDEF WINDOWS}
+   windows,
+  {$ENDIF}
   Classes,
 {$IFDEF VERSIONS}
   fonctions_version,
@@ -46,13 +49,20 @@ function  fb_FindFiles( const astl_FilesList: TStrings; as_StartDir : String;
 Function fb_CopyFile ( const as_Source, as_Destination : String ; const ab_AppendFile : Boolean ; const ab_CreateBackup : Boolean = False ):Integer;
 function fb_CreateDirectoryStructure ( const as_DirectoryToCreate : String ) : Boolean ;
 procedure p_FileNameDivision ( const as_FileNameWithExtension : String ; var as_FileName, as_Extension : String );
+function fs_createUniqueFileName ( const as_base, as_FileAltName : String ; const as_extension : String ):String;
+{$IFDEF WINDOWS}
+function fs_verifyAndReplaceDriveLetter ( const as_path : String ):String;
+{$ENDIF}
 
 implementation
 
 uses StrUtils, Dialogs,
-  {$IFNDEF FPC}
+  {$IFDEF FPC}
+    FileUtil,
+  {$ELSE}
     fonctions_system,
   {$ENDIF}
+    fonctions_string,
     Forms ;
 
 procedure p_SetStartDir ( var as_StartDir : String );
@@ -256,6 +266,35 @@ begin
     End ;
   Application.ProcessMessages ;
 end;
+
+function fs_createUniqueFileName ( const as_base, as_FileAltName : String ; const as_extension : String ):String;
+var li_i : Integer;
+Begin
+  li_i := 1;
+  Result := as_FileAltName + as_extension;
+  while FileExistsUTF8(as_base+Result) { *Converted from FileExists*  } do
+  Begin
+    inc ( li_i );
+    Result := fs_TextToFileName(as_FileAltName ) + '-'+ IntToStr(li_i) + as_extension;
+  end;
+end;
+
+{$IFDEF WINDOWS}
+function fs_verifyAndReplaceDriveLetter ( const as_path : String ):String;
+var qwspace : {$IFDEF CPU64}Pint64{$ELSE}PLargeInteger{$ENDIF};
+Begin
+  Result:=UpperCase (as_path [1]) + copy ( as_path, 2, Length(as_path)-1);
+  if ( Result [ 1 ] in [ '/', '\' ] )  Then
+   Exit; // if path is unix path or translated
+  while (Windows.GetDriveType(@Result[1]) <> 1) and
+    GetDiskFreeSpaceEx(@Result[1], nil, qwspace, nil )
+    and ( qwspace^ <= 0 ) do;
+   Begin
+     if (Result[1]='C') Then Exit;
+     Result[1] := chr ( ord ( Result[1] ) - 1 );
+   end;
+end;
+{$ENDIF}
 
 function fb_CreateDirectoryStructure ( const as_DirectoryToCreate : String ) : Boolean ;
 var
