@@ -22,9 +22,10 @@ const
            Owner : '' ;
            Comment : 'Fonctions de gestion de fichiers' ;
            BugsStory :
-              'Version 1.0.0.0 : La gestion est en place, ne gérant pas tout.';
+           'Version 1.0.1.0 : adding Windows drive verifying function.';
+           'Version 1.0.0.0 : La gestion est en place, ne gérant pas tout.';
            UnitType : 1 ;
-                     Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                     Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 {$ENDIF}
   CST_COPYFILES_ERROR_IS_READONLY = faReadOnly ;
   CST_COPYFILES_ERROR_UNKNOWN = -1 ;

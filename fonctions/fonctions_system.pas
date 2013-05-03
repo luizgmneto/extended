@@ -31,14 +31,15 @@ type TPackageType = ( ptExe, ptTar, ptRpm, ptDeb, ptPkg, ptDmg );
 const
 {$IFDEF VERSIONS}
   gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_system' ;
-                        			                 Owner : 'Matthieu Giroux' ;
-                        			                 Comment : 'System Functions, with traducing and path management.' ;
-                        			                 BugsStory : 'Version 1.1.0.0 : Linux and architecture functions.' + #10
-                                                                           + 'Version 1.0.2.0 : fs_DocDir and library''s extension.' + #10
-                                                                           + 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
-                                                                           + 'Version 1.0.0.0 : Creating from fonctions_string.';
-                        			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
+                        	       Owner : 'Matthieu Giroux' ;
+                        	       Comment : 'System Functions, with traducing and path management.' ;
+                        	       BugsStory : 'Version 1.1.0.1 : Using explorer to open files, more secure.' + #10
+                                                 + 'Version 1.1.0.0 : Linux and architecture functions.' + #10
+                                                 + 'Version 1.0.2.0 : fs_DocDir and library''s extension.' + #10
+                                                 + 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
+                                                 + 'Version 1.0.0.0 : Creating from fonctions_string.';
+                        	       UnitType : 1 ;
+                        	       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 1 );
 {$ENDIF}
 {$IFDEF DELPHI}
   DirectorySeparator = '\' ;
@@ -97,7 +98,7 @@ implementation
 
 uses
 {$IFDEF FPC}
-  LCLType, FileUtil, process,
+  LCLType, FileUtil, UTF8Process, process,
 {$ELSE}
   ShellAPI,
 {$ENDIF}
@@ -322,7 +323,7 @@ const
      ReadBuffer = 2400;
 {$ENDIF}
 var {$IFDEF FPC}
-    Process : TProcess;
+    Process : TProcessUTF8;
     {$ELSE}
     Security : TSecurityAttributes;
     ReadPipe,WritePipe : THandle;
@@ -337,15 +338,15 @@ var {$IFDEF FPC}
 begin
 
 {$IFDEF FPC}
-  Process := TProcess.Create(nil);
+  Process := TProcessUTF8.Create(nil);
   if HasOutput Then
     lList := TStringList.create;
   Result := '';
   with Process do
     try
       if HasOutput Then
-        Options := Options+[poUsePipes, poStderrToOutPut, poNoConsole];
-      Executable := AExecutable;
+        Options := Options+[poNoConsole, poStderrToOutPut,poUsePipes];
+      Executable      := AExecutable;
       if AParameter > '' Then
         Parameters.Add(AParameter);
       Execute;
@@ -434,7 +435,11 @@ Begin
       {$IFDEF LINUX}
       'xdg-open'
       {$ELSE}
+      {$IFDEF WINDOWS}
+      'explorer'
+      {$ELSE}
       'open'
+      {$ENDIF}
       {$ENDIF},
       AFilePath,
       False);
