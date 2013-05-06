@@ -60,7 +60,7 @@ const
 type TArchitectureType = ( at32, at64 );
 var  gat_ArchitectureType : TArchitectureType = {$IFDEF CPU64}at64{$ELSE}at32{$ENDIF};
 
-function fs_ExtractFileNameOnly ( const as_Path : String ): String;
+function fs_ExtractFileNameOnlyWithoutExt ( const as_Path : String ): String;
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
 function fs_GetNameSoft : String;
 // Retourne le nom d'utilisateur (string) de la session WINDOWS
@@ -218,7 +218,7 @@ begin
 end;
 
 // filename with no extension ( forced )
-function fs_ExtractFileNameOnly ( const as_Path : String ): String;
+function fs_ExtractFileNameOnlyWithoutExt ( const as_Path : String ): String;
 Begin
   Result := ExtractFileName(as_path);
   Result :=copy ( Result, 1 , length ( Result ) - length( ExtractFileExt(Result)));
