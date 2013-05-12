@@ -272,7 +272,7 @@ function fs_createUniqueFileName ( const as_base, as_FileAltName : String ; cons
 var li_i : Integer;
 Begin
   li_i := 1;
-  Result := as_FileAltName + as_extension;
+  Result := fs_TextToFileName(as_FileAltName) + as_extension;
   while FileExistsUTF8(as_base+Result) { *Converted from FileExists*  } do
   Begin
     inc ( li_i );
