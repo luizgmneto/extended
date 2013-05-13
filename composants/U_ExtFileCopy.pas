@@ -160,7 +160,11 @@ type
 
 implementation
 
-uses fonctions_file, Forms, Dialogs, Controls ;
+uses fonctions_file, Forms, Dialogs,
+  {$IFDEF FPC}
+     FileUtil,
+  {$ENDIF}
+    Controls ;
 
 {TExtFileCopy}
 
@@ -179,7 +183,7 @@ var lsr_data : TSearchRec ;
 begin
   Result := 0 ;
   try
-    li_HandleSource := fileopen(as_Source,fmopenread);
+    li_HandleSource := FileOpenUTF8(as_Source,fmopenread);
   Except
     On E: Exception do
       Begin
@@ -189,13 +193,13 @@ begin
       End ;
   End ;
   if  ab_AppendFile
-  and fileexists(as_Destination)
+  and FileExistsUTF8(as_Destination)
    then
     try
-      FindFirst(as_Destination,faanyfile,lsr_data);
-      li_HandleDestination := FileOpen(as_Destination, fmopenwrite );
+      FindFirstUTF8(as_Destination,faanyfile,lsr_data);
+      li_HandleDestination := FileOpenUTF8(as_Destination, fmopenwrite );
       FileSeek ( li_HandleDestination, lsr_data.Size, 0 );
-      findclose(lsr_data);
+      FindCloseUTF8(lsr_data);
     Except
       Result := CST_COPYFILES_ERROR_CANT_APPEND ;
       IsCopyOk ( Result, GS_COPYFILES_ERROR_CANT_APPEND + as_Destination );
@@ -252,7 +256,7 @@ begin
   if assigned ( TraduceCopy ) then
     Result := TraduceCopy.CreateDestination(as_Destination)
    Else
-    if DirectoryExists ( as_Destination )
+    if DirectoryExistsUTF8 ( as_Destination )
     and ( cpEraseDestination in FFileOptions )
     and Assigned(FDoEraseDir)
      Then
@@ -265,7 +269,7 @@ begin
      Else
       if cpDestinationIsFile in FFileOptions Then
         Begin
-          if not DirectoryExists(ExtractFileDir(as_Destination))
+          if not DirectoryExistsUTF8(ExtractFileDir(as_Destination))
             Then Result := fb_CreateDirectoryStructure ( ExtractFileDir(as_Destination) )
             else Result := True;
         end
@@ -304,14 +308,14 @@ var
 begin
   Result := 0 ;
   Application.ProcessMessages;
-  FindFirst(as_Source,faanyfile,lsr_data);
+  FindFirstUTF8(as_Source,faanyfile,lsr_data);
   li_HandleDest := 0;
   li_HandleSource:= 0 ;
   li_RealTotal := lsr_data.size ;
   li_SizeTotal := lsr_data.Size;
   inc ( FSizeTotal, li_SizeTotal );
   li_TotalW := 0;
-  findclose(lsr_data);
+  FindCloseUTF8(lsr_data);
   ls_Destination := as_Destination;
   Application.ProcessMessages;
   if PrepareFileSourceAndDestination ( as_Source, ls_Destination, li_HandleSource, li_HandleDest, ab_AppendFile, ab_CreateBackup ) <> 0 Then
@@ -338,7 +342,7 @@ begin
       Application.ProcessMessages;
       if BeforeCopyBuffer ( li_SizeRead, li_TotalW ) Then
         Begin
-          li_SizeWrite := Filewrite(li_HandleDest,Fbuffer,li_SizeRead);
+          li_SizeWrite := FileWrite(li_HandleDest,Fbuffer,li_SizeRead);
           Application.ProcessMessages;
           inc( li_TotalW, li_SizeWrite );
           if  ( li_SizeRead < FBufferSize )
@@ -372,15 +376,15 @@ begin
     End ;
   Application.ProcessMessages;
   try
-    filesetdate(li_HandleDest,filegetdate(li_HandleSource));
+    FileSetDate(li_HandleDest,FileGetDate(li_HandleSource));
   Except
     Result := CST_COPYFILES_ERROR_CANT_CHANGE_DATE ;
     IsCopyOk ( Result, GS_COPYFILES_ERROR_CANT_CHANGE_DATE + ls_Destination );
     Exit ;
   End ;
   Application.ProcessMessages;
-  fileclose(li_HandleSource);
-  fileclose(li_HandleDest);
+  FileClose(li_HandleSource);
+  FileClose(li_HandleDest);
   if Result = 0 then
     Begin
       inc ( FSizeProgress, li_TotalW );
@@ -429,14 +433,14 @@ begin
   FSizeProgress := 0 ;
   if assigned ( TraduceCopy ) Then
     TraduceCopy.BeforeCopy;
-  if (    not FileExists ( FSource )
-       and not DirectoryExists ( FSource ))
+  if (    not FileExistsUTF8 ( FSource )
+       and not DirectoryExistsUTF8 ( FSource ))
    Then
     Exit ;
  if not CreateDestination(FDestination) Then
      Exit;
   try
-    if ( DirectoryExists ( FSource )) Then
+    if ( DirectoryExistsUTF8 ( FSource )) Then
       Begin
         fb_InternalCopyDirectory ( FSource, FDestination, FFilter, not ( cpNoStructure in FFilesOptions ), cpDestinationIsFile in FFileOptions, cpCopyAll in FFilesOptions, cpCreateBackup in FFileOptions );
       End
@@ -454,13 +458,13 @@ var lsr_AttrSource      : TSearchRec ;
 
 begin
   Result := CreateDestination ( as_Destination );
-  if FileExists ( as_Source ) Then
+  if FileExistsUTF8 ( as_Source ) Then
     Begin
-      if ( DirectoryExists ( as_Destination )) Then
+      if ( DirectoryExistsUTF8 ( as_Destination )) Then
         Begin
-          FindFirst ( as_Source, faAnyFile, lsr_AttrSource );
+          FindFirstUTF8 ( as_Source, faAnyFile, lsr_AttrSource );
           Result := CopyFile ( as_Source, as_Destination + DirectorySeparator + lsr_AttrSource.Name, ab_DestinationIsFile, ab_CreateBackup ) <> 0 ;
-          findclose(lsr_AttrSource);
+          FindCloseUTF8(lsr_AttrSource);
         End
       Else
         Begin
@@ -495,10 +499,10 @@ begin
     for li_i := 0 to lstl_StringList.count - 1 do
       Begin
         ls_Source := lstl_StringList.Strings [ li_i ];
-        FindFirst( ls_Source,faanyfile,lsr_AttrSource);
+        FindFirstUTF8( ls_Source,faanyfile,lsr_AttrSource);
         ls_FileName := lsr_AttrSource.Name ;
-        findclose(lsr_AttrSource);
-        if DirectoryExists ( ls_Source ) Then
+        FindCloseUTF8(lsr_AttrSource);
+        if DirectoryExistsUTF8 ( ls_Source ) Then
           Begin
             if ab_CopyStructure then
               ls_destination := as_Destination + DirectorySeparator + ls_FileName
@@ -507,7 +511,7 @@ begin
             Result := fb_InternalCopyDirectory ( ls_Source, ls_Destination, as_Mask, ab_CopyStructure, ab_DestinationIsFile, ab_CopyAll, ab_CreateBackup );
           End
         Else
-          if FileExists ( ls_Source ) Then
+          if FileExistsUTF8 ( ls_Source ) Then
             Begin
                Result := InternalDefaultCopyFile ( ls_Source, as_Destination + DirectorySeparator + ls_FileName );
             End ;
