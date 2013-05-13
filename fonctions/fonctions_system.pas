@@ -43,8 +43,8 @@ const
 {$ENDIF}
 {$IFDEF DELPHI}
   DirectorySeparator = '\' ;
-
 {$ENDIF}
+  CST_PROCESSOR_TYPE : TProcessorType = {$IFDEF DELPHI}ptIntel{$ELSE}{$IFDEF CPUI386}ptIntel{$ELSE}{$IFDEF CPUx86_64}ptIntel{$ELSE}{$IFDEF CPUARM}ptARM{$ELSE}{$IFDEF CPUPOWERPC}ptPPC{$ELSE}{$ENDIF}{$ENDIF}{$ENDIF}{$ENDIF}{$ENDIF};
   CST_EXTENSION_LIBRARY = {$IFDEF WINDOWS}'.dll'{$ELSE}{$IFDEF DARWIN}'.dylib'{$ELSE}'.so'{$ENDIF}{$ENDIF};
   CST_PackageTypeString : Array [ TPackageType ] of String = ( 'exe', 'tar.gz', 'rpm', 'deb', 'pkg', 'dmg' );
   CST_ProcessorTypeString : Array [ TProcessorType ] of String = ( 'Intel', 'MIPS', 'Alpha', 'PPC', 'SHX', 'ARM', 'IA64', 'Alpha64', '?' );
