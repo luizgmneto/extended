@@ -82,7 +82,11 @@ type
 
 implementation
 
-uses fonctions_file, Forms, Dialogs, Controls ;
+uses fonctions_file,
+  {$IFDEF FPC}
+     FileUtil,
+  {$ENDIF}
+     Forms, Dialogs, Controls ;
 
 { TAbsFileCopy }
 
@@ -99,7 +103,7 @@ begin
     Begin
       ls_FileExt  := '';
       ls_FileName := '';
-      FindFirst( ls_Destination,faanyfile,lsr_data);
+      FindFirstUTF8( ls_Destination,faanyfile,lsr_data);
       if ( ab_CreateBackup )
        Then
         try
@@ -116,12 +120,12 @@ begin
         End
        Else
         try
-          Deletefile(as_Destination);
+          DeleteFile(as_Destination);
         Except
           Result := CST_COPYFILES_ERROR_FILE_DELETE ;
           IsCopyOk ( Result, GS_COPYFILES_ERROR_FILE_DELETE + as_Destination );
         End ;
-      findclose(lsr_data);
+      FindCloseUTF8(lsr_data);
     End ;
 end;
 
