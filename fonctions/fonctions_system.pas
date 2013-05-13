@@ -266,7 +266,7 @@ function GetAppConfigDir ( const Global : Boolean ): string;
    if Global
     Then Result := GetWinDir ( CSIDL_COMMON_APPDATA )
     Else Result := GetWinDir ( CSIDL_APPDATA );
-   Result := Result + DirectorySeparator + fs_ExtractFileNameOnly ( Application.ExeName );
+   Result := Result + DirectorySeparator + fs_ExtractFileNameOnlyWithoutExt ( Application.ExeName );
  end;
 
 // delphi user directory
