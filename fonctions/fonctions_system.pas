@@ -51,14 +51,14 @@ const
 
 var
   GS_SUBDIR_IMAGES_SOFT : String = DirectorySeparator + 'Images'+DirectorySeparator;
-  gpt_PackageType  : TPackageType;
+
 {$IFDEF UNIX}
 const
      CST_USER_BIN = '/usr/bin/';
      CST_VAR_LIB = '/var/lib/';
 {$ENDIF}
 type TArchitectureType = ( at32, at64 );
-var  gat_ArchitectureType : TArchitectureType = {$IFDEF CPU64}at64{$ELSE}at32{$ENDIF};
+const  gat_ArchitectureType : TArchitectureType = {$IFDEF CPU64}at64{$ELSE}at32{$ENDIF};
 
 function fs_ExtractFileNameOnlyWithoutExt ( const as_Path : String ): String;
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
@@ -241,7 +241,7 @@ end;
 // Packaging functions for Unix systems
 function fs_GetPackagesExtension : String;
 Begin
-  Result:='.'+CST_PackageTypeString[gpt_PackageType];
+  Result:='.'+CST_PackageTypeString[fpt_GetPackagesType];
 End;
 function fpt_GetPackagesType : TPackageType;
 Begin
@@ -452,10 +452,5 @@ initialization
   {$ENDIF}
   {$IFDEF UNIX}
   {$ENDIF}
-  // initing packaging variables
-  gpt_PackageType := fpt_GetPackagesType;
-  // initing cpu architecture variable
-  if gat_ArchitectureType <> at64 Then
-    gat_ArchitectureType := fat_GetArchitectureType;
 end.
 
