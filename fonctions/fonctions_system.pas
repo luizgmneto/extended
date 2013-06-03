@@ -87,6 +87,10 @@ function GetAppConfigDir ( const Global : Boolean ): string;
 function GetUserDir: string;
 function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
 function FileExistsUTF8 ( const as_path : String ):Boolean;
+function FindFirstUTF8(const Path: string; Attr: Integer;
+  var F: TSearchRec): Integer;
+procedure FindCloseUTF8(var F: TSearchRec);
+function FileOpenUTF8(const FileName: string; Mode: LongWord): Integer;
 {$ENDIF}
 function fs_EraseNameSoft ( const as_Nomapp, as_Path : String ) : String ;
 function fs_getSoftDir : String;
@@ -285,6 +289,19 @@ End;
 function FileExistsUTF8 ( const as_path : String ):Boolean;
 Begin
   Result:= FileExists ( as_path );
+End;
+function FindFirstUTF8(const Path: string; Attr: Integer;
+  var F: TSearchRec): Integer;
+Begin
+  Result := FindFirst( Path, Attr, F );
+End;
+procedure FindCloseUTF8(var F: TSearchRec);
+Begin
+  FindClose(F);
+End;
+function FileOpenUTF8(const FileName: string; Mode: LongWord): Integer;
+Begin
+  Result := FileOpen(FileName,Mode);
 End;
 {$ENDIF}
 
