@@ -79,6 +79,7 @@ contains
   type_string_delphi in 'fonctions\type_string_delphi.pas',
   fonctions_reports in 'fonctions\fonctions_reports.pas',
   u_reportform in 'forms\u_reportform.pas',
-  u_reports_rlcomponents in 'composants\u_reports_rlcomponents.pas';
+  u_reports_rlcomponents in 'composants\u_reports_rlcomponents.pas',
+  fonctions_date in 'fonctions\fonctions_date.pas';
 
 end.
