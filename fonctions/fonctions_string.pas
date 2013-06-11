@@ -859,7 +859,7 @@ begin
   lw_Char := 0;
   EndChar:=@aTexte[Length(aTexte)];
   repeat
-      if ( AChar^ in ['A'..'Z','a'..'z'] )
+      if ( AChar^ not in ['-',',','''','"',';','/',' ','(',')'] )
        Then lw_Char := AChar - li_texte+1
        Else
        Begin
