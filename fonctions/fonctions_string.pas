@@ -534,10 +534,7 @@ procedure p_ChampsVersListe(var astl_ChampsClePrimaire: TStringList; const aws_C
 var ls_TempoCles: String;
 begin
   // Création des champs
-  if assigned ( astl_ChampsClePrimaire ) Then
-    Begin
-      astl_ChampsClePrimaire.Free;
-    End;
+  astl_ChampsClePrimaire.Free;
   astl_ChampsClePrimaire := TStringList.Create;
   ls_TempoCles := aws_ClePrimaire;
   if  pos(ach_Separateur, ls_TempoCles) = 0 then
@@ -859,7 +856,7 @@ begin
   lw_Char := 0;
   EndChar:=@aTexte[Length(aTexte)];
   repeat
-      if ( AChar^ not in ['-',',','''','"',';','/',' ','(',')'] )
+      if not ( AChar^ in ['-',',','''','"',';','/',' ','(',')'] )
        Then lw_Char := AChar - li_texte+1
        Else
        Begin

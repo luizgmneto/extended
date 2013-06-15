@@ -378,53 +378,58 @@ begin
         lList.Free;
     end;
 {$ELSE}
-  DosApp:=AExecutable + ' ' + AParameter;
-  With Security do begin
-    nlength := SizeOf(TSecurityAttributes) ;
-    binherithandle := true;
-    lpsecuritydescriptor := nil;
-   end;
-   if Createpipe (ReadPipe, WritePipe,
-                  @Security, 0) then begin
-    Buffer := AllocMem(ReadBuffer + 1) ;
-    FillChar(Start,Sizeof(Start),#0) ;
-    start.cb := SizeOf(start) ;
-    start.hStdOutput := WritePipe;
-    start.hStdInput := ReadPipe;
-    start.dwFlags := STARTF_USESTDHANDLES + STARTF_USESHOWWINDOW;
-    start.wShowWindow := SW_HIDE;
+  if HasOutput then
+   Begin
+    DosApp:=AExecutable + ' ' + AParameter;
+    With Security do begin
+      nlength := SizeOf(TSecurityAttributes) ;
+      binherithandle := true;
+      lpsecuritydescriptor := nil;
+     end;
+     if Createpipe (ReadPipe, WritePipe,
+                    @Security, 0) then begin
+      Buffer := AllocMem(ReadBuffer + 1) ;
+      FillChar(Start,Sizeof(Start),#0) ;
+      start.cb := SizeOf(start) ;
+      start.hStdOutput := WritePipe;
+      start.hStdInput := ReadPipe;
+      start.dwFlags := STARTF_USESTDHANDLES + STARTF_USESHOWWINDOW;
+      start.wShowWindow := SW_HIDE;
 
-    if CreateProcess(nil,
-           PChar(DosApp),
-           @Security,
-           @Security,
-           true,
-           NORMAL_PRIORITY_CLASS,
-           nil,
-           nil,
-           start,
-           ProcessInfo)
-    then
-    begin
-     repeat
-      Apprunning := WaitForSingleObject
-                   (ProcessInfo.hProcess,100) ;
-      Application.ProcessMessages;
-     until (Apprunning <> WAIT_TIMEOUT) ;
-      Repeat
-        BytesRead := 0;
-        ReadFile(ReadPipe,Buffer[0], ReadBuffer,BytesRead,nil) ;
-        Buffer[BytesRead]:= #0;
-        OemToAnsi(Buffer,Buffer) ;
-        Result := String(Buffer) ;
-      until (BytesRead < ReadBuffer) ;
-   end;
-   FreeMem(Buffer) ;
-   CloseHandle(ProcessInfo.hProcess) ;
-   CloseHandle(ProcessInfo.hThread) ;
-   CloseHandle(ReadPipe) ;
-   CloseHandle(WritePipe) ;
-   end;
+      if CreateProcess(nil,
+             PChar(DosApp),
+             @Security,
+             @Security,
+             true,
+             NORMAL_PRIORITY_CLASS,
+             nil,
+             nil,
+             start,
+             ProcessInfo)
+      then
+      begin
+       repeat
+        Apprunning := WaitForSingleObject
+                     (ProcessInfo.hProcess,100) ;
+        Application.ProcessMessages;
+       until (Apprunning <> WAIT_TIMEOUT) ;
+        Repeat
+          BytesRead := 0;
+          ReadFile(ReadPipe,Buffer[0], ReadBuffer,BytesRead,nil) ;
+          Buffer[BytesRead]:= #0;
+          OemToAnsi(Buffer,Buffer) ;
+          Result := String(Buffer) ;
+        until (BytesRead < ReadBuffer) ;
+     end;
+     FreeMem(Buffer) ;
+     CloseHandle(ProcessInfo.hProcess) ;
+     CloseHandle(ProcessInfo.hThread) ;
+     CloseHandle(ReadPipe) ;
+     CloseHandle(WritePipe) ;
+     end;
+   End
+  Else
+   ShellExecute(Application.Handle,PChar(AExecutable), PChar(Aparameter), nil, nil, SW_SHOWNORMAL) ;
 {$ENDIF}
 End;
 
@@ -448,6 +453,9 @@ End;
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
 
 Begin
+{$IFNDEF FPC}
+  ShellExecute(Application.Handle,nil, PChar(AFilePath), nil, nil, SW_SHOWNORMAL) ;
+{$ELSE}
   fs_ExecuteProcess (
       {$IFDEF LINUX}
       'xdg-open'
@@ -460,6 +468,7 @@ Begin
       {$ENDIF},
       AFilePath,
       False);
+{$ENDIF}
 End;
 
 initialization
