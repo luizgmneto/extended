@@ -79,6 +79,7 @@ procedure p_SetComponentsConnexions ( const acom_Form : TComponent ; acco_Connex
 function  fb_RefreshDatasetIfEmpty ( const adat_Dataset : TDataset ) : Boolean ;
 procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
 function fdat_CloneDatasetWithoutSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
+function fdat_CloneDatasetWithSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithoutSQLWithDataSource ( const adat_ADataset : Tdataset ; const AOwner : TComponent ; var ads_Datasource : TDatasource  ) : Tdataset;
 function fds_GetOrCloneDataSource ( const acom_Component : TComponent ; const as_SourceProperty, as_Query : String ; const AOwner : TComponent ; const adat_ADatasetToCopy : Tdataset ) : Tdatasource;
 function fb_GetSQLStrings (const adat_ADataset : Tdataset ; var astl_SQLQuery : TStrings{$IFDEF DELPHI_9_UP}; var awst_SQLQuery : TWideStrings {$ENDIF}):Boolean;
@@ -189,6 +190,39 @@ Begin
     End ;
 
 End;
+
+//////////////////////////////////////////////////////////////////////
+// Fonction retournant le dataset copié avec le lien SGBD et sa requête copiée
+//  adat_AObject : Le dataset à cloner
+//  AOwner       : Le futur propriétaire du composant
+// Résultat de la fonction : le dataset copié avec le lien SGBD
+//////////////////////////////////////////////////////////////////////
+function fdat_CloneDatasetWithSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
+var AStrings : TStrings;
+    li_i : Integer;
+   aprs_ParamSource: TParams ;
+   Astl_Params : TStringList;
+   {$IFDEF EADO}aprs_ParamterSource: TParameters ;{$ENDIF}
+Begin
+  Result := fdat_CloneDatasetWithoutSQL(adat_ADataset,AOwner);
+  if fb_GetSQLStrings(adat_ADataset,AStrings) Then
+    p_SetSQLQuery(Result,AStrings.Text);
+  if fb_GetParamsDataset(adat_ADataset,aprs_ParamSource,Astl_Params{$IFDEF EADO},aprs_ParamterSource{$ENDIF}) Then
+   Begin
+     if Assigned(aprs_ParamSource) Then
+       for li_i := 0 to aprs_ParamSource.Count - 1 do
+         with aprs_ParamSource [ li_i ] do
+          p_setParamDataset(Result,Name,Value)
+     {$IFDEF EADO}
+     Else
+       if Assigned(aprs_ParamterSource) Then
+         for li_i := 0 to aprs_ParamterSource.Count - 1 do
+           with aprs_ParamterSource [ li_i ] do
+            p_setParamDataset(Result,Name,Value)
+     {$ENDIF};
+   end;
+
+end;
 
 //////////////////////////////////////////////////////////////////////
 // Fonction retournant le dataset copié avec le lien SGBD
