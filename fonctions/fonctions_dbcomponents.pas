@@ -34,12 +34,13 @@ const
                                          FileUnit : 'fonctions_dbcomponents' ;
       			                 Owner : 'Matthieu Giroux' ;
       			                 Comment : 'Fonctions gestion des données avec les composants visuels.' ;
-      			                 BugsStory : 'Version 1.1.0.2 : Too many code on fb_inserecompteur, creating functions.' + #13#10 +
+      			                 BugsStory : 'Version 1.1.1.0 : Clone query with sql.' + #13#10 +
+                                                     'Version 1.1.0.2 : Too many code on fb_inserecompteur, creating functions.' + #13#10 +
                                                      'Version 1.1.0.1 : Simplify function fb_InsereCompteur.' + #13#10 +
                                                      'Version 1.1.0.0 : Ajout de fonctions d''automatisation.' + #13#10
                                                    + 'Version 1.0.0.0 : Gestion des donnÃ©es rétilisable.';
       			                 UnitType : 1 ;
-      			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
+      			                 Major : 1 ; Minor : 1 ; Release : 1 ; Build : 0 );
 
   {$ENDIF}
   ge_OnExecuteQuery: TOnExecuteQuery = nil;
