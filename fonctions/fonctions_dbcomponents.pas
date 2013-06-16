@@ -203,10 +203,13 @@ var AStrings : TStrings;
    aprs_ParamSource: TParams ;
    Astl_Params : TStringList;
    {$IFDEF EADO}aprs_ParamterSource: TParameters ;{$ENDIF}
+   {$IFDEF DELPHI_9_UP}awst_SQLQuery : TWideStrings; {$ENDIF}
 Begin
   Result := fdat_CloneDatasetWithoutSQL(adat_ADataset,AOwner);
-  if fb_GetSQLStrings(adat_ADataset,AStrings) Then
-    p_SetSQLQuery(Result,AStrings.Text);
+  if fb_GetSQLStrings(adat_ADataset,AStrings{$IFDEF DELPHI_9_UP}, awst_SQLQuery {$ENDIF})
+   Then if Assigned ( AStrings )
+    then p_SetSQLQuery(Result,AStrings.Text)
+    {$IFDEF DELPHI_9_UP}Else p_SetSQLQuery(Result,awst_SQLQuery.Text){$ENDIF};
   if fb_GetParamsDataset(adat_ADataset,aprs_ParamSource,Astl_Params{$IFDEF EADO},aprs_ParamterSource{$ENDIF}) Then
    Begin
      if Assigned(aprs_ParamSource) Then
