@@ -768,6 +768,21 @@ Begin
 End;
 {$ENDIF}
 
+{$IFNDEF FPC}
+function fs_ReplaceAccents(const AInput: AnsiString): AnsiString;
+const
+  CodePage = 20127; //20127 = us-ascii
+var
+  WS: WideString;
+begin
+  WS := WideString(AInput);
+  SetLength(Result, WideCharToMultiByte(CodePage, 0, PWideChar(WS),
+    Length(WS), nil, 0, nil, nil));
+  WideCharToMultiByte(CodePage, 0, PWideChar(WS), Length(WS),
+    PAnsiChar(Result), Length(Result), nil, nil);
+end;
+{$ENDIF}
+
 // function fs_TextWithoutAccent
 // text with no special caracters
 function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
@@ -775,8 +790,12 @@ begin
   Result:='';
   if Chaine = '' Then
     Exit;
-  if ab_NoAccents
-   Then Result :=  fs_ReplaceWithTable (StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]),SansAccents); // conversion of accents
+  if ab_NoAccents // conversion of accents
+  {$IFDEF FPC}
+    Then Result :=  fs_ReplaceWithTable (StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]),SansAccents);
+  {$ELSE}
+    Then Result :=  fs_ReplaceAccents(StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]));
+  {$ENDIF}
   if not ab_NoAccents and ( amft_Mode <> mftNone ) Then
     Result := StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]);
   case amft_Mode of
