@@ -1,0 +1,2302 @@
+<LogicPackage id="emx_1" name="" visibility="private">
+<UnitPackage id="emx_2" name="((Unknown))" visibility="private">
+<Class id="emx_3" name="TCollectionItem" visibility="private">
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<DataType id="emx_4" name="String" visibility="private">
+</DataType>
+<DataType id="emx_5" name="Integer" visibility="private">
+</DataType>
+<Class id="emx_6" name="TCollection" visibility="private">
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<DataType id="emx_7" name="TComponent" visibility="private">
+</DataType>
+<DataType id="emx_8" name="TPersistent" visibility="private">
+</DataType>
+<DataType id="emx_9" name="TExtMapImageIndexClass" visibility="private">
+</DataType>
+<Class id="emx_7" name="TComponent" visibility="private">
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<Class id="emx_10" name="TColumn" visibility="private">
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<DataType id="emx_11" name="TKeyEvent" visibility="private">
+</DataType>
+<DataType id="emx_12" name="TKeyPressEvent" visibility="private">
+</DataType>
+<DataType id="emx_13" name="TWinControl" visibility="private">
+</DataType>
+<DataType id="emx_14" name="TSortMarker" visibility="private">
+</DataType>
+<DataType id="emx_15" name="TCustomImageList" visibility="private">
+</DataType>
+<DataType id="emx_16" name="Boolean" visibility="private">
+</DataType>
+<DataType id="emx_17" name="TObject" visibility="private">
+</DataType>
+<DataType id="emx_18" name="Word" visibility="private">
+</DataType>
+<DataType id="emx_19" name="TShiftState" visibility="private">
+</DataType>
+<DataType id="emx_20" name="Char" visibility="private">
+</DataType>
+<Class id="emx_21" name="TDBGridColumns" visibility="private">
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<Class id="emx_22" name="TRXDBGrid" visibility="private">
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<DataType id="emx_23" name="TNotifyEvent" visibility="private">
+</DataType>
+<DataType id="emx_24" name="TPopUpMenuEvent" visibility="private">
+</DataType>
+<DataType id="emx_25" name="TGetBtnParamsEvent" visibility="private">
+</DataType>
+<DataType id="emx_26" name="TColor" visibility="private">
+</DataType>
+<DataType id="emx_27" name="TFieldIndexEvent" visibility="private">
+</DataType>
+<DataType id="emx_28" name="TWMSetFocus" visibility="private">
+</DataType>
+<DataType id="emx_29" name="TWMVScroll" visibility="private">
+</DataType>
+<DataType id="emx_30" name="TWMHScroll" visibility="private">
+</DataType>
+<DataType id="emx_31" name="TWMSize" visibility="private">
+</DataType>
+<DataType id="emx_32" name="Longint" visibility="private">
+</DataType>
+<DataType id="emx_33" name="TRect" visibility="private">
+</DataType>
+<DataType id="emx_34" name="TGridDrawState" visibility="private">
+</DataType>
+<DataType id="emx_35" name="TField" visibility="private">
+</DataType>
+<DataType id="emx_36" name="TFont" visibility="private">
+</DataType>
+<DataType id="emx_37" name="TMouseButton" visibility="private">
+</DataType>
+<DataType id="emx_38" name="TOperation" visibility="private">
+</DataType>
+<Class id="emx_39" name="TSuperForm" visibility="private">
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<DataType id="emx_40" name="TRLDraftFilter" visibility="private">
+</DataType>
+<DataType id="emx_41" name="TRLHTMLFilter" visibility="private">
+</DataType>
+<DataType id="emx_42" name="TRLPDFFilter" visibility="private">
+</DataType>
+<DataType id="emx_43" name="TRLReport" visibility="private">
+</DataType>
+<DataType id="emx_44" name="TPanel" visibility="private">
+</DataType>
+<DataType id="emx_45" name="TRLRichFilter" visibility="private">
+</DataType>
+<Class id="emx_46" name="TRLCustomImage" visibility="private">
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<DataType id="emx_47" name="TRLDataFieldProperty" visibility="private">
+</DataType>
+<DataType id="emx_48" name="TDataSource" visibility="private">
+</DataType>
+<DataType id="emx_49" name="TDataSet" visibility="private">
+</DataType>
+<DataType id="emx_50" name="TCollectionItemClass" visibility="private">
+</DataType>
+<Class id="emx_51" name="TJvXPButton" visibility="private">
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<DataType id="emx_52" name="TControl" visibility="private">
+</DataType>
+<Class id="emx_53" name="TDataLink" visibility="private">
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<DataType id="emx_54" name="TRLCustomPrintFilter" visibility="private">
+</DataType>
+<DataType id="emx_55" name="TRLPReview" visibility="private">
+</DataType>
+<DataType id="emx_56" name="TCustomDBGrid" visibility="private">
+</DataType>
+</UnitPackage>
+<UnitPackage id="emx_57" name="extreports" visibility="private">
+</UnitPackage>
+<UnitPackage id="emx_58" name="fonctions_reports" visibility="private">
+</UnitPackage>
+<UnitPackage id="emx_59" name="u_extdbgrid" visibility="private">
+<DataType id="emx_60" name="TExtOption" visibility="private">
+</DataType>
+<DataType id="emx_61" name="TExtOptions" visibility="private">
+</DataType>
+<Class id="emx_62" name="TExtGridColumn" visibility="public">
+<Feature>
+<Attribute id="emx_63" name="FOldControlKeyUp" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_11"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_64" name="FOldControlKeyDown" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_11"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_65" name="FAfterControlKeyUp" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_11"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_66" name="FAfterControlKeyDown" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_11"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_67" name="FOldControlKeyPress" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_12"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_68" name="FAfterControlKeyPress" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_12"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_69" name="FControl" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_13"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_70" name="FFieldTag" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_5"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_71" name="FSortOrder" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_14"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_72" name="FImages" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_15"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_73" name="FMapImages" visibility="private">
+<TypeClassifier>
+<Class idref="emx_74"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_75" name="FResize" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_16"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_76" name="SetControl" visibility="protected">
+<Parameters>
+<Parameter id="emx_77" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_13"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_78" name="SetImages" visibility="protected">
+<Parameters>
+<Parameter id="emx_79" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_15"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_80" name="SetMapImages" visibility="protected">
+<Parameters>
+<Parameter id="emx_81" name="AValue" visibility="private">
+<Parameter.type>
+<Class idref="emx_74"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_82" name="fi_getFieldTag" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_5"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_83" name="p_setFieldTag" visibility="protected">
+<Parameters>
+<Parameter id="emx_84" name="avalue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_85" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_86" name="ACollection" visibility="private">
+<Parameter.type>
+<Class idref="emx_6"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_87" name="ControlKeyUp" visibility="public">
+<Parameters>
+<Parameter id="emx_88" name="ASender" visibility="private">
+<Parameter.type>
+<DataType idref="emx_17"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_89" name="Key" visibility="private">
+<Parameter.type>
+<DataType idref="emx_18"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_90" name="Shift" visibility="private">
+<Parameter.type>
+<DataType idref="emx_19"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_91" name="ControlKeyDown" visibility="public">
+<Parameters>
+<Parameter id="emx_92" name="ASender" visibility="private">
+<Parameter.type>
+<DataType idref="emx_17"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_93" name="Key" visibility="private">
+<Parameter.type>
+<DataType idref="emx_18"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_94" name="Shift" visibility="private">
+<Parameter.type>
+<DataType idref="emx_19"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_95" name="ControlKeyPress" visibility="public">
+<Parameters>
+<Parameter id="emx_96" name="ASender" visibility="private">
+<Parameter.type>
+<DataType idref="emx_17"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_97" name="Key" visibility="private">
+<Parameter.type>
+<DataType idref="emx_20"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_98" name="SomeEdit" visibility="public">
+</Attribute>
+<Attribute id="emx_99" name="Images" visibility="public">
+</Attribute>
+<Attribute id="emx_100" name="MapImages" visibility="public">
+</Attribute>
+<Attribute id="emx_101" name="FieldTag" visibility="public">
+</Attribute>
+<Attribute id="emx_102" name="Resize" visibility="public">
+</Attribute>
+<Attribute id="emx_103" name="SortOrder" visibility="public">
+</Attribute>
+<Attribute id="emx_104" name="AfterControlKeyUp" visibility="public">
+</Attribute>
+<Attribute id="emx_105" name="AfterControlKeyDown" visibility="public">
+</Attribute>
+<Attribute id="emx_106" name="AfterControlKeyPress" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_107" name="TExtDbGridColumns" visibility="public">
+<Feature>
+<Operation id="emx_108" name="GetColumn" visibility="private">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<Class idref="emx_62"/>
+</ReturnParameter>
+<Parameter id="emx_109" name="Index" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_110" name="SetColumn" visibility="private">
+<Parameters>
+<Parameter id="emx_111" name="Index" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_112" name="Value" visibility="private">
+<Parameter.type>
+<Class idref="emx_62"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_113" name="Add" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<Class idref="emx_62"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_114" name="Items" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_115" name="TExtDBGrid" visibility="public">
+<Feature>
+<Attribute id="emx_116" name="FOnPopup" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_23"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_117" name="FBeforePopup" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_24"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_118" name="FOldOnGetBtnParams" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_25"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_119" name="FPaintOptions" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_61"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_120" name="FBeforeEnter" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_23"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_121" name="FBeforeExit" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_23"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_122" name="FColorEdit" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_26"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_123" name="FColorFocus" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_26"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_124" name="FOldFixedColor" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_26"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_125" name="FOnGetImageIndex" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_27"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_126" name="FAlwaysSame" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_16"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_127" name="GetColumns" visibility="private">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<Class idref="emx_107"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_128" name="SetColumns" visibility="private">
+<Parameters>
+<Parameter id="emx_129" name="AValue" visibility="private">
+<Parameter.type>
+<Class idref="emx_107"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_130" name="WMSetFocus" visibility="private">
+<Parameters>
+<Parameter id="emx_131" name="Msg" visibility="private">
+<Parameter.type>
+<DataType idref="emx_28"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_132" name="WMVScroll" visibility="private">
+<Parameters>
+<Parameter id="emx_133" name="Message" visibility="private">
+<Parameter.type>
+<DataType idref="emx_29"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_134" name="WMHScroll" visibility="private">
+<Parameters>
+<Parameter id="emx_135" name="Msg" visibility="private">
+<Parameter.type>
+<DataType idref="emx_30"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_136" name="WMSize" visibility="private">
+<Parameters>
+<Parameter id="emx_137" name="Msg" visibility="private">
+<Parameter.type>
+<DataType idref="emx_31"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_138" name="HideColumnControl" visibility="private">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_139" name="p_SetPaintOptions" visibility="private">
+<Parameters>
+<Parameter id="emx_140" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_61"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_141" name="ShowControlColumn" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_16"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_142" name="IsColumnsStored" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_16"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_143" name="DrawCell" visibility="protected">
+<Parameters>
+<Parameter id="emx_144" name="aCol" visibility="private">
+<Parameter.type>
+<DataType idref="emx_32"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_145" name="aRow" visibility="private">
+<Parameter.type>
+<DataType idref="emx_32"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_146" name="aRect" visibility="private">
+<Parameter.type>
+<DataType idref="emx_33"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_147" name="aState" visibility="private">
+<Parameter.type>
+<DataType idref="emx_34"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_148" name="CanEditShow" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_16"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_149" name="ExtGetBtnParams" visibility="protected">
+<Parameters>
+<Parameter id="emx_150" name="Sender" visibility="private">
+<Parameter.type>
+<DataType idref="emx_17"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_151" name="Field" visibility="private">
+<Parameter.type>
+<DataType idref="emx_35"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_152" name="AFont" visibility="private">
+<Parameter.type>
+<DataType idref="emx_36"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_153" name="Background" visibility="private">
+<Parameter.type>
+<DataType idref="emx_26"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_154" name="SortMarker" visibility="private">
+<Parameter.type>
+<DataType idref="emx_14"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_155" name="IsDown" visibility="private">
+<Parameter.type>
+<DataType idref="emx_16"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_156" name="MouseDown" visibility="protected">
+<Parameters>
+<Parameter id="emx_157" name="Button" visibility="private">
+<Parameter.type>
+<DataType idref="emx_37"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_158" name="Shift" visibility="private">
+<Parameter.type>
+<DataType idref="emx_19"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_159" name="X" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_160" name="Y" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_161" name="KeyDown" visibility="public">
+<Parameters>
+<Parameter id="emx_162" name="Key" visibility="private">
+<Parameter.type>
+<DataType idref="emx_18"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_163" name="Shift" visibility="private">
+<Parameter.type>
+<DataType idref="emx_19"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_164" name="KeyUp" visibility="public">
+<Parameters>
+<Parameter id="emx_165" name="ach_Key" visibility="private">
+<Parameter.type>
+<DataType idref="emx_18"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_166" name="ashi_Shift" visibility="private">
+<Parameter.type>
+<DataType idref="emx_19"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_167" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_168" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_169" name="DoEnter" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_170" name="DoExit" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_171" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_172" name="SetBounds" visibility="public">
+<Parameters>
+<Parameter id="emx_173" name="ALeft" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_174" name="ATop" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_175" name="AWidth" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_176" name="AHeight" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_177" name="CreateColumns" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<Class idref="emx_21"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_178" name="DoTitleClick" visibility="public">
+<Parameters>
+<Parameter id="emx_179" name="ACol" visibility="private">
+<Parameter.type>
+<DataType idref="emx_32"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_180" name="AField" visibility="private">
+<Parameter.type>
+<DataType idref="emx_35"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_181" name="Notification" visibility="public">
+<Parameters>
+<Parameter id="emx_182" name="AComponent" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_183" name="Operation" visibility="private">
+<Parameter.type>
+<DataType idref="emx_38"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_184" name="Columns" visibility="public">
+</Attribute>
+<Attribute id="emx_185" name="FWBeforeEnter" visibility="public">
+</Attribute>
+<Attribute id="emx_186" name="FWBeforeExit" visibility="public">
+</Attribute>
+<Attribute id="emx_187" name="OnGetImageIndex" visibility="public">
+</Attribute>
+<Attribute id="emx_188" name="ColorEdit" visibility="public">
+</Attribute>
+<Attribute id="emx_189" name="FixedColor" visibility="public">
+</Attribute>
+<Attribute id="emx_190" name="ColorFocus" visibility="public">
+</Attribute>
+<Attribute id="emx_191" name="AlwaysSame" visibility="public">
+</Attribute>
+<Attribute id="emx_192" name="OptionsExt" visibility="public">
+</Attribute>
+<Attribute id="emx_193" name="BeforePopup" visibility="public">
+</Attribute>
+<Attribute id="emx_194" name="OnPopup" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+<Class.Implements>
+</Class.Implements>
+</Class>
+</UnitPackage>
+<UnitPackage id="emx_195" name="u_extcomponent" visibility="private">
+<Interface id="emx_196" name="IFWComponent" visibility="public">
+<Interface.ImplementingClass>
+</Interface.ImplementingClass>
+</Interface>
+<Interface id="emx_197" name="IFWComponentEdit" visibility="public">
+<Feature>
+<Operation id="emx_198" name="SetOrder" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+</Interface>
+</UnitPackage>
+<UnitPackage id="emx_199" name="fonctions_proprietes" visibility="private">
+<DataType id="emx_200" name="tt_TableauVarOption" visibility="private">
+</DataType>
+</UnitPackage>
+<UnitPackage id="emx_201" name="U_ExtMapImageIndex" visibility="private">
+<Class id="emx_202" name="TExtMapImageIndex" visibility="public">
+<Feature>
+<Attribute id="emx_203" name="s_Value" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_204" name="i_ImageIndex" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_5"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_205" name="Value" visibility="public">
+</Attribute>
+<Attribute id="emx_206" name="ImageIndex" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_207" name="TExtMapImagesColumns" visibility="public">
+<Feature>
+<Attribute id="emx_208" name="FComponent" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_7"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_209" name="GetImageMap" visibility="private">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<Class idref="emx_202"/>
+</ReturnParameter>
+<Parameter id="emx_210" name="Index" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_211" name="SetImageMap" visibility="private">
+<Parameters>
+<Parameter id="emx_212" name="Index" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_213" name="Value" visibility="private">
+<Parameter.type>
+<Class idref="emx_202"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_214" name="GetOwner" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_8"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_215" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_216" name="Component" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_217" name="ColumnClass" visibility="private">
+<Parameter.type>
+<DataType idref="emx_9"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_218" name="Add" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<Class idref="emx_202"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_219" name="Component" visibility="public">
+</Attribute>
+<Attribute id="emx_220" name="Count" visibility="public">
+</Attribute>
+<Attribute id="emx_221" name="Items" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Interface id="emx_222" name="IMapImageComponent" visibility="public">
+<Feature>
+<Operation id="emx_223" name="CreateImagesMap" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Interface.ImplementingClass>
+</Interface.ImplementingClass>
+</Interface>
+<Class id="emx_74" name="TExtMapImages" visibility="public">
+<Feature>
+<Attribute id="emx_224" name="FMapImagesColumns" visibility="private">
+<TypeClassifier>
+<Class idref="emx_207"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_225" name="CreateImagesMap" visibility="private">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_226" name="SetColumns" visibility="private">
+<Parameters>
+<Parameter id="emx_227" name="AValue" visibility="private">
+<Parameter.type>
+<Class idref="emx_207"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_228" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_229" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_230" name="IndexOf" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_5"/>
+</ReturnParameter>
+<Parameter id="emx_231" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_232" name="ImageIndexOf" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_5"/>
+</ReturnParameter>
+<Parameter id="emx_233" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_4"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_234" name="Columns" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+<Class.Implements>
+</Class.Implements>
+</Class>
+</UnitPackage>
+<UnitPackage id="emx_235" name="fonctions_images" visibility="private">
+</UnitPackage>
+<UnitPackage id="emx_236" name="unite_messages_delphi" visibility="private">
+</UnitPackage>
+<UnitPackage id="emx_237" name="u_reportform" visibility="private">
+<Class id="emx_238" name="TReportForm" visibility="public">
+<Feature>
+<Attribute id="emx_239" name="RLDraftFilter" visibility="public">
+<TypeClassifier>
+<DataType idref="emx_40"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_240" name="RLHTMLFilter" visibility="public">
+<TypeClassifier>
+<DataType idref="emx_41"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_241" name="RLPDFFilter" visibility="public">
+<TypeClassifier>
+<DataType idref="emx_42"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_242" name="RLReport" visibility="public">
+<TypeClassifier>
+<DataType idref="emx_43"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_243" name="Panel1" visibility="public">
+<TypeClassifier>
+<DataType idref="emx_44"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_244" name="RLRichFilter" visibility="public">
+<TypeClassifier>
+<DataType idref="emx_45"/>
+</TypeClassifier>
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+</UnitPackage>
+<UnitPackage id="emx_245" name="unite_messages" visibility="private">
+</UnitPackage>
+<UnitPackage id="emx_246" name="fonctions_string" visibility="private">
+<DataType id="emx_247" name="TUArray" visibility="private">
+</DataType>
+<DataType id="emx_248" name="TStringArray" visibility="private">
+</DataType>
+<DataType id="emx_249" name="TModeFormatText" visibility="private">
+</DataType>
+</UnitPackage>
+<UnitPackage id="emx_250" name="type_string_delphi" visibility="private">
+<DataType id="emx_251" name="TCharToUTF8Table" visibility="private">
+</DataType>
+</UnitPackage>
+<UnitPackage id="emx_252" name="fonctions_system" visibility="private">
+</UnitPackage>
+<UnitPackage id="emx_253" name="u_reports_rlcomponents" visibility="private">
+<DataType id="emx_254" name="TBoolArray" visibility="private">
+</DataType>
+<Class id="emx_255" name="TRLCustomDBExtImage" visibility="public">
+<Feature>
+<Attribute id="emx_256" name="fDataField" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_47"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_257" name="fDataSource" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_48"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_258" name="GetField" visibility="private">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_35"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_259" name="GetDataSet" visibility="private">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_49"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_260" name="SetDataField" visibility="private">
+<Parameters>
+<Parameter id="emx_261" name="aValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_47"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_262" name="SetDataSource" visibility="private">
+<Parameters>
+<Parameter id="emx_263" name="aValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_48"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_264" name="LoadPicture" visibility="protected">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_265" name="Notification" visibility="protected">
+<Parameters>
+<Parameter id="emx_266" name="aComponent" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_267" name="Operation" visibility="private">
+<Parameter.type>
+<DataType idref="emx_38"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_268" name="InternalPrint" visibility="protected">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_269" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_270" name="aOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_271" name="Field" visibility="public">
+</Attribute>
+<Attribute id="emx_272" name="DataSet" visibility="public">
+</Attribute>
+<Attribute id="emx_273" name="DataField" visibility="public">
+</Attribute>
+<Attribute id="emx_274" name="DataSource" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<Class id="emx_275" name="TRLCustomDBExtImageList" visibility="public">
+<Feature>
+<Attribute id="emx_276" name="FGetImageIndex" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_27"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_277" name="FMapImages" visibility="private">
+<TypeClassifier>
+<Class idref="emx_74"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_278" name="FImageList" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_15"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_279" name="SetImages" visibility="private">
+<Parameters>
+<Parameter id="emx_280" name="Avalue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_15"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_281" name="LoadPicture" visibility="protected">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_282" name="Notification" visibility="protected">
+<Parameters>
+<Parameter id="emx_283" name="aComponent" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_284" name="Operation" visibility="private">
+<Parameter.type>
+<DataType idref="emx_38"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_285" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_286" name="aOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_287" name="OnGetImageIndex" visibility="public">
+</Attribute>
+<Attribute id="emx_288" name="MapImages" visibility="public">
+</Attribute>
+<Attribute id="emx_289" name="Images" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<Class id="emx_290" name="TRLDBExtImage" visibility="public">
+<Feature>
+<Attribute id="emx_291" name="Align" visibility="public">
+</Attribute>
+<Attribute id="emx_292" name="Anchors" visibility="public">
+</Attribute>
+<Attribute id="emx_293" name="AutoSize" visibility="public">
+</Attribute>
+<Attribute id="emx_294" name="Behavior" visibility="public">
+</Attribute>
+<Attribute id="emx_295" name="Borders" visibility="public">
+</Attribute>
+<Attribute id="emx_296" name="Center" visibility="public">
+</Attribute>
+<Attribute id="emx_297" name="DataField" visibility="public">
+</Attribute>
+<Attribute id="emx_298" name="DataSource" visibility="public">
+</Attribute>
+<Attribute id="emx_299" name="Font" visibility="public">
+</Attribute>
+<Attribute id="emx_300" name="FriendlyName" visibility="public">
+</Attribute>
+<Attribute id="emx_301" name="Holder" visibility="public">
+</Attribute>
+<Attribute id="emx_302" name="HoldStyle" visibility="public">
+</Attribute>
+<Attribute id="emx_303" name="RealBounds" visibility="public">
+</Attribute>
+<Attribute id="emx_304" name="Scaled" visibility="public">
+</Attribute>
+<Attribute id="emx_305" name="SecondHolder" visibility="public">
+</Attribute>
+<Attribute id="emx_306" name="SecondHoldStyle" visibility="public">
+</Attribute>
+<Attribute id="emx_307" name="Stretch" visibility="public">
+</Attribute>
+<Attribute id="emx_308" name="Transparent" visibility="public">
+</Attribute>
+<Attribute id="emx_309" name="Visible" visibility="public">
+</Attribute>
+<Attribute id="emx_310" name="AfterPrint" visibility="public">
+</Attribute>
+<Attribute id="emx_311" name="BeforePrint" visibility="public">
+</Attribute>
+<Attribute id="emx_312" name="OnMeasureHeight" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_313" name="TRLDBExtImageList" visibility="public">
+<Feature>
+<Attribute id="emx_314" name="Align" visibility="public">
+</Attribute>
+<Attribute id="emx_315" name="Anchors" visibility="public">
+</Attribute>
+<Attribute id="emx_316" name="AutoSize" visibility="public">
+</Attribute>
+<Attribute id="emx_317" name="Behavior" visibility="public">
+</Attribute>
+<Attribute id="emx_318" name="Borders" visibility="public">
+</Attribute>
+<Attribute id="emx_319" name="Center" visibility="public">
+</Attribute>
+<Attribute id="emx_320" name="DataField" visibility="public">
+</Attribute>
+<Attribute id="emx_321" name="DataSource" visibility="public">
+</Attribute>
+<Attribute id="emx_322" name="Font" visibility="public">
+</Attribute>
+<Attribute id="emx_323" name="FriendlyName" visibility="public">
+</Attribute>
+<Attribute id="emx_324" name="Holder" visibility="public">
+</Attribute>
+<Attribute id="emx_325" name="HoldStyle" visibility="public">
+</Attribute>
+<Attribute id="emx_326" name="RealBounds" visibility="public">
+</Attribute>
+<Attribute id="emx_327" name="Scaled" visibility="public">
+</Attribute>
+<Attribute id="emx_328" name="SecondHolder" visibility="public">
+</Attribute>
+<Attribute id="emx_329" name="SecondHoldStyle" visibility="public">
+</Attribute>
+<Attribute id="emx_330" name="Stretch" visibility="public">
+</Attribute>
+<Attribute id="emx_331" name="Transparent" visibility="public">
+</Attribute>
+<Attribute id="emx_332" name="Visible" visibility="public">
+</Attribute>
+<Attribute id="emx_333" name="AfterPrint" visibility="public">
+</Attribute>
+<Attribute id="emx_334" name="BeforePrint" visibility="public">
+</Attribute>
+<Attribute id="emx_335" name="OnMeasureHeight" visibility="public">
+</Attribute>
+<Attribute id="emx_336" name="OnGetImageIndex" visibility="public">
+</Attribute>
+<Attribute id="emx_337" name="MapImages" visibility="public">
+</Attribute>
+<Attribute id="emx_338" name="Images" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_339" name="TExtPrintColumn" visibility="public">
+<Feature>
+<Attribute id="emx_340" name="FLineBreak" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_5"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_341" name="FWidth" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_5"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_342" name="FResize" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_16"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_343" name="FVisible" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_16"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_344" name="FBreakCaption" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_345" name="FDBTitle" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_346" name="FFieldName" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_347" name="FDatasource" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_48"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_348" name="FImages" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_15"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_349" name="FMapImages" visibility="private">
+<TypeClassifier>
+<Class idref="emx_74"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_350" name="SetImages" visibility="private">
+<Parameters>
+<Parameter id="emx_351" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_15"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_352" name="SetMapImages" visibility="private">
+<Parameters>
+<Parameter id="emx_353" name="AValue" visibility="private">
+<Parameter.type>
+<Class idref="emx_74"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_354" name="GetFieldName" visibility="private">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_4"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_355" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_356" name="ACollection" visibility="private">
+<Parameter.type>
+<Class idref="emx_6"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_357" name="Datasource" visibility="public">
+</Attribute>
+<Attribute id="emx_358" name="Width" visibility="public">
+</Attribute>
+<Attribute id="emx_359" name="Resize" visibility="public">
+</Attribute>
+<Attribute id="emx_360" name="Visible" visibility="public">
+</Attribute>
+<Attribute id="emx_361" name="LineBreak" visibility="public">
+</Attribute>
+<Attribute id="emx_362" name="BreakCaption" visibility="public">
+</Attribute>
+<Attribute id="emx_363" name="DBTitle" visibility="public">
+</Attribute>
+<Attribute id="emx_364" name="FieldName" visibility="public">
+</Attribute>
+<Attribute id="emx_365" name="Images" visibility="public">
+</Attribute>
+<Attribute id="emx_366" name="MapImages" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_367" name="TExtPrintColumns" visibility="public">
+<Feature>
+<Attribute id="emx_368" name="FOwner" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_7"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_369" name="GetColumn" visibility="private">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<Class idref="emx_339"/>
+</ReturnParameter>
+<Parameter id="emx_370" name="Index" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_371" name="SetColumn" visibility="private">
+<Parameters>
+<Parameter id="emx_372" name="Index" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_373" name="Value" visibility="private">
+<Parameter.type>
+<Class idref="emx_339"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_374" name="SetDatasource" visibility="public">
+<Parameters>
+<Parameter id="emx_375" name="AColumn" visibility="private">
+<Parameter.type>
+<Class idref="emx_339"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_374" name="SetDatasource" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_376" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_377" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_378" name="aItemClass" visibility="private">
+<Parameter.type>
+<DataType idref="emx_50"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_379" name="Add" visibility="public">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<Class idref="emx_339"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_380" name="Owner" visibility="public">
+</Attribute>
+<Attribute id="emx_381" name="Items" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+</UnitPackage>
+<UnitPackage id="emx_382" name="u_reports_components" visibility="private">
+<Class id="emx_383" name="TFWPrintData" visibility="public">
+<Feature>
+<Attribute id="emx_384" name="FFilter" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_54"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_385" name="FDataLink" visibility="private">
+<TypeClassifier>
+<Class idref="emx_53"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_386" name="FDBTitle" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_387" name="FColumns" visibility="private">
+<TypeClassifier>
+<Class idref="emx_367"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_388" name="FReport" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_43"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_389" name="FReportForm" visibility="private">
+<TypeClassifier>
+<Class idref="emx_238"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_390" name="FPreview" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_55"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_391" name="GetFalse" visibility="private">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_16"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_392" name="SetDatasource" visibility="private">
+<Parameters>
+<Parameter id="emx_393" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_48"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_394" name="GetDatasource" visibility="private">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_48"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_395" name="SetColumns" visibility="private">
+<Parameters>
+<Parameter id="emx_396" name="AValue" visibility="private">
+<Parameter.type>
+<Class idref="emx_367"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_397" name="Notification" visibility="protected">
+<Parameters>
+<Parameter id="emx_398" name="AComponent" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_399" name="Operation" visibility="private">
+<Parameter.type>
+<DataType idref="emx_38"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_400" name="SetCreateReport" visibility="protected">
+<Parameters>
+<Parameter id="emx_401" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_16"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_402" name="CreateColumns" visibility="protected">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<Class idref="emx_367"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_403" name="ActiveChanged" visibility="protected">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_404" name="AddColumns" visibility="protected">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_405" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_406" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_407" name="Destroy" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_408" name="CreateAReport" visibility="public">
+<Parameters>
+<Parameter id="emx_409" name="AReport" visibility="private">
+<Parameter.type>
+<DataType idref="emx_43"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_410" name="ShowPreview" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_411" name="AddPreview" visibility="public">
+<Parameters>
+<Parameter id="emx_412" name="AReport" visibility="private">
+<Parameter.type>
+<DataType idref="emx_43"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_413" name="FormReport" visibility="public">
+</Attribute>
+<Attribute id="emx_414" name="Datasource" visibility="public">
+</Attribute>
+<Attribute id="emx_415" name="Filter" visibility="public">
+</Attribute>
+<Attribute id="emx_416" name="DBTitle" visibility="public">
+</Attribute>
+<Attribute id="emx_417" name="Columns" visibility="public">
+</Attribute>
+<Attribute id="emx_418" name="Report" visibility="public">
+</Attribute>
+<Attribute id="emx_419" name="Preview" visibility="public">
+</Attribute>
+<Attribute id="emx_420" name="CreateReport" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_421" name="TDataLinkPrint" visibility="public">
+<Feature>
+<Attribute id="emx_422" name="FOwner" visibility="private">
+<TypeClassifier>
+<Class idref="emx_383"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_423" name="ActiveChanged" visibility="protected">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_424" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_425" name="AOwner" visibility="private">
+<Parameter.type>
+<Class idref="emx_383"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_426" name="TFWPrintGrid" visibility="public">
+<Feature>
+<Attribute id="emx_427" name="FFilter" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_54"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_428" name="FReport" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_43"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_429" name="FDBGrid" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_56"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_430" name="FDBTitle" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_4"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_431" name="FPreview" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_55"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_432" name="GetFalse" visibility="private">
+<Parameters>
+<ReturnParameter>
+<Parameter.kind value="return"/>
+<DataType idref="emx_16"/>
+</ReturnParameter>
+</Parameters>
+</Operation>
+<Operation id="emx_433" name="SetDBGrid" visibility="private">
+<Parameters>
+<Parameter id="emx_434" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_56"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_435" name="Notification" visibility="protected">
+<Parameters>
+<Parameter id="emx_436" name="AComponent" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+<Parameter id="emx_437" name="Operation" visibility="private">
+<Parameter.type>
+<DataType idref="emx_38"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_438" name="SetCreateReport" visibility="protected">
+<Parameters>
+<Parameter id="emx_439" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_16"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_440" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_441" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_442" name="Click" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_443" name="CreateAReport" visibility="public">
+<Parameters>
+<Parameter id="emx_444" name="AReport" visibility="private">
+<Parameter.type>
+<DataType idref="emx_43"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_445" name="DBGrid" visibility="public">
+</Attribute>
+<Attribute id="emx_446" name="Filter" visibility="public">
+</Attribute>
+<Attribute id="emx_447" name="DBTitle" visibility="public">
+</Attribute>
+<Attribute id="emx_448" name="Preview" visibility="public">
+</Attribute>
+<Attribute id="emx_449" name="Report" visibility="public">
+</Attribute>
+<Attribute id="emx_450" name="CreateReport" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+</UnitPackage>
+<UnitPackage id="emx_451" name="u_buttons_appli" visibility="private">
+<Class id="emx_452" name="TFWClose" visibility="public">
+<Feature>
+<Operation id="emx_453" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_454" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_455" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_456" name="Click" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Attribute id="emx_457" name="Width" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_458" name="TFWCancel" visibility="public">
+<Feature>
+<Operation id="emx_459" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_460" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_461" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_462" name="TFWOK" visibility="public">
+<Feature>
+<Operation id="emx_463" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_464" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_465" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_466" name="TFWInsert" visibility="public">
+<Feature>
+<Operation id="emx_467" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_468" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_469" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_470" name="TFWAdd" visibility="public">
+<Feature>
+<Operation id="emx_471" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_472" name="TFWDelete" visibility="public">
+<Feature>
+<Operation id="emx_473" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_474" name="TFWDocument" visibility="public">
+<Feature>
+<Operation id="emx_475" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_476" name="TFWFolder" visibility="public">
+<Feature>
+<Operation id="emx_477" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_478" name="TFWDate" visibility="public">
+<Feature>
+<Operation id="emx_479" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_480" name="TFWQuit" visibility="public">
+<Feature>
+<Operation id="emx_481" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_482" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_483" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_484" name="TFWErase" visibility="public">
+<Feature>
+<Operation id="emx_485" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_486" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_487" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_488" name="TFWSaveAs" visibility="public">
+<Feature>
+<Operation id="emx_489" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_490" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_491" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_492" name="TFWLoad" visibility="public">
+<Feature>
+<Operation id="emx_493" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_494" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_495" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_496" name="TFWPrint" visibility="public">
+<Feature>
+<Operation id="emx_497" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_498" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_499" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<Class id="emx_500" name="TFWPreview" visibility="public">
+<Feature>
+<Operation id="emx_501" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_502" name="TFWNext" visibility="public">
+<Feature>
+<Operation id="emx_503" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_504" name="TFWPrior" visibility="public">
+<Feature>
+<Operation id="emx_505" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_506" name="TFWRefresh" visibility="public">
+<Feature>
+<Operation id="emx_507" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_508" name="TFWCopy" visibility="public">
+<Feature>
+<Operation id="emx_509" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_510" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_511" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_512" name="TFWInit" visibility="public">
+<Feature>
+<Operation id="emx_513" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_514" name="TFWConfig" visibility="public">
+<Feature>
+<Operation id="emx_515" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_516" name="TFWImport" visibility="public">
+<Feature>
+<Operation id="emx_517" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_518" name="TFWTrash" visibility="public">
+<Feature>
+<Operation id="emx_519" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_520" name="TFWExport" visibility="public">
+<Feature>
+<Operation id="emx_521" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_522" name="TFWSearch" visibility="public">
+<Feature>
+<Operation id="emx_523" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_524" name="TFWZoomIn" visibility="public">
+<Feature>
+<Operation id="emx_525" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+<Class id="emx_526" name="TFWZoomOut" visibility="public">
+<Feature>
+<Operation id="emx_527" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+</UnitPackage>
+<UnitPackage id="emx_528" name="u_buttons_defs" visibility="private">
+<Interface id="emx_529" name="IFWButton" visibility="public">
+<Feature>
+<Operation id="emx_530" name="Paint" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+</Feature>
+<Interface.ImplementingClass>
+</Interface.ImplementingClass>
+</Interface>
+<Class id="emx_531" name="TFWXPButton" visibility="public">
+<Feature>
+<Attribute id="emx_532" name="FColor" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_26"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_533" name="FColorFrameFocus" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_26"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_534" name="FBeforePopup" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_24"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_535" name="FOnPopup" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_23"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_536" name="AdaptGlyph" visibility="protected">
+<Parameters>
+<Parameter id="emx_537" name="ASize" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_538" name="MouseEnter" visibility="protected">
+<Parameters>
+<Parameter id="emx_539" name="Acontrol" visibility="private">
+<Parameter.type>
+<DataType idref="emx_52"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_540" name="MouseLeave" visibility="protected">
+<Parameters>
+<Parameter id="emx_541" name="Acontrol" visibility="private">
+<Parameter.type>
+<DataType idref="emx_52"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_542" name="Click" visibility="protected">
+<Parameters>
+</Parameters>
+</Operation>
+<Operation id="emx_543" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_544" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Attribute id="emx_545" name="ColorFrameFocus" visibility="public">
+</Attribute>
+<Attribute id="emx_546" name="BeforePopup" visibility="public">
+</Attribute>
+<Attribute id="emx_547" name="OnPopup" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+<Class.Implements>
+</Class.Implements>
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<Class id="emx_548" name="TFWButton" visibility="public">
+<Feature>
+<Attribute id="emx_549" name="FGlyphSize" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_5"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_550" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_551" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_552" name="Loaded" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Attribute id="emx_553" name="Glyph" visibility="public">
+</Attribute>
+<Attribute id="emx_554" name="GlyphSize" visibility="public">
+</Attribute>
+<Attribute id="emx_555" name="Height" visibility="public">
+</Attribute>
+<Attribute id="emx_556" name="Width" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+<Class.Descendant>
+</Class.Descendant>
+</Class>
+<Class id="emx_557" name="TFWButtonList" visibility="public">
+<Feature>
+<Attribute id="emx_558" name="FImagesList" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_15"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_559" name="FImageSize" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_5"/>
+</TypeClassifier>
+</Attribute>
+<Attribute id="emx_560" name="FImageIndex" visibility="private">
+<TypeClassifier>
+<DataType idref="emx_5"/>
+</TypeClassifier>
+</Attribute>
+<Operation id="emx_561" name="p_setImagesList" visibility="private">
+<Parameters>
+<Parameter id="emx_562" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_15"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_563" name="p_setImageIndex" visibility="private">
+<Parameters>
+<Parameter id="emx_564" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_565" name="p_setImageSize" visibility="private">
+<Parameters>
+<Parameter id="emx_566" name="AValue" visibility="private">
+<Parameter.type>
+<DataType idref="emx_5"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_567" name="Create" visibility="public">
+<Parameters>
+<Parameter id="emx_568" name="AOwner" visibility="private">
+<Parameter.type>
+<DataType idref="emx_7"/>
+</Parameter.type>
+</Parameter>
+</Parameters>
+</Operation>
+<Operation id="emx_569" name="LoadGlyph" visibility="public">
+<Parameters>
+</Parameters>
+</Operation>
+<Attribute id="emx_570" name="Images" visibility="public">
+</Attribute>
+<Attribute id="emx_571" name="ImageIndex" visibility="public">
+</Attribute>
+<Attribute id="emx_572" name="ImageSize" visibility="public">
+</Attribute>
+<Attribute id="emx_573" name="Glyph" visibility="public">
+</Attribute>
+<Attribute id="emx_574" name="Height" visibility="public">
+</Attribute>
+<Attribute id="emx_575" name="Width" visibility="public">
+</Attribute>
+</Feature>
+<Class.Ancestor>
+</Class.Ancestor>
+</Class>
+</UnitPackage>
+</LogicPackage>

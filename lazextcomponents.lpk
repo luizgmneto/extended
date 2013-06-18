@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="lazextcomponents"/>
+    <AddToProjectUsesSection Value="True"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <IncludeFiles Value="composants;forms"/>
+        <OtherUnitFiles Value="composants;forms"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <IncludeAssertionCode Value="True"/>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Version Major="1" Minor="2" Release="8" Build="2"/>
+    <Files Count="27">
+      <Item1>
+        <Filename Value="composants/u_onforminfoini.pas"/>
+        <UnitName Value="U_OnFormInfoIni"/>
+      </Item1>
+      <Item2>
+        <Filename Value="composants/PDBCheck.pas"/>
+        <UnitName Value="PDBCheck"/>
+      </Item2>
+      <Item3>
+        <Filename Value="composants/PCheck.pas"/>
+        <UnitName Value="PCheck"/>
+      </Item3>
+      <Item4>
+        <Filename Value="composants/u_extcolorcombos.pas"/>
+        <UnitName Value="U_ExtColorCombos"/>
+      </Item4>
+      <Item5>
+        <Filename Value="composants/u_extcomponent.pas"/>
+        <UnitName Value="u_extcomponent"/>
+      </Item5>
+      <Item6>
+        <Filename Value="composants/u_framework_components.pas"/>
+        <UnitName Value="u_framework_components"/>
+      </Item6>
+      <Item7>
+        <Filename Value="composants/u_dblistview.pas"/>
+        <UnitName Value="U_DBListView"/>
+      </Item7>
+      <Item8>
+        <Filename Value="composants/U_ExtNumEdits.pas"/>
+        <UnitName Value="U_ExtNumEdits"/>
+      </Item8>
+      <Item9>
+        <Filename Value="composants/u_extdbnavigator.pas"/>
+        <UnitName Value="U_ExtDBNavigator"/>
+      </Item9>
+      <Item10>
+        <Filename Value="composants/u_extdbimage.pas"/>
+        <UnitName Value="U_ExtDBImage"/>
+      </Item10>
+      <Item11>
+        <Filename Value="composants/u_framework_dbcomponents.pas"/>
+        <UnitName Value="u_framework_dbcomponents"/>
+      </Item11>
+      <Item12>
+        <Filename Value="composants/u_extsearchedit.pas"/>
+        <UnitName Value="u_extsearchedit"/>
+      </Item12>
+      <Item13>
+        <Filename Value="composants/U_ExtComboInsert.pas"/>
+        <UnitName Value="U_ExtComboInsert"/>
+      </Item13>
+      <Item14>
+        <Filename Value="composants/u_extdbgrid.pas"/>
+        <UnitName Value="u_extdbgrid"/>
+      </Item14>
+      <Item15>
+        <Filename Value="composants/u_extimage.pas"/>
+        <UnitName Value="U_ExtImage"/>
+      </Item15>
+      <Item16>
+        <Filename Value="composants/U_GroupView.lrs"/>
+        <Type Value="LRS"/>
+      </Item16>
+      <Item17>
+        <Filename Value="composants/U_GroupView.pas"/>
+        <UnitName Value="U_GroupView"/>
+      </Item17>
+      <Item18>
+        <Filename Value="composants/U_ExtPictCombo.pas"/>
+        <UnitName Value="U_ExtPictCombo"/>
+      </Item18>
+      <Item19>
+        <Filename Value="composants/u_extmapimageindex.pas"/>
+        <UnitName Value="U_ExtMapImageIndex"/>
+      </Item19>
+      <Item20>
+        <Filename Value="composants/u_extimagelist.pas"/>
+        <UnitName Value="u_extimagelist"/>
+      </Item20>
+      <Item21>
+        <Filename Value="composants/u_extdbpictcombo.pas"/>
+        <UnitName Value="U_ExtDBPictCombo"/>
+      </Item21>
+      <Item22>
+        <Filename Value="composants/u_extradios.pas"/>
+        <UnitName Value="u_extradios"/>
+      </Item22>
+      <Item23>
+        <Filename Value="composants/u_buttons_defs.pas"/>
+        <UnitName Value="u_buttons_defs"/>
+      </Item23>
+      <Item24>
+        <Filename Value="composants/u_extdbdirectoryedit.pas"/>
+        <UnitName Value="u_extDBDirectoryEdit"/>
+      </Item24>
+      <Item25>
+        <Filename Value="composants/u_formmainini.pas"/>
+        <UnitName Value="U_FormMainIni"/>
+      </Item25>
+      <Item26>
+        <Filename Value="composants/u_scrollclones.pas"/>
+        <UnitName Value="u_scrollclones"/>
+      </Item26>
+      <Item27>
+        <Filename Value="composants/u_extdbimagelist.pas"/>
+        <UnitName Value="U_ExtDBImageList"/>
+      </Item27>
+    </Files>
+    <i18n>
+      <EnableI18N Value="True"/>
+      <OutDir Value="LANG"/>
+    </i18n>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="7">
+      <Item1>
+        <PackageName Value="JvXPBarLaz"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="ZVDateTimeCtrls"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="rxnew"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="virtualtreeview_package"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="lazfonctions"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="ExpertSuperForm"/>
+      </Item6>
+      <Item7>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item7>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
+  </Package>
+</CONFIG>

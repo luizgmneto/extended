@@ -1,0 +1,382 @@
+inherited F_Article: TF_Article
+  Left = 235
+  Height = 341
+  Top = 0
+  Width = 703
+  Align = alClient
+  Caption = 'Article'
+  ClientHeight = 341
+  ClientWidth = 703
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  OnCreate = F_FormDicoCreate
+  Position = poMainFormCenter
+  WindowState = wsMaximized
+  object pa_1: TPanel[0]
+    Left = 0
+    Height = 315
+    Top = 26
+    Width = 703
+    Align = alClient
+    BevelOuter = bvLowered
+    ClientHeight = 315
+    ClientWidth = 703
+    TabOrder = 0
+    object spl_1: TSplitter
+      Left = 297
+      Height = 313
+      Top = 1
+      Width = 5
+    end
+    object pa_3: TPanel
+      Left = 302
+      Height = 313
+      Top = 1
+      Width = 400
+      Align = alClient
+      BevelOuter = bvNone
+      ClientHeight = 313
+      ClientWidth = 400
+      Constraints.MinWidth = 10
+      TabOrder = 0
+      object lb_codecateg: TFWLabel
+        Tag = 1001
+        Left = 26
+        Height = 16
+        Top = 43
+        Width = 83
+        AutoSize = False
+        Caption = 'Clé'
+        Font.Color = clWindowText
+        Font.Height = 12
+        Font.Name = 'MS Sans Serif'
+        ParentBidiMode = False
+        ParentColor = False
+        ParentFont = False
+        ColorFocus = clMaroon
+      end
+      object lb_libelcateg: TFWLabel
+        Tag = 1002
+        Left = 32
+        Height = 16
+        Top = 68
+        Width = 77
+        AutoSize = False
+        Caption = 'Libellé'
+        Font.Color = clWindowText
+        Font.Height = 12
+        Font.Name = 'MS Sans Serif'
+        ParentColor = False
+        ParentFont = False
+        ColorFocus = clMaroon
+      end
+      object pa_5: TPanel
+        Left = 0
+        Height = 32
+        Top = 0
+        Width = 400
+        Align = alTop
+        BevelOuter = bvNone
+        ClientHeight = 32
+        ClientWidth = 400
+        TabOrder = 2
+        object nv_saisie: TExtDBNavigator
+          Left = 0
+          Height = 32
+          Top = 0
+          Width = 400
+          Flat = True
+          DataSource = M_Article.ds_article
+          DeleteQuestion = 'Confirmez-vous l''effacement de l''enregistrement ?'
+          Align = alClient
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+          Orientation = noHorizontal
+          VisibleButtons = [nbEInsert, nbEDelete, nbEPost, nbECancel, nbESearch]
+          GlyphSize = gsLarge
+          Hints.Strings = (
+            'Premier enregistrement'
+            'Enregistrement précédent'
+            'Enregistrement suivant'
+            'Dernier enregistrement'
+            'Insérer enregistrement'
+            'Supprimer l''enregistrement'
+            'Modifier l''enregistrement'
+            'Valider modifications'
+            'Annuler les modifications'
+            'Rafraîchir les données'
+            'Rechercher un enregistrement'
+          )
+        end
+      end
+      object ed_libelcateg: TFWDBEdit
+        Tag = 2
+        Left = 128
+        Height = 27
+        Top = 64
+        Width = 190
+        DataField = 'ARTI_Libcom'
+        DataSource = M_Article.ds_article
+        CharCase = ecNormal
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        MaxLength = 0
+        ParentFont = False
+        TabOrder = 1
+      end
+      object ed_codecateg: TFWDBEdit
+        Tag = 1
+        Left = 128
+        Height = 27
+        Top = 36
+        Width = 34
+        DataField = 'ARTI_Clep'
+        DataSource = M_Article.ds_article
+        ReadOnly = True
+        CharCase = ecNormal
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        MaxLength = 0
+        ParentFont = False
+        TabOrder = 0
+      end
+      object cb_Categ: TExtDBComboInsert
+        Left = 128
+        Height = 27
+        Top = 93
+        Width = 218
+        DataField = 'ARTI__GAMM'
+        DataSource = M_Article.ds_article
+        KeyField = 'GAMM_Clep'
+        ListField = 'GAMM_Libelle'
+        ListFieldIndex = 0
+        ListSource = M_Article.ds_Gamme
+        LookupCache = False
+        TabOrder = 3
+        MyLabel = lb_gamme
+      end
+      object lb_gamme: TFWLabel
+        Tag = 1002
+        Left = 32
+        Height = 16
+        Top = 96
+        Width = 77
+        AutoSize = False
+        Caption = 'Gamme'
+        Font.Color = clWindowText
+        Font.Height = 12
+        Font.Name = 'MS Sans Serif'
+        ParentColor = False
+        ParentFont = False
+        ColorFocus = clMaroon
+      end
+      object cb_Categ1: TExtDBComboInsert
+        Left = 128
+        Height = 27
+        Top = 121
+        Width = 218
+        DataField = 'ARTI__TYPR'
+        DataSource = M_Article.ds_article
+        KeyField = 'TYPR_CLEP'
+        ListField = 'TYPR_LIBELLE'
+        ListFieldIndex = 0
+        ListSource = M_Article.ds_typearti
+        LookupCache = False
+        TabOrder = 4
+        MyLabel = lb_typart
+      end
+      object lb_typart: TFWLabel
+        Tag = 1002
+        Left = 32
+        Height = 16
+        Top = 124
+        Width = 77
+        AutoSize = False
+        Caption = 'Type d''article'
+        Font.Color = clWindowText
+        Font.Height = 11
+        Font.Name = 'MS Sans Serif'
+        ParentColor = False
+        ParentFont = False
+        ColorFocus = clMaroon
+      end
+      object cb_Categ2: TExtDBComboInsert
+        Left = 128
+        Height = 27
+        Top = 149
+        Width = 218
+        DataField = 'ARTI__CARA'
+        DataSource = M_Article.ds_article
+        KeyField = 'CARA_Clep'
+        ListField = 'CARA_Libelle'
+        ListFieldIndex = 0
+        ListSource = M_Article.ds_Carac
+        LookupCache = False
+        TabOrder = 5
+      end
+      object lb_libelcateg3: TFWLabel
+        Tag = 1002
+        Left = 32
+        Height = 16
+        Top = 152
+        Width = 77
+        AutoSize = False
+        Caption = 'Catégorie'
+        ParentColor = False
+        ColorFocus = clMaroon
+      end
+    end
+    object pa_2: TPanel
+      Left = 1
+      Height = 313
+      Top = 1
+      Width = 296
+      Align = alLeft
+      BevelOuter = bvNone
+      ClientHeight = 313
+      ClientWidth = 296
+      Constraints.MinWidth = 10
+      TabOrder = 1
+      object gd_categ: TExtDBGrid
+        Left = 0
+        Height = 281
+        Top = 32
+        Width = 296
+        TitleButtons = False
+        AutoSort = False
+        Columns = <        
+          item
+            Title.Alignment = taCenter
+            Title.Caption = 'Libellés'
+            Title.Orientation = toHorizontal
+            FieldName = 'ARTI_Libcom'
+            Filter.DropDownRows = 0
+            Filter.EmptyValue = '(Empty)'
+            Filter.EmptyFont.Style = [fsItalic]
+            Filter.ItemIndex = -1
+            FieldTag = 0
+          end>
+        OptionsRx = []
+        Align = alClient
+        BorderStyle = bsNone
+        Color = clWindow
+        FocusColor = clRed
+        SelectedColor = clHighlight
+        GridLineStyle = psSolid
+        DataSource = M_Article.ds_article
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+        ParentColor = False
+        Scrollbars = ssHorizontal
+        TabOrder = 0
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'MS Sans Serif'
+      end
+      object nv_navigator: TExtDBNavigator
+        Left = 0
+        Height = 32
+        Top = 0
+        Width = 296
+        Flat = True
+        DataSource = M_Article.ds_article
+        DeleteQuestion = 'Confirmez-vous l''effacement de l''enregistrement ?'
+        Align = alTop
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+        Orientation = noHorizontal
+        VisibleButtons = [nbEFirst, nbEPrior, nbENext, nbELast]
+        GlyphSize = gsLarge
+        Hints.Strings = (
+          'Premier enregistrement'
+          'Enregistrement précédent'
+          'Enregistrement suivant'
+          'Dernier enregistrement'
+          'Insérer enregistrement'
+          'Supprimer l''enregistrement'
+          'Modifier l''enregistrement'
+          'Valider modifications'
+          'Annuler les modifications'
+          'Rafraîchir les données'
+          'Rechercher un enregistrement'
+        )
+      end
+    end
+  end
+  object Panel1: TPanel[1]
+    Left = 0
+    Height = 26
+    Top = 0
+    Width = 703
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 26
+    ClientWidth = 703
+    TabOrder = 1
+    object Panel11: TPanel
+      Left = 608
+      Height = 26
+      Top = 0
+      Width = 16
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 0
+    end
+    object bt_imprimer: TFWPrintGrid
+      Left = 528
+      Hint = 'Impression des résultats de la sélection'
+      Top = 0
+      Width = 80
+      Caption = 'Imprimer'
+      TabOrder = 3
+      Align = alRight
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      ParentFont = False
+      DBGrid = gd_categ
+      DBTitle = 'Articles'
+    end
+    object Panel5: TPanel
+      Left = 0
+      Height = 26
+      Top = 0
+      Width = 13
+      Align = alLeft
+      BevelOuter = bvNone
+      TabOrder = 1
+    end
+    object Panel6: TPanel
+      Left = 13
+      Height = 26
+      Top = 0
+      Width = 13
+      Align = alLeft
+      BevelOuter = bvNone
+      TabOrder = 2
+    end
+    object bt_fermer: TFWClose
+      Left = 624
+      Top = 0
+      Width = 79
+      Caption = 'Fermer'
+      TabOrder = 4
+      Layout = blGlyphRight
+      Align = alRight
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      ParentFont = False
+    end
+  end
+  object SvgFormInfoIni: TOnFormInfoIni[2]
+    SaveForm = [sfSaveSizes, sfSameMonitor]
+    left = 97
+    top = 136
+  end
+end
