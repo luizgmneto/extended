@@ -608,7 +608,7 @@ end;
 procedure p_ReadComboBoxItems (  const acom_combobox : TComponent ;const Astl_Items : TStrings );
 var valItemIndex : Longint;
 Begin
-  valItemIndex := -1 ;
+  valItemIndex := fli_getComponentProperty(acom_combobox,CST_PROPERTY_ITEMINDEX,-1) ;
   LitTstringsDeIni(FInifile, acom_combobox.Name,Astl_Items,valItemIndex);
   if  ( valItemIndex>=0)
   and ( valItemIndex<=Astl_Items.Count-1)
@@ -621,7 +621,7 @@ Begin
 end;
 procedure p_writeComboBoxItems (  const acom_combobox : TComponent ;const Astl_Items : TStrings );
 Begin
-  SauveTStringsDansIni(FInifile, acom_combobox.Name,Astl_Items,flin_getComponentProperty(acom_combobox, CST_PROPERTY_ITEMINDEX));
+  SauveTStringsDansIni(FInifile, acom_combobox.Name,Astl_Items,fli_getComponentProperty(acom_combobox, CST_PROPERTY_ITEMINDEX));
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
