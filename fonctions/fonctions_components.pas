@@ -79,7 +79,7 @@ Begin
     Anchors := acon_AControl.Anchors;
     p_SetComponentProperty ( Result, CST_PROPERTY_TEXT      , fs_getComponentProperty   ( acon_AControl, CST_PROPERTY_TEXT ));
     p_SetComponentProperty ( Result, CST_PROPERTY_CAPTION   , fs_getComponentProperty   ( acon_AControl, CST_PROPERTY_CAPTION ));
-    p_SetComponentProperty ( Result, CST_PROPERTY_COLOR     , flin_getComponentProperty ( acon_AControl, CST_PROPERTY_COLOR ));
+    p_SetComponentProperty ( Result, CST_PROPERTY_COLOR     , fli_getComponentProperty ( acon_AControl, CST_PROPERTY_COLOR ));
     p_SetComponentObjectProperty ( Result, CST_PROPERTY_FONT, fobj_getComponentObjectProperty ( acon_AControl, CST_PROPERTY_FONT ));
    end;
 End;
@@ -213,10 +213,10 @@ Begin
       Result:=False;
       Exit;
      end;
-  if ( flin_getComponentProperty( acom_Combo, CST_PROPERTY_ITEMINDEX ) < 0 )
+  if ( fli_getComponentProperty( acom_Combo, CST_PROPERTY_ITEMINDEX ) < 0 )
    Then
     p_SetComponentProperty( acom_Combo, CST_PROPERTY_ITEMINDEX, 0 );
-  p_SetComponentProperty( acom_Combo, CST_PROPERTY_TEXT, astl_Items[flin_getComponentProperty( acom_Combo, CST_PROPERTY_ITEMINDEX )]);
+  p_SetComponentProperty( acom_Combo, CST_PROPERTY_TEXT, astl_Items[fli_getComponentProperty( acom_Combo, CST_PROPERTY_ITEMINDEX )]);
   Result := True;
 end;
 
