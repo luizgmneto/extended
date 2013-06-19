@@ -1017,9 +1017,9 @@ begin
     // Le style a été changé
     Result := True ;
 
-    if TPosition ( flin_getComponentProperty ( afor_Reference, 'Position' )) <> apos_Position Then
+    if TPosition ( fli_getComponentProperty ( afor_Reference, 'Position' )) <> apos_Position Then
       p_SetComponentProperty ( afor_Reference, 'Position', apos_Position );
-    if TWindowState ( flin_getComponentProperty ( afor_Reference ,'WindowState' )) <> awst_WindowState Then
+    if TWindowState ( fli_getComponentProperty ( afor_Reference ,'WindowState' )) <> awst_WindowState Then
       p_SetComponentProperty ( afor_Reference, 'WindowState', awst_WindowState );
 
     if not ( afs_FormStyle in [ fsMDIChild ]) Then
@@ -1056,7 +1056,7 @@ begin
   try
   //  acla_ClasseForm := afor_Reference.ClassType ;
     // Style différent
-    if (afs_newFormStyle <> TFormStyle ( flin_getComponentProperty ( afor_Reference, 'FormStyle' ))) then
+    if (afs_newFormStyle <> TFormStyle ( fli_getComponentProperty ( afor_Reference, 'FormStyle' ))) then
       begin
         // Le style a été changé
         Result := True ;
@@ -1065,9 +1065,9 @@ begin
         if gb_ModalStarted
         and ( afs_newFormStyle in [fsMDIChild, fsNormal ]) Then
           begin
-            if TPosition ( flin_getComponentProperty ( afor_Reference , 'Position' )) <> poMainFormCenter Then
+            if TPosition ( fli_getComponentProperty ( afor_Reference , 'Position' )) <> poMainFormCenter Then
               p_SetComponentProperty ( afor_Reference, 'Position', poMainFormCenter );
-            if TWindowState ( flin_getComponentProperty ( afor_Reference , 'WindowState' )) <> wsNormal Then
+            if TWindowState ( fli_getComponentProperty ( afor_Reference , 'WindowState' )) <> wsNormal Then
               p_SetComponentProperty ( afor_Reference, 'WindowState', wsNormal );
             afor_Reference.ShowModal ;
             Exit ;
@@ -1083,9 +1083,9 @@ begin
     and Result   then
       begin
       // Par dessus donc au centre
-        if ( TFormStyle ( flin_getComponentProperty ( afor_Reference, 'FormStyle' )) = fsStayOnTop)
-        and (    (TWindowState ( flin_getComponentProperty ( afor_Reference , 'WindowState' )) <> wsNormal         )
-              or ( TPosition ( flin_getComponentProperty ( afor_Reference , 'Position' ))    <> poMainFormCenter )) then
+        if ( TFormStyle ( fli_getComponentProperty ( afor_Reference, 'FormStyle' )) = fsStayOnTop)
+        and (    (TWindowState ( fli_getComponentProperty ( afor_Reference , 'WindowState' )) <> wsNormal         )
+              or ( TPosition ( fli_getComponentProperty ( afor_Reference , 'Position' ))    <> poMainFormCenter )) then
           begin
             p_SetComponentProperty ( afor_Reference, 'Position', poMainFormCenter );
             p_SetComponentProperty ( afor_Reference, 'WindowState', wsNormal );
@@ -1124,9 +1124,9 @@ begin
   and assigned ( afor_Form ) Then
     Begin
       lclt_ClassType := afor_Form.ClassType ;
-      lfs_FormStyle  := TFormStyle ( flin_getComponentProperty ( afor_Form ,'FormStyle' ));
+      lfs_FormStyle  := TFormStyle ( fli_getComponentProperty ( afor_Form ,'FormStyle' ));
       lcln_FormName  := afor_Form.Name ;
-      lpos_Position  := TPosition ( flin_getComponentProperty ( afor_Form ,'Position' ));
+      lpos_Position  := TPosition ( fli_getComponentProperty ( afor_Form ,'Position' ));
       lwst_WindowState := afor_Form.WindowState ;
       lb_Modal := gb_ModalStarted ;
       lico_Icone := TIcon.Create ;

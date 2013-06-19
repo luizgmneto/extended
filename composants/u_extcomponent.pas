@@ -170,7 +170,7 @@ Begin
          FLabel.Font.Color := gCol_Label
         else
          if FLabel.ClassNameIs ( 'TFWLabel' ) then
-           FLabel.Font.Color := flin_getComponentProperty ( FLabel, 'OldColor' );
+           FLabel.Font.Color := fli_getComponentProperty ( FLabel, 'OldColor' );
     End ;
 End;
 procedure p_setLabelColorEnter ( const FLabel : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF}; const FLabelColor : TColor ; const FAlwaysSame : boolean  );

@@ -276,7 +276,7 @@ Begin
     try
       Updating ;
           // Traitement de la position de la af_Form
-      if (TFormStyle ( flin_getComponentProperty ( FFormOwner, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild) and (sfSavePos in FSaveForm) then
+      if (TFormStyle ( fli_getComponentProperty ( FFormOwner, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild) and (sfSavePos in FSaveForm) then
         p_LecturePositionFenetre(FFormOwner);
 
     finally
@@ -565,7 +565,7 @@ var
          or (lcom_Component.ClassNameIs( CST_ONFORMINI_RXSPINEDIT)))
        then
         begin
-          p_SetComponentProperty(lcom_Component, CST_ONFORMINI_VALUE, fli_ReadInteger (lcom_Component.Name,flin_getComponentProperty(lcom_Component, CST_ONFORMINI_VALUE)));
+          p_SetComponentProperty(lcom_Component, CST_ONFORMINI_VALUE, fli_ReadInteger (lcom_Component.Name,fli_getComponentProperty(lcom_Component, CST_ONFORMINI_VALUE)));
           Result := True;
         end;
 
@@ -594,15 +594,24 @@ var
   var ls_Temp : String;
   Begin
     Result := False;
+    if  GetfeSauveEdit(FSaveEdits ,feTComboBox)
+    and (lcom_Component is TCustomComboBox)    then
+      begin
+        p_ReadComboBoxItems(lcom_Component, TCustomComboBox(lcom_Component).Items );
+        Result := True;
+      end;
     if GetfeSauveEdit(FSaveEdits ,feTComboValue)
     and (lcom_Component is TCustomComboBox)
     and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      then
       try
         if   assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_TEXT ))
-        then SetPropValue    ( lcom_Component, CST_PROPERTY_TEXT ,fs_ReadString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_PROPERTY_TEXT,''))
-        Else if   assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_ITEMINDEX ))
-        Then SetPropValue    ( lcom_Component, CST_PROPERTY_ITEMINDEX ,fli_ReadInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_PROPERTY_ITEMINDEX,0));
+        then SetPropValue    ( lcom_Component, CST_PROPERTY_TEXT ,fs_ReadString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_PROPERTY_TEXT,
+        fs_getComponentProperty(lcom_Component, CST_PROPERTY_TEXT)))
+        else if   assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_ITEMINDEX ))
+        Then SetPropValue    ( lcom_Component, CST_PROPERTY_ITEMINDEX ,fli_ReadInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_PROPERTY_ITEMINDEX,
+        fli_getComponentProperty(lcom_Component, CST_PROPERTY_ITEMINDEX)));
+        Exit;
       Except
       End;
     if GetfeSauveEdit(FSaveEdits ,feTColorCombo)
@@ -612,6 +621,7 @@ var
          ls_Temp := fs_ReadString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_VALUE,'');
          if ls_Temp <> '' Then
           p_SetComponentProperty(lcom_Component, CST_ONFORMINI_VALUE, ls_Temp );
+         Exit;
       End;
 {$IFDEF RX}
     if GetfeSauveEdit(FSaveEdits ,feTComboValue)
@@ -630,14 +640,9 @@ var
           {$ELSE}
            (lcom_Component as TRxDBLookupCombo).DisplayValue := fs_ReadString(lcom_Component.Name + CST_ONFORMINI_DOT + CST_ONFORMINI_INDEX, '');
            {$ENDIF}
+        Exit;
       End;
 {$ENDIF}
-    if  GetfeSauveEdit(FSaveEdits ,feTComboBox)
-    and (lcom_Component is TCustomComboBox)    then
-      begin
-        p_ReadComboBoxItems(lcom_Component, TCustomComboBox(lcom_Component).Items );
-        Result := True;
-      end;
   end;
 
   function fb_ReadListBoxes: Boolean;
@@ -891,7 +896,7 @@ var
           or (lcom_Component.ClassNameIs(CST_ONFORMINI_RXSPINEDIT)))
      then
       begin
-        p_WriteInteger(lcom_Component.Name,flin_getComponentProperty(lcom_Component, CST_ONFORMINI_VALUE ));
+        p_WriteInteger(lcom_Component.Name,fli_getComponentProperty(lcom_Component, CST_ONFORMINI_VALUE ));
         Result := True;
       end;
 
@@ -990,25 +995,33 @@ var
   function fb_WriteCombos : Boolean;
   Begin
     Result := False;
+    if GetfeSauveEdit(FSaveEdits ,feTComboBox)
+    and (lcom_Component is TCustomComboBox)        then
+      begin
+        p_writeComboBoxItems(lcom_Component,TCustomComboBox(lcom_Component).Items);
+        Result := True;
+      end;
     if GetfeSauveEdit(FSaveEdits ,feTColorCombo)
     and (lcom_Component.CLassNameIs( CST_ONFORMINI_EXTCOLOR))
      then
       begin
-        p_WriteInteger(lcom_Component.Name+ CST_ONFORMINI_DOT + CST_ONFORMINI_VALUE, Flin_getComponentProperty (lcom_Component, CST_ONFORMINI_VALUE));
+        p_WriteInteger(lcom_Component.Name+ CST_ONFORMINI_DOT + CST_ONFORMINI_VALUE, fli_getComponentProperty (lcom_Component, CST_ONFORMINI_VALUE));
         // No continue : Maybe a customcombo
         Result := True;
+        Exit;
       End;
     if GetfeSauveEdit(FSaveEdits ,feTComboValue)
     and (lcom_Component is TCustomComboBox)
     and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      Then
       begin
-        if   assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_TEXT ))
+        if assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_TEXT ))
         then p_WriteString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_PROPERTY_TEXT, GetPropValue    ( lcom_Component, CST_PROPERTY_TEXT))
-        Else if   assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_ITEMINDEX ))
+        else if   assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_ITEMINDEX ))
         Then p_WriteInteger(lcom_Component.Name+CST_ONFORMINI_DOT + CST_PROPERTY_ITEMINDEX, GetPropValue ( lcom_Component, CST_PROPERTY_ITEMINDEX ));
           // No continue : Maybe a customcombo
         Result := True;
+        Exit;
       End;
   {$IFDEF RX}
     if GetfeSauveEdit(FSaveEdits ,feTComboValue)
@@ -1031,13 +1044,6 @@ var
         Result := True;
       End;
   {$ENDIF}
-    if GetfeSauveEdit(FSaveEdits ,feTComboBox)
-    and (lcom_Component is TCustomComboBox)        then
-      begin
-        p_writeComboBoxItems(lcom_Component,TCustomComboBox(lcom_Component).Items);
-        Result := True;
-      end;
-
   end;
 
   function fb_WriteInteractivityComponents : Boolean;
@@ -1050,8 +1056,8 @@ var
     and (lcom_Component is TCustomTabControl)    then
       begin
         if IsPublishedProp(lcom_Component, CST_ONFORMINI_TABINDEX )
-         Then p_WriteInteger(lcom_Component.Name,flin_getComponentProperty(lcom_Component, CST_ONFORMINI_TABINDEX ))
-         Else p_WriteInteger(lcom_Component.Name,flin_getComponentProperty(lcom_Component, CST_ONFORMINI_PAGEINDEX ));
+         Then p_WriteInteger(lcom_Component.Name,fli_getComponentProperty(lcom_Component, CST_ONFORMINI_TABINDEX ))
+         Else p_WriteInteger(lcom_Component.Name,fli_getComponentProperty(lcom_Component, CST_ONFORMINI_PAGEINDEX ));
         Result := True;
       end;
     // Ecriture de PopupMenu
@@ -1101,7 +1107,7 @@ begin
 
 
       // traitement de la position de la af_Form
-  if (TFormStyle ( flin_getComponentProperty ( af_Form, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild)
+  if (TFormStyle ( fli_getComponentProperty ( af_Form, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild)
   and ( sfSavePos in FSaveForm )  then
     p_EcriturePositionFenetre(af_Form);
 
