@@ -59,6 +59,7 @@ type
   procedure p_ChampsVersListe(var astl_ChampsClePrimaire: TStringList; const aws_ClePrimaire : String ; ach_Separateur : Char );
   function fs_ListeVersChamps ( const astl_ChampsClePrimaire: TStringList; ach_Separateur : Char ):string;
   function fs_RemplaceMsg(const as_Texte: String; const aTs_arg: Array of String): String;
+  function fs_RemplaceMsgIfExists(const as_Texte: String; const as_arg: String): String;
   function fs_RemplaceEspace ( const as_Texte : String ; const as_Remplace : String ): String ;
 
   function fs_RepeteChar     ( const ach_Caractere : Char ; const ali_Repete : Integer ):String ;
@@ -77,7 +78,8 @@ const
     gVer_fonction_string : T_Version = ( Component : 'String management' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'String traduction and format.' ;
-                        			                 BugsStory : 'Version 1.0.6.0 : Creating fs_SeparateTextFromWidth.' + #13#10 + #13#10 +
+                        			                 BugsStory : 'Version 1.0.7.0 : function fs_RemplaceMsgIfExists.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.6.0 : Creating fs_SeparateTextFromWidth.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.5.0 : Creating fs_ListeVersChamps.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.4.0 : fs_FormatText and other.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.3.1 : Upgrading fs_TextToFileName.' + #13#10 + #13#10 +
@@ -91,7 +93,7 @@ const
                         			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 6 ; Build :  0);
+                        			                 Major : 1 ; Minor : 0 ; Release : 7 ; Build :  0);
 {$ENDIF}
     CST_ORD_GUILLEMENT = ord ( '''' );
     CST_ORD_POURCENT   = ord ( '%' );
@@ -584,6 +586,21 @@ begin
     end;
 
   Result := Result + ls_reduct;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+// Fonction : fs_RemplaceMsgIfExists
+// Description : remplace dans un text @ARG par un argument s'il existe
+// as_Texte : Texte source
+// as_arg  : Chaîne à tester à mettre à la place de @ARG
+// Résultat : la chaîne avec les arguments
+////////////////////////////////////////////////////////////////////////////////
+function fs_RemplaceMsgIfExists(const as_Texte: String; const as_arg: String): String;
+Begin
+  if as_arg = ''
+   Then Result := ''
+   Else Result := fs_RemplaceMsg ( as_Texte, [as_arg] );
+
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
