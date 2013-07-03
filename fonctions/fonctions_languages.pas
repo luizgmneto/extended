@@ -168,7 +168,7 @@ Begin
     Begin
      Result := False;
      if ab_ErrorMessage Then
-       ShowMessage(StringReplace ( GS_FICHIER_NON_TROUVE, CST_ARG, as_FilePath, [] ));
+       ShowMessage(StringReplace ( GS_FICHIER_NON_TROUVE, CST_ARG, as_FilePath, [rfReplaceAll] ));
     end;
 
 end;

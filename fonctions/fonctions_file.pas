@@ -22,10 +22,11 @@ const
            Owner : '' ;
            Comment : 'Fonctions de gestion de fichiers' ;
            BugsStory :
+           'Version 1.0.2.0 : UTF8 not tested.';
            'Version 1.0.1.0 : adding Windows drive verifying function.';
            'Version 1.0.0.0 : La gestion est en place, ne gérant pas tout.';
            UnitType : 1 ;
-                     Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
+                     Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
 {$ENDIF}
   CST_COPYFILES_ERROR_IS_READONLY = faReadOnly ;
   CST_COPYFILES_ERROR_UNKNOWN = -1 ;
@@ -96,36 +97,36 @@ begin
      (not the directories!)                         }
   if ab_ListDirs Then
   try
-    IsFound := FindFirst(as_StartDir + as_DirMask, faDirectory, SR) = 0 ;
+    IsFound := FindFirstUTF8(as_StartDir + as_DirMask, faDirectory, SR) = 0 ;
     while IsFound do
      begin
       if (( SR.Name <> '.' ) and ( SR.Name <> '..' ))
-      and DirectoryExists ( as_StartDir + SR.Name )
+      and DirectoryExistsUTF8 ( as_StartDir + SR.Name )
        then
         Begin
           astl_FilesList.Add(ls_Path + SR.Name);
         End ;
-      IsFound := FindNext(SR) = 0;
+      IsFound := FindNextUTF8(SR) = 0;
       Result := True ;
     end;
-    FindClose(SR);
+    FindCloseUTF8(SR);
   Except
-    FindClose(SR);
+    FindCloseUTF8(SR);
   End ;
   if ab_ListFiles Then
   try
-    IsFound := FindFirst(as_StartDir+as_FileMask, faAnyFile-faDirectory, SR) = 0;
+    IsFound := FindFirstUTF8(as_StartDir+as_FileMask, faAnyFile-faDirectory, SR) = 0;
     while IsFound do
      begin
-        if FileExists ( ls_Path + SR.Name )
+        if FileExistsUTF8 ( ls_Path + SR.Name )
          Then
           astl_FilesList.Add(as_StartDir + SR.Name);
-        IsFound := FindNext(SR) = 0;
+        IsFound := FindNextUTF8(SR) = 0;
         Result := True ;
       end;
-    FindClose(SR);
+    FindCloseUTF8(SR);
   Except
-    FindClose(SR);
+    FindCloseUTF8(SR);
   End ;
 
 end;
@@ -142,22 +143,22 @@ begin
      (not the directories!)                         }
   if ab_EraseSubDirs Then
   try
-    IsFound := FindFirst(as_StartDir + '*', faDirectory, SR) = 0 ;
+    IsFound := FindFirstUTF8(as_StartDir + '*', faDirectory, SR) = 0 ;
     while IsFound do
      begin
       if (( SR.Name <> '.' ) and ( SR.Name <> '..' ))
-      and DirectoryExists ( as_StartDir + SR.Name )
+      and DirectoryExistsUTF8 ( as_StartDir + SR.Name )
        then
         Begin
           fb_EraseDir(as_StartDir + SR.Name, ab_EraseSubDirs);
-          RemoveDir(as_StartDir + SR.Name);
+          RemoveDirUTF8(as_StartDir + SR.Name);
         End ;
-      IsFound := FindNext(SR) = 0;
+      IsFound := FindNextUTF8(SR) = 0;
       Result := True ;
     end;
-    FindClose(SR);
+    FindCloseUTF8(SR);
   Except
-    FindClose(SR);
+    FindCloseUTF8(SR);
   End ;
 
 end;
@@ -173,21 +174,21 @@ begin
   { Build a list of the files in directory as_StartDir
      (not the directories!)                         }
   try
-    IsFound := FindFirst(as_StartDir + '*', faAnyFile-faDirectory, SR) = 0 ;
+    IsFound := FindFirstUTF8(as_StartDir + '*', faAnyFile-faDirectory, SR) = 0 ;
     while IsFound do
      begin
       if (( SR.Name <> '.' ) and ( SR.Name <> '..' ))
-      and FileExists ( as_StartDir + SR.Name )
+      and FileExistsUTF8 ( as_StartDir + SR.Name )
        then
         Begin
-          DeleteFile(as_StartDir + SR.Name);
+          DeleteFileUTF8(as_StartDir + SR.Name);
         End ;
-      IsFound := FindNext(SR) = 0;
+      IsFound := FindNextUTF8(SR) = 0;
       Result := True ;
     end;
-    FindClose(SR);
+    FindCloseUTF8(SR);
   Except
-    FindClose(SR);
+    FindCloseUTF8(SR);
   End ;
 end;
 
@@ -208,20 +209,20 @@ begin
   li_HandleSource := fileopen(as_Source,fmopenread);
   ls_Destination := as_Destination ;
   if  ab_AppendFile
-  and fileexists(as_Destination)
+  and FileExistsUTF8(as_Destination)
    then
     Begin
-      FindFirst(as_Destination,faanyfile,lsr_data);
+      FindFirstUTF8(as_Destination,faanyfile,lsr_data);
       li_HandleDest := FileOpen(as_Destination, fmopenwrite );
       FileSeek ( li_HandleDest, lsr_data.Size, 0 );
-      findclose(lsr_data);
+      FindCloseUTF8(lsr_data);
     End
    Else
      Begin
-      If fileexists(ls_Destination)
+      If FileExistsUTF8(ls_Destination)
        then
         Begin
-          FindFirst(as_Destination,faanyfile,lsr_data);
+          FindFirstUTF8(as_Destination,faanyfile,lsr_data);
           if ( ab_CreateBackup )
            Then
             Begin
@@ -236,17 +237,17 @@ begin
                   ls_FileName := Copy ( ls_FileName, 1, li_pos - 1 );
                 End ;
               li_pos := 0 ;
-              while FileExists ( ls_Destination ) do
+              while FileExistsUTF8 ( ls_Destination ) do
                Begin
                  inc ( li_pos );
                  ls_Destination := ExtractFilePath ( as_Destination ) + DirectorySeparator + ls_FileName + '-' + IntToStr ( li_pos ) + ls_FileExt ;
                End
             End
            Else
-            Deletefile(as_Destination);
-          findclose(lsr_data);
+            DeleteFileUTF8(as_Destination);
+          FindCloseUTF8(lsr_data);
         End ;
-      li_HandleDest := filecreate(ls_Destination);
+      li_HandleDest := FileCreateUTF8(ls_Destination);
      end ;
   lb_FoundFile := False;
   lb_Error := false;
@@ -258,9 +259,9 @@ begin
       inc( li_TotalW, li_SizeWrite );
       if li_SizeWrite < li_SizeRead then lb_Error := True;
     end;
-  filesetdate(li_HandleDest,filegetdate(li_HandleSource));
-  fileclose(li_HandleSource);
-  fileclose(li_HandleDest);
+  FileSetDate(li_HandleDest,filegetdate(li_HandleSource));
+  FileClose(li_HandleSource);
+  FileClose(li_HandleDest);
   if lb_Error = False then
     Begin
       Result := 0 ;
@@ -318,22 +319,22 @@ begin
          ls_Temp := Copy ( as_DirectoryToCreate, 1 , li_pos - 1 )
        Else
          Exit ;
-       if  not DirectoryExists ( ls_Temp ) Then
+       if  not DirectoryExistsUTF8 ( ls_Temp ) Then
          Begin
            fb_CreateDirectoryStructure ( ls_Temp );
          End ;
-       if DirectoryExists ( ls_Temp ) then
+       if DirectoryExistsUTF8 ( ls_Temp ) then
          Begin
-           FindFirst ( ls_Temp,faanyfile,lsr_data);
-           if ( DirectoryExists ( ls_Temp )) Then
+           FindFirstUTF8 ( ls_Temp,faanyfile,lsr_data);
+           if ( DirectoryExistsUTF8 ( ls_Temp )) Then
              try
-               CreateDir ( as_DirectoryToCreate );
+               CreateDirUTF8 ( as_DirectoryToCreate );
                Result := True ;
              except
              End
             Else
              Result := False ;
-           FindClose ( lsr_data );
+           FindCloseUTF8 ( lsr_data );
          end;
      Finally
      End ;

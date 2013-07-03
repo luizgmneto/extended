@@ -6,7 +6,7 @@ inherited F_Copier: TF_Copier
   Width = 666
   ActiveControl = Splitter1
   Caption = 'Copy and Images Traduce '
-  ClientHeight = 473
+  ClientHeight = 471
   ClientWidth = 666
   Font.Height = -11
   Font.Name = 'Tahoma'
@@ -261,7 +261,7 @@ inherited F_Copier: TF_Copier
   object Panel5: TPanel[1]
     Left = 0
     Height = 36
-    Top = 437
+    Top = 435
     Width = 666
     Align = alBottom
     ClientHeight = 36
@@ -269,7 +269,7 @@ inherited F_Copier: TF_Copier
     TabOrder = 0
     object bt_Copy: TJvXPButton
       Left = 12
-      Top = 8
+      Top = 9
       UseDockManager = False
       Caption = 'Copier'
       TabOrder = 0
@@ -317,7 +317,7 @@ inherited F_Copier: TF_Copier
   end
   object Result: TMemo[2]
     Left = 0
-    Height = 157
+    Height = 155
     Top = 280
     Width = 666
     Align = alClient
