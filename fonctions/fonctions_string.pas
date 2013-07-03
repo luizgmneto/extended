@@ -67,6 +67,7 @@ type
 
   function fs_ReplaceChaine( as_Texte : String ; const as_Origine, as_Voulu : string):string;
   function fs_GetBinOfString ( const astr_Source: AnsiString ): String;
+  function fs_AddComma ( const as_Chaine : String ) : String ;
   function fs_Lettrage ( const ach_Lettrage: Char;
                          const ai64_Compteur : Int64 ;
                          const ali_TailleLettrage : Longint ): String ;
@@ -734,6 +735,13 @@ function fs_Lettrage ( const ach_Lettrage: Char;
 Begin
   Result := ach_Lettrage + fs_RepeteChar ( '0', ali_TailleLettrage - length ( IntToStr ( ai64_Compteur )) - 1 ) + IntToStr ( ai64_Compteur );
 End ;
+
+function fs_AddComma ( const as_Chaine : String ) : String ;
+Begin
+  if as_Chaine <> ''
+   Then  Result := ' (' +as_Chaine+')'
+   Else  Result := '';
+End;
 
 
 function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ): String;

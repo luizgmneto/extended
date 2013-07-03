@@ -477,7 +477,7 @@ End ;
 
 
 function TExtFileCopy.fb_InternalCopyDirectory ( const as_Source, as_Destination, as_Mask : String ; const ab_CopyStructure, ab_DestinationIsFile, ab_CopyAll, ab_CreateBackup : Boolean ):Boolean;
-var li_Error, li_i : Integer ;
+var li_Error : Integer ;
     ls_Source ,
     ls_FileName ,
     ls_destination  : String ;
@@ -496,9 +496,9 @@ begin
   Result := True ;
   lstl_StringList := TStringList.Create ;
   if fb_FindFiles ( lstl_StringList, as_Source, True, ab_CopyAll, True, as_Mask ) Then
-    for li_i := 0 to lstl_StringList.count - 1 do
+    while lstl_StringList.count > 0 do
       Begin
-        ls_Source := lstl_StringList.Strings [ li_i ];
+        ls_Source := lstl_StringList.Strings [ 0 ];
         FindFirstUTF8( ls_Source,faanyfile,lsr_AttrSource);
         ls_FileName := lsr_AttrSource.Name ;
         FindCloseUTF8(lsr_AttrSource);
@@ -515,6 +515,7 @@ begin
             Begin
                Result := InternalDefaultCopyFile ( ls_Source, as_Destination + DirectorySeparator + ls_FileName );
             End ;
+        lstl_StringList.Delete(0);
       End ;
   lstl_StringList.Free ;
 End ;
