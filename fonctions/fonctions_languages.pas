@@ -136,7 +136,8 @@ begin
       if pos ( '[' + as_SearchedString + ']', ls_line ) > 0 Then
         Begin
           astl_FileToChange [ li_i ] :=  StringReplace( ls_line, '[' + as_SearchedString + ']', as_LabelToSet, Flags );
-          Exit;
+          if not (rfReplaceAll in Flags) Then
+            Exit;
         end;
     end;
 end;
