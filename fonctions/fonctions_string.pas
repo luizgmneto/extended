@@ -30,9 +30,7 @@ type
   TStringArray = Array of String;
   TModeFormatText = (mftNone,mftUpper,mftLower,mftFirstIsMaj);
 
-{$IFDEF FPC}
-  function ExtractFileDir ( const as_FilePath : String ) :String;
-{$ELSE}
+{$IFNDEF FPC}
   function fs_Dos2Win( const aText: string): string;
   function fs_Win2Dos( const aText: string): string;
 {$ENDIF}
@@ -775,23 +773,6 @@ Begin
   {$ENDIF}
 
 end;
-
-
-
-{$IFDEF FPC}
-function ExtractFileDir ( const as_FilePath : String ) :String;
-var li_Pos : Integer;
-Begin
-  Result := as_FilePath;
-  li_Pos := Pos ( DirectorySeparator, Result );
-  if ( li_Pos > 0 ) then
-    Begin
-      while PosEx ( DirectorySeparator, Result, li_Pos + 1 )> 0 do
-        li_Pos := PosEx ( DirectorySeparator, Result, li_Pos + 1 );
-      Result := Copy ( Result, 1, PosEx ( DirectorySeparator, Result, li_Pos ) - 1 );
-    End;
-End;
-{$ENDIF}
 
 {$IFNDEF FPC}
 function fs_ReplaceAccents(const AInput: AnsiString): AnsiString;

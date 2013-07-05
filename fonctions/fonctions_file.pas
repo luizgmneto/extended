@@ -52,6 +52,10 @@ Function fb_CopyFile ( const as_Source, as_Destination : String ; const ab_Appen
 function fb_CreateDirectoryStructure ( const as_DirectoryToCreate : String ) : Boolean ;
 procedure p_FileNameDivision ( const as_FileNameWithExtension : String ; var as_FileName, as_Extension : String );
 function fs_createUniqueFileName ( const as_base, as_FileAltName : String ; const as_extension : String ):String;
+function ExtractSubDir ( const as_FilePath : String ) :String;
+{$IFDEF FPC}
+function ExtractFileDir ( const as_FilePath : String ) :String;
+{$ENDIF}
 {$IFDEF WINDOWS}
 function fs_verifyAndReplaceDriveLetter ( const as_path : String ):String;
 {$ENDIF}
@@ -118,9 +122,9 @@ begin
     IsFound := FindFirstUTF8(as_StartDir+as_FileMask, faAnyFile-faDirectory, SR) = 0;
     while IsFound do
      begin
-        if FileExistsUTF8 ( ls_Path + SR.Name )
+        if FileExistsUTF8 ( as_StartDir + SR.Name )
          Then
-          astl_FilesList.Add(as_StartDir + SR.Name);
+          astl_FilesList.Add(ls_Path + SR.Name);
         IsFound := FindNextUTF8(SR) = 0;
         Result := True ;
       end;
@@ -356,6 +360,36 @@ Begin
       as_FileName  := Copy ( as_FileName, 1, li_pos - 1 );
     End ;
 End ;
+
+{$IFDEF FPC}
+function ExtractFileDir ( const as_FilePath : String ) :String;
+var li_Pos : Integer;
+Begin
+  Result := as_FilePath;
+  while not DirectoryExistsUTF8(Result) do
+   Result:=ExtractSubDir(Result);
+End;
+{$ENDIF}
+
+// function ExtractSubDir
+// optimised SubDir Extracting
+function ExtractSubDir ( const as_FilePath : String ) :String;
+var lpch_Pos : PChar;
+    lp_pointer : Pointer;
+Begin
+  Result := as_FilePath;
+  if Result = '' Then
+    Exit;
+  lpch_Pos := @Result [ length ( Result )-1];
+  lp_pointer := @Result [ 1 ];
+  while ( lpch_Pos > lp_pointer ) do
+    Begin
+      if lpch_Pos^ = DirectorySeparator Then
+        Break;
+      dec ( lpch_Pos );
+    End;
+  Result:=copy(Result,1,lpch_Pos- lp_pointer);
+End;
 
 initialization
 {$IFDEF VERSIONS}
