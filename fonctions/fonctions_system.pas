@@ -48,6 +48,7 @@ const
   CST_EXTENSION_LIBRARY = {$IFDEF WINDOWS}'.dll'{$ELSE}{$IFDEF DARWIN}'.dylib'{$ELSE}'.so'{$ENDIF}{$ENDIF};
   CST_PackageTypeString : Array [ TPackageType ] of String = ( 'exe', 'tar.gz', 'rpm', 'deb', 'pkg', 'dmg' );
   CST_ProcessorTypeString : Array [ TProcessorType ] of String = ( 'Intel', 'MIPS', 'Alpha', 'PPC', 'SHX', 'ARM', 'IA64', 'Alpha64', '?' );
+  CST_EXTENSION_SCRIPT            = {$IFDEF WINDOWS}'.bat'{$ELSE}'.sh'{$ENDIF} ;
 
 var
   GS_SUBDIR_IMAGES_SOFT : String = DirectorySeparator + 'Images'+DirectorySeparator;
