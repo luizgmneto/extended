@@ -22,11 +22,12 @@ const
            Owner : '' ;
            Comment : 'Fonctions de gestion de fichiers' ;
            BugsStory :
+           'Version 1.0.3.0 : Adding ExtractDirName and ExtractSubDir.';
            'Version 1.0.2.0 : UTF8 not tested.';
            'Version 1.0.1.0 : adding Windows drive verifying function.';
            'Version 1.0.0.0 : La gestion est en place, ne gérant pas tout.';
            UnitType : 1 ;
-                     Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
+                     Major : 1 ; Minor : 0 ; Release : 3 ; Build : 0 );
 {$ENDIF}
   CST_COPYFILES_ERROR_IS_READONLY = faReadOnly ;
   CST_COPYFILES_ERROR_UNKNOWN = -1 ;
@@ -53,6 +54,7 @@ function fb_CreateDirectoryStructure ( const as_DirectoryToCreate : String ) : B
 procedure p_FileNameDivision ( const as_FileNameWithExtension : String ; var as_FileName, as_Extension : String );
 function fs_createUniqueFileName ( const as_base, as_FileAltName : String ; const as_extension : String ):String;
 function ExtractSubDir ( const as_FilePath : String ) :String;
+function ExtractDirName ( const as_FilePath : String ) :String;
 {$IFDEF FPC}
 function ExtractFileDir ( const as_FilePath : String ) :String;
 {$ENDIF}
@@ -389,6 +391,26 @@ Begin
       dec ( lpch_Pos );
     End;
   Result:=copy(Result,1,lpch_Pos- lp_pointer);
+End;
+
+// function ExtractSubDir
+// optimised SubDir Extracting
+function ExtractDirName ( const as_FilePath : String ) :String;
+var lpch_Pos : PChar;
+    lp_pointer : Pointer;
+Begin
+  Result := as_FilePath;
+  if Result = '' Then
+    Exit;
+  lpch_Pos := @Result [ length ( Result )-1];
+  lp_pointer := @Result [ 1 ];
+  while ( lpch_Pos > lp_pointer ) do
+    Begin
+      if lpch_Pos^ = DirectorySeparator Then
+        Break;
+      dec ( lpch_Pos );
+    End;
+  Result:=copy(Result,lpch_Pos- lp_pointer+2,@Result [ length ( Result )]-lpch_Pos-1);
 End;
 
 initialization
