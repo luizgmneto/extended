@@ -68,12 +68,11 @@ implementation
 
 uses StrUtils, Dialogs,
   {$IFDEF FPC}
-    FileUtil,
+    lazutf8classes,FileUtil,
   {$ELSE}
     fonctions_system,
   {$ENDIF}
     fonctions_string,
-    lazutf8classes,
     Forms ;
 
 procedure p_SetStartDir ( var as_StartDir : String );
@@ -350,9 +349,10 @@ begin
 End ;
 
 procedure p_LoadStrings ( const astl_StringList : TStrings; const as_FilePath,  as_message : String );
-var TheStream:TFileStreamUTF8;
+var TheStream:{$IFDEF FPC}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF};
 Begin
-  TheStream:=TFileStreamUTF8.Create(as_FilePath,fmOpenRead);
+  astl_StringList.Clear;
+  TheStream:={$IFDEF FPC}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF}.Create(as_FilePath,fmOpenRead);
   try
     try
       astl_StringList.LoadFromStream(TheStream);
@@ -370,9 +370,11 @@ Begin
 end;
 
 procedure p_SaveStrings ( const astl_StringList : TStrings; const as_FilePath,  as_message : String );
-var TheStream:TFileStreamUTF8;
+var TheStream:{$IFDEF FPC}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF};
 Begin
-  TheStream:=TFileStreamUTF8.Create(as_FilePath,fmCreate);
+  if FileExistsUTF8(as_FilePath)
+   Then TheStream:={$IFDEF FPC}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF}.Create(as_FilePath,fmOpenReadWrite)
+   Else TheStream:={$IFDEF FPC}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF}.Create(as_FilePath,fmCreate);
   try
     try
       astl_StringList.SaveToStream(TheStream);

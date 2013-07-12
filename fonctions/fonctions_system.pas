@@ -92,6 +92,11 @@ function FindFirstUTF8(const Path: string; Attr: Integer;
   var F: TSearchRec): Integer;
 procedure FindCloseUTF8(var F: TSearchRec);
 function FileOpenUTF8(const FileName: string; Mode: LongWord): Integer;
+function FindNextUTF8(var SR: TSearchRec):integer;
+procedure RemoveDirUTF8 ( const as_dir : String );
+procedure CreateDirUTF8 ( const as_dir : String );
+procedure DeleteFileUTF8 ( const as_File : String );
+function FileCreateUTF8(const as_file: String):integer;
 {$ENDIF}
 function fs_EraseNameSoft ( const as_Nomapp, as_Path : String ) : String ;
 function fs_getSoftDir : String;
@@ -303,6 +308,26 @@ End;
 function FileOpenUTF8(const FileName: string; Mode: LongWord): Integer;
 Begin
   Result := FileOpen(FileName,Mode);
+End;
+function FindNextUTF8(var SR: TSearchRec):integer;
+Begin
+  Result := FindNext(SR);
+End;
+function FileCreateUTF8(const as_file: String):integer;
+Begin
+  Result := FileCreate(as_file);
+End;
+procedure RemoveDirUTF8 ( const as_dir : String );
+Begin
+  RemoveDir(as_dir);
+End;
+procedure CreateDirUTF8 ( const as_dir : String );
+Begin
+  CreateDir(as_dir);
+End;
+procedure DeleteFileUTF8 ( const as_File : String );
+Begin
+  DeleteFile(as_File);
 End;
 {$ENDIF}
 
