@@ -99,9 +99,9 @@ function fb_LoadProperties ( const as_FilePath : String ; const ab_ErrorMessage 
 function fb_LoadProperties ( const as_DirPath, as_BeginFile, as_Lang : String ; const ab_ErrorMessage : Boolean = False ):Boolean; overload;
 procedure p_FreeProperties;
 function fs_GetLabelCaption ( const as_Name : String ):WideString;
-procedure p_ReplaceLanguageString ( const astl_FileToChange : TStringList ; const as_SearchedString, as_LabelToSet : String  ; const  Flags: TReplaceFlags = [] ) ; overload;
-procedure p_ReplaceLanguageString ( const astl_FileToChange : TStringList ; const as_SearchedString: String  ; const  Flags: TReplaceFlags = [] ); overload;
-procedure p_ReplaceLanguagesStrings ( const astl_FileToChange : TStringList ; const aa_SearchedStrings : Array of String );
+procedure p_ReplaceLanguageString ( const astl_FileToChange : TStrings ; const as_SearchedString, as_LabelToSet : String  ; const  Flags: TReplaceFlags = [] ) ; overload;
+procedure p_ReplaceLanguageString ( const astl_FileToChange : TStrings ; const as_SearchedString: String  ; const  Flags: TReplaceFlags = [] ); overload;
+procedure p_ReplaceLanguagesStrings ( const astl_FileToChange : TStrings ; const aa_SearchedStrings : Array of String );
 
 
 implementation
@@ -126,7 +126,7 @@ Begin
   gstl_Labels := nil;
 end;
 
-procedure p_ReplaceLanguageString ( const astl_FileToChange : TStringList ; const as_SearchedString, as_LabelToSet : String ; const  Flags: TReplaceFlags = [] ) ;
+procedure p_ReplaceLanguageString ( const astl_FileToChange : TStrings ; const as_SearchedString, as_LabelToSet : String ; const  Flags: TReplaceFlags = [] ) ;
 var li_i : Longint ;
     ls_line : String ;
 begin
@@ -141,12 +141,12 @@ begin
         end;
     end;
 end;
-procedure p_ReplaceLanguageString ( const astl_FileToChange : TStringList ; const as_SearchedString : String  ; const  Flags: TReplaceFlags = [] ) ;
+procedure p_ReplaceLanguageString ( const astl_FileToChange : TStrings ; const as_SearchedString : String  ; const  Flags: TReplaceFlags = [] ) ;
 begin
   p_ReplaceLanguageString ( astl_FileToChange, as_SearchedString, fs_GetLabelCaption(as_SearchedString), Flags);
 end;
 
-procedure p_ReplaceLanguagesStrings ( const astl_FileToChange : TStringList ; const aa_SearchedStrings : Array of String );
+procedure p_ReplaceLanguagesStrings ( const astl_FileToChange : TStrings ; const aa_SearchedStrings : Array of String );
 var li_i : Integer ;
 begin
   for li_i:= low ( aa_SearchedStrings ) to High(aa_SearchedStrings) do

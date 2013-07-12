@@ -71,6 +71,7 @@ type
                          const ali_TailleLettrage : Longint ): String ;
   function HexToByte(c: char): byte;
   function HexToBinary ( const ALines : TStrings ; const AStream : TStream ): Boolean;
+  function fs_ReplaceEndOfLines ( const ALines : TStrings; const as_replace : String = '\n' ): String;
   function fs_SeparateTextFromWidth ( ASText : String; const ANeededWidth : Integer; const Acanvas : TCanvas; const Ach_separator : Char = ' ' ) : TStringArray ;
 const
 {$IFDEF VERSIONS}
@@ -935,6 +936,14 @@ Begin
   SetLength(Result,high ( Result ) + 2);
   Result [ high ( Result )] := ASText;
 End;
+function fs_ReplaceEndOfLines ( const ALines : TStrings; const as_replace : String = '\n' ): String;
+var li_i : Integer;
+Begin
+  Result := '';
+  for li_i := 0 to ALines.Count-1 do
+    AppendStr(Result,ALines [ li_i ] + as_replace );
+end;
+
 {$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gVer_fonction_string );
