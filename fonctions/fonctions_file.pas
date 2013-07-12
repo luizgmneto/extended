@@ -55,6 +55,8 @@ procedure p_FileNameDivision ( const as_FileNameWithExtension : String ; var as_
 function fs_createUniqueFileName ( const as_base, as_FileAltName : String ; const as_extension : String ):String;
 function ExtractSubDir ( const as_FilePath : String ) :String;
 function ExtractDirName ( const as_FilePath : String ) :String;
+procedure p_LoadStrings ( const astl_StringList : TStrings; const as_FilePath,  as_message : String );
+procedure p_SaveStrings ( const astl_StringList : TStrings; const as_FilePath,  as_message : String );
 {$IFDEF FPC}
 function ExtractFileDir ( const as_FilePath : String ) :String;
 {$ENDIF}
@@ -71,6 +73,7 @@ uses StrUtils, Dialogs,
     fonctions_system,
   {$ENDIF}
     fonctions_string,
+    lazutf8classes,
     Forms ;
 
 procedure p_SetStartDir ( var as_StartDir : String );
@@ -346,6 +349,45 @@ begin
      End ;
 End ;
 
+procedure p_LoadStrings ( const astl_StringList : TStrings; const as_FilePath,  as_message : String );
+var TheStream:TFileStreamUTF8;
+Begin
+  TheStream:=TFileStreamUTF8.Create(as_FilePath,fmOpenRead);
+  try
+    try
+      astl_StringList.LoadFromStream(TheStream);
+    except
+      On E: Exception do
+      if as_message > '' then
+        begin
+          ShowMessage(as_message + CST_ENDOFLINE + E.Message);
+          Abort;
+        end;
+    end;
+  finally
+    TheStream.Free;
+  end;
+end;
+
+procedure p_SaveStrings ( const astl_StringList : TStrings; const as_FilePath,  as_message : String );
+var TheStream:TFileStreamUTF8;
+Begin
+  TheStream:=TFileStreamUTF8.Create(as_FilePath,fmCreate);
+  try
+    try
+      astl_StringList.SaveToStream(TheStream);
+    except
+      On E: Exception do
+      if as_message > '' then
+        begin
+          ShowMessage(as_message + as_filePath + CST_ENDOFLINE + E.Message);
+          Abort;
+        end;
+    end;
+  finally
+    TheStream.Free;
+  end;
+end;
 
 
 procedure p_FileNameDivision ( const as_FileNameWithExtension : String ; var as_FileName, as_Extension : String );
