@@ -6,8 +6,8 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <IncludeFiles Value="fonctions;composants"/>
-        <OtherUnitFiles Value="fonctions;composants"/>
+        <IncludeFiles Value="fonctions;composants;classes"/>
+        <OtherUnitFiles Value="fonctions;composants;classes"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -22,7 +22,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="3" Release="3" Build="1"/>
-    <Files Count="23">
+    <Files Count="24">
       <Item1>
         <Filename Value="fonctions/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -115,6 +115,10 @@
         <Filename Value="fonctions/fonctions_forms.pas"/>
         <UnitName Value="fonctions_forms"/>
       </Item23>
+      <Item24>
+        <Filename Value="classes/u_stringsutf8.pas"/>
+        <UnitName Value="u_stringsutf8"/>
+      </Item24>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>

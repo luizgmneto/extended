@@ -12,7 +12,8 @@ uses
   fonctions_variant, fonctions_web, fonctions_array, fonctions_objects, 
   fonctions_system, fonctions_languages, fonctions_components, type_string, 
   fonctions_file, unit_messagescopy, fonctions_dbcomponents, fonctions_vtree, 
-  fonctions_scaledpi, U_FormAdapt, fonctions_forms, LazarusPackageIntf;
+  fonctions_scaledpi, U_FormAdapt, fonctions_forms, u_stringsutf8, 
+  LazarusPackageIntf;
 
 implementation
 
