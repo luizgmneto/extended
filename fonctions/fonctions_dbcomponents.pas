@@ -86,7 +86,7 @@ function fds_GetOrCloneDataSource ( const acom_Component : TComponent ; const as
 function fb_GetSQLStrings (const adat_ADataset : Tdataset ; var astl_SQLQuery : TStrings{$IFDEF DELPHI_9_UP}; var awst_SQLQuery : TWideStrings {$ENDIF}):Boolean;
 function fcon_CloneControlWithDB ( const acom_AObject : TControl ; const AOwner : TComponent ) : TControl;
 function fcom_CloneConnexion ( const acco_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
-function fb_GetParamsDataset (const adat_ADataset : Tdataset ;var aprs_ParamSource: TParams ; var Astl_Params : TStringList {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
+function fb_GetParamsDataset (const adat_ADataset : Tdataset ; var aprs_ParamSource: TParams ; var Astl_Params : TStringList {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
 function fb_SetParamQuery(const adat_Dataset : TDataset ; const as_Param: String): Boolean;
 function fb_LocateSansFiltre ( const aado_Seeker : TDataset ; const as_Fields : String ; const avar_Records : Variant ; const ach_Separator : Char ): Boolean ;
 procedure p_LocateInit ( const aado_Seeker : TDataset ; const as_Table, as_Fields, as_Condition : String );
@@ -317,7 +317,7 @@ End;
 // Retours : aprs_ParamSource aprs_ParamterSource les paramètres éventuellement ADO
 /////////////////////////////////////////////////////////////////////////
 
-function fb_GetParamsDataset (const adat_ADataset : Tdataset ;var aprs_ParamSource: TParams ; var Astl_Params : TStringList {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
+function fb_GetParamsDataset (const adat_ADataset : Tdataset ; var aprs_ParamSource: TParams ; var Astl_Params : TStringList {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
 var lobj_SQL : TObject ;
 begin
   Result := false;
