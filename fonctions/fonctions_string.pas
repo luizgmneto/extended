@@ -55,7 +55,7 @@ type
   function fe_distanceEntrePointsCoordLambert( const aLatitudeDep, aLongitudeDep, aLatitudeArr, aLongitudeArr: string): Extended;
   function fb_controleDistanceCoordLambert( const aLatitudeDep, aLongitudeDep, aLatitudeArr, aLongitudeArr: string; const aDistance: Extended): Boolean;
   procedure p_ChampsVersListe(var astl_ChampsClePrimaire: TStringList; const aws_ClePrimaire : String ; ach_Separateur : Char );
-  function fs_ListeVersChamps ( const astl_ChampsClePrimaire: TStringList; ach_Separateur : Char ):string;
+  function fs_ListeVersChamps ( var astl_ChampsClePrimaire: TStringList; ach_Separateur : Char ):string;
   function fs_RemplaceMsg(const as_Texte: String; const aTs_arg: Array of String): String;
   function fs_RemplaceMsgIfExists(const as_Texte: String; const as_arg: String): String;
   function fs_RemplaceEspace ( const as_Texte : String ; const as_Remplace : String ): String ;
@@ -515,7 +515,7 @@ end;
 // astl_ChampsClePrimaire : Les champs listés en entrée
 // as_Separateur        : Le séparateur
 ////////////////////////////////////////////////////////////////////////////////
-function fs_ListeVersChamps ( const astl_ChampsClePrimaire: TStringList; ach_Separateur : Char ):string;
+function fs_ListeVersChamps ( var astl_ChampsClePrimaire: TStringList; ach_Separateur : Char ):string;
 var li_i : Integer;
 Begin
   Result:='';
