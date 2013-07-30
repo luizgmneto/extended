@@ -40,16 +40,19 @@
       </Item5>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="4">
       <Item1>
-        <PackageName Value="lazextbuttons"/>
+        <PackageName Value="lazextcomponentsextra"/>
       </Item1>
       <Item2>
-        <PackageName Value="fortes324forlaz"/>
+        <PackageName Value="lazextbuttons"/>
       </Item2>
       <Item3>
-        <PackageName Value="FCL"/>
+        <PackageName Value="fortes324forlaz"/>
       </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+      </Item4>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

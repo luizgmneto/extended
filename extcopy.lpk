@@ -7,7 +7,7 @@
       <Version Value="11"/>
       <SearchPaths>
         <IncludeFiles Value="composants"/>
-        <OtherUnitFiles Value="composants"/>
+        <OtherUnitFiles Value="composants;fonctions"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9"/>
-    <Files Count="7">
+    <Files Count="8">
       <Item1>
         <Filename Value="composants/u_traducefile.lrs"/>
         <Type Value="LRS"/>
@@ -50,22 +50,29 @@
         <Filename Value="composants/u_extractfile.pas"/>
         <UnitName Value="u_extractfile"/>
       </Item7>
+      <Item8>
+        <Filename Value="fonctions/fonctions_file.pas"/>
+        <UnitName Value="fonctions_file"/>
+      </Item8>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="4">
+    <RequiredPkgs Count="5">
       <Item1>
-        <PackageName Value="lazfonctions"/>
+        <PackageName Value="lazextcomponentsimg"/>
       </Item1>
       <Item2>
-        <PackageName Value="IDEIntf"/>
+        <PackageName Value="lazextcore"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="IDEIntf"/>
       </Item3>
       <Item4>
+        <PackageName Value="LCL"/>
+      </Item4>
+      <Item5>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item4>
+      </Item5>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

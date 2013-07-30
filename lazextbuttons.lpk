@@ -52,20 +52,26 @@
       </Item7>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="4">
+    <RequiredPkgs Count="6">
       <Item1>
-        <PackageName Value="toolbarmenupkg"/>
+        <PackageName Value="lazextcomponentsimg"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazextcomponents"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item2>
       <Item3>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="toolbarmenupkg"/>
       </Item3>
       <Item4>
+        <PackageName Value="lazextcomponents"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="JvXPBarLaz"/>
+      </Item5>
+      <Item6>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item4>
+      </Item6>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

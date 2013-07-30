@@ -1,7 +1,7 @@
 object F_CustomizeMenu: TF_CustomizeMenu
-  Left = 314
+  Left = 359
   Height = 400
-  Top = 209
+  Top = 212
   Width = 600
   Caption = 'F_CustomizeMenu'
   ClientHeight = 400
@@ -9,7 +9,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '0.9.31'
+  LCLVersion = '1.0.10.0'
   object Panel1: TPanel
     Left = 0
     Height = 30
@@ -20,15 +20,14 @@ object F_CustomizeMenu: TF_CustomizeMenu
     ClientHeight = 30
     ClientWidth = 600
     TabOrder = 0
-    object FWClose1: TFWClose
-      Left = 520
+    object FWClose1: TSpeedButton
+      Left = 534
       Height = 30
       Top = 0
-      Caption = 'Fermer'
-      TabOrder = 0
+      Width = 66
       Align = alRight
-      Font.Color = 2171169
-      ParentFont = False
+      Caption = 'Fermer'
+      NumGlyphs = 0
     end
   end
   object Panel2: TPanel
@@ -74,30 +73,26 @@ object F_CustomizeMenu: TF_CustomizeMenu
       ClientHeight = 30
       ClientWidth = 600
       TabOrder = 1
-      object FWDelete: TFWDelete
+      object FWDelete: TSpeedButton
         Left = 0
         Height = 30
         Top = 0
         Width = 105
+        Align = alLeft
         Caption = 'Supprimer'
         Enabled = False
-        TabOrder = 0
-        Align = alLeft
-        Font.Color = 2171169
-        ParentFont = False
+        NumGlyphs = 0
         OnClick = FWDeleteClick
       end
-      object FWInsert: TFWInsert
+      object FWInsert: TSpeedButton
         Left = 519
         Height = 30
         Top = 0
         Width = 81
+        Align = alRight
         Caption = 'Ajouter'
         Enabled = False
-        TabOrder = 1
-        Align = alRight
-        Font.Color = 2171169
-        ParentFont = False
+        NumGlyphs = 0
         OnClick = FWInsertClick
       end
       object Panel4: TPanel
@@ -107,17 +102,16 @@ object F_CustomizeMenu: TF_CustomizeMenu
         Width = 31
         Align = alLeft
         BevelOuter = bvNone
-        TabOrder = 2
+        TabOrder = 0
       end
-      object ch_ajouteravant: TJvXPCheckbox
-        Left = 358
+      object ch_ajouteravant: TCheckBox
+        Left = 388
         Height = 30
         Top = 0
-        Width = 161
-        Caption = 'Ajouter avant'
-        TabOrder = 3
-        UseDockManager = False
+        Width = 131
         Align = alRight
+        Caption = 'Ajouter avant'
+        TabOrder = 1
       end
     end
     object vt_MenuIni: TVirtualStringTree
@@ -151,10 +145,9 @@ object F_CustomizeMenu: TF_CustomizeMenu
     end
   end
   object OnFormInfoIni: TOnFormInfoIni
-    SaveEdits = []
+    SaveForm = [sfSavePos, sfSaveSizes]
+    Options = [loFreeIni, loAutoUpdate, loAutoLoad]
     left = 145
     top = 140
-    SaveForm = [sfSaveSizes,sfSavePos]
-    Options = [loAutoUpdate,loAutoLoad,loFreeIni]
   end
 end
