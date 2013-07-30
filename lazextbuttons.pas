@@ -7,8 +7,7 @@ unit lazextbuttons;
 interface
 
 uses
-  u_extmenucustomize, u_extmenutoolbar, u_buttons_appli, u_buttons_speed, 
-  U_CustomizeMenu, LazarusPackageIntf;
+  u_buttons_appli, u_buttons_speed, LazarusPackageIntf;
 
 implementation
 

@@ -47,7 +47,9 @@ uses
 {$IFDEF VERSIONS}
    fonctions_version,
 {$ENDIF}
-   ComCtrls, fonctions_variant;
+   ComCtrls,
+   fonctions_variant,
+   fonctions_proprietes;
 
 {$IFDEF VERSIONS}
 const
@@ -306,7 +308,8 @@ var gcol_CouleurFocus : TColor = CST_GROUPE_COULEUR_FOCUS ;
 
 implementation
 
-uses TypInfo, fonctions_string, fonctions_proprietes, Variants,  ExtCtrls,
+uses TypInfo, fonctions_string,
+  Variants,  ExtCtrls,
   fonctions_erreurs,
   {$IFDEF FPC}
   unite_messages,

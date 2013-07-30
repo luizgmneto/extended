@@ -6,8 +6,8 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <IncludeFiles Value="composants"/>
-        <OtherUnitFiles Value="composants;fonctions"/>
+        <IncludeFiles Value="copy"/>
+        <OtherUnitFiles Value="copy"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -21,39 +21,43 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9"/>
-    <Files Count="8">
+    <Files Count="9">
       <Item1>
-        <Filename Value="composants/u_traducefile.lrs"/>
+        <Filename Value="copy/u_traducefile.lrs"/>
         <Type Value="LRS"/>
       </Item1>
       <Item2>
-        <Filename Value="composants/u_traducefile.pas"/>
+        <Filename Value="copy/u_traducefile.pas"/>
         <UnitName Value="u_traducefile"/>
       </Item2>
       <Item3>
-        <Filename Value="composants/U_ExtFileCopy.lrs"/>
+        <Filename Value="copy/U_ExtFileCopy.lrs"/>
         <Type Value="LRS"/>
       </Item3>
       <Item4>
-        <Filename Value="composants/U_ExtFileCopy.pas"/>
+        <Filename Value="copy/U_ExtFileCopy.pas"/>
         <UnitName Value="U_ExtFileCopy"/>
       </Item4>
       <Item5>
-        <Filename Value="composants/u_extabscopy.pas"/>
+        <Filename Value="copy/u_extabscopy.pas"/>
         <UnitName Value="u_extabscopy"/>
       </Item5>
       <Item6>
-        <Filename Value="composants/u_extractfile.lrs"/>
+        <Filename Value="copy/u_extractfile.lrs"/>
         <Type Value="LRS"/>
       </Item6>
       <Item7>
-        <Filename Value="composants/u_extractfile.pas"/>
+        <Filename Value="copy/u_extractfile.pas"/>
         <UnitName Value="u_extractfile"/>
       </Item7>
       <Item8>
-        <Filename Value="fonctions/fonctions_file.pas"/>
+        <Filename Value="copy/fonctions_file.pas"/>
         <UnitName Value="fonctions_file"/>
       </Item8>
+      <Item9>
+        <Filename Value="copy/unit_messagescopy.pas"/>
+        <UnitName Value="unit_messagescopy"/>
+      </Item9>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="5">
