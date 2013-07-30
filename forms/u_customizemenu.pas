@@ -26,8 +26,9 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  ExtCtrls, u_buttons_appli, u_buttons_defs, VirtualTrees, u_extmenucustomize,
-  U_OnFormInfoIni, Menus, JvXPCheckCtrls, JvXPButtons, JvXPCore;
+  VirtualTrees, u_extmenucustomize,
+  U_OnFormInfoIni, Menus, Buttons,
+  ExtCtrls, StdCtrls;
 
 {$IFDEF VERSIONS}
 const
@@ -50,10 +51,10 @@ type
 
   { TF_CustomizeMenu }
   TF_CustomizeMenu = class(TForm)
-    FWClose1: TFWClose;
-    FWDelete: TFWDelete;
-    FWInsert: TFWInsert;
-    ch_ajouteravant: TJvXPCheckbox;
+    FWClose1: TSpeedButton;
+    FWDelete: TSpeedButton;
+    FWInsert: TSpeedButton;
+    ch_ajouteravant: TCheckbox;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;

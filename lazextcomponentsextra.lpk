@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="lazextcomponentsextra"/>
+    <AddToProjectUsesSection Value="True"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <IncludeFiles Value="composants;forms"/>
+        <OtherUnitFiles Value="composants;forms"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <IncludeAssertionCode Value="True"/>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Version Major="1" Minor="2" Release="9"/>
+    <Files Count="6">
+      <Item1>
+        <Filename Value="composants/u_framework_components.pas"/>
+        <UnitName Value="u_framework_components"/>
+      </Item1>
+      <Item2>
+        <Filename Value="composants/u_framework_dbcomponents.pas"/>
+        <UnitName Value="u_framework_dbcomponents"/>
+      </Item2>
+      <Item3>
+        <Filename Value="composants/u_extsearchedit.pas"/>
+        <UnitName Value="u_extsearchedit"/>
+      </Item3>
+      <Item4>
+        <Filename Value="composants/U_ExtComboInsert.pas"/>
+        <UnitName Value="U_ExtComboInsert"/>
+      </Item4>
+      <Item5>
+        <Filename Value="composants/u_extdbgrid.pas"/>
+        <UnitName Value="u_extdbgrid"/>
+      </Item5>
+      <Item6>
+        <Filename Value="composants/u_buttons_defs.pas"/>
+        <UnitName Value="u_buttons_defs"/>
+      </Item6>
+    </Files>
+    <i18n>
+      <EnableI18N Value="True"/>
+      <OutDir Value="LANG"/>
+    </i18n>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="7">
+      <Item1>
+        <PackageName Value="lazextcomponentsimg"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="lazextcomponents"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="JvXPBarLaz"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="ZVDateTimeCtrls"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="rxnew"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="lazfonctions"/>
+      </Item6>
+      <Item7>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item7>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
+  </Package>
+</CONFIG>

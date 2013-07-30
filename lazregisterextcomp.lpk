@@ -42,20 +42,23 @@
       </Item5>
     </Files>
     <Type Value="DesignTime"/>
-    <RequiredPkgs Count="4">
+    <RequiredPkgs Count="5">
       <Item1>
-        <PackageName Value="lazcustforms"/>
+        <PackageName Value="lazextcomponentsextra"/>
       </Item1>
       <Item2>
-        <PackageName Value="ExtCopy"/>
+        <PackageName Value="lazcustforms"/>
       </Item2>
       <Item3>
-        <PackageName Value="lazextcomponents"/>
+        <PackageName Value="ExtCopy"/>
       </Item3>
       <Item4>
+        <PackageName Value="lazextcomponents"/>
+      </Item4>
+      <Item5>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item4>
+      </Item5>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

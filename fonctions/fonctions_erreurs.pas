@@ -79,8 +79,7 @@ uses Forms,
 {$IFDEF EADO}
      ADOInt, ComObj,
 {$ENDIF}
-     fonctions_string,
-     fonctions_dbcomponents ;
+     fonctions_string ;
 
 // gestion d'une exception delphi
 // aexc_exception : l'exception

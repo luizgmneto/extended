@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="lazextcore"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="fonctions"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Other>
+        <CompilerMessages>
+          <MsgFileName Value=""/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Files Count="7">
+      <Item1>
+        <Filename Value="fonctions/unite_messages.pas"/>
+        <UnitName Value="unite_messages"/>
+      </Item1>
+      <Item2>
+        <Filename Value="fonctions/fonctions_proprietes.pas"/>
+        <UnitName Value="fonctions_proprietes"/>
+      </Item2>
+      <Item3>
+        <Filename Value="fonctions/fonctions_string.pas"/>
+        <UnitName Value="fonctions_string"/>
+      </Item3>
+      <Item4>
+        <Filename Value="fonctions/fonctions_system.pas"/>
+        <UnitName Value="fonctions_system"/>
+      </Item4>
+      <Item5>
+        <Filename Value="fonctions/fonctions_objects.pas"/>
+        <UnitName Value="fonctions_objects"/>
+      </Item5>
+      <Item6>
+        <Filename Value="fonctions/fonctions_scaledpi.pas"/>
+        <UnitName Value="fonctions_scaledpi"/>
+      </Item6>
+      <Item7>
+        <Filename Value="fonctions/fonctions_erreurs.pas"/>
+        <UnitName Value="fonctions_erreurs"/>
+      </Item7>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

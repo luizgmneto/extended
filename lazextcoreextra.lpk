@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="lazextcoreextra"/>
+    <AddToProjectUsesSection Value="True"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <IncludeFiles Value="fonctions;composants;classes"/>
+        <OtherUnitFiles Value="fonctions;composants;classes"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <CStyleOperator Value="False"/>
+          <CPPInline Value="False"/>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Version Major="1" Minor="3" Release="3" Build="1"/>
+    <Files Count="13">
+      <Item1>
+        <Filename Value="fonctions/fonctions_db.pas"/>
+        <UnitName Value="fonctions_db"/>
+      </Item1>
+      <Item2>
+        <Filename Value="fonctions/fonctions_numedit.pas"/>
+        <UnitName Value="fonctions_numedit"/>
+      </Item2>
+      <Item3>
+        <Filename Value="fonctions/fonctions_variant.pas"/>
+        <UnitName Value="fonctions_variant"/>
+      </Item3>
+      <Item4>
+        <Filename Value="fonctions/fonctions_web.pas"/>
+        <UnitName Value="fonctions_web"/>
+      </Item4>
+      <Item5>
+        <Filename Value="fonctions/fonctions_array.pas"/>
+        <UnitName Value="fonctions_array"/>
+      </Item5>
+      <Item6>
+        <Filename Value="fonctions/fonctions_languages.pas"/>
+        <UnitName Value="fonctions_languages"/>
+      </Item6>
+      <Item7>
+        <Filename Value="fonctions/fonctions_components.pas"/>
+        <UnitName Value="fonctions_components"/>
+      </Item7>
+      <Item8>
+        <Filename Value="fonctions/type_string.pas"/>
+        <UnitName Value="type_string"/>
+      </Item8>
+      <Item9>
+        <Filename Value="fonctions/fonctions_file.pas"/>
+        <UnitName Value="fonctions_file"/>
+      </Item9>
+      <Item10>
+        <Filename Value="fonctions/unit_messagescopy.pas"/>
+        <UnitName Value="unit_messagescopy"/>
+      </Item10>
+      <Item11>
+        <Filename Value="fonctions/fonctions_dbcomponents.pas"/>
+        <UnitName Value="fonctions_dbcomponents"/>
+      </Item11>
+      <Item12>
+        <Filename Value="fonctions/fonctions_vtree.pas"/>
+        <UnitName Value="fonctions_vtree"/>
+      </Item12>
+      <Item13>
+        <Filename Value="fonctions/fonctions_forms.pas"/>
+        <UnitName Value="fonctions_forms"/>
+      </Item13>
+    </Files>
+    <i18n>
+      <EnableI18N Value="True"/>
+      <OutDir Value="LANG"/>
+    </i18n>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="lazextinit"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="lazextcore"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
+  </Package>
+</CONFIG>
