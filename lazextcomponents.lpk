@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="2" Release="9"/>
-    <Files Count="12">
+    <Files Count="10">
       <Item1>
         <Filename Value="composants/PDBCheck.pas"/>
         <UnitName Value="PDBCheck"/>
@@ -35,41 +35,33 @@
         <UnitName Value="U_ExtColorCombos"/>
       </Item3>
       <Item4>
-        <Filename Value="composants/u_extcomponent.pas"/>
-        <UnitName Value="u_extcomponent"/>
-      </Item4>
-      <Item5>
         <Filename Value="composants/u_dblistview.pas"/>
         <UnitName Value="U_DBListView"/>
-      </Item5>
-      <Item6>
+      </Item4>
+      <Item5>
         <Filename Value="composants/U_ExtNumEdits.pas"/>
         <UnitName Value="U_ExtNumEdits"/>
-      </Item6>
-      <Item7>
+      </Item5>
+      <Item6>
         <Filename Value="composants/u_extdbnavigator.pas"/>
         <UnitName Value="U_ExtDBNavigator"/>
-      </Item7>
-      <Item8>
+      </Item6>
+      <Item7>
         <Filename Value="composants/U_GroupView.lrs"/>
         <Type Value="LRS"/>
-      </Item8>
-      <Item9>
+      </Item7>
+      <Item8>
         <Filename Value="composants/U_GroupView.pas"/>
         <UnitName Value="U_GroupView"/>
-      </Item9>
-      <Item10>
+      </Item8>
+      <Item9>
         <Filename Value="composants/u_extradios.pas"/>
         <UnitName Value="u_extradios"/>
-      </Item10>
-      <Item11>
-        <Filename Value="composants/u_formmainini.pas"/>
-        <UnitName Value="U_FormMainIni"/>
-      </Item11>
-      <Item12>
+      </Item9>
+      <Item10>
         <Filename Value="composants/u_scrollclones.pas"/>
         <UnitName Value="u_scrollclones"/>
-      </Item12>
+      </Item10>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
@@ -78,7 +70,7 @@
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">
       <Item1>
-        <PackageName Value="lazextcoreextra"/>
+        <PackageName Value="lazextbase"/>
       </Item1>
       <Item2>
         <PackageName Value="LCL"/>

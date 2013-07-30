@@ -7,9 +7,9 @@ unit lazextcomponents;
 interface
 
 uses
-  PDBCheck, PCheck, U_ExtColorCombos, u_extcomponent, U_DBListView, 
-  U_ExtNumEdits, U_ExtDBNavigator, U_GroupView, u_extradios, U_FormMainIni, 
-  u_scrollclones, LazarusPackageIntf;
+  PDBCheck, PCheck, U_ExtColorCombos, U_DBListView, U_ExtNumEdits, 
+  U_ExtDBNavigator, U_GroupView, u_extradios, u_scrollclones, 
+  LazarusPackageIntf;
 
 implementation
 

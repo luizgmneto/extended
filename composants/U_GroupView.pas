@@ -52,7 +52,8 @@ uses
   fonctions_version,
 {$ENDIF}
      SyncObjs, U_DBListView,
-     ComCtrls, fonctions_variant;
+     ComCtrls, fonctions_variant,
+     fonctions_proprietes;
 
 {$IFDEF VERSIONS}
 const
@@ -390,7 +391,8 @@ var gcol_CouleurFocus : TColor = CST_GROUPE_COULEUR_FOCUS ;
 
 implementation
 
-uses TypInfo, fonctions_string, fonctions_proprietes, Variants,  ExtCtrls,  fonctions_erreurs,
+uses TypInfo, fonctions_string,
+  Variants,  ExtCtrls,  fonctions_erreurs,
   {$IFDEF FPC}
   unite_messages,
   {$ELSE}

@@ -6,8 +6,8 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <IncludeFiles Value="composants;forms"/>
-        <OtherUnitFiles Value="composants;forms;fonctions"/>
+        <IncludeFiles Value="imgcomp;forms;fonctions"/>
+        <OtherUnitFiles Value="imgcomp;forms;fonctions"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -23,31 +23,31 @@
     <Version Major="1" Minor="2" Release="9"/>
     <Files Count="8">
       <Item1>
-        <Filename Value="composants/u_extdbimage.pas"/>
+        <Filename Value="imgcomp/u_extdbimage.pas"/>
         <UnitName Value="U_ExtDBImage"/>
       </Item1>
       <Item2>
-        <Filename Value="composants/u_extimage.pas"/>
+        <Filename Value="imgcomp/u_extimage.pas"/>
         <UnitName Value="U_ExtImage"/>
       </Item2>
       <Item3>
-        <Filename Value="composants/U_ExtPictCombo.pas"/>
+        <Filename Value="imgcomp/U_ExtPictCombo.pas"/>
         <UnitName Value="U_ExtPictCombo"/>
       </Item3>
       <Item4>
-        <Filename Value="composants/u_extmapimageindex.pas"/>
+        <Filename Value="imgcomp/u_extmapimageindex.pas"/>
         <UnitName Value="U_ExtMapImageIndex"/>
       </Item4>
       <Item5>
-        <Filename Value="composants/u_extimagelist.pas"/>
+        <Filename Value="imgcomp/u_extimagelist.pas"/>
         <UnitName Value="u_extimagelist"/>
       </Item5>
       <Item6>
-        <Filename Value="composants/u_extdbpictcombo.pas"/>
+        <Filename Value="imgcomp/u_extdbpictcombo.pas"/>
         <UnitName Value="U_ExtDBPictCombo"/>
       </Item6>
       <Item7>
-        <Filename Value="composants/u_extdbimagelist.pas"/>
+        <Filename Value="imgcomp/u_extdbimagelist.pas"/>
         <UnitName Value="U_ExtDBImageList"/>
       </Item7>
       <Item8>
@@ -60,20 +60,17 @@
       <OutDir Value="LANG"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="4">
+    <RequiredPkgs Count="3">
       <Item1>
-        <PackageName Value="lazextcomponents"/>
+        <PackageName Value="lazextbase"/>
       </Item1>
       <Item2>
         <PackageName Value="VampyreImagingPackage"/>
       </Item2>
       <Item3>
-        <PackageName Value="lazextcoreextra"/>
-      </Item3>
-      <Item4>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item4>
+      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

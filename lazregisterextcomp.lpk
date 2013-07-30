@@ -6,7 +6,7 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <OtherUnitFiles Value="composants"/>
+        <OtherUnitFiles Value="register"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
@@ -16,27 +16,27 @@
     <Version Major="1" Minor="1"/>
     <Files Count="5">
       <Item1>
-        <Filename Value="composants/u_regframeworkcomponents.pas"/>
+        <Filename Value="register/u_regframeworkcomponents.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regframeworkcomponents"/>
       </Item1>
       <Item2>
-        <Filename Value="composants/U_RegisterGroupView.pas"/>
+        <Filename Value="register/U_RegisterGroupView.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="U_RegisterGroupView"/>
       </Item2>
       <Item3>
-        <Filename Value="composants/u_regextfilecopy.pas"/>
+        <Filename Value="register/u_regextfilecopy.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regextfilecopy"/>
       </Item3>
       <Item4>
-        <Filename Value="composants/u_regfwbuttons.pas"/>
+        <Filename Value="register/u_regfwbuttons.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regfwbuttons"/>
       </Item4>
       <Item5>
-        <Filename Value="composants/u_registerforms.pas"/>
+        <Filename Value="register/u_registerforms.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_registerforms"/>
       </Item5>

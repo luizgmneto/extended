@@ -6,8 +6,8 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <IncludeFiles Value="composants"/>
-        <OtherUnitFiles Value="composants"/>
+        <IncludeFiles Value="register"/>
+        <OtherUnitFiles Value="register"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
@@ -17,21 +17,21 @@
     <Version Major="1"/>
     <Files Count="4">
       <Item1>
-        <Filename Value="composants/u_regsbbuttons.pas"/>
+        <Filename Value="register/u_regsbbuttons.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regsbbuttons"/>
       </Item1>
       <Item2>
-        <Filename Value="composants/u_regfwbuttons_appli.pas"/>
+        <Filename Value="register/u_regfwbuttons_appli.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regfwbuttons_appli"/>
       </Item2>
       <Item3>
-        <Filename Value="composants/u_regreports_components.lrs"/>
+        <Filename Value="register/u_regreports_components.lrs"/>
         <Type Value="LRS"/>
       </Item3>
       <Item4>
-        <Filename Value="composants/u_regreports_components.pas"/>
+        <Filename Value="register/u_regreports_components.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regreports_components"/>
       </Item4>
@@ -65,4 +65,4 @@
       <_ExternHelp Items="Count"/>
     </CustomOptions>
   </Package>
-</CONFIG>
+</CONFIG>
