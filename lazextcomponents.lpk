@@ -6,8 +6,8 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <IncludeFiles Value="composants"/>
-        <OtherUnitFiles Value="composants"/>
+        <IncludeFiles Value="extcomp"/>
+        <OtherUnitFiles Value="extcomp"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -21,61 +21,72 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="2" Release="9"/>
-    <Files Count="10">
+    <Files Count="12">
       <Item1>
-        <Filename Value="composants/PDBCheck.pas"/>
+        <Filename Value="extcomp/PDBCheck.pas"/>
         <UnitName Value="PDBCheck"/>
       </Item1>
       <Item2>
-        <Filename Value="composants/PCheck.pas"/>
+        <Filename Value="extcomp/PCheck.pas"/>
         <UnitName Value="PCheck"/>
       </Item2>
       <Item3>
-        <Filename Value="composants/u_extcolorcombos.pas"/>
+        <Filename Value="extcomp/u_extcolorcombos.pas"/>
         <UnitName Value="U_ExtColorCombos"/>
       </Item3>
       <Item4>
-        <Filename Value="composants/u_dblistview.pas"/>
+        <Filename Value="extcomp/u_dblistview.pas"/>
         <UnitName Value="U_DBListView"/>
       </Item4>
       <Item5>
-        <Filename Value="composants/U_ExtNumEdits.pas"/>
+        <Filename Value="extcomp/U_ExtNumEdits.pas"/>
         <UnitName Value="U_ExtNumEdits"/>
       </Item5>
       <Item6>
-        <Filename Value="composants/u_extdbnavigator.pas"/>
+        <Filename Value="extcomp/u_extdbnavigator.pas"/>
         <UnitName Value="U_ExtDBNavigator"/>
       </Item6>
       <Item7>
-        <Filename Value="composants/U_GroupView.lrs"/>
+        <Filename Value="extcomp/U_GroupView.lrs"/>
         <Type Value="LRS"/>
       </Item7>
       <Item8>
-        <Filename Value="composants/U_GroupView.pas"/>
+        <Filename Value="extcomp/U_GroupView.pas"/>
         <UnitName Value="U_GroupView"/>
       </Item8>
       <Item9>
-        <Filename Value="composants/u_extradios.pas"/>
+        <Filename Value="extcomp/u_extradios.pas"/>
         <UnitName Value="u_extradios"/>
       </Item9>
       <Item10>
-        <Filename Value="composants/u_scrollclones.pas"/>
+        <Filename Value="extcomp/u_scrollclones.pas"/>
         <UnitName Value="u_scrollclones"/>
       </Item10>
+      <Item11>
+        <Filename Value="extcomp/u_extdbdirectoryedit.lrs"/>
+        <Type Value="LRS"/>
+      </Item11>
+      <Item12>
+        <Filename Value="extcomp/u_extdbdirectoryedit.pas"/>
+        <UnitName Value="u_extDBDirectoryEdit"/>
+      </Item12>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="LANG"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="2">
+    <RequiredPkgs Count="3">
       <Item1>
-        <PackageName Value="lazextbase"/>
+        <PackageName Value="ZVDateTimeCtrls"/>
       </Item1>
       <Item2>
+        <PackageName Value="lazextbase"/>
+      </Item2>
+      <Item3>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item2>
+      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

@@ -9,7 +9,7 @@ interface
 uses
   PDBCheck, PCheck, U_ExtColorCombos, U_DBListView, U_ExtNumEdits, 
   U_ExtDBNavigator, U_GroupView, u_extradios, u_scrollclones, 
-  LazarusPackageIntf;
+  u_extDBDirectoryEdit, LazarusPackageIntf;
 
 implementation
 

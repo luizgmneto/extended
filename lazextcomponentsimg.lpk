@@ -6,8 +6,8 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <IncludeFiles Value="imgcomp;forms;fonctions"/>
-        <OtherUnitFiles Value="imgcomp;forms;fonctions"/>
+        <IncludeFiles Value="imgcomp"/>
+        <OtherUnitFiles Value="imgcomp"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -51,7 +51,7 @@
         <UnitName Value="U_ExtDBImageList"/>
       </Item7>
       <Item8>
-        <Filename Value="fonctions/fonctions_images.pas"/>
+        <Filename Value="imgcomp/fonctions_images.pas"/>
         <UnitName Value="fonctions_images"/>
       </Item8>
     </Files>
