@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, U_Components, LResources, DBFLaz, lazextcomponents, lazfonctions,
+  Forms, U_Components, LResources, DBFLaz, lazextcomponents,
   lazextbuttons, ibexpress;
 begin
   {$I demo.lrs}

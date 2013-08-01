@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="2" Release="9"/>
-    <Files Count="12">
+    <Files Count="20">
       <Item1>
         <Filename Value="extcomp/PDBCheck.pas"/>
         <UnitName Value="PDBCheck"/>
@@ -70,23 +70,61 @@
         <Filename Value="extcomp/u_extdbdirectoryedit.pas"/>
         <UnitName Value="u_extDBDirectoryEdit"/>
       </Item12>
+      <Item13>
+        <Filename Value="extcomp/u_extsearchedit.lrs"/>
+        <Type Value="LRS"/>
+      </Item13>
+      <Item14>
+        <Filename Value="extcomp/u_extsearchedit.pas"/>
+        <UnitName Value="u_extsearchedit"/>
+      </Item14>
+      <Item15>
+        <Filename Value="extcomp/U_ExtComboInsert.lrs"/>
+        <Type Value="LRS"/>
+      </Item15>
+      <Item16>
+        <Filename Value="extcomp/U_ExtComboInsert.pas"/>
+        <UnitName Value="U_ExtComboInsert"/>
+      </Item16>
+      <Item17>
+        <Filename Value="extcomp/u_framework_components.lrs"/>
+        <Type Value="LRS"/>
+      </Item17>
+      <Item18>
+        <Filename Value="extcomp/u_framework_components.pas"/>
+        <UnitName Value="u_framework_components"/>
+      </Item18>
+      <Item19>
+        <Filename Value="extcomp/u_framework_dbcomponents.lrs"/>
+        <Type Value="LRS"/>
+      </Item19>
+      <Item20>
+        <Filename Value="extcomp/u_framework_dbcomponents.pas"/>
+        <UnitName Value="u_framework_dbcomponents"/>
+      </Item20>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="LANG"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="5">
       <Item1>
-        <PackageName Value="ZVDateTimeCtrls"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazextbase"/>
+        <PackageName Value="rxnew"/>
       </Item2>
       <Item3>
+        <PackageName Value="ZVDateTimeCtrls"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="lazextbase"/>
+      </Item4>
+      <Item5>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item3>
+      </Item5>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

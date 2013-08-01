@@ -36,26 +36,17 @@
       </Item3>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="6">
+    <RequiredPkgs Count="3">
       <Item1>
         <PackageName Value="lazextcomponentsimg"/>
       </Item1>
       <Item2>
-        <PackageName Value="virtualtreeview_package"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item2>
       <Item3>
-        <PackageName Value="toolbarmenupkg"/>
-      </Item3>
-      <Item4>
-        <PackageName Value="lazextcomponents"/>
-      </Item4>
-      <Item5>
-        <PackageName Value="JvXPBarLaz"/>
-      </Item5>
-      <Item6>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item6>
+      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

@@ -33,7 +33,9 @@ uses  {$IFDEF FPC}
 {$ELSE}
      DBReg, Designintf,
 {$ENDIF}
-     PDBCheck, PCheck, u_scrollclones,
+     PDBCheck, PCheck,
+     u_scrollclones,
+     u_extsearchedit,
      u_extradios;
 
 procedure Register;
@@ -41,6 +43,7 @@ begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,
                                                 {$IFDEF FPC}TExtDBDirectoryEdit,{$ENDIF}
                                                 TExtDBNavigator,
+                                                TExtSearchDBEdit,
                                                 TExtDBNumEdit]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,TExtClonedPanel,TExtColorCombo,
                                                 TExtNumEdit,TExtRadioGroup]);

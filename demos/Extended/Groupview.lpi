@@ -37,7 +37,7 @@
         <LaunchingApplication PathPlusParams="/usr/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="13">
+    <RequiredPackages Count="12">
       <Item1>
         <PackageName Value="extreports"/>
       </Item1>
@@ -65,20 +65,17 @@
         <PackageName Value="ExpertSuperForm"/>
       </Item8>
       <Item9>
-        <PackageName Value="lazfonctions"/>
+        <PackageName Value="rxnew"/>
       </Item9>
       <Item10>
-        <PackageName Value="rxnew"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item10>
       <Item11>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item11>
       <Item12>
-        <PackageName Value="virtualtreeview_package"/>
-      </Item12>
-      <Item13>
         <PackageName Value="LCL"/>
-      </Item13>
+      </Item12>
     </RequiredPackages>
     <Units Count="163">
       <Unit0>
@@ -395,10 +392,14 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Caracteristique"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="136"/>
+        <TopLine Value="106"/>
         <CursorPos X="46" Y="147"/>
         <UsageCount Value="83"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
@@ -724,13 +725,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="U_DmArticles"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
+        <TopLine Value="42"/>
         <CursorPos X="85" Y="96"/>
         <UsageCount Value="67"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit58>
       <Unit59>
@@ -826,7 +827,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="CompSuperForm"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="246"/>
         <CursorPos X="83" Y="261"/>
@@ -928,12 +929,10 @@
       <Unit80>
         <Filename Value="../../fonctions/fonctions_dbcomponents.pas"/>
         <UnitName Value="fonctions_dbcomponents"/>
-        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="127"/>
         <CursorPos X="34" Y="133"/>
         <UsageCount Value="14"/>
-        <Loaded Value="True"/>
       </Unit80>
       <Unit81>
         <Filename Value="../../fonctions/fonctions_proprietes.pas"/>
@@ -1332,12 +1331,10 @@
       <Unit128>
         <Filename Value="../../composants/u_regframeworkcomponents.pas"/>
         <UnitName Value="u_regframeworkcomponents"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="32"/>
         <CursorPos X="45" Y="48"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit128>
       <Unit129>
         <Filename Value="../../composants/u_regfwbuttons_appli.pas"/>
@@ -1552,22 +1549,18 @@
       <Unit154>
         <Filename Value="../../composants/u_onforminfoini.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="779"/>
         <CursorPos X="47" Y="799"/>
         <UsageCount Value="13"/>
-        <Loaded Value="True"/>
       </Unit154>
       <Unit155>
         <Filename Value="../../composants/u_scrolldbclones.pas"/>
         <UnitName Value="u_scrolldbclones"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="103"/>
         <CursorPos X="27" Y="106"/>
         <UsageCount Value="13"/>
-        <Loaded Value="True"/>
       </Unit155>
       <Unit156>
         <Filename Value="/usr/share/lazarus/1.0/ide/componentpalette.pas"/>
@@ -1580,22 +1573,18 @@
       <Unit157>
         <Filename Value="../../fonctions/fonctions_components.pas"/>
         <UnitName Value="fonctions_components"/>
-        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="62"/>
         <CursorPos X="1" Y="83"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit157>
       <Unit158>
         <Filename Value="../../composants/u_scrollclones.pas"/>
         <UnitName Value="u_scrollclones"/>
-        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="150"/>
         <CursorPos X="174" Y="192"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit158>
       <Unit159>
         <Filename Value="../../composants/u_extdbimagelist.pas"/>
@@ -1624,135 +1613,21 @@
       <Unit162>
         <Filename Value="../../fonctions/fonctions_init.pas"/>
         <UnitName Value="fonctions_init"/>
-        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="513"/>
         <CursorPos X="10" Y="541"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit162>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
-        <Filename Value="../../composants/u_scrollclones.pas"/>
-        <Caret Line="42" Column="44" TopLine="40"/>
-      </Position1>
-      <Position2>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="40" Column="20" TopLine="29"/>
-      </Position2>
-      <Position3>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="40" Column="17" TopLine="36"/>
-      </Position3>
-      <Position4>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="42" Column="21" TopLine="34"/>
-      </Position4>
-      <Position5>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="55" Column="65" TopLine="38"/>
-      </Position5>
-      <Position6>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="42" Column="15" TopLine="30"/>
-      </Position6>
-      <Position7>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="47" Column="51" TopLine="35"/>
-      </Position7>
-      <Position8>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="53" Column="1" TopLine="41"/>
-      </Position8>
-      <Position9>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="86" Column="1" TopLine="81"/>
-      </Position9>
-      <Position10>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="77" Column="6" TopLine="61"/>
-      </Position10>
-      <Position11>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="100" Column="62" TopLine="88"/>
-      </Position11>
-      <Position12>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="149" Column="1" TopLine="137"/>
-      </Position12>
-      <Position13>
-        <Filename Value="../../composants/u_scrollclones.pas"/>
-        <Caret Line="47" Column="27" TopLine="33"/>
-      </Position13>
-      <Position14>
-        <Filename Value="../../composants/u_scrollclones.pas"/>
-        <Caret Line="48" Column="15" TopLine="35"/>
-      </Position14>
-      <Position15>
-        <Filename Value="../../composants/u_scrollclones.pas"/>
-        <Caret Line="169" Column="14" TopLine="146"/>
-      </Position15>
-      <Position16>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="47" Column="40" TopLine="35"/>
-      </Position16>
-      <Position17>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="102" Column="34" TopLine="100"/>
-      </Position17>
-      <Position18>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="47" Column="26" TopLine="47"/>
-      </Position18>
-      <Position19>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="100" Column="41" TopLine="100"/>
-      </Position19>
-      <Position20>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="45" Column="32" TopLine="39"/>
-      </Position20>
-      <Position21>
-        <Filename Value="../../composants/u_scrolldbclones.pas"/>
-        <Caret Line="106" Column="27" TopLine="103"/>
-      </Position21>
-      <Position22>
         <Filename Value="../../../SuperFormExpert/CompSuperForm.pas"/>
         <Caret Line="289" Column="1" TopLine="246"/>
-      </Position22>
-      <Position23>
-        <Filename Value="../../fonctions/fonctions_init.pas"/>
-        <Caret Line="18" Column="61" TopLine="1"/>
-      </Position23>
-      <Position24>
-        <Filename Value="../../fonctions/fonctions_init.pas"/>
-        <Caret Line="73" Column="15" TopLine="25"/>
-      </Position24>
-      <Position25>
-        <Filename Value="../../fonctions/fonctions_init.pas"/>
-        <Caret Line="83" Column="39" TopLine="35"/>
-      </Position25>
-      <Position26>
-        <Filename Value="../../fonctions/fonctions_init.pas"/>
-        <Caret Line="94" Column="137" TopLine="46"/>
-      </Position26>
-      <Position27>
-        <Filename Value="../../fonctions/fonctions_init.pas"/>
-        <Caret Line="541" Column="37" TopLine="505"/>
-      </Position27>
-      <Position28>
-        <Filename Value="../../fonctions/fonctions_init.pas"/>
-        <Caret Line="545" Column="44" TopLine="505"/>
-      </Position28>
-      <Position29>
-        <Filename Value="../../fonctions/fonctions_init.pas"/>
-        <Caret Line="621" Column="135" TopLine="597"/>
-      </Position29>
-      <Position30>
+      </Position1>
+      <Position2>
         <Filename Value="u_main.pas"/>
         <Caret Line="33" Column="68" TopLine="4"/>
-      </Position30>
+      </Position2>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

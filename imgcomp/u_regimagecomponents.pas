@@ -43,7 +43,7 @@ procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TExtMapImages]);
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TExtDBImage,TExtDBImageList,
-                                                TExtDBPictCombo]);
+                                                 TExtDBGrid,TExtDBPictCombo]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtImage,TExtImageList,
                                                 TExtPictCombo]);
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
@@ -58,6 +58,7 @@ initialization
   {$i U_ExtImageList.lrs}
   {$i u_extmapimageindex.lrs}
   {$i u_extimage.lrs}
+  {$i u_extdbgrid.lrs}
 {$ENDIF}
 end.
 
