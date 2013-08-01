@@ -6,7 +6,8 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <OtherUnitFiles Value="register"/>
+        <IncludeFiles Value="reportcomp"/>
+        <OtherUnitFiles Value="extcomp;inicomp;copy;extracomp;imgcomp;btncomp;reportcomp"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
@@ -14,51 +15,92 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="1"/>
-    <Files Count="5">
+    <Files Count="13">
       <Item1>
-        <Filename Value="register/u_regframeworkcomponents.pas"/>
+        <Filename Value="inicomp/u_reginicomponents.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="u_regframeworkcomponents"/>
+        <UnitName Value="u_reginicomponents"/>
       </Item1>
       <Item2>
-        <Filename Value="register/U_RegisterGroupView.pas"/>
+        <Filename Value="extcomp/u_regextcomponents.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="U_RegisterGroupView"/>
+        <UnitName Value="u_regextcomponents"/>
       </Item2>
       <Item3>
-        <Filename Value="register/u_regextfilecopy.pas"/>
+        <Filename Value="copy/u_regextfilecopy.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regextfilecopy"/>
       </Item3>
       <Item4>
-        <Filename Value="register/u_regfwbuttons.pas"/>
+        <Filename Value="extracomp/u_regextracomponents.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regextracomponents"/>
+      </Item4>
+      <Item5>
+        <Filename Value="imgcomp/u_regimagecomponents.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regimagecomponents"/>
+      </Item5>
+      <Item6>
+        <Filename Value="btncomp/u_regfwbuttons.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_regfwbuttons"/>
-      </Item4>
-      <Item5>
-        <Filename Value="register/u_registerforms.pas"/>
+      </Item6>
+      <Item7>
+        <Filename Value="btncomp/u_regfwbuttons_appli.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regfwbuttons_appli"/>
+      </Item7>
+      <Item8>
+        <Filename Value="btncomp/u_regsbbuttons.lrs"/>
+        <Type Value="LRS"/>
+      </Item8>
+      <Item9>
+        <Filename Value="btncomp/u_regsbbuttons.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regsbbuttons"/>
+      </Item9>
+      <Item10>
+        <Filename Value="inicomp/u_registerforms.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_registerforms"/>
-      </Item5>
+      </Item10>
+      <Item11>
+        <Filename Value="extcomp/U_RegisterGroupView.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="U_RegisterGroupView"/>
+      </Item11>
+      <Item12>
+        <Filename Value="reportcomp/u_regreports_components.lrs"/>
+        <Type Value="LRS"/>
+      </Item12>
+      <Item13>
+        <Filename Value="reportcomp/u_regreports_components.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_regreports_components"/>
+      </Item13>
     </Files>
     <Type Value="DesignTime"/>
-    <RequiredPkgs Count="5">
+    <RequiredPkgs Count="6">
       <Item1>
-        <PackageName Value="lazextcomponentsextra"/>
+        <PackageName Value="extreports"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazcustforms"/>
+        <PackageName Value="lazextcomponentsextra"/>
       </Item2>
       <Item3>
-        <PackageName Value="ExtCopy"/>
+        <PackageName Value="lazcustforms"/>
       </Item3>
       <Item4>
-        <PackageName Value="lazextcomponents"/>
+        <PackageName Value="ExtCopy"/>
       </Item4>
       <Item5>
+        <PackageName Value="lazextcomponents"/>
+      </Item5>
+      <Item6>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item5>
+      </Item6>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

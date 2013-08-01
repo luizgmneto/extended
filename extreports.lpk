@@ -5,8 +5,8 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <IncludeFiles Value="composants"/>
-        <OtherUnitFiles Value="fonctions;forms;composants"/>
+        <IncludeFiles Value="reportcomp"/>
+        <OtherUnitFiles Value="reportcomp"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
@@ -19,23 +19,23 @@
     <Version Major="1"/>
     <Files Count="5">
       <Item1>
-        <Filename Value="fonctions/fonctions_reports.pas"/>
+        <Filename Value="reportcomp/fonctions_reports.pas"/>
         <UnitName Value="fonctions_reports"/>
       </Item1>
       <Item2>
-        <Filename Value="forms/u_reportform.lfm"/>
+        <Filename Value="reportcomp/u_reportform.lfm"/>
         <Type Value="LFM"/>
       </Item2>
       <Item3>
-        <Filename Value="forms/u_reportform.pas"/>
+        <Filename Value="reportcomp/u_reportform.pas"/>
         <UnitName Value="u_reportform"/>
       </Item3>
       <Item4>
-        <Filename Value="composants/u_reports_rlcomponents.pas"/>
+        <Filename Value="reportcomp/u_reports_rlcomponents.pas"/>
         <UnitName Value="u_reports_rlcomponents"/>
       </Item4>
       <Item5>
-        <Filename Value="composants/u_reports_components.pas"/>
+        <Filename Value="reportcomp/u_reports_components.pas"/>
         <UnitName Value="u_reports_components"/>
       </Item5>
     </Files>
