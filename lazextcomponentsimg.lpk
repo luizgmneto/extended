@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="2" Release="9"/>
-    <Files Count="8">
+    <Files Count="11">
       <Item1>
         <Filename Value="imgcomp/u_extdbimage.pas"/>
         <UnitName Value="U_ExtDBImage"/>
@@ -54,23 +54,41 @@
         <Filename Value="imgcomp/fonctions_images.pas"/>
         <UnitName Value="fonctions_images"/>
       </Item8>
+      <Item9>
+        <Filename Value="imgcomp/u_buttons_defs.pas"/>
+        <UnitName Value="u_buttons_defs"/>
+      </Item9>
+      <Item10>
+        <Filename Value="imgcomp/u_extdbgrid.lrs"/>
+        <Type Value="LRS"/>
+      </Item10>
+      <Item11>
+        <Filename Value="imgcomp/u_extdbgrid.pas"/>
+        <UnitName Value="u_extdbgrid"/>
+      </Item11>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="LANG"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="5">
       <Item1>
-        <PackageName Value="lazextbase"/>
+        <PackageName Value="rxnew"/>
       </Item1>
       <Item2>
-        <PackageName Value="VampyreImagingPackage"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item2>
       <Item3>
+        <PackageName Value="lazextbase"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="VampyreImagingPackage"/>
+      </Item4>
+      <Item5>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item3>
+      </Item5>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
