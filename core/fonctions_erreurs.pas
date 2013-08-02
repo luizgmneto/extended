@@ -1,4 +1,4 @@
-unit fonctions_erreurs;
+﻿unit fonctions_erreurs;
 
 interface
 
@@ -71,7 +71,7 @@ uses Forms,
   {$IFDEF FPC}
   unite_messages,
   {$ELSE}
-  unite_messages_delphi,
+  unite_messages_delphi, fonctions_dbcomponents ,
   {$ENDIF}
 {$IFDEF DELPHI}
      OleDb,
@@ -79,7 +79,7 @@ uses Forms,
 {$IFDEF EADO}
      ADOInt, ComObj,
 {$ENDIF}
-     fonctions_string ;
+     fonctions_string;
 
 // gestion d'une exception delphi
 // aexc_exception : l'exception

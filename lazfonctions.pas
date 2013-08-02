@@ -7,11 +7,12 @@ unit lazfonctions;
 interface
 
 uses
-  fonctions_erreurs, fonctions_db, fonctions_images, fonctions_numedit, 
-  fonctions_variant, fonctions_web, fonctions_array, fonctions_languages, 
-  fonctions_components, type_string, fonctions_file, unit_messagescopy, 
-  fonctions_dbcomponents, fonctions_vtree, fonctions_scaledpi, 
-  fonctions_forms, LazarusPackageIntf;
+  unite_messages, fonctions_erreurs, fonctions_db, fonctions_images, 
+  fonctions_init, fonctions_numedit, fonctions_proprietes, fonctions_string, 
+  fonctions_variant, fonctions_web, fonctions_array, fonctions_objects, 
+  fonctions_system, fonctions_languages, fonctions_components, type_string, 
+  fonctions_file, unit_messagescopy, fonctions_dbcomponents, fonctions_vtree, 
+  fonctions_scaledpi, U_FormAdapt, fonctions_forms, LazarusPackageIntf;
 
 implementation
 
