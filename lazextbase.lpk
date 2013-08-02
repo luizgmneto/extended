@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="lazextbase"/>
+    <AddToProjectUsesSection Value="True"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <IncludeFiles Value="base"/>
+        <OtherUnitFiles Value="base"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <CStyleOperator Value="False"/>
+          <CPPInline Value="False"/>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Version Major="1" Minor="3" Release="3" Build="1"/>
+    <Files Count="6">
+      <Item1>
+        <Filename Value="base/fonctions_numedit.pas"/>
+        <UnitName Value="fonctions_numedit"/>
+      </Item1>
+      <Item2>
+        <Filename Value="base/fonctions_web.pas"/>
+        <UnitName Value="fonctions_web"/>
+      </Item2>
+      <Item3>
+        <Filename Value="base/fonctions_array.pas"/>
+        <UnitName Value="fonctions_array"/>
+      </Item3>
+      <Item4>
+        <Filename Value="base/fonctions_components.pas"/>
+        <UnitName Value="fonctions_components"/>
+      </Item4>
+      <Item5>
+        <Filename Value="base/fonctions_dbcomponents.pas"/>
+        <UnitName Value="fonctions_dbcomponents"/>
+      </Item5>
+      <Item6>
+        <Filename Value="base/fonctions_vtree.pas"/>
+        <UnitName Value="fonctions_vtree"/>
+      </Item6>
+    </Files>
+    <i18n>
+      <EnableI18N Value="True"/>
+      <OutDir Value="LANG"/>
+    </i18n>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="lazextinit"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="lazextcore"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
+  </Package>
+</CONFIG>
