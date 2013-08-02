@@ -30,22 +30,22 @@ uses  {$IFDEF FPC}
      U_ExtNumEdits,U_ExtColorCombos,
 {$IFDEF FPC}
      ComponentEditors, dbpropedits, PropEdits,
+     u_scrollclones,
 {$ELSE}
      DBReg, Designintf,
 {$ENDIF}
      PDBCheck, PCheck,
-     u_scrollclones,
      u_extsearchedit,
      u_extradios;
 
 procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TPDBCheck,
-                                                {$IFDEF FPC}TExtDBDirectoryEdit,{$ENDIF}
+                                                {$IFDEF FPC}TExtDBDirectoryEdit,TExtClonedPanel,{$ENDIF}
                                                 TExtDBNavigator,
                                                 TExtSearchDBEdit,
                                                 TExtDBNumEdit]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,TExtClonedPanel,TExtColorCombo,
+  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,TExtColorCombo,
                                                 TExtNumEdit,TExtRadioGroup]);
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
 end;
