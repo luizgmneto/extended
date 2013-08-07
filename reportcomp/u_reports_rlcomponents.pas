@@ -321,6 +321,7 @@ type TBoolArray = Array of Boolean;
      FResize   ,
      FVisible  : Boolean;
      FBreakCaption,
+     FFormat ,
      FDBTitle ,
      FFieldName : String;
      FDatasource : TDatasource;
@@ -339,6 +340,7 @@ type TBoolArray = Array of Boolean;
      property LineBreak : Integer  read FLineBreak write FLineBreak default -1;
      property BreakCaption : String  read FBreakCaption write FBreakCaption;
      property DBTitle   : string   read FDBTitle write FDBTitle;
+     property Format    : string   read FFormat  write FFormat;
      property FieldName : string   read GetFieldName write FFieldName;
      property Images    : TCustomImageList read FImages    write SetImages;
      property MapImages : TExtMapImages    read FMapImages write SetMapImages;

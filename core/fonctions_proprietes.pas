@@ -35,6 +35,7 @@ const
     CST_PROPERTY_LOOKUPSOURCE   = 'LookupSource';
     CST_PROPERTY_SEARCHSOURCE   = 'SearchSource';
     CST_PROPERTY_FIELDNAME      = 'FieldName';
+    CST_PROPERTY_FORMAT         = 'Format';
     CST_PROPERTY_KEYFIELD       = 'KeyField';
     CST_PROPERTY_COLUMNS        = 'Columns';
     CST_PROPERTY_WIDTH          = 'Width';
