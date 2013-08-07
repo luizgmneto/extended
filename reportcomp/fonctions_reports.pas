@@ -294,7 +294,7 @@ Begin
      Else Height:=Aheight;
    end;
 end;
-function frlc_createDBText ( const AReport : TRLReport; const ARLBand : TRLBand; const ADatasource : TDatasource; const ALeft, ATop, AWidth : Integer ; const afont : TFont; const as_Fieldname : String ; const ai_SizeFont : Integer = 0):TRLDBText;
+function frlc_createDBText ( const AReport : TRLReport; const ARLBand : TRLBand; const ADatasource : TDatasource; const ALeft, ATop, AWidth : Integer ; const afont : TFont; const as_Fieldname, as_format : String ; const ai_SizeFont : Integer = 0):TRLDBText;
 Begin
   Result := TRLDBText.Create(AReport.Owner);
   with Result do
@@ -315,6 +315,9 @@ Begin
        Width:=AWidth;
      end;
     DataField:=as_Fieldname;
+    if ( as_format > '' )
+    and ( ADatasource.DataSet.FieldByName(as_Fieldname) is TNumericField )Then
+      TNumericField(ADatasource.DataSet.FieldByName(as_Fieldname)).DisplayFormat:=as_format;
    end;
 end;
 
@@ -1246,7 +1249,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
          Then Begin ARLControl := frlc_createDBImage ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, AHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), ExtColumnColorBack); p_DesignCell( ARLControl , AItemIndex, AIsFirst ); End
          else if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TMemoField
          Then Begin ARLControl := frlc_createDBMemo ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End
-         Else Begin ARLControl := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End;
+         Else Begin ARLControl := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), fs_getComponentProperty( AItem, CST_PROPERTY_FORMAT)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End;
          if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TFloatField
           Then ( ARLControl as TRLDBText ).DisplayMask := '#9'+DecimalSeparator+'9';
        end

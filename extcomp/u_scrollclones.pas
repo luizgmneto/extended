@@ -185,40 +185,54 @@ Begin
      FOnBeginClones ( Self );
     for i := 1 to FCols do
      for j := 1 to FRows do
-      if ( i = 1 ) and ( j = 1 )
-      Then Continue
-      Else
-        Begin
-          LPanel := fcon_CloneControlWithDB( FPanelCloned, Owner ) as TPanel;
-          FAutoControls.Add(LPanel);
-          with LPanel do
+      Begin
+        lTag := i * CST_MAX_CLONED_COLS + j;
+        if ( i = 1 ) and ( j = 1 )
+        Then
+         with FPanelCloned do
+          Begin
+           Tag  := ltag;
+           PanelCloningEvent ( FPanelCloned );
+           for k := 0 to ControlCount - 1 do
             Begin
-              Parent := Self;
-              Left  := ( i - 1 ) * (FPanelCloned.Width  + FPanelCloned.Left) + 1;
-              Top   := ( j - 1 ) * (FPanelCloned.Height + FPanelCloned.Top ) + 1 ;
-              LEndName:= IntToStr(i) + '_' + IntToStr(j);
-              Name := FPanelCloned.name + '_' + LEndName;
-              Caption:=FPanelCloned.Caption;
-              lTag := i * CST_MAX_CLONED_COLS + j;
-              Tag  := ltag;
-              TabOrder:=j*FCols+i;
-              PanelCloningEvent ( LPanel );
-              for k := 0 to FPanelCloned.ControlCount - 1 do
-               Begin
-                 LControl := fcon_CloneControlWithDB ( FPanelCloned.Controls [ k ], Owner );
-                 FAutoControls.Add(LControl);
-                 with LControl do
-                   Begin
-                    Parent := LPanel;
-                    Name := FPanelCloned.Controls [ k ].Name + LEndName;
-                    p_SetComponentProperty ( LControl, CST_PROPERTY_CAPTION, fs_getComponentProperty ( FPanelCloned.Controls [ k ], CST_PROPERTY_CAPTION ));
-                    Tag  := ltag;
-                   end;
-                 ControlEvent(LControl);
-               end;
-              PanelClonedEvent ( LPanel );
+              LControl := Controls [ k ];
+              LControl.Tag  := ltag;
+              ControlEvent(LControl);
             end;
-        end;
+           PanelClonedEvent  ( FPanelCloned );
+          End
+        Else
+          Begin
+            LPanel := fcon_CloneControlWithDB( FPanelCloned, Owner ) as TPanel;
+            FAutoControls.Add(LPanel);
+            with LPanel do
+              Begin
+                Parent := Self;
+                Left  := ( i - 1 ) * (FPanelCloned.Width  + FPanelCloned.Left) + 1;
+                Top   := ( j - 1 ) * (FPanelCloned.Height + FPanelCloned.Top ) + 1 ;
+                LEndName:= IntToStr(i) + '_' + IntToStr(j);
+                Name := FPanelCloned.name + '_' + LEndName;
+                Caption:=FPanelCloned.Caption;
+                Tag  := ltag;
+                TabOrder:=j*FCols+i;
+                PanelCloningEvent ( LPanel );
+                for k := 0 to FPanelCloned.ControlCount - 1 do
+                 Begin
+                   LControl := fcon_CloneControlWithDB ( FPanelCloned.Controls [ k ], Owner );
+                   FAutoControls.Add(LControl);
+                   with LControl do
+                     Begin
+                      Parent := LPanel;
+                      Name := FPanelCloned.Controls [ k ].Name + LEndName;
+                      p_SetComponentProperty ( LControl, CST_PROPERTY_CAPTION, fs_getComponentProperty ( FPanelCloned.Controls [ k ], CST_PROPERTY_CAPTION ));
+                      Tag  := ltag;
+                     end;
+                   ControlEvent(LControl);
+                 end;
+                PanelClonedEvent ( LPanel );
+              end;
+          end;
+      end;
   finally
     Enabled:=True;
     EndUpdateBounds;
