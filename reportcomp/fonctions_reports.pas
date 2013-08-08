@@ -1249,7 +1249,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
          Then Begin ARLControl := frlc_createDBImage ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, AHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), ExtColumnColorBack); p_DesignCell( ARLControl , AItemIndex, AIsFirst ); End
          else if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TMemoField
          Then Begin ARLControl := frlc_createDBMemo ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End
-         Else Begin ARLControl := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), fs_getComponentProperty( AItem, CST_PROPERTY_FORMAT)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End;
+         Else Begin ARLControl := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), fs_getComponentProperty( AItem, CST_PROPERTY_DISPLAYFORMAT)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End;
          if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TFloatField
           Then ( ARLControl as TRLDBText ).DisplayMask := '#9'+DecimalSeparator+'9';
        end
