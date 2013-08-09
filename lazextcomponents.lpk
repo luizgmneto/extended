@@ -20,7 +20,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Minor="3" Build="1"/>
+    <Version Major="1" Minor="3" Release="1"/>
     <Files Count="20">
       <Item1>
         <Filename Value="extcomp/PDBCheck.pas"/>
