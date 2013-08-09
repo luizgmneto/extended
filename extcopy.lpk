@@ -20,44 +20,32 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Minor="9"/>
-    <Files Count="9">
+    <Version Major="1"/>
+    <Files Count="6">
       <Item1>
-        <Filename Value="copy/u_traducefile.lrs"/>
-        <Type Value="LRS"/>
-      </Item1>
-      <Item2>
         <Filename Value="copy/u_traducefile.pas"/>
         <UnitName Value="u_traducefile"/>
-      </Item2>
-      <Item3>
-        <Filename Value="copy/U_ExtFileCopy.lrs"/>
-        <Type Value="LRS"/>
-      </Item3>
-      <Item4>
+      </Item1>
+      <Item2>
         <Filename Value="copy/U_ExtFileCopy.pas"/>
         <UnitName Value="U_ExtFileCopy"/>
-      </Item4>
-      <Item5>
+      </Item2>
+      <Item3>
         <Filename Value="copy/u_extabscopy.pas"/>
         <UnitName Value="u_extabscopy"/>
-      </Item5>
-      <Item6>
-        <Filename Value="copy/u_extractfile.lrs"/>
-        <Type Value="LRS"/>
-      </Item6>
-      <Item7>
+      </Item3>
+      <Item4>
         <Filename Value="copy/u_extractfile.pas"/>
         <UnitName Value="u_extractfile"/>
-      </Item7>
-      <Item8>
+      </Item4>
+      <Item5>
         <Filename Value="copy/fonctions_file.pas"/>
         <UnitName Value="fonctions_file"/>
-      </Item8>
-      <Item9>
+      </Item5>
+      <Item6>
         <Filename Value="copy/unit_messagescopy.pas"/>
         <UnitName Value="unit_messagescopy"/>
-      </Item9>
+      </Item6>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="5">
