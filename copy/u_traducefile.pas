@@ -19,7 +19,7 @@ interface
 {$IFDEF FPC}
 {$mode Delphi}
 {$ENDIF}
-{$I ..\DLCompilers.inc}
+{$I ..\dlcompilers.inc}
 {$I ..\extends.inc}
 
 uses
