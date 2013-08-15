@@ -84,7 +84,6 @@ requires
 contains
   fonctions_db in 'core\fonctions_db.pas',
   fonctions_erreurs in 'core\fonctions_erreurs.pas',
-  fonctions_forms in 'core\fonctions_forms.pas',
   fonctions_languages in 'core\fonctions_languages.pas',
   fonctions_objects in 'core\fonctions_objects.pas',
   fonctions_proprietes in 'core\fonctions_proprietes.pas',
@@ -144,7 +143,6 @@ contains
   u_formmainini in 'inicomp\u_formmainini.pas',
   u_onforminfoini in 'inicomp\u_onforminfoini.pas',
   u_reginicomponents in 'inicomp\u_reginicomponents.pas',
-  u_registerforms in 'inicomp\u_registerforms.pas',
   fonctions_reports in 'reportcomp\fonctions_reports.pas',
   u_regreports_components in 'reportcomp\u_regreports_components.pas',
   u_reportform in 'reportcomp\u_reportform.pas',
@@ -160,6 +158,7 @@ contains
   u_extimagelist in 'imgcomp\u_extimagelist.pas',
   u_extmapimageindex in 'imgcomp\u_extmapimageindex.pas',
   U_ExtPictCombo in 'imgcomp\U_ExtPictCombo.pas',
-  u_regimagecomponents in 'imgcomp\u_regimagecomponents.pas';
+  u_regimagecomponents in 'imgcomp\u_regimagecomponents.pas',
+  fonctions_forms in 'inicomp\fonctions_forms.pas';
 
 end.
