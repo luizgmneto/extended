@@ -20,7 +20,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1"/>
+    <Version Major="1" Build="1"/>
     <Files Count="6">
       <Item1>
         <Filename Value="copy/u_traducefile.pas"/>
@@ -50,7 +50,7 @@
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="5">
       <Item1>
-        <PackageName Value="lazextcomponentsimg"/>
+        <PackageName Value="VampyreImagingPackage"/>
       </Item1>
       <Item2>
         <PackageName Value="lazextcore"/>
