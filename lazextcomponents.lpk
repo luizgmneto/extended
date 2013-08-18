@@ -20,8 +20,8 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Minor="3" Release="1" Build="2"/>
-    <Files Count="20">
+    <Version Major="1" Minor="3" Release="1" Build="3"/>
+    <Files Count="14">
       <Item1>
         <Filename Value="extcomp/PDBCheck.pas"/>
         <UnitName Value="PDBCheck"/>
@@ -47,61 +47,37 @@
         <UnitName Value="U_ExtDBNavigator"/>
       </Item6>
       <Item7>
-        <Filename Value="extcomp/U_GroupView.lrs"/>
-        <Type Value="LRS"/>
-      </Item7>
-      <Item8>
         <Filename Value="extcomp/U_GroupView.pas"/>
         <UnitName Value="U_GroupView"/>
-      </Item8>
-      <Item9>
+      </Item7>
+      <Item8>
         <Filename Value="extcomp/u_extradios.pas"/>
         <UnitName Value="u_extradios"/>
-      </Item9>
-      <Item10>
+      </Item8>
+      <Item9>
         <Filename Value="extcomp/u_scrollclones.pas"/>
         <UnitName Value="u_scrollclones"/>
-      </Item10>
-      <Item11>
-        <Filename Value="extcomp/u_extdbdirectoryedit.lrs"/>
-        <Type Value="LRS"/>
-      </Item11>
-      <Item12>
+      </Item9>
+      <Item10>
         <Filename Value="extcomp/u_extdbdirectoryedit.pas"/>
         <UnitName Value="u_extDBDirectoryEdit"/>
-      </Item12>
-      <Item13>
-        <Filename Value="extcomp/u_extsearchedit.lrs"/>
-        <Type Value="LRS"/>
-      </Item13>
-      <Item14>
+      </Item10>
+      <Item11>
         <Filename Value="extcomp/u_extsearchedit.pas"/>
         <UnitName Value="u_extsearchedit"/>
-      </Item14>
-      <Item15>
-        <Filename Value="extcomp/U_ExtComboInsert.lrs"/>
-        <Type Value="LRS"/>
-      </Item15>
-      <Item16>
+      </Item11>
+      <Item12>
         <Filename Value="extcomp/U_ExtComboInsert.pas"/>
         <UnitName Value="U_ExtComboInsert"/>
-      </Item16>
-      <Item17>
-        <Filename Value="extcomp/u_framework_components.lrs"/>
-        <Type Value="LRS"/>
-      </Item17>
-      <Item18>
+      </Item12>
+      <Item13>
         <Filename Value="extcomp/u_framework_components.pas"/>
         <UnitName Value="u_framework_components"/>
-      </Item18>
-      <Item19>
-        <Filename Value="extcomp/u_framework_dbcomponents.lrs"/>
-        <Type Value="LRS"/>
-      </Item19>
-      <Item20>
+      </Item13>
+      <Item14>
         <Filename Value="extcomp/u_framework_dbcomponents.pas"/>
         <UnitName Value="u_framework_dbcomponents"/>
-      </Item20>
+      </Item14>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
