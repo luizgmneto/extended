@@ -60,6 +60,8 @@ initialization
   {$i u_scrollclones.lrs}
   {$i PDBCheck.lrs}
   {$i PCheck.lrs}
+  {$i u_framework_dbcomponents.lrs}
+  {$i u_framework_components.lrs}
 {$ENDIF}
 end.
 

@@ -121,7 +121,8 @@ begin
      if ge_GlobalScaleForm <> 1 Then
       Begin
         if ge_GlobalScaleForm <> FScale
-          Then ScaleFormShow(Self,ge_GlobalScaleForm)
+          Then ScaleFormShow(Self,ge_GlobalScaleForm);
+        FScale:=ge_GlobalScaleForm;
       end
      else if fb_CalculateScale ( FScale ) Then
       ScaleFormShow(Self,FScale);
