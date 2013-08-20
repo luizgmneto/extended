@@ -54,12 +54,14 @@ type
   TF_FormAdapt = class({$IFDEF SFORM}TSuperForm{$ELSE}{$IFDEF TNT}TTntForm{$ELSE}TForm{$ENDIF}{$ENDIF})
   private
     FScale:Extended;
-    FOldCreate : TNotifyEvent;
-    procedure FormCreate(AForm: TObject);
   public
     { Déclarations publiques }
     // Constructeur et destructeur
+    {$IFDEF FPC}
+    procedure AfterConstruction; override;
+    {$ELSE}
     constructor Create(AOwner: TComponent); override;
+    {$ENDIF}
     procedure DoShow; override;
     property Scale : Extended read FScale;
   end;
@@ -88,14 +90,15 @@ end;
 
 { TF_FormAdapt }
 
+{$IFDEF FPC}
+procedure TF_FormAdapt.AfterConstruction;
+{$ELSE}
 constructor TF_FormAdapt.Create(AOwner: TComponent);
+{$ENDIF}
 begin
-  inherited;
-  FOldCreate := OnCreate;
-  OnCreate:=FormCreate;
-end;
-procedure TF_FormAdapt.FormCreate(AForm: TObject);
-begin
+  {$IFNDEF FPC}
+  Inherited;
+  {$ENDIF}
   FScale:=1;
   if  not ( csDesigning in ComponentState )
   and not ( Owner is TCustomForm ) Then
@@ -109,8 +112,9 @@ begin
       ScaleFormCreate(Self,FScale);
    End;
   FScale:=1;
-  if Assigned(FOldCreate) Then
-    FOldCreate ( Self );
+  {$IFDEF FPC}
+  Inherited;
+  {$ENDIF}
 end;
 
 
