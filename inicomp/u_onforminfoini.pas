@@ -96,7 +96,8 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
                                            Comment : 'Ini management tu put on a form.' ;
-                                           BugsStory : '1.0.6.0 : Adding ListValue, renaming, correct init of ItemIndex.' +#13#10 +
+                                           BugsStory : '1.0.7.0 : Resize on windows with width or height less than 10.' +#13#10 +
+                                                       '1.0.6.0 : Adding ListValue, renaming, correct init of ItemIndex.' +#13#10 +
                                                        '1.0.5.0 : Adding Components'' events.' +#13#10 +
                                                        '1.0.4.0 : Adding TSpeedButton.' +#13#10 +
                                                        '1.0.3.1 : Resolving "Optimising" SpinEdit bug.' +#13#10 +
@@ -113,7 +114,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                                        '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
                                                        '1.0.0.0 : Gestion de beaucoup de composants.';
                                            UnitType : 3 ;
-                                           Major : 1 ; Minor : 0 ; Release : 6 ; Build : 0 );
+                                           Major : 1 ; Minor : 0 ; Release : 7 ; Build : 0 );
 
 {$ENDIF}
 
@@ -157,13 +158,14 @@ type
     FormOldCreate   ,
     FormOldShow     : TNotifyEvent;
 //    procedure loaded; override;
-    function GetfeSauveEdit(const aSauveObjet:TSaveEdits;const aObjet :TSaveEdit):Boolean ;
+    function GetfeSauveEdit(const aSauveObjet:TSaveEdits;const aObjet :TSaveEdit):Boolean ; virtual;
     // traitement de la position de la af_Form mise dans le create
-    procedure p_LecturePositionFenetre(const aFiche:TCustomForm);
-    procedure p_EcriturePositionFenetre(const aFiche:TCustomForm);
+    procedure p_LecturePositionFenetre(const aFiche:TCustomForm); virtual;
+    procedure p_EcriturePositionFenetre(const aFiche:TCustomForm); virtual;
     procedure p_Freeini; virtual;
-    procedure DoSameMonitor(const aForm: TForm); virtual;
+    procedure DoSameMonitor(const aForm: TCustomForm); virtual;
     procedure PlaceForm; virtual;
+    procedure p_VerifieTailleFenetre(const aFiche: TCustomForm; const ab_readIni : Boolean = True); virtual;
 
   public
     Constructor Create(AOwner:TComponent); override;
@@ -214,6 +216,9 @@ uses TypInfo, Grids,
 {$ENDIF}
   Math,
   fonctions_proprietes;
+
+const INI_VERIFY_MIN_WEIGHT    = 10;
+      INI_VERIFY_WEIGHT_TO_PUT = 90;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructeur de l'objet TOnFormInfoIni
@@ -278,7 +283,8 @@ Begin
     try
       Updating ;
           // Traitement de la position de la af_Form
-      if (TFormStyle ( fli_getComponentProperty ( FFormOwner, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild) and (sfSavePos in FSaveForm) then
+
+      if (TFormStyle ( fli_getComponentProperty ( FFormOwner, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild) then
         p_LecturePositionFenetre(FFormOwner);
 
     finally
@@ -297,7 +303,7 @@ begin
   if Assigned(FOnFormCreate) then FOnFormCreate(Sender);
 end;
 
-procedure TOnFormInfoIni.DoSameMonitor(const aForm:TForm);
+procedure TOnFormInfoIni.DoSameMonitor(const aForm:TCustomForm);
 var
   RectMonitor:TRect;
 begin //Positionne et redimentionne éventuellement aForm sur le moniteur de FMain
@@ -1162,6 +1168,46 @@ procedure TOnFormInfoIni.p_LectureColonnes(const aF_Form: TCustomForm);
 begin
 end;
 
+////////////////////////////////////////////////////////////////////////////////
+// Lecture des données dans le fichier INI concernant la fenêtre uniquement
+// traitement de la position de la af_Form mise dans le create
+////////////////////////////////////////////////////////////////////////////////
+procedure TOnFormInfoIni.p_VerifieTailleFenetre(const aFiche: TCustomForm; const ab_readIni : Boolean = True);
+Begin
+  with aFiche do
+   begin
+     // André Langlet 2011
+     if Height< INI_VERIFY_MIN_WEIGHT  then
+       Height := INI_VERIFY_WEIGHT_TO_PUT;
+     if Height>=Screen.Height then
+       begin
+         Height:=Screen.Height;
+         Top:=0;
+       end
+      else
+       begin
+         if ab_readIni Then
+           Top:=max(0,f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_TOP,Top));
+         if (Top+Height)>Screen.Height then
+           Top:=Screen.Height-Height;
+       end;
+     if Width< INI_VERIFY_MIN_WEIGHT  then
+       Width := INI_VERIFY_WEIGHT_TO_PUT;
+     if Width>=Screen.Width then
+       begin
+         Width:=Screen.Width;
+         Left:=0;
+       end
+      else
+       begin
+         if ab_readIni Then
+           Left:=max(0,f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT,Left));
+         if (Left+Width)>Screen.Width then
+           Left:=Screen.Width-Width;
+       end;
+   End;
+
+end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Lecture des données dans le fichier INI concernant la fenêtre uniquement
@@ -1175,6 +1221,7 @@ begin
   li_ScreenHeight := f_IniReadSectionInt (aFiche.Name,CST_ONFORMINI_SCREEN + CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,Screen.Height);
   li_ScreenWidth := f_IniReadSectionInt (aFiche.Name,CST_ONFORMINI_SCREEN + CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,Screen.Width);
 
+  if (sfSavePos in FSaveForm) Then
   with aFiche do
    begin
     li_etat := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_WINDOWSTATE,0);
@@ -1200,30 +1247,7 @@ begin
         Height := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,Height);
        End;
 
-    // André Langlet 2011
-      if Height>=Screen.Height then
-      begin
-        Height:=Screen.Height;
-        Top:=0;
-      end
-      else
-      begin
-        Top:=max(0,f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_TOP,Top));
-        if (Top+Height)>Screen.Height then
-          Top:=Screen.Height-Height;
-      end;
-      if Width>=Screen.Width then
-      begin
-        Width:=Screen.Width;
-        Left:=0;
-      end
-      else
-      begin
-        Left:=max(0,f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT,Left));
-        if (Left+Width)>Screen.Width then
-          Left:=Screen.Width-Width;
-      end;
-
+      p_VerifieTailleFenetre(aFiche);
 
       li_top:=Top+Height div 2; //centre de la fenêtre
       li_left:=Left+Width div 2;
@@ -1266,9 +1290,11 @@ begin
       end;
 
     end;
-  End;
-  if Owner is TForm then
-    DoSameMonitor(Owner as TForm);
+   End
+  Else
+   p_VerifieTailleFenetre(aFiche,False);
+  if Owner is TCustomForm then
+    DoSameMonitor(Owner as TCustomForm);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1291,7 +1317,7 @@ begin
     // sauvegarde de son état
     p_IniWriteSectionInt(Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_WINDOWSTATE,li_etat);
 
-    // sauvegarde de sa position si la fenêtre n'est pas au Maximun
+    // sauvegarde de sa position si la fenêtre n'est pas au Maximum
     if li_etat <> 1 then
       begin
         p_IniWriteSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_TOP,Top);
