@@ -33,7 +33,7 @@ inherited FMain: TFMain
     end
   end
   object OnFormInfoIni1: TOnFormInfoIni[1]
-    SaveForm = [sfSavePos, sfSaveSizes]
+    SaveForm = [sfSavePos,sfSaveWeight, sfSaveSizes]
     left = 96
     top = 80
   end

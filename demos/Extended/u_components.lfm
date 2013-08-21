@@ -771,7 +771,7 @@ object Myform: TMyform
   end
   object OnFormInfoIni: TOnFormInfoIni
     SaveEdits = [feTEdit, feTComboValue, feTDateEdit, feTMemo, feTSpinEdit]
-    SaveForm = [sfSavePos, sfSaveSizes]
+    SaveForm = [sfSavePos,sfSaveWeight, sfSaveSizes]
     left = 56
     top = 216
   end

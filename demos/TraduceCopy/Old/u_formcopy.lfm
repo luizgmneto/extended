@@ -557,7 +557,7 @@ object F_Copier: TF_Copier
     top = 72
     SaveForm = []
     Options = [loAutoUpdate,loAutoLoad,loFreeIni]
-    SaveForm = [sfSaveSizes,sfSavePos]
+    SaveForm = [sfSaveSizes,sfSavePos,sfSaveWeight]
     Options = [loAutoUpdate,loAutoLoad,loFreeIni]
     SaveForm = []
     Options = [loAutoUpdate,loAutoLoad,loFreeIni]
