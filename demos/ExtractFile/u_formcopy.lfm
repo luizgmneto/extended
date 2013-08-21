@@ -529,7 +529,7 @@ inherited F_Extract: TF_Extract
   end
   object OnFormInfoIni: TOnFormInfoIni[5]
     SaveEdits = [feTEdit, feTCheck, feTComboValue, feTDirectoryEdit, feTFileNameEdit, feTSpinEdit]
-    SaveForm = [sfSavePos, sfSaveSizes]
+    SaveForm = [sfSavePos,sfSaveWeight, sfSaveSizes]
     left = 120
     top = 32
   end
