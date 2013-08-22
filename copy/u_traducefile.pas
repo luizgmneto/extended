@@ -23,7 +23,7 @@ interface
 {$I ..\extends.inc}
 
 uses
-  SysUtils, Classes,ComCtrls, StdCtrls,
+  SysUtils, Classes, StdCtrls,
 {$IFDEF FPC}
   unit_messagescopy,
 {$ELSE}
@@ -139,12 +139,9 @@ type
 
 implementation
 
-uses fonctions_file, fonctions_string, Forms,
-{$IFDEF CCREXIF}
+uses fonctions_file, fonctions_string, Forms
      CCR.Exif.JpegUtils, CCR.Exif.TagIDs, CCR.Exif.XMPUtils,
-{$ENDIF}
-  {$IFNDEF MAGICK}
-  ImagingUtility,
+,
   {$ENDIF}
   TypInfo;
 {$IFDEF MAGICK}
