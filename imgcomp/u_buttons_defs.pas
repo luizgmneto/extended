@@ -19,8 +19,7 @@ uses
   Controls,
   Graphics,
   JvXPButtons,
-  u_extcomponent,
-  Menus, ImgList;
+  u_extcomponent, ImgList;
 
 
 const
@@ -122,10 +121,8 @@ uses {$IFDEF FPC}
      {$ELSE}
      Consts, VDBConsts, unite_messages_delphi,
      {$ENDIF}
-
      fonctions_images,
-     fonctions_system,
-     Forms, sysutils,
+     fonctions_system, sysutils,
      fonctions_string;
 
 

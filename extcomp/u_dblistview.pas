@@ -29,12 +29,12 @@ interface
 
 uses
 {$IFDEF FPC}
-   LCLIntf, LCLType, lmessages, SQLDB, lresources,
+   LCLIntf, LCLType, lmessages, lresources,
 {$ELSE}
   Windows, DBTables, JvListView, SyncObjs,
 {$ENDIF}
    Messages, SysUtils, Classes, Graphics, Controls,
-   Forms, Dialogs, Db,
+   Forms, Db,
 {$IFDEF EADO}
    ADODB,
 {$ENDIF}
@@ -48,7 +48,6 @@ uses
    fonctions_version,
 {$ENDIF}
    ComCtrls,
-   fonctions_variant,
    fonctions_proprietes;
 
 {$IFDEF VERSIONS}
@@ -308,15 +307,9 @@ var gcol_CouleurFocus : TColor = CST_GROUPE_COULEUR_FOCUS ;
 
 implementation
 
-uses TypInfo, fonctions_string,
-  Variants,  ExtCtrls,
-  fonctions_erreurs,
-  {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi,
-  {$ENDIF}
-  fonctions_init ;
+uses fonctions_string,
+  Variants,
+  fonctions_erreurs;
 
  ///////////////////////////////////////////////////////////////
 // TUltimListViewDatalink                                     //

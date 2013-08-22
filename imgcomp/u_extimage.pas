@@ -7,7 +7,7 @@ interface
 {$Mode Delphi}
 {$ENDIF}
 
-uses Graphics,
+uses
 {$IFDEF TNT}
      TntExtCtrls,
 {$ELSE}
@@ -54,7 +54,7 @@ TExtImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF}, IFWComponent )
 
 implementation
 
-uses fonctions_images, Controls, sysutils;
+uses fonctions_images, sysutils;
 
 { TExtImage }
 

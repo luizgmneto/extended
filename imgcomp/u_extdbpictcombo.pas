@@ -25,14 +25,14 @@ interface
 
 uses
 {$IFDEF FPC}
-  LCLIntf, LCLType, lMessages, lresources,
+  LCLIntf, lMessages,
 {$ELSE}
   Windows, Variants,
 {$ENDIF}
 {$IFDEF TNT}
    TntStdCtrls,
 {$ENDIF}
-  Messages, SysUtils, Classes, Graphics, Controls, Forms,
+  Messages, SysUtils, Classes, Controls,
   DB, DBCtrls, fonctions_erreurs,
 {$IFDEF VERSIONS}
   fonctions_version,

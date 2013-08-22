@@ -71,13 +71,13 @@
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="7">
       <Item1>
-        <PackageName Value="rxnew"/>
+        <PackageName Value="lazextbase"/>
       </Item1>
       <Item2>
-        <PackageName Value="ExpertSuperForm"/>
+        <PackageName Value="rxnew"/>
       </Item2>
       <Item3>
-        <PackageName Value="lazextcore"/>
+        <PackageName Value="ExpertSuperForm"/>
       </Item3>
       <Item4>
         <PackageName Value="toolbarmenupkg"/>
