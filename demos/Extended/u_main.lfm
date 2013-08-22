@@ -1,11 +1,12 @@
-inherited FMain: TFMain
+object FMain: TFMain
   Left = 345
   Height = 422
   Top = 126
   Width = 592
   Caption = 'Gestion d''articles'
   Menu = MainMenu
-  object MainMenu: TMainMenu[0]
+  LCLVersion = '1.0.10.0'
+  object MainMenu: TMainMenu
     left = 96
     top = 160
     object MenuItem1: TMenuItem
@@ -32,8 +33,8 @@ inherited FMain: TFMain
       OnClick = muaproposClick
     end
   end
-  object OnFormInfoIni1: TOnFormInfoIni[1]
-    SaveForm = [sfSavePos,sfSaveWeight, sfSaveSizes]
+  object OnFormInfoIni1: TOnFormInfoIni
+    SaveForm = [sfSavePos, sfSaveSize]
     left = 96
     top = 80
   end

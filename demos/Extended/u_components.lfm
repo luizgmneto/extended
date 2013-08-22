@@ -5,7 +5,7 @@ object Myform: TMyform
   Width = 785
   ActiveControl = Panel1
   Caption = 'Myform'
-  ClientHeight = 519
+  ClientHeight = 528
   ClientWidth = 785
   Color = clBtnFace
   Font.Color = clWindowText
@@ -13,21 +13,21 @@ object Myform: TMyform
   Font.Name = 'Tahoma'
   Menu = mu_MainMenu
   OnShow = FormShow
-  LCLVersion = '1.0.6.0'
+  LCLVersion = '1.0.10.0'
   object Splitter1: TSplitter
     Left = 208
-    Height = 519
+    Height = 528
     Top = 0
     Width = 5
   end
   object Panel1: TPanel
     Left = 0
-    Height = 519
+    Height = 528
     Top = 0
     Width = 208
     Align = alLeft
     Caption = 'Panel1'
-    ClientHeight = 519
+    ClientHeight = 528
     ClientWidth = 208
     TabOrder = 0
     object ExtDBNavigator: TExtDBNavigator
@@ -43,7 +43,7 @@ object Myform: TMyform
     end
     object Noms: TExtDBGrid
       Left = 1
-      Height = 308
+      Height = 317
       Top = 21
       Width = 206
       TitleButtons = False
@@ -177,7 +177,7 @@ object Myform: TMyform
     object Panel5: TPanel
       Left = 1
       Height = 186
-      Top = 332
+      Top = 341
       Width = 206
       Align = alBottom
       BevelOuter = bvNone
@@ -256,7 +256,7 @@ object Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 329
+      Top = 338
       Width = 206
       Align = alBottom
       ResizeAnchor = akBottom
@@ -264,11 +264,11 @@ object Myform: TMyform
   end
   object Panel2: TPanel
     Left = 213
-    Height = 519
+    Height = 528
     Top = 0
     Width = 540
     Align = alClient
-    ClientHeight = 519
+    ClientHeight = 528
     ClientWidth = 540
     TabOrder = 3
     object FWLabel1: TFWLabel
@@ -371,7 +371,7 @@ object Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 297
+      Top = 306
       Width = 538
       Align = alBottom
       ResizeAnchor = akBottom
@@ -511,7 +511,7 @@ object Myform: TMyform
     object DBListView: TDBListView
       Left = 1
       Height = 218
-      Top = 300
+      Top = 309
       Width = 538
       Align = alBottom
       Columns = <      
@@ -547,7 +547,7 @@ object Myform: TMyform
     end
     object ExtDBComboInsert2: TExtDBComboInsert
       Left = 120
-      Height = 30
+      Height = 23
       Top = 211
       Width = 221
       DataField = 'IDDEPARTEMENT'
@@ -756,7 +756,7 @@ object Myform: TMyform
   end
   object ExtMenuToolBar: TExtMenuToolBar
     Left = 753
-    Height = 519
+    Height = 528
     Top = 0
     Width = 32
     Align = alRight
@@ -771,7 +771,7 @@ object Myform: TMyform
   end
   object OnFormInfoIni: TOnFormInfoIni
     SaveEdits = [feTEdit, feTComboValue, feTDateEdit, feTMemo, feTSpinEdit]
-    SaveForm = [sfSavePos,sfSaveWeight, sfSaveSizes]
+    SaveForm = [sfSavePos, sfSaveSize, sfSaveSizes]
     left = 56
     top = 216
   end
