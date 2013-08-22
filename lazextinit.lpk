@@ -22,7 +22,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="3" Release="3" Build="1"/>
-    <Files Count="9">
+    <Files Count="10">
       <Item1>
         <Filename Value="inicomp/u_extmenucustomize.pas"/>
         <UnitName Value="u_extmenucustomize"/>
@@ -59,6 +59,10 @@
         <Filename Value="inicomp/fonctions_init.pas"/>
         <UnitName Value="fonctions_init"/>
       </Item9>
+      <Item10>
+        <Filename Value="inicomp/fonctions_vtree.pas"/>
+        <UnitName Value="fonctions_vtree"/>
+      </Item10>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>

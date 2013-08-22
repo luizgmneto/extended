@@ -46,10 +46,9 @@ function fcon_CloneControl ( const acon_AControl : TControl  ; const AOwner : TC
 
 implementation
 
-uses Variants, fonctions_string,
+uses fonctions_string,
   fonctions_proprietes,
-  fonctions_languages,
-  fonctions_init ;
+  fonctions_languages;
 
 
 //////////////////////////////////////////////////////////////////////

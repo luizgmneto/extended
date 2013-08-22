@@ -8,8 +8,6 @@ unit fonctions_array;
 
 interface
 
-uses
-  Classes, SysUtils; 
 
 function fstr_getStringInArray ( const aAr_StringArray : array of Widestring ; const ai_NumeroOfString : Integer ) : WideString ;
 function fb_getBooleanInArray ( const aAr_BooleanArray : array of Boolean ; const ai_NumeroOfBoolean : Integer ) : Boolean ;

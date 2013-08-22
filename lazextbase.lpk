@@ -21,7 +21,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="7">
+    <Files Count="6">
       <Item1>
         <Filename Value="base/fonctions_numedit.pas"/>
         <UnitName Value="fonctions_numedit"/>
@@ -43,13 +43,9 @@
         <UnitName Value="fonctions_dbcomponents"/>
       </Item5>
       <Item6>
-        <Filename Value="base/fonctions_vtree.pas"/>
-        <UnitName Value="fonctions_vtree"/>
-      </Item6>
-      <Item7>
         <Filename Value="base/fonctions_images.pas"/>
         <UnitName Value="fonctions_images"/>
-      </Item7>
+      </Item6>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
@@ -58,10 +54,10 @@
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="5">
       <Item1>
-        <PackageName Value="VampyreImagingPackage"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazextinit"/>
+        <PackageName Value="VampyreImagingPackage"/>
       </Item2>
       <Item3>
         <PackageName Value="lazextcore"/>

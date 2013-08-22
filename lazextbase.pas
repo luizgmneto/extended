@@ -8,7 +8,7 @@ interface
 
 uses
   fonctions_numedit, fonctions_web, fonctions_array, fonctions_components, 
-  fonctions_dbcomponents, fonctions_vtree, fonctions_images, LazarusPackageIntf;
+  fonctions_dbcomponents, fonctions_images, LazarusPackageIntf;
 
 implementation
 

@@ -21,7 +21,6 @@ uses SysUtils,
   fonctions_version,
   {$ENDIF}
   Controls,
-  DBCtrls, ExtCtrls,
   fonctions_db,
   Classes ;
 
@@ -122,18 +121,13 @@ uses Variants,  fonctions_erreurs, fonctions_string,
   unite_messages,
   {$ELSE}
   unite_messages_delphi,
-  {$ENDIF}
-{$IFDEF FPC}
-     SQLDB,
-{$ELSE}
-     DBTables,
+  DBTables,
 {$ENDIF}
 {$IFDEF EDBEXPRESS}
      SQLExpr,
  {$ENDIF}
    fonctions_proprietes, TypInfo,
-   Dialogs, fonctions_components,
-   fonctions_init;
+   Dialogs, fonctions_components;
 
 
 // cloning a control with data connection

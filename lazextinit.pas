@@ -9,7 +9,7 @@ interface
 uses
   u_extmenucustomize, U_OnFormInfoIni, u_extmenutoolbar, U_FormAdapt, 
   U_FormMainIni, fonctions_forms, U_CustomizeMenu, fonctions_init, 
-  LazarusPackageIntf;
+  fonctions_vtree, LazarusPackageIntf;
 
 implementation
 
