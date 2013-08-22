@@ -8,11 +8,6 @@ interface
 {$ENDIF}
 
 uses Graphics,
-{$IFDEF TNT}
-     TntExtCtrls,
-{$ELSE}
-     ExtCtrls,
-{$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}

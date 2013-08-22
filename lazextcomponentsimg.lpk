@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="2" Release="9"/>
-    <Files Count="10">
+    <Files Count="9">
       <Item1>
         <Filename Value="imgcomp/u_extdbimage.pas"/>
         <UnitName Value="U_ExtDBImage"/>
@@ -55,13 +55,9 @@
         <UnitName Value="u_buttons_defs"/>
       </Item8>
       <Item9>
-        <Filename Value="imgcomp/u_extdbgrid.lrs"/>
-        <Type Value="LRS"/>
-      </Item9>
-      <Item10>
         <Filename Value="imgcomp/u_extdbgrid.pas"/>
         <UnitName Value="u_extdbgrid"/>
-      </Item10>
+      </Item9>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>

@@ -13,9 +13,7 @@ interface
 uses
   Classes,
 {$IFDEF FPC}
-  lresources,
-{$ENDIF}
-  SysUtils;
+  lresources;
 
 procedure Register;
 
@@ -27,10 +25,7 @@ uses  {$IFDEF FPC}
   unite_messages_delphi,
   {$ENDIF}
      U_ExtDBNavigator,
-     U_OnFormInfoIni,
-     u_extsearchedit,
-{$IFDEF FPC}
-     ComponentEditors, dbpropedits, PropEdits,
+     u_extsearchedit, dbpropedits, PropEdits,
 {$ELSE}
      DBReg, Designintf,
 {$ENDIF}

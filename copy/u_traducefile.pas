@@ -19,6 +19,7 @@ interface
 {$IFDEF FPC}
 {$mode Delphi}
 {$ENDIF}
+
 {$I ..\dlcompilers.inc}
 {$I ..\extends.inc}
 
@@ -34,7 +35,7 @@ uses
 {$IFDEF VERSIONS}
    fonctions_version,
 {$ENDIF}
-   U_ExtAbsCopy,
+   u_extabscopy,
   {$IFDEF MAGICK}
    ImageMagick,
    magick_wand;
@@ -98,7 +99,10 @@ type
              procedure SetSource(const AValue: String);
            protected
              FInited : Boolean;
-             function  SaveToFile(const Adata : {$IFDEF MAGICK}PMagickWand{$ELSE}TImageData{$ENDIF}; const as_source, as_Destination : String ; const AFormat : {$IFDEF MAGICK}String {$ELSE}TImageFileFormat{$ENDIF}; const AResized : Boolean = False):Longint;
+             function  SaveToFile(const Adata : {$IFDEF MAGICK}PMagickWand{$ELSE}TImageData{$ENDIF};
+                                                const as_source, as_Destination : String ; const AFormat :
+                                                {$IFDEF MAGICK}String {$ELSE}TImageFileFormat{$ENDIF};
+                                                const AResized : Boolean = False):Longint;
              function DoInit: Integer; virtual;
              function UnInit: Integer; virtual;
              function  BeforeCopy : Boolean ; virtual;

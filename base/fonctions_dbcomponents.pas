@@ -117,10 +117,7 @@ var ge_DataSetErrorEvent : TDataSetErrorEvent ;
 implementation
 
 uses Variants,  fonctions_erreurs, fonctions_string,
-  {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi,
+  {$IFNDEF FPC}
   DBTables,
 {$ENDIF}
 {$IFDEF EDBEXPRESS}

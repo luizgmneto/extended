@@ -25,15 +25,15 @@ interface
 
 uses
 {$IFDEF FPC}
-  LCLIntf, LCLType, lMessages, lresources,
+  LCLIntf, LCLType, lMessages,
 {$ELSE}
   Windows, Variants, Messages,
 {$ENDIF}
 {$IFDEF TNT}
    TntStdCtrls,
 {$ENDIF}
-  SysUtils, Classes, Graphics, Controls, Forms,
-  StdCtrls, DBCtrls, fonctions_erreurs,
+  SysUtils, Classes, Graphics, Controls,
+  StdCtrls,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
