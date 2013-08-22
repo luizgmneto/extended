@@ -1,12 +1,12 @@
 inherited F_Extract: TF_Extract
   Cursor = crArrow
-  Left = 286
+  Left = 225
   Height = 500
-  Top = 370
+  Top = 66
   Width = 666
   ActiveControl = Splitter1
   Caption = 'Files Extract'
-  ClientHeight = 473
+  ClientHeight = 480
   ClientWidth = 666
   Font.Height = -11
   Font.Name = 'Tahoma'
@@ -259,7 +259,7 @@ inherited F_Extract: TF_Extract
   object Panel5: TPanel[1]
     Left = 0
     Height = 36
-    Top = 437
+    Top = 444
     Width = 666
     Align = alBottom
     ClientHeight = 36
@@ -293,7 +293,7 @@ inherited F_Extract: TF_Extract
   end
   object Result: TMemo[2]
     Left = 0
-    Height = 157
+    Height = 164
     Top = 280
     Width = 666
     Align = alClient
@@ -367,7 +367,6 @@ inherited F_Extract: TF_Extract
         FileType = [ftReadOnly, ftHidden, ftVolumeID, ftArchive, ftNormal]
         ItemHeight = 0
         TabOrder = 1
-        TopIndex = -1
       end
       object Panel6: TPanel
         Left = 0
@@ -443,7 +442,7 @@ inherited F_Extract: TF_Extract
             TabOrder = 0
             object FDestination: TFileNameEdit
               Left = 0
-              Height = 22
+              Height = 21
               Top = 0
               Width = 200
               DialogOptions = []
@@ -457,37 +456,37 @@ inherited F_Extract: TF_Extract
           end
           object EBeginExtract: TEdit
             Left = 8
-            Height = 22
+            Height = 21
             Top = 48
             Width = 216
             TabOrder = 1
           end
           object EEndExtract: TEdit
             Left = 8
-            Height = 22
+            Height = 21
             Top = 96
             Width = 216
             TabOrder = 2
           end
           object Label1: TLabel
             Left = 8
-            Height = 15
+            Height = 14
             Top = 32
-            Width = 105
+            Width = 90
             Caption = 'Début d''extraction'
             ParentColor = False
           end
           object Label2: TLabel
             Left = 8
-            Height = 15
+            Height = 14
             Top = 80
-            Width = 87
+            Width = 75
             Caption = 'Fin d''extraction'
             ParentColor = False
           end
           object EMiddleExtract: TEdit
             Left = 8
-            Height = 22
+            Height = 21
             Top = 144
             Width = 216
             TabOrder = 3
@@ -495,9 +494,9 @@ inherited F_Extract: TF_Extract
           end
           object Label3: TLabel
             Left = 8
-            Height = 15
+            Height = 14
             Top = 128
-            Width = 104
+            Width = 87
             Caption = 'Milieu d''extraction'
             ParentColor = False
           end
@@ -512,7 +511,6 @@ inherited F_Extract: TF_Extract
           FileType = [ftReadOnly, ftHidden, ftVolumeID, ftArchive, ftNormal]
           ItemHeight = 0
           TabOrder = 1
-          TopIndex = -1
         end
       end
     end
@@ -529,7 +527,7 @@ inherited F_Extract: TF_Extract
   end
   object OnFormInfoIni: TOnFormInfoIni[5]
     SaveEdits = [feTEdit, feTCheck, feTComboValue, feTDirectoryEdit, feTFileNameEdit, feTSpinEdit]
-    SaveForm = [sfSavePos,sfSaveWeight, sfSaveSizes]
+    SaveForm = [sfSavePos, sfSaveSize, sfSaveSizes]
     left = 120
     top = 32
   end

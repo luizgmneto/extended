@@ -1,12 +1,12 @@
 inherited F_Copier: TF_Copier
   Cursor = crArrow
-  Left = 285
+  Left = 293
   Height = 500
-  Top = 370
+  Top = 161
   Width = 666
   ActiveControl = Splitter1
   Caption = 'Copy and Images Traduce '
-  ClientHeight = 471
+  ClientHeight = 480
   ClientWidth = 666
   Font.Height = -11
   Font.Name = 'Tahoma'
@@ -261,7 +261,7 @@ inherited F_Copier: TF_Copier
   object Panel5: TPanel[1]
     Left = 0
     Height = 36
-    Top = 435
+    Top = 444
     Width = 666
     Align = alBottom
     ClientHeight = 36
@@ -317,7 +317,7 @@ inherited F_Copier: TF_Copier
   end
   object Result: TMemo[2]
     Left = 0
-    Height = 155
+    Height = 164
     Top = 280
     Width = 666
     Align = alClient
@@ -391,7 +391,6 @@ inherited F_Copier: TF_Copier
         FileType = [ftReadOnly, ftHidden, ftVolumeID, ftArchive, ftNormal]
         ItemHeight = 0
         TabOrder = 1
-        TopIndex = -1
       end
       object Panel6: TPanel
         Left = 0
@@ -460,7 +459,7 @@ inherited F_Copier: TF_Copier
             Height = 23
             Top = 28
             Width = 124
-            ItemHeight = 0
+            ItemHeight = 13
             Items.Strings = (
               'Images JPEG ( *.jpg )'
               'Images GIF ( *.gif )'
@@ -534,7 +533,7 @@ inherited F_Copier: TF_Copier
           end
           object se_RWidth: TSpinEdit
             Left = 136
-            Height = 22
+            Height = 21
             Top = 52
             Width = 90
             Increment = 100
@@ -545,7 +544,7 @@ inherited F_Copier: TF_Copier
           end
           object se_RHeight: TSpinEdit
             Left = 136
-            Height = 22
+            Height = 21
             Top = 76
             Width = 90
             Increment = 100
@@ -576,7 +575,6 @@ inherited F_Copier: TF_Copier
           FileType = [ftReadOnly, ftHidden, ftVolumeID, ftArchive, ftNormal]
           ItemHeight = 0
           TabOrder = 1
-          TopIndex = -1
         end
       end
     end
@@ -593,8 +591,9 @@ inherited F_Copier: TF_Copier
   end
   object OnFormInfoIni: TOnFormInfoIni[5]
     SaveEdits = [feTEdit, feTCheck, feTComboValue, feTDirectoryEdit, feTSpinEdit]
+    SaveForm = [sfSavePos, sfSaveSize, sfSaveSizes]
     left = 120
-    top = 32
+    top = 33
   end
   object MainMenu: TMainMenu[6]
     left = 208
