@@ -39,7 +39,7 @@ uses
 {$ELSE}
   Windows,
 {$ENDIF}
-   Classes, Forms, Dialogs;
+  Forms, Dialogs;
 
 
 {$IFDEF FPC}
