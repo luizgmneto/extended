@@ -131,7 +131,7 @@ type
         feTSpinEdit, feTVirtualTrees );
   TLoadOption = (loFreeIni,loAutoUpdate,loAutoLoad,loAutoWrite);
   TLoadOptions = set of TLoadOption;
-  TSaveForm = (sfSavePos,sfSaveWeight,sfSaveSizes,sfSameMonitor);
+  TSaveForm = (sfSavePos,sfSaveSize,sfSaveSizes,sfSameMonitor);
   TSavesForm = set of TSaveForm;
   TEventIni = procedure ( const AInifile : TCustomInifile ; var KeepOn : Boolean ) of object;
   TOnIniComponent = procedure ( const AComponent : TComponent ; const AInifile : TCustomInifile ; var KeepOnComponent : Boolean ) of object;
@@ -1105,7 +1105,7 @@ begin
 
       // traitement de la position de la af_Form
   if (TFormStyle ( fli_getComponentProperty ( af_Form, CST_ONFORMINI_DOT + CST_ONFORMINI_FORMSTYLE )) <> fsMDIChild)
-  and ( [sfSavePos,sfSaveWeight] * FSaveForm <> [] )  then
+  and ( [sfSavePos,sfSaveSize] * FSaveForm <> [] )  then
     p_EcriturePositionFenetre(af_Form);
 
       // Traitement des composants de la af_Form
@@ -1221,7 +1221,7 @@ begin
   li_ScreenHeight := f_IniReadSectionInt (aFiche.Name,CST_ONFORMINI_SCREEN + CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,Screen.Height);
   li_ScreenWidth := f_IniReadSectionInt (aFiche.Name,CST_ONFORMINI_SCREEN + CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,Screen.Width);
 
-  if ([sfSavePos,sfSaveWeight] * FSaveForm <> []) Then
+  if ([sfSavePos,sfSaveSize] * FSaveForm <> []) Then
   with aFiche do
    begin
     li_etat := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_WINDOWSTATE,0);
@@ -1242,7 +1242,7 @@ begin
       Top    := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_TOP,Top);
       Left   := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT,Left);
       if (BorderStyle in [bsSizeToolWin,bsSizeable])
-      and ( sfSaveWeight in FSaveForm ) Then
+      and ( sfSaveSize in FSaveForm ) Then
        Begin
         Width  := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,Width);
         Height := f_IniReadSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,Height);
@@ -1326,7 +1326,7 @@ begin
           p_IniWriteSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_TOP,Top);
           p_IniWriteSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_LEFT,Left);
          end;
-        if sfSaveWeight in FSaveForm Then
+        if sfSaveSize in FSaveForm Then
          Begin
           p_IniWriteSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_WIDTH,Width);
           p_IniWriteSectionInt (Name,name+CST_ONFORMINI_DOT + CST_ONFORMINI_HEIGHT,Height);

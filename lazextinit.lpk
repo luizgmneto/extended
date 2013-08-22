@@ -22,67 +22,43 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="3" Release="3" Build="1"/>
-    <Files Count="15">
+    <Files Count="9">
       <Item1>
-        <Filename Value="inicomp/u_extmenucustomize.lrs"/>
-        <Type Value="LRS"/>
-      </Item1>
-      <Item2>
         <Filename Value="inicomp/u_extmenucustomize.pas"/>
         <UnitName Value="u_extmenucustomize"/>
-      </Item2>
-      <Item3>
+      </Item1>
+      <Item2>
         <Filename Value="inicomp/u_onforminfoini.pas"/>
         <UnitName Value="U_OnFormInfoIni"/>
-      </Item3>
-      <Item4>
-        <Filename Value="inicomp/u_extmenutoolbar.lrs"/>
-        <Type Value="LRS"/>
-      </Item4>
-      <Item5>
+      </Item2>
+      <Item3>
         <Filename Value="inicomp/u_extmenutoolbar.pas"/>
         <UnitName Value="u_extmenutoolbar"/>
-      </Item5>
-      <Item6>
-        <Filename Value="inicomp/u_formadapt.lfm"/>
-        <Type Value="LFM"/>
-      </Item6>
-      <Item7>
-        <Filename Value="inicomp/u_formadapt.lrs"/>
-        <Type Value="LRS"/>
-      </Item7>
-      <Item8>
+      </Item3>
+      <Item4>
         <Filename Value="inicomp/u_formadapt.pas"/>
         <UnitName Value="U_FormAdapt"/>
-      </Item8>
-      <Item9>
+      </Item4>
+      <Item5>
         <Filename Value="inicomp/u_formmainini.pas"/>
         <UnitName Value="U_FormMainIni"/>
-      </Item9>
-      <Item10>
+      </Item5>
+      <Item6>
         <Filename Value="inicomp/fonctions_forms.pas"/>
         <UnitName Value="fonctions_forms"/>
-      </Item10>
-      <Item11>
-        <Filename Value="inicomp/u_customizemenu.dfm"/>
-        <Type Value="Text"/>
-      </Item11>
-      <Item12>
+      </Item6>
+      <Item7>
         <Filename Value="inicomp/u_customizemenu.lfm"/>
         <Type Value="LFM"/>
-      </Item12>
-      <Item13>
+      </Item7>
+      <Item8>
         <Filename Value="inicomp/u_customizemenu.pas"/>
         <UnitName Value="U_CustomizeMenu"/>
-      </Item13>
-      <Item14>
-        <Filename Value="inicomp/U_OnFormInfoIni.lrs"/>
-        <Type Value="LRS"/>
-      </Item14>
-      <Item15>
+      </Item8>
+      <Item9>
         <Filename Value="inicomp/fonctions_init.pas"/>
         <UnitName Value="fonctions_init"/>
-      </Item15>
+      </Item9>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
@@ -121,4 +97,4 @@
       <_ExternHelp Items="Count"/>
     </CustomOptions>
   </Package>
-</CONFIG>
+</CONFIG>
