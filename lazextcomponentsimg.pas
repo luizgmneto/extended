@@ -8,8 +8,8 @@ interface
 
 uses
   U_ExtDBImage, U_ExtImage, U_ExtPictCombo, U_ExtMapImageIndex, 
-  u_extimagelist, U_ExtDBPictCombo, U_ExtDBImageList, fonctions_images, 
-  u_buttons_defs, u_extdbgrid, LazarusPackageIntf;
+  u_extimagelist, U_ExtDBPictCombo, U_ExtDBImageList, u_buttons_defs, 
+  u_extdbgrid, LazarusPackageIntf;
 
 implementation
 
