@@ -139,9 +139,9 @@ type
 
 implementation
 
-uses fonctions_file, fonctions_string, Forms
+uses fonctions_file, fonctions_string, Forms,
+  {$IFDEF CCREXIF}
      CCR.Exif.JpegUtils, CCR.Exif.TagIDs, CCR.Exif.XMPUtils,
-,
   {$ENDIF}
   TypInfo;
 {$IFDEF MAGICK}
