@@ -44,6 +44,7 @@ const
   CST_COPYFILES_ERROR_CANT_CHANGE_DATE = 10 ;
 
 function fb_EraseFiles(  as_StartDir : String ):Boolean;
+function DirSize( const as_Dir : String ):Int64;
 function fb_EraseDir(  as_StartDir : String ; const ab_EraseSubDirs : Boolean ):Boolean;
 function  fb_FindFiles( const astl_FilesList: TStrings; as_StartDir : String;
                         const ab_ListFiles : Boolean = True ; const ab_ListDirs : Boolean = True;
@@ -74,6 +75,34 @@ uses StrUtils, Dialogs,
   {$ENDIF}
     fonctions_string,
     Forms ;
+
+procedure DirSizeRecurse(  as_Dir : String; var ai64_size : Int64 );
+var lstl_Files : TStringList;
+    ls_file : string;
+Begin
+  as_Dir := IncludeTrailingPathDelimiter(as_Dir);
+  lstl_Files:=TStringList.Create;
+  try
+    fb_FindFiles(lstl_Files,as_Dir,True,True);
+    with lstl_Files do
+    while Count>0 do
+     Begin
+       ls_file:=Strings[0];
+       if DirectoryExistsUTF8(as_Dir+ls_file)
+        Then DirSizeRecurse(as_Dir+ls_file, ai64_size)
+        Else inc ( ai64_size, FileSize(as_Dir+ls_file));
+       Delete(0);
+     end;
+  finally
+    lstl_Files.Destroy;
+  end;
+end;
+
+function DirSize( const as_Dir : String ):Int64;
+Begin
+  Result:=0;
+  DirSizeRecurse(as_Dir,Result);
+end;
 
 procedure p_SetStartDir ( var as_StartDir : String );
 Begin
