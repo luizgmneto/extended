@@ -4,19 +4,15 @@ Composant TExtFileCopy
 
 Développé par:
 Matthieu GIROUX
-Licence GPL
+Licence LGPL
 
 Composant non visuel permettant de copier un fichier plus rapidement
 que par la fonction copy de windows.
 Compatible Linux
 Attention: La gestion de la RAM étant calamiteuse sous Win9x, l'
-utilisation de ce composant provoque une grosse une forte baisse de la
-mémoire disponible. Sous WinNT/2000 il n' y a pas de problèmes
+utilisation de ce composant provoque une forte baisse de la
+mémoire disponible. Sous WinNT/2000 il n' y a pas de problèmes.
 
-
-Version actuelle: 1.0
-
-Mises à jour:
 }
 
 interface
