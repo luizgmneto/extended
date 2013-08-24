@@ -4,15 +4,11 @@ Composant TTraduceFile
 
 Développé par:
 Matthieu GIROUX
-Licence GPL
+Licence LGPL
 
 Composant non visuel permettant de traduire un fichier image
 Compatible Linux
 
-
-Version actuelle: 1.0
-
-Mises à jour:
 }
 interface
 
@@ -72,7 +68,6 @@ type
 const lfo_TraduceDefault = foJPEG ;
     CST_COPYFILES_ERROR_IMAGING = 11 ;
     EExtensionsImages : Array [TEImageFileOption] of ShortString = ('jpg','pic','bmp','eps','cut','gif','psp','pcd','pcx','psd','ppm','png','tif','rla','sgi','tga');
-//      lfo_TraduceDefaults = [foTIFF,foXPM,foBMP];
 
 type
 
@@ -270,7 +265,7 @@ Begin
             Exit ;
           End ;
       End ;
- {$ENDIF}
+{$ENDIF}
 
   FInited := False;
   Result := 0;

@@ -4,15 +4,10 @@ Composant TExtractFile
 
 Développé par:
 Matthieu GIROUX
-Licence GPL
+Licence LGPL
 
 Composant non visuel permettant d'estraire d'un fichier
 
-
-
-Version actuelle: 1.0
-
-Mises à jour:
 }
 interface
 
