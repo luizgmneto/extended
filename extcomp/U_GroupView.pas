@@ -1716,7 +1716,7 @@ Begin
           /// Si pas la première fois alors on va au bookmark du dernier enregistrement non ajouté
 //          End ;
 //      gb_ToutUneFois   := False ;  /// Plus de premier parcourt
-    if gb_EstPrincipale
+    if  gb_EstPrincipale
     and gb_Basket
     and assigned ( gdl_DataLinkOwner.DataSet ) Then
       gvar_WorkingOriginKey := gdl_DataLinkOwner.DataSet.FieldValues [ gs_GroupKey ];

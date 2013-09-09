@@ -77,7 +77,7 @@
         <PackageName Value="LCL"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="163">
+    <Units Count="164">
       <Unit0>
         <Filename Value="Groupview.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -109,10 +109,11 @@
         <UnitName Value="U_Article"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="49"/>
+        <TopLine Value="40"/>
         <CursorPos X="1" Y="58"/>
         <UsageCount Value="83"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
@@ -369,7 +370,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Gamme"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="139"/>
+        <TopLine Value="114"/>
         <CursorPos X="25" Y="146"/>
         <UsageCount Value="83"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -381,10 +382,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_TypeArticle"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="42"/>
-        <CursorPos X="1" Y="58"/>
+        <TopLine Value="14"/>
+        <CursorPos X="125" Y="38"/>
         <UsageCount Value="76"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit25>
       <Unit26>
@@ -394,7 +398,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Caracteristique"/>
-        <TopLine Value="106"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="105"/>
         <CursorPos X="46" Y="147"/>
         <UsageCount Value="83"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -760,11 +765,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Main"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="4"/>
-        <CursorPos X="68" Y="33"/>
+        <CursorPos X="40" Y="22"/>
         <UsageCount Value="66"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -1611,8 +1615,140 @@
         <CursorPos X="10" Y="541"/>
         <UsageCount Value="10"/>
       </Unit162>
+      <Unit163>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <UnitName Value="U_GroupView"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2986"/>
+        <CursorPos X="15" Y="3025"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit163>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="1531" Column="19" TopLine="1523"/>
+      </Position1>
+      <Position2>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="1540" Column="15" TopLine="1523"/>
+      </Position2>
+      <Position3>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="1565" Column="21" TopLine="1523"/>
+      </Position3>
+      <Position4>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="1719" Column="9" TopLine="1680"/>
+      </Position4>
+      <Position5>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="1720" Column="18" TopLine="1589"/>
+      </Position5>
+      <Position6>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="1726" Column="24" TopLine="1679"/>
+      </Position6>
+      <Position7>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="1836" Column="19" TopLine="1788"/>
+      </Position7>
+      <Position8>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="1863" Column="40" TopLine="1828"/>
+      </Position8>
+      <Position9>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="1930" Column="24" TopLine="1882"/>
+      </Position9>
+      <Position10>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2097" Column="26" TopLine="2049"/>
+      </Position10>
+      <Position11>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2098" Column="14" TopLine="2050"/>
+      </Position11>
+      <Position12>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2099" Column="15" TopLine="2060"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2117" Column="27" TopLine="2069"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2119" Column="15" TopLine="2071"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2188" Column="36" TopLine="2149"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2582" Column="25" TopLine="2544"/>
+      </Position16>
+      <Position17>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2591" Column="22" TopLine="2556"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2615" Column="28" TopLine="2568"/>
+      </Position18>
+      <Position19>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2647" Column="30" TopLine="2600"/>
+      </Position19>
+      <Position20>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2696" Column="39" TopLine="2648"/>
+      </Position20>
+      <Position21>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2698" Column="39" TopLine="2650"/>
+      </Position21>
+      <Position22>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2856" Column="16" TopLine="2829"/>
+      </Position22>
+      <Position23>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2884" Column="27" TopLine="2836"/>
+      </Position23>
+      <Position24>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2925" Column="37" TopLine="2878"/>
+      </Position24>
+      <Position25>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2926" Column="27" TopLine="2879"/>
+      </Position25>
+      <Position26>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2957" Column="21" TopLine="2910"/>
+      </Position26>
+      <Position27>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="2998" Column="16" TopLine="2956"/>
+      </Position27>
+      <Position28>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="3003" Column="32" TopLine="2956"/>
+      </Position28>
+      <Position29>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="3004" Column="19" TopLine="2956"/>
+      </Position29>
+      <Position30>
+        <Filename Value="../../extcomp/U_GroupView.pas"/>
+        <Caret Line="3007" Column="19" TopLine="2959"/>
+      </Position30>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
@@ -1630,14 +1766,8 @@
     </Parsing>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>
-      <Optimizations>
-        <OptimizationLevel Value="3"/>
-      </Optimizations>
     </CodeGeneration>
     <Linking>
-      <Debugging>
-        <GenerateDebugInfo Value="False"/>
-      </Debugging>
       <LinkSmart Value="True"/>
       <Options>
         <Win32>
@@ -1653,7 +1783,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="4">
+    <BreakPoints Count="11">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsGlobal"/>
@@ -1682,6 +1812,55 @@
         <Source Value="Groupview.dpr"/>
         <Line Value="30"/>
       </Item4>
+      <Item5>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../extcomp/U_GroupView.pas"/>
+        <Line Value="480"/>
+      </Item5>
+      <Item6>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../extcomp/U_GroupView.pas"/>
+        <Line Value="961"/>
+      </Item6>
+      <Item7>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../extcomp/U_GroupView.pas"/>
+        <Line Value="1540"/>
+      </Item7>
+      <Item8>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../extcomp/U_GroupView.pas"/>
+        <Line Value="1612"/>
+      </Item8>
+      <Item9>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../extcomp/U_GroupView.pas"/>
+        <Line Value="1866"/>
+      </Item9>
+      <Item10>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../extcomp/U_GroupView.pas"/>
+        <Line Value="2593"/>
+      </Item10>
+      <Item11>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../extcomp/U_GroupView.pas"/>
+        <Line Value="2862"/>
+      </Item11>
     </BreakPoints>
     <Exceptions Count="3">
       <Item1>
