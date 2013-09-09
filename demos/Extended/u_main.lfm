@@ -5,7 +5,7 @@ object FMain: TFMain
   Width = 592
   Caption = 'Gestion d''articles'
   Menu = MainMenu
-  LCLVersion = '1.0.10.0'
+  LCLVersion = '1.0.6.0'
   object MainMenu: TMainMenu
     left = 96
     top = 160
@@ -34,7 +34,7 @@ object FMain: TFMain
     end
   end
   object OnFormInfoIni1: TOnFormInfoIni
-    SaveForm = [sfSavePos, sfSaveSize]
+    SaveForm = [sfSavePos]
     left = 96
     top = 80
   end
