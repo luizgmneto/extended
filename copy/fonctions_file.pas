@@ -5,6 +5,10 @@ interface
 uses
   {$IFDEF WINDOWS}
    windows,
+  {$ELSE}
+  {$IFNDEF FPC}
+   windows,
+  {$ENDIF}
   {$ENDIF}
   Classes,
 {$IFDEF VERSIONS}
@@ -76,9 +80,10 @@ uses StrUtils, Dialogs,
     fonctions_string,
     Forms ;
 
-procedure DirSizeRecurse(  as_Dir : String; var ai64_size : Int64 );
+procedure DirSizeRecurse(  as_Dir : String; var ai64_size : Int64);
 var lstl_Files : TStringList;
     ls_file : string;
+    FileHandle: THandle;
 Begin
   as_Dir := IncludeTrailingPathDelimiter(as_Dir);
   lstl_Files:=TStringList.Create;
@@ -90,7 +95,18 @@ Begin
        ls_file:=Strings[0];
        if DirectoryExistsUTF8(as_Dir+ls_file)
         Then DirSizeRecurse(as_Dir+ls_file, ai64_size)
-        Else inc ( ai64_size, FileSize(as_Dir+ls_file));
+        Else try
+              FileHandle := CreateFile(PChar(as_Dir+ls_file),
+                  GENERIC_READ,
+                  0, {exclusive}
+                  nil, {security}
+                  OPEN_EXISTING,
+                  FILE_ATTRIBUTE_NORMAL,
+                  0);
+               inc ( ai64_size, GetFileSize(FileHandle, nil));
+             finally
+               CloseHandle(FileHandle);
+             End;
        Delete(0);
      end;
   finally

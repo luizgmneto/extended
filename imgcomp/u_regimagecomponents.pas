@@ -11,9 +11,10 @@ unit u_regimagecomponents;
 interface
 
 uses
-  Classes,
-{$IFDEF FPC}
-  lresources;
+  {$IFDEF FPC}
+  lresources,
+  {$ENDIF}
+  Classes;
 
 procedure Register;
 
@@ -25,7 +26,9 @@ uses  {$IFDEF FPC}
   unite_messages_delphi,
   {$ENDIF}
      U_ExtDBNavigator,
-     u_extsearchedit, dbpropedits, PropEdits,
+     u_extsearchedit,
+   {$IFDEF FPC}   
+     dbpropedits, PropEdits,
 {$ELSE}
      DBReg, Designintf,
 {$ENDIF}

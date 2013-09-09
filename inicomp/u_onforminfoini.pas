@@ -314,7 +314,7 @@ begin //Positionne et redimentionne éventuellement aForm sur le moniteur de FMa
   RectMonitor:=Application.MainForm.Monitor.BoundsRect;
   with aForm do
    Begin
-    Position:=poDesigned;
+    SetPropValue ( aform, 'Position',poDesigned);
     WindowState:=wsNormal;
     if Height>(RectMonitor.Bottom-RectMonitor.Top) then
       Height:=RectMonitor.Bottom-RectMonitor.Top;

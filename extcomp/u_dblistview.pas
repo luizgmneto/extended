@@ -1,4 +1,4 @@
-{*********************************************************************}
+﻿{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             Matthieu Giroux                                         }
@@ -32,6 +32,7 @@ uses
    LCLIntf, LCLType, lmessages, lresources,
 {$ELSE}
   Windows, DBTables, JvListView, SyncObjs,
+  Dialogs, unite_messages_delphi, fonctions_db,
 {$ENDIF}
    Messages, SysUtils, Classes, Graphics, Controls,
    Forms, Db,
