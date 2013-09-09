@@ -131,6 +131,8 @@ var ge_DataSetErrorEvent : TDataSetErrorEvent = nil;
     ge_NilEvent : TDataSetErrorEvent = nil;
     // Affiche-t-on un message sur erreur ?
     gb_DBMessageOnError : Boolean =  true;
+    gb_IniADOsetKeySet : Boolean = False;
+    gb_ApplicationAsynchrone : Boolean = False;
   GI_GROUPE_HELP_CHANGEMENTS_SAUVER : Integer = 0 ;
   GB_ASYNCHRONE_PAR_DEFAUT : Boolean = False ;
   Gi_ASYNCHRONE_NB_ENREGISTREMENTS : Integer = 300 ;

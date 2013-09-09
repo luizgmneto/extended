@@ -101,7 +101,6 @@ contains
   fonctions_dbcomponents in 'base\fonctions_dbcomponents.pas',
   fonctions_numedit in 'base\fonctions_numedit.pas',
   fonctions_version in 'base\fonctions_version.pas',
-  fonctions_vtree in 'base\fonctions_vtree.pas',
   fonctions_web in 'base\fonctions_web.pas',
   StoHtmlHelp in 'base\StoHtmlHelp.pas',
   type_string_delphi in 'base\type_string_delphi.pas',
@@ -148,7 +147,6 @@ contains
   u_reportform in 'reportcomp\u_reportform.pas',
   u_reports_components in 'reportcomp\u_reports_components.pas',
   u_reports_rlcomponents in 'reportcomp\u_reports_rlcomponents.pas',
-  fonctions_images in 'imgcomp\fonctions_images.pas',
   u_buttons_defs in 'imgcomp\u_buttons_defs.pas',
   u_extdbgrid in 'imgcomp\u_extdbgrid.pas',
   u_extdbimage in 'imgcomp\u_extdbimage.pas',
@@ -159,6 +157,8 @@ contains
   u_extmapimageindex in 'imgcomp\u_extmapimageindex.pas',
   U_ExtPictCombo in 'imgcomp\U_ExtPictCombo.pas',
   u_regimagecomponents in 'imgcomp\u_regimagecomponents.pas',
-  fonctions_forms in 'inicomp\fonctions_forms.pas';
+  fonctions_forms in 'inicomp\fonctions_forms.pas',
+  fonctions_vtree in 'inicomp\fonctions_vtree.pas',
+  fonctions_images in 'base\fonctions_images.pas';
 
 end.
