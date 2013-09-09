@@ -187,6 +187,7 @@ var
   i: integer;
   WinControl: TWinControl;
   AColumn : TCollection;
+  AItem   : TCollectionItem;
 begin
   with Control do
   begin
@@ -221,7 +222,8 @@ begin
      Begin
       SetPropValue(Control, SCALE_NODE_HEIGHT, Scale ( GetPropValue (Control, SCALE_NODE_HEIGHT ), ANewEchelle));
      end;
-    if assigned ( GetPropInfo ( Control, SCALE_GLYPH_SIZE )) Then
+    if assigned ( GetPropInfo ( Control, SCALE_GLYPH_SIZE ))
+    and ( PropIsType(Control,SCALE_GLYPH_SIZE,tkInteger) ) Then
      Begin
       SetPropValue(Control, SCALE_GLYPH_SIZE, Scale ( GetPropValue (Control, SCALE_GLYPH_SIZE ), ANewEchelle));
      end;
@@ -232,10 +234,11 @@ begin
        with AColumn do
        for i := 0 to Count - 1 do
         Begin
-          ScaleFont( Items [ i ],ANewEchelle);
-          if assigned ( GetPropInfo ( Items [ i ], CST_PROPERTY_WIDTH )) Then
-            SetPropValue ( Items [ i ], CST_PROPERTY_WIDTH,
-                           Scale ( GetPropValue ( Items [ i ], CST_PROPERTY_WIDTH )
+          AItem := Items [ i ];
+          ScaleFont( AItem,ANewEchelle);
+          if assigned ( GetPropInfo ( AItem, CST_PROPERTY_WIDTH )) Then
+            SetPropValue ( AItem, CST_PROPERTY_WIDTH,
+                           Scale ( GetPropValue ( AItem, CST_PROPERTY_WIDTH )
                                   , ANewEchelle ));
         end;
      end;

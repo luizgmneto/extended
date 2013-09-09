@@ -1009,12 +1009,13 @@ End;
 
 procedure TDBGroupView.DataLinkLoadList;
 begin
-
+  if gb_Basket and gb_EstPrincipale Then
+    gb_Basket := True;
   // et si il est actif
   if assigned ( gdl_DataLinkOwner.DataSet )
   and not gb_Open
   and not gb_LoadList
-  and not ( gdl_DataLinkOwner.DataSet.IsEmpty )
+  and not ( gdl_DataLinkOwner.DataSet.BOF and gdl_DataLinkOwner.DataSet.EOF )
     Then
       try
         // Alors on met à jour la liste
@@ -1503,6 +1504,8 @@ end;
 // Le groupe a changé : méthode virtuelle
 procedure TDBGroupView.DataLinkScrolled;
 Begin
+  if gb_Basket and gb_EstPrincipale Then
+   gb_LoadList:=False;
   DataLinkLoadList;
 end;
 
@@ -1522,8 +1525,8 @@ begin
   and assigned ( gdl_DataLink.DataSet ) then
     BeforeDataScroll ( Self, gdl_DataLink.DataSet, lb_LoadList );
 
-  if not lb_LoadList Then
-//  or not fb_ParentVisible ( Self ) Then
+  if not lb_LoadList
+   Then
     Begin
       p_Reinitialise ;
       Exit ;
