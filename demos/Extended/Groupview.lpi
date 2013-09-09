@@ -77,15 +77,17 @@
         <PackageName Value="LCL"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="164">
+    <Units Count="169">
       <Unit0>
         <Filename Value="Groupview.dpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Groupview"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="10"/>
-        <CursorPos X="1" Y="34"/>
-        <UsageCount Value="83"/>
+        <TopLine Value="5"/>
+        <CursorPos X="43" Y="12"/>
+        <UsageCount Value="84"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -111,7 +113,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="40"/>
         <CursorPos X="1" Y="58"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="84"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -147,7 +149,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="49"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="84"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit5>
       <Unit6>
@@ -372,7 +374,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="114"/>
         <CursorPos X="25" Y="146"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="84"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit24>
       <Unit25>
@@ -385,8 +387,8 @@
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="14"/>
-        <CursorPos X="125" Y="38"/>
-        <UsageCount Value="76"/>
+        <CursorPos X="54" Y="30"/>
+        <UsageCount Value="77"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -401,7 +403,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="105"/>
         <CursorPos X="46" Y="147"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="84"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
@@ -730,7 +732,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="42"/>
         <CursorPos X="85" Y="96"/>
-        <UsageCount Value="67"/>
+        <UsageCount Value="68"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit58>
       <Unit59>
@@ -768,8 +770,8 @@
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="4"/>
-        <CursorPos X="40" Y="22"/>
-        <UsageCount Value="66"/>
+        <CursorPos X="37" Y="8"/>
+        <UsageCount Value="67"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -1618,135 +1620,185 @@
       <Unit163>
         <Filename Value="../../extcomp/U_GroupView.pas"/>
         <UnitName Value="U_GroupView"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="2986"/>
-        <CursorPos X="15" Y="3025"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="2582"/>
+        <CursorPos X="1" Y="2596"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit163>
+      <Unit164>
+        <Filename Value="../../../../Lazarus/ccr/components/rx/rxdbgrid.pas"/>
+        <UnitName Value="rxdbgrid"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="601"/>
+        <CursorPos X="15" Y="616"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit164>
+      <Unit165>
+        <Filename Value="../../../../../../lazarus/lcl/dbgrids.pas"/>
+        <UnitName Value="DBGrids"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="398"/>
+        <CursorPos X="48" Y="410"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit165>
+      <Unit166>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <UnitName Value="fonctions_scaledpi"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="214"/>
+        <CursorPos X="38" Y="222"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit166>
+      <Unit167>
+        <Filename Value="../../extcomp/u_extdbnavigator.pas"/>
+        <UnitName Value="U_ExtDBNavigator"/>
+        <EditorIndex Value="9"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="40"/>
+        <CursorPos X="3" Y="56"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit167>
+      <Unit168>
+        <Filename Value="../../../../../../lazarus/fpc/2.6.0/source/rtl/objpas/typinfo.pp"/>
+        <UnitName Value="typinfo"/>
+        <EditorIndex Value="8"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="26"/>
+        <CursorPos X="31" Y="41"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit168>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="1531" Column="19" TopLine="1523"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="244" Column="1" TopLine="230"/>
       </Position1>
       <Position2>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="1540" Column="15" TopLine="1523"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="202" Column="1" TopLine="188"/>
       </Position2>
       <Position3>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="1565" Column="21" TopLine="1523"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="244" Column="1" TopLine="230"/>
       </Position3>
       <Position4>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="1719" Column="9" TopLine="1680"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="202" Column="1" TopLine="188"/>
       </Position4>
       <Position5>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="1720" Column="18" TopLine="1589"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="203" Column="1" TopLine="188"/>
       </Position5>
       <Position6>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="1726" Column="24" TopLine="1679"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="205" Column="1" TopLine="188"/>
       </Position6>
       <Position7>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="1836" Column="19" TopLine="1788"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="212" Column="1" TopLine="188"/>
       </Position7>
       <Position8>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="1863" Column="40" TopLine="1828"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="214" Column="1" TopLine="190"/>
       </Position8>
       <Position9>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="1930" Column="24" TopLine="1882"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="215" Column="1" TopLine="191"/>
       </Position9>
       <Position10>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2097" Column="26" TopLine="2049"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="216" Column="1" TopLine="192"/>
       </Position10>
       <Position11>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2098" Column="14" TopLine="2050"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="217" Column="1" TopLine="193"/>
       </Position11>
       <Position12>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2099" Column="15" TopLine="2060"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="221" Column="1" TopLine="197"/>
       </Position12>
       <Position13>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2117" Column="27" TopLine="2069"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="225" Column="1" TopLine="201"/>
       </Position13>
       <Position14>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2119" Column="15" TopLine="2071"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="229" Column="1" TopLine="205"/>
       </Position14>
       <Position15>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2188" Column="36" TopLine="2149"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="244" Column="1" TopLine="230"/>
       </Position15>
       <Position16>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2582" Column="25" TopLine="2544"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="202" Column="1" TopLine="188"/>
       </Position16>
       <Position17>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2591" Column="22" TopLine="2556"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="203" Column="1" TopLine="188"/>
       </Position17>
       <Position18>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2615" Column="28" TopLine="2568"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="221" Column="1" TopLine="207"/>
       </Position18>
       <Position19>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2647" Column="30" TopLine="2600"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="225" Column="1" TopLine="207"/>
       </Position19>
       <Position20>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2696" Column="39" TopLine="2648"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="227" Column="1" TopLine="207"/>
       </Position20>
       <Position21>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2698" Column="39" TopLine="2650"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="243" Column="23" TopLine="204"/>
       </Position21>
       <Position22>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2856" Column="16" TopLine="2829"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="22" Column="19" TopLine="7"/>
       </Position22>
       <Position23>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2884" Column="27" TopLine="2836"/>
+        <Filename Value="../../extcomp/u_extdbnavigator.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position23>
       <Position24>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2925" Column="37" TopLine="2878"/>
+        <Filename Value="../../extcomp/u_extdbnavigator.pas"/>
+        <Caret Line="97" Column="6" TopLine="81"/>
       </Position24>
       <Position25>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2926" Column="27" TopLine="2879"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="226" Column="47" TopLine="210"/>
       </Position25>
       <Position26>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2957" Column="21" TopLine="2910"/>
+        <Filename Value="../../../../../../lazarus/fpc/2.6.0/source/rtl/objpas/typinfo.pp"/>
+        <Caret Line="253" Column="10" TopLine="239"/>
       </Position26>
       <Position27>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="2998" Column="16" TopLine="2956"/>
+        <Filename Value="../../../../../../lazarus/fpc/2.6.0/source/rtl/objpas/typinfo.pp"/>
+        <Caret Line="278" Column="17" TopLine="254"/>
       </Position27>
       <Position28>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="3003" Column="32" TopLine="2956"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="226" Column="47" TopLine="212"/>
       </Position28>
       <Position29>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="3004" Column="19" TopLine="2956"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="202" Column="1" TopLine="188"/>
       </Position29>
       <Position30>
-        <Filename Value="../../extcomp/U_GroupView.pas"/>
-        <Caret Line="3007" Column="19" TopLine="2959"/>
+        <Filename Value="../../core/fonctions_scaledpi.pas"/>
+        <Caret Line="245" Column="1" TopLine="231"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>
@@ -1783,7 +1835,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="11">
+    <BreakPoints Count="6">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsGlobal"/>
@@ -1809,58 +1861,23 @@
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="Groupview.dpr"/>
-        <Line Value="30"/>
+        <Source Value="../../extcomp/U_GroupView.pas"/>
+        <Line Value="2865"/>
       </Item4>
       <Item5>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../extcomp/U_GroupView.pas"/>
-        <Line Value="480"/>
+        <Line Value="1550"/>
       </Item5>
       <Item6>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../extcomp/U_GroupView.pas"/>
-        <Line Value="961"/>
+        <Line Value="1874"/>
       </Item6>
-      <Item7>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_GroupView.pas"/>
-        <Line Value="1540"/>
-      </Item7>
-      <Item8>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_GroupView.pas"/>
-        <Line Value="1612"/>
-      </Item8>
-      <Item9>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_GroupView.pas"/>
-        <Line Value="1866"/>
-      </Item9>
-      <Item10>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_GroupView.pas"/>
-        <Line Value="2593"/>
-      </Item10>
-      <Item11>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_GroupView.pas"/>
-        <Line Value="2862"/>
-      </Item11>
     </BreakPoints>
     <Exceptions Count="3">
       <Item1>
