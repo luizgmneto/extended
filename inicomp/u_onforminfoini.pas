@@ -96,7 +96,8 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
                                            Comment : 'Ini management tu put on a form.' ;
-                                           BugsStory : '1.1.0.0 : Resize on windows with width or height less than 10, sfSaveWeight.' +#13#10 +
+                                           BugsStory : '1.1.0.1 : Optimising.' +#13#10 +
+                                                       '1.1.0.0 : Resize on windows with width or height less than 10, sfSaveWeight.' +#13#10 +
                                                        '1.0.6.0 : Adding ListValue, renaming, correct init of ItemIndex.' +#13#10 +
                                                        '1.0.5.0 : Adding Components'' events.' +#13#10 +
                                                        '1.0.4.0 : Adding TSpeedButton.' +#13#10 +
@@ -114,7 +115,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                                        '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
                                                        '1.0.0.0 : Gestion de beaucoup de composants.';
                                            UnitType : 3 ;
-                                           Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
+                                           Major : 1 ; Minor : 1 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
 
@@ -488,11 +489,12 @@ var
   function fb_ReadEdits: Boolean;
   Begin
     Result := False;
-    if GetfeSauveEdit(FSaveEdits ,feTedit) and ((lcom_Component is TCustomEdit) and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_PROPERTY_DATASOURCE)))
+    if GetfeSauveEdit(FSaveEdits ,feTedit) and ((lcom_Component is TCustomEdit)
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_PROPERTY_DATASOURCE)))
      then
       begin
         ls_Temp := fs_ReadString(lcom_Component.Name,'');
-        if ( ls_Temp <> '' ) Then
+        if ( ls_Temp > '' ) Then
           p_SetComponentProperty(lcom_Component, CST_ONFORMINI_TEXT, ls_Temp );
         // do not quit after because there are other edits
         Exit;
@@ -634,7 +636,7 @@ var
      then
       begin
          ls_Temp := fs_ReadString(lcom_Component.Name+CST_ONFORMINI_DOT + CST_ONFORMINI_VALUE,'');
-         if ls_Temp <> '' Then
+         if ls_Temp > '' Then
           p_SetComponentProperty(lcom_Component, CST_ONFORMINI_VALUE, ls_Temp );
          Exit;
       End;
@@ -861,7 +863,8 @@ var
   Begin
     Result := False;
     if GetfeSauveEdit(FSaveEdits ,feTedit)
-    and ((lcom_Component is TCustomEdit) and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_PROPERTY_DATASOURCE)))
+    and ((lcom_Component is TCustomEdit)
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_PROPERTY_DATASOURCE)))
      then
       begin
         p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component,CST_ONFORMINI_TEXT));
