@@ -26,13 +26,14 @@ const
            Owner : '' ;
            Comment : 'Fonctions de gestion de fichiers' ;
            BugsStory :
+           'Version 1.0.5.0 : Adding FileWriteln.';
            'Version 1.0.4.0 : Adding FileReadln and FileCreateDeleteUTF8.';
            'Version 1.0.3.0 : Adding ExtractDirName and ExtractSubDir.';
            'Version 1.0.2.0 : UTF8 not tested.';
            'Version 1.0.1.0 : adding Windows drive verifying function.';
            'Version 1.0.0.0 : La gestion est en place, ne gérant pas tout.';
            UnitType : 1 ;
-                     Major : 1 ; Minor : 0 ; Release : 4 ; Build : 0 );
+                     Major : 1 ; Minor : 0 ; Release : 5 ; Build : 0 );
 {$ENDIF}
   CST_COPYFILES_ERROR_IS_READONLY = faReadOnly ;
   CST_COPYFILES_ERROR_UNKNOWN = -1 ;
@@ -50,8 +51,11 @@ const
 
 function fb_EraseFiles(  as_StartDir : String ):Boolean;
 function FileCreateDeleteUTF8 ( const as_filename : String ) :THandle;
+function FileCreateDeleteUTF8File ( const as_filename : String ) :THandle;
+function FileCreateUTF8File ( const as_filename : String ) :THandle;
 Function FileReadln (Handle : THandle; var Buffer : String) : Longint;
-function FileWriteString(const AFile : THandle; const as_chaine : String):Longint;
+function FileWriteln(const AFile : THandle; const as_chaine : String = '' ):Longint;
+function FileWriteString(const AFile : THandle; const as_chaine : String; const ab_addAtEnd : Byte = -1 ):Longint;
 function DirSize( const as_Dir : String ):Int64;
 function fb_EraseDir(  as_StartDir : String ; const ab_EraseSubDirs : Boolean ):Boolean;
 function  fb_FindFiles( const astl_FilesList: TStrings; as_StartDir : String;
@@ -82,6 +86,7 @@ uses StrUtils, Dialogs,
     fonctions_system,
   {$ENDIF}
     fonctions_string,
+    LConvEncoding,
     Forms ;
 
 procedure DirSizeRecurse(  as_Dir : String; var ai64_size : Int64);
@@ -267,7 +272,9 @@ Begin
     ARead := FileRead(Handle,ABuffer,1);
     inc ( Result, ARead);
     if ABuffer in [#10,#13] then
-     Exit;
+     if Buffer > ''
+      Then Exit
+      Else Continue;
     if ARead > 0 Then
       AppendStr(Buffer,ABuffer);
   until ARead <= 0;
@@ -275,12 +282,17 @@ end;
 
 // function FileWriteString
 // Writes a string to handle
-function FileWriteString(const AFile : THandle; const as_chaine : String):Longint;
+function FileWriteString(const AFile : THandle; const as_chaine : String; const ab_addAtEnd : Byte = -1 ):Longint;
 Begin
   if as_chaine>'' then
     Result := FileWrite(AFile,as_chaine[1],Length(as_chaine));
+ if ab_addAtEnd <> -1 then
+    Result := FileWrite(AFile,ab_addAtEnd,1);
 End;
-
+function FileWriteln(const AFile : THandle; const as_chaine : String = '' ):Longint;
+Begin
+ Result:=FileWriteString(AFile,as_chaine,10);
+End;
 // function FileCreateDeleteUTF8
 // Deletes and create a file to result handle
 function FileCreateDeleteUTF8 ( const as_filename : String ) :THandle;
@@ -288,6 +300,23 @@ Begin
   if FileExistsUTF8(as_filename) Then
     DeleteFileUTF8(as_filename);
   Result:=FileCreateUTF8(as_filename);
+end;
+
+// function FileCreateDeleteUTF8
+// Deletes and create a file to result handle
+function FileCreateDeleteUTF8File ( const as_filename : String ) :THandle;
+Begin
+  if FileExistsUTF8(as_filename) Then
+    DeleteFileUTF8(as_filename);
+  Result:=FileCreateUTF8File(as_filename);
+end;
+
+// function FileCreateDeleteUTF8
+// Deletes and create a file to result handle
+function FileCreateUTF8File ( const as_filename : String ) :THandle;
+Begin
+  Result:=FileCreateUTF8(as_filename);
+  FileWrite(Result,UTF8BOM[1],Length(UTF8BOM));
 end;
 
 // copy a file from source to destination
