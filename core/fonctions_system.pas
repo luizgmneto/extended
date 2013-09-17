@@ -3,7 +3,7 @@ unit fonctions_system;
 
 interface
 
-{$I ..\DLCompilers.inc}
+{$I ..\dlcompilers.inc}
 {$I ..\extends.inc}
 
 {$IFDEF FPC}
@@ -19,6 +19,9 @@ uses
 {$ELSE}
   Windows,
 {$ENDIF}
+{$IFDEF WINDOWS}
+  ShellApi,
+{$ENDIF}
   Forms, SysUtils,
 {$IFDEF VERSIONS}
   fonctions_version,
@@ -33,13 +36,14 @@ const
   gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_system' ;
                         	       Owner : 'Matthieu Giroux' ;
                         	       Comment : 'System Functions, with traducing and path management.' ;
-                        	       BugsStory : 'Version 1.1.0.1 : Using explorer to open files, more secure.' + #10
+                        	       BugsStory : 'Version 1.1.0.2 : Testing p_openfileordirectory on windows.' + #10
+                                                 + 'Version 1.1.0.1 : Using explorer to open files, more secure.' + #10
                                                  + 'Version 1.1.0.0 : Linux and architecture functions.' + #10
                                                  + 'Version 1.0.2.0 : fs_DocDir and library''s extension.' + #10
                                                  + 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
                                                  + 'Version 1.0.0.0 : Creating from fonctions_string.';
                         	       UnitType : 1 ;
-                        	       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 1 );
+                        	       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
 {$ENDIF}
 {$IFDEF DELPHI}
   DirectorySeparator = '\' ;
@@ -477,20 +481,15 @@ End;
 
 // Universal file or directory open
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
-
 Begin
-{$IFNDEF FPC}
-  ShellExecute(Application.Handle,nil, PChar(AFilePath), nil, nil, SW_SHOWNORMAL) ;
+{$IFDEF WINDOWS}
+  ShellExecute(0,'open', PChar(AFilePath), nil, nil, SW_SHOWNORMAL) ;
 {$ELSE}
   fs_ExecuteProcess (
       {$IFDEF LINUX}
       'xdg-open'
       {$ELSE}
-      {$IFDEF WINDOWS}
-      'explorer'
-      {$ELSE}
       'open'
-      {$ENDIF}
       {$ENDIF},
       AFilePath,
       False);
