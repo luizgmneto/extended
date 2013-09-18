@@ -26,7 +26,7 @@ const
            Owner : '' ;
            Comment : 'Fonctions de gestion de fichiers' ;
            BugsStory :
-           'Version 1.0.5.0 : Adding FileWriteln.';
+           'Version 1.0.5.0 : Adding FileWriteln and FileCreateUTF8File.';
            'Version 1.0.4.0 : Adding FileReadln and FileCreateDeleteUTF8.';
            'Version 1.0.3.0 : Adding ExtractDirName and ExtractSubDir.';
            'Version 1.0.2.0 : UTF8 not tested.';
