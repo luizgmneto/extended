@@ -532,7 +532,7 @@ function NodeIsVisible(const Node: PVirtualNode): Boolean;
 
 begin
   if Assigned(Node) then
-    Result := ( vsVisible in Node.States ) {$IFDEF FPC} and not ( vsHidden in Node.States){$ENDIF}
+    Result := ( vsVisible in Node.States )
   else
     Result := False;
 end;
