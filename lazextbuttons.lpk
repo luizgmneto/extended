@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Minor="9" Release="5" Build="2"/>
-    <Files Count="3">
+    <Files Count="7">
       <Item1>
         <Filename Value="btncomp/u_buttons_appli.lrs"/>
         <Type Value="LRS"/>
@@ -34,6 +34,22 @@
         <Filename Value="btncomp/u_buttons_speed.pas"/>
         <UnitName Value="u_buttons_speed"/>
       </Item3>
+      <Item4>
+        <Filename Value="btncomp/u_form_msg.lfm"/>
+        <Type Value="LFM"/>
+      </Item4>
+      <Item5>
+        <Filename Value="btncomp/u_form_msg.pas"/>
+        <UnitName Value="u_form_msg"/>
+      </Item5>
+      <Item6>
+        <Filename Value="btncomp/u_form_working.lfm"/>
+        <Type Value="LFM"/>
+      </Item6>
+      <Item7>
+        <Filename Value="btncomp/u_form_working.pas"/>
+        <UnitName Value="u_form_working"/>
+      </Item7>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="3">
@@ -59,4 +75,4 @@
       <_ExternHelp Items="Count"/>
     </CustomOptions>
   </Package>
-</CONFIG>
+</CONFIG>

@@ -60,7 +60,8 @@ const
 
 
 resourcestring
-  // Paquet Fonctions
+  // Paquet extcore
+
   GS_ECRITURE_IMPOSSIBLE = 'Impossible d''écrire sur le fichier @ARG avec l''attribut de fichier @ARG.' ;
   GS_DETAILS_TECHNIQUES = 'Détails techniques : ' ;
   GS_TOOLBARMENU_Personnaliser = 'Personnaliser' ;
@@ -90,6 +91,12 @@ resourcestring
   GS_IMAGE_MAUVAISE_TAILLE = 'La taille de l''image doit être au moins de 32 sur 32.' ;
   GS_IMAGE_DEFORMATION = 'L''image sera déformée, continuer ?' ;
   GS_IMAGE_MAUVAISE_IMAGE = 'Mauvais format d''image.' ;
+// Messages box
+  gs_OK = 'OK';
+  gs_Ignore = 'Ignorer';
+  gs_Warning = 'Attention';
+  gs_Information = 'Informations';
+  gs_Confirmation = 'Confirmation';
 
  // Composants
   GS_SUPPRIMER_QUESTION = 'Confirmez-vous l''effacement de l''enregistrement ?' ;
@@ -159,7 +166,10 @@ resourcestring
   GS_IMAGE_TROP_PETITE = 'L''image est trop petite.' ;
   GS_IMAGE_TROP_GRANDE = 'L''image est trop grande.' ;
   GS_FICHIER_NON_TROUVE = 'Fichier @ARG non trouvé.' ;
+
+  // confirmation demandée
   GS_INI_FILE_CANT_WRITE = 'Chemin @ARG inaccessible.' + CST_ENDOFLINE + 'Démarrer l''application en tant qu''administrateur' ;
+  gs_Confirm_File_is_unavailable_Do_i_erase_it_to_update_it = 'Le fichier est innaccessible.'+CST_ENDOFLINE+'L''effacer pour le mettre à jour ?';
 
  // Messages pour le navigateur
   GS_INSERER_ENREGISTREMENT = 'Insérer un enregistrement' ;

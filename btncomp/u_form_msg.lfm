@@ -1,0 +1,177 @@
+object FMsg: TFMsg
+  Left = 1054
+  Height = 93
+  Top = 262
+  Width = 320
+  ActiveControl = Panel2
+  BorderIcons = []
+  Caption = 'FMsg'
+  ClientHeight = 93
+  ClientWidth = 320
+  Color = clWhite
+  Font.CharSet = ANSI_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = [fsBold]
+  KeyPreview = True
+  OnKeyDown = SuperFormKeyDown
+  OnShow = FormShow
+  Position = poMainFormCenter
+  LCLVersion = '1.0.12.0'
+  object Panel2: TPanel
+    Left = 0
+    Height = 93
+    Top = 0
+    Width = 320
+    Align = alClient
+    BevelInner = bvLowered
+    ClientHeight = 93
+    ClientWidth = 320
+    Color = clSilver
+    ParentColor = False
+    TabOrder = 0
+    object lYes: TLabel
+      Left = 222
+      Height = 14
+      Top = 22
+      Width = 19
+      Caption = 'Oui'
+      ParentColor = False
+      Visible = False
+    end
+    object lNo: TLabel
+      Left = 222
+      Height = 14
+      Top = 38
+      Width = 22
+      Caption = 'Non'
+      ParentColor = False
+      Visible = False
+    end
+    object lCancel: TLabel
+      Left = 222
+      Height = 14
+      Top = 54
+      Width = 45
+      Caption = 'Annuler'
+      ParentColor = False
+      Visible = False
+    end
+    object lYesToAll: TLabel
+      Left = 230
+      Height = 14
+      Top = 30
+      Width = 56
+      Caption = 'Oui à tout'
+      ParentColor = False
+      Visible = False
+    end
+    object lNoToAll: TLabel
+      Left = 238
+      Height = 14
+      Top = 38
+      Width = 59
+      Caption = 'Non à tout'
+      ParentColor = False
+      Visible = False
+    end
+    object btn1: TJvXPButton
+      Cursor = crHandPoint
+      Left = 30
+      Height = 24
+      Top = 66
+      Width = 94
+      TabOrder = 0
+      Layout = blGlyphTop
+      Spacing = 237
+      Anchors = [akRight, akBottom]
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object btn2: TJvXPButton
+      Cursor = crHandPoint
+      Left = 126
+      Height = 24
+      Top = 66
+      Width = 94
+      TabOrder = 1
+      Layout = blGlyphTop
+      Spacing = 237
+      Anchors = [akRight, akBottom]
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object btn3: TJvXPButton
+      Cursor = crHandPoint
+      Left = 222
+      Height = 24
+      Top = 66
+      Width = 94
+      TabOrder = 2
+      Layout = blGlyphTop
+      Spacing = 237
+      Anchors = [akRight, akBottom]
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object ImageConfirmation: TExtImage
+      Left = 2
+      Height = 32
+      Top = 2
+      Width = 32
+      Transparent = True
+      Visible = False
+    end
+    object ImageInformation: TExtImage
+      Left = 226
+      Height = 32
+      Top = 2
+      Width = 32
+      Transparent = True
+      Visible = False
+    end
+    object ImageErreur: TExtImage
+      Left = 170
+      Height = 32
+      Top = 2
+      Width = 32
+      Transparent = True
+      Visible = False
+    end
+    object ImageAttention: TExtImage
+      Left = 122
+      Height = 32
+      Top = 2
+      Width = 32
+      Transparent = True
+      Visible = False
+    end
+    object lbMsg: TLabel
+      Left = 16
+      Height = 20
+      Top = 8
+      Width = 286
+      Constraints.MinHeight = 20
+      Constraints.MinWidth = 286
+      ParentColor = False
+    end
+    object MemoMsg: TStaticText
+      Left = 19
+      Height = 18
+      Top = 8
+      Width = 283
+      Caption = 'MemoMsg'
+      TabOrder = 3
+    end
+  end
+end
