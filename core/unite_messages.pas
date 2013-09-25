@@ -10,26 +10,27 @@ interface
 {$I ..\extends.inc}
 
 
+uses fonctions_string
 {$IFDEF VERSIONS}
-uses fonctions_version ;
+     ,fonctions_version ;
 
 const
   gVer_unite_messages : T_Version= ( Component : 'Constantes messages' ; FileUnit : 'unite_messages' ;
                         	     Owner : 'Matthieu Giroux' ;
                         	     Comment : 'Constantes et variables messages.' ;
-                        	     BugsStory : 'Version 1.0.4.1 : Menu Toolbar messages.' + #13#10
-                        		       + 'Version 1.0.4.0 : Message d''erreur de sauvegarde ini.' + #13#10
-                        		       + 'Version 1.0.3.3 : Message GS_MC_ERREUR_CONNEXION.' + #13#10
-                        		       + 'Version 1.0.3.2 : Modifs GS_MC_VALEUR_UTILISEE et GS_MC_VALEURS_UTILISEES, ajout de GS_MC_DETAILS_TECHNIQUES.' + #13#10
-                        		       + 'Version 1.0.3.1 : Constante message Form Dico.' + #13#10
-                        		       + 'Version 1.0.3.0 : Constantes INI.' + #13#10
-                        		       + 'Version 1.0.2.0 : Plus de messages dans l''unité.' + #13#10
-                        		       + 'Version 1.0.1.0 : Plus de messages dans l''unité.' + #13#10
+                        	     BugsStory : 'Version 1.0.4.1 : Menu Toolbar messages.' + CST_ENDOFLINE
+                        		       + 'Version 1.0.4.0 : Message d''erreur de sauvegarde ini.' + CST_ENDOFLINE
+                        		       + 'Version 1.0.3.3 : Message GS_MC_ERREUR_CONNEXION.' + CST_ENDOFLINE
+                        		       + 'Version 1.0.3.2 : Modifs GS_MC_VALEUR_UTILISEE et GS_MC_VALEURS_UTILISEES, ajout de GS_MC_DETAILS_TECHNIQUES.' + CST_ENDOFLINE
+                        		       + 'Version 1.0.3.1 : Constante message Form Dico.' + CST_ENDOFLINE
+                        		       + 'Version 1.0.3.0 : Constantes INI.' + CST_ENDOFLINE
+                        		       + 'Version 1.0.2.0 : Plus de messages dans l''unité.' + CST_ENDOFLINE
+                        		       + 'Version 1.0.1.0 : Plus de messages dans l''unité.' + CST_ENDOFLINE
                         		       + 'Version 1.0.0.0 : Gestion des messages des fenêtres.';
                         	     UnitType : 1 ;
-                        	     Major : 1 ; Minor : 0 ; Release : 4 ; Build : 1 );
+                        	     Major : 1 ; Minor : 0 ; Release : 4 ; Build : 1 )
 
-{$ENDIF}
+{$ENDIF};
 
 // COmposants
 const
@@ -66,7 +67,7 @@ resourcestring
 
   GS_OF_DATASET = 'du Dataset ';
 
-  GS_SOFT_IMAGE_NOT_FOUND   ='Image @ARG non tnouvée'+#13#10 +
+  GS_SOFT_IMAGE_NOT_FOUND   ='Image @ARG non tnouvée'+CST_ENDOFLINE +
                              'Veuillez copier le répertoire ''Images'' dans le répertoire de votre exécutable.';
   GS_GROUPE_INCLURE         = 'Inclure' ;
   GS_GROUPE_EXCLURE         = 'Exclure' ;
@@ -74,13 +75,13 @@ resourcestring
   GS_STRING_MUST_BE_HEXA    = 'La chaine doit représenter des hexadécimaux' ;
   GS_GROUPE_TOUT_EXCLURE    = 'Tout exclure' ;
   GS_GROUPE_RETOUR_ORIGINE  = 'Restaurer les données initiales' ;
-  GS_GROUPE_MAUVAIS_BOUTONS = 'Les boutons de transfert doivent s''inverser dans les deux listes. ' + #13#10
-                        	+ 'Les boutons de transfert sont identifiés par rapport à leur liste,' + #13#10
+  GS_GROUPE_MAUVAIS_BOUTONS = 'Les boutons de transfert doivent s''inverser dans les deux listes. ' + CST_ENDOFLINE
+                        	+ 'Les boutons de transfert sont identifiés par rapport à leur liste,' + CST_ENDOFLINE
                         	+ ' à l''inverse des numéros d''images identifiés par rapport à la table. ' ;
       // Doit-on enregistrer ou abandonner
   GS_GROUPE_ABANDON = 'Veuillez enregistrer ou abandonner avant de continuer.' ;
       // Vidage du panier : oui ou non
-  GS_GROUPE_VIDER   = 'Le panier utilisé pour les réaffectations n''est pas vide.' + #13#10
+  GS_GROUPE_VIDER   = 'Le panier utilisé pour les réaffectations n''est pas vide.' + CST_ENDOFLINE
                          + 'Voulez-vous abandonner ces réaffectations ?' ;
   GS_PAS_GROUPES    = 'DatasourceOwnerTable ou DatasourceOwnerKey non trouvés.' ;
   GS_GROUP_INCLUDE_LIST = 'Liste d''inclusion';
@@ -126,8 +127,16 @@ resourcestring
  {$ENDIF}
 
   // Erreurs
-  GS_ERREUR_NOMBRE_GRAND = 'Problème à la validation du nombre :' + #13#10
-                   + 'Un nombre saisi est trop grand.' + #13#10
+  gs_Error_Forbidden_Access = 'Accès interdit';
+  gs_Error_Bad_URL = 'Mauvaise URL : @ARG';
+  gs_Error_Bad_request = 'Mauvaise requête';
+  gs_Error_Bad_Gateway = 'Mauvaise passerelle';
+  gs_Error_Bad_Web_Connection='Problème de connexion internet.';
+  gs_Error_Bad_Connection='Problème de connexion à @ARG.';
+  gs_Error_File_is_not_on_the_web_site = 'Le fichier que vous essayez de télécharger est absent du site.';
+  gs_Error_timeout_problem = 'Problème de timeOut';
+  GS_ERREUR_NOMBRE_GRAND = 'Problème à la validation du nombre :' + CST_ENDOFLINE
+                   + 'Un nombre saisi est trop grand.' + CST_ENDOFLINE
                    + 'Modifier la saisie ou annuler.' ;
   GS_METTRE_A_JOUR_FICHE = 'L''enregistrement a été effacé ou modifié par un autre utilisateur.' + #13 + #10
                         			+ 'La fiche va être mise à jour.' ;
@@ -135,13 +144,13 @@ resourcestring
                         		+ 'Saisir une valeur différente, annuler ou réeffectuer la validation si une valeur n''est pas modifiable.' ;
   GS_VALEURS_UTILISEES = 'Les valeurs @ARG sont déjà utilisées.' + #13 + #10
                         		+ 'Saisir des valeurs différentes, annuler ou réeffectuer la validation si une valeur n''est pas modifiable.' ;
-  GS_ERREUR_RESEAU = 'Erreur réseau.' + #13#10
+  GS_ERREUR_RESEAU = 'Erreur réseau.' + CST_ENDOFLINE
                         + 'Vérifier la connexion réseau.' ;
-  GS_ERREUR_MODIFICATION_MAJ = 'Impossible de supprimer cet enregistrement.' + #13#10
+  GS_ERREUR_MODIFICATION_MAJ = 'Impossible de supprimer cet enregistrement.' + CST_ENDOFLINE
                + 'Il est utilisé dans une autre fonction.';
-  GS_ERREUR_CONNEXION = 'Un problème est survenu pour la connexion aux données.' + #13#10
+  GS_ERREUR_CONNEXION = 'Un problème est survenu pour la connexion aux données.' + CST_ENDOFLINE
                         	 + 'Réessayez d''ouvrir la fiche.' ;
-                        //GS_CHANGEMENTS_SAUVER = 'Des changements ont été effectués.' + #13#10 +' Le trie nécessite alors une sauvegarde.'  + #13#10 + 'Voulez-vous enregistrer les changements effectués ?' ;
+                        //GS_CHANGEMENTS_SAUVER = 'Des changements ont été effectués.' + CST_ENDOFLINE +' Le trie nécessite alors une sauvegarde.'  + CST_ENDOFLINE + 'Voulez-vous enregistrer les changements effectués ?' ;
 
  // Messages pour les images
   GS_IMAGE_MULTIPLE_5 = 'L''image doit avoir une largeur multiple de ' ;
@@ -150,7 +159,7 @@ resourcestring
   GS_IMAGE_TROP_PETITE = 'L''image est trop petite.' ;
   GS_IMAGE_TROP_GRANDE = 'L''image est trop grande.' ;
   GS_FICHIER_NON_TROUVE = 'Fichier @ARG non trouvé.' ;
-  GS_INI_FILE_CANT_WRITE = 'Chemin @ARG inaccessible.' + #13#10 + 'Démarrer l''application en tant qu''administrateur' ;
+  GS_INI_FILE_CANT_WRITE = 'Chemin @ARG inaccessible.' + CST_ENDOFLINE + 'Démarrer l''application en tant qu''administrateur' ;
 
  // Messages pour le navigateur
   GS_INSERER_ENREGISTREMENT = 'Insérer un enregistrement' ;
