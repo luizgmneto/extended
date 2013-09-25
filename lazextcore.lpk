@@ -15,7 +15,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="13">
+    <Files Count="12">
       <Item1>
         <Filename Value="core/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -57,17 +57,13 @@
         <UnitName Value="fonctions_variant"/>
       </Item10>
       <Item11>
-        <Filename Value="core/unite_messages_delphi.pas"/>
-        <UnitName Value="unite_messages_delphi"/>
-      </Item11>
-      <Item12>
         <Filename Value="core/type_string.pas"/>
         <UnitName Value="type_string"/>
-      </Item12>
-      <Item13>
+      </Item11>
+      <Item12>
         <Filename Value="core/fonctions_db.pas"/>
         <UnitName Value="fonctions_db"/>
-      </Item13>
+      </Item12>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">
