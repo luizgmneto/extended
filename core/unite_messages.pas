@@ -94,10 +94,17 @@ resourcestring
   GS_IMAGE_MAUVAISE_IMAGE = 'Mauvais format d''image.' ;
 // Messages box
   gs_OK = 'OK';
+  gs_Yes = 'Oui';
+  gs_YesToAll = 'Oui à tout';
+  gs_NoToAll = 'Non à tout';
+  gs_No  = 'Non';
+  gs_Cancel = 'Annuler';
+  gs_Close = 'Fermer';
   gs_Ignore = 'Ignorer';
   gs_Warning = 'Attention';
   gs_Information = 'Informations';
   gs_Confirmation = 'Confirmation';
+  gs_Error = 'Erreur';
   gs_Please_Wait = 'Veuillez patienter…';
   gs_Downloading_in_progress = 'Téléchargement de @ARG en cours…';
   gs_Download_update = 'Télécharger mise à jour';

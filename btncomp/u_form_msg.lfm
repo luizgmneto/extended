@@ -1,13 +1,11 @@
-object FMsg: TFMsg
+inherited FMsg: TFMsg
   Left = 642
   Height = 93
   Top = 245
-  Width = 320
   ActiveControl = Panel2
   BorderIcons = []
   Caption = 'FMsg'
   ClientHeight = 93
-  ClientWidth = 320
   Color = clWhite
   Font.CharSet = ANSI_CHARSET
   Font.Color = clWindowText
@@ -18,8 +16,7 @@ object FMsg: TFMsg
   OnKeyDown = SuperFormKeyDown
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '1.0.12.0'
-  object Panel2: TPanel
+  object Panel2: TPanel[0]
     Left = 0
     Height = 93
     Top = 0
@@ -31,85 +28,15 @@ object FMsg: TFMsg
     Color = clSilver
     ParentColor = False
     TabOrder = 0
-    object lYes: TLabel
-      Left = 222
-      Height = 14
-      Top = 22
-      Width = 19
-      Caption = 'Oui'
-      ParentColor = False
-      Visible = False
-    end
-    object lNo: TLabel
-      Left = 222
-      Height = 14
-      Top = 38
-      Width = 22
-      Caption = 'Non'
-      ParentColor = False
-      Visible = False
-    end
-    object lCancel: TLabel
-      Left = 222
-      Height = 14
-      Top = 54
-      Width = 45
-      Caption = 'Annuler'
-      ParentColor = False
-      Visible = False
-    end
-    object lYesToAll: TLabel
-      Left = 230
-      Height = 14
-      Top = 30
-      Width = 56
-      Caption = 'Oui à tout'
-      ParentColor = False
-      Visible = False
-    end
-    object lNoToAll: TLabel
-      Left = 238
-      Height = 14
-      Top = 38
-      Width = 59
-      Caption = 'Non à tout'
-      ParentColor = False
-      Visible = False
-    end
-    object ImageConfirmation: TExtImage
+    object Image: TExtImage
       Left = 2
       Height = 32
-      Top = 36
+      Top = 0
       Width = 32
       Transparent = True
-      Visible = False
-    end
-    object ImageInformation: TExtImage
-      Left = 226
-      Height = 32
-      Top = 2
-      Width = 32
-      Transparent = True
-      Visible = False
-    end
-    object ImageErreur: TExtImage
-      Left = 170
-      Height = 32
-      Top = 2
-      Width = 32
-      Transparent = True
-      Visible = False
-    end
-    object ImageAttention: TExtImage
-      Left = 122
-      Height = 32
-      Top = 2
-      Width = 32
-      Transparent = True
-      Visible = False
     end
     object lbMsg: TLabel
-      Left = 16
+      Left = 35
       Height = 20
       Top = 8
       Width = 286
@@ -118,29 +45,29 @@ object FMsg: TFMsg
       ParentColor = False
     end
     object MemoMsg: TStaticText
-      Left = 2
+      Left = 37
       Height = 18
       Top = 8
       Width = 283
       Caption = 'MemoMsg'
       TabOrder = 0
     end
-    object Panel1: TPanel
+    object PanelButtons: TPanel
       Left = 2
-      Height = 26
-      Top = 65
+      Height = 27
+      Top = 64
       Width = 316
       Align = alBottom
       BevelOuter = bvNone
-      Caption = 'Panel1'
-      ClientHeight = 26
+      ClientHeight = 27
       ClientWidth = 316
       TabOrder = 1
       object btn2: TFWButton
         Cursor = crHandPoint
-        Left = 128
+        Left = 118
+        Height = 27
         Top = 0
-        Width = 94
+        Width = 99
         TabOrder = 0
         Layout = blGlyphTop
         Spacing = 237
@@ -151,13 +78,13 @@ object FMsg: TFMsg
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
-        GlyphSize = 22
       end
       object btn3: TFWButton
         Cursor = crHandPoint
-        Left = 34
+        Left = 19
+        Height = 27
         Top = 0
-        Width = 94
+        Width = 99
         TabOrder = 1
         Layout = blGlyphTop
         Spacing = 237
@@ -168,13 +95,13 @@ object FMsg: TFMsg
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
-        GlyphSize = 22
       end
       object btn1: TFWButton
         Cursor = crHandPoint
-        Left = 222
+        Left = 217
+        Height = 27
         Top = 0
-        Width = 94
+        Width = 99
         TabOrder = 2
         Layout = blGlyphTop
         Spacing = 237
@@ -185,7 +112,6 @@ object FMsg: TFMsg
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
-        GlyphSize = 22
       end
     end
   end
