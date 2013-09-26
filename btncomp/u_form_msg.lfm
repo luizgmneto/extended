@@ -25,7 +25,7 @@ inherited FMsg: TFMsg
     BevelInner = bvLowered
     ClientHeight = 93
     ClientWidth = 320
-    Color = clSilver
+    Color = clBtnHighlight
     ParentColor = False
     TabOrder = 0
     object Image: TExtImage
@@ -59,60 +59,7 @@ inherited FMsg: TFMsg
       Width = 316
       Align = alBottom
       BevelOuter = bvNone
-      ClientHeight = 27
-      ClientWidth = 316
       TabOrder = 1
-      object btn2: TFWButton
-        Cursor = crHandPoint
-        Left = 118
-        Height = 27
-        Top = 0
-        Width = 99
-        TabOrder = 0
-        Layout = blGlyphTop
-        Spacing = 237
-        Align = alRight
-        Anchors = [akRight, akBottom]
-        Font.CharSet = ANSI_CHARSET
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object btn3: TFWButton
-        Cursor = crHandPoint
-        Left = 19
-        Height = 27
-        Top = 0
-        Width = 99
-        TabOrder = 1
-        Layout = blGlyphTop
-        Spacing = 237
-        Align = alRight
-        Anchors = [akRight, akBottom]
-        Font.CharSet = ANSI_CHARSET
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object btn1: TFWButton
-        Cursor = crHandPoint
-        Left = 217
-        Height = 27
-        Top = 0
-        Width = 99
-        TabOrder = 2
-        Layout = blGlyphTop
-        Spacing = 237
-        Align = alRight
-        Anchors = [akRight, akBottom]
-        Font.CharSet = ANSI_CHARSET
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
     end
   end
 end

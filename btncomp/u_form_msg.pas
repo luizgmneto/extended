@@ -62,9 +62,6 @@ type
   { TFMsg }
 
   TFMsg=class(TF_FormAdapt)
-    btn1: TFWButton;
-    btn2: TFWButton;
-    btn3: TFWButton;
     PanelButtons: TPanel;
     Panel2:TPanel;
     lbMsg:TLabel;
@@ -127,7 +124,7 @@ var
        ModalResult:=aResult;
        Default:=numBtn=(4-k);//si c'est le premier
        Cancel:=numBtn=1; //c'est le dernier (pas d'inconvénient s'il est aussi le premier)
-       Width := Font.GetTextWidth(aText)+GlyphSize+8;
+       Width := Font.GetTextWidth(aText)+GlyphSize+12;
        inc ( TotalWidth, Width );
        visible:=true;
       end;
@@ -266,4 +263,4 @@ initialization
   p_ConcatVersion ( gVer_F_Msg );
 {$ENDIF}
 end.
-
+
