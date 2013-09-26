@@ -55,6 +55,7 @@ implementation
 
 uses fonctions_string,
      fonctions_init,
+     fonctions_file,
      FileUtil;
 
 procedure InitUpdate ( const aat_ArchitectureType : TArchitectureType; const apt_PackageType : TPackageType ; const aProcType : TProcessorType );
