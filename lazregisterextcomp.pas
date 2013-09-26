@@ -10,7 +10,7 @@ uses
   u_reginicomponents, u_regextcomponents, u_regextfilecopy, 
   u_regimagecomponents, u_regfwbuttons, u_regfwbuttons_appli, u_regsbbuttons, 
   U_RegisterGroupView, u_regreports_components, u_regextracomponents, 
-  u_registerforms, LazarusPackageIntf;
+  u_registerforms, u_register_net, LazarusPackageIntf;
 
 implementation
 
@@ -27,6 +27,7 @@ begin
   RegisterUnit('u_regreports_components', @u_regreports_components.Register);
   RegisterUnit('u_regextracomponents', @u_regextracomponents.Register);
   RegisterUnit('u_registerforms', @u_registerforms.Register);
+  RegisterUnit('u_register_net', @u_register_net.Register);
 end;
 
 initialization

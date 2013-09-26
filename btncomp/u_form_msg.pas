@@ -31,29 +31,46 @@ uses
 {$IFNDEF FPC}
   u_comp_TJvXPButton, Windows,
 {$ELSE}
-  LCLIntf, LCLType, LMessages,
+  LCLIntf, LCLType,
 {$ENDIF}
-  StdCtrls,forms,ExtCtrls,Controls,Classes,Dialogs,
-  u_buttons_appli,JvXPButtons,
-  U_ExtImage,   Menus,  Graphics;
+  StdCtrls,Forms,ExtCtrls,
+  Controls,Classes,Dialogs,
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
+  u_buttons_appli,
+  u_buttons_defs,
+  U_ExtImage,
+  U_FormAdapt,
+  Menus,
+  Graphics;
 
-function MyMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer;const proprio:TControl=nil):Word; overload;
-function MyMessageDlg(const Title,Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const Help : Integer = 0; const StyleLb:Integer = 0;const proprio:TControl=nil):Word; overload;
-function AMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer;const proprio:TControl=nil):Word;
+
+{$IFDEF VERSIONS}
+const
+    gVer_F_Msg : T_Version = ( Component : 'Message dialog Window' ;
+       			                 FileUnit : 'u_form_working' ;
+       			                 Owner : 'Matthieu Giroux' ;
+       			                 Comment : 'Ask or tell anything.' ;
+      			                 BugsStory :'Version 0.1.0.0 : From other software' ;
+			                 UnitType : CST_TYPE_UNITE_FICHE ;
+			                 Major : 0 ; Minor : 1 ; Release : 0 ; Build : 0 );
+{$ENDIF}
 
 type
 
   { TFMsg }
 
-  TFMsg=class(TForm)
+  TFMsg=class(TF_FormAdapt)
+    btn1: TFWButton;
+    btn2: TFWButton;
+    btn3: TFWButton;
+    Panel1: TPanel;
     Panel2:TPanel;
     lbMsg:TLabel;
     lYes:TLabel;
     lNo:TLabel;
     lCancel:TLabel;
-    btn1:TJvXPButton;
-    btn2:TJvXPButton;
-    btn3:TJvXPButton;
     MemorMsg: TStaticText;
     ImageConfirmation: TExtImage;
     ImageInformation: TExtImage;
@@ -86,76 +103,37 @@ uses
      {$ELSE}
      unite_messages_delphi,
      {$ENDIF}
-     Sysutils, u_form_working;
+     Sysutils;
 
 {$IFDEF FPC}{$R *.lfm}{$ELSE}{$R *.DFM}{$ENDIF}
-
-function MyMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer;const proprio:TControl=nil):Word;
-Begin
-  doCloseWorking;
-  Result := AMessageDlg( Msg, DlgType, Buttons, StyleLb, proprio);
-end;
-
-function CreateMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer;const proprio:TControl=nil):TFMsg;
-begin
-  Result:=TFMsg.create(proprio);
-    Result.lbMsg.Caption:=Msg;
-    Result.Buttons:=Buttons;
-    Result.DlgType:=DlgType;
-    with Result.lbMsg.Font do
-      case StyleLb of
-        0,4:Style:= [fsBold];
-        1,5:Style:= [];
-        2,6:Style:= [fsItalic];
-        3,7:Style:= [fsUnderline];
-      end;
-    Result.ModeMemo:=StyleLb>3;
-    Result.proprio:=proprio;
-    Result.InitMessage;
-
-end;
-
-function AMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer;const proprio:TControl=nil):Word;
-var lf_MessageDlg : TFMsg;
-Begin
- lf_MessageDlg := CreateMessageDlg(Msg, DlgType, Buttons, StyleLb, proprio);
- try
-   result:=lf_MessageDlg.ShowModal;
- finally
-   lf_MessageDlg.Destroy;
- end;
-end;
-
-function MyMessageDlg(const Title,Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const Help : Integer = 0; const StyleLb:Integer = 0;const proprio:TControl=nil):Word;
-var lf_MessageDlg : TFMsg;
-Begin
- lf_MessageDlg := CreateMessageDlg(Msg, DlgType, Buttons, StyleLb, proprio);
- lf_MessageDlg.Caption:=Title;
- lf_MessageDlg.HelpContext:=Help;
- try
-   result:=lf_MessageDlg.ShowModal;
- finally
-   lf_MessageDlg.Destroy;
- end;
-end;
 
 procedure TFMsg.InitMessage;
 var
   k,p:integer;
   procedure PutInBtn(numBtn:integer;aText:string;aResult:word);//AL2010
   var
-    btn:TJvXPButton;
+    btn:TFWButton;
   begin
     case numBtn of
       1:btn:=btn1;
       2:btn:=btn2;
       else btn:=btn3;
     end;
-    btn.Caption:=aText;
-    btn.ModalResult:=aResult;
-    btn.Default:=numBtn=(4-k);//si c'est le premier
-    btn.Cancel:=numBtn=3; //c'est le dernier (pas d'inconvénient s'il est aussi le premier)
-    btn.visible:=true;
+    with btn do
+     Begin
+       case aResult of
+         mrYes,mrOK,mrYesToAll,mrAll     : p_Load_Buttons_Appli (Glyph,CST_FWOK,btn);
+         mrNo,mrCancel,mrAbort,mrNoToAll : p_Load_Buttons_Appli (Glyph,CST_FWCANCEL,btn);
+         mrClose                         : p_Load_Buttons_Appli (Glyph,CST_FWCLOSE,btn);
+        End;
+       AdaptGlyph ( Height - 2 );
+       Caption:=aText;
+       ModalResult:=aResult;
+       Default:=numBtn=(4-k);//si c'est le premier
+       Cancel:=numBtn=1; //c'est le dernier (pas d'inconvénient s'il est aussi le premier)
+       visible:=true;
+       Repaint;
+      end;
   end;
 
   Procedure PlaceType(Image:TImage;const libelle:String);
@@ -181,7 +159,7 @@ begin
 
   if (k>0)and(k<=3) then
   begin
-    p:=3-k;//numéro du btn de départ (-1)
+    p:=0;//numéro du btn de départ (-1)
 
     if (mbYes in fButtons) then
     begin
@@ -287,5 +265,9 @@ begin
 end;
 
 
+{$IFDEF VERSIONS}
+initialization
+  p_ConcatVersion ( gVer_F_Msg );
+{$ENDIF}
 end.
 

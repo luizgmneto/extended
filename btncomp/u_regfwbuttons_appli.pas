@@ -40,7 +40,7 @@ uses
 
 procedure Register;
 begin
-  RegisterComponents('FWButtons', [
+  RegisterComponents(CST_PALETTE_BOUTONS, [
                                    TFWRefresh,TFWDate,TFWFolder,
                                    TFWNext,TFWPrior,TFWLoad,TFWTrash,TFWConfig, TFWClose, TFWCancel, TFWOK,
                                    {$IFDEF GROUPVIEW}TFWBasket,TFWInSelect,TFWInAll,TFWOutSelect,TFWOutAll,{$ENDIF}

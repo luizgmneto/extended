@@ -7,7 +7,7 @@
       <Version Value="11"/>
       <SearchPaths>
         <IncludeFiles Value="reportcomp"/>
-        <OtherUnitFiles Value="extcomp;inicomp;copy;extracomp;imgcomp;btncomp;reportcomp"/>
+        <OtherUnitFiles Value="extcomp;inicomp;copy;extracomp;imgcomp;btncomp;reportcomp;extnet"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
@@ -15,7 +15,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="1"/>
-    <Files Count="13">
+    <Files Count="14">
       <Item1>
         <Filename Value="inicomp/u_reginicomponents.pas"/>
         <HasRegisterProc Value="True"/>
@@ -79,25 +79,33 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="u_registerforms"/>
       </Item13>
+      <Item14>
+        <Filename Value="extnet/u_register_net.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="u_register_net"/>
+      </Item14>
     </Files>
     <Type Value="DesignTime"/>
-    <RequiredPkgs Count="5">
+    <RequiredPkgs Count="6">
       <Item1>
-        <PackageName Value="lazextinit"/>
+        <PackageName Value="lazextnet"/>
       </Item1>
       <Item2>
-        <PackageName Value="extreports"/>
+        <PackageName Value="lazextinit"/>
       </Item2>
       <Item3>
-        <PackageName Value="ExtCopy"/>
+        <PackageName Value="extreports"/>
       </Item3>
       <Item4>
-        <PackageName Value="lazextcomponents"/>
+        <PackageName Value="ExtCopy"/>
       </Item4>
       <Item5>
+        <PackageName Value="lazextcomponents"/>
+      </Item5>
+      <Item6>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item5>
+      </Item6>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

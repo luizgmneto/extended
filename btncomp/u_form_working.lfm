@@ -1,4 +1,4 @@
-object FWorking: TFWorking
+inherited FWorking: TFWorking
   Left = 987
   Height = 96
   Top = 201
@@ -16,8 +16,7 @@ object FWorking: TFWorking
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poMainFormCenter
-  LCLVersion = '1.0.12.0'
-  object Panel1: TPanel
+  object Panel1: TPanel[0]
     Left = 0
     Height = 96
     Top = 0
@@ -81,7 +80,7 @@ object FWorking: TFWorking
           Width = 96
           Caption = 'Annuler'
           TabOrder = 0
-          Anchors = [akRight, akBottom]
+          Anchors = [akLeft, akRight, akBottom]
           ParentFont = False
           ParentShowHint = False
           ShowHint = True
