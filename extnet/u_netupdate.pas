@@ -91,6 +91,15 @@ uses fonctions_string,
   FileUtil,
   Forms;
 
+
+const INI_FILE_UPDATE = 'UPDATE';
+      INI_FILE_UPDATE_WEIGHT = 'Weight';
+      INI_FILE_UPDATE_EXE_VERSION = 'VersionExe';
+      INI_FILE_UPDATE_BDD_VERSION = 'VersionBase';
+      INI_FILE_UPDATE_DATE        = 'Date';
+      INI_FILE_UPDATE_MD5         = 'md5';
+      INI_FILE_UPDATE_FILE_NAME   = 'FileName';
+
 { TNetUpdate }
 
 constructor TNetUpdate.Create(AOwner: TComponent);
@@ -227,7 +236,8 @@ Begin
   if Progress <> nil Then
     Progress.Position := 0;
   DecomposeURL(URL, aHost, aURI, aPort);
-  with LNetComponent do
+  if   LNetComponent is TLHTTPClientComponent Then
+  with LNetComponent as TLHTTPClientComponent do
    Begin
     Host := aHost;
     URI  := aURI;
@@ -263,16 +273,17 @@ end;
 procedure TNetUpdate.VerifyIni;
 var Linifile: TIniFile;
 begin
-  LIniFile:=TIniFile.Create(sPath+IniFilename+ExtensionIni);
+  IncludeTrailingPathDelimiter(gs_UpdateDir);
+  LIniFile:=TIniFile.Create(gs_UpdateDir+gs_Ini);
 
-  if LIniFile.SectionExists('UPDATE') then
+  if LIniFile.SectionExists(INI_FILE_UPDATE) then
   try
     lRun.Visible:=False;
-    dm.sTaille:=LIniFile.ReadString('UPDATE','TailleMAJC','0');
-    sVersionExe:=LIniFile.ReadString('UPDATE','VersionExe','0');
-    sDate:='du : '+LIniFile.ReadString('UPDATE','Date','0');
-    sVersionBase:=LIniFile.ReadString('UPDATE','VersionBase','0');
-    md5Site:=LIniFile.ReadString('UPDATE','md5','0');
+    dm.sTaille:=LIniFile.ReadString(INI_FILE_UPDATE,cst_inTailleMAJC','0');
+    sVersionExe:=LIniFile.ReadString(INI_FILE_UPDATE,,'0');
+    sDate:='du : '+LIniFile.ReadString(INI_FILE_UPDATE,'Date','0');
+    sVersionBase:=LIniFile.ReadString(INI_FILE_UPDATE,'VersionBase','0');
+    md5Site:=LIniFile.ReadString(INI_FILE_UPDATE,'md5','0');
 
     iBaseSite:=fi_BaseVersionToInt (sVersionBase);
     iExeSite :=fi64_VersionExeInt64(sVersionExe);
@@ -307,7 +318,6 @@ begin
   end;
   DoNext:=TProcedureOfObject(p_AfterDownloadHtml);
 
-  dm.p_GetURL ( dm.GetUrlInfosMaj,sPath+WebPage );
 end;
 
 procedure TNetUpdate.AfterUpdate;
@@ -326,4 +336,4 @@ initialization
   p_ConcatVersion ( gVer_netupdate  );
 {$ENDIF}
 end.
-
+

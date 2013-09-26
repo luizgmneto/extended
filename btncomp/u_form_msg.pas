@@ -107,8 +107,8 @@ const CST_IMAGE_Warning = 'mwarning';
 
 procedure TFMsg.InitMessage;
 var
-  k,p:integer;
-  procedure PutInBtn(numBtn:integer;aText:string;aResult:word);//AL2010
+  k,p,TotalWidth:integer;
+  procedure PutInBtn(numBtn:integer;aText:string;aResult:word);//MG2013
   var
     btn:TFWButton;
   begin
@@ -127,8 +127,9 @@ var
        ModalResult:=aResult;
        Default:=numBtn=(4-k);//si c'est le premier
        Cancel:=numBtn=1; //c'est le dernier (pas d'inconvénient s'il est aussi le premier)
+       Width := Font.GetTextWidth(aText)+GlyphSize+8;
+       inc ( TotalWidth, Width );
        visible:=true;
-       Repaint;
       end;
   end;
 
@@ -139,10 +140,8 @@ var
   end;
 
 begin
-  btn1.visible:=false;
-  btn2.visible:=false;
-  btn3.visible:=false;
   k:=0;
+  TotalWidth := 0;
   if (mbYes in fButtons) then inc(k);
   if (mbYesToAll in fButtons) then inc(k);
   if (mbNo in fButtons) then inc(k);
@@ -196,6 +195,9 @@ begin
       inc(p);
       putInBtn(p,gs_Ignore,mrIgnore);
     end;
+    inc ( TotalWidth, 4 );
+    if Width<TotalWidth Then
+     Width := TotalWidth ;
   end;
 
   case fDlgType of
@@ -264,4 +266,4 @@ initialization
   p_ConcatVersion ( gVer_F_Msg );
 {$ENDIF}
 end.
-
+
