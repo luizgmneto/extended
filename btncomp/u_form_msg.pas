@@ -65,19 +65,11 @@ type
     btn1: TFWButton;
     btn2: TFWButton;
     btn3: TFWButton;
-    Panel1: TPanel;
+    PanelButtons: TPanel;
     Panel2:TPanel;
     lbMsg:TLabel;
-    lYes:TLabel;
-    lNo:TLabel;
-    lCancel:TLabel;
     MemorMsg: TStaticText;
-    ImageConfirmation: TExtImage;
-    ImageInformation: TExtImage;
-    ImageErreur: TExtImage;
-    ImageAttention: TExtImage;
-    lYesToAll: TLabel;
-    lNoToAll: TLabel;
+    Image: TExtImage;
     MemoMsg: TStaticText;
 
     procedure FormShow(Sender: TObject);
@@ -105,6 +97,12 @@ uses
      {$ENDIF}
      Sysutils;
 
+const CST_IMAGE_Warning = 'mwarning';
+      CST_IMAGE_Information = 'minfo';
+      CST_IMAGE_Confirmation = 'mconfirm';
+      CST_IMAGE_Error = 'merror';
+
+
 {$IFDEF FPC}{$R *.lfm}{$ELSE}{$R *.DFM}{$ENDIF}
 
 procedure TFMsg.InitMessage;
@@ -114,13 +112,11 @@ var
   var
     btn:TFWButton;
   begin
-    case numBtn of
-      1:btn:=btn1;
-      2:btn:=btn2;
-      else btn:=btn3;
-    end;
+    btn := TFWButton.Create(Self);
     with btn do
      Begin
+       Parent := PanelButtons;
+       Align:=alRight;
        case aResult of
          mrYes,mrOK,mrYesToAll,mrAll     : p_Load_Buttons_Appli (Glyph,CST_FWOK,btn);
          mrNo,mrCancel,mrAbort,mrNoToAll : p_Load_Buttons_Appli (Glyph,CST_FWCANCEL,btn);
@@ -136,12 +132,10 @@ var
       end;
   end;
 
-  Procedure PlaceType(Image:TImage;const libelle:String);
+  Procedure PlaceType(const imagefile,libelle:String);
   begin
     Caption:=libelle;
-    Image.Visible:=true;
-    Image.Top:=4;
-    Image.Left:=4;
+    p_Load_Buttons_Appli ( Image.Picture, imagefile, Image );
   end;
 
 begin
@@ -157,32 +151,32 @@ begin
   if (mbCancel in fButtons) then inc(k);
   if (mbIgnore in fButtons) then inc(k);
 
-  if (k>0)and(k<=3) then
+  if (k>0) then
   begin
     p:=0;//numéro du btn de départ (-1)
 
     if (mbYes in fButtons) then
     begin
       inc(p);
-      putInBtn(p,lYes.Caption,mrYes);
+      putInBtn(p,gs_Yes,mrYes);
     end;
 
     if (mbYesToAll in fButtons) then
     begin
       inc(p);
-      putInBtn(p,lYesToAll.Caption,mrYesToAll);
+      putInBtn(p,gs_YesToAll,mrYesToAll);
     end;
 
     if (mbNo in fButtons) then
     begin
       inc(p);
-      putInBtn(p,lNo.Caption,mrNo);
+      putInBtn(p,gs_No,mrNo);
     end;
 
     if (mbNoToAll in fButtons) then
     begin
       inc(p);
-      putInBtn(p,lNoToAll.Caption,mrNoToAll);
+      putInBtn(p,gs_NoToAll,mrNoToAll);
     end;
 
     if (mbOk in fButtons) then
@@ -194,7 +188,7 @@ begin
     if (mbCancel in fButtons) then
     begin
       inc(p);
-      putInBtn(p,lCancel.Caption,mrCancel);
+      putInBtn(p,gs_Cancel,mrCancel);
     end;
 
     if (mbIgnore in fButtons) then
@@ -205,11 +199,11 @@ begin
   end;
 
   case fDlgType of
-    mtWarning: PlaceType(ImageAttention,gs_Warning);
-    mtInformation: PlaceType(ImageInformation,gs_Information);
-    mtConfirmation: PlaceType(ImageConfirmation,gs_Confirmation);
+    mtWarning: PlaceType(CST_IMAGE_Warning,gs_Warning);
+    mtInformation: PlaceType(CST_IMAGE_Information,gs_Information);
+    mtConfirmation: PlaceType(CST_IMAGE_Confirmation,gs_Confirmation);
   else
-    PlaceType(ImageErreur,'Erreur');
+    PlaceType(CST_IMAGE_Error,gs_Error);
   end;
 
   MemoMsg.Visible:=ModeMemo;
