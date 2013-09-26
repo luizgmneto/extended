@@ -23,46 +23,49 @@
     <Version Minor="9" Release="5" Build="2"/>
     <Files Count="7">
       <Item1>
-        <Filename Value="btncomp/u_buttons_appli.lrs"/>
-        <Type Value="LRS"/>
-      </Item1>
-      <Item2>
         <Filename Value="btncomp/u_buttons_appli.pas"/>
         <UnitName Value="u_buttons_appli"/>
-      </Item2>
-      <Item3>
+      </Item1>
+      <Item2>
         <Filename Value="btncomp/u_buttons_speed.pas"/>
         <UnitName Value="u_buttons_speed"/>
-      </Item3>
-      <Item4>
+      </Item2>
+      <Item3>
         <Filename Value="btncomp/u_form_msg.lfm"/>
         <Type Value="LFM"/>
-      </Item4>
-      <Item5>
+      </Item3>
+      <Item4>
         <Filename Value="btncomp/u_form_msg.pas"/>
         <UnitName Value="u_form_msg"/>
-      </Item5>
-      <Item6>
+      </Item4>
+      <Item5>
         <Filename Value="btncomp/u_form_working.lfm"/>
         <Type Value="LFM"/>
-      </Item6>
-      <Item7>
+      </Item5>
+      <Item6>
         <Filename Value="btncomp/u_form_working.pas"/>
         <UnitName Value="u_form_working"/>
+      </Item6>
+      <Item7>
+        <Filename Value="btncomp/fonctions_dialogs.pas"/>
+        <UnitName Value="fonctions_dialogs"/>
       </Item7>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="4">
       <Item1>
-        <PackageName Value="lazextcomponentsimg"/>
+        <PackageName Value="lazextinit"/>
       </Item1>
       <Item2>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="lazextcomponentsimg"/>
       </Item2>
       <Item3>
+        <PackageName Value="JvXPBarLaz"/>
+      </Item3>
+      <Item4>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item3>
+      </Item4>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

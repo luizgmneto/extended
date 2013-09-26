@@ -66,11 +66,11 @@ type
        FBeforePopup : TPopUpMenuEvent;
        FOnPopup : TNotifyEvent;
       protected
-       procedure AdaptGlyph (const ASize : Integer ); virtual;
        procedure MouseEnter{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
        procedure MouseLeave{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
        procedure Click; override;
      public
+      procedure AdaptGlyph (const ASize : Integer ); virtual;
       constructor Create ( AOwner : TComponent ) ; override;
       published
        property ColorFrameFocus : TColor read FColorFrameFocus write FColorFrameFocus default clCream;

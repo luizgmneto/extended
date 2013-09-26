@@ -1,7 +1,7 @@
 object FMsg: TFMsg
-  Left = 1054
+  Left = 642
   Height = 93
-  Top = 262
+  Top = 245
   Width = 320
   ActiveControl = Panel2
   BorderIcons = []
@@ -76,58 +76,10 @@ object FMsg: TFMsg
       ParentColor = False
       Visible = False
     end
-    object btn1: TJvXPButton
-      Cursor = crHandPoint
-      Left = 30
-      Height = 24
-      Top = 66
-      Width = 94
-      TabOrder = 0
-      Layout = blGlyphTop
-      Spacing = 237
-      Anchors = [akRight, akBottom]
-      Font.CharSet = ANSI_CHARSET
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object btn2: TJvXPButton
-      Cursor = crHandPoint
-      Left = 126
-      Height = 24
-      Top = 66
-      Width = 94
-      TabOrder = 1
-      Layout = blGlyphTop
-      Spacing = 237
-      Anchors = [akRight, akBottom]
-      Font.CharSet = ANSI_CHARSET
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object btn3: TJvXPButton
-      Cursor = crHandPoint
-      Left = 222
-      Height = 24
-      Top = 66
-      Width = 94
-      TabOrder = 2
-      Layout = blGlyphTop
-      Spacing = 237
-      Anchors = [akRight, akBottom]
-      Font.CharSet = ANSI_CHARSET
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
     object ImageConfirmation: TExtImage
       Left = 2
       Height = 32
-      Top = 2
+      Top = 36
       Width = 32
       Transparent = True
       Visible = False
@@ -166,12 +118,75 @@ object FMsg: TFMsg
       ParentColor = False
     end
     object MemoMsg: TStaticText
-      Left = 19
+      Left = 2
       Height = 18
       Top = 8
       Width = 283
       Caption = 'MemoMsg'
-      TabOrder = 3
+      TabOrder = 0
+    end
+    object Panel1: TPanel
+      Left = 2
+      Height = 26
+      Top = 65
+      Width = 316
+      Align = alBottom
+      BevelOuter = bvNone
+      Caption = 'Panel1'
+      ClientHeight = 26
+      ClientWidth = 316
+      TabOrder = 1
+      object btn2: TFWButton
+        Cursor = crHandPoint
+        Left = 128
+        Top = 0
+        Width = 94
+        TabOrder = 0
+        Layout = blGlyphTop
+        Spacing = 237
+        Align = alRight
+        Anchors = [akRight, akBottom]
+        Font.CharSet = ANSI_CHARSET
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        GlyphSize = 22
+      end
+      object btn3: TFWButton
+        Cursor = crHandPoint
+        Left = 34
+        Top = 0
+        Width = 94
+        TabOrder = 1
+        Layout = blGlyphTop
+        Spacing = 237
+        Align = alRight
+        Anchors = [akRight, akBottom]
+        Font.CharSet = ANSI_CHARSET
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        GlyphSize = 22
+      end
+      object btn1: TFWButton
+        Cursor = crHandPoint
+        Left = 222
+        Top = 0
+        Width = 94
+        TabOrder = 2
+        Layout = blGlyphTop
+        Spacing = 237
+        Align = alRight
+        Anchors = [akRight, akBottom]
+        Font.CharSet = ANSI_CHARSET
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        GlyphSize = 22
+      end
     end
   end
 end

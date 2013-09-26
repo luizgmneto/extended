@@ -2,13 +2,12 @@
   This source is only used to compile and install the package.
  }
 
-unit lazextbuttons;
+unit lazextnet;
 
 interface
 
 uses
-  u_buttons_appli, u_buttons_speed, u_form_msg, u_form_working, 
-  fonctions_dialogs, LazarusPackageIntf;
+  u_netupdate, LazarusPackageIntf;
 
 implementation
 
@@ -17,5 +16,5 @@ begin
 end;
 
 initialization
-  RegisterPackage('lazextbuttons', @Register);
+  RegisterPackage('lazextnet', @Register);
 end.

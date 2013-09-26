@@ -34,7 +34,7 @@ uses  {$IFDEF FPC}
 {$ENDIF}
      U_ExtDBImage, U_ExtDBImageList, U_ExtImage,
      U_ExtPictCombo, U_ExtDBPictCombo, U_ExtMapImageIndex,
-     u_extdbgrid,
+     u_extdbgrid, u_buttons_defs,
      u_extimagelist;
 
 procedure Register;
@@ -42,6 +42,7 @@ begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TExtMapImages]);
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TExtDBImage,TExtDBImageList,
                                                  TExtDBGrid,TExtDBPictCombo]);
+  RegisterComponents(CST_PALETTE_BOUTONS   , [TFWButton]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtImage,TExtImageList,
                                                 TExtPictCombo]);
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});

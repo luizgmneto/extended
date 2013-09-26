@@ -29,15 +29,27 @@ interface
 
 uses
   Forms, Controls, StdCtrls,
-  ExtCtrls, u_buttons_appli;
+  {$IFDEF VERSIONS}
+    fonctions_version,
+  {$ENDIF}
+  ExtCtrls,
+  U_FormAdapt,
+  u_buttons_appli;
 
-procedure doOpenWorking(const sText:string;const Cancel:boolean=false);//AL
-procedure doCloseWorking;
-
+{$IFDEF VERSIONS}
+const
+    gVer_F_Working : T_Version = ( Component : 'Wait Window' ;
+       			                 FileUnit : 'u_form_working' ;
+       			                 Owner : 'Matthieu Giroux' ;
+       			                 Comment : 'While working wait.' ;
+      			                 BugsStory :'Version 0.1.0.0 : From other software' ;
+			                 UnitType : CST_TYPE_UNITE_FICHE ;
+			                 Major : 0 ; Minor : 1 ; Release : 0 ; Build : 0 );
+{$ENDIF}
 
 type
 
-  TFWorking = class(TForm)
+  TFWorking = class(TF_FormAdapt)
     Panel1: TPanel;
     PleaseWait: TLabel;
     Panel2: TPanel;
@@ -55,32 +67,14 @@ type
     procedure doInit(sTexte:string;Annuler:boolean=false);
   end;
 
-var gF_Working:TFWorking;
-var gb_btnCancel:boolean;
-
 implementation
 
 {$IFDEF FPC}{$R *.lfm}{$ELSE}{$R *.DFM}{$ENDIF}
 
-uses StrUtils,sysutils;
+uses StrUtils,sysutils,
+     fonctions_dialogs;
 
 { TFWorking }
-
-procedure doOpenWorking(const sText:string;const Cancel:boolean=false);//AL
-begin
-  if not Assigned(gF_Working) then
-    gF_Working:=TFWorking.create(Application);
-  gb_btnCancel:=False;
-  gF_Working.doInit(sText,Cancel);
-  Application.ProcessMessages;
-end;
-
-procedure doCloseWorking;//AL
-begin
-  FreeAndNil(gF_Working);
-end;
-
-
 
 procedure TFWorking.doDesactive;
 begin
@@ -143,4 +137,8 @@ begin
   Application.ProcessMessages;
 end;
 
+{$IFDEF VERSIONS}
+initialization
+  p_ConcatVersion ( gVer_F_Working );
+{$ENDIF}
 end.

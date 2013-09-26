@@ -41,6 +41,7 @@ const
   CST_PALETTE_COMPOSANTS_INVISIBLE = 'ExtInvisible' ;
   CST_PALETTE_COMPOSANTS_DB = 'ExtDB' ;
   CST_PALETTE_COMPOSANTS    = 'ExtCtrls' ;
+  CST_PALETTE_BOUTONS    = 'FWButtons' ;
   CST_Avant_Fichier = 'MG_';
   CST_ARG           = '@ARG' ;
   CST_ASYNCHRONE_TIMEOUT_DEFAUT = 30 ;
@@ -97,6 +98,10 @@ resourcestring
   gs_Warning = 'Attention';
   gs_Information = 'Informations';
   gs_Confirmation = 'Confirmation';
+  gs_Please_Wait = 'Veuillez patienter…';
+  gs_Downloading_in_progress = 'Téléchargement de @ARG en cours…';
+  gs_Download_update = 'Télécharger mise à jour';
+  gs_Download_finished = 'Téléchargement terminé.';
 
  // Composants
   GS_SUPPRIMER_QUESTION = 'Confirmez-vous l''effacement de l''enregistrement ?' ;
