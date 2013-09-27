@@ -195,23 +195,28 @@ var lstl_Strings : TStringList;
     li_Begin,
     li_end,
     li_i : Integer;
-    procedure p_DecInc ( const ab_Prior : Boolean );
+
+    function fb_IsCorrectChar ( const ai_pos : Integer ):boolean;
     Begin
-      if ab_Prior
-       Then dec(li_Begin)
-       else inc(li_end);
+      Result := ( ls_Temp [ ai_pos ] in ['0'..'9','A'..'Z','a'..'z'] )or (( eoMail in ExtractOptions )and ( ls_Temp [ ai_pos ] in ['.','-'] ));
     End;
     procedure p_MiddleExtract ( var ai_BeginEnd : Integer; const ab_Prior : Boolean );
     Begin
       if FMiddleExtract <> '' Then
       Begin
         ai_BeginEnd := pos ( FMiddleExtract, ls_Temp );
-        p_DecInc ( ab_Prior );
-        if (ai_BeginEnd > 0) Then
-          while (((ai_BeginEnd>0 ) and ab_Prior ) or ((ai_BeginEnd<length(ls_Temp)) and not ab_Prior ))
-          and (( ls_Temp [ ai_BeginEnd ] in ['0'..'9','A'..'Z','a'..'z'] )or (( eoMail in ExtractOptions )and ( ls_Temp [ ai_BeginEnd ] in ['.','-'] )))
-           do
-            p_DecInc ( ab_Prior );
+        if ab_Prior Then
+         Begin
+           while (li_Begin>1 ) and fb_IsCorrectChar ( li_Begin - 1 )
+             do
+              Dec ( li_Begin );
+         end
+        Else
+        Begin
+          while (li_end<length(ls_Temp)) and fb_IsCorrectChar ( li_end + 1 )
+            do
+             Inc ( li_end );
+        end
 
       end;
     End;
@@ -226,12 +231,11 @@ Begin
      for li_i := 0 to lstl_Strings.Count - 1 do
        Begin
          ls_Temp:=lstl_Strings [ li_i ];
-         if FBeginExtract <> '' Then
+         if FBeginExtract > '' Then
            li_Begin := pos ( FBeginExtract, ls_Temp )
           else
            Begin
              p_MiddleExtract ( li_Begin, True );
-             inc ( li_begin );
              if li_Begin = pos ( FMiddleExtract, ls_Temp ) Then
               Continue;
              if li_end = pos ( FMiddleExtract, ls_Temp ) Then
@@ -239,7 +243,7 @@ Begin
            end;
          if  ( li_Begin > 0 ) Then
            Begin
-             if FEndExtract <> ''
+             if FEndExtract > ''
               Then li_end:=posEx ( FEndExtract, ls_Temp, li_Begin + length ( FBeginExtract ) )
               else p_MiddleExtract ( li_end, False );
              if ( li_end > 0 )
