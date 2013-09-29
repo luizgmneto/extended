@@ -28,7 +28,7 @@ procedure doOpenWorking(const sText:string;const Cancel:boolean=false);//AL
 procedure doCloseWorking;
 
 function MyMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer;const proprio:TControl=nil):Word; overload;
-function MyMessageDlg(const Title,Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const Help : Integer = 0; const StyleLb:Integer = 0;const proprio:TControl=nil):Word; overload;
+function MyMessageDlg(const Title,Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const Help : Integer = 0; const StyleLb:Integer = 4;const proprio:TControl=nil):Word; overload;
 function AMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer;const proprio:TControl=nil):Word;
 
 
@@ -93,7 +93,7 @@ Begin
  end;
 end;
 
-function MyMessageDlg(const Title,Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const Help : Integer = 0; const StyleLb:Integer = 0;const proprio:TControl=nil):Word;
+function MyMessageDlg(const Title,Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const Help : Integer = 0; const StyleLb:Integer = 4;const proprio:TControl=nil):Word;
 var lf_MessageDlg : TFMsg;
 Begin
  lf_MessageDlg := CreateMessageDlg(Msg, DlgType, Buttons, StyleLb, proprio);

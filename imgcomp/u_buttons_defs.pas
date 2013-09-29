@@ -333,8 +333,8 @@ begin
 end;
 
 
-initialization
 {$IFDEF VERSIONS}
+initialization
   p_ConcatVersion ( gVer_buttons_defs  );
 {$ENDIF}
 end.

@@ -471,9 +471,6 @@ end;
 
 // grid property setter
 procedure TFWPrintGrid.SetDBGrid(const AValue: TCustomDBGrid);
-var
-  i: integer;
-  AColumns: TDBGridColumns;
 begin
   if AValue <> FDBGrid then
   begin
