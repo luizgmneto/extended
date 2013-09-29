@@ -38,18 +38,18 @@ const INI_FILE_UPDATE = 'UPDATE';
 
 {$ENDIF}
 type
+  TUpdateStep = ( usNone, usIni, usPage, usFile );
+  TStateUpdate = ( suNeedVerify, suNeedUpdate, suDownloading, suUpdated );
   TErrorMessageEvent = procedure(const Sender: TObject;const ErrorCode: integer; const ErrorMessage : String) of object;
   TProgressEvent = procedure(const Sender: TObject;const Progress: integer) of object;
   TProgressInit = procedure(const Sender: TObject;const Total: integer) of object;
-  TUpdateStep = ( usIni, usPage, usFile );
+  TDownloadedEvent = procedure(const Sender: TObject;const TheFile: String; const TheStep : TUpdateStep) of object;
 
   { TNetUpdate }
 
   TNetUpdate = Class(TComponent)
    Private
     // Parent propriétaire des évènements liés au lien de données
-    gs_VersionBase,
-    gs_VersionExe,
     gs_VersionExeUpdate,
     gs_VersionBaseUpdate,
     gs_Date,
@@ -57,23 +57,28 @@ type
     gs_URL,
     gs_File,
     gs_FilePage,
+    md5Update,
     gs_Ini,
     gs_UpdateDir : String;
+    gsu_UpdateState : TStateUpdate;
+    gus_UpdateStep : TUpdateStep;
     gfs_FicStream : TFileStreamUTF8;
     gms_Buffer    : String;
     gpb_Progress : TProgressBar;
     glc_LNetComponent : TLComponent;
     ge_ErrorEvent   : TErrorMessageEvent;
-    ge_ProgressIni : TProgressInit;
+    ge_ProgressIni  : TProgressInit;
+    ge_Downloaded   : TDownloadedEvent;
+    ge_DownloadPage,
     ge_CreateIni,
     ge_IniRead : TNotifyEvent;
     ge_ProgressEvent : TProgressEvent;
     gini_inifile: TIniFile;
     gi_Weight : LongWord;
+    gb_Buffered : Boolean;
     procedure p_SetLNetComponent ( const AValue : TLComponent );
    Protected
-    procedure GetURL(const as_URL, as_LocalDir, as_FileName: String); virtual;
-    procedure GetURLInBuffer(const URL: String); virtual;
+    procedure GetURL(const as_URL, as_LocalDir, as_FileName: String; const aus_Step : TUpdateStep = usNone ); virtual;
     function  CanDownloadIni : Boolean; virtual;
     function  CanDownloadPage: Boolean; virtual;
     function  CanDownloadFile: Boolean; virtual;
@@ -83,29 +88,35 @@ type
     procedure OnError ( const ai_error : integer ; const as_Message : String ); virtual;
    Public
     Constructor Create( AOwner : TComponent ); override;
-    procedure Update; virtual;
+    destructor  Destroy; override;
+    procedure Loaded; override;
+    procedure UpdateIniPage; virtual;
+    procedure UpdateFile; virtual;
     procedure VerifyUpdate; virtual;
-    procedure VerifyIni; virtual;
-    procedure AfterUpdate; virtual;
-    property  UpdateIni  : TIniFile read gini_inifile ;
+    procedure VerifyIni( const as_file : String ); virtual;
+    procedure AfterUpdate ( const as_file : String ; const ab_StatusOK : Boolean ); virtual;
+    property  IniFile  : TIniFile read gini_inifile ;
     property  UpdateWeight  : LongWord read gi_Weight default 0 ;
-    property  UpdateVersionExe  : String read gs_VersionExeUpdate ;
-    property  UpdateVersionBase  : String read gs_VersionBaseUpdate ;
+    property  UpdateState  : TStateUpdate read gsu_UpdateState default suNeedVerify ;
+    property  UpdateStep   : TUpdateStep  read gus_UpdateStep  default usNone ;
+
+    property  VersionExeUpdate  : String read gs_VersionExeUpdate ;
+    property  VersionBaseUpdate  : String read gs_VersionBaseUpdate ;
    published
     property FileIni  : String read gs_Ini write gs_Ini ;
     property FileUpdate  : String read gs_File write gs_File ;
     property FilePage  : String read gs_FilePage write gs_FilePage ;
     property UpdateDir : String read gs_UpdateDir write gs_UpdateDir ;
     property URLBase : String read gs_URL write gs_URL ;
-    property VersionExe  : String read gs_VersionExe write gs_VersionExe ;
-    property VersionBase : String read gs_VersionBase write gs_VersionBase ;
     property Progress : TProgressBar read gpb_Progress write gpb_Progress;
     property OnErrorMessage : TErrorMessageEvent read ge_ErrorEvent write ge_ErrorEvent;
     property OnProgress : TProgressEvent read ge_ProgressEvent write ge_ProgressEvent;
-    property OnProgressIni : TProgressInit read ge_ProgressIni write ge_ProgressIni;
+    property OnProgressInit : TProgressInit read ge_ProgressIni write ge_ProgressIni;
     property OnIniCreate : TNotifyEvent read ge_CreateIni write ge_CreateIni;
     property OnIniRead  : TNotifyEvent read ge_IniRead write ge_IniRead;
+    property OnPageDownloaded  : TNotifyEvent read ge_DownloadPage write ge_DownloadPage;
     property LNetComponent : TLComponent read glc_LNetComponent write p_SetLNetComponent;
+    property Buffered : Boolean read gb_Buffered write gb_Buffered default False;
    End;
 
 var gb_IsUpdating : Boolean = False;
@@ -121,6 +132,7 @@ uses fonctions_string,
   fonctions_dialogs,
   fonctions_net,
   lHTTPUtil,
+  md5api,
   Dialogs,
   FileUtil,
   Forms;
@@ -133,6 +145,8 @@ begin
   inherited Create(AOwner);
   gpb_Progress      := nil;
   glc_LNetComponent := nil;
+  ge_Downloaded     := nil;
+  ge_DownloadPage   := nil;
   ge_ErrorEvent     := nil;
   ge_ProgressIni    := nil;
   ge_IniRead        := nil;
@@ -140,15 +154,45 @@ begin
   gfs_FicStream     := nil;
   gini_inifile          := nil;
   gi_Weight         := 0;
+  gsu_UpdateState:=suNeedVerify;
+  gus_UpdateStep := usNone;
+  gb_Buffered := False;
+end;
+
+destructor TNetUpdate.Destroy;
+begin
+  if  ( gs_UpdateDir > '' )
+  and ( gs_FilePage  > '' )
+  and FileExistsUTF8(gs_UpdateDir+gs_FilePage) Then
+   DeleteFileUTF8(gs_UpdateDir+gs_FilePage);
+
+  inherited Destroy;
+end;
+
+procedure TNetUpdate.Loaded;
+begin
+  inherited Loaded;
+  IncludeTrailingPathDelimiter(gs_UpdateDir);
+  if FileExistsUTF8(gs_UpdateDir+gs_File) { *Converted from FileExistsUTF8*  } then
+  begin
+    // Matthieu : comparing files
+    md5Update:=MD5DataFromFile(gs_UpdateDir+gs_File);
+  end
+  else
+  begin
+    md5Update:='';
+  end;
 end;
 
 procedure TNetUpdate.HTTPClientDoneInput(ASocket: TLHTTPClientSocket);
+var ls_File : String ;
 begin
   gb_IsUpdating:=False;
   Screen.Cursor:=crDefault;
+  ls_File := gfs_FicStream.FileName;
   FreeAndNil(gfs_FicStream);
   ASocket.Disconnect;
-  AfterUpdate;
+  AfterUpdate (ls_File,(LNetComponent as TLHTTPClient ).Response.Status=hsOK);
 end;
 
 procedure TNetUpdate.HTTPClientError(const msg: string; aSocket: TLSocket);
@@ -218,12 +262,18 @@ begin
 end;
 
 
-procedure TNetUpdate.Update;
+procedure TNetUpdate.UpdateIniPage;
 begin
-  if CanDownloadIni Then
-   Begin
-    GetURL(gs_URL,gs_UpdateDir,gs_Ini);
-   end;
+  if CanDownloadIni
+  Then GetURL(gs_URL,gs_UpdateDir,gs_Ini,usIni)
+  else if CanDownloadPage
+  Then GetURL(gs_URL,gs_UpdateDir,gs_FilePage,usPage);
+end;
+
+procedure TNetUpdate.UpdateFile;
+begin
+  if CanDownloadFile Then
+    GetURL(gs_URL,gs_UpdateDir,gs_File,usFile);
 end;
 
 function TNetUpdate.CanDownloadFile: Boolean;
@@ -266,11 +316,12 @@ begin
    end;
 end;
 
-procedure TNetUpdate.GetURL ( const as_URL, as_LocalDir, as_FileName : String );
+procedure TNetUpdate.GetURL ( const as_URL, as_LocalDir, as_FileName : String; const aus_Step : TUpdateStep = usNone );
 var
   aHost, aURI: string;
   aPort: Word;
 Begin
+  gus_UpdateStep:=aus_Step;
   IncludeTrailingPathDelimiter(as_LocalDir);
   if gpb_Progress <> nil Then
     gpb_Progress.Position := 0;
@@ -285,30 +336,18 @@ Begin
      Then
       Begin
        Disconnect;}
-     gfs_FicStream.Free;
-     gfs_FicStream:=TFileStreamUTF8.Create(as_LocalDir+ as_FileName,fmCreate);
+     if gb_Buffered
+     Then gms_Buffer:=''
+     Else
+      Begin
+       gfs_FicStream.Free;
+       if FileExistsUTF8(as_LocalDir+as_FileName) Then
+         DeleteFileUTF8(as_LocalDir+as_FileName);
+       gfs_FicStream:=TFileStreamUTF8.Create(as_LocalDir+ as_FileName,fmCreate);
+      end;
      SendRequest;
    end;
 end;
-
-procedure TNetUpdate.GetURLInBuffer(const URL : String);
-var
-  aHost, aURI: string;
-  aPort: Word;
-Begin
-  gms_Buffer:='';
-  if gpb_Progress <> nil Then
-    gpb_Progress.Position := 0;
-  DecomposeURL(URL, aHost, aURI, aPort);
-  if   LNetComponent is TLHTTPClientComponent Then
-  with LNetComponent as TLHTTPClientComponent do
-   Begin
-    Host := aHost;
-    URI  := aURI;
-    Port := aPort;
-    SendRequest;
-   end;
-End;
 
 
 procedure TNetUpdate.VerifyUpdate;
@@ -329,12 +368,11 @@ begin
   end;
 end;
 
-procedure TNetUpdate.VerifyIni;
+procedure TNetUpdate.VerifyIni( const as_file : String );
 var iBaseSite : Int64;
     iExeSite  : Int64;
 begin
-  IncludeTrailingPathDelimiter(gs_UpdateDir);
-  gini_inifile:=TIniFile.Create(gs_UpdateDir+gs_Ini);
+  gini_inifile:=TIniFile.Create(as_file);
 
   if gini_inifile.SectionExists(INI_FILE_UPDATE) then
   try
@@ -361,9 +399,15 @@ begin
    GetURL(gs_URL,gs_UpdateDir,gs_FilePage);
 end;
 
-procedure TNetUpdate.AfterUpdate;
+procedure TNetUpdate.AfterUpdate ( const as_file : String ; const ab_StatusOK : Boolean );
 begin
-
+  if Assigned(ge_Downloaded) then
+    ge_Downloaded ( Self, as_file, gus_UpdateStep );
+  if (FileSize(as_file)>0)
+  and ab_StatusOK then
+    case gus_UpdateStep of
+      usIni : VerifyIni(as_file);
+    end;
 end;
 
 procedure TNetUpdate.OnError ( const ai_error : integer ; const as_Message : String );
@@ -377,4 +421,4 @@ initialization
   p_ConcatVersion ( gVer_netupdate  );
 {$ENDIF}
 end.
-
+
