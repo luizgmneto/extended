@@ -18,17 +18,18 @@ const
   gVer_unite_messages : T_Version= ( Component : 'Constantes messages' ; FileUnit : 'unite_messages' ;
                         	     Owner : 'Matthieu Giroux' ;
                         	     Comment : 'Constantes et variables messages.' ;
-                        	     BugsStory : 'Version 1.0.4.1 : Menu Toolbar messages.' + CST_ENDOFLINE
-                        		       + 'Version 1.0.4.0 : Message d''erreur de sauvegarde ini.' + CST_ENDOFLINE
-                        		       + 'Version 1.0.3.3 : Message GS_MC_ERREUR_CONNEXION.' + CST_ENDOFLINE
-                        		       + 'Version 1.0.3.2 : Modifs GS_MC_VALEUR_UTILISEE et GS_MC_VALEURS_UTILISEES, ajout de GS_MC_DETAILS_TECHNIQUES.' + CST_ENDOFLINE
-                        		       + 'Version 1.0.3.1 : Constante message Form Dico.' + CST_ENDOFLINE
-                        		       + 'Version 1.0.3.0 : Constantes INI.' + CST_ENDOFLINE
-                        		       + 'Version 1.0.2.0 : Plus de messages dans l''unité.' + CST_ENDOFLINE
-                        		       + 'Version 1.0.1.0 : Plus de messages dans l''unité.' + CST_ENDOFLINE
-                        		       + 'Version 1.0.0.0 : Gestion des messages des fenêtres.';
+                        	     BugsStory : 'Version 1.0.5.0 : NetUpdate messages.' + CST_ENDOFLINE
+                                         + 'Version 1.0.4.1 : Menu Toolbar messages.' + CST_ENDOFLINE
+                                         + 'Version 1.0.4.0 : Message d''erreur de sauvegarde ini.' + CST_ENDOFLINE
+                                         + 'Version 1.0.3.3 : Message GS_MC_ERREUR_CONNEXION.' + CST_ENDOFLINE
+                                         + 'Version 1.0.3.2 : Modifs GS_MC_VALEUR_UTILISEE et GS_MC_VALEURS_UTILISEES, ajout de GS_MC_DETAILS_TECHNIQUES.' + CST_ENDOFLINE
+                                         + 'Version 1.0.3.1 : Constante message Form Dico.' + CST_ENDOFLINE
+                                         + 'Version 1.0.3.0 : Constantes INI.' + CST_ENDOFLINE
+                                         + 'Version 1.0.2.0 : Plus de messages dans l''unité.' + CST_ENDOFLINE
+                                         + 'Version 1.0.1.0 : Plus de messages dans l''unité.' + CST_ENDOFLINE
+                                         + 'Version 1.0.0.0 : Gestion des messages des fenêtres.';
                         	     UnitType : 1 ;
-                        	     Major : 1 ; Minor : 0 ; Release : 4 ; Build : 1 )
+                        	     Major : 1 ; Minor : 0 ; Release : 5 ; Build : 0 )
 
 {$ENDIF};
 

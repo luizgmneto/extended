@@ -41,15 +41,9 @@ requires
   vcldb,
   adortl,
   Jcl,
-  JvCoreD10R,
   vcljpg,
   vclx,
   JclVcl,
-  JvStdCtrlsD10R,
-  JvSystemD10R,
-  JvDBD10R,
-  JvCtrlsD10R,
-  JvDlgsD10R,
   designide,
   dbexpress,
   bdertl,
@@ -58,18 +52,7 @@ requires
   designdgm,
   vcldesigner,
   dcldb,
-  JvXPCtrlsD10R,
-  JvGlobusD10R,
-  JvCustomD10R,
-  JvCoreD10D,
-  JvXPCtrlsD10D,
-  JvCmpD10R,
-  JvHMID10R,
-  JvPageCompsD10R,
-  dcldklang10,
   TntUnicodeVCL_R90,
-  VampyreImagingPackage,
-  dmenutoolbar,
   dsnap,
   xmlrtl,
   vclactnband,
@@ -77,9 +60,10 @@ requires
   VirtualTreesD10,
   rxdb,
   rxctl,
-  RLibWinD2009,
   ExpertSuperForm,
-  rxbde;
+  rxbde,
+  RLibWinTW322006vcl,
+  VampyreImagingPackage.D2006;
 
 contains
   fonctions_db in 'core\fonctions_db.pas',
@@ -159,6 +143,9 @@ contains
   u_regimagecomponents in 'imgcomp\u_regimagecomponents.pas',
   fonctions_forms in 'inicomp\fonctions_forms.pas',
   fonctions_vtree in 'inicomp\fonctions_vtree.pas',
-  fonctions_images in 'base\fonctions_images.pas';
+  fonctions_images in 'base\fonctions_images.pas',
+  fonctions_dialogs in 'btncomp\fonctions_dialogs.pas',
+  u_form_msg in 'btncomp\u_form_msg.pas',
+  u_form_working in 'btncomp\u_form_working.pas';
 
 end.
