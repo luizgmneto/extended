@@ -63,7 +63,7 @@ requires
   ExpertSuperForm,
   rxbde,
   RLibWinTW322006vcl,
-  VampyreImagingPackage.D2006;
+  VampyreImagingPackage;
 
 contains
   fonctions_db in 'core\fonctions_db.pas',
@@ -146,6 +146,7 @@ contains
   fonctions_images in 'base\fonctions_images.pas',
   fonctions_dialogs in 'btncomp\fonctions_dialogs.pas',
   u_form_msg in 'btncomp\u_form_msg.pas',
-  u_form_working in 'btncomp\u_form_working.pas';
+  u_form_working in 'btncomp\u_form_working.pas',
+  u_registerforms in 'inicomp\u_registerforms.pas';
 
 end.
