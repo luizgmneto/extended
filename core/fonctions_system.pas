@@ -113,8 +113,6 @@ implementation
 uses
 {$IFDEF FPC}
   LCLType, FileUtil, UTF8Process, process,
-{$ELSE}
-  ShellAPI,
 {$ENDIF}
 {$IFDEF WINDOWS}
   ShFolder,  ShlObj,

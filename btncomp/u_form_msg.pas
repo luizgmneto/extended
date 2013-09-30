@@ -1,4 +1,4 @@
-{-----------------------------------------------------------------------}
+﻿{-----------------------------------------------------------------------}
 {                                                                       }
 {           Subprogram Name:                                            }
 {           Purpose:          Ancestromania                             }
@@ -29,7 +29,7 @@ interface
 
 uses
 {$IFNDEF FPC}
-  u_comp_TJvXPButton, Windows,
+  Windows,
 {$ELSE}
   LCLIntf, LCLType,
 {$ENDIF}
@@ -117,14 +117,16 @@ var
        case aResult of
          mrYes,mrOK,mrYesToAll,mrAll     : p_Load_Buttons_Appli (Glyph,CST_FWOK,btn);
          mrNo,mrCancel,mrAbort,mrNoToAll : p_Load_Buttons_Appli (Glyph,CST_FWCANCEL,btn);
+         {$IFDEF FPC}
          mrClose                         : p_Load_Buttons_Appli (Glyph,CST_FWCLOSE,btn);
+         {$ENDIF}
         End;
        AdaptGlyph ( Height - 2 );
        Caption:=aText;
        ModalResult:=aResult;
        Default:=numBtn=(4-k);//si c'est le premier
        Cancel:=numBtn=1; //c'est le dernier (pas d'inconvénient s'il est aussi le premier)
-       Width := Font.GetTextWidth(aText)+GlyphSize+12;
+       Width := Canvas.TextWidth(aText)+GlyphSize+12;
        inc ( TotalWidth, Width );
        visible:=true;
       end;
