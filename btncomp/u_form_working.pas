@@ -34,7 +34,8 @@ uses
   {$ENDIF}
   ExtCtrls,
   U_FormAdapt,
-  u_buttons_appli;
+  u_buttons_appli, Graphics, JvExControls, JvXPCore, JvXPButtons,
+  u_buttons_defs, Classes;
 
 {$IFDEF VERSIONS}
 const

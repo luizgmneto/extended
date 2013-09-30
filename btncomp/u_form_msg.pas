@@ -65,7 +65,6 @@ type
     PanelButtons: TPanel;
     Panel2:TPanel;
     lbMsg:TLabel;
-    MemorMsg: TStaticText;
     Image: TExtImage;
     MemoMsg: TStaticText;
 
