@@ -64,7 +64,8 @@ const
 resourcestring
   // Paquet extcore
 
-  GS_ECRITURE_IMPOSSIBLE = 'Impossible d''écrire sur le fichier @ARG avec l''attribut de fichier @ARG.' ;
+  GS_ECRITURE_IMPOSSIBLE_AVEC_ATTR = 'Impossible d''écrire sur le fichier @ARG avec l''attribut de fichier @ARG.' ;
+  GS_ECRITURE_IMPOSSIBLE = 'Impossible d''écrire sur le fichier @ARG.' ;
   GS_DETAILS_TECHNIQUES = 'Détails techniques : ' ;
   GS_TOOLBARMENU_Personnaliser = 'Personnaliser' ;
 
@@ -153,6 +154,8 @@ resourcestring
   gs_Error_Bad_Gateway = 'Mauvaise passerelle';
   gs_Error_Bad_Web_Connection='Problème de connexion internet.';
   gs_Error_Bad_Connection='Problème de connexion à @ARG.';
+  gs_Error_Cannot_load_not_downloaded_file = 'Impossible de lire le fichier. Il n''a pas été téléchargé.';
+  gs_Error_Cannot_Write_on = 'Écriture impossible de @ARG.';
   gs_Error_File_is_not_on_the_web_site = 'Le fichier que vous essayez de télécharger est absent du site.';
   gs_Error_timeout_problem = 'Problème de timeOut';
   GS_ERREUR_NOMBRE_GRAND = 'Problème à la validation du nombre :' + CST_ENDOFLINE

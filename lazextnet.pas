@@ -7,7 +7,7 @@ unit lazextnet;
 interface
 
 uses
-  u_netupdate, fonctions_net, MD5Api, LazarusPackageIntf;
+  u_netupdate, fonctions_net, LazarusPackageIntf;
 
 implementation
 

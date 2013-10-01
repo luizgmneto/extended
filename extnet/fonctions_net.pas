@@ -16,9 +16,7 @@ uses
 type  TAVersionInfo =  array [ 0..3 ] of word;
 
 var   gr_ExeVersion   : TAVersionInfo;
-      gs_FileUpdate   : String='';
       gs_ExtensionIni : String='';
-      gs_IniUpdate    : String='';
 
 const INI_FILE_UPDATE = 'UPDATE';
       INI_FILE_UPDATE_WEIGHT = 'Weight';
