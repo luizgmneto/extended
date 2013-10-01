@@ -32,9 +32,12 @@ uses
   {$IFDEF VERSIONS}
     fonctions_version,
   {$ENDIF}
+  {$IFNDEF FPC}
+   JvExControls, JvXPCore, JvXPButtons,
+  {$ENDIF}
   ExtCtrls,
   U_FormAdapt,
-  u_buttons_appli, Graphics, JvExControls, JvXPCore, JvXPButtons,
+  u_buttons_appli, Graphics,
   u_buttons_defs, Classes;
 
 {$IFDEF VERSIONS}
@@ -142,4 +145,4 @@ end;
 initialization
   p_ConcatVersion ( gVer_F_Working );
 {$ENDIF}
-end.
+end.
