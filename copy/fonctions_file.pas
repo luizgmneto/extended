@@ -55,7 +55,7 @@ function FileCreateDeleteUTF8File ( const as_filename : String ) :THandle;
 function FileCreateUTF8File ( const as_filename : String ) :THandle;
 Function FileReadln (Handle : THandle; var Buffer : String) : Longint;
 function FileWriteln(const AFile : THandle; const as_chaine : String = '' ):Longint;
-function FileWriteString(const AFile : THandle; const as_chaine : String; const ab_addAtEnd : Boolean; const ab_toadd : Byte = 0 ):Longint;
+function FileWriteString(const AFile : THandle; const as_chaine : String; const ab_addAtEnd : Boolean = False; const ab_toadd : Byte = 0 ):Longint;
 function DirSize( const as_Dir : String ):Int64;
 function fb_EraseDir(  as_StartDir : String ; const ab_EraseSubDirs : Boolean ):Boolean;
 function  fb_FindFiles( const astl_FilesList: TStrings; as_StartDir : String;
@@ -282,7 +282,7 @@ end;
 
 // function FileWriteString
 // Writes a string to handle
-function FileWriteString(const AFile : THandle; const as_chaine : String; const ab_addAtEnd : Boolean; const ab_toadd : Byte = 0 ):Longint;
+function FileWriteString(const AFile : THandle; const as_chaine : String; const ab_addAtEnd : Boolean = False; const ab_toadd : Byte = 0 ):Longint;
 Begin
   if as_chaine>'' then
     Result := FileWrite(AFile,as_chaine[1],Length(as_chaine));

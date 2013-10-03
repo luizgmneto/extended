@@ -78,6 +78,7 @@ type
     gi_Weight: longword;
     gb_Buffered: boolean;
     procedure p_SetLNetComponent(const AValue: TLComponent);
+    procedure SetUpdateDir ( const AValue : String );
   protected
     function HTTPClientInput(ASocket: TLHTTPClientSocket; ABuffer: PChar;
       ASize: integer): integer; virtual;
@@ -110,11 +111,12 @@ type
     property MD5File  : string read gs_MD5;
     property VersionExeUpdate: string read gs_VersionExeUpdate;
     property VersionBaseUpdate: string read gs_VersionBaseUpdate;
+    property Buffer : String read gs_Buffer;
   published
     property FileIni: string read gs_Ini write gs_Ini;
     property FileUpdate: string read gs_File write gs_File;
     property FilePage: string read gs_FilePage write gs_FilePage;
-    property UpdateDir: string read gs_UpdateDir write gs_UpdateDir;
+    property UpdateDir: string read gs_UpdateDir write SetUpdateDir;
     property URLBase: string read gs_URL write gs_URL;
     property Progress: TProgressBar read gpb_Progress write gpb_Progress;
     property OnErrorMessage: TErrorMessageEvent read ge_ErrorEvent write ge_ErrorEvent;
@@ -181,6 +183,11 @@ begin
   inherited Destroy;
 end;
 
+procedure TNetUpdate.Loaded;
+begin
+  inherited Loaded;
+end;
+
 procedure TNetUpdate.SetMD5;
 begin
   {$IFDEF MD5}
@@ -193,13 +200,6 @@ begin
   {$ENDIF}
     gs_md5Update := '';
 
-end;
-
-procedure TNetUpdate.Loaded;
-begin
-  inherited Loaded;
-  IncludeTrailingPathDelimiter(gs_UpdateDir);
-  SetMD5;
 end;
 
 function TNetUpdate.HTTPClientInput(ASocket: TLHTTPClientSocket;
@@ -334,6 +334,7 @@ end;
 
 procedure TNetUpdate.UpdateFile;
 begin
+  SetMD5;
   if CanDownloadFile then
     if ( gs_MD5 > '' ) and ( gs_MD5 = gs_md5Update ) Then
       Begin
@@ -380,6 +381,13 @@ begin
     end;
 end;
 
+procedure TNetUpdate.SetUpdateDir(const AValue: String);
+begin
+  gs_UpdateDir:=AValue;
+  if gs_UpdateDir>'' Then
+    IncludeTrailingPathDelimiter(gs_UpdateDir);
+end;
+
 procedure TNetUpdate.GetURL(const as_URL, as_LocalDir, as_FileName: string;
   const aus_Step: TUpdateStep = usNone);
 var
@@ -405,6 +413,7 @@ begin
   if LNetComponent is TLHTTPClientComponent then
     with LNetComponent as TLHTTPClientComponent do
     begin
+      Screen.Cursor:=crHourGlass;
       Host := aHost;
       URI := aURI;
       Port := aPort;
@@ -455,6 +464,7 @@ procedure TNetUpdate.VerifyIni(const as_file: string);
 var
   iBaseSite: int64;
   iExeSite: int64;
+  ls_File : String;
 begin
   gini_inifile := TIniFile.Create(as_file);
 
@@ -469,6 +479,9 @@ begin
       gs_VersionBaseUpdate := gini_inifile.ReadString(INI_FILE_UPDATE,
         INI_FILE_UPDATE_BASE_VERSION, '0');
       gs_MD5 := gini_inifile.ReadString(INI_FILE_UPDATE, INI_FILE_UPDATE_MD5, '0');
+      ls_File:= gini_inifile.ReadString(INI_FILE_UPDATE, INI_FILE_UPDATE_FILE_NAME, '');
+      if ls_File > '' Then
+        gs_File:=ls_File;
 
       iBaseSite := fi_BaseVersionToInt(gs_VersionBaseUpdate);
       iExeSite := fi64_VersionExeInt64(gs_VersionExeUpdate);
@@ -491,6 +504,7 @@ procedure TNetUpdate.AfterUpdate(const as_file: string;
   const ab_StatusOK: boolean);
 var gb_MD5OK : Boolean;
 begin
+  Screen.Cursor:=crDefault;
   if Assigned(ge_Downloaded) then
     ge_Downloaded(Self, as_file, gus_UpdateStep);
   if (FileSize(as_file) > 0) and ab_StatusOK then

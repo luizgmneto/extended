@@ -16,7 +16,6 @@ uses
 type  TAVersionInfo =  array [ 0..3 ] of word;
 
 var   gr_ExeVersion   : TAVersionInfo;
-      gs_ExtensionIni : String='';
 
 const INI_FILE_UPDATE = 'UPDATE';
       INI_FILE_UPDATE_WEIGHT = 'Weight';
@@ -39,7 +38,8 @@ const INI_FILE_UPDATE = 'UPDATE';
 
 {$ENDIF}
 
-procedure InitUpdate ( const aat_ArchitectureType : TArchitectureType; const apt_PackageType : TPackageType ; const aProcType : TProcessorType );
+function fs_GetIniFileNameUpdate ( const aat_ArchitectureType : TArchitectureType; const apt_PackageType : TPackageType ; const aProcType : TProcessorType ; const as_BeginIni : String ):String;
+function fs_GetFileNameUpdate ( const aat_ArchitectureType : TArchitectureType; const apt_PackageType : TPackageType ; const aProcType : TProcessorType ; const as_BeginFile : String ):String;
 function IniVersionExe ( const AIniFile : TIniFile ):TAVersionInfo;
 function fi_BaseVersionToInt ( const as_versionBase : String ): Integer;
 function fi64_VersionExeInt64( as_versionExe : String ):Int64;
@@ -47,6 +47,7 @@ function fi64_VersionExeInt64:Int64;
 function fs_VersionExe:String;
 function fs_verifyBaseForFile ( const as_base, as_path : String ):String; overload;
 function fs_verifyBaseForFile ( const as_base, as_path : String ; const l_list : TStringlist ):String; overload;
+function fs_GetFullArchitecture ( const aat_ArchitectureType : TArchitectureType; const aProcType : TProcessorType ):String;
 
 
 implementation
@@ -56,18 +57,22 @@ uses fonctions_string,
      fonctions_file,
      FileUtil;
 
-procedure InitUpdate ( const aat_ArchitectureType : TArchitectureType; const apt_PackageType : TPackageType ; const aProcType : TProcessorType );
+function fs_GetFullArchitecture ( const aat_ArchitectureType : TArchitectureType; const aProcType : TProcessorType ):String;
 begin
-  gs_ExtensionIni := CST_ProcessorTypeString [ aProcType ];
+  Result := CST_ProcessorTypeString [ aProcType ];
   case aat_ArchitectureType of
-    at64 :  AppendStr ( gs_ExtensionIni, '64' );
+    at64 :  AppendStr ( Result, '64' );
   End;
-  gs_IniUpdate := gs_FileUpdate+gs_ExtensionIni;
-  gs_ExtensionIni := fs_FormatText( CST_PackageTypeString [ apt_PackageType ], mftFirstIsMaj ) + gs_ExtensionIni;
-  AppendStr ( gs_IniUpdate, '.'+CST_PackageTypeString[apt_PackageType]);
-  AppendStr ( gs_ExtensionIni, CST_EXTENSION_INI);
+End;
+function fs_GetIniFileNameUpdate ( const aat_ArchitectureType : TArchitectureType; const apt_PackageType : TPackageType ; const aProcType : TProcessorType ; const as_BeginIni : String ):String;
+begin
+  Result := as_BeginIni+ fs_FormatText( CST_PackageTypeString [ apt_PackageType ], mftFirstIsMaj ) + fs_GetFullArchitecture ( aat_ArchitectureType, aProcType ) +  CST_EXTENSION_INI;
 End;
 
+function fs_GetFileNameUpdate ( const aat_ArchitectureType : TArchitectureType; const apt_PackageType : TPackageType ; const aProcType : TProcessorType ; const as_BeginFile : String ):String;
+begin
+  Result := as_BeginFile+ fs_GetFullArchitecture ( aat_ArchitectureType, aProcType ) + '.' + CST_PackageTypeString [ apt_PackageType ];
+End;
 
 function IniVersionExe ( const AIniFile : TIniFile ):TAVersionInfo;
 Begin
