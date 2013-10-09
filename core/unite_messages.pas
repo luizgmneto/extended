@@ -1,4 +1,4 @@
-﻿unit unite_messages;
+unit unite_messages;
 
 {$IFDEF FPC}
   {$MODE Delphi}
