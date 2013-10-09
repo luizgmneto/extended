@@ -76,7 +76,7 @@ type
     ge_IniRead: TProgressInit;
     gini_inifile: TIniFile;
     gi_Weight: longword;
-    gb_Buffered: boolean;
+    gb_Buffered,gb_Messages: boolean;
     procedure p_SetLNetComponent(const AValue: TLComponent);
     procedure SetUpdateDir ( const AValue : String );
   protected
@@ -97,7 +97,7 @@ type
     destructor Destroy; override;
     procedure Loaded; override;
     procedure UpdateIniPage; virtual;
-    procedure UpdateFile; virtual;
+    procedure Update; virtual;
     procedure VerifyUpdate; virtual;
     procedure VerifyIni(const as_file: string); virtual;
     procedure AfterUpdate(const as_file: string;
@@ -128,6 +128,7 @@ type
     property OnFileDownloaded: TMD5Event read ge_DownloadedFile write ge_DownloadedFile;
     property LNetComponent: TLComponent read glc_LNetComponent write p_SetLNetComponent;
     property Buffered: boolean read gb_Buffered write gb_Buffered default False;
+    property Messages: boolean read gb_Messages write gb_Messages default True;
   end;
 
 var
@@ -172,6 +173,7 @@ begin
   gsu_UpdateState := suNeedVerify;
   gus_UpdateStep := usNone;
   gb_Buffered := False;
+  gb_Messages := True;
 end;
 
 destructor TNetUpdate.Destroy;
@@ -191,7 +193,11 @@ end;
 procedure TNetUpdate.SetMD5;
 begin
   {$IFDEF MD5}
-  if FileExistsUTF8(gs_UpdateDir + gs_File) { *Converted from FileExistsUTF8*  } then
+  if gb_Buffered and ( gs_Buffer > '' ) Then
+    Begin
+      gs_md5Update := MD5DataFromString(gs_Buffer);
+    End
+  else if not gb_Buffered and FileExistsUTF8(gs_UpdateDir + gs_File) then
   begin
     // Matthieu : comparing files
     gs_md5Update := MD5DataFromFile(gs_UpdateDir + gs_File);
@@ -205,7 +211,7 @@ end;
 function TNetUpdate.HTTPClientInput(ASocket: TLHTTPClientSocket;
   ABuffer: PChar; ASize: integer): integer;
 var
-  iPos, OldLength: integer;
+  OldLength: integer;
 begin
   if ASize <= 0 then
     Exit;
@@ -245,21 +251,24 @@ end;
 procedure TNetUpdate.HTTPClientDoneInput(ASocket: TLHTTPClientSocket);
 var
   ls_File: string;
+  gb_ok : Boolean ;
 begin
   gb_IsUpdating := False;
+  gb_ok := (LNetComponent as TLHTTPClient).Response.Status = hsOK;
   ASocket.Disconnect;
   Screen.Cursor := crDefault;
   if not gb_Buffered Then
    Begin
     ls_File := gfs_FicStream.FileName;
     FreeAndNil(gfs_FicStream);
-    if not FileExistsUTF8(ls_File) Then
+    if not FileExistsUTF8(ls_File)
+    and gb_Messages  Then
       Begin
        MyMessageDlg(gs_Error_Cannot_load_not_downloaded_file,mtError, [mbOk],0,nil);
        Exit;
       end;
    end;
-  AfterUpdate(ls_File, (LNetComponent as TLHTTPClient).Response.Status = hsOK);
+  AfterUpdate(ls_File, gb_ok );
 end;
 
 procedure TNetUpdate.HTTPClientError(const msg: string; aSocket: TLSocket);
@@ -332,7 +341,7 @@ begin
     GetURL(gs_URL, gs_UpdateDir, gs_FilePage, usPage);
 end;
 
-procedure TNetUpdate.UpdateFile;
+procedure TNetUpdate.Update;
 begin
   SetMD5;
   if CanDownloadFile then
@@ -396,8 +405,9 @@ var
 begin
   if not DirectoryExistsUTF8(gs_UpdateDir) then
    Begin
-    ForceDirectoriesUTF8(gs_UpdateDir); { *Converted from ForceDirectories*  }
-    if not DirectoryExistsUTF8(gs_UpdateDir) then
+    ForceDirectoriesUTF8(gs_UpdateDir);
+    if not DirectoryExistsUTF8(gs_UpdateDir)
+    and gb_Messages Then
       Begin
         MyMessageDlg( fs_RemplaceMsg(gs_Error_Cannot_Write_on,[gs_UpdateDir]),mtError,[mbOK],0,nil);
         Exit;
@@ -443,27 +453,27 @@ var
 begin
   if not CanDownloadFile then
     Exit;
-  ls_filePath := IncludeTrailingPathDelimiter(gs_UpdateDir) + gs_File;
-  if FileExistsUTF8(ls_filePath) then
-    if MyMessageDlg(GS_ConfirmCaption,
-      gs_Confirm_File_is_unavailable_Do_i_erase_it_to_update_it, mtConfirmation, mbYesNo, 0) =
-      mrNo then
-      Exit
-    else
-      DeleteFileUTF8(ls_filePath);
-  begin
-    gb_IsUpdating := True;
-    ls_urlfile := gs_URL + gs_File;
-    doOpenWorking(gs_Please_Wait + CST_ENDOFLINE + fs_RemplaceMsg(
-      gs_Downloading_in_progress, [ls_urlfile]));
-    GetURL(gs_URL, gs_UpdateDir, gs_File);
-  end;
+  if not gb_Buffered Then
+    Begin
+      ls_filePath := IncludeTrailingPathDelimiter(gs_UpdateDir) + gs_File;
+      if FileExistsUTF8(ls_filePath) then
+        if MyMessageDlg(GS_ConfirmCaption,
+          gs_Confirm_File_is_unavailable_Do_i_erase_it_to_update_it, mtConfirmation, mbYesNo, 0) =
+          mrNo then
+          Exit
+        else
+          DeleteFileUTF8(ls_filePath);
+
+    end;
+  gb_IsUpdating := True;
+  ls_urlfile := gs_URL + gs_File;
+  doOpenWorking(gs_Please_Wait + CST_ENDOFLINE + fs_RemplaceMsg(
+    gs_Downloading_in_progress, [ls_urlfile]));
+  GetURL(gs_URL, gs_UpdateDir, gs_File);
 end;
 
 procedure TNetUpdate.VerifyIni(const as_file: string);
 var
-  iBaseSite: int64;
-  iExeSite: int64;
   ls_File : String;
 begin
   gini_inifile := TIniFile.Create(as_file);
@@ -483,8 +493,6 @@ begin
       if ls_File > '' Then
         gs_File:=ls_File;
 
-      iBaseSite := fi_BaseVersionToInt(gs_VersionBaseUpdate);
-      iExeSite := fi64_VersionExeInt64(gs_VersionExeUpdate);
       if Assigned(gpb_Progress) then
         gpb_Progress.Max := gi_Weight;
 
@@ -539,4 +547,4 @@ end;
 initialization
   p_ConcatVersion(gVer_netupdate);
 {$ENDIF}
-end.
+end.
