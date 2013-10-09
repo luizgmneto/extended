@@ -22,7 +22,7 @@ uses
 
 const
   INI_FILE_UPDATE = 'UPDATE';
-  INI_FILE_UPDATE_WEIGHT = 'Weight';
+  INI_FILE_UPDATE_SIZE = 'Size';
   INI_FILE_UPDATE_EXE_VERSION = 'VersionExe';
   INI_FILE_UPDATE_BASE_VERSION = 'VersionBase';
   INI_FILE_UPDATE_DATE = 'Date';
@@ -143,7 +143,6 @@ uses fonctions_string,
   unite_messages_delphi,
   {$ENDIF}
   fonctions_dialogs,
-  fonctions_net,
   lHTTPUtil,
   {$IFDEF MD5}
   md5api,
@@ -482,7 +481,7 @@ begin
     try
       if Assigned(ge_CreateIni) then
         ge_CreateIni(Self);
-      gi_Weight := gini_inifile.ReadInteger(INI_FILE_UPDATE, INI_FILE_UPDATE_WEIGHT, 0);
+      gi_Weight := gini_inifile.ReadInteger(INI_FILE_UPDATE, INI_FILE_UPDATE_SIZE, 1000000); // 0 is impossible
       gs_VersionExeUpdate := gini_inifile.ReadString(
         INI_FILE_UPDATE, INI_FILE_UPDATE_EXE_VERSION, '0');
       gs_Date := gini_inifile.ReadString(INI_FILE_UPDATE, INI_FILE_UPDATE_DATE, '0');
@@ -505,7 +504,7 @@ begin
       FreeAndNil(gini_inifile);
     end;
   if FilePage > '' then
-    GetURL(gs_URL, gs_UpdateDir, gs_FilePage);
+    GetURL(gs_URL, gs_UpdateDir, gs_FilePage, usPage);
 end;
 
 procedure TNetUpdate.AfterUpdate(const as_file: string;
