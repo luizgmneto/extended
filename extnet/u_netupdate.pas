@@ -393,7 +393,7 @@ procedure TNetUpdate.SetUpdateDir(const AValue: String);
 begin
   gs_UpdateDir:=AValue;
   if gs_UpdateDir>'' Then
-    IncludeTrailingPathDelimiter(gs_UpdateDir);
+    gs_UpdateDir:=IncludeTrailingPathDelimiter(gs_UpdateDir);
 end;
 
 procedure TNetUpdate.GetURL(const as_URL, as_LocalDir, as_FileName: string;
@@ -495,7 +495,7 @@ begin
       if Assigned(gpb_Progress) then
         gpb_Progress.Max := gi_Weight;
 
-      DeleteFileUTF8(gs_UpdateDir + gs_Ini); { *Converted from DeleteFileUTF8*  }
+      DeleteFileUTF8(gs_UpdateDir + gs_Ini);
 
       if Assigned(ge_IniRead) then
         ge_IniRead(Self,gi_Weight);
@@ -520,8 +520,7 @@ begin
       usFile,usPage:
         Begin
           SetMD5;
-          gb_MD5OK :=  ( gs_md5Update > '' )
-                   and ( gs_MD5 = gs_md5Update );
+          gb_MD5OK := gs_MD5 = gs_md5Update;
           if not gb_MD5OK and FileExistsUTF8(gs_UpdateDir+gs_File) Then
             DeleteFileUTF8(gs_UpdateDir+gs_File);
           if gus_UpdateStep = usPage Then
