@@ -115,11 +115,11 @@ uses
   LCLType, FileUtil, UTF8Process, process,
 {$ENDIF}
 {$IFDEF WINDOWS}
-  ShFolder,  ShlObj,
+  ShlObj,
 {$ENDIF}
   fonctions_string;
 {$IFDEF WINDOWS}
-const WINDOWS_ARCHITECTURE = 'systeminfo';
+const WINDOWS_ARCHITECTURE = 'PROCESSOR_ARCHITECTURE';
       CATCH_OUTPUT  = ' 4>&1';
 {$ELSE}
 {$IFDEF UNIX}
@@ -464,7 +464,7 @@ End;
 // architecture info
 function fs_GetArchitecture : String;
 Begin
-  Result := fs_ExecuteProcess ( {$IFDEF WINDOWS}WINDOWS_ARCHITECTURE, ''{$ELSE}UNIX_UNAME, UNIX_ARCHITECTURE {$ENDIF});
+  Result := {$IFDEF WINDOWS} GetEnvironmentVariable(WINDOWS_ARCHITECTURE) {$ELSE}fs_ExecuteProcess ( UNIX_UNAME, UNIX_ARCHITECTURE ){$ENDIF};
 End;
 
 // 32 or 64 bits architecture

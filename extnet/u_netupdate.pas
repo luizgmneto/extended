@@ -59,8 +59,8 @@ type
   TNetUpdate = class(TComponent)
   private
     // Parent propriétaire des évènements liés au lien de données
-    gs_VersionExeUpdate, gs_VersionBaseUpdate, gs_Date, gs_MD5,
-    gs_URL, gs_File, gs_FilePage, gs_md5Update, gs_Ini,
+    gs_VersionExeUpdate, gs_VersionBaseUpdate, gs_Date, gs_MD5Ini,
+    gs_URL, gs_File, gs_FilePage, gs_md5File, gs_Ini,
     gs_UpdateDir: string;
     gsu_UpdateState: TStateUpdate;
     gus_UpdateStep: TUpdateStep;
@@ -108,8 +108,8 @@ type
     property UpdateState: TStateUpdate read gsu_UpdateState default suNeedVerify;
     property UpdateStep: TUpdateStep read gus_UpdateStep default usNone;
 
-    property MD5Update: string read gs_md5Update;
-    property MD5File  : string read gs_MD5;
+    property MD5File : string read gs_md5File;
+    property MD5Ini  : string read gs_MD5Ini;
     property VersionExeUpdate: string read gs_VersionExeUpdate;
     property VersionBaseUpdate: string read gs_VersionBaseUpdate;
     property Buffer : String read gs_Buffer;
@@ -126,6 +126,7 @@ type
     property OnProgress: TProgressEvent read ge_ProgressEvent write ge_ProgressEvent;
     property OnPageDownloaded: TMD5Event read ge_DownloadedPage write ge_DownloadedPage;
     property OnDownloading: TDownloadingEvent read ge_Downloading write ge_Downloading;
+    property OnDownloaded: TDownloadedEvent read ge_Downloaded write ge_Downloaded;
     property OnFileDownloaded: TMD5Event read ge_DownloadedFile write ge_DownloadedFile;
     property LNetComponent: TLComponent read glc_LNetComponent write p_SetLNetComponent;
     property Buffered: boolean read gb_Buffered write gb_Buffered default False;
@@ -195,16 +196,16 @@ begin
   {$IFDEF MD5}
   if gb_Buffered and ( gs_Buffer > '' ) Then
     Begin
-      gs_md5Update := MD5DataFromString(gs_Buffer);
+      gs_md5File := MD5DataFromString(gs_Buffer);
     End
   else if not gb_Buffered and FileExistsUTF8(gs_UpdateDir + gs_File) then
   begin
     // Matthieu : comparing files
-    gs_md5Update := MD5DataFromFile(gs_UpdateDir + gs_File);
+    gs_md5File := MD5DataFromFile(gs_UpdateDir + gs_File);
   end
   else
   {$ENDIF}
-    gs_md5Update := '';
+    gs_md5File := '';
 
 end;
 
@@ -345,7 +346,7 @@ procedure TNetUpdate.Update;
 begin
   SetMD5;
   if CanDownloadFile then
-    if ( gs_MD5 > '' ) and ( gs_MD5 = gs_md5Update ) Then
+    if ( gs_MD5Ini > '' ) and ( gs_MD5Ini = gs_md5File ) Then
       Begin
        if Assigned(ge_DownloadedFile) Then
          ge_DownloadedFile ( Self, True );
@@ -488,7 +489,7 @@ begin
       gs_Date := gini_inifile.ReadString(INI_FILE_UPDATE, INI_FILE_UPDATE_DATE, '0');
       gs_VersionBaseUpdate := gini_inifile.ReadString(INI_FILE_UPDATE,
         INI_FILE_UPDATE_BASE_VERSION, '0');
-      gs_MD5 := gini_inifile.ReadString(INI_FILE_UPDATE, INI_FILE_UPDATE_MD5, '0');
+      gs_MD5Ini := gini_inifile.ReadString(INI_FILE_UPDATE, INI_FILE_UPDATE_MD5, '');
       ls_File:= gini_inifile.ReadString(INI_FILE_UPDATE, INI_FILE_UPDATE_FILE_NAME, '');
       if ls_File > '' Then
         gs_File:=ls_File;
@@ -521,9 +522,12 @@ begin
       usFile,usPage:
         Begin
           SetMD5;
-          gb_MD5OK := gs_MD5 = gs_md5Update;
-          if not gb_MD5OK and FileExistsUTF8(gs_UpdateDir+gs_File) Then
-            DeleteFileUTF8(gs_UpdateDir+gs_File);
+          gb_MD5OK := gs_MD5Ini = gs_md5File;
+          if not gb_MD5OK
+            and (gs_MD5Ini > '')
+            and (gs_md5File > '')
+            and FileExistsUTF8(gs_UpdateDir+gs_File) Then
+             DeleteFileUTF8(gs_UpdateDir+gs_File);
           if gus_UpdateStep = usPage Then
            Begin
              if assigned ( ge_DownloadedPage )
