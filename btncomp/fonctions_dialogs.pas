@@ -24,7 +24,7 @@ const
 			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
 {$ENDIF}
 
-procedure doOpenWorking(const sText:string;const Cancel:boolean=false);//AL
+procedure doShowWorking(const sText:string;const Cancel:boolean=false);//AL
 procedure doCloseWorking;
 
 function MyMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer;const proprio:TControl=nil):Word; overload;
@@ -42,7 +42,7 @@ uses u_form_msg,
      Graphics;
 
 
-procedure doOpenWorking(const sText:string;const Cancel:boolean=false);//AL
+procedure doShowWorking(const sText:string;const Cancel:boolean=false);//AL
 begin
   if not Assigned(gF_Working) then
     gF_Working:=TFWorking.create(Application);

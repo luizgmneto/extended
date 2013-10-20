@@ -34,9 +34,10 @@ const
     FileUnit: 'U_NetUpdate';
     Owner: 'Matthieu Giroux';
     Comment: 'Net File Download.';
-    BugsStory: '0.9.0.0 : Updating ok.';
+    BugsStory: '1.0.0.0 : Tested ok.'+#10+
+               '0.9.0.0 : Updating ok.';
     UnitType: 3;
-    Major: 0; Minor: 9;
+    Major: 1; Minor: 0;
     Release: 0; Build: 1);
 
 
@@ -466,7 +467,7 @@ begin
     end;
   gb_IsUpdating := True;
   ls_urlfile := gs_URL + gs_File;
-  doOpenWorking(gs_Please_Wait + CST_ENDOFLINE + fs_RemplaceMsg(
+  doShowWorking(gs_Please_Wait + CST_ENDOFLINE + fs_RemplaceMsg(
     gs_Downloading_in_progress, [ls_urlfile]));
   GetURL(gs_URL, gs_UpdateDir, gs_File);
 end;

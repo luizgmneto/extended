@@ -173,10 +173,9 @@ Begin
    Then
     Exit;
   AutoSetPanel;
-  if Assigned(Parent) Then
-    Parent.BeginUpdateBounds;
-  Enabled:=False;
   BeginUpdateBounds;
+  if Assigned(Parent) Then
+    Parent.Visible:=False;
   try
     for i := FAutoControls.Count - 1 downto 0 do
        (TObject(FAutoControls[i])).Destroy;
@@ -234,10 +233,9 @@ Begin
           end;
       end;
   finally
-    Enabled:=True;
-    EndUpdateBounds;
     if Assigned(Parent) Then
-      Parent.EndUpdateBounds;
+      Parent.Visible:=True;
+    EndUpdateBounds;
   end;
   if assigned ( FOnEndClones ) Then
    FOnEndClones ( Self );
