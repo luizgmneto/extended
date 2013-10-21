@@ -29,6 +29,10 @@ type
 
   TForm1 = class(TForm)
     Creer: TButton;
+    UserName: TEdit;
+    PassWord: TEdit;
+    Label34: TLabel;
+    Label35: TLabel;
     See: TButton;
     CreerCarboni386: TButton;
     CreerCarbon64: TButton;
@@ -164,7 +168,7 @@ type
     Panel7: TPanel;
     Panel8: TPanel;
     Panel9: TPanel;
-    Q: TIBSQL;
+    IBQ_VersionBase: TIBSQL;
     UniqueInstance: TUniqueInstance;
     procedure CreerClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -190,13 +194,13 @@ implementation
 
 
 uses LConvEncoding,
-     u_common_functions,
      FileUtil,
      IniFiles,
+     strutils,
      IBIntf,
-     u_connexion,
-     u_genealogy_context,
-     u_common_const, md5;
+     fonctions_net,
+     fonctions_file,
+     md5;
 
 { TForm1 }
 
@@ -309,9 +313,18 @@ function TForm1.CreeContext:Boolean;
 var Admin : Boolean;
 begin
   Admin := True;
+  with ibd_BASE,Params do
   if FileExistsUTF8(FileBase.FileName)
-  and not ibd_BASE.Connected Then
-    ConnexionBase(ibd_BASE,FileBase.FileName,IBT_BASE,_lc_ctype,_user_name,_password,_role_name,'T_VERSION_BASE',Admin,Self);
+  and not Connected Then
+  begin
+    Clear;
+    Add('user_name='+UserName.Text);
+    Add('password='+PassWord.Text);
+    Add('lc_ctype=UTF8');
+    DatabaseName:=FileBase.FileName;
+    Open;
+    IBT_BASE.Active:=True;
+   end;
   if not DirectoryExistsUTF8(DirectoryExe.Directory)
   or not DirectoryExistsUTF8 ( DirectoryDest.Directory )
   or not FileExists(FileBase.FileName)
@@ -327,31 +340,65 @@ end;
 procedure TForm1.CreeIni(const as_FileName : String ; const aPackage: TPackageType;
   const aar_Architecture: TArchitectureType; const aProcType : TProcessorType );
 var Ainifile : TIniFile;
-const CST_INI_UPDATE_SECTION = 'UPDATE';
+    AVersionExe,
+    AIniFileName : String ;
 begin
  Ainifile := TIniFile.Create(DirectoryExe.Directory+DirectorySeparator+'Ancestromania.ini');
  with Ainifile do
  try
   IniVersionExe(Ainifile);
-  InitUpdate(aar_Architecture,aPackage,aProcType);
+  AIniFileName := fs_GetIniFileNameUpdate(aar_Architecture,aPackage,aProcType, 'Update');
   if DirectoryExistsUTF8 ( DirectoryDest.Directory ) Then
    Begin
     Ainifile.Free;
-    Ainifile:=TIniFile.Create(DirectoryDest.Directory+DirectorySeparator+IniFilename+ExtensionIni);
+    if FileExistsUTF8(DirectoryDest.Directory+DirectorySeparator+AIniFilename) Then
+      DeleteFileUTF8(DirectoryDest.Directory+DirectorySeparator+AIniFilename);
+    Ainifile:=TIniFile.Create(DirectoryDest.Directory+DirectorySeparator+AIniFilename);
    end;
-  Ainifile.WriteString(CST_INI_UPDATE_SECTION,'Nom',ExtractFileName(as_FileName));
-  Ainifile.WriteString(CST_INI_UPDATE_SECTION,'Version','2013.0');
-  Ainifile.WriteString(CST_INI_UPDATE_SECTION,'VersionExe',NumVersionCourt(9,AncestroManiaVersion));
-  Ainifile.WriteString(CST_INI_UPDATE_SECTION,'Taille',IntToStr(FileSize(as_FileName)));
-  Ainifile.WriteString(CST_INI_UPDATE_SECTION,'Date',DateTimeToStr(Now));
-  Ainifile.WriteString(CST_INI_UPDATE_SECTION,'TailleMAJC',IntToStr(FileSize(as_FileName)));
-  Ainifile.WriteString(CST_INI_UPDATE_SECTION,'md5',MD5Print(MD5File(as_FileName)));
+  Ainifile.WriteString(INI_FILE_UPDATE,INI_FILE_UPDATE_FILE_NAME,ExtractFileName(as_FileName));
+  AVersionExe := fs_VersionExe;
+  Ainifile.WriteString(INI_FILE_UPDATE,INI_FILE_UPDATE_VERSION,Copy(AVersionExe,1,PosEx('.',AVersionExe,Pos('.',AVersionExe)+1)-1));
+  Ainifile.WriteString(INI_FILE_UPDATE,INI_FILE_UPDATE_EXE_VERSION,AVersionExe);
+  Ainifile.WriteString(INI_FILE_UPDATE,INI_FILE_UPDATE_FILE_SIZE,IntToStr(FileSize(as_FileName)));
+  Ainifile.WriteString(INI_FILE_UPDATE,INI_FILE_UPDATE_DATE,DateTimeToStr(Now));
+  if DirectoryExistsUTF8(ExtractFileNameWithoutExt(as_FileName))
+   Then Ainifile.WriteString(INI_FILE_UPDATE,INI_FILE_UPDATE_FILE_SIZE_UNCOMPRESSED,IntToStr(DirSize(ExtractFileNameWithoutExt(as_FileName))))
+   Else Ainifile.WriteString(INI_FILE_UPDATE,INI_FILE_UPDATE_FILE_SIZE_UNCOMPRESSED,IntToStr(FileSize(as_FileName)));
+  Ainifile.WriteString(INI_FILE_UPDATE,INI_FILE_UPDATE_MD5,MD5Print(MD5File(as_FileName)));
   if ibd_BASE.Connected Then
-    Ainifile.WriteString(CST_INI_UPDATE_SECTION,'VersionBase',fs_GetVersionBase(q));
-
+   Begin
+    IBQ_VersionBase.Close;
+    IBQ_VersionBase.ExecQuery;
+    Ainifile.WriteString(INI_FILE_UPDATE,INI_FILE_UPDATE_BASE_VERSION,Trim(IBQ_VersionBase.Fields[0].AsString));
+   End;
+  Ainifile.UpdateFile;
  finally
    Ainifile.Free;
  end;
+end;
+
+procedure p_setLibrary (var libname: string);
+var Alib : String;
+    version : String;
+Begin
+  {$IFDEF WINDOWS}
+  libname:= 'fbclient'+CST_EXTENSION_LIBRARY;
+  {$ELSE}
+  Alib := 'libfbembed';
+  version := '.2.5';
+  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+Alib+CST_EXTENSION_LIBRARY;
+  if not FileExistsUTF8(libname)
+    Then libname:='/usr/lib/'+Alib + CST_EXTENSION_LIBRARY + version;
+  if not FileExistsUTF8(libname)
+    Then libname:='/usr/lib/'+Alib + CST_EXTENSION_LIBRARY;
+  if not FileExistsUTF8(libname)
+    Then libname:='/usr/lib/i386-linux-gnu/'+Alib + CST_EXTENSION_LIBRARY + version;
+  if not FileExistsUTF8(libname)
+    Then libname:='/usr/lib/x86_64-linux-gnu/'+Alib + CST_EXTENSION_LIBRARY + version;
+  if FileExistsUTF8(libname)
+  and FileExistsUTF8(ExtractFileDir(Application.ExeName)+DirectorySeparator+'exec.sh"') Then
+     fs_ExecuteProcess('sh',' "'+ExtractFileDir(Application.ExeName)+DirectorySeparator+'exec.sh"');
+  {$ENDIF}
 end;
 
 
