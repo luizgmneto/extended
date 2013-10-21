@@ -13,9 +13,14 @@ procedure Register;
 
 implementation
 
-uses u_netupdate,
+uses
+{$IFDEF FPC}
+     LResources,
      unite_messages,
-     LResources;
+{$ELSE}
+     unite_messages_delphi,
+{$ENDIF}
+     u_netupdate;
 
 procedure Register;
 Begin

@@ -1,6 +1,8 @@
 unit fonctions_net;
 
-{$mode objfpc}{$H+}
+{$IFDEF FPC}
+{$mode Delphi}
+{$ENDIF}
 
 interface
 
@@ -44,20 +46,19 @@ function fs_GetIniFileNameUpdate ( const aat_ArchitectureType : TArchitectureTyp
 function fs_GetFileNameUpdate ( const aat_ArchitectureType : TArchitectureType; const apt_PackageType : TPackageType ; const aProcType : TProcessorType ; const as_BeginFile : String ):String;
 function IniVersionExe ( const AIniFile : TIniFile ):TAVersionInfo;
 function fi_BaseVersionToInt ( const as_versionBase : String ): Integer;
-function fi64_VersionExeInt64( as_versionExe : String ):Int64;
-function fi64_VersionExeInt64:Int64;
+function fi64_VersionExeInt64( as_versionExe : String ):Int64; overload;
+function fi64_VersionExeInt64:Int64; overload;
 function fs_VersionExe:String;
-function fs_verifyBaseForFile ( const as_base, as_path : String ):String; overload;
-function fs_verifyBaseForFile ( const as_base, as_path : String ; const l_list : TStringlist ):String; overload;
 function fs_GetFullArchitecture ( const aat_ArchitectureType : TArchitectureType; const aProcType : TProcessorType ):String;
 
 
 implementation
 
 uses fonctions_string,
-     fonctions_init,
-     fonctions_file,
-     FileUtil;
+{$IFDEF FPC}
+     FileUtil,
+{$ENDIF}
+     fonctions_init;
 
 function fs_GetFullArchitecture ( const aat_ArchitectureType : TArchitectureType; const aProcType : TProcessorType ):String;
 begin
@@ -116,69 +117,6 @@ begin
   as_versionExe := copy ( as_versionExe, pos('.',as_versionExe)+1, Length(as_versionExe));
   Result := Result or (int64(StrToInt(copy(as_versionExe,1,pos('.',as_versionExe)-1)))shl 16);
   Result := Result or (int64(StrToInt(copy(as_versionExe,pos('.',as_versionExe)+1, Length(as_versionExe)))));
-end;
-
-function fs_verifyBase ( const as_base, as_path : String ; const l_list : TStrings ):String;
-var
-    ls_dir : String;
-    li_i, li_pos, li_j : Integer;
-Begin
-  li_j := 0;
-  Result := as_path;
-  if {$IFDEF WINDOWS}(pos(':',Result)=2) and {$ENDIF}
-    FileExistsUTF8(Result) Then
-     Exit;
-  for li_i:=0 to l_list.Count - 1 do
-   Begin
-     ls_dir := l_list [ li_i ];
-     inc ( li_j, Length(ls_dir) + 1 );
-     if (ls_dir = '') or ( pos ( ':', ls_dir ) > 0 ) Then Continue;
-
-     li_pos := pos ( ls_dir, as_path );
-     if ( li_pos > 0 )
-     and ( as_path [ li_pos -1 ] = DirectorySeparator )
-     and ( as_path [ li_pos + Length(ls_dir) ] = DirectorySeparator ) Then
-      Begin
-        ls_dir:= copy ( as_base, 1, li_j - Length(ls_dir) - 1 ) + copy ( as_path, li_pos, Length(as_path) - li_pos + 1 );
-        if FileExistsUTF8( ls_dir ) Then
-          Begin
-            Result := ls_dir;
-            Exit;
-          end;
-      End;
-   end;
-
-end;
-
-
-
-function fs_verifyBaseForFile ( const as_base, as_path : String ):String;
-var l_list : TStringlist;
-
-Begin
- l_list:=nil;
- p_ChampsVersListe(l_list,
-                   as_base,
-                   DirectorySeparator);
-
- Result:= fs_verifyBaseForFile (  as_base, as_path, l_list );
-
-end;
-
-function fs_verifyBaseForFile ( const as_base, as_path : String ; const l_list : TStringlist ):String;
-Begin
-  {$IFDEF WINDOWS}
-  Result:= fs_verifyAndReplaceDriveLetter ( as_path );
-  Result:= fs_verifyBase ( as_base, as_path, l_list );
-  while not FileExistsUTF8(Result) and ( Result [ 1 ] <> 'C' ) do
-   Begin
-     Result:= fs_verifyAndReplaceDriveLetter ( chr ( ord ( Result [ 1 ] ) - 1 )
-                                   + copy ( Result, 2, Length(Result) -1));
-     Result:= fs_verifyBase ( as_base, Result, l_list );
-   end;
-  {$ELSE}
-  Result:= fs_verifyBase ( as_base, as_path, l_list );
-  {$ENDIF}
 end;
 
 
