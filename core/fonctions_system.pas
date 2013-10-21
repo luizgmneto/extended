@@ -117,6 +117,9 @@ uses
 {$IFDEF WINDOWS}
   ShlObj,
 {$ENDIF}
+{$IFDEF DELPHI}
+  SHFolder,
+{$ENDIF}
   fonctions_string;
 {$IFDEF WINDOWS}
 const WINDOWS_ARCHITECTURE = 'PROCESSOR_ARCHITECTURE';
