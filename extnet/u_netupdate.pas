@@ -1,8 +1,12 @@
-unit u_netupdate;
+﻿unit u_netupdate;
 
 {$IFDEF FPC}
 {$mode Delphi}
 {$ENDIF}
+
+{$I ..\dlcompilers.inc}
+{$I ..\extends.inc}
+
 
 interface
 
@@ -11,11 +15,19 @@ uses
   {$IFDEF VERSIONS}
   fonctions_version,
   {$ENDIF}
+{$IFDEF LNET}
   lNetComponents,
+  Lnet, lhttp,
+{$ELSE}
+  IdHTTP,
+  IdComponent,
+  IdTCPConnection,
+{$ENDIF}
+  {$IFDEF FPC}
   lazutf8classes,
+  {$ENDIF}
   Controls,
   IniFiles,
-  Lnet, lhttp,
   ComCtrls;
 
 {.$DEFINE MD5}
@@ -64,10 +76,12 @@ type
     gs_UpdateDir: string;
     gsu_UpdateState: TStateUpdate;
     gus_UpdateStep: TUpdateStep;
-    gfs_FicStream: TFileStreamUTF8;
+    gst_Stream: TStream;
+    {$IFDEF LNET}
     gs_Buffer: string;
+    {$ENDIF}
     gpb_Progress: TProgressBar;
-    glc_LNetComponent: TLComponent;
+    gc_Component: {$IFDEF LNET} TLComponent{$ELSE}TIdTCPConnection{$ENDIF};
     ge_ErrorEvent: TErrorMessageEvent;
     ge_ProgressEvent: TProgressEvent;
     ge_Downloaded: TDownloadedEvent;
@@ -78,21 +92,27 @@ type
     gini_inifile: TIniFile;
     gi_Weight: longword;
     gb_Buffered,gb_Messages: boolean;
-    procedure p_SetLNetComponent(const AValue: TLComponent);
+    procedure p_SetComponent(const AValue: {$IFDEF LNET} TLComponent{$ELSE}TIdTCPConnection{$ENDIF});
     procedure SetUpdateDir ( const AValue : String );
   protected
+    {$IFDEF LNET}
     function HTTPClientInput(ASocket: TLHTTPClientSocket; ABuffer: PChar;
       ASize: integer): integer; virtual;
+    procedure HTTPClientDoneInput(ASocket: TLHTTPClientSocket); virtual;
+    procedure HTTPClientError(const msg: string; aSocket: TLSocket); virtual;
+    {$ELSE}
+    procedure IdWork(ASender:TObject;AWorkMode:TWorkMode;
+      ASize:Int64); virtual;
+    {$ENDIF}
     procedure SetMD5; virtual;
     procedure GetURL(const as_URL, as_LocalDir, as_FileName: string;
       const aus_Step: TUpdateStep = usNone); virtual;
     function CanDownloadIni: boolean; virtual;
     function CanDownloadPage: boolean; virtual;
     function CanDownloadFile: boolean; virtual;
-    procedure HTTPClientDoneInput(ASocket: TLHTTPClientSocket); virtual;
-    procedure HTTPClientError(const msg: string; aSocket: TLSocket); virtual;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure OnError(const ai_error: integer; const as_Message: string); virtual;
+    function GetOptionalFilename: String; virtual;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -112,7 +132,9 @@ type
     property MD5Ini  : string read gs_MD5Ini;
     property VersionExeUpdate: string read gs_VersionExeUpdate;
     property VersionBaseUpdate: string read gs_VersionBaseUpdate;
+    {$IFDEF LNET}
     property Buffer : String read gs_Buffer;
+    {$ENDIF}
   published
     property FileIni: string read gs_Ini write gs_Ini;
     property FileUpdate: string read gs_File write gs_File;
@@ -128,7 +150,7 @@ type
     property OnDownloading: TDownloadingEvent read ge_Downloading write ge_Downloading;
     property OnDownloaded: TDownloadedEvent read ge_Downloaded write ge_Downloaded;
     property OnFileDownloaded: TMD5Event read ge_DownloadedFile write ge_DownloadedFile;
-    property LNetComponent: TLComponent read glc_LNetComponent write p_SetLNetComponent;
+    property {$IFDEF LNET} LNetComponent: TLComponent{$ELSE}IdComponent: TIdTCPConnection{$ENDIF} read gc_Component write p_SetComponent;
     property Buffered: boolean read gb_Buffered write gb_Buffered default False;
     property Messages: boolean read gb_Messages write gb_Messages default True;
   end;
@@ -160,7 +182,7 @@ constructor TNetUpdate.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   gpb_Progress := nil;
-  glc_LNetComponent := nil;
+  gc_Component := nil;
   ge_Downloaded := nil;
   ge_Downloading := nil;
   ge_DownloadedPage := nil;
@@ -168,7 +190,7 @@ begin
   ge_ErrorEvent := nil;
   ge_ProgressEvent := nil;
   ge_IniRead := nil;
-  gfs_FicStream := nil;
+  gst_Stream := nil;
   gini_inifile := nil;
   gi_Weight := 0;
   gsu_UpdateState := suNeedVerify;
@@ -208,67 +230,37 @@ begin
     gs_md5File := '';
 
 end;
-
-function TNetUpdate.HTTPClientInput(ASocket: TLHTTPClientSocket;
-  ABuffer: PChar; ASize: integer): integer;
-var
-  OldLength: integer;
-begin
-  if ASize <= 0 then
-    Exit;
-  try
-    if gb_Buffered then
-    begin
-      oldLength := Length(gs_Buffer);
-      setlength(gs_Buffer, oldLength + ASize);
-      move(ABuffer^, gs_Buffer[oldLength + 1], ASize);
-    end
-    else
-      gfs_FicStream.WriteBuffer(ABuffer^, ASize);
-    Result := aSize; // tell the http buffer we read it all
-    if gpb_Progress <> nil then
-    with gpb_Progress do
-    begin
-      Position := Position + ASize;
-      Application.ProcessMessages;
-    end;
-    if Assigned(ge_ProgressEvent) then
-      ge_ProgressEvent(Self, Asize);
-
-  except
-    on e: Exception do
-    begin
-      if Assigned(ge_ErrorEvent) then
-        if gb_Buffered then
-          ge_ErrorEvent(Self, 1, e.Message)
-        else
-          ge_ErrorEvent(Self, 1, fs_RemplaceMsg(GS_ECRITURE_IMPOSSIBLE, [gfs_FicStream.Filename]));
-      Abort;
-    end;
-  end;
-
-end;
-
-procedure TNetUpdate.HTTPClientDoneInput(ASocket: TLHTTPClientSocket);
-var
-  ls_File: string;
-  gb_ok : Boolean ;
-begin
-  gb_IsUpdating := False;
-  gb_ok := (LNetComponent as TLHTTPClient).Response.Status = hsOK;
-  ASocket.Disconnect;
-  Screen.Cursor := crDefault;
+function TNetUpdate.GetOptionalFilename:String;
+Begin
   if not gb_Buffered Then
    Begin
-    ls_File := gfs_FicStream.FileName;
-    FreeAndNil(gfs_FicStream);
-    if not FileExistsUTF8(ls_File)
+    Result := (gst_Stream as {$IFDEF FPC}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF} ).FileName;
+    if not FileExistsUTF8(Result)
     and gb_Messages  Then
       Begin
        MyMessageDlg(gs_Error_Cannot_load_not_downloaded_file,mtError, [mbOk],0,nil);
        Exit;
       end;
-   end;
+   end
+  Else Result := '';
+end;
+
+{$IFDEF LNET}
+
+procedure TNetUpdate.HTTPClientDoneInput(ASocket: TLHTTPClientSocket);
+var
+  gb_ok : Boolean ;
+  ls_File : String;
+begin
+  try
+    gb_IsUpdating := False;
+    gb_ok := (LNetComponent as TLHTTPClient).Response.Status = hsOK;
+    ASocket.Disconnect;
+    Screen.Cursor := crDefault;
+    ls_File := GetOptionalFilename;
+  finally
+    FreeAndNil(gst_Stream);
+  End;
   AfterUpdate(ls_File, gb_ok );
 end;
 
@@ -277,9 +269,9 @@ var
   sMessage: string;
   iError: integer;
 begin
+  FreeAndNil(gst_Stream);
   gb_IsUpdating := False;
   Screen.Cursor := crDefault;
-  FreeAndNil(gfs_FicStream);
   iError := 0;
   if LNetComponent is TLHTTPClientComponent then
     with LNetComponent as TLHTTPClientComponent do
@@ -319,6 +311,51 @@ begin
   OnError(iError, sMessage);
 end;
 
+function TNetUpdate.HTTPClientInput(ASocket: TLHTTPClientSocket;
+  ABuffer: PChar; ASize: integer): integer;
+{$ELSE}
+procedure TNetUpdate.IdWork(ASender: TObject; AWorkMode: TWorkMode;
+  ASize: Int64);
+{$ENDIF}
+var
+  OldLength: integer;
+begin
+  if ASize <= 0 then
+    Exit;
+  try
+    {$IFDEF LNET}
+    if gb_Buffered then
+    begin
+      oldLength := Length(gs_Buffer);
+      setlength(gs_Buffer, oldLength + ASize);
+      move(ABuffer^, gs_Buffer[oldLength + 1], ASize);
+    end
+    else
+      gst_Stream.WriteBuffer(ABuffer^, ASize);
+    Result := aSize; // tell the http buffer we read it all
+    {$ENDIF}
+    if gpb_Progress <> nil then
+    with gpb_Progress do
+    begin
+      Position := Position + ASize;
+      Application.ProcessMessages;
+    end;
+    if Assigned(ge_ProgressEvent) then
+      ge_ProgressEvent(Self, Asize);
+
+  except
+    on e: Exception do
+    begin
+      if Assigned(ge_ErrorEvent) then
+        if gb_Buffered then
+          ge_ErrorEvent(Self, 1, e.Message)
+        else
+          ge_ErrorEvent(Self, 1, fs_RemplaceMsg(GS_ECRITURE_IMPOSSIBLE, [(gst_Stream as {$IFDEF FPC}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF}).Filename]));
+      Abort;
+    end;
+  end;
+
+end;
 procedure TNetUpdate.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
@@ -326,8 +363,8 @@ begin
     Exit;
 
   // Suppression d'un composant lnet
-  if Assigned(LNetComponent) and (AComponent = LNetComponent) then
-    LNetComponent := nil;
+  if Assigned(gc_Component) and (AComponent = gc_Component) then
+    p_SetComponent ( nil );
   // Suppression d'un composant de progression
   if Assigned(Progress) and (AComponent = Progress) then
     Progress := nil;
@@ -379,16 +416,21 @@ begin
     Result := True;
 end;
 
-procedure TNetUpdate.p_SetLNetComponent(const AValue: TLComponent);
+procedure TNetUpdate.p_SetComponent(const AValue: {$IFDEF LNET} TLComponent{$ELSE}TIdTCPConnection{$ENDIF});
 begin
-  glc_LNetComponent := AValue;
-  if Assigned(glc_LNetComponent) and (glc_LNetComponent is TLHTTPClientComponent) then
-    with glc_LNetComponent as TLHTTPClientComponent do
+  gc_Component := AValue;
+  if Assigned(gc_Component) {$IFDEF LNET}and (gc_Component is TLHTTPClientComponent){$ENDIF}
+   then
+   {$IFDEF LNET}
+    with gc_Component as TLHTTPClientComponent do
     begin
       OnDoneInput := HTTPClientDoneInput;
       OnInput     := HTTPClientInput;
       OnError     := HTTPClientError;
     end;
+   {$ELSE}
+     gc_Component.OnWork:=IdWork;
+   {$ENDIF}
 end;
 
 procedure TNetUpdate.SetUpdateDir(const AValue: String);
@@ -401,8 +443,12 @@ end;
 procedure TNetUpdate.GetURL(const as_URL, as_LocalDir, as_FileName: string;
   const aus_Step: TUpdateStep = usNone);
 var
+{$IFDEF LNET}
   aHost, aURI: string;
   aPort: word;
+{$ELSE}
+  aFile: string;
+{$ENDIF}
 begin
   if not DirectoryExistsUTF8(gs_UpdateDir) then
    Begin
@@ -420,9 +466,10 @@ begin
   IncludeTrailingPathDelimiter(as_LocalDir);
   if gpb_Progress <> nil then
     gpb_Progress.Position := 0;
+  {$IFDEF LNET}
   DecomposeURL(as_URL + as_FileName, aHost, aURI, aPort);
-  if LNetComponent is TLHTTPClientComponent then
-    with LNetComponent as TLHTTPClientComponent do
+  if gc_Component is TLHTTPClientComponent then
+    with gc_Component as TLHTTPClientComponent do
     begin
       Screen.Cursor:=crHourGlass;
       Host := aHost;
@@ -436,14 +483,34 @@ begin
         gs_Buffer := ''
       else
       begin
-        gfs_FicStream.Free;
+        gst_Stream.Free;
         if FileExistsUTF8(as_LocalDir + as_FileName) then
           DeleteFileUTF8(as_LocalDir + as_FileName);
-        gfs_FicStream := TFileStreamUTF8.Create(as_LocalDir + as_FileName, fmCreate);
+        gst_Stream := TFileStreamUTF8.Create(as_LocalDir + as_FileName, fmCreate);
         if Assigned(ge_Downloading) Then
           ge_Downloading ( Self, aus_Step );
       end;
       SendRequest;
+  {$ELSE}
+  if gc_Component is TIdHTTP then
+    with gc_Component as TIdHTTP do
+    begin
+      if gb_Buffered
+        Then gst_Stream:=TMemoryStream.Create
+        Else gst_Stream:={$IFDEF FPC}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF}.Create(as_LocalDir+as_FileName,fmCreate);
+      try
+        (gc_Component as TIdHTTP).Get(as_URL+as_FileName,gst_Stream);
+        aFile := GetOptionalFilename;
+      finally
+        FreeAndNil(gst_Stream);
+      end;
+    if ResponseCode = 200 Then
+      Begin
+        AfterUpdate(aFile,True);
+      End
+     Else
+       OnError(ResponseCode, ResponseText);
+  {$ENDIF}
     end;
 end;
 

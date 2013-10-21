@@ -147,6 +147,9 @@ contains
   fonctions_dialogs in 'btncomp\fonctions_dialogs.pas',
   u_form_msg in 'btncomp\u_form_msg.pas',
   u_form_working in 'btncomp\u_form_working.pas',
-  u_registerforms in 'inicomp\u_registerforms.pas';
+  u_registerforms in 'inicomp\u_registerforms.pas',
+  fonctions_net in 'extnet\fonctions_net.pas',
+  u_netupdate in 'extnet\u_netupdate.pas',
+  u_register_net in 'extnet\u_register_net.pas';
 
 end.
