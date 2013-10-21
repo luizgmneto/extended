@@ -18,13 +18,15 @@ type  TAVersionInfo =  array [ 0..3 ] of word;
 var   gr_ExeVersion   : TAVersionInfo;
 
 const INI_FILE_UPDATE = 'UPDATE';
-      INI_FILE_UPDATE_WEIGHT = 'Weight';
+      INI_FILE_UPDATE_FILE_SIZE = 'FileSize';
+      INI_FILE_UPDATE_FILE_SIZE_UNCOMPRESSED = 'SizeUncompressed';
+      INI_FILE_UPDATE_VERSION      = 'Version';
       INI_FILE_UPDATE_EXE_VERSION  = 'VersionExe';
       INI_FILE_UPDATE_BASE_VERSION = 'VersionBase';
       INI_FILE_UPDATE_DATE         = 'Date';
       INI_FILE_UPDATE_MD5          = 'md5';
       INI_FILE_UPDATE_FILE_NAME    = 'FileName';
-      INI_Version = 'Version';
+      INI_NEAR_EXE_VERSION         = 'Version' ;
 
 {$IFDEF VERSIONS}
     gVer_fonctions_net : T_Version = ( Component : 'Functions TNetUpdate' ;
@@ -78,10 +80,10 @@ function IniVersionExe ( const AIniFile : TIniFile ):TAVersionInfo;
 Begin
  with AIniFile do
    Begin
-     Result [ 0 ]:=ReadInteger(INI_Version,'Major',0);
-     Result [ 1 ]:=ReadInteger(INI_Version,'Minor',0);
-     Result [ 2 ]:=ReadInteger(INI_Version,'Revision',0);
-     Result [ 3 ]:=ReadInteger(INI_Version,'Build',0);
+     Result [ 0 ]:=ReadInteger(INI_NEAR_EXE_VERSION,'Major',0);
+     Result [ 1 ]:=ReadInteger(INI_NEAR_EXE_VERSION,'Minor',0);
+     Result [ 2 ]:=ReadInteger(INI_NEAR_EXE_VERSION,'Revision',0);
+     Result [ 3 ]:=ReadInteger(INI_NEAR_EXE_VERSION,'Build',0);
      gr_ExeVersion:=Result;
    End;
 end;

@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, uniqueinstance_package, f_createini, lazancestrocomponents, lazextinit,
+  Forms, uniqueinstance_package, f_createini, lazextinit, extcopy,
   ibexpress;
 
 {$R *.res}

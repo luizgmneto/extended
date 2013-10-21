@@ -104,6 +104,7 @@ Begin
     while Count>0 do
      Begin
        ls_file:=Strings[0];
+       Delete(0);
        if DirectoryExistsUTF8(as_Dir+ls_file)
         Then DirSizeRecurse(as_Dir+ls_file, ai64_size)
         Else
