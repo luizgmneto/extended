@@ -9,7 +9,7 @@ interface
 
 uses
   {$IFDEF FPC}
-  lNetComponents,FileUtil, JvXPCore, JvXPButtons,
+  lNetComponents,FileUtil,
   {$ELSE}
   IdHttp, IdBaseComponent, IdComponent, IdTCPConnection,
   IdTCPClient, JvExControls,
