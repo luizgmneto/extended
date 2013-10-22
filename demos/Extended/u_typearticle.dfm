@@ -15,6 +15,8 @@ object F_TypeProduit: TF_TypeProduit
   Position = poMainFormCenter
   WindowState = wsMaximized
   OnCreate = F_FormDicoCreate
+  ExplicitWidth = 320
+  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 13
   object pa_1: TPanel
@@ -61,7 +63,6 @@ object F_TypeProduit: TF_TypeProduit
           ShowHint = True
           TabOrder = 0
           TabStop = True
-          Orientation = noHorizontal
           VisibleButtons = [nbEInsert, nbEDelete, nbEPost, nbECancel, nbESearch]
           GlyphSize = gsLarge
           Hints.Strings = (
@@ -952,7 +953,6 @@ object F_TypeProduit: TF_TypeProduit
           ShowHint = True
           TabOrder = 0
           TabStop = True
-          Orientation = noHorizontal
           VisibleButtons = [nbEFirst, nbEPrior, nbENext, nbELast]
           GlyphSize = gsLarge
           Hints.Strings = (
@@ -1037,7 +1037,6 @@ object F_TypeProduit: TF_TypeProduit
       object bt_imprimer: TFWPrintGrid
         Left = 13
         Top = 0
-        Width = 80
         Height = 25
         Hint = 'Impression des r'#233'sultats de la s'#233'lection'
         Caption = 'Imprimer'
@@ -1049,8 +1048,8 @@ object F_TypeProduit: TF_TypeProduit
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        DBGrid = gd_famillevente
         DBTitle = 'Types d'#39'articles'
+        DBGrid = gd_famillevente
         ExplicitLeft = 361
       end
     end

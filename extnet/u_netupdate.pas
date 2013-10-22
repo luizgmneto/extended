@@ -46,11 +46,12 @@ const
     FileUnit: 'U_NetUpdate';
     Owner: 'Matthieu Giroux';
     Comment: 'Net File Download.';
-    BugsStory: '1.0.0.0 : Tested ok.'+#10+
+    BugsStory: '1.0.1.0 : For Indy.'+#10+
+               '1.0.0.0 : Tested ok.'+#10+
                '0.9.0.0 : Updating ok.';
     UnitType: 3;
     Major: 1; Minor: 0;
-    Release: 0; Build: 1);
+    Release: 1; Build: 0);
 
 
 {$ENDIF}
@@ -102,7 +103,7 @@ type
     procedure HTTPClientError(const msg: string; aSocket: TLSocket); virtual;
     {$ELSE}
     procedure IdWork(ASender:TObject;AWorkMode:TWorkMode;
-      ASize:Int64); virtual;
+      ASize:{$IFDEF CPU64}Int64{$ELSE}Integer{$ENDIF}); virtual;
     {$ENDIF}
     procedure SetMD5; virtual;
     procedure GetURL(const as_URL, as_LocalDir, as_FileName: string;
@@ -163,16 +164,19 @@ implementation
 uses fonctions_string,
   {$IFDEF FPC}
   unite_messages,
+  FileUtil,
   {$ELSE}
   unite_messages_delphi,
+  fonctions_system,
+  {$ENDIF}
+  {$IFDEF LNET}
+  lHTTPUtil,
   {$ENDIF}
   fonctions_dialogs,
-  lHTTPUtil,
   {$IFDEF MD5}
   md5api,
   {$ENDIF}
   Dialogs,
-  FileUtil,
   Forms;
 
 
@@ -315,7 +319,7 @@ function TNetUpdate.HTTPClientInput(ASocket: TLHTTPClientSocket;
   ABuffer: PChar; ASize: integer): integer;
 {$ELSE}
 procedure TNetUpdate.IdWork(ASender: TObject; AWorkMode: TWorkMode;
-  ASize: Int64);
+  ASize: {$IFDEF CPU64}Int64{$ELSE}Integer{$ENDIF});
 {$ENDIF}
 var
   OldLength: integer;

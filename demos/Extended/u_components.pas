@@ -1,11 +1,5 @@
 ﻿unit U_Components;
 
-{$IFDEF FPC}
-{$mode Delphi}
-{$R *.lfm}
-{$ELSE}
-{$R *.DFM}
-{$ENDIF}
 
 {$I ..\..\DLCompilers.inc}
 {$I ..\..\extends.inc}
@@ -14,7 +8,7 @@ interface
 
 uses
 {$IFDEF FPC}
-  FileUtil, LResources, process, AsyncProcess,
+  FileUtil, LResources, process, AsyncProcess, u_scrollclones,
 {$ELSE}
   DBCtrls, JvExControls, JvDBLookup, JvExMask, JvSpin, JvExDBGrids, JvDBGrid, JvDBUltimGrid,
   JvExComCtrls, JvListView, Mask,  fonctions_version, JvDateTimePicker,
@@ -27,7 +21,7 @@ uses
   IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage,
   U_ExtDBImageList, ImgList, ExtDlgs, IBCustomDataSet, U_ExtMapImageIndex,
   u_buttons_appli, u_reports_components, JvXPCore, JvXPButtons, u_buttons_defs,
-  U_ExtPictCombo, U_ExtImage, u_scrollclones, u_extimagelist ;
+  U_ExtPictCombo, U_ExtImage, u_extimagelist ;
 
 type
 
@@ -37,19 +31,14 @@ type
     ds_user: TDatasource;
     ds_dep: TDatasource;
     ds_dep2: TDatasource;
-    ExtClonedPanel1: TExtClonedPanel;
     ExtDBImage: TExtDBImage;
     ExtDBImageList: TExtDBImageList;
     ExtDBPictCombo: TExtDBPictCombo;
-    ExtMapImages: TExtMapImages;
-    ExtMenuToolBar: TExtMenuToolBar;
     FWClose1: TFWClose;
-    FWLabel10: TFWLabel;
     FWPrint:  TFWPrintGrid;
     IBUpdateUtilisateur: TIBUpdateSQL;
     IBUpdateDepartem: TIBUpdateSQL;
     MapImages: TExtMapImages;
-    FWDBSpinEdit: TFWDBSpinEdit;
     FWLabel7: TFWLabel;
     FWLabel8: TFWLabel;
     FWLabel9: TFWLabel;
@@ -62,7 +51,6 @@ type
     DBListView: TDBListView;
     ExtDBNavigator: TExtDBNavigator;
     ImageResources: TImageList;
-    mc_Customize: TExtMenuCustomize;
     mu_aide: TMenuItem;
     mu_apropos: TMenuItem;
     mu_file: TMenuItem;
@@ -73,15 +61,10 @@ type
     mu_sep1: TMenuItem;
     mu_sep2: TMenuItem;
     Noms: TExtDBGrid;
-    Nom_: TFWEdit;
     OnFormInfoIni: TOnFormInfoIni;
-    OpenPictureDialog: TOpenPictureDialog;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
-    Panel4: TPanel;
-    Panel5: TPanel;
-    Prenom_: TFWEdit;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
     Prenom: TFWDBEdit;
@@ -103,16 +86,14 @@ type
     ExtDBComboInsert2: TExtDBComboInsert;
     Search2: TFWLabel;
     FWMemo: TFWMemo;
-    MenuIni: TMainMenu;
-    Menu1: TMenuItem;
-    Menu2: TMenuItem;
-    Menu3: TMenuItem;
-    Menu5: TMenuItem;
-    Menu4: TMenuItem;
-    Menu6: TMenuItem;
     {$IFDEF FPC}
+    ExtClonedPanel1: TExtClonedPanel;
     Process: TProcess;
     Splitter3: TSplitter;
+    mc_Customize : TExtMenuCustomize;
+    ExtMenuToolBar : TExtMenuToolBar;
+    OpenPictureDialog : TOpenPictureDialog;
+    FWDBSpinEdit: TFWDBSpinEdit;
     {$ENDIF}
     procedure ExtDBImageClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -133,6 +114,13 @@ var
   Myform: TMyform;
 
 implementation
+  
+{$IFDEF FPC}
+{$mode Delphi}
+{$R *.lfm}
+{$ELSE}
+{$R *.DFM}
+{$ENDIF}
 
 uses fonctions_system;
 

@@ -26,7 +26,7 @@ uses
   ComCtrls, StdCtrls, SysUtils,  TypInfo,  Variants,
   StrUtils, U_OnFormInfoIni,  JvXPButtons,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
-  CompSuperForm, U_FormAdapt,
+  U_FormAdapt,
   U_GroupView, ImgList,fonctions_string, U_DmArticles, Menus, U_DBListView,
   u_buttons_defs, u_reports_components ;
 

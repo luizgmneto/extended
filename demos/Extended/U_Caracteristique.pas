@@ -27,7 +27,7 @@ uses
   StrUtils, U_OnFormInfoIni,  JvXPButtons,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
   U_GroupView, ImgList,fonctions_string,
-  CompSuperForm, U_DBListView, U_FormAdapt, u_buttons_defs, u_reports_components;
+  U_DBListView, U_FormAdapt, u_buttons_defs, u_reports_components;
 
 const CST_CARA_Clep = 'CARA_Clep' ; 
 

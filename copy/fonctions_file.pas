@@ -108,22 +108,7 @@ Begin
        if DirectoryExistsUTF8(as_Dir+ls_file)
         Then DirSizeRecurse(as_Dir+ls_file, ai64_size)
         Else
-            {$IFDEF FPC}
-              inc ( ai64_size, FileSize(as_Dir+ls_file));
-            {$ELSE}
-              try
-                FileHandle := CreateFile(PChar(as_Dir+ls_file),
-                    GENERIC_READ,
-                    0, {exclusive}
-                    nil, {security}
-                    OPEN_EXISTING,
-                    FILE_ATTRIBUTE_NORMAL,
-                    0);
-                 inc ( ai64_size, GetFileSize(FileHandle, nil));
-               finally
-                 CloseHandle(FileHandle);
-               End;
-            {$ENDIF}
+          inc ( ai64_size, FileSize(as_Dir+ls_file));
      end;
   finally
     lstl_Files.Destroy;

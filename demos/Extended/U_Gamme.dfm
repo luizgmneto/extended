@@ -61,7 +61,6 @@ object F_Gamme: TF_Gamme
           ShowHint = True
           TabOrder = 0
           TabStop = True
-          Orientation = noHorizontal
           VisibleButtons = [nbEInsert, nbEDelete, nbEPost, nbECancel, nbESearch]
           GlyphSize = gsLarge
           Hints.Strings = (
@@ -706,7 +705,6 @@ object F_Gamme: TF_Gamme
           ShowHint = True
           TabOrder = 0
           TabStop = True
-          Orientation = noHorizontal
           VisibleButtons = [nbEFirst, nbEPrior, nbENext, nbELast]
           GlyphSize = gsLarge
           Hints.Strings = (
@@ -792,7 +790,6 @@ object F_Gamme: TF_Gamme
       object bt_imprimer: TFWPrintGrid
         Left = 13
         Top = 0
-        Width = 80
         Height = 25
         Hint = 'Impression des r'#233'sultats de la s'#233'lection'
         Caption = 'Imprimer'
@@ -804,8 +801,8 @@ object F_Gamme: TF_Gamme
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        DBGrid = gd_famillevente
         DBTitle = 'Gammes d'#39'articles'
+        DBGrid = gd_famillevente
         ExplicitLeft = 361
       end
     end

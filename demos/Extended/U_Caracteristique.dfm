@@ -15,6 +15,8 @@ object F_Caracteristique: TF_Caracteristique
   Position = poMainFormCenter
   WindowState = wsMaximized
   OnCreate = F_FormDicoCreate
+  ExplicitWidth = 320
+  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 13
   object pa_1: TPanel
@@ -61,7 +63,6 @@ object F_Caracteristique: TF_Caracteristique
           ShowHint = True
           TabOrder = 0
           TabStop = True
-          Orientation = noHorizontal
           VisibleButtons = [nbEInsert, nbEDelete, nbEPost, nbECancel, nbESearch]
           GlyphSize = gsLarge
           Hints.Strings = (
@@ -705,7 +706,6 @@ object F_Caracteristique: TF_Caracteristique
           ShowHint = True
           TabOrder = 0
           TabStop = True
-          Orientation = noHorizontal
           VisibleButtons = [nbEFirst, nbEPrior, nbENext, nbELast]
           GlyphSize = gsLarge
           Hints.Strings = (
@@ -772,6 +772,7 @@ object F_Caracteristique: TF_Caracteristique
       object bt_fermer: TFWClose
         Left = 886
         Top = 0
+        Height = 25
         Caption = 'Fermer'
         TabOrder = 0
         Layout = blGlyphRight
@@ -790,7 +791,7 @@ object F_Caracteristique: TF_Caracteristique
       object bt_imprimer: TFWPrintGrid
         Left = 13
         Top = 0
-        Width = 80
+        Height = 25
         Hint = 'Impression des r'#233'sultats de la s'#233'lection'
         Caption = 'Imprimer'
         TabOrder = 2
@@ -801,10 +802,9 @@ object F_Caracteristique: TF_Caracteristique
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
-        DBGrid = gd_famillevente
         DBTitle = 'Caract'#233'ristiques d'#39'articles'
+        DBGrid = gd_famillevente
         ExplicitLeft = 361
-        ExplicitHeight = 25
       end
     end
   end
