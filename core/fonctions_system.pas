@@ -123,8 +123,11 @@ uses
   SHFolder,
 {$ENDIF}
   fonctions_string;
+
+{$IFNDEF LINUX}
+const ENV_VARIABLE_ARCHITECTURE = {$IFDEF WINDOWS}'PROCESSOR_ARCHITECTURE'{$ELSE}'MACHTYPE'{$ENDIF};
+{$ENDIF}
 {$IFDEF WINDOWS}
-const WINDOWS_ARCHITECTURE = 'PROCESSOR_ARCHITECTURE';
       CATCH_OUTPUT  = ' 4>&1';
 {$ELSE}
 {$IFDEF UNIX}
@@ -492,7 +495,15 @@ End;
 // architecture info
 function fs_GetArchitecture : String;
 Begin
-  Result := {$IFDEF WINDOWS} GetEnvironmentVariable(WINDOWS_ARCHITECTURE) {$ELSE}fs_ExecuteProcess ( UNIX_UNAME, UNIX_ARCHITECTURE ){$ENDIF};
+  Result := {$IFDEF WINDOWS}
+            GetEnvironmentVariable(WINDOWS_ARCHITECTURE);
+            {$ELSE}
+            {$IFDEF LINUX}
+            fs_ExecuteProcess ( UNIX_UNAME, UNIX_ARCHITECTURE );
+            {$ELSE}
+            GetEnvironmentVariable(ENV_VARIABLE_ARCHITECTURE);
+            {$ENDIF}
+            {$ENDIF}
 End;
 
 // 32 or 64 bits architecture
@@ -502,7 +513,7 @@ Begin
   AString:=fs_GetArchitecture;
   if pos ( '64', AString ) > 0
    Then Result := at64
-   ELse Result := at32;
+   ELse Result := gat_ArchitectureType;
 End;
 
 // Universal file or directory open
