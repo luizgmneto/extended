@@ -4,8 +4,6 @@
 {$I ..\extends.inc}
 {$IFDEF FPC}
 {$mode Delphi}
-{$ELSE}
-{$R *.DCR}
 {$ENDIF}
 
 interface

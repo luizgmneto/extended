@@ -170,6 +170,11 @@
 			<VersionInfoKeys Name="ProductName"></VersionInfoKeys>
 			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
-		</VersionInfoKeys>
-	</Delphi.Personality>
+		</VersionInfoKeys>  <Excluded_Packages>
+      <Excluded_Packages Name="C:\Program Files\Borland\BDS\4.0\Bin\IndyCore100.bpl">Indy 10 Core</Excluded_Packages>
+      <Excluded_Packages Name="C:\Program Files\Borland\BDS\4.0\Bin\IndySystem100.bpl">Indy 10 System Runtime Package</Excluded_Packages>
+      <Excluded_Packages Name="C:\Program Files\Borland\BDS\4.0\Bin\IndyProtocols100.bpl">Indy 10 Protocols runtime package</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\ExtComponents.bpl">Fichier C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\ExtComponents.bpl non trouvé</Excluded_Packages>
+    </Excluded_Packages>
+  </Delphi.Personality>
 </BorlandProject>

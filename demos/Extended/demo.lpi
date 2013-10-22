@@ -78,10 +78,12 @@
         <ComponentName Value="Myform"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="217"/>
-        <CursorPos X="25" Y="234"/>
+        <TopLine Value="621"/>
+        <CursorPos X="39" Y="655"/>
         <UsageCount Value="12"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit2>
       <Unit3>
@@ -160,11 +162,10 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="140"/>
-        <CursorPos X="132" Y="155"/>
+        <TopLine Value="1"/>
+        <CursorPos X="60" Y="75"/>
         <UsageCount Value="85"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -1985,10 +1986,12 @@
       </Unit220>
       <Unit221>
         <Filename Value="../../../../../../lazarus/lcl/include/control.inc"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="4821"/>
-        <CursorPos X="1" Y="4835"/>
+        <TopLine Value="3619"/>
+        <CursorPos X="1" Y="3640"/>
         <UsageCount Value="12"/>
+        <Loaded Value="True"/>
       </Unit221>
       <Unit222>
         <Filename Value="../../../../../../lazarus/lcl/controls.pp"/>
@@ -2144,7 +2147,7 @@
       <Unit242>
         <Filename Value="../../extcomp/u_regextcomponents.pas"/>
         <UnitName Value="u_regextcomponents"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="10"/>
         <CursorPos X="66" Y="46"/>
@@ -2232,11 +2235,47 @@
         <UsageCount Value="10"/>
       </Unit252>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
+    <JumpHistory Count="10" HistoryIndex="9">
       <Position1>
         <Filename Value="../../extcomp/u_regextcomponents.pas"/>
         <Caret Line="46" Column="54" TopLine="7"/>
       </Position1>
+      <Position2>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="155" Column="132" TopLine="140"/>
+      </Position2>
+      <Position3>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="95" Column="38" TopLine="84"/>
+      </Position3>
+      <Position4>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="170" Column="3" TopLine="150"/>
+      </Position4>
+      <Position5>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="96" Column="38" TopLine="83"/>
+      </Position5>
+      <Position6>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="226" Column="7" TopLine="201"/>
+      </Position6>
+      <Position7>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="97" Column="44" TopLine="83"/>
+      </Position7>
+      <Position8>
+        <Filename Value="u_components.lfm"/>
+        <Caret Line="234" Column="44" TopLine="217"/>
+      </Position8>
+      <Position9>
+        <Filename Value="u_components.lfm"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position9>
+      <Position10>
+        <Filename Value="u_components.pas"/>
+        <Caret Line="86" Column="16" TopLine="83"/>
+      </Position10>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
