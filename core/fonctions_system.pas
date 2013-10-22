@@ -495,14 +495,10 @@ End;
 // architecture info
 function fs_GetArchitecture : String;
 Begin
-  Result := {$IFDEF WINDOWS}
-            GetEnvironmentVariable(WINDOWS_ARCHITECTURE);
-            {$ELSE}
-            {$IFDEF LINUX}
+  Result := {$IFDEF LINUX}
             fs_ExecuteProcess ( UNIX_UNAME, UNIX_ARCHITECTURE );
             {$ELSE}
             GetEnvironmentVariable(ENV_VARIABLE_ARCHITECTURE);
-            {$ENDIF}
             {$ENDIF}
 End;
 
