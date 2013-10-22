@@ -1,6 +1,9 @@
 program demo;
 
 uses
+  {$IFDEF FPC}
+  Interfaces,
+  {$ENDIF}
   Forms,
   u_components in 'u_components.pas' {Myform: TF_FormMainIni};
 
