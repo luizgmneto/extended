@@ -22,7 +22,7 @@ object F_Update: TF_Update
     Align = alBottom
     TabOrder = 0
   end
-  object FWDownLoad: TFWLoad
+  object FWDownLoad: TFWRefresh
     Left = 80
     Top = 40
     Width = 113
@@ -44,6 +44,9 @@ object F_Update: TF_Update
     FileUpdate = 'LINUX_A5.pdf'
     URLBase = 'http://www.aides-informatique.com/IMG/pdf/'
     Progress = ProgressBar
+    OnErrorMessage = NetUpdateErrorMessage
+    OnDownloading = NetUpdateDownloading
+    OnDownloaded = NetUpdateDownloaded
     IdComponent = IdHTTP
     Left = 72
     Top = 80

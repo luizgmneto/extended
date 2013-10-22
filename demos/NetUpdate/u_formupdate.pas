@@ -1,37 +1,36 @@
-﻿unit u_formupdate;
+unit u_formupdate;
 
 {$IFDEF FPC}
-  {$MODE Delphi}
+{$mode Delphi}
 {$ENDIF}
+
 
 interface
 
 uses
-{$IFNDEF FPC}
-  JvExControls, Windows,
-  IdBaseComponent,
-  IdComponent, IdTCPConnection, IdTCPClient, IdHTTP,
-{$ELSE}
-  LCLIntf, LCLType, LMessages, lNetComponents,
-{$ENDIF}
-  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, u_netupdate, ComCtrls,  JvXPCore,
-  JvXPButtons, u_buttons_defs, u_buttons_appli;
+  {$IFDEF FPC}
+  lNetComponents,FileUtil, JvXPCore, JvXPButtons,
+  {$ELSE}
+  IdHttp, IdBaseComponent, IdComponent, IdTCPConnection,
+  IdTCPClient, JvExControls,
+  {$ENDIF}
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls,
+  u_netupdate, u_buttons_appli,  u_buttons_defs, JvXPCore, JvXPButtons;
 
 type
 
   { TF_Update }
 
   TF_Update = class(TForm)
-    NetUpdate: TNetUpdate;
-    {$IFNDEF FPC}
-    IdHTTP: TIdHTTP;
-    {$ELSE}
-    LHTTPClient: TLHTTPClientComponent;
-    {$ENDIF}
-    ProgressBar: TProgressBar;
-    FWDownLoad: TFWLoad;
+    FWDownload: TFWRefresh;
     FWLoad: TFWLoad;
+{$IFDEF FPC}
+    LHTTPClient: TLHTTPClientComponent;
+{$ELSE}
+    IdHttp : TIdHttp;
+{$ENDIF}
+    NetUpdate: TNetUpdate;
+    ProgressBar: TProgressBar;
     procedure FormCreate(Sender: TObject);
     procedure FWDownLoadClick(Sender: TObject);
     procedure FWLoadClick(Sender: TObject);
@@ -42,9 +41,9 @@ type
     procedure NetUpdateErrorMessage(const Sender: TObject;
       const ErrorCode: integer; const ErrorMessage: string);
   private
-    { Déclarations privées }
+    { private declarations }
   public
-    { Déclarations publiques }
+    { public declarations }
   end;
 
 var
@@ -52,10 +51,10 @@ var
 
 implementation
 
-{$IFNDEF FPC}
-  {$R *.dfm}
+{$IFDEF FPC}
+{$R *.lfm}
 {$ELSE}
-  {$R *.lfm}
+{$R *.dfm}
 {$ENDIF}
 
 uses fonctions_system;
@@ -98,3 +97,4 @@ begin
 end;
 
 end.
+

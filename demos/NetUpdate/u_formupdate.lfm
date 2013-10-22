@@ -1,40 +1,38 @@
 object F_Update: TF_Update
-  Left = 0
-  Height = 174
-  Top = 0
-  Width = 280
-  Caption = 'Form1'
-  ClientHeight = 174
-  ClientWidth = 280
-  Color = clBtnFace
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Left = 499
+  Height = 240
+  Top = 161
+  Width = 320
+  Caption = 'F_Update'
+  ClientHeight = 240
+  ClientWidth = 320
   OnCreate = FormCreate
   LCLVersion = '1.0.10.0'
   object ProgressBar: TProgressBar
     Left = 0
-    Height = 17
-    Top = 157
-    Width = 280
+    Height = 20
+    Top = 220
+    Width = 320
     Align = alBottom
     TabOrder = 0
   end
-  object FWDownLoad: TFWLoad
-    Left = 80
-    Height = 33
-    Top = 40
-    Width = 113
-    Caption = 'DownLoad'
+  object FWDownload: TFWRefresh
+    Left = 88
+    Height = 25
+    Top = 64
+    Width = 120
+    Caption = 'Download'
     TabOrder = 1
+    OnClick = FWDownloadClick
   end
   object FWLoad: TFWLoad
-    Left = 80
-    Height = 33
-    Top = 88
-    Width = 113
-    Caption = 'Open'
+    Left = 88
+    Height = 25
+    Top = 128
+    Width = 120
+    Caption = 'FWLoad'
     TabOrder = 2
+    OnClick = FWLoadClick
   end
   object NetUpdate: TNetUpdate
     FileUpdate = 'LINUX_A5.pdf'
@@ -44,12 +42,12 @@ object F_Update: TF_Update
     OnDownloading = NetUpdateDownloading
     OnDownloaded = NetUpdateDownloaded
     LNetComponent = LHTTPClient
-    left = 72
-    top = 80
+    left = 85
+    top = 70
   end
   object LHTTPClient: TLHTTPClientComponent
     Timeout = 0
-    left = 131
-    top = 25
+    left = 230
+    top = 66
   end
 end
