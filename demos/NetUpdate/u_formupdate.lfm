@@ -7,7 +7,7 @@ object F_Update: TF_Update
   ClientHeight = 240
   ClientWidth = 320
   OnCreate = FormCreate
-  LCLVersion = '1.0.10.0'
+  LCLVersion = '1.0.12.0'
   object ProgressBar: TProgressBar
     Left = 0
     Height = 20
@@ -50,4 +50,4 @@ object F_Update: TF_Update
     left = 230
     top = 66
   end
-end
+end

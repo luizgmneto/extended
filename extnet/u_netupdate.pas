@@ -117,7 +117,6 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure Loaded; override;
     procedure UpdateIniPage; virtual;
     procedure Update; virtual;
     procedure VerifyUpdate; virtual;
@@ -182,6 +181,7 @@ uses fonctions_string,
 
 { TNetUpdate }
 
+// init
 constructor TNetUpdate.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -203,6 +203,7 @@ begin
   gb_Messages := True;
 end;
 
+// auto delete update files
 destructor TNetUpdate.Destroy;
 begin
   if (gs_UpdateDir > '') and (gs_FilePage > '') and
@@ -212,11 +213,7 @@ begin
   inherited Destroy;
 end;
 
-procedure TNetUpdate.Loaded;
-begin
-  inherited Loaded;
-end;
-
+// MD5 from file
 procedure TNetUpdate.SetMD5;
 begin
   {$IFDEF MD5}
@@ -234,6 +231,9 @@ begin
     gs_md5File := '';
 
 end;
+
+// if file verify if there isa file
+// return file name
 function TNetUpdate.GetOptionalFilename:String;
 Begin
   if not gb_Buffered Then
@@ -251,6 +251,7 @@ end;
 
 {$IFDEF LNET}
 
+// lnet input end
 procedure TNetUpdate.HTTPClientDoneInput(ASocket: TLHTTPClientSocket);
 var
   gb_ok : Boolean ;
@@ -268,6 +269,7 @@ begin
   AfterUpdate(ls_File, gb_ok );
 end;
 
+// lnet error
 procedure TNetUpdate.HTTPClientError(const msg: string; aSocket: TLSocket);
 var
   sMessage: string;
@@ -315,6 +317,7 @@ begin
   OnError(iError, sMessage);
 end;
 
+// http input
 function TNetUpdate.HTTPClientInput(ASocket: TLHTTPClientSocket;
   ABuffer: PChar; ASize: integer): integer;
 {$ELSE}
@@ -324,8 +327,24 @@ procedure TNetUpdate.IdWork(ASender: TObject; AWorkMode: TWorkMode;
 var
   OldLength: integer;
 begin
+  if gi_Weight = 0 Then
+   Begin
+    {$IFDEF LNET}
+    if gc_Component is TLHTTPClient Then
+     gi_Weight:=( gc_Component as TLHTTPClient ).ContentLength;
+    {$ELSE}
+     // to do
+    {$ENDIF}
+    if gi_Weight = 0 Then
+     gi_Weight:=100000; // do not return here
+    if assigned ( ge_IniRead ) Then
+      ge_IniRead ( Self, gi_Weight );
+    if assigned ( gpb_Progress ) Then
+      gpb_Progress.Max := gi_Weight ;
+   End;
+
   if ASize <= 0 then
-    Exit;
+    Exit; // nothing to do
   try
     {$IFDEF LNET}
     if gb_Buffered then
@@ -360,6 +379,8 @@ begin
   end;
 
 end;
+
+// unlink design of component
 procedure TNetUpdate.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
@@ -374,7 +395,7 @@ begin
     Progress := nil;
 end;
 
-
+// Update ini before updating file with ini
 procedure TNetUpdate.UpdateIniPage;
 begin
   if CanDownloadIni then
@@ -383,6 +404,7 @@ begin
     GetURL(gs_URL, gs_UpdateDir, gs_FilePage, usPage);
 end;
 
+// update file with optional ini
 procedure TNetUpdate.Update;
 begin
   SetMD5;
@@ -396,6 +418,7 @@ begin
       GetURL(gs_URL, gs_UpdateDir, gs_File, usFile);
 end;
 
+// can we download file ?
 function TNetUpdate.CanDownloadFile: boolean;
 begin
   if (gs_File = '') or (gs_URL = '') or (gs_UpdateDir = '') then
@@ -404,6 +427,7 @@ begin
     Result := True;
 end;
 
+// can we download ini ?
 function TNetUpdate.CanDownloadIni: boolean;
 begin
   if (gs_Ini = '') or (gs_URL = '') or (gs_UpdateDir = '') then
@@ -412,6 +436,7 @@ begin
     Result := True;
 end;
 
+// can we download page ?
 function TNetUpdate.CanDownloadPage: boolean;
 begin
   if (gs_FilePage = '') or (gs_URL = '') or (gs_UpdateDir = '') then
@@ -420,6 +445,7 @@ begin
     Result := True;
 end;
 
+// autoset external net component
 procedure TNetUpdate.p_SetComponent(const AValue: {$IFDEF LNET} TLComponent{$ELSE}TIdTCPConnection{$ENDIF});
 begin
   gc_Component := AValue;
@@ -437,6 +463,7 @@ begin
    {$ENDIF}
 end;
 
+// update dir set
 procedure TNetUpdate.SetUpdateDir(const AValue: String);
 begin
   gs_UpdateDir:=AValue;
@@ -444,6 +471,7 @@ begin
     gs_UpdateDir:=IncludeTrailingPathDelimiter(gs_UpdateDir);
 end;
 
+// download ini page or file
 procedure TNetUpdate.GetURL(const as_URL, as_LocalDir, as_FileName: string;
   const aus_Step: TUpdateStep = usNone);
 var
@@ -469,7 +497,10 @@ begin
   gus_UpdateStep := aus_Step;
   IncludeTrailingPathDelimiter(as_LocalDir);
   if gpb_Progress <> nil then
-    gpb_Progress.Position := 0;
+   Begin
+     gpb_Progress.Position := 0;
+     gpb_Progress.Max := gi_Weight;
+   End;
   {$IFDEF LNET}
   DecomposeURL(as_URL + as_FileName, aHost, aURI, aPort);
   if gc_Component is TLHTTPClientComponent then
@@ -518,10 +549,10 @@ begin
     end;
 end;
 
-
+// verify befor downloading
 procedure TNetUpdate.VerifyUpdate;
 var
-  ls_filePath, ls_urlfile: string;
+  ls_filePath: string;
 begin
   if not CanDownloadFile then
     Exit;
@@ -538,12 +569,12 @@ begin
 
     end;
   gb_IsUpdating := True;
-  ls_urlfile := gs_URL + gs_File;
   doShowWorking(gs_Please_Wait + CST_ENDOFLINE + fs_RemplaceMsg(
-    gs_Downloading_in_progress, [ls_urlfile]));
+    gs_Downloading_in_progress, [gs_URL + gs_File]));
   GetURL(gs_URL, gs_UpdateDir, gs_File);
 end;
 
+// ini loading after downloading
 procedure TNetUpdate.VerifyIni(const as_file: string);
 var
   ls_File : String;
@@ -554,7 +585,7 @@ begin
     try
       if Assigned(ge_CreateIni) then
         ge_CreateIni(Self);
-      gi_Weight := gini_inifile.ReadInteger(INI_FILE_UPDATE, INI_FILE_UPDATE_SIZE, 1000000); // 0 is impossible
+      gi_Weight := gini_inifile.ReadInteger(INI_FILE_UPDATE, INI_FILE_UPDATE_SIZE, 0); // 0 is impossible
       gs_VersionExeUpdate := gini_inifile.ReadString(
         INI_FILE_UPDATE, INI_FILE_UPDATE_EXE_VERSION, '0');
       gs_Date := gini_inifile.ReadString(INI_FILE_UPDATE, INI_FILE_UPDATE_DATE, '0');
@@ -580,6 +611,7 @@ begin
     GetURL(gs_URL, gs_UpdateDir, gs_FilePage, usPage);
 end;
 
+// dispatch after downloading
 procedure TNetUpdate.AfterUpdate(const as_file: string;
   const ab_StatusOK: boolean);
 var gb_MD5OK : Boolean;
@@ -611,6 +643,7 @@ begin
     end;
 end;
 
+// optional error event
 procedure TNetUpdate.OnError(const ai_error: integer; const as_Message: string);
 begin
   if Assigned(ge_ErrorEvent) then
@@ -621,4 +654,4 @@ end;
 initialization
   p_ConcatVersion(gVer_netupdate);
 {$ENDIF}
-end.
+end.
