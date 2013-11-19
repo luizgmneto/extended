@@ -73,6 +73,7 @@ type
   function HexToBinary ( const ALines : TStrings ; const AStream : TStream ): Boolean;
   function fs_ReplaceEndOfLines ( const ALines : TStrings; const as_replace : String = '\n' ): String;
   function fs_SeparateTextFromWidth ( ASText : String; const ANeededWidth : Integer; const Acanvas : TCanvas; const Ach_separator : Char = ' ' ) : TStringArray ;
+  function fs_IfThen ( const ab_IfTest : Boolean; const as_IfTrue, as_IfFalse : String ) : String;
 const
 {$IFDEF VERSIONS}
     gVer_fonction_string : T_Version = ( Component : 'String management' ; FileUnit : 'fonctions_string' ;
@@ -119,6 +120,13 @@ begin
     raise EConvertError.Create(GS_STRING_MUST_BE_HEXA);
   end;
 end;
+
+function fs_IfThen ( const ab_IfTest : Boolean; const as_IfTrue, as_IfFalse : String ) : String;
+Begin
+  if ab_IfTest
+   Then Result := as_IfTrue
+   else Result := as_IfFalse;
+End;
 
 function HexToBinary ( const ALines : TStrings ; const AStream : TStream ): Boolean;
 var I : Integer;
