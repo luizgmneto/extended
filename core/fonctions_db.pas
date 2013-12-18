@@ -57,6 +57,7 @@ type TSpecialProcDataset = procedure ( const ADataset : TDataset );
 const
   ge_SpecialRefreshDataset : TSpecialProcDataset = nil;
   ge_SpecialSort : TSpecialFuncSort = nil;
+  CST_EXTENSION_SQL_FILE = '.sql';
   CST_SQL_ORDER_BY = 'ORDER BY ' ;
   CST_SQL_ASC  = ' ASC'  ;
   CST_SQL_DESC = ' DESC' ;
