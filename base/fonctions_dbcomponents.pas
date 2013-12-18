@@ -25,8 +25,6 @@ uses SysUtils,
   Classes ;
 
 type
-  TOnGetSQL = function : String;
-  TOnCreateDatabase = function ( const as_base, as_user, as_password : String ) : String;
   TOnExecuteQuery = procedure ( const adat_Dataset: Tdataset );
   TOnExecuteCommand = procedure ( const as_SQL: {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
 
@@ -46,9 +44,6 @@ const
 
   {$ENDIF}
   ge_OnExecuteQuery: TOnExecuteQuery = nil;
-  ge_OnBeginCreateAlter: TOnGetSQL = nil;
-  ge_OnEndCreateAlter: TOnGetSQL = nil;
-  ge_OnCreateDatabase: TOnCreateDatabase = nil;
   ge_OnExecuteCommand: TOnExecuteCommand = nil;
   ge_OnRefreshDataset : TSpecialFuncDataset = nil;
   CST_DBPROPERTY_SQL = 'SQL';
@@ -80,9 +75,6 @@ procedure p_SetComponentsConnexions ( const acom_Form : TComponent ; acco_Connex
 function  fb_RefreshDatasetIfEmpty ( const adat_Dataset : TDataset ) : Boolean ;
 procedure p_ExecuteSQLCommand ( const as_Command :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
 procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
-function fs_CreateDatabase  ( const as_base, as_user, as_password : String ):String;
-function fs_BeginAlterCreate :String;
-function fs_EndAlterCreate :String;
 function fdat_CloneDatasetWithoutSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithoutSQLWithDataSource ( const adat_ADataset : Tdataset ; const AOwner : TComponent ; var ads_Datasource : TDatasource  ) : Tdataset;
@@ -165,27 +157,6 @@ Begin
      p_ShowSQLError(E.Message,as_Command);
   end;
 End ;
-
-function fs_BeginAlterCreate :String;
-Begin
-  if assigned ( ge_OnBeginCreateAlter )
-   Then Result := ge_OnBeginCreateAlter
-   Else Result := '';
-End;
-
-function fs_EndAlterCreate :String;
-Begin
-  if assigned ( ge_OnEndCreateAlter )
-   Then Result := ge_OnEndCreateAlter
-   Else Result := '';
-End;
-
-function fs_CreateDatabase  ( const as_base, as_user, as_password : String ):String;
-Begin
-  if assigned ( ge_OnCreateDatabase )
-   Then Result := ge_OnCreateDatabase (  as_base, as_user, as_password )
-   Else Result := '';
-End;
 
 //////////////////////////////////////////////////////////////////////
 // Fonction retournant la connexion copiée avec le lien SGBD
