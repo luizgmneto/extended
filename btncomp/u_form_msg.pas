@@ -62,11 +62,12 @@ type
   { TFMsg }
 
   TFMsg=class(TF_FormAdapt)
+    Image: TExtImage;
+    lbMsg: TStaticText;
+    Panel1: TPanel;
+    Panel3: TPanel;
     PanelButtons: TPanel;
     Panel2:TPanel;
-    lbMsg:TLabel;
-    Image: TExtImage;
-    MemoMsg: TStaticText;
 
     procedure FormShow(Sender: TObject);
     procedure SuperFormKeyDown(Sender:TObject;var Key:Word;
@@ -206,8 +207,6 @@ begin
     PlaceType(CST_IMAGE_Error,gs_Error);
   end;
 
-  MemoMsg.Visible:=ModeMemo;
-  lbMsg.Visible:=not ModeMemo;
 end;
 
 procedure TFMsg.SuperFormKeyDown(Sender:TObject;var Key:Word;Shift:TShiftState);
@@ -221,18 +220,8 @@ procedure TFMsg.FormShow(Sender: TObject);
 var  RectMonitor:TRect;
 
 begin
- if ModeMemo then  //MG 2012
-  begin
-    MemoMsg.Font.Style:=lbMsg.Font.Style;
-    MemoMsg.Caption:=lbMsg.Caption;
-    Height:=MemoMsg.Height+45;
-    Width:=MemoMsg.Width+56;
-  end
-  else
-  begin
-    Height:=lbMsg.Height+45; //AL 2009
-    Width:=lbMsg.Width+56;
-  end;
+   //MG 2012
+  Height:=lbMsg.Height+75; //AL 2009
 
   if (proprio=nil)and Assigned(Application.MainForm)
    then
