@@ -8,6 +8,7 @@ interface
 
 uses
   Classes, SysUtils,
+  Graphics,
   Dialogs, Controls,
   u_form_working;
 
@@ -17,19 +18,20 @@ const
        			                 FileUnit : 'fonctions_FenetrePrincipale' ;
        			                 Owner : 'Matthieu Giroux' ;
        			                 Comment : 'Fenêtre principale utilisée pour la gestion automatisée à partir du fichier INI, avec des menus composés à partir des données.' + #13#10 + 'Elle dépend du composant Fenêtre principale qui lui n''est pas lié à l''application.' ;
-      			                 BugsStory : 'Version 1.0.0.1 : p_volet* functions Tested.' + #13#10
+      			                 BugsStory : 'Version 1.0.1.0 : Simplifying.' + #13#10
+                                                   + 'Version 1.0.0.1 : p_volet* functions Tested.' + #13#10
                                                    + 'Version 1.0.0.0 : Tested.' + #13#10
                                                    + 'Version 0.0.0.1 : Centralising.' + #13#10 ;
 			                 UnitType : CST_TYPE_UNITE_FONCTIONS ;
-			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
+			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 {$ENDIF}
 
 procedure doShowWorking(const sText:string;const Cancel:boolean=false);//AL
 procedure doCloseWorking;
 
-function MyMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer=4;const proprio:TControl=nil):Word; overload;
-function MyMessageDlg(const Title,Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const Help : Integer = 0; const StyleLb:Integer = 4;const proprio:TControl=nil):Word; overload;
-function AMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer=4;const proprio:TControl=nil):Word;
+function MyMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word; overload;
+function MyMessageDlg(const Title,Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const Help : Integer = 0; const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word; overload;
+function AMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
 
 
 var gF_Working:TFWorking;
@@ -38,8 +40,7 @@ var gF_Working:TFWorking;
 implementation
 
 uses u_form_msg,
-     Forms,
-     Graphics;
+     Forms;
 
 
 procedure doShowWorking(const sText:string;const Cancel:boolean=false);//AL
@@ -57,35 +58,31 @@ begin
 end;
 
 
-function MyMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer=4;const proprio:TControl=nil):Word;
+function MyMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
 Begin
   doCloseWorking;
-  Result := AMessageDlg( Msg, DlgType, Buttons, StyleLb, proprio);
+  Result := AMessageDlg( Msg, ADlgType, AButtons, proprio, StyleLb);
 end;
 
-function CreateMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer;const proprio:TControl=nil):TFMsg;
+function CreateMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):TFMsg;
 begin
   Result:=TFMsg.create(proprio);
-    Result.lbMsg.Caption:=Msg;
-    Result.Buttons:=Buttons;
-    Result.DlgType:=DlgType;
-    with Result.lbMsg.Font do
-      case StyleLb of
-        0,4:Style:= [fsBold];
-        1,5:Style:= [];
-        2,6:Style:= [fsItalic];
-        3,7:Style:= [fsUnderline];
-      end;
-    Result.ModeMemo:=StyleLb>3;
-    Result.proprio:=proprio;
-    Result.InitMessage;
+  with Result do
+   Begin
+    lbMsg.Caption:=Msg;
+    lbMsg.Font.Style := StyleLb;
+    Buttons:=AButtons;
+    DlgType:=ADlgType;
+    AOwner:=proprio;
+    InitMessage;
+   end;
 
 end;
 
-function AMessageDlg(const Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const StyleLb:Integer=4;const proprio:TControl=nil):Word;
+function AMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
 var lf_MessageDlg : TFMsg;
 Begin
- lf_MessageDlg := CreateMessageDlg(Msg, DlgType, Buttons, StyleLb, proprio);
+ lf_MessageDlg := CreateMessageDlg(Msg, ADlgType, AButtons, proprio, StyleLb);
  try
    result:=lf_MessageDlg.ShowModal;
  finally
@@ -93,10 +90,10 @@ Begin
  end;
 end;
 
-function MyMessageDlg(const Title,Msg:string;const DlgType:TMsgDlgType;const Buttons:TMsgDlgButtons;const Help : Integer = 0; const StyleLb:Integer = 4;const proprio:TControl=nil):Word;
+function MyMessageDlg(const Title,Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const Help : Integer = 0; const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
 var lf_MessageDlg : TFMsg;
 Begin
- lf_MessageDlg := CreateMessageDlg(Msg, DlgType, Buttons, StyleLb, proprio);
+ lf_MessageDlg := CreateMessageDlg(Msg, ADlgType, AButtons, proprio, StyleLb);
  lf_MessageDlg.Caption:=Title;
  lf_MessageDlg.HelpContext:=Help;
  try
@@ -108,4 +105,4 @@ end;
 
 
 end.
-
+

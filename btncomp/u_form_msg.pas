@@ -52,9 +52,10 @@ const
        			                 FileUnit : 'u_form_working' ;
        			                 Owner : 'Matthieu Giroux' ;
        			                 Comment : 'Ask or tell anything.' ;
-      			                 BugsStory :'Version 0.1.0.0 : From other software' ;
+      			                 BugsStory :'Version 0.1.1.0 : Simplifying.'+#10
+                                                   +'Version 0.1.0.0 : From other software';
 			                 UnitType : CST_TYPE_UNITE_FICHE ;
-			                 Major : 0 ; Minor : 1 ; Release : 0 ; Build : 0 );
+			                 Major : 0 ; Minor : 1 ; Release : 1 ; Build : 0 );
 {$ENDIF}
 
 type
@@ -64,10 +65,7 @@ type
   TFMsg=class(TF_FormAdapt)
     Image: TExtImage;
     lbMsg: TStaticText;
-    Panel1: TPanel;
-    Panel3: TPanel;
     PanelButtons: TPanel;
-    Panel2:TPanel;
 
     procedure FormShow(Sender: TObject);
     procedure SuperFormKeyDown(Sender:TObject;var Key:Word;
@@ -77,8 +75,7 @@ type
     fDlgType:TMsgDlgType;
 
   public
-    ModeMemo:boolean;
-    proprio : TControl;
+    AOwner : TControl;
     property Buttons:TMsgDlgButtons read fButtons write fButtons;
     property DlgType:TMsgDlgType read fDlgType write fDlgType;
     procedure InitMessage;
@@ -221,17 +218,17 @@ var  RectMonitor:TRect;
 
 begin
    //MG 2012
-  Height:=lbMsg.Height+75; //AL 2009
+  Height:=lbMsg.Height+45; //AL 2009
 
-  if (proprio=nil)and Assigned(Application.MainForm)
+  if (AOwner=nil)and Assigned(Application.MainForm)
    then
-     proprio:=Application.MainForm;
+     AOwner:=Application.MainForm;
 
-  if proprio<>nil then
+  if AOwner<>nil then
     begin
       Position:=poDesigned;
-      Left:=proprio.Left+(proprio.Width-Width)div 2;
-      Top:=proprio.Top+(proprio.Height-Height)div 2;
+      Left:=AOwner.Left+(AOwner.Width-Width)div 2;
+      Top:=AOwner.Top+(AOwner.Height-Height)div 2;
       RectMonitor:=Monitor.WorkareaRect;
 
       if (Top+Height)>RectMonitor.Bottom then
@@ -253,4 +250,4 @@ initialization
   p_ConcatVersion ( gVer_F_Msg );
 {$ENDIF}
 end.
-
+

@@ -35,22 +35,15 @@ inherited FMsg: TFMsg
       Width = 32
       Transparent = True
     end
-    object lbMsg: TLabel
+    object lbMsg: TStaticText
       Left = 35
       Height = 20
       Top = 8
       Width = 286
+      AutoSize = True
       Constraints.MinHeight = 20
       Constraints.MinWidth = 286
-      ParentColor = False
-    end
-    object MemoMsg: TStaticText
-      Left = 37
-      Height = 18
-      Top = 8
-      Width = 283
-      Caption = 'MemoMsg'
-      TabOrder = 0
+      TabOrder = 1
     end
     object PanelButtons: TPanel
       Left = 2
@@ -59,7 +52,7 @@ inherited FMsg: TFMsg
       Width = 316
       Align = alBottom
       BevelOuter = bvNone
-      TabOrder = 1
+      TabOrder = 0
     end
   end
 end
