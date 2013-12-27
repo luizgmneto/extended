@@ -18,17 +18,19 @@ const
        			                 FileUnit : 'fonctions_FenetrePrincipale' ;
        			                 Owner : 'Matthieu Giroux' ;
        			                 Comment : 'Fenêtre principale utilisée pour la gestion automatisée à partir du fichier INI, avec des menus composés à partir des données.' + #13#10 + 'Elle dépend du composant Fenêtre principale qui lui n''est pas lié à l''application.' ;
-      			                 BugsStory : 'Version 1.0.1.0 : Simplifying.' + #13#10
+      			                 BugsStory : 'Version 1.0.2.0 : MyShowMessage function.' + #13#10
+                                                   + 'Version 1.0.1.0 : Simplifying.' + #13#10
                                                    + 'Version 1.0.0.1 : p_volet* functions Tested.' + #13#10
                                                    + 'Version 1.0.0.0 : Tested.' + #13#10
                                                    + 'Version 0.0.0.1 : Centralising.' + #13#10 ;
 			                 UnitType : CST_TYPE_UNITE_FONCTIONS ;
-			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
+			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
 {$ENDIF}
 
 procedure doShowWorking(const sText:string;const Cancel:boolean=false);//AL
 procedure doCloseWorking;
 
+function MyShowMessage(const Msg:string;const ADlgType:TMsgDlgType=mtWarning;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
 function MyMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word; overload;
 function MyMessageDlg(const Title,Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const Help : Integer = 0; const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word; overload;
 function AMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
@@ -62,6 +64,12 @@ function MyMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons
 Begin
   doCloseWorking;
   Result := AMessageDlg( Msg, ADlgType, AButtons, proprio, StyleLb);
+end;
+
+function MyShowMessage(const Msg:string;const ADlgType:TMsgDlgType=mtWarning;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
+Begin
+  doCloseWorking;
+  Result := AMessageDlg( Msg, ADlgType, [mbOK], proprio, StyleLb);
 end;
 
 function CreateMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):TFMsg;
@@ -105,4 +113,4 @@ end;
 
 
 end.
-
+

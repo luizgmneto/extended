@@ -249,6 +249,52 @@ type
 
 
 
+    { TFWDBFileEdit }
+
+    TFWDBFileEdit = class ( {$IFDEF FPC}TFWDateTimePicker{$ELSE}TJvDBDateTimePicker{$ENDIF}, IFWComponent, IFWComponentEdit )
+       private
+         FReadOnly : Boolean;
+         FBeforePopup : TPopUpMenuEvent;
+         FOnPopup : TNotifyEvent;
+          FDataLink: TFieldDataLink;
+          function GetDataField: string;
+          function GetDataSource: TDataSource;
+          function GetField: TField;
+          procedure SetDataField(const AValue: string);
+          procedure SetDataSource(AValue: TDataSource);
+          procedure WMCut(var Message: TMessage); message {$IFDEF FPC} LM_CUT {$ELSE} WM_CUT {$ENDIF};
+          procedure WMPaste(var Message: TMessage); message {$IFDEF FPC} LM_PASTE {$ELSE} WM_PASTE {$ENDIF};
+          procedure CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF}); message CM_EXIT;
+          procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
+       protected
+          procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+          procedure UpdateDate; override;
+          procedure ActiveChange(Sender: TObject); virtual;
+          procedure DataChange(Sender: TObject); virtual;
+          procedure UpdateData(Sender: TObject); virtual;
+          function GetReadOnly: Boolean; virtual;
+          procedure SetReadOnly(AValue: Boolean); virtual;
+          procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+        public
+          procedure Loaded; override;
+          constructor Create(AOwner: TComponent); override;
+          destructor Destroy; override;
+          function ExecuteAction(AAction: TBasicAction): Boolean; override;
+          function UpdateAction(AAction: TBasicAction): Boolean; override;
+          property Field: TField read GetField;
+        published
+          property Date stored False ;
+          property Time stored False ;
+          property DataField: string read GetDataField write SetDataField stored True;
+          property DataSource: TDataSource read GetDataSource write SetDataSource stored True;
+          property ReadOnly: Boolean read GetReadOnly write SetReadOnly default false;
+          property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
+          property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
+          property PopupMenu;
+      End;
+
+
+
    { TFWDBLookupCombo }
    TFWDBLookupCombo = class ( {$IFDEF JEDI}TJvDBLookupCombo{$ELSE}{$IFDEF RXCOMBO}TRxDBLookupCombo{$ELSE}TDBLookupComboBox{$ENDIF}{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
@@ -806,6 +852,178 @@ Begin
 End;
 
 {$ENDIF}
+{ TFWDBFileEdit }
+
+constructor TFWDBFileEdit.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FDataLink := TFieldDataLink.Create ;
+  FDataLink.DataSource := nil ;
+  FDataLink.FieldName  := '' ;
+  FDataLink.Control := Self;
+  FDataLink.OnDataChange := DataChange;
+  FDataLink.OnUpdateData := UpdateData;
+  FDataLink.OnActiveChange := ActiveChange;
+  ControlStyle := ControlStyle + [csReplicatable];
+end;
+
+destructor TFWDBFileEdit.Destroy;
+begin
+  inherited Destroy;
+  FDataLink.Free ;
+end;
+
+procedure TFWDBFileEdit.Loaded;
+begin
+  inherited Loaded;
+  if (csDesigning in ComponentState) then
+    Begin
+      DataChange(Self);
+    End ;
+end;
+
+procedure TFWDBFileEdit.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation <> opRemove) Then Exit;
+  if (FDataLink <> nil) and
+    (AComponent = DataSource) then DataSource := nil;
+end;
+
+function TFWDBFileEdit.GetDataSource: TDataSource;
+begin
+  Result := FDataLink.DataSource;
+end;
+
+procedure TFWDBFileEdit.SetDataSource(AValue: TDataSource);
+begin
+  if not (FDataLink.DataSourceFixed and (csLoading in ComponentState)) then
+    FDataLink.DataSource := AValue;
+  if AValue <> nil then AValue.FreeNotification(Self);
+end;
+
+function TFWDBFileEdit.GetDataField: string;
+begin
+  Result := FDataLink.FieldName;
+end;
+
+procedure TFWDBFileEdit.SetDataField(const AValue: string);
+begin
+  if  assigned ( FDataLink.DataSet )
+  and FDataLink.DataSet.Active Then
+    Begin
+      if assigned ( FDataLink.DataSet.FindField ( AValue ))
+      and ( FDataLink.DataSet.FindField ( AValue ) is TNumericField ) Then
+        FDataLink.FieldName := AValue;
+    End
+  Else
+    FDataLink.FieldName := AValue;
+end;
+
+function TFWDBFileEdit.GetReadOnly: Boolean;
+begin
+  Result := FDataLink.ReadOnly or FReadOnly;
+end;
+
+procedure TFWDBFileEdit.SetReadOnly(AValue: Boolean);
+begin
+  FReadOnly := AValue;
+end;
+
+function TFWDBFileEdit.GetField: TField;
+begin
+  Result := FDataLink.Field;
+end;
+
+procedure TFWDBFileEdit.ActiveChange(Sender: TObject);
+begin
+  if FDataLink.Field <> nil then
+    begin
+      DateTime := FDataLink.Field.AsDateTime;
+    end;
+end;
+
+procedure TFWDBFileEdit.DataChange(Sender: TObject);
+begin
+  if FDataLink.Field <> nil then
+    begin
+      DateTime := FDataLink.Field.AsDateTime;
+    end;
+end;
+
+
+procedure TFWDBFileEdit.UpdateData(Sender: TObject);
+begin
+  if DateTime > -1 Then
+    Begin
+      FDataLink.Edit ;
+      FDataLink.Field.Value := DateTime ;
+    End ;
+end;
+
+procedure TFWDBFileEdit.WMPaste(var Message: TMessage);
+begin
+  FDataLink.Edit;
+  inherited;
+end;
+
+procedure TFWDBFileEdit.WMCut(var Message: TMessage);
+begin
+  FDataLink.Edit;
+  inherited;
+end;
+
+procedure TFWDBFileEdit.CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF});
+begin
+  try
+    FDataLink.UpdateRecord;
+  except
+    on e: Exception do
+      Begin
+        SetFocus;
+        f_GereException ( e, FDataLink.DataSet, nil , False )
+      End ;
+  end;
+  DoExit;
+end;
+
+procedure TFWDBFileEdit.CMGetDataLink(var Message: TMessage);
+begin
+  Message.Result := Integer(FDataLink);
+end;
+
+procedure TFWDBFileEdit.MouseDown(Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  inherited;
+  if Button = mbRight Then
+   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+end;
+
+function TFWDBFileEdit.ExecuteAction(AAction: TBasicAction): Boolean;
+begin
+  Result := inherited ExecuteAction(AAction){$IFDEF DELPHI}  or (FDataLink <> nil) and
+    FDataLink.ExecuteAction(AAction){$ENDIF};
+end;
+
+function TFWDBFileEdit.UpdateAction(AAction: TBasicAction): Boolean;
+begin
+  Result := inherited UpdateAction(AAction) {$IFDEF DELPHI}  or (FDataLink <> nil) and
+    FDataLink.UpdateAction(AAction){$ENDIF};
+end;
+
+procedure TFWDBFileEdit.UpdateDate;
+begin
+ Inherited;
+ if assigned ( FDataLink )
+ and assigned ( FDataLink.Field )
+ and ( FDataLink.Field.AsDateTime <> DateTime ) Then
+  Begin
+    FDataLink.Dataset.Edit ;
+    FDataLink.Field.AsDateTime := DateTime ;
+  End ;
+end;
 
 { TFWDBDateEdit }
 
@@ -1352,4 +1570,4 @@ initialization
   p_ConcatVersion(gVer_framework_DBcomponents);
 {$ENDIF}
 end.
-
+

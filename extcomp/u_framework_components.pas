@@ -32,7 +32,7 @@ uses
   StdCtrls, SysUtils,
   TypInfo, Variants, u_extcomponent,
 {$IFDEF TNT}
-   TntGrids, TntStdCtrls, 
+   TntGrids, TntStdCtrls, TntEditBtn,
 {$ENDIF}
   Grids,fonctions_erreurs;
 
@@ -42,12 +42,13 @@ const
                                                FileUnit : 'u_framework_components' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Composants d''interactivité de U_CustomFrameWork.' ;
-                                               BugsStory : '0.9.0.2 : UTF 8.'
+                                               BugsStory : '1.0.0.0 : FileEdit.'
+                                                         + '0.9.0.2 : UTF 8.'
                                                          + '0.9.0.1 : Working on Lazarus.'
                                                          + '0.9.0.0 : Creating u_framework_dbcomponents.'
                                                          + '0.8.0.0 : Gestion à tester.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 2 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
 type
@@ -99,49 +100,92 @@ type
 
    { TFWEdit }
 
-      { TFWSpinEdit }
+    TFWFileEdit = class ( {$IFDEF TNT}TTntFileNameEdit{$ELSE}TFileNameEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
+       private
+        FBeforeEnter, FBeforeExit : TNotifyEvent;
+        FBeforePopup: TPopUpMenuEvent;
+        FLabel : TFWLabel ;
+        FOldColor ,
+        FColorFocus ,
+        FColorReadOnly,
+        FColorEdit ,
+        FColorLabel : TColor;
+        FAlwaysSame : Boolean;
+        FNotifyOrder : TNotifyEvent;
+        FOnPopup: TNotifyEvent;
+        procedure p_setLabel ( const alab_Label : TFWLabel );
+        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
+       protected
+        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+        procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+       public
+        constructor Create ( AOwner : TComponent ); override;
+        procedure DoEnter; override;
+        procedure DoExit; override;
+        procedure Loaded; override;
+        procedure SetOrder ; virtual;
+       published
+        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
+        property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
+        property ColorLabel : TColor read FColorLabel write FColorLabel default CST_LBL_SELECT ;
+        property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
+        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
+        property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
+        property Color stored False ;
+        property MyLabel : TFWLabel read FLabel write p_setLabel;
+        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
+        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
+        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
+        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
+        property OnMouseEnter;
+        property OnMouseLeave;
+        property PopupMenu;
+      End;
 
-      TFWSpinEdit = class ( {$IFDEF FPC}TSpinEdit{$ELSE}TJvSpinEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
-         private
-          FBeforeEnter, FBeforeExit : TNotifyEvent;
-          FLabel : TFWLabel ;
-          FOldColor ,
-          FColorFocus ,
-          FColorReadOnly,
-          FColorEdit ,
-          FColorLabel : TColor;
-          FAlwaysSame : Boolean;
-          FNotifyOrder : TNotifyEvent;
-          FBeforePopup : TPopUpMenuEvent;
-          FOnPopup : TNotifyEvent;
-          procedure p_setLabel ( const alab_Label : TFWLabel );
-          procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
-        protected
-          procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
-          procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-         public
-          constructor Create ( AOwner : TComponent ); override;
-          procedure DoEnter; override;
-          procedure DoExit; override;
-          procedure Loaded; override;
-          procedure SetOrder ; virtual;
-         published
-          property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
-          property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
-          property ColorLabel : TColor read FColorLabel write FColorLabel default CST_LBL_SELECT ;
-          property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
-          property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
-          property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
-          property Color stored False ;
-          property MyLabel : TFWLabel read FLabel write p_setLabel;
-          property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
-          property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
-          property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
-          property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
-          property OnMouseEnter;
-          property OnMouseLeave;
-          property PopupMenu;
-        End;
+
+    { TFWSpinEdit }
+
+    TFWSpinEdit = class ( {$IFDEF FPC}TSpinEdit{$ELSE}TJvSpinEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
+       private
+        FBeforeEnter, FBeforeExit : TNotifyEvent;
+        FLabel : TFWLabel ;
+        FOldColor ,
+        FColorFocus ,
+        FColorReadOnly,
+        FColorEdit ,
+        FColorLabel : TColor;
+        FAlwaysSame : Boolean;
+        FNotifyOrder : TNotifyEvent;
+        FBeforePopup : TPopUpMenuEvent;
+        FOnPopup : TNotifyEvent;
+        procedure p_setLabel ( const alab_Label : TFWLabel );
+        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
+      protected
+        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+        procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+       public
+        constructor Create ( AOwner : TComponent ); override;
+        procedure DoEnter; override;
+        procedure DoExit; override;
+        procedure Loaded; override;
+        procedure SetOrder ; virtual;
+       published
+        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
+        property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
+        property ColorLabel : TColor read FColorLabel write FColorLabel default CST_LBL_SELECT ;
+        property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
+        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
+        property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
+        property Color stored False ;
+        property MyLabel : TFWLabel read FLabel write p_setLabel;
+        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
+        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
+        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
+        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
+        property OnMouseEnter;
+        property OnMouseLeave;
+        property PopupMenu;
+      End;
 
      { TFWDateEdit }
 
@@ -457,6 +501,87 @@ begin
 end;
 
 procedure TFWEdit.Notification(AComponent: TComponent; Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
+end;
+
+
+{ TFWFileEdit }
+
+procedure TFWFileEdit.p_setLabel(const alab_Label: TFWLabel);
+begin
+  if alab_Label <> FLabel Then
+    Begin
+      FLabel := alab_Label;
+      FLabel.MyEdit := Self;
+    End;
+end;
+
+procedure TFWFileEdit.SetOrder;
+begin
+  if assigned ( FNotifyOrder ) then
+    FNotifyOrder ( Self );
+end;
+
+constructor TFWFileEdit.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FAlwaysSame := True;
+  FColorLabel := CST_LBL_SELECT;
+  FColorEdit  := CST_EDIT_STD;
+  FColorFocus := CST_EDIT_SELECT;
+  FColorReadOnly := CST_EDIT_READ;
+end;
+
+procedure TFWFileEdit.DoEnter;
+begin
+  if assigned ( FBeforeEnter ) Then
+    FBeforeEnter ( Self );
+  // Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
+  // avec la souris => cas de tri)
+  p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
+  p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
+  inherited DoEnter;
+end;
+
+procedure TFWFileEdit.DoExit;
+begin
+  if assigned ( FBeforeExit ) Then
+    FBeforeExit ( Self );
+  inherited DoExit;
+  p_setLabelColorExit ( FLabel, FAlwaysSame );
+  p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
+
+end;
+
+procedure TFWFileEdit.Loaded;
+begin
+  inherited Loaded;
+  FOldColor := Color;
+  if  FAlwaysSame
+   Then
+    Color := gCol_Edit ;
+end;
+
+procedure TFWFileEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
+Begin
+  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
+  inherited;
+End;
+
+procedure TFWFileEdit.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  inherited MouseDown(Button, Shift, X, Y);
+  if Button = mbRight Then
+   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+end;
+
+procedure TFWFileEdit.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
   if  ( Operation  = opRemove )

@@ -40,12 +40,12 @@ begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TFWDBComboBox,
                                                 TExtDBComboInsert,
                                                 TFWDBDateEdit, TFWDBDateTimePicker,
-                                                TFWDBEdit,
+                                                TFWDBEdit,TFWDBFileEdit,
                                                 TFWDBLookupCombo,
                                                 TFWDBMemo,
                                                 TFWDBSpinEdit]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TFWComboBox, TFWDateEdit,
-                                                TFWDateTimePicker, TFWEdit,TFWGrid,
+                                                TFWDateTimePicker, TFWEdit,TFWFileEdit,TFWGrid,
                                                 TFWLabel,TFWMemo,
                                                 TFWSpinEdit]);
 
