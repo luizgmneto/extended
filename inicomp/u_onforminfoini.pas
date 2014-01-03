@@ -96,7 +96,8 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
                                            Comment : 'Ini management tu put on a form.' ;
-                                           BugsStory : '1.1.0.1 : Optimising.' +#13#10 +
+                                           BugsStory : '1.1.0.2 : Simplifying.' +#13#10 +
+                                                       '1.1.0.1 : Optimising.' +#13#10 +
                                                        '1.1.0.0 : Resize on windows with width or height less than 10, sfSaveWeight.' +#13#10 +
                                                        '1.0.6.0 : Adding ListValue, renaming, correct init of ItemIndex.' +#13#10 +
                                                        '1.0.5.0 : Adding Components'' events.' +#13#10 +
@@ -115,7 +116,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                                        '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
                                                        '1.0.0.0 : Gestion de beaucoup de composants.';
                                            UnitType : 3 ;
-                                           Major : 1 ; Minor : 1 ; Release : 0 ; Build : 1 );
+                                           Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
 
 {$ENDIF}
 
@@ -605,7 +606,7 @@ var
   Begin
     Result := False;
     if GetfeSauveEdit(FSaveEdits ,feTListBox)
-    and (lcom_Component is TListBox)     then
+    and (lcom_Component is TCustomListBox)     then
       try
         LitTstringsDeIni(FInifile, lcom_Component.Name,TCustomListBox(lcom_Component).Items);
         Result := True;
@@ -619,7 +620,6 @@ var
       end;
     if (   (GetfeSauveEdit(FSaveEdits ,feTComboValue) and (lcom_Component is TCustomComboBox))
         or (GetfeSauveEdit(FSaveEdits ,feTListValue ) and (lcom_Component is TCustomListBox )))
-    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      then
       try
         if   assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_TEXT ))
@@ -643,7 +643,6 @@ var
 {$IFDEF RX}
     if GetfeSauveEdit(FSaveEdits ,feTComboValue)
     and (lcom_Component is {$IFDEF FPC}TRxCustomDBLookupCombo{$ELSE}TRxLookupControl{$ENDIF})
-    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      Then
       begin
         {$IFNDEF FPC}
@@ -720,7 +719,9 @@ begin
 
               if fb_ReadHighComponents Then
                 continue;
-              if FSaveEdits <> [] Then
+              if (FSaveEdits <> [])
+              and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
+               Then
                 Begin
                   if fb_ReadOptions  Then
                     continue;
@@ -1012,7 +1013,6 @@ var
       End;
     if (   (GetfeSauveEdit(FSaveEdits ,feTComboValue) and (lcom_Component is TCustomComboBox))
         or (GetfeSauveEdit(FSaveEdits ,feTListValue ) and (lcom_Component is TCustomListBox )))
-    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      Then
       begin
         if assigned ( GetPropInfo ( lcom_Component, CST_PROPERTY_TEXT ))
@@ -1026,7 +1026,6 @@ var
   {$IFDEF RX}
     if GetfeSauveEdit(FSaveEdits ,feTComboValue)
     and (lcom_Component is {$IFDEF FPC}TRxCustomDBLookupCombo{$ELSE}TRxLookupControl{$ENDIF})
-    and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
      then
       begin
        {$IFNDEF FPC}
@@ -1131,27 +1130,29 @@ begin
           Continue;
 
         // écriture des données des objets dans le fichier ini.
-        if FSaveEdits <> [] Then
-        begin
-          if fb_WriteEdits Then
-            Continue;
-          if fb_WriteSpecialEdits Then
-            Continue;
-          if fb_WriteOptions Then
-            Continue;
-          if fb_WriteDirectories Then
-            Continue;
-          if fb_WriteFiles Then
-            Continue;
-          if fb_WriteMemos Then
-            Continue;
-          if fb_WriteCombos Then
-            continue ;
-          if fb_WriteListBoxes Then
-            Continue;
-          if fb_WriteInteractivityComponents Then
-            Continue;
-        end;
+        if (FSaveEdits <> [])
+        and not assigned ( fobj_getComponentObjectProperty(lcom_Component,CST_ONFORMINI_DATASOURCE))
+         Then
+          begin
+            if fb_WriteEdits Then
+              Continue;
+            if fb_WriteSpecialEdits Then
+              Continue;
+            if fb_WriteOptions Then
+              Continue;
+            if fb_WriteDirectories Then
+              Continue;
+            if fb_WriteFiles Then
+              Continue;
+            if fb_WriteMemos Then
+              Continue;
+            if fb_WriteCombos Then
+              continue ;
+            if fb_WriteListBoxes Then
+              Continue;
+            if fb_WriteInteractivityComponents Then
+              Continue;
+          end;
         Except
         end;
       end;

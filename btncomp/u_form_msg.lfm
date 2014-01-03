@@ -13,7 +13,6 @@ inherited FMsg: TFMsg
   Font.Name = 'Tahoma'
   Font.Style = [fsBold]
   KeyPreview = True
-  OnKeyDown = SuperFormKeyDown
   OnShow = FormShow
   Position = poMainFormCenter
   object Panel2: TPanel[0]

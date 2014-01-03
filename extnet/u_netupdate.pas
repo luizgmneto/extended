@@ -242,7 +242,7 @@ Begin
     if not FileExistsUTF8(Result)
     and gb_Messages  Then
       Begin
-       MyMessageDlg(gs_Error_Cannot_load_not_downloaded_file,mtError, [mbOk],0,nil);
+       MyMessageDlg(gs_Error_Cannot_load_not_downloaded_file,mtError, [mbOk]);
        Exit;
       end;
    end
@@ -488,7 +488,7 @@ begin
     if not DirectoryExistsUTF8(gs_UpdateDir)
     and gb_Messages Then
       Begin
-        MyMessageDlg( fs_RemplaceMsg(gs_Error_Cannot_Write_on,[gs_UpdateDir]),mtError,[mbOK],0,nil);
+        MyMessageDlg( fs_RemplaceMsg(gs_Error_Cannot_Write_on,[gs_UpdateDir]),mtError,[mbOK]);
         Exit;
       end;
 
