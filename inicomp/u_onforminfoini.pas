@@ -613,7 +613,7 @@ var
       except
       end;
     if  GetfeSauveEdit(FSaveEdits ,feTComboBox)
-    and (lcom_Component is TCustomComboBox)    then
+    and (lcom_Component is TComboBox)    then
       begin
         p_ReadComboBoxItems(lcom_Component, TCustomComboBox(lcom_Component).Items );
         Result := True;
