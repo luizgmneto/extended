@@ -66,14 +66,12 @@ type
     Image: TExtImage;
     lbMsg: TStaticText;
     PanelButtons: TPanel;
-
     procedure FormShow(Sender: TObject);
-    procedure SuperFormKeyDown(Sender:TObject;var Key:Word;
-      Shift:TShiftState);
   private
     fButtons:TMsgDlgButtons;
     fDlgType:TMsgDlgType;
-
+  protected
+    procedure KeyDown(var Key: Word; Shift: TShiftState);override;
   public
     AOwner : TControl;
     property Buttons:TMsgDlgButtons read fButtons write fButtons;
@@ -206,9 +204,10 @@ begin
 
 end;
 
-procedure TFMsg.SuperFormKeyDown(Sender:TObject;var Key:Word;Shift:TShiftState);
+procedure TFMsg.KeyDown(var Key:Word;Shift:TShiftState);
 begin
   if (ssAlt in Shift)and(Key=VK_F4) then Key:=0;
+  Inherited;
 end;
 
 // procedure TFMsg.FormShow
