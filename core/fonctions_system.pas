@@ -53,6 +53,7 @@ const
   CST_PROCESSOR_TYPE : TProcessorType = {$IFDEF DELPHI}ptIntel{$ELSE}{$IFDEF CPUI386}ptIntel{$ELSE}{$IFDEF CPUx86_64}ptIntel{$ELSE}{$IFDEF CPUARM}ptARM{$ELSE}{$IFDEF CPUPOWERPC}ptPPC{$ELSE}{$ENDIF}{$ENDIF}{$ENDIF}{$ENDIF}{$ENDIF};
   CST_EXTENSION_LIBRARY = {$IFDEF WINDOWS}'.dll'{$ELSE}{$IFDEF DARWIN}'.dylib'{$ELSE}'.so'{$ENDIF}{$ENDIF};
   CST_EXTENSION_LOG_FILE = '.log';
+  CST_EXTENSION_BATCH_FILE = {$IFDEF WINDOWS}'.bat'{$ELSE}'.sh'{$ENDIF};
   CST_PackageTypeString : Array [ TPackageType ] of String = ( 'exe', 'tar.gz', 'rpm', 'deb', 'pkg', 'dmg' );
   CST_ProcessorTypeString : Array [ TProcessorType ] of String = ( 'Intel', 'MIPS', 'Alpha', 'PPC', 'SHX', 'ARM', 'IA64', 'Alpha64', '?' );
   CST_EXTENSION_SCRIPT            = {$IFDEF WINDOWS}'.bat'{$ELSE}'.sh'{$ENDIF} ;
@@ -89,7 +90,7 @@ function GetWinDir ( const CSIDL : Integer ) : String ;
 {$ENDIF}
 function fs_GetArchitecture : String;
 function fat_GetArchitectureType : TArchitectureType;
-function fs_ExecuteProcess ( const AExecutable, AParameter : String ; const HasOutput : Boolean = True):String;
+function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String = '' ; const HasOutput : Boolean = True):String;
 {$IFNDEF FPC}
 function GetAppConfigDir ( const Global : Boolean ): string;
 function GetUserDir: string;
@@ -396,13 +397,13 @@ begin
 end;
 
 // dos or unix process executing
-function fs_ExecuteProcess ( const AExecutable, AParameter : String ; const HasOutput : Boolean = True):String;
+function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String ; const HasOutput : Boolean = True):String;
 {$IFNDEF FPC}
 const
      ReadBuffer = 2400;
 {$ENDIF}
 var {$IFDEF FPC}
-    Process : TProcessUTF8;
+    Process : TProcess;
     {$ELSE}
     Security : TSecurityAttributes;
     ReadPipe,WritePipe : THandle;
@@ -417,14 +418,19 @@ var {$IFDEF FPC}
 begin
 
 {$IFDEF FPC}
+  {$IFDEF WINDOWS}
+  Process := TProcess.Create(nil);
+  {$ELSE}
   Process := TProcessUTF8.Create(nil);
+  {$ENDIF}
   if HasOutput Then
     lList := TStringList.create;
   Result := '';
   with Process do
     try
-      if HasOutput Then
-        Options := Options+[poNoConsole, poStderrToOutPut,poUsePipes];
+      if HasOutput
+        Then Options := Options + [poWaitOnExit,poNoConsole, poStderrToOutPut,poUsePipes]
+        Else Options := Options + [poWaitOnExit];
       Executable      := AExecutable;
       if AParameter > '' Then
         Parameters.Add(AParameter);
