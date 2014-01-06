@@ -189,7 +189,7 @@ end;
 procedure ChangeUnitLanguage( const as_Unit : String ; const ar_Language : TALanguage );
 var ls_LangFileBegin : String;
 Begin
-  ls_LangFileBegin := fs_getSoftDir () + CST_LNG_DIRECTORY + as_Unit;
+  ls_LangFileBegin := fs_getAppDir + CST_LNG_DIRECTORY + as_Unit;
   if FileExists(ls_LangFileBegin + Format('.%s.po',[ar_Language.LittleLang]))
    Then Translations.TranslateUnitResourceStrings(as_Unit, ls_LangFileBegin + '.%s.po', ar_Language.LongLang, ar_Language.LittleLang)
    Else Translations.TranslateUnitResourceStrings(as_Unit, ls_LangFileBegin + '.po');

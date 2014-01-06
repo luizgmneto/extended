@@ -60,7 +60,7 @@ const
   CST_DBPROPERTY_SESSIONNAME = 'SessionName';
   CST_DBPROPERTY_CLIENTPARAM = 'ClientParam';
   CST_DBPROPERTY_ZEOSDB = 'ZeosDBConnection';
-  CST_DBPROPERTY_FIELDDEFS          = 'FieldDefs' ;
+  CST_DBPROPERTY_FIELDDEFS = 'FieldDefs';
   CST_DBPROPERTY_Active = 'Active';
   CST_DBPROPERTY_ENDPARAM = ';';
 function fb_RefreshDataset ( const aDat_Dataset : TDataset ): Boolean ; overload;
