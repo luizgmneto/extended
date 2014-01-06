@@ -37,14 +37,15 @@ const
   gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_system' ;
                         	       Owner : 'Matthieu Giroux' ;
                         	       Comment : 'System Functions, with traducing and path management.' ;
-                        	       BugsStory : 'Version 1.1.0.2 : Testing p_openfileordirectory on windows.' + #10
+                        	       BugsStory : 'Version 1.1.0.3 : Renaming to fs_getappdir.' + #10
+                                                 + 'Version 1.1.0.2 : Testing p_openfileordirectory on windows.' + #10
                                                  + 'Version 1.1.0.1 : Using explorer to open files, more secure.' + #10
                                                  + 'Version 1.1.0.0 : Linux and architecture functions.' + #10
                                                  + 'Version 1.0.2.0 : fs_DocDir and library''s extension.' + #10
                                                  + 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
                                                  + 'Version 1.0.0.0 : Creating from fonctions_string.';
                         	       UnitType : 1 ;
-                        	       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
+                        	       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 3 );
 {$ENDIF}
 {$IFDEF DELPHI}
   DirectorySeparator = '\' ;
@@ -107,7 +108,7 @@ function FileCreateUTF8(const as_file: String):integer;
 function FileSize(const as_file: String):int64;
 {$ENDIF}
 function fs_EraseNameSoft ( const as_Nomapp, as_Path : String ) : String ;
-function fs_getSoftDir : String;
+function fs_getAppDir : String;
 function fs_WithoutFirstDirectory ( const as_Path : String ) :String;
 function fi_TailleFichier(NomFichier:String):Int64;
 
@@ -142,7 +143,7 @@ const UNIX_UNAME = 'uname';
 {$ENDIF}
 
 // application directory with Separator
-function fs_getSoftDir : String;
+function fs_getAppDir : String;
 Begin
   Result := ExtractFileDir( Application.ExeName ) + DirectorySeparator ;
 End;
