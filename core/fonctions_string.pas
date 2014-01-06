@@ -55,6 +55,7 @@ type
   function fe_distanceEntrePointsCoordLambert( const aLatitudeDep, aLongitudeDep, aLatitudeArr, aLongitudeArr: string): Extended;
   function fb_controleDistanceCoordLambert( const aLatitudeDep, aLongitudeDep, aLatitudeArr, aLongitudeArr: string; const aDistance: Extended): Boolean;
   procedure p_ChampsVersListe(var astl_ChampsClePrimaire: TStringList; const aws_ClePrimaire : String ; ach_Separateur : Char );
+  procedure p_SetStringMaxLength    ( var  as_string : String ; const ai_Maxlength : Integer );
   function fs_ListeVersChamps ( var astl_ChampsClePrimaire: TStringList; ach_Separateur : Char ):string;
   function fs_RemplaceMsg(const as_Texte: String; const aTs_arg: Array of String): String;
   function fs_RemplaceMsgIfExists(const as_Texte: String; const as_arg: String): String;
@@ -79,7 +80,8 @@ const
     gVer_fonction_string : T_Version = ( Component : 'String management' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'String traduction and format.' ;
-                        			                 BugsStory : 'Version 1.0.7.0 : function fs_RemplaceMsgIfExists.' + #13#10 + #13#10 +
+                        			                 BugsStory : 'Version 1.0.8.0 : procedure p_SetStringMaxLength.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.7.0 : function fs_RemplaceMsgIfExists.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.6.0 : Creating fs_SeparateTextFromWidth.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.5.0 : Creating fs_ListeVersChamps.' + #13#10 + #13#10 +
               			                	        	     'Version 1.0.4.0 : fs_FormatText and other.' + #13#10 + #13#10 +
@@ -94,7 +96,7 @@ const
                         			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 7 ; Build :  0);
+                        			                 Major : 1 ; Minor : 0 ; Release : 8 ; Build :  0);
 {$ENDIF}
     CST_ORD_GUILLEMENT = ord ( '''' );
     CST_ORD_POURCENT   = ord ( '%' );
@@ -120,7 +122,11 @@ begin
     raise EConvertError.Create(GS_STRING_MUST_BE_HEXA);
   end;
 end;
-
+procedure p_SetStringMaxLength    ( var  as_string : String ; const ai_Maxlength : Integer );
+Begin
+  if Length(as_string)>ai_Maxlength Then
+     as_string:=copy(as_string,1,ai_Maxlength);
+End;
 function fs_IfThen ( const ab_IfTest : Boolean; const as_IfTrue, as_IfFalse : String ) : String;
 Begin
   if ab_IfTest
