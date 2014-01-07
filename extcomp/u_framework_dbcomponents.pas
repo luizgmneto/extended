@@ -251,11 +251,11 @@ type
 
     { TFWDBFileEdit }
 
-    TFWDBFileEdit = class ( {$IFDEF FPC}TFWDateTimePicker{$ELSE}TJvDBDateTimePicker{$ENDIF}, IFWComponent, IFWComponentEdit )
+    TFWDBFileEdit = class ( TFWFileEdit, IFWComponent, IFWComponentEdit )
        private
-         FReadOnly : Boolean;
-         FBeforePopup : TPopUpMenuEvent;
-         FOnPopup : TNotifyEvent;
+          FReadOnly : Boolean;
+          FBeforePopup : TPopUpMenuEvent;
+          FOnPopup : TNotifyEvent;
           FDataLink: TFieldDataLink;
           function GetDataField: string;
           function GetDataSource: TDataSource;
@@ -268,13 +268,13 @@ type
           procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
        protected
           procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
-          procedure UpdateDate; override;
+          procedure Change; override;
           procedure ActiveChange(Sender: TObject); virtual;
           procedure DataChange(Sender: TObject); virtual;
           procedure UpdateData(Sender: TObject); virtual;
+          procedure Notification(AComponent: TComponent; Operation: TOperation); override;
           function GetReadOnly: Boolean; virtual;
           procedure SetReadOnly(AValue: Boolean); virtual;
-          procedure Notification(AComponent: TComponent; Operation: TOperation); override;
         public
           procedure Loaded; override;
           constructor Create(AOwner: TComponent); override;
@@ -283,14 +283,13 @@ type
           function UpdateAction(AAction: TBasicAction): Boolean; override;
           property Field: TField read GetField;
         published
-          property Date stored False ;
-          property Time stored False ;
+          property filename stored False ;
           property DataField: string read GetDataField write SetDataField stored True;
           property DataSource: TDataSource read GetDataSource write SetDataSource stored True;
-          property ReadOnly: Boolean read GetReadOnly write SetReadOnly default false;
           property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
           property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
           property PopupMenu;
+          property ReadOnly: Boolean read GetReadOnly write SetReadOnly default false;
       End;
 
 
@@ -940,7 +939,7 @@ procedure TFWDBFileEdit.ActiveChange(Sender: TObject);
 begin
   if FDataLink.Field <> nil then
     begin
-      DateTime := FDataLink.Field.AsDateTime;
+      filename := FDataLink.Field.AsString;
     end;
 end;
 
@@ -948,17 +947,17 @@ procedure TFWDBFileEdit.DataChange(Sender: TObject);
 begin
   if FDataLink.Field <> nil then
     begin
-      DateTime := FDataLink.Field.AsDateTime;
+      filename := FDataLink.Field.AsString;
     end;
 end;
 
 
 procedure TFWDBFileEdit.UpdateData(Sender: TObject);
 begin
-  if DateTime > -1 Then
+  if filename > '' Then
     Begin
       FDataLink.Edit ;
-      FDataLink.Field.Value := DateTime ;
+      FDataLink.Field.Value := filename ;
     End ;
 end;
 
@@ -1013,15 +1012,15 @@ begin
     FDataLink.UpdateAction(AAction){$ENDIF};
 end;
 
-procedure TFWDBFileEdit.UpdateDate;
+procedure TFWDBFileEdit.Change;
 begin
  Inherited;
  if assigned ( FDataLink )
  and assigned ( FDataLink.Field )
- and ( FDataLink.Field.AsDateTime <> DateTime ) Then
+ and ( FDataLink.Field.AsString <> filename ) Then
   Begin
     FDataLink.Dataset.Edit ;
-    FDataLink.Field.AsDateTime := DateTime ;
+    FDataLink.Field.AsString := filename ;
   End ;
 end;
 
