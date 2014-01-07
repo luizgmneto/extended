@@ -10,6 +10,7 @@ package ExtComponents;
 {$R 'inicomp\u_extmenucustomize.dcr'}
 {$R 'inicomp\u_onforminfoini.dcr'}
 {$R 'btncomp\u_buttons_appli.dcr'}
+{$R 'inicomp\u_extmenutoolbar.dcr'}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -41,10 +42,8 @@ requires
   dbrtl,
   vcldb,
   adortl,
-  Jcl,
   vcljpg,
   vclx,
-  JclVcl,
   designide,
   dbexpress,
   bdertl,
@@ -65,7 +64,14 @@ requires
   rxbde,
   RLibWinTW322006vcl,
   VampyreImagingPackage,
-  IndyProtocols;
+  IndyProtocols,
+  Jcl,
+  JclVcl,
+  JvCore,
+  JvSystem,
+  JvStdCtrls,
+  JvDB,
+  JvXPCtrls;
 
 contains
   fonctions_db in 'core\fonctions_db.pas',
@@ -122,7 +128,6 @@ contains
   fonctions_init in 'inicomp\fonctions_init.pas',
   u_customizemenu in 'inicomp\u_customizemenu.pas',
   u_extmenucustomize in 'inicomp\u_extmenucustomize.pas',
-  u_extmenutoolbar in 'inicomp\u_extmenutoolbar.pas',
   u_formadapt in 'inicomp\u_formadapt.pas',
   u_formmainini in 'inicomp\u_formmainini.pas',
   u_onforminfoini in 'inicomp\u_onforminfoini.pas',
@@ -151,6 +156,8 @@ contains
   u_registerforms in 'inicomp\u_registerforms.pas',
   fonctions_net in 'extnet\fonctions_net.pas',
   u_netupdate in 'extnet\u_netupdate.pas',
-  u_register_net in 'extnet\u_register_net.pas';
+  u_register_net in 'extnet\u_register_net.pas',
+  u_extmenutoolbar in 'inicomp\u_extmenutoolbar.pas',
+  menutbar in 'inicomp\menutbar.pas';
 
 end.

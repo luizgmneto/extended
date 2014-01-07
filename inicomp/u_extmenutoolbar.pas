@@ -2,8 +2,6 @@
 
 {$IFDEF FPC}
 {$mode Delphi}
-{$ELSE}
-{$R *.DCR}
 {$ENDIF}
 
 {$I ..\DLCompilers.inc}

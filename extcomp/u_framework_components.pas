@@ -19,7 +19,7 @@ uses
  JvSpin,
 {$ENDIF}
 {$IFDEF JEDI}
-  JvDateTimePicker,
+  JvDateTimePicker, JvToolEdit,
 {$ENDIF}
 {$IFDEF RX}
   RxLookup,
@@ -100,7 +100,7 @@ type
 
    { TFWEdit }
 
-    TFWFileEdit = class ( {$IFDEF TNT}TTntFileNameEdit{$ELSE}TFileNameEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
+    TFWFileEdit = class ( {$IFDEF TNT}TTntFileNameEdit{$ELSE}TJvFileNameEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
        private
         FBeforeEnter, FBeforeExit : TNotifyEvent;
         FBeforePopup: TPopUpMenuEvent;

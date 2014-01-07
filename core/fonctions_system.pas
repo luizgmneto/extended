@@ -397,7 +397,7 @@ begin
 end;
 
 // dos or unix process executing
-function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String ; const HasOutput : Boolean = True):String;
+function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String = '' ; const HasOutput : Boolean = True):String;
 {$IFNDEF FPC}
 const
      ReadBuffer = 2400;
@@ -416,7 +416,6 @@ var {$IFDEF FPC}
     {$ENDIF}
     lList: TStringList;
 begin
-
 {$IFDEF FPC}
   {$IFDEF WINDOWS}
   Process := TProcess.Create(nil);
