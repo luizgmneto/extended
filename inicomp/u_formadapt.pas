@@ -55,7 +55,7 @@ type
   private
     FScale:Extended;
     FOldCreate : TNotifyEvent;
-    procedure FormCreate(AForm: TObject);
+    procedure FormAdaptCreate(AForm: TObject);
   public
     { Déclarations publiques }
     // Constructeur et destructeur
@@ -92,9 +92,9 @@ constructor TF_FormAdapt.Create(AOwner: TComponent);
 begin
   inherited;
   FOldCreate := OnCreate;
-  OnCreate:=FormCreate;
+  OnCreate:=FormAdaptCreate;
 end;
-procedure TF_FormAdapt.FormCreate(AForm: TObject);
+procedure TF_FormAdapt.FormAdaptCreate(AForm: TObject);
 begin
   FScale:=1;
   if  not ( csDesigning in ComponentState )
