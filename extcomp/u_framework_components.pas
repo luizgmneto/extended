@@ -100,7 +100,7 @@ type
 
    { TFWEdit }
 
-    TFWFileEdit = class ( {$IFDEF TNT}TTntFileNameEdit{$ELSE}TJvFileNameEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
+    TFWFileEdit = class ( {$IFDEF FPC}TFileNameEdit{$ELSE}{$IFDEF TNT}TTntFileNameEdit{$ELSE}TJvFileNameEdit{$ENDIF}{$ENDIF}, IFWComponent, IFWComponentEdit )
        private
         FBeforeEnter, FBeforeExit : TNotifyEvent;
         FBeforePopup: TPopUpMenuEvent;

@@ -27,6 +27,7 @@ uses SysUtils,
 type
   TOnExecuteQuery = procedure ( const adat_Dataset: Tdataset );
   TOnExecuteCommand = procedure ( const as_SQL: {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
+  TOnExecuteScriptServer = procedure ( const AConnection : TComponent; const as_SQL: {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
 
 const
   {$IFDEF VERSIONS}
@@ -45,6 +46,7 @@ const
   {$ENDIF}
   ge_OnExecuteQuery: TOnExecuteQuery = nil;
   ge_OnExecuteCommand: TOnExecuteCommand = nil;
+  ge_OnExecuteScriptServer: TOnExecuteScriptServer = nil;
   ge_OnRefreshDataset : TSpecialFuncDataset = nil;
   CST_DBPROPERTY_SQL = 'SQL';
   CST_DBPROPERTY_SQLCONNECTION = 'SQLConnection';
@@ -75,6 +77,7 @@ procedure p_SetComponentsConnexions ( const acom_Form : TComponent ; acco_Connex
 function  fb_RefreshDatasetIfEmpty ( const adat_Dataset : TDataset ) : Boolean ;
 procedure p_ExecuteSQLCommand ( const as_Command :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
 procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
+procedure p_ExecuteSQLScriptServer ( const AConnection : TComponent; const as_Command :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
 function fdat_CloneDatasetWithoutSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithoutSQLWithDataSource ( const adat_ADataset : Tdataset ; const AOwner : TComponent ; var ads_Datasource : TDatasource  ) : Tdataset;
@@ -142,7 +145,8 @@ Begin
      ge_OnExecuteQuery ( adat_Dataset );
   Except
     on E:Exception do
-     p_ShowSQLError(E.Message,as_Query);
+      if ab_ShowException Then
+      p_ShowSQLError(E.Message,as_Query);
   end;
 End ;
 
@@ -154,7 +158,21 @@ Begin
      ge_OnExecuteCommand ( as_Command );
   Except
     on E:Exception do
-     p_ShowSQLError(E.Message,as_Command);
+     if ab_ShowException Then
+       p_ShowSQLError(E.Message,as_Command);
+  end;
+End ;
+
+// execute query with optional module
+procedure p_ExecuteSQLScriptServer ( const AConnection : TComponent; const as_Command :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
+Begin
+  try
+    if assigned ( ge_OnExecuteScriptServer ) Then
+     ge_OnExecuteScriptServer ( AConnection, as_Command );
+  Except
+    on E:Exception do
+     if ab_ShowException Then
+      p_ShowSQLError(E.Message,as_Command);
   end;
 End ;
 
