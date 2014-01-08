@@ -17,8 +17,9 @@ Code-state:
 
 unit menutbar;
 
+
 {$IFDEF FPC}
-{$mode Delphi}
+{$mode objfpc}{$H+}
 {$ENDIF}
 
 interface
@@ -73,7 +74,7 @@ begin
    case Msg.Message of
     WM_MOUSEMOVE:
       begin
-        Pt:= SmallPointToPoint(TSmallPoint(Msg.lParam));
+        Pt:= {$IFDEF CPU64}TPoint({$ELSE}SmallPointToPoint(TSmallPoint{$ENDIF}(Msg.lParam));
         Toolbar:= HookButton.Parent as TMenuToolbar;
         Pt:= Toolbar.ScreenToClient(Pt);
         if Assigned(Toolbar) and PtInRect(Toolbar.ClientRect, Pt) then
@@ -119,7 +120,7 @@ begin
    case Message.Msg of
 
    WM_LBUTTONDOWN: begin
-        Pt:= SmallPointToPoint(TSmallPoint(Message.lParam));
+        Pt:= {$IFDEF CPU64}TPoint({$ELSE}SmallPointToPoint(TSmallPoint{$ENDIF}(Message.lParam));
         TB:= ControlAtPos(Pt, False);
         if (TB is TToolButton) then
          begin
@@ -136,7 +137,7 @@ begin
       end;
 
     WM_RBUTTONDOWN: begin
-        Pt:= SmallPointToPoint(TSmallPoint(Message.lParam));
+        Pt:= {$IFDEF CPU64}TPoint({$ELSE}SmallPointToPoint(TSmallPoint{$ENDIF}(Message.lParam));
         TB:= ControlAtPos(Pt, False);
         if (TB is TToolButton) then
          begin
@@ -208,4 +209,4 @@ begin
 end;
 
 end.
-
+

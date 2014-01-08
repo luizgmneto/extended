@@ -22,7 +22,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="3" Release="3" Build="1"/>
-    <Files Count="10">
+    <Files Count="11">
       <Item1>
         <Filename Value="inicomp/u_extmenucustomize.pas"/>
         <UnitName Value="u_extmenucustomize"/>
@@ -63,13 +63,18 @@
         <Filename Value="inicomp/fonctions_vtree.pas"/>
         <UnitName Value="fonctions_vtree"/>
       </Item10>
+      <Item11>
+        <Filename Value="inicomp/menutbar.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="menutbar"/>
+      </Item11>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="LANG"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="7">
+    <RequiredPkgs Count="6">
       <Item1>
         <PackageName Value="lazextbase"/>
       </Item1>
@@ -80,18 +85,15 @@
         <PackageName Value="ExpertSuperForm"/>
       </Item3>
       <Item4>
-        <PackageName Value="toolbarmenupkg"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item4>
       <Item5>
-        <PackageName Value="virtualtreeview_package"/>
+        <PackageName Value="LCL"/>
       </Item5>
       <Item6>
-        <PackageName Value="LCL"/>
-      </Item6>
-      <Item7>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item7>
+      </Item6>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
@@ -104,4 +106,4 @@
       <_ExternHelp Items="Count"/>
     </CustomOptions>
   </Package>
-</CONFIG>
+</CONFIG>
