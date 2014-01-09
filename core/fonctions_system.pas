@@ -158,7 +158,7 @@ end;
 // Universal Images directory  with Separator, for Leonardi
 function fs_getSoftImages:String;
 Begin
-  Result := ExtractFileDir(Application.ExeName)+GS_SUBDIR_IMAGES_SOFT;
+  Result := fs_getAppDir+GS_SUBDIR_IMAGES_SOFT;
 End;
 
 // Can change part of Directory to get universal file system
