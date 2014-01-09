@@ -452,7 +452,7 @@ end;
 
 // dbtitle property to report's header
 procedure p_addTitle (const AReport : TRLReport ; const ABand : TRLBand; const as_Title : String; var atitleHeight : Integer ; const aEndOfName : String = '' );
-var astl_Title : TStringList;
+var astl_Title : TStrings;
     i, AHeight, ALineHeight : Integer;
     arlabel : TRLLabel;
 Begin
