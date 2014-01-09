@@ -33,13 +33,14 @@ const
                                          FileUnit : 'fonctions_dbcomponents' ;
       			                 Owner : 'Matthieu Giroux' ;
       			                 Comment : 'Fonctions gestion des données avec les composants visuels.' ;
-      			                 BugsStory : 'Version 1.1.1.0 : Clone query with sql.' + #13#10 +
+      			                 BugsStory : 'Version 1.1.2.0 : Clone ibquery with sql.' + #13#10 +
+                                                     'Version 1.1.1.0 : Clone query with sql.' + #13#10 +
                                                      'Version 1.1.0.2 : Too many code on fb_inserecompteur, creating functions.' + #13#10 +
                                                      'Version 1.1.0.1 : Simplify function fb_InsereCompteur.' + #13#10 +
                                                      'Version 1.1.0.0 : Ajout de fonctions d''automatisation.' + #13#10
                                                    + 'Version 1.0.0.0 : Gestion des donnÃ©es rétilisable.';
       			                 UnitType : 1 ;
-      			                 Major : 1 ; Minor : 1 ; Release : 1 ; Build : 0 );
+      			                 Major : 1 ; Minor : 1 ; Release : 2 ; Build : 0 );
 
   {$ENDIF}
   ge_OnExecuteQuery: TOnExecuteQuery = nil;
@@ -56,6 +57,11 @@ const
   CST_DBPROPERTY_DATAFIELD = 'DataField';
   CST_DBPROPERTY_DATABASENAME = 'DatabaseName';
   CST_DBPROPERTY_SESSIONNAME = 'SessionName';
+  CST_DBPROPERTY_UPDATEOBJECT = 'UpdateObject';
+  CST_DBPROPERTY_DELETE_SQL  = 'DeleteSQL';
+  CST_DBPROPERTY_INSERT_SQL  = 'InsertSQL';
+  CST_DBPROPERTY_MODIFY_SQL  = 'ModifiySQL';
+  CST_DBPROPERTY_REFRESH_SQL = 'RefreshSQL';
   CST_DBPROPERTY_CLIENTPARAM = 'ClientParam';
   CST_DBPROPERTY_ZEOSDB = 'ZeosDBConnection';
   CST_DBPROPERTY_FIELDDEFS = 'FieldDefs';
@@ -64,14 +70,14 @@ const
 function fb_RefreshDataset ( const aDat_Dataset : TDataset ): Boolean ; overload;
 function fb_RefreshDataset ( const aDat_Dataset : TDataset; const ab_GardePosition : Boolean ): Boolean ; overload;
 procedure p_AutoConnection ( const adat_Dataset : TDataset; const AConnect : Boolean = True );
-procedure p_OpenSQLQuery(const adat_Dataset: Tdataset; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
+procedure p_OpenSQLQuery(const adat_Dataset: Tdataset; const as_Query : String );
 function  fs_getSQLQuery ( const adat_Dataset : Tdataset ): String;
-procedure p_SetSQLQuery(const adat_Dataset: Tdataset; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
-procedure p_AddSQLQuery(const adat_Dataset: Tdataset; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
+procedure p_SetSQLQuery(const adat_Dataset: Tdataset; const as_Query : String ); overload;
+procedure p_AddSQLQuery(const adat_Dataset: Tdataset; const as_Query : String );
 procedure p_SetConnexion ( const acom_ADataset : TComponent ; acco_Connexion : TComponent );
 procedure p_SetComponentsConnexions ( const acom_Form : TComponent ; acco_Connexion : TComponent );
 function  fb_RefreshDatasetIfEmpty ( const adat_Dataset : TDataset ) : Boolean ;
-procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
+procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :String ; const ab_ShowException : boolean = True );
 function fdat_CloneDatasetWithoutSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithoutSQLWithDataSource ( const adat_ADataset : Tdataset ; const AOwner : TComponent ; var ads_Datasource : TDatasource  ) : Tdataset;
@@ -79,7 +85,7 @@ function fds_GetOrCloneDataSource ( const acom_Component : TComponent ; const as
 function fb_GetSQLStrings (const adat_ADataset : Tdataset ; var astl_SQLQuery : TStrings{$IFDEF DELPHI_9_UP}; var awst_SQLQuery : TWideStrings {$ENDIF}):Boolean;
 function fcon_CloneControlWithDB ( const acom_AObject : TControl ; const AOwner : TComponent ) : TControl;
 function fcom_CloneConnexion ( const acco_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
-function fb_GetParamsDataset (const adat_ADataset : Tdataset ; var aprs_ParamSource: TParams ; var Astl_Params : TStringList {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
+function fb_GetParamsDataset (const adat_ADataset : Tdataset ; var aprs_ParamSource: TParams ; var Astl_Params : TStrings {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
 function fb_SetParamQuery(const adat_Dataset : TDataset ; const as_Param: String): Boolean;
 function fb_LocateSansFiltre ( const aado_Seeker : TDataset ; const as_Fields : String ; const avar_Records : Variant ; const ach_Separator : Char ): Boolean ;
 procedure p_LocateInit ( const aado_Seeker : TDataset ; const as_Table, as_Fields, as_Condition : String );
@@ -132,7 +138,7 @@ Begin
 end;
 
 // execute query with optional module
-procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :{$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} ; const ab_ShowException : boolean = True );
+procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :String ; const ab_ShowException : boolean = True );
 Begin
   p_SetSQLQuery ( adat_Dataset, as_Query );
   try
@@ -176,7 +182,7 @@ function fdat_CloneDatasetWithSQL ( const adat_ADataset : TDataset ; const AOwne
 var AStrings : TStrings;
     li_i : Integer;
    aprs_ParamSource: TParams ;
-   Astl_Params : TStringList;
+   Astl_Params : TStrings;
    {$IFDEF EADO}aprs_ParamterSource: TParameters ;{$ENDIF}
    {$IFDEF DELPHI_9_UP}awst_SQLQuery : TWideStrings; {$ENDIF}
 Begin
@@ -209,6 +215,7 @@ end;
 // Résultat de la fonction : le dataset copié avec le lien SGBD
 //////////////////////////////////////////////////////////////////////
 function fdat_CloneDatasetWithoutSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
+var aobj_Update : TObject;
 Begin
   Result := TDataset(fcom_CloneObject ( adat_ADataset, AOwner ));
 
@@ -248,6 +255,11 @@ Begin
   if assigned ( GetPropInfo ( adat_ADataset,CST_DBPROPERTY_SESSIONNAME))  Then
     Begin
       p_SetComponentProperty( Result, CST_DBPROPERTY_SESSIONNAME, fvar_getComponentProperty(adat_ADataset,CST_DBPROPERTY_SESSIONNAME));
+    End ;
+  aobj_Update := fobj_getComponentObjectProperty( adat_ADataset,CST_DBPROPERTY_UPDATEOBJECT);
+  if assigned ( aobj_Update ) Then
+    Begin
+      p_SetComponentObjectProperty( Result, CST_DBPROPERTY_UPDATEOBJECT, fcom_CloneObject(aobj_Update as TComponent,AOwner));
     End ;
   p_SetComponentBoolProperty( Result, 'ReadOnly', False );
   p_SetComponentBoolProperty( Result, 'AutoCalcFields', True );
@@ -291,7 +303,7 @@ End;
 // Retours : aprs_ParamSource aprs_ParamterSource les paramètres éventuellement ADO
 /////////////////////////////////////////////////////////////////////////
 
-function fb_GetParamsDataset (const adat_ADataset : Tdataset ; var aprs_ParamSource: TParams ; var Astl_Params : TStringList {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
+function fb_GetParamsDataset (const adat_ADataset : Tdataset ; var aprs_ParamSource: TParams ; var Astl_Params : TStrings {$IFDEF EADO} ; var aprs_ParamterSource: TParameters {$ENDIF}): Boolean;
 var lobj_SQL : TObject ;
 begin
   Result := false;
@@ -334,7 +346,7 @@ end;
 procedure p_setParamDataset (const adat_ADataset : Tdataset ; const as_ParamName : String ; const avar_Value : Variant );
 var lobj_Params1 :  TParams ;
     lprm_Param   :  TParam ;
-    lstl_params : TStringList;
+    lstl_params : TStrings;
     li_i : Integer;
 {$IFDEF EADO}
     lobj_Params2   :  TParameters ;
@@ -381,19 +393,17 @@ begin
         End
 {$ENDIF}else
          Begin
-           if lstl_params.Find(as_ParamName+'=',li_i) Then
-             Begin
-               lstl_params [ li_i ] := VarToStr(avar_Value);
-             end
-            else
-             lstl_params.Add ( as_ParamName+'='+VarToStr(avar_Value) );
+           with lstl_params do
+           if IndexOfName(as_ParamName)> -1
+            Then lstl_params [ IndexOfName(as_ParamName) ] := VarToStr(avar_Value)
+            else Add ( as_ParamName+'='+VarToStr(avar_Value) );
           p_SetComponentProperty(adat_ADataset,CST_DBPROPERTY_CLIENTPARAM,fs_ListeVersChamps(lstl_params,CST_DBPROPERTY_ENDPARAM));
          end;
     End;
 end;
 
 // universal opening a query
-procedure p_OpenSQLQuery ( const adat_Dataset : Tdataset ; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
+procedure p_OpenSQLQuery ( const adat_Dataset : Tdataset ; const as_Query : String );
 Begin
   if assigned ( adat_Dataset ) Then
     Begin
@@ -444,10 +454,10 @@ End;
 // as_Query : la chaine à affecter au query
 ///////////////////////////////////////////////////////////////////////////////
 
-procedure p_SetSQLQuery ( const adat_Dataset : Tdataset ; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF});
+procedure p_SetSQLQuery(const adat_Dataset: Tdataset; const as_Query : String ); overload;
 var lobj_SQL : TObject ;
     lprm_Params : TParams ;
-    lstl_Params : TStringList;
+    lstl_Params : TStrings;
     {$IFDEF EADO}
     lprm_Parameters : TParameters ;
     {$ENDIF}
@@ -588,7 +598,7 @@ End;
 // adat_Dataset : le query
 // as_Query : la chaine à ajouter
 ///////////////////////////////////////////////////////////////////////////////
-procedure p_AddSQLQuery ( const adat_Dataset : Tdataset ; const as_Query : {$IFDEF DELPHI_9_UP} String {$ELSE} WideString{$ENDIF} );
+procedure p_AddSQLQuery ( const adat_Dataset : Tdataset ; const as_Query : String );
 var lobj_SQL : TObject ;
 Begin
  lobj_SQL := fobj_getComponentObjectProperty ( adat_Dataset, CST_DBPROPERTY_SQL );

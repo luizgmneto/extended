@@ -103,7 +103,7 @@ type
     gsts_SQLCommand,
     gsts_SQLSource,
     gsts_SQLQuery : TStrings ;
-    gstl_params : TStringList ;
+    gstl_params : TStrings ;
 
     gprs_ParamSource : TParams ;
     {$IFDEF EADO}
@@ -172,7 +172,7 @@ type
     // Ou clé étrangère vers la table des groupes
     // Clé du Datasource des informations du groupe
     gstl_GroupKey     ,
-    gstl_GroupField     : TStringList ;
+    gstl_GroupField     : TStrings ;
     gs_GroupField ,
     // champ unité dans la table d'association des groupes
     // Ou clé primaire de la table liée

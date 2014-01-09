@@ -337,7 +337,7 @@ Begin
    end;
 End;
 procedure TExtSearchDBEdit.CreatePopup;
-var Alist:TStringList;
+var Alist:TStrings;
     i : Integer;
     ABookmark:TBookmark;
 Begin

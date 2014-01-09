@@ -144,7 +144,7 @@ type
     //    procedure p_DatasourceOnOpen(Dataset: Tdataset);
    protected
     // On a transféré tous les items
-    gsts_FieldsList : TStringList ;
+    gsts_FieldsList : TStrings ;
     gb_AllLoaded ,
     gb_AllFetched : Boolean ;
     gb_CaseInSensitive,
@@ -159,7 +159,7 @@ type
   // Clés  //
    ///////////
   // Clé primaire du datasource
-    gstl_KeyDataSource : TStringlist ;
+    gstl_KeyDataSource : TStrings;
   // Panier : Liste des clés où on a mis des unités dans le panier
 //    lstl_KeysListOut      ,
 //    lt_KeyOrigine2        ,
