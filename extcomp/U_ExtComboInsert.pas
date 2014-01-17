@@ -31,7 +31,9 @@ uses Variants, Controls, Classes,
   {$IFDEF VERSIONS}
     fonctions_version,
   {$ENDIF}
-    u_framework_dbcomponents ;
+    u_framework_dbcomponents,
+    u_framework_components,
+    u_extcomponent;
 
 {$IFDEF VERSIONS}
   const
@@ -55,8 +57,9 @@ type
   TExtDBComboInsert = class;
 
 { TExtDBComboInsert }
-  TExtDBComboInsert = class(TFWDBLookupCombo)
-  private
+  TExtDBComboInsert = class({$IFDEF JEDI}TJvDBLookupCombo{$ELSE}TDBLookupComboBox{$ENDIF}, IFWComponent, IFWComponentEdit)
+   private
+
     // On est en train d'écrire dans la combo
     FModify : Boolean ;
     FSearchSource : TDatasource;
@@ -75,15 +78,31 @@ type
     FUpdate ,
     // Beep sur erreur
     FBeepOnError: Boolean;
+
+    //look
+    FBeforeEnter, FBeforeExit : TNotifyEvent;
+    FLabel : TFWLabel ;
+    FOldColor ,
+    FColorReadOnly,
+    FColorFocus ,
+    FColorEdit ,
+    FColorLabel : TColor;
+    FAlwaysSame : Boolean;
+    FNotifyOrder : TNotifyEvent;
+    FBeforePopup : TPopUpMenuEvent;
+    FOnPopup : TNotifyEvent;
     function GetSearchSource: TDataSource;
-    {$IFNDEF RXJVCOMBO}
+    {$IFNDEF JEDI}
     procedure ResetMaxLength;
     {$ENDIF}
     procedure SetSearchSource(Value: TDataSource);
     procedure WMPaint(var Msg: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF} ); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
+    procedure p_setLabel ( const alab_Label : TFWLabel );
   protected
     OldText : String ;
     OldSelStart : Integer;
+    procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     function GetTextMargins: TPoint; virtual;
     procedure ValidateSearch; virtual;
     {$IFDEF FPC}
@@ -96,23 +115,40 @@ type
 
     procedure {$IFDEF FPC}UpdateData{$IFNDEF RXCOMBO}(Sender: TObject){$ENDIF}{$ELSE}DataLinkUpdateData{$ENDIF}; override;
     procedure CreateParams(var Params: TCreateParams); override;
-    procedure {$IFNDEF RXJVCOMBO}DataChange(Sender: TObject){$ELSE}DataLinkRecordChanged(Field:TField){$ENDIF}; override;
+    procedure {$IFNDEF JEDI}DataChange(Sender: TObject){$ELSE}DataLinkRecordChanged(Field:TField){$ENDIF}; override;
     procedure InsertLookup ( const AUpdate : Boolean ); virtual ;
 
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure KeyPress(var Key: Char); override;
   public
-    {$IFDEF RXJVCOMBO}
+    constructor Create ( AOwner : TComponent ); override;
+    procedure DoEnter; override;
+    procedure DoExit; override;
+    procedure Loaded; override;
+    procedure SetOrder ; virtual;
+    {$IFDEF JEDI}
     procedure SelectAll; virtual;
     {$ENDIF}
     function GetDisplayValue: String;virtual;
-    procedure DoEnter; override;
-    procedure DoExit; override;
     property Modify : Boolean read FModify ;
-    constructor Create(AOwner: TComponent); override;
     property DisplayValue : String read FDisplayValue write FDisplayValue;
   published
+    property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
+    property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
+    property ColorLabel : TColor read FColorLabel write FColorLabel default CST_LBL_SELECT ;
+    property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
+    property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
+    property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
+    property Color stored False ;
+    property MyLabel : TFWLabel read FLabel write p_setLabel;
+    property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
+    property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
+    property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
+    property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
+    property OnMouseEnter;
+    property OnMouseLeave;
+    property PopupMenu;
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
     property OnSet : TNotifyEvent read FOnSet write FOnSet;
     property BeepOnError: Boolean read FBeepOnError write FBeepOnError default True;
@@ -159,8 +195,54 @@ begin
   // Mode création pour informer la popup
   ControlState := ControlState + [csCreating];
   FHideSelection := False;
-  // Création popup
-    // Glyph de combo par défaut
+  // look
+  FAlwaysSame := True;
+  FColorLabel := CST_LBL_SELECT;
+  FColorEdit  := CST_EDIT_STD;
+  FColorFocus := CST_EDIT_SELECT;
+  FColorReadOnly := CST_EDIT_READ;
+end;
+
+procedure TExtDBComboInsert.p_setLabel(const alab_Label: TFWLabel);
+begin
+  if alab_Label <> FLabel Then
+    Begin
+      FLabel := alab_Label;
+      FLabel.MyEdit := Self;
+    End;
+end;
+
+procedure TExtDBComboInsert.SetOrder;
+begin
+  if assigned ( FNotifyOrder ) then
+    FNotifyOrder ( Self );
+end;
+
+
+procedure TExtDBComboInsert.Loaded;
+begin
+  inherited Loaded;
+  FOldColor := Color;
+  if  FAlwaysSame
+   Then
+    Color := gCol_Edit ;
+end;
+
+procedure TExtDBComboInsert.MouseDown(Button: TMouseButton; Shift: TShiftState;
+  X, Y: Integer);
+begin
+  inherited MouseDown(Button, Shift, X, Y);
+  if Button = mbRight Then
+   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+end;
+
+procedure TExtDBComboInsert.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
 end;
 
 
@@ -168,7 +250,7 @@ end;
 // procédure   : ResetMaxLength
 // description : Vérifications avant affectation de la taille du texte à rien
 ////////////////////////////////////////////////////////////////////////////////
-{$IFNDEF RXJVCOMBO}
+{$IFNDEF JEDI}
 procedure TExtDBComboInsert.ResetMaxLength;
 var
   F: TField;
@@ -196,7 +278,7 @@ begin
     Params.Style := Params.Style or ES_NOHIDESEL;
 end;
 
-{$IFDEF RXJVCOMBO}
+{$IFDEF JEDI}
 procedure TExtDBComboInsert.SelectAll;
 Begin
 End;
@@ -223,7 +305,7 @@ begin
       Begin
         Flocated:=False;
         FSet := False;
-        {$IFNDEF RXJVCOMBO}SelText:='';{$ENDIF}
+        {$IFNDEF JEDI}SelText:='';{$ENDIF}
         Key := 0;
         Exit;
       end;
@@ -257,15 +339,15 @@ begin
 {      SelText:='';
       Text := Text + Key ;
       SelStart:=SelStart+1;}
-      {$IFNDEF RXJVCOMBO}
+      {$IFNDEF JEDI}
       CompleteText;
       {$ENDIF}
-       if  ( (( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} = '' ) and not Field.IsValidChar(Key))
-       or  ( ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} <> '' ) and
-       ( not assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF} )
-        or not assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
-        or not assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ) )
-        or not {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).IsValidChar(Key)))) then
+       if  ( (( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} = '' ) and not Field.IsValidChar(Key))
+       or  ( ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} <> '' ) and
+       ( not assigned ( {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF} )
+        or not assigned ( {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
+        or not assigned ( {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ) )
+        or not {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).IsValidChar(Key)))) then
       begin
         if BeepOnError then
           SysUtils.Beep;
@@ -326,7 +408,7 @@ end;
 // Procédure Completetext
 // Complétion
 //////////////////////////////////////////////////////////////////////////////////
-{$IFNDEF RXJVCOMBO}
+{$IFNDEF JEDI}
 procedure TExtDBComboInsert.CompleteText;
 var li_pos : Integer;
     ls_temp : String;
@@ -337,15 +419,15 @@ begin
       Begin
         Open;
         FSet := False;
-        if not assigned ( FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} )) Then Exit;
+        if not assigned ( FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} )) Then Exit;
         if fb_Locate ( FSearchSource.DataSet,
-                       {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF},
+                       {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF},
                        Text, [loCaseInsensitive, loPartialKey], True )
          Then
           Begin
             Flocated  := True;
             li_pos    := SelStart ;
-            ls_temp   := FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
+            ls_temp   := FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
             Text :=  ls_temp ;
             SelStart := li_pos ;
             SelLength := length ( ls_temp ) - li_pos;
@@ -408,18 +490,18 @@ Begin
     // Tests
   If  assigned ( Field )
   and ( Field.Value <> Null )
-  and assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF} )
-  and assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
+  and assigned ( {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF} )
+  and assigned ( {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
   Then
-    with {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet do
+    with {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet do
      Begin
       Open;
-      if  assigned ( FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ))
-      and assigned ( FindField ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF}   )) Then
+      if  assigned ( FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ))
+      and assigned ( FindField ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF}   )) Then
         Begin
-          if Locate ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF}, Field.Value, [] ) Then
+          if Locate ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF}, Field.Value, [] ) Then
             // récupération à partir de la listes
-            Result := FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString ;
+            Result := FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString ;
         End ;
      end;
 End ;
@@ -430,16 +512,16 @@ End ;
 // description : Changement dans les données
 // paramètre   : Sender : pour l'évènement
 ////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.{$IFNDEF RXJVCOMBO}DataChange(Sender: TObject){$ELSE}DataLinkRecordChanged(Field:TField){$ENDIF};
+procedure TExtDBComboInsert.{$IFNDEF JEDI}DataChange(Sender: TObject){$ELSE}DataLinkRecordChanged(Field:TField){$ENDIF};
 begin
-  {$IFNDEF RXJVCOMBO}
+  {$IFNDEF JEDI}
   ResetMaxLength;
   {$ENDIF}
   if Field <> nil then
   begin
     // récupération du masque de saisie
 //    EditMask := FDataLink.Field.EditMask;
-    {$IFNDEF RXJVCOMBO}
+    {$IFNDEF JEDI}
     if not (csDesigning in ComponentState) then
       if (Field.DataType in [ftString, ftWideString]) and (MaxLength = 0) then
         // Taille maxi
@@ -475,20 +557,20 @@ begin
   // Validation de l'édition
   {$IFDEF FPC}Inherited UpdateData {$IFNDEF RXCOMBO}(Sender){$ENDIF}{$ELSE}DataLinkUpdateData{$ENDIF};
   // affectation
-  KeyValue := {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.Dataset.FindField ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF} ).Value;
+  KeyValue := {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF}.Dataset.FindField ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF} ).Value;
 end;
 
 procedure TExtDBComboInsert.ValidateSearch;
 Begin
   if not FSet
   and Flocated Then
-  with {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF} do
-  if fb_Locate ( DataSet, {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive, loPartialKey], True )
+  with {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF} do
+  if fb_Locate ( DataSet, {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive, loPartialKey], True )
    Then
       Begin
         Flocated  := True;
         FSet := True;
-        {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := DataSet.FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
+        {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := DataSet.FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString;
         if assigned ( FOnSet ) Then
           FOnSet ( Self )
       End ;
@@ -501,6 +583,13 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.DoEnter;
 begin
+  if assigned ( FBeforeEnter ) Then
+    FBeforeEnter ( Self );
+  // Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
+  // avec la souris => cas de tri)
+  p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
+  p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
   inherited DoEnter;
   // Sélectionne le texte
   SelectAll ;
@@ -518,26 +607,26 @@ begin
     // vérifications
   if  assigned ( Field )
   and assigned ( Field.Dataset )
-  and assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF} )
-  and assigned ( {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet ) Then
-    with {$IFNDEF RXJVCOMBO}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet do
+  and assigned ( {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF} )
+  and assigned ( {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet ) Then
+    with {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet do
     try
       if ( Text <> '' ) Then
        Begin
         // Si du texte est présent
-        if not Locate ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive] ) Then
+        if not Locate ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive] ) Then
               // Autoinsertion si pas dans la liste
           Begin
             Updating;
             Insert ;
-            FieldByName ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value := Text ;
+            FieldByName ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value := Text ;
             Post ;
             Updated;
-            if Locate ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [] ) Then
+            if Locate ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [] ) Then
               Begin
                 Field.Dataset.Edit;
-                Field.Value := FieldByName ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
-                {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := FindField ( {$IFNDEF RXJVCOMBO}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value ;
+                Field.Value := FieldByName ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
+                {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value ;
                 FUpdate := True ;
                 if assigned ( FOnSet ) Then
                   FOnSet ( Self );
@@ -546,7 +635,7 @@ begin
          Else
           if assigned ( Field.DataSet )
           and ( Field.DataSet.State in [dsEdit,dsInsert] ) Then
-           Field.Value := FieldByName ( {$IFNDEF RXJVCOMBO}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
+           Field.Value := FieldByName ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
        End
       Else
        if AUpdate
@@ -571,7 +660,11 @@ procedure TExtDBComboInsert.DoExit;
 begin
   // Auto-insertion
   InsertLookup ( True );
+  if assigned ( FBeforeExit ) Then
+    FBeforeExit ( Self );
   inherited DoExit;
+  p_setLabelColorExit ( FLabel, FAlwaysSame );
+  p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -596,6 +689,7 @@ begin
   // destruction : pas besoin de peindre
   if csDestroying in ComponentState then
     Exit;
+  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
   // alignement horizontal en cours
   AAlignment := taLeftJustify; //FAlignment;
   if UseRightToLeftAlignment then
@@ -632,7 +726,7 @@ begin
       begin
         //récupération du texte du champ
         S := Field.DisplayText;
-        {$IFNDEF RXJVCOMBO}
+        {$IFNDEF JEDI}
         case CharCase of
           ecUpperCase:
             S := AnsiUpperCase(S);

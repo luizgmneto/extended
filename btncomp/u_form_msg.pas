@@ -87,6 +87,7 @@ uses
      {$ELSE}
      unite_messages_delphi,
      {$ENDIF}
+     fonctions_string,
      Sysutils;
 
 const CST_IMAGE_Warning = 'mwarning';
@@ -190,8 +191,6 @@ begin
       putInBtn(p,gs_Ignore,mrIgnore);
     end;
     inc ( TotalWidth, 4 );
-    if Width<TotalWidth Then
-     Width := TotalWidth ;
   end;
 
   case fDlgType of
@@ -201,6 +200,16 @@ begin
   else
     PlaceType(CST_IMAGE_Error,gs_Error);
   end;
+  with lbMsg do
+   Begin
+     lbMsg.Width:=Canvas.TextWidth(lbMsg.Caption);
+     if TotalWidth < Height+Left Then
+       TotalWidth:= Height+Left;
+     Height:=(fi_CharCounter ( lbMsg.Caption, #10 ) + 1 )*Canvas.TextHeight('W');
+   end;
+  Height:= lbMsg.Height+45;
+  if Width<TotalWidth Then
+   Width := TotalWidth ;
 
 end;
 
@@ -216,8 +225,6 @@ procedure TFMsg.FormShow(Sender: TObject);
 var  RectMonitor:TRect;
 
 begin
-   //MG 2012
-  Height:=lbMsg.Height+45; //AL 2009
 
   if (AOwner=nil)and Assigned(Application.MainForm)
    then
@@ -249,4 +256,4 @@ initialization
   p_ConcatVersion ( gVer_F_Msg );
 {$ENDIF}
 end.
-
+

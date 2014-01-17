@@ -30,10 +30,27 @@ const
 procedure doShowWorking(const sText:string;const Cancel:boolean=false);//AL
 procedure doCloseWorking;
 
-function MyShowMessage(const Msg:string;const ADlgType:TMsgDlgType=mtWarning;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
-function MyMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word; overload;
-function MyMessageDlg(const Title,Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const Help : Integer = 0; const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word; overload;
-function AMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
+function MyShowMessage ( const Msg:string;
+                         const amb_Buttons : TMsgDlgButtons =[mbOK] ;
+                         const ADlgType:TMsgDlgType=mtWarning;
+                         const proprio:TControl=nil;
+                         const StyleLb:TFontStyles=[fsBold]):Word;
+function MyMessageDlg  ( const Msg:string;
+                         const ADlgType:TMsgDlgType;
+                         const AButtons:TMsgDlgButtons;
+                         const proprio:TControl=nil;
+                         const StyleLb:TFontStyles=[fsBold]):Word; overload;
+function MyMessageDlg  ( const Title,Msg:string;
+                         const ADlgType:TMsgDlgType;
+                         const AButtons:TMsgDlgButtons;
+                         const Help : Integer = 0;
+                         const proprio:TControl=nil;
+                         const StyleLb:TFontStyles=[fsBold]):Word; overload;
+function AMessageDlg   ( const Msg:string;
+                         const ADlgType:TMsgDlgType;
+                         const AButtons:TMsgDlgButtons;
+                         const proprio:TControl=nil;
+                         const StyleLb:TFontStyles=[fsBold]):Word;
 
 
 var gF_Working:TFWorking;
@@ -60,16 +77,24 @@ begin
 end;
 
 
-function MyMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
+function MyMessageDlg  ( const Msg:string;
+                         const ADlgType:TMsgDlgType;
+                         const AButtons:TMsgDlgButtons;
+                         const proprio:TControl=nil;
+                         const StyleLb:TFontStyles=[fsBold]):Word; overload;
 Begin
   doCloseWorking;
   Result := AMessageDlg( Msg, ADlgType, AButtons, proprio, StyleLb);
 end;
 
-function MyShowMessage(const Msg:string;const ADlgType:TMsgDlgType=mtWarning;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
+function MyShowMessage ( const Msg:string;
+                         const amb_Buttons : TMsgDlgButtons =[mbOK] ;
+                         const ADlgType:TMsgDlgType=mtWarning;
+                         const proprio:TControl=nil;
+                         const StyleLb:TFontStyles=[fsBold]):Word;
 Begin
   doCloseWorking;
-  Result := AMessageDlg( Msg, ADlgType, [mbOK], proprio, StyleLb);
+  Result := AMessageDlg( Msg, ADlgType, amb_Buttons, proprio, StyleLb);
 end;
 
 function CreateMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):TFMsg;
@@ -87,7 +112,11 @@ begin
 
 end;
 
-function AMessageDlg(const Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
+function AMessageDlg   ( const Msg:string;
+                         const ADlgType:TMsgDlgType;
+                         const AButtons:TMsgDlgButtons;
+                         const proprio:TControl=nil;
+                         const StyleLb:TFontStyles=[fsBold]):Word;
 var lf_MessageDlg : TFMsg;
 Begin
  lf_MessageDlg := CreateMessageDlg(Msg, ADlgType, AButtons, proprio, StyleLb);
@@ -98,7 +127,12 @@ Begin
  end;
 end;
 
-function MyMessageDlg(const Title,Msg:string;const ADlgType:TMsgDlgType;const AButtons:TMsgDlgButtons;const Help : Integer = 0; const proprio:TControl=nil;const StyleLb:TFontStyles=[fsBold]):Word;
+function MyMessageDlg  ( const Title,Msg:string;
+                         const ADlgType:TMsgDlgType;
+                         const AButtons:TMsgDlgButtons;
+                         const Help : Integer = 0;
+                         const proprio:TControl=nil;
+                         const StyleLb:TFontStyles=[fsBold]):Word; overload;
 var lf_MessageDlg : TFMsg;
 Begin
  lf_MessageDlg := CreateMessageDlg(Msg, ADlgType, AButtons, proprio, StyleLb);
