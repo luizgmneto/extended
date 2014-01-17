@@ -68,8 +68,8 @@ type
       protected
        procedure MouseEnter{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
        procedure MouseLeave{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
-       procedure Click; override;
      public
+      procedure Click; override;
       procedure AdaptGlyph (const ASize : Integer ); virtual;
       constructor Create ( AOwner : TComponent ) ; override;
       published

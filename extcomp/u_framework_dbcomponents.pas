@@ -33,7 +33,7 @@ uses
 {$ELSE}
    Windows, Mask, DBTables, ActnMan,
 {$ENDIF}
-{$IFDEF RXCOMBO}
+{$IFDEF RX}
   RxLookup,
 {$ENDIF}
 {$IFDEF JEDI}
@@ -295,7 +295,7 @@ type
 
 
    { TFWDBLookupCombo }
-   TFWDBLookupCombo = class ( {$IFDEF JEDI}TJvDBLookupCombo{$ELSE}{$IFDEF RXCOMBO}TRxDBLookupCombo{$ELSE}TDBLookupComboBox{$ENDIF}{$ENDIF}, IFWComponent, IFWComponentEdit )
+   TFWDBLookupCombo = class ( {$IFDEF JEDI}TJvDBLookupCombo{$ELSE}{$IFDEF RX}TRxDBLookupCombo{$ELSE}TLookupComboBox{$ENDIF}{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FLabel : TFWLabel ;

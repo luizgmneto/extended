@@ -62,6 +62,7 @@ type
   function fs_RemplaceEspace ( const as_Texte : String ; const as_Remplace : String ): String ;
 
   function fs_RepeteChar     ( const ach_Caractere : Char ; const ali_Repete : Integer ):String ;
+  function fi_CharCounter    ( const as_Texte : String ; const ach_Caractere : Char ):Longint;
   function fs_RemplaceChar   ( const as_Texte : String ; const ach_Origine, ach_Voulu : Char ) : String ;
 
   function fs_ReplaceChaine( as_Texte : String ; const as_Origine, as_Voulu : string):string;
@@ -665,6 +666,24 @@ Begin
       inc ( lpc_AChar );
     end;
 End ;
+
+function fi_CharCounter    ( const as_Texte : String ; const ach_Caractere : Char ):Longint;
+var lpc_AChar : PChar ;
+    li_length : Int64;
+Begin
+  Result:=0;
+  if as_Texte = '' Then
+    Exit;
+  lpc_AChar := @as_Texte[1];
+  li_length := Length(as_Texte)+Int64(@as_Texte[1]);
+  while Int64(lpc_AChar) < li_length do
+    Begin
+      if lpc_AChar^ = ach_Caractere Then
+        inc ( Result );
+      inc ( lpc_AChar );
+    end;
+
+end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // fonction : fs_RemplaceChar

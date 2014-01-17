@@ -36,10 +36,9 @@ inherited FMsg: TFMsg
     end
     object lbMsg: TStaticText
       Left = 35
-      Height = 20
+      Height = 36
       Top = 8
       Width = 286
-      AutoSize = True
       Constraints.MinHeight = 20
       Constraints.MinWidth = 286
       TabOrder = 1
