@@ -77,6 +77,7 @@ procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :St
 function fdat_CloneDatasetWithoutSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithoutSQLWithDataSource ( const adat_ADataset : Tdataset ; const AOwner : TComponent ; var ads_Datasource : TDatasource  ) : Tdataset;
+procedure p_setComponentData ( const awin_Control : TWinControl ; const ads_Source : TDataSource ; const afn_DataField : String );
 function fds_GetOrCloneDataSource ( const acom_Component : TComponent ; const as_SourceProperty, as_Query : String ; const AOwner : TComponent ; const adat_ADatasetToCopy : Tdataset ) : Tdatasource;
 function fb_GetSQLStrings (const adat_ADataset : Tdataset ; var astl_SQLQuery : TStrings{$IFDEF DELPHI_9_UP}; var awst_SQLQuery : TWideStrings {$ENDIF}):Boolean;
 function fcon_CloneControlWithDB ( const acom_AObject : TControl ; const AOwner : TComponent ) : TControl;
@@ -291,6 +292,12 @@ Begin
     ads_Datasource := TDatasource.create ( AOwner );
   ads_Datasource.DataSet := Result;
 End;
+
+procedure p_setComponentData ( const awin_Control : TWinControl ; const ads_Source : TDataSource ; const afn_DataField : String );
+Begin
+  p_setComponentProperty       ( awin_Control, 'DataField' , afn_DataField );
+  p_setComponentObjectProperty ( awin_Control, 'Datasource', ads_Source );
+end;
 
 /////////////////////////////////////////////////////////////////////////
 // fonction fb_GetParamsDataset
