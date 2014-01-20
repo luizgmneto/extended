@@ -1,4 +1,4 @@
-﻿// unité contenant des fonctions de traitements de chaine
+﻿// unité contenant des fonctions de traitements sytèmes
 unit fonctions_system;
 
 interface
@@ -131,17 +131,105 @@ uses
 {$IFNDEF LINUX}
 const ENV_VARIABLE_ARCHITECTURE = {$IFDEF WINDOWS}'PROCESSOR_ARCHITECTURE'{$ELSE}'MACHTYPE'{$ENDIF};
 {$ENDIF}
-{$IFDEF WINDOWS}
-      CATCH_OUTPUT  = ' 4>&1';
-{$ELSE}
+
 {$IFDEF UNIX}
 const UNIX_UNAME = 'uname';
       UNIX_ARCHITECTURE = '-m';
-      CATCH_OUTPUT  = ' > /dev/null';
       UNIX_PACKAGES     = 'lsb_release -si';
       UNIX_VERSION      = 'lsb_release -sr';
 {$ENDIF}
+
+{$IFNDEF FPC}
+  ////////////////////////////////////////////////////////////////////////
+ // DELPHI Functions                                                   //
+////////////////////////////////////////////////////////////////////////
+
+// delphi ini config session directory
+function GetAppConfigDir ( const Global : Boolean ): string;
+ begin
+   if Global
+    Then Result := GetWinDir ( CSIDL_COMMON_APPDATA )
+    Else Result := GetWinDir ( CSIDL_APPDATA );
+   Result := Result + DirectorySeparator + fs_ExtractFileNameOnlyWithoutExt ( Application.ExeName );
+ end;
+
+// delphi user directory
+function GetUserDir: string;
+ begin
+   Result := GetWinDir ( CSIDL_PERSONAL ) + DirectorySeparator;
+ end;
+
+// no DirectoryExistsUTF8 on delphi
+function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
+Begin
+  Result:= DirectoryExists ( as_path );
+End;
+
+// no FileExistsUTF8 on delphi
+function FileExistsUTF8 ( const as_path : String ):Boolean;
+Begin
+  Result:= FileExists ( as_path );
+End;
+function FindFirstUTF8(const Path: string; Attr: Integer;
+  var F: TSearchRec): Integer;
+Begin
+  Result := FindFirst( Path, Attr, F );
+End;
+procedure FindCloseUTF8(var F: TSearchRec);
+Begin
+  FindClose(F);
+End;
+function FileOpenUTF8(const FileName: string; Mode: LongWord): Integer;
+Begin
+  Result := FileOpen(FileName,Mode);
+End;
+function FindNextUTF8(var SR: TSearchRec):integer;
+Begin
+  Result := FindNext(SR);
+End;
+function FileCreateUTF8(const as_file: String):integer;
+Begin
+  Result := FileCreate(as_file);
+End;
+function FileSize(const as_file: String):int64;
+var FileHandle : THandle;
+Begin
+  Result := 0;
+  if not FileExists ( as_file ) then
+    Exit;
+  try
+    FileHandle := CreateFile(PChar(as_file),
+        GENERIC_READ,
+        0, {exclusive}
+        nil, {security}
+        OPEN_EXISTING,
+        FILE_ATTRIBUTE_NORMAL,
+        0);
+     Result := GetFileSize(FileHandle, nil);
+   finally
+     CloseHandle(FileHandle);
+   End;
+End;
+procedure RemoveDirUTF8 ( const as_dir : String );
+Begin
+  RemoveDir(as_dir);
+End;
+procedure ForceDirectoriesUTF8 ( const as_dir : String );
+Begin
+  ForceDirectories(as_dir);
+End;
+procedure CreateDirUTF8 ( const as_dir : String );
+Begin
+  CreateDir(as_dir);
+End;
+procedure DeleteFileUTF8 ( const as_File : String );
+Begin
+  DeleteFile(as_File);
+End;
 {$ENDIF}
+  ////////////////////////////////////////////////////////////////////////
+ // Every OS Functions                                                 //
+////////////////////////////////////////////////////////////////////////
 
 // application directory with Separator
 function fs_getAppDir : String;
@@ -283,91 +371,6 @@ Begin
   {$ENDIF}
 End;
 
-{$IFNDEF FPC}
-// delphi ini config session directory
-function GetAppConfigDir ( const Global : Boolean ): string;
- begin
-   if Global
-    Then Result := GetWinDir ( CSIDL_COMMON_APPDATA )
-    Else Result := GetWinDir ( CSIDL_APPDATA );
-   Result := Result + DirectorySeparator + fs_ExtractFileNameOnlyWithoutExt ( Application.ExeName );
- end;
-
-// delphi user directory
-function GetUserDir: string;
- begin
-   Result := GetWinDir ( CSIDL_PERSONAL ) + DirectorySeparator;
- end;
-
-// no DirectoryExistsUTF8 on delphi
-function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
-Begin
-  Result:= DirectoryExists ( as_path );
-End;
-
-// no FileExistsUTF8 on delphi
-function FileExistsUTF8 ( const as_path : String ):Boolean;
-Begin
-  Result:= FileExists ( as_path );
-End;
-function FindFirstUTF8(const Path: string; Attr: Integer;
-  var F: TSearchRec): Integer;
-Begin
-  Result := FindFirst( Path, Attr, F );
-End;
-procedure FindCloseUTF8(var F: TSearchRec);
-Begin
-  FindClose(F);
-End;
-function FileOpenUTF8(const FileName: string; Mode: LongWord): Integer;
-Begin
-  Result := FileOpen(FileName,Mode);
-End;
-function FindNextUTF8(var SR: TSearchRec):integer;
-Begin
-  Result := FindNext(SR);
-End;
-function FileCreateUTF8(const as_file: String):integer;
-Begin
-  Result := FileCreate(as_file);
-End;
-function FileSize(const as_file: String):int64;
-var FileHandle : THandle;
-Begin
-  Result := 0;
-  if not FileExists ( as_file ) then
-    Exit;
-  try
-    FileHandle := CreateFile(PChar(as_file),
-        GENERIC_READ,
-        0, {exclusive}
-        nil, {security}
-        OPEN_EXISTING,
-        FILE_ATTRIBUTE_NORMAL,
-        0);
-     Result := GetFileSize(FileHandle, nil);
-   finally
-     CloseHandle(FileHandle);
-   End;
-End;
-procedure RemoveDirUTF8 ( const as_dir : String );
-Begin
-  RemoveDir(as_dir);
-End;
-procedure ForceDirectoriesUTF8 ( const as_dir : String );
-Begin
-  ForceDirectories(as_dir);
-End;
-procedure CreateDirUTF8 ( const as_dir : String );
-Begin
-  CreateDir(as_dir);
-End;
-procedure DeleteFileUTF8 ( const as_File : String );
-Begin
-  DeleteFile(as_File);
-End;
-{$ENDIF}
-
 // universal name of exe with no extension ( for leonardi )
 function fs_GetNameSoft : String;
 var li_Pos : Integer;
@@ -417,25 +420,21 @@ var {$IFDEF FPC}
     lList: TStringList;
 begin
 {$IFDEF FPC}
-  {$IFDEF WINDOWS}
-  Process := TProcess.Create(nil);
-  {$ELSE}
+  Result := '';
   Process := TProcessUTF8.Create(nil);
-  {$ENDIF}
   if HasOutput Then
     lList := TStringList.create;
-  Result := '';
   with Process do
     try
-      if HasOutput
+      if HasOutput // get the result
         Then Options := Options + [poWaitOnExit,poNoConsole, poStderrToOutPut,poUsePipes]
-        Else Options := Options + [poWaitOnExit];
+        Else Options := Options + [poWaitOnExit]; // wait for result
       Executable      := AExecutable;
       if AParameter > '' Then
         Parameters.Add(AParameter);
-      Execute;
+      Execute; // will the command work ?
       if HasOutput Then
-       Begin
+       Begin // result
         lList.LoadFromStream(Output);
         Result := lList.Text;
        end;
