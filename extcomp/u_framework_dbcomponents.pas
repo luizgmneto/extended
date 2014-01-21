@@ -310,6 +310,9 @@ type
        FOnPopup : TNotifyEvent;
        procedure p_setLabel ( const alab_Label : TFWLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
+       {$IFDEF FPC}
+       function GetField:TField ;
+       {$ENDIF}
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
        procedure Notification(AComponent: TComponent; Operation: TOperation); override;
@@ -320,6 +323,9 @@ type
        procedure DoExit; override;
        procedure Loaded; override;
        procedure SetOrder ; virtual;
+       {$IFDEF FPC}
+       property Field : TField read GetField ;
+       {$ENDIF}
       published
        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
        property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
@@ -1168,6 +1174,11 @@ Begin
   p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
   inherited;
 End;
+
+function TFWDBLookupCombo.GetField: TField;
+begin
+  Result:=DataSource.DataSet.FieldByName(DataField);
+end;
 
 procedure TFWDBLookupCombo.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);

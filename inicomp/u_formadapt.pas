@@ -116,7 +116,8 @@ end;
 
 procedure TF_FormAdapt.DoShow;
 begin
-  if not ( csDesigning in ComponentState ) Then
+  if ( FScale = 1 )
+  and not ( csDesigning in ComponentState ) Then
    Begin
      if ge_GlobalScaleForm <> 1 Then
       Begin
