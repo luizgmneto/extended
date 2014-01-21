@@ -173,7 +173,7 @@ procedure p_SetPageSetup ( const ARLPageSetup : TObject; const ab_portrait : Boo
 
 implementation
 
-uses Forms, u_extdbgrid,typinfo;
+uses Forms, typinfo;
 
 // From interface : setting report button
 procedure p_SetBtnPrint  ( const APrintComp   : TObject; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean );

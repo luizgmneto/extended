@@ -18,6 +18,7 @@ uses
 
 Const
   FromDPI=8;//Screen.MenuFont.Size de la conception
+  SPACING = 'Spacing';
   SCALE_NODE_HEIGHT = 'DefaultNodeHeight';
   SCALE_GLYPH_SIZE  = 'GlyphSize';
   {$IFDEF VERSIONS}
@@ -219,14 +220,12 @@ begin
       end;
 
     if assigned ( GetPropInfo ( Control, SCALE_NODE_HEIGHT )) Then
-     Begin
       SetPropValue(Control, SCALE_NODE_HEIGHT, Scale ( GetPropValue (Control, SCALE_NODE_HEIGHT ), ANewEchelle));
-     end;
+    if assigned ( GetPropInfo ( Control, SPACING )) Then
+      SetPropValue(Control, SPACING, Scale ( GetPropValue (Control, SPACING ), ANewEchelle));
     if assigned ( GetPropInfo ( Control, SCALE_GLYPH_SIZE ))
     and ( PropIsType(Control,SCALE_GLYPH_SIZE,tkInteger) ) Then
-     Begin
       SetPropValue(Control, SCALE_GLYPH_SIZE, Scale ( GetPropValue (Control, SCALE_GLYPH_SIZE ), ANewEchelle));
-     end;
     if ( Control is TCustomGrid )
     and assigned ( GetPropInfo ( Control, CST_PROPERTY_COLUMNS )) Then
      Begin
