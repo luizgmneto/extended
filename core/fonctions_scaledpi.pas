@@ -222,7 +222,14 @@ begin
     if assigned ( GetPropInfo ( Control, SCALE_NODE_HEIGHT )) Then
       SetPropValue(Control, SCALE_NODE_HEIGHT, Scale ( GetPropValue (Control, SCALE_NODE_HEIGHT ), ANewEchelle));
     if assigned ( GetPropInfo ( Control, SPACING )) Then
-      SetPropValue(Control, SPACING, Scale ( GetPropValue (Control, SPACING ), ANewEchelle));
+     Begin
+      I := Scale ( GetPropValue (Control, SPACING ), ANewEchelle);
+      if i < 0
+       Then I := min ( -Width + 4, I )  // It is inside spacing
+       Else I := min (  Width - 4, I );
+
+      SetPropValue(Control, SPACING, i );
+     end;
     if assigned ( GetPropInfo ( Control, SCALE_GLYPH_SIZE ))
     and ( PropIsType(Control,SCALE_GLYPH_SIZE,tkInteger) ) Then
       SetPropValue(Control, SCALE_GLYPH_SIZE, Scale ( GetPropValue (Control, SCALE_GLYPH_SIZE ), ANewEchelle));

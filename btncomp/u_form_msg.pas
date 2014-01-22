@@ -66,6 +66,7 @@ type
     Image: TExtImage;
     lbMsg: TStaticText;
     PanelButtons: TPanel;
+    p_Main: TPanel;
     procedure FormShow(Sender: TObject);
   private
     fButtons:TMsgDlgButtons;
@@ -202,9 +203,9 @@ begin
   end;
   with lbMsg do
    Begin
-     lbMsg.Width:=Canvas.TextWidth(lbMsg.Caption);
-     if TotalWidth < Height+Left Then
-       TotalWidth:= Height+Left;
+     lbMsg.Width:=Canvas.TextWidth(Caption);
+     if TotalWidth < Width+Left Then
+       TotalWidth:= Width+Left;
      Height:=(fi_CharCounter ( lbMsg.Caption, #10 ) + 1 )*Canvas.TextHeight('W');
    end;
   Height:= lbMsg.Height+45;
