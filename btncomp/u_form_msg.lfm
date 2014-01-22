@@ -2,7 +2,7 @@ inherited FMsg: TFMsg
   Left = 642
   Height = 93
   Top = 245
-  ActiveControl = Panel2
+  ActiveControl = p_Main
   BorderIcons = []
   Caption = 'FMsg'
   ClientHeight = 93
@@ -15,12 +15,13 @@ inherited FMsg: TFMsg
   KeyPreview = True
   OnShow = FormShow
   Position = poMainFormCenter
-  object Panel2: TPanel[0]
+  object p_Main: TPanel[0]
     Left = 0
     Height = 93
     Top = 0
     Width = 320
     Align = alClient
+    AutoSize = True
     BevelInner = bvLowered
     ClientHeight = 93
     ClientWidth = 320
@@ -30,14 +31,14 @@ inherited FMsg: TFMsg
     object Image: TExtImage
       Left = 2
       Height = 32
-      Top = 0
+      Top = 2
       Width = 32
       Transparent = True
     end
     object lbMsg: TStaticText
       Left = 35
       Height = 36
-      Top = 8
+      Top = 10
       Width = 286
       Constraints.MinHeight = 20
       Constraints.MinWidth = 286
