@@ -55,7 +55,7 @@ type
     FNoAccent : Boolean;
     FModeFormat : TModeFormatText;
   protected
-    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure TextChanged; override;
   public
     constructor Create ( Aowner : TComponent ); override;
   published
@@ -69,7 +69,7 @@ type
     FNoAccent : Boolean;
     FModeFormat : TModeFormatText;
   protected
-    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure TextChanged; override;
   public
     constructor Create ( Aowner : TComponent ); override;
   published
@@ -83,12 +83,39 @@ uses Dialogs, fonctions_db, sysutils;
 
 { TExtFormatEdit }
 
-procedure TExtFormatEdit.KeyDown(var Key: Word; Shift: TShiftState);
+{------------------------------------------------------------------------------
+  Method:  TCustomEdit.SetModified
+  Params:  Value to set FModified to
+  Returns: Nothing
+ ------------------------------------------------------------------------------}
+procedure TExtFormatEdit.TextChanged;
+var
+  Cur, Temp: String;
+  CPos: TPoint;
+  SStart, SLen: Integer;
 begin
-  inherited KeyDown(Key, Shift);
+  //debugln('TCustomEdit.TextChanged ',DbgSName(Self));
   if FNoAccent or ( FModeFormat > mftNone ) Then
-    Text:=fs_FormatText(Text,FModeFormat,FNoAccent);
+  begin
+    // use a local variable to reduce amounts of widgetset calls
+    Cur := Text;
+    //check to see if the charcase should affect the text.
+    Temp := fs_FormatText(Cur,FModeFormat,FNoAccent);
+    if (Temp <> Cur) then
+    begin
+      CPos := CaretPos;
+      SStart := SelStart;
+      SLen := SelLength;
+      Text := Temp;
+      SelStart  := SStart;
+      SelLength := SLen;
+      CaretPos  := CPos;
+    end;
+  end;
+  Inherited;
 end;
+
+
 
 constructor TExtFormatEdit.Create(Aowner: TComponent);
 begin
@@ -100,12 +127,38 @@ end;
 
 { TExtFormatDBEdit }
 
-procedure TExtFormatDBEdit.KeyDown(var Key: Word; Shift: TShiftState);
+{------------------------------------------------------------------------------
+  Method:  TCustomEdit.SetModified
+  Params:  Value to set FModified to
+  Returns: Nothing
+ ------------------------------------------------------------------------------}
+procedure TExtFormatDBEdit.TextChanged;
+var
+  Cur, Temp: String;
+  CPos: TPoint;
+  SStart, SLen: Integer;
 begin
-  Inherited;
+  //debugln('TCustomEdit.TextChanged ',DbgSName(Self));
   if FNoAccent or ( FModeFormat > mftNone ) Then
-    Text:=fs_FormatText(Text,FModeFormat,FNoAccent);
+  begin
+    // use a local variable to reduce amounts of widgetset calls
+    Cur := Text;
+    //check to see if the charcase should affect the text.
+    Temp := fs_FormatText(Cur,FModeFormat,FNoAccent);
+    if (Temp <> Cur) then
+    begin
+      CPos := CaretPos;
+      SStart := SelStart;
+      SLen := SelLength;
+      Text := Temp;
+      SelStart  := SStart;
+      SelLength := SLen;
+      CaretPos  := CPos;
+    end;
+  end;
+  Inherited;
 end;
+
 
 constructor TExtFormatDBEdit.Create(Aowner: TComponent);
 begin

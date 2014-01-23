@@ -28,11 +28,13 @@ uses Variants, Controls, Classes,
      {$ENDIF}
      Graphics, Menus, DB,DBCtrls,
      u_framework_components,
-     u_framework_dbcomponents,
+     u_extformatedits,
      {$IFDEF VERSIONS}
      fonctions_version,
      {$ENDIF}
-     u_extcomponent, DBGrids, StdCtrls;
+     fonctions_string,
+     u_extcomponent,
+     DBGrids, StdCtrls;
 
 const
 {$IFDEF VERSIONS}
@@ -76,14 +78,14 @@ type
   end;
 
 { TExtSearchDBEdit }
-  TExtSearchDBEdit = class(TFWDBEdit)
+  TExtSearchDBEdit = class(TExtFormatDBEdit)
   private
     // Lien de données
     FSearchSource: TFieldDataLink;
     FOnLocate ,
     FOnSet ,
     FBeforeEnter, FAfterExit : TNotifyEvent;
-    FLabel : TFWLabel ;
+    FLabel : TFWLabel;
     FOldColor ,
     FColorFocus ,
     FColorReadOnly,
@@ -157,7 +159,7 @@ type
 
 implementation
 
-uses Dialogs, fonctions_db, sysutils, fonctions_string;
+uses Dialogs, fonctions_db, sysutils;
 
 
 { TListPopup }

@@ -17,23 +17,13 @@ uses
   u_reportform,ImgList, Graphics,
   RLFilters,
   Printers,
-  {$IFDEF JEDI}
-   JvDBUltimGrid, JvDBGrid,
-  {$ELSE}
-    {$IFDEF FPC}
-     RxDBGrid,
-    {$ELSE}
-     RxDBCtrl,
-    {$ENDIF}
-  {$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
   Classes, Grids,
   VirtualTrees,
   RLTypes,
-  IniFiles,
-  RLPreview;
+  IniFiles;
 
 const
 {$IFDEF VERSIONS}
@@ -122,12 +112,11 @@ implementation
 
 uses fonctions_proprietes,
      fonctions_images,
-     unite_messages,
      fonctions_string,
      fonctions_vtree,
      controls,
      u_reports_rlcomponents,
-     Math,strutils;
+     Math;
 
 procedure p_CreateAndPreviewReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
 Begin
