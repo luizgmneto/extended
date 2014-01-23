@@ -36,17 +36,17 @@ uses  {$IFDEF FPC}
 {$ENDIF}
      PDBCheck, PCheck,
      u_extsearchedit,
-     u_extautoedits,
+     u_extformatedits,
      u_extradios;
 
 procedure Register;
 begin
-  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TExtAutoDBEdit,TPDBCheck,
+  RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TExtFormatDBEdit,TPDBCheck,
                                                 {$IFDEF FPC}TExtDBDirectoryEdit,TExtClonedPanel,{$ENDIF}
                                                 TExtDBNavigator,
                                                 TExtSearchDBEdit,
                                                 TExtDBNumEdit]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtAutoEdit,TPCheck,TExtColorCombo,
+  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtFormatEdit,TPCheck,TExtColorCombo,
                                                 TExtNumEdit,TExtRadioGroup]);
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
 end;

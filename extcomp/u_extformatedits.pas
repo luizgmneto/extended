@@ -10,7 +10,7 @@
 {                                                                     }
 {*********************************************************************}
 
-unit u_extautoedits;
+unit u_extformatedits;
 
 {$IFDEF FPC}
   {$MODE Delphi}
@@ -49,8 +49,8 @@ const
 
 type
 
-  { TExtAutoEdit }
-  TExtAutoEdit = class(TFWEdit)
+  { TExtFormatEdit }
+  TExtFormatEdit = class(TFWEdit)
   private
     FNoAccent : Boolean;
     FModeFormat : TModeFormatText;
@@ -63,8 +63,8 @@ type
     property ModeFormat : TModeFormatText read FModeFormat write FModeFormat default mftNone;
   end;
 
-  { TExtAutoDBEdit }
-  TExtAutoDBEdit = class(TFWDBEdit)
+  { TExtFormatDBEdit }
+  TExtFormatDBEdit = class(TFWDBEdit)
   private
     FNoAccent : Boolean;
     FModeFormat : TModeFormatText;
@@ -81,16 +81,16 @@ implementation
 
 uses Dialogs, fonctions_db, sysutils;
 
-{ TExtAutoEdit }
+{ TExtFormatEdit }
 
-procedure TExtAutoEdit.KeyDown(var Key: Word; Shift: TShiftState);
+procedure TExtFormatEdit.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   inherited KeyDown(Key, Shift);
   if FNoAccent or ( FModeFormat > mftNone ) Then
     Text:=fs_FormatText(Text,FModeFormat,FNoAccent);
 end;
 
-constructor TExtAutoEdit.Create(Aowner: TComponent);
+constructor TExtFormatEdit.Create(Aowner: TComponent);
 begin
   inherited Create(Aowner);
   FNoAccent:=False;
@@ -98,16 +98,16 @@ begin
 end;
 
 
-{ TExtAutoDBEdit }
+{ TExtFormatDBEdit }
 
-procedure TExtAutoDBEdit.KeyDown(var Key: Word; Shift: TShiftState);
+procedure TExtFormatDBEdit.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   Inherited;
   if FNoAccent or ( FModeFormat > mftNone ) Then
     Text:=fs_FormatText(Text,FModeFormat,FNoAccent);
 end;
 
-constructor TExtAutoDBEdit.Create(Aowner: TComponent);
+constructor TExtFormatDBEdit.Create(Aowner: TComponent);
 begin
   Inherited;
   FNoAccent:=False;
