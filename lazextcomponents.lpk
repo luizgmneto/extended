@@ -63,8 +63,8 @@
         <UnitName Value="u_extDBDirectoryEdit"/>
       </Item10>
       <Item11>
-        <Filename Value="extcomp/u_extautoedits.pas"/>
-        <UnitName Value="u_extautoedits"/>
+        <Filename Value="extcomp/u_extformatedits.pas"/>
+        <UnitName Value="u_extformatedits"/>
       </Item11>
       <Item12>
         <Filename Value="extcomp/U_ExtComboInsert.pas"/>
