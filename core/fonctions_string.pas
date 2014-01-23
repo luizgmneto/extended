@@ -24,11 +24,12 @@ uses
 
 const
   CST_ENDOFLINE = #10;
+  CST_DELIMITERS_CHAR = '-_ .,:[()]{}=+*';
 
 type
   TUArray = Array of Array [ 0.. 2 ] of Integer;
   TStringArray = Array of String;
-  TModeFormatText = (mftNone,mftUpper,mftLower,mftFirstIsMaj);
+  TModeFormatText = (mftNone,mftUpper,mftLower,mftFirstIsMaj,mftFirstCharOfWordsIsMaj);
 
 {$IFNDEF FPC}
   function fs_Dos2Win( const aText: string): string;
@@ -37,6 +38,7 @@ type
   function fb_isFileChar(AChar:Char):boolean;
   function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True):AnsiString;
   function fs_getCorrectString ( const as_string : String ): String ;
+  procedure p_PutFirstCharOfWordsInMaj(var AChaine:String; const ANewWordChar : String = CST_DELIMITERS_CHAR );
   function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
   function fs_EraseSpecialChars( const aText: string): string;
@@ -108,10 +110,11 @@ const
 implementation
 
 {$IFDEF FPC}
-uses LCLType, LCLProc, type_string, FileUtil, unite_messages ;
+uses LCLType, LCLProc, type_string, FileUtil, unite_messages,LazUTF8,
 {$ELSE}
-uses type_string_delphi, JclStrings, fonctions_system, unite_messages_delphi ;
+uses type_string_delphi, JclStrings, fonctions_system, unite_messages_delphi,
 {$ENDIF}
+     fonctions_languages;
 
 function HexToByte(c: char): byte;
 begin
@@ -823,29 +826,76 @@ begin
 end;
 {$ENDIF}
 
+procedure p_PutFirstCharOfWordsInMaj(var AChaine:String; const ANewWordChar : String = CST_DELIMITERS_CHAR );
+var AChar :PChar;
+    TempChar : PChar;
+    EndChar : PChar;
+    lb_isnewword : Boolean;
+    li_i, li_length : Integer;
+    ls_temp : String;
+begin
+  if AChaine = '' Then
+   Exit;
+  AChar:=@AChaine[1];
+  EndChar:=@AChaine[Length(AChaine)];
+  lb_isnewword:=True;
+  while AChar<=EndChar do
+    begin
+      li_i := 0;
+      ls_temp   := '';
+      TempChar := AChar;
+      li_length := UTF8CharacterLength ( TempChar );
+      for li_i := 1 to li_length do
+       Begin
+        AppendStr(ls_temp,TempChar^);
+        inc(TempChar);
+       end;
+      if lb_isnewword
+       Then ls_temp:=UTF8UpperCase(ls_temp,gs_Lang)
+       Else ls_temp:=UTF8LowerCase(ls_temp,gs_Lang);
+      TempChar := AChar;
+      for li_i := 1 to li_length do
+       Begin
+        TempChar^:=ls_temp[li_i];
+        inc(TempChar);
+       end;
+      lb_isnewword:=pos(AChar^,ANewWordChar)>0;
+      inc (Achar,li_length);
+    end;
+end;
+
 // function fs_TextWithoutAccent
 // text with no special caracters
 function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
 begin
+  if not ab_NoAccents and ( amft_Mode = mftNone ) Then
+   Begin
+     Result:=Chaine;
+     Exit;
+   end;
   Result:='';
-  if Chaine = '' Then
+  if (Chaine = '')
+   Then
     Exit;
   if ab_NoAccents // conversion of accents
   {$IFDEF FPC}
-    Then Result :=  fs_ReplaceWithTable (StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]),SansAccents);
+    Then Result :=  fs_ReplaceWithTable (StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]),SansAccents)
   {$ELSE}
-    Then Result :=  fs_ReplaceAccents(StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]));
+    Then Result :=  fs_ReplaceAccents(StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]))
   {$ENDIF}
-  if not ab_NoAccents and ( amft_Mode <> mftNone ) Then
-    Result := StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]);
+    Else Result := StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]);
   case amft_Mode of
-   mftUpper : Result := fs_ReplaceWithTable (Result,Majuscules);
-   mftLower : Result:=fs_ReplaceWithTable (Result,Minuscules);
+   mftUpper : Result := UTF8UpperCase (Result,gs_Lang);
+   mftLower : Result := UTF8LowerCase (Result,gs_Lang);
    mftFirstIsMaj:
     Begin
       if Length(Result) > 1
-      Then Result := fs_ReplaceWithTable (Result[1],Majuscules)+fs_ReplaceWithTable (Copy(Result,2,Length(Result)-1),Minuscules)
-      else Result := fs_ReplaceWithTable (Result[1],Majuscules);
+      Then Result := UTF8UpperCase (Result[1])+UTF8LowerCase (Copy(Result,2,Length(Result)-1),gs_Lang)
+      else Result := UTF8UpperCase (Result[1],gs_Lang);
+    end;
+   mftFirstCharOfWordsIsMaj:
+    Begin
+      p_PutFirstCharOfWordsInMaj(Result);
     end;
   end;
 end;

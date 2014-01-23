@@ -225,10 +225,11 @@ begin
      Begin
       I := Scale ( GetPropValue (Control, SPACING ), ANewEchelle);
       if i < 0
-       Then I := min ( -Width + 4, I )  // It is inside spacing
-       Else I := min (  Width - 4, I );
-
-      SetPropValue(Control, SPACING, i );
+       Then
+        Begin
+         I := Max ( -Width + 4, I );  // It is inside and text before picture spacing
+         SetPropValue(Control, SPACING, i );
+        end;
      end;
     if assigned ( GetPropInfo ( Control, SCALE_GLYPH_SIZE ))
     and ( PropIsType(Control,SCALE_GLYPH_SIZE,tkInteger) ) Then
