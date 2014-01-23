@@ -760,8 +760,7 @@ procedure TOnFormInfoIni.p_Freeini;
 begin
   if ( loFreeIni in FOptions ) Then
     Begin
-      FIniFile.Free;
-      FIniFile := nil;
+      FreeAndNil(FIniFile);
     end;
 end;
 ////////////////////////////////////////////////////////////////////////////////

@@ -273,10 +273,10 @@ End ;
 // Renvoie un fichier INI (même si c'est pas très utile) !!!
 function TF_FormMainIni.f_IniGetConfigFile: TIniFile;
 begin
-  p_WriteDescendantIni ( FMainIni );
+  p_WriteDescendantIni ( FIniMain );
   if assigned ( ge_WriteMainIni ) Then
-    ge_WriteMainIni ( Self, FMainIni );
-  Result := FMainIni;
+    ge_WriteMainIni ( Self, FIniMain );
+  Result := FIniMain;
 end;
 
 // Fonction de gestion du fichier INI avec nom de connexion (le nom de l'exe)

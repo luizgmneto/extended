@@ -199,7 +199,7 @@ procedure p_IniQuitte;
 
 var
   FIniFile: TIniFile = nil;
-  FMainIni: TIniFile = nil ;
+  FIniMain: TIniFile = nil ;
   FIniRoot: TIniFile = nil;
   FSQLFile: TIniFile = nil;
   {$IFDEF EADO}
@@ -231,8 +231,8 @@ uses TypInfo, fonctions_string, fonctions_system,
 //////////////////////////////////////////////////////////////////////////
 procedure p_FreeConfigFile;
 begin
-  FMainIni.Free;
-  FMainIni := nil;
+  FIniMain.Free;
+  FIniMain := nil;
 End ;
 
 ////////////////////////////////////////////////////////////////////////////////
