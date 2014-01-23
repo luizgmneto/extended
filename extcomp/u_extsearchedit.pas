@@ -26,7 +26,9 @@ uses Variants, Controls, Classes,
      {$ELSE}
      Messages, Windows,
      {$ENDIF}
-     Graphics, Menus, DB,DBCtrls, u_framework_components,
+     Graphics, Menus, DB,DBCtrls,
+     u_framework_components,
+     u_framework_dbcomponents,
      {$IFDEF VERSIONS}
      fonctions_version,
      {$ENDIF}
@@ -74,7 +76,7 @@ type
   end;
 
 { TExtSearchDBEdit }
-  TExtSearchDBEdit = class(TDBEdit)
+  TExtSearchDBEdit = class(TFWDBEdit)
   private
     // Lien de données
     FSearchSource: TFieldDataLink;
