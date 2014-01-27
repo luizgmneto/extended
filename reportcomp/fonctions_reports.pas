@@ -1342,7 +1342,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
   end;
   // Print Datasource ( TFWPrintData )
   procedure CreateListPrint;
-  var i,j,Aline,ATop, AHeight, ADecColumn, AColumn : Integer;
+  var i,Aline,ATop, AHeight, ADecColumn, AColumn : Integer;
       LIsFirst : Boolean;
       LSBreakCaption : String ;
   Begin

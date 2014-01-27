@@ -87,7 +87,13 @@ var AProcess : TProcess;
 {$ENDIF}
 Begin
   {$IFDEF WINDOWS}
-  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbclient'+CST_EXTENSION_LIBRARY;
+  {$IFDEF CPU64}
+  libname:='fbclient'+CST_EXTENSION_LIBRARY;
+  {$ELSE}
+  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbembed'+CST_EXTENSION_LIBRARY;
+  if not FileExists(libname)
+    Then libname:='fbclient'+CST_EXTENSION_LIBRARY;
+  {$ENDIF}
   {$ELSE}
   libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed'+CST_EXTENSION_LIBRARY;
   if FileExists(libname) Then
