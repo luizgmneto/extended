@@ -26,14 +26,14 @@ const
     FileUnit: 'u_buttons_appli';
     Owner: 'Matthieu Giroux';
     Comment: 'Customized Buttons components.';
-    BugsStory: '1.0.0.3 : Removing auto caption because parasiting.' +
+    BugsStory: '1.0.1.0 : Changing setting of names.' +
       #13#10 + '1.0.0.2 : Date and Folder Buttons.' +
       #13#10 + '1.0.0.1 : UTF 8.' +
       #13#10 + '1.0.0.0 : Version OK.' +
       #13#10 + '0.8.0.1 : Group view buttons better.' +
       #13#10 + '0.8.0.0 : To test.';
     UnitType: 3;
-    Major: 1; Minor: 0; Release: 0; Build: 3);
+    Major: 1; Minor: 0; Release: 0; Build: 2);
 {$ENDIF}
   CST_FWCANCEL='tfwcancel';
   CST_FWCLOSE='tfwclose';
@@ -69,6 +69,8 @@ const
   CST_FWINALL = 'tfwinall';
 {$ENDIF}
 
+
+procedure p_setControlCaption ( const AControl : TControl ; const as_Caption : String );
 type
 
   { TFWClose }
@@ -341,6 +343,14 @@ uses {$IFDEF FPC}ObjInspStrConsts, lclstrconsts,
   fonctions_images,
   Forms;
 
+procedure p_setControlCaption ( const AControl : TControl ; const as_Caption : String );
+Begin
+  with AControl do
+    if  ( csDesigning in ComponentState )
+    and ( pos ( name, Caption ) = 1 ) Then
+      Caption:=as_Caption;
+end;
+
 {$IFNDEF FPC}
 var
   Buttons_Appli_ResInstance: THandle = 0;
@@ -373,6 +383,7 @@ procedure TFWClose.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWCLOSE, Self);
   inherited Loaded;
+  p_setControlCaption ( Self, SCloseButton);
 end;
 
 
@@ -382,6 +393,11 @@ procedure TFWCancel.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWCANCEL, Self);
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oiStdActDataSetCancel1Hint);
+  {$ELSE}
+  p_setControlCaption ( Self, SMsgDlgCancel);
+  {$ENDIF}
 end;
 
 
@@ -391,6 +407,11 @@ procedure TFWOK.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWOK, Self);
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oisOk2);
+  {$ELSE}
+  p_setControlCaption ( Self, SMsgDlgOK);
+  {$ENDIF}
 end;
 
 { TFWSearch }
@@ -448,6 +469,9 @@ procedure TFWLoad.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWLOAD, Self);
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oiStdActFileOpenHint );
+  {$ENDIF}
 end;
 
 { TFWDocument }
@@ -472,6 +496,11 @@ procedure TFWInsert.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWINSERT, Self);
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, ifsVK_INSERT );
+  {$ELSE}
+  p_setControlCaption ( Self, SInsertRecord );
+  {$ENDIF}
 end;
 
 { TFWAdd }
@@ -487,6 +516,9 @@ procedure TFWSaveAs.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWSAVEAS, Self);
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oiStdActFileSaveAsHint );
+  {$ENDIF}
 end;
 
 { TFWQuit }
@@ -495,6 +527,11 @@ procedure TFWQuit.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWQUIT, Self);
   inherited Loaded;
+  p_setControlCaption ( Self, SCloseButton
+{$IFDEF FPC}
+    + ' ' + oisAll
+{$ENDIF}
+  );
 end;
 
 
@@ -504,6 +541,11 @@ procedure TFWErase.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWERASE, Self);
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oisDelete );
+  {$ELSE}
+  //p_setControlCaption ( Self, SDeleteRecord;
+  {$ENDIF}
 end;
 
 { TFWPrint }
@@ -512,6 +554,9 @@ procedure TFWPrint.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWPRINT, Self);
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, ifsVK_PRINT );
+  {$ENDIF}
 end;
 
 { TFWNext }
@@ -580,10 +625,14 @@ end;
 
 { TFWCopy }
 
+
 procedure TFWCopy.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWCOPY, Self);
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oiStdActEditCopyShortHint );
+  {$ENDIF}
 end;
 
 
@@ -603,14 +652,25 @@ procedure TFWBasket.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWBASKET, Self);
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oisUndo );
+  {$ELSE}
+  p_setControlCaption ( Self, Gs_GROUPVIEW_Basket );
+  {$ENDIF}
 end;
 
 { TFWRecord }
+
 
 procedure TFWRecord.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWOK, Self);
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oisRecord );
+  {$ELSE}
+  p_setControlCaption ( Self, Gs_GROUPVIEW_Record );
+  {$ENDIF}
 end;
 
 
@@ -653,7 +713,7 @@ constructor TFWGroupButtonMoving.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   GlyphSize := CST_SIZE_BUTTONS_MOVING;
-  Caption := '';
+  p_setControlCaption ( Self, '' );
   Height := CST_HEIGHT_BUTTONS_MOVING;
   Width := CST_WIDTH_BUTTONS_MOVING;
 end;
