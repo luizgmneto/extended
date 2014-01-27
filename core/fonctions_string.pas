@@ -38,8 +38,8 @@ type
   function fb_isFileChar(AChar:Char):boolean;
   function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True):AnsiString;
   function fs_getCorrectString ( const as_string : String ): String ;
-  procedure p_PutFirstCharOfWordsInMaj(var AChaine:String; const ANewWordChar : String = CST_DELIMITERS_CHAR );
-  function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
+  procedure p_PutFirstCharOfWordsInMaj(var AChaine:UTF8String; const ANewWordChar : String = CST_DELIMITERS_CHAR ; const ab_OnlyFirstLetterInMaj : Boolean = False);
+  procedure p_FormatText(var Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False );
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
   function fs_EraseSpecialChars( const aText: string): string;
   function fs_ArgConnectString ( const as_connectstring, as_arg: string): string;
@@ -826,12 +826,11 @@ begin
 end;
 {$ENDIF}
 
-procedure p_PutFirstCharOfWordsInMaj(var AChaine:String; const ANewWordChar : String = CST_DELIMITERS_CHAR );
+procedure p_PutFirstCharOfWordsInMaj(var AChaine:UTF8String; const ANewWordChar : String = CST_DELIMITERS_CHAR ; const ab_OnlyFirstLetterInMaj : Boolean = False);
 var AChar :PChar;
-    TempChar : PChar;
     EndChar : PChar;
     lb_isnewword : Boolean;
-    li_i, li_length : Integer;
+    li_length : Integer;
     ls_temp : String;
 begin
   if AChaine = '' Then
@@ -841,61 +840,49 @@ begin
   lb_isnewword:=True;
   while AChar<=EndChar do
     begin
-      li_i := 0;
-      ls_temp   := '';
-      TempChar := AChar;
-      li_length := UTF8CharacterLength ( TempChar );
-      for li_i := 1 to li_length do
-       Begin
-        AppendStr(ls_temp,TempChar^);
-        inc(TempChar);
-       end;
+      li_length := UTF8CharacterLength ( AChar );
+//      ls_temp:=copy(AChaine,AChar-EndChar+@AChaine[1],li_length;
+      //TempChar := @ls_temp[1];
+      SetLength(ls_temp, li_length);
+      System.Move(AChar^, ls_temp[1], li_length);
       if lb_isnewword
        Then ls_temp:=UTF8UpperCase(ls_temp,gs_Lang)
        Else ls_temp:=UTF8LowerCase(ls_temp,gs_Lang);
-      TempChar := AChar;
-      for li_i := 1 to li_length do
-       Begin
-        TempChar^:=ls_temp[li_i];
-        inc(TempChar);
-       end;
-      lb_isnewword:=pos(AChar^,ANewWordChar)>0;
+      System.Move(ls_temp[1], AChar^, li_length);
+      if ab_OnlyFirstLetterInMaj
+        Then lb_isnewword:= False // only first letter in uppercase
+        Else lb_isnewword:=pos(AChar^,ANewWordChar)>0;
       inc (Achar,li_length);
     end;
 end;
 
 // function fs_TextWithoutAccent
 // text with no special caracters
-function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
+procedure p_FormatText(var Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False );
 begin
   if not ab_NoAccents and ( amft_Mode = mftNone ) Then
-   Begin
-     Result:=Chaine;
      Exit;
-   end;
-  Result:='';
   if (Chaine = '')
    Then
     Exit;
   if ab_NoAccents // conversion of accents
   {$IFDEF FPC}
-    Then Result :=  fs_ReplaceWithTable (StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]),SansAccents)
+    Then Chaine := AnsiToUtf8(fs_ReplaceWithTable (StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]),SansAccents));
   {$ELSE}
-    Then Result :=  fs_ReplaceAccents(StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]))
+    Then Chaine := AnsiToUtf8(fs_ReplaceAccents(StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase])));
   {$ENDIF}
-    Else Result := StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase]);
   case amft_Mode of
-   mftUpper : Result := UTF8UpperCase (Result,gs_Lang);
-   mftLower : Result := UTF8LowerCase (Result,gs_Lang);
+   mftUpper : Chaine := UTF8UpperCase (Chaine,gs_Lang);
+   mftLower : Chaine := UTF8LowerCase (Chaine,gs_Lang);
    mftFirstIsMaj:
     Begin
-      if Length(Result) > 1
-      Then Result := UTF8UpperCase (Result[1])+UTF8LowerCase (Copy(Result,2,Length(Result)-1),gs_Lang)
-      else Result := UTF8UpperCase (Result[1],gs_Lang);
+      if Length(Chaine) > 1
+      Then p_PutFirstCharOfWordsInMaj(Chaine,'',True)
+      else Chaine := UTF8UpperCase (Chaine,gs_Lang);
     end;
    mftFirstCharOfWordsIsMaj:
     Begin
-      p_PutFirstCharOfWordsInMaj(Result);
+      p_PutFirstCharOfWordsInMaj(Chaine);
     end;
   end;
 end;

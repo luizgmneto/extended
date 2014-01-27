@@ -20,20 +20,20 @@ unit u_extformatedits;
 
 interface
 
-uses Variants, Controls, Classes,
+uses Variants, Classes,
      {$IFDEF FPC}
      LMessages, LCLType,
      {$ELSE}
      Messages, Windows,
      {$ENDIF}
-     Graphics, Menus, DB,DBCtrls,
+     Menus,
      u_framework_components,
      u_framework_dbcomponents,
      fonctions_string,
      {$IFDEF VERSIONS}
      fonctions_version,
      {$ENDIF}
-     u_extcomponent, DBGrids, StdCtrls;
+     u_extcomponent, StdCtrls;
 
 {$IFDEF VERSIONS}
 const
@@ -90,7 +90,7 @@ uses Dialogs, fonctions_db, sysutils;
  ------------------------------------------------------------------------------}
 procedure TExtFormatEdit.TextChanged;
 var
-  Cur, Temp: String;
+  Temp: String;
   CPos: TPoint;
   SStart, SLen: Integer;
 begin
@@ -98,10 +98,10 @@ begin
   if FNoAccent or ( FModeFormat > mftNone ) Then
   begin
     // use a local variable to reduce amounts of widgetset calls
-    Cur := Text;
+    Temp := Text;
     //check to see if the charcase should affect the text.
-    Temp := fs_FormatText(Cur,FModeFormat,FNoAccent);
-    if (Temp <> Cur) then
+    p_FormatText(Temp,FModeFormat,FNoAccent);
+    if (Temp <> Text) then
     begin
       CPos := CaretPos;
       SStart := SelStart;
@@ -134,7 +134,7 @@ end;
  ------------------------------------------------------------------------------}
 procedure TExtFormatDBEdit.TextChanged;
 var
-  Cur, Temp: String;
+  Temp: String;
   CPos: TPoint;
   SStart, SLen: Integer;
 begin
@@ -142,10 +142,10 @@ begin
   if FNoAccent or ( FModeFormat > mftNone ) Then
   begin
     // use a local variable to reduce amounts of widgetset calls
-    Cur := Text;
+    Temp := Text;
     //check to see if the charcase should affect the text.
-    Temp := fs_FormatText(Cur,FModeFormat,FNoAccent);
-    if (Temp <> Cur) then
+    p_FormatText(Temp,FModeFormat,FNoAccent);
+    if (Temp <> Text) then
     begin
       CPos := CaretPos;
       SStart := SelStart;

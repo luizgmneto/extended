@@ -15,6 +15,7 @@ uses
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
   StdCtrls, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
+  u_extformatedits,
   U_ExtNumEdits, u_framework_components, U_ExtDBNavigator, U_DBListView,
   u_framework_dbcomponents, U_ExtDBPictCombo, u_extsearchedit, U_ExtComboInsert,
   DBGrids, Menus, u_extmenucustomize, ToolWin, IBDatabase, IBQuery, IBIntf,
@@ -67,10 +68,10 @@ type
     Panel3: TPanel;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
-    Prenom: TFWDBEdit;
-    Nom: TFWDBEdit;
-    FWDBEdit2: TFWDBEdit;
-    FWDBEdit1: TFWDBEdit;
+    Prenom: TExtFormatDBEdit;
+    Nom: TExtFormatDBEdit;
+    FWDBEdit2: TExtFormatDBEdit;
+    FWDBEdit1: TExtFormatDBEdit;
     FWLabel6: TFWLabel;
     FWLabel5: TFWLabel;
     FWLabel1: TFWLabel;
@@ -191,9 +192,13 @@ var AProcess : TProcess;
 {$ENDIF}
 Begin
   {$IFDEF WINDOWS}
-  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbclient'+CST_EXTENSION_LIBRARY;
+  {$IFDEF CPU64}
+  libname:='fbclient'+CST_EXTENSION_LIBRARY;
+  {$ELSE}
+  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbembed'+CST_EXTENSION_LIBRARY;
   if not FileExists(libname)
     Then libname:='fbclient'+CST_EXTENSION_LIBRARY;
+  {$ENDIF}
   {$ELSE}
   libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed'+CST_EXTENSION_LIBRARY;
   if FileExists(libname) Then
