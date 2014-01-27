@@ -26,13 +26,14 @@ const
     FileUnit: 'u_buttons_appli';
     Owner: 'Matthieu Giroux';
     Comment: 'Customized Buttons components.';
-    BugsStory: '1.0.0.2 : Date and Folder Buttons.' +
+    BugsStory: '1.0.0.3 : Removing auto caption because parasiting.' +
+      #13#10 + '1.0.0.2 : Date and Folder Buttons.' +
       #13#10 + '1.0.0.1 : UTF 8.' +
       #13#10 + '1.0.0.0 : Version OK.' +
       #13#10 + '0.8.0.1 : Group view buttons better.' +
       #13#10 + '0.8.0.0 : To test.';
     UnitType: 3;
-    Major: 1; Minor: 0; Release: 0; Build: 2);
+    Major: 1; Minor: 0; Release: 0; Build: 3);
 {$ENDIF}
   CST_FWCANCEL='tfwcancel';
   CST_FWCLOSE='tfwclose';
@@ -85,7 +86,6 @@ type
   { TFWCancel }
   TFWCancel = class(TFWButton)
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Loaded; override;
   end;
 
@@ -93,7 +93,6 @@ type
   { TFWOK }
   TFWOK = class(TFWButton)
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Loaded; override;
   published
 
@@ -103,7 +102,6 @@ type
   { TFWInsert }
   TFWInsert = class(TFWButton)
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Loaded; override;
   published
 
@@ -142,35 +140,30 @@ type
   { TFWQuit }
   TFWQuit = class(TFWButton)
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Loaded; override;
   end;
 
   { TFWErase }
   TFWErase = class(TFWButton)
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Loaded; override;
   end;
 
   { TFWSaveAs }
   TFWSaveAs = class(TFWButton)
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Loaded; override;
   end;
 
   { TFWLoad }
   TFWLoad = class(TFWButton)
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Loaded; override;
   end;
 
   { TFWPrint }
   TFWPrint = class(TFWButton)
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Loaded; override;
   end;
 
@@ -201,7 +194,6 @@ type
   { TFWCopy }
   TFWCopy = class(TFWButton)
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Loaded; override;
   end;
 
@@ -272,7 +264,6 @@ type
 
   TFWBasket = class(TFWGroupButtonActions)
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Loaded; override;
 
   published
@@ -284,7 +275,6 @@ type
 
   TFWRecord = class(TFWGroupButtonActions)
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Loaded; override;
 
   published
@@ -376,7 +366,6 @@ end;
 constructor TFWClose.Create(AOwner: TComponent);
 begin
   inherited;
-  Caption := SCloseButton;
   Width := CST_FWWIDTH_CLOSE_BUTTON;
 end;
 
@@ -389,16 +378,6 @@ end;
 
 { TFWCancel }
 
-constructor TFWCancel.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oiStdActDataSetCancel1Hint;
-  {$ELSE}
-  Caption := SMsgDlgCancel;
-  {$ENDIF}
-end;
-
 procedure TFWCancel.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWCANCEL, Self);
@@ -407,16 +386,6 @@ end;
 
 
 { TFWOK }
-
-constructor TFWOK.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oisOk2;
-  {$ELSE}
-  Caption := SMsgDlgOK;
-  {$ENDIF}
-end;
 
 procedure TFWOK.Loaded;
 begin
@@ -475,14 +444,6 @@ end;
 
 { TFWLoad }
 
-constructor TFWLoad.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oiStdActFileOpenHint;
-  {$ENDIF}
-end;
-
 procedure TFWLoad.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWLOAD, Self);
@@ -507,16 +468,6 @@ end;
 
 { TFWInsert }
 
-constructor TFWInsert.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := ifsVK_INSERT;
-  {$ELSE}
-  Caption := SInsertRecord;
-  {$ENDIF}
-end;
-
 procedure TFWInsert.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWINSERT, Self);
@@ -532,14 +483,6 @@ end;
 
 { TFWSaveAs }
 
-constructor TFWSaveAs.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oiStdActFileSaveAsHint;
-  {$ENDIF}
-end;
-
 procedure TFWSaveAs.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWSAVEAS, Self);
@@ -547,16 +490,6 @@ begin
 end;
 
 { TFWQuit }
-
-constructor TFWQuit.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  Caption := SCloseButton
-{$IFDEF FPC}
-    + ' ' + oisAll
-{$ENDIF}
-  ;
-end;
 
 procedure TFWQuit.Loaded;
 begin
@@ -567,16 +500,6 @@ end;
 
 { TFWerase }
 
-constructor TFWErase.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oisDelete;
-  {$ELSE}
-  //Caption := SDeleteRecord;
-  {$ENDIF}
-end;
-
 procedure TFWErase.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWERASE, Self);
@@ -584,14 +507,6 @@ begin
 end;
 
 { TFWPrint }
-
-constructor TFWPrint.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := ifsVK_PRINT;
-  {$ENDIF}
-end;
 
 procedure TFWPrint.Loaded;
 begin
@@ -665,14 +580,6 @@ end;
 
 { TFWCopy }
 
-constructor TFWCopy.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oiStdActEditCopyShortHint;
-  {$ENDIF}
-end;
-
 procedure TFWCopy.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWCOPY, Self);
@@ -692,16 +599,6 @@ end;
 
 { TFWBasket }
 
-constructor TFWBasket.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oisUndo;
-  {$ELSE}
-  Caption := Gs_GROUPVIEW_Basket;
-  {$ENDIF}
-end;
-
 procedure TFWBasket.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWBASKET, Self);
@@ -709,16 +606,6 @@ begin
 end;
 
 { TFWRecord }
-
-constructor TFWRecord.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oisRecord;
-  {$ELSE}
-  Caption := Gs_GROUPVIEW_Record;
-  {$ENDIF}
-end;
 
 procedure TFWRecord.Loaded;
 begin
