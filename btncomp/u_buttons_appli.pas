@@ -16,9 +16,8 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  Controls, DBGrids,
-  u_buttons_defs, Graphics,
-  Menus, JvXPButtons;
+  Controls,
+  u_buttons_defs;
 
 const
 {$IFDEF VERSIONS}
@@ -340,14 +339,13 @@ uses {$IFDEF FPC}ObjInspStrConsts, lclstrconsts,
   {$ELSE}
   unite_messages_delphi,
   {$ENDIF}
-  fonctions_images,
   Forms;
 
 procedure p_setControlCaption ( const AControl : TControl ; const as_Caption : String );
 Begin
   with AControl do
     if  ( csDesigning in ComponentState )
-    and ( pos ( name, Caption ) = 1 ) Then
+    and ( name = Caption ) Then
       Caption:=as_Caption;
 end;
 
