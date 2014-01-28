@@ -28,9 +28,10 @@ const
  gVer_fonctions_vtree : T_Version = ( Component : 'Virtual Tree management' ; FileUnit : 'fonctions_vtree' ;
                              			           Owner : 'Matthieu Giroux' ;
                              			           Comment : 'Virtual Tree'' Functions.' ;
-                             			           BugsStory : 'Version 1.0.0.0 : Working.';
+                             			           BugsStory : 'Version 1.0.0.1 : Testing getnodelevel.'+#10
+                                                                     + 'Version 1.0.0.0 : Working.';
                              			           UnitType : 1 ;
-                             			           Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+                             			           Major : 1 ; Minor : 0 ; Release : 0 ; Build : 1 );
 {$ENDIF}
 
 function GetNodeLevel ( Node: PVirtualNode ; const RootNode: PVirtualNode):Integer;
