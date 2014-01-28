@@ -30,12 +30,13 @@ const
   gVer_fonctions_reports : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_reports' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'Reports'' Functions, with grid reports.' ;
-                        			                 BugsStory : 'Version 1.0.1.0 : Ini management.' + #13#10 +
+                        			                 BugsStory : 'Version 1.0.1.1 : Testing tree.' + #13#10 +
+                                                                             'Version 1.0.1.0 : Ini management.' + #13#10 +
                                                                              'Version 1.0.0.2 : Testing reports.' + #13#10 +
                                                                              'Version 1.0.0.1 : image centering.' + #13#10 +
                                                                              'Version 1.0.0.0 : Working.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
+                        			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
 {$ENDIF}
   CST_COLUMN_Visible = 'Visible';
   CST_COLUMN_MIN_Width= 4;
