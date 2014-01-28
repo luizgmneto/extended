@@ -21,11 +21,6 @@ unit u_extformatedits;
 interface
 
 uses Variants, Classes,
-     {$IFDEF FPC}
-     LMessages, LCLType,
-     {$ELSE}
-     Messages, Windows,
-     {$ENDIF}
      Menus,
      u_framework_components,
      u_framework_dbcomponents,

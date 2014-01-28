@@ -731,8 +731,9 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 //   virtual tree sources
-procedure p_DrawLineImage(const Canvas : TCanvas; const X, Y, H, VAlign, IndentTree : Integer; const Style: TVTLineType;
- const Reverse: Boolean);
+procedure p_DrawLineImage( const Canvas : TCanvas; const X, Y, H, VAlign, IndentTree : Integer;
+                           const Style: TVTLineType;
+                           const Reverse: Boolean);
 
 // Draws (depending on Style) one of the 5 line types of the tree.
 // If Reverse is True then a right-to-left column is being drawn, hence horizontal lines must be mirrored.
@@ -839,7 +840,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     LMinusBM : TBitmap;
     AText : {$IFDEF FPC}String{$ELSE}WideString{$ENDIF};
     AGhosted : Boolean;
-    ATextHeight : Integer;
+    ATextHeight,ATextWidth : Integer;
     ATreeLevel : Integer;
     AOnGetImage: TVTGetImageEvent;               // Used to retrieve the image index of a given node.
     AOnGetImageEx: TVTGetImageExEvent;           // Used to retrieve the image index of a given node along with a custom
@@ -926,7 +927,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
         LLine := TBitmap.Create;
          try
 
-          Right:=aSpaceWidth;
+          Right:=aSpaceWidth;// right align
           Bottom:= ATextHeight;
           if ARLLabel = nil
            Then ARealTop := 1
@@ -939,10 +940,10 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
           if (toShowTreeLines in ATreeOptions.PaintOptions) then
             Begin
               LLine.Canvas.Brush.Color := ExtTreeLineColor;
-              p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, ATextHeight div 2, ATreeLevel+1,ATextHeight, ATextHeight, ATreeNodeSigns);
+              p_PaintTreeLines(LLine.Canvas,Arect, bdLeftToRight, ATextHeight div 2, ATreeLevel+1, ATextHeight, ATextWidth, ATreeNodeSigns);
             end;
           // place the minus
-          LLine.Canvas.Draw(aSpaceWidth - ATextHeight + ( ATextHeight - LMinusBM.Height ) div 2 + 1, (ATextHeight - LMinusBM.Height ) div 2 + 1, LMinusBM);
+          LLine.Canvas.Draw(aSpaceWidth - ATextWidth + ( ATextWidth - LMinusBM.Width ) div 2 + 1, (ATextHeight - LMinusBM.Height ) div 2 + 1, LMinusBM);
           ARLImage.Picture.Bitmap.Assign(LLine);
          finally
            LLine.Free;
@@ -960,9 +961,9 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
              if Assigned(AOnGetImage) then
                AOnGetImage(atree, ANode, ikNormal, -1, AGhosted, AIndex);
            // report's image
-           if ATextHeight < AImages.Width
-            Then ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop, ATextHeight, ATextHeight, AIndex, ExtColumnColorBack )
-            Else ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop+ ( ATextHeight - AImages.Width ) div 2, AImages.Width, AImages.Height, AIndex, ExtColumnColorBack );
+           if ATextWidth < AImages.Width
+            Then ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop, ATextWidth, ATextHeight, AIndex, ExtColumnColorBack )
+            Else ARLImage := frlc_createImageList(AReport, ARLBand, AImages, aSpaceWidth, ARealTop+ ( ATextWidth - AImages.Width ) div 2, AImages.Width, AImages.Height, AIndex, ExtColumnColorBack );
            Left:=Left+ARLImage.Width;
            inc ( aSpaceWidth, ARLImage.Width );
          end;
@@ -980,12 +981,12 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     var ARect : TRect;
         APriorReport : TRLReport;
     Begin
-      ATreeLevel := GetNodeLevel(ANode);
+      ATreeLevel := GetNodeLevel(ANode,atree.RootNode)+1;
       with atree, ANode^ do
        Begin
         if ANode <> RootNode Then
          Begin
-          aSpaceWidth := (ATreeLevel-1)*ATextHeight;
+          aSpaceWidth := (ATreeLevel-1)*ATextWidth+1;
           p_paintMainColumn ( ANode );
           if  ARLLabel.Top + ( ARLLabel.Height + 1) * 2 > ARLBand.Height Then
             Begin
@@ -1020,9 +1021,9 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     Begin
       with ABitmap do
        Begin
-        AInterleaving:= round ( ATextHeight / 2.5 ) ;
-        p_SetAndFillBitmap(ABitmap,ATextHeight - AInterleaving+1,ATextHeight - AInterleaving+1,clWhite);
-        dec ( AInterleaving, ATextHeight div 4 );
+        AInterleaving:= round ( ATextWidth / 2.5 ) ;
+        p_SetAndFillBitmap(ABitmap,ATextWidth - AInterleaving+1,ATextWidth - AInterleaving+1,clWhite);
+        dec ( AInterleaving, ATextWidth div 4 );
         p_drawPosition ( 1, 1, clGray, clGray );
         p_drawPosition ( 0, 0, ExtTreeLineColor, ExtColumnFont.Color );
        End;
@@ -1035,7 +1036,8 @@ Begin
   LMinusBM := TBitmap.Create;
   ATempCanvas.Font.Assign(ExtColumnFont);
   // Max text height for lines height
-  ATextHeight := ATempCanvas.TextHeight('W')+2;
+  ATextHeight := ATempCanvas.TextHeight('W')+1;
+  ATextWidth  := ATempCanvas.TextWidth('W')+1;
   ARLLabel := nil;
   AGhosted := False;
   // from viewed HMI tree
@@ -1403,14 +1405,14 @@ End;
 function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm;
 Begin
   Result := fref_CreateReport ( AOrientation, APaperSize, acf_filter );
-  fb_CreateReport ( Result.RLReport, atree, Result.Canvas, as_Title );
+  fb_CreateReport ( Result.RLReport, atree, Result.RLReport.Canvas, as_Title );
 end;
 
 // main create grid or data report's form
 function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
 Begin
   Result := fref_CreateReport ( AOrientation, APaperSize, acf_filter );
-  fb_CreateReport ( Result.RLReport, agrid, ADatasource, AColumns, Result.Canvas, as_Title );
+  fb_CreateReport ( Result.RLReport, agrid, ADatasource, AColumns, Result.RLReport.Canvas, as_Title );
 end;
 
 initialization

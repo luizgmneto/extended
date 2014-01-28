@@ -680,12 +680,8 @@ var
       begin
         mit := TMenu(lcom_Component).Items;
         for k := 0 to mit.Count-1 do
-          begin
-            if mit.Items[k].RadioItem then
-              mit.Items[k].Checked := FInifile.ReadBool (af_Form.Name, lcom_Component.Name+'_'+mit.Items[k].Name,true)
-            else
-              mit.Items[k].Checked := FInifile.ReadBool (af_Form.Name, lcom_Component.Name+'_'+mit.Items[k].Name,False);
-          end;
+         with mit.Items[k] do
+            Checked := FInifile.ReadBool (af_Form.Name, lcom_Component.Name+'_'+Name,Checked);
         Result := True;
       end;
 

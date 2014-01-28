@@ -33,17 +33,17 @@ const
                              			           Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 {$ENDIF}
 
-function GetNodeLevel ( Node: PVirtualNode):Integer;
+function GetNodeLevel ( Node: PVirtualNode ; const RootNode: PVirtualNode):Integer;
 
 
 implementation
 
 { Standard Functions }
 
-function GetNodeLevel ( Node: PVirtualNode):Integer;
+function GetNodeLevel ( Node: PVirtualNode; const RootNode: PVirtualNode):Integer;
 Begin
-  Result := 0 ;
-  while Assigned ( Node^.Parent ) do
+  Result := 1 ;
+  while Node <> RootNode do
    Begin
      Node := Node^.Parent;
      inc ( Result );
