@@ -15,7 +15,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="12">
+    <Files Count="11">
       <Item1>
         <Filename Value="core/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -57,13 +57,9 @@
         <UnitName Value="fonctions_variant"/>
       </Item10>
       <Item11>
-        <Filename Value="core/type_string.pas"/>
-        <UnitName Value="type_string"/>
-      </Item11>
-      <Item12>
         <Filename Value="core/fonctions_db.pas"/>
         <UnitName Value="fonctions_db"/>
-      </Item12>
+      </Item11>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">
