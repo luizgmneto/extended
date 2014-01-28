@@ -23,8 +23,40 @@ uses
   Dialogs, Math, Graphics ;
 
 const
+{$IFDEF VERSIONS}
+    gVer_fonction_string : T_Version = ( Component : 'String management' ; FileUnit : 'fonctions_string' ;
+                        			                 Owner : 'Matthieu Giroux' ;
+                        			                 Comment : 'String traduction and format.' ;
+                        			                 BugsStory : 'Version 1.0.8.0 : procedure p_SetStringMaxLength.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.7.0 : function fs_RemplaceMsgIfExists.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.6.0 : Creating fs_SeparateTextFromWidth.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.5.0 : Creating fs_ListeVersChamps.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.4.0 : fs_FormatText and other.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.3.1 : Upgrading fs_TextToFileName.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.3.0 : Moving function to DB functions.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.2.3 : UTF 8.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.2.2 : fs_TextToFileName of André Langlet.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.2.1 : Optimising.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.2.0 : Fonction fs_GetBinOfString.' + #13#10 + #13#10 +
+              			                	        	     'Version 1.0.1.1 : Paramètres constantes plus rapides.' + #13#10 + #13#10 +
+                        			                	     'Version 1.0.1.0 : Fonction fs_stringDbQuoteFilter qui ne fonctionne pas mais ne provoque pas d''erreur.' + #13#10 + #13#10 +
+                        			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
+                        			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
+                        			                 UnitType : 1 ;
+                        			                 Major : 1 ; Minor : 0 ; Release : 8 ; Build :  0);
+{$ENDIF}
   CST_ENDOFLINE = #10;
   CST_DELIMITERS_CHAR = '-_ .,:[()]{}=+*';
+  CST_ORD_GUILLEMENT = ord ( '''' );
+  CST_ORD_POURCENT   = ord ( '%' );
+  CST_ORD_ASTERISC   = ord ( '*' );
+  CST_ORD_SOULIGNE   = ord ( '_' );
+  CST_ORD_OUVRECROCHET   = ord ( '[' );
+  CST_ORD_FERMECROCHET   = ord ( ']' );
+
+type
+TCharToUTF8Table = array[char] of PChar;
+
 
 type
   TUArray = Array of Array [ 0.. 2 ] of Integer;
@@ -38,7 +70,7 @@ type
   function fb_isFileChar(AChar:Char):boolean;
   function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True):AnsiString;
   function fs_getCorrectString ( const as_string : String ): String ;
-  procedure p_PutFirstCharOfWordsInMaj(var AChaine:UTF8String; const ANewWordChar : String = CST_DELIMITERS_CHAR ; const ab_OnlyFirstLetterInMaj : Boolean = False);
+  procedure p_PutFirstCharOfWordsInMaj(var AChaine:UTF8String; const ANewWordChar : String = CST_DELIMITERS_CHAR );
   procedure p_FormatText(var Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False );
   function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
@@ -79,43 +111,22 @@ type
   function fs_ReplaceEndOfLines ( const ALines : TStrings; const as_replace : String = '\n' ): String;
   function fs_SeparateTextFromWidth ( ASText : String; const ANeededWidth : Integer; const Acanvas : TCanvas; const Ach_separator : Char = ' ' ) : TStringArray ;
   function fs_IfThen ( const ab_IfTest : Boolean; const as_IfTrue, as_IfFalse : String ) : String;
-const
-{$IFDEF VERSIONS}
-    gVer_fonction_string : T_Version = ( Component : 'String management' ; FileUnit : 'fonctions_string' ;
-                        			                 Owner : 'Matthieu Giroux' ;
-                        			                 Comment : 'String traduction and format.' ;
-                        			                 BugsStory : 'Version 1.0.8.0 : procedure p_SetStringMaxLength.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.7.0 : function fs_RemplaceMsgIfExists.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.6.0 : Creating fs_SeparateTextFromWidth.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.5.0 : Creating fs_ListeVersChamps.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.4.0 : fs_FormatText and other.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.3.1 : Upgrading fs_TextToFileName.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.3.0 : Moving function to DB functions.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.2.3 : UTF 8.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.2.2 : fs_TextToFileName of André Langlet.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.2.1 : Optimising.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.2.0 : Fonction fs_GetBinOfString.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.1.1 : Paramètres constantes plus rapides.' + #13#10 + #13#10 +
-                        			                	     'Version 1.0.1.0 : Fonction fs_stringDbQuoteFilter qui ne fonctionne pas mais ne provoque pas d''erreur.' + #13#10 + #13#10 +
-                        			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
-                        			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
-                        			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 8 ; Build :  0);
-{$ENDIF}
-    CST_ORD_GUILLEMENT = ord ( '''' );
-    CST_ORD_POURCENT   = ord ( '%' );
-    CST_ORD_ASTERISC   = ord ( '*' );
-    CST_ORD_SOULIGNE   = ord ( '_' );
-    CST_ORD_OUVRECROCHET   = ord ( '[' );
-    CST_ORD_FERMECROCHET   = ord ( ']' );
 implementation
 
 {$IFDEF FPC}
-uses LCLType, LCLProc, type_string, FileUtil, unite_messages,LazUTF8,
+uses LCLType, LCLProc, FileUtil, unite_messages,LazUTF8,
 {$ELSE}
-uses type_string_delphi, JclStrings, fonctions_system, unite_messages_delphi,
+uses JclStrings, fonctions_system, unite_messages_delphi,
 {$ENDIF}
      fonctions_languages;
+
+const  SansAccents : TCharToUTF8Table
+           = (#0,#1,#2,#3,#4,#5,#6,#7,#8,#9,#10,#11,#12,#13,#14,#15,#16,#17,#18,#19,#20,#21,#22,#23,#24,#25,#26,#27,#28,#29,#30,#31,#32,#33,#34,#35,#36,#37,#38,#39,#40,#41,#42,#43,#44,#45,#46,#47,#48,#49,#50,#51,#52,#53,#54,#55,#56,#57,#58,#59,#60,#61,#62,#63,#64,
+              'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',#91,#92,#93,#94,#95,#96,
+              'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',#123,#124,#125,#126,#127,
+              'A','A','A','A','A','A','A','C','E','E','E','E','I','I','I','I','D','N','O','O','O','O','O','x','O','U','U','U','U','Y','D','B',
+              'a','a','a','a','a','a','a','c','e','e','e','e','i','i','i','i','o','n','o','o','o','o','o','/','o','u','u','u','u','y','d','y',
+              #192,#193,#194,#195,#196,#197,#198,#199,#200,#201,#202,#203,#204,#205,#206,#207,#208,#209,#210,#211,#212,#213,#214,#215,#216,#217,#218,#219,#220,#221,#222,#223,#224,#225,#226,#227,#228,#229,#230,#231,#232,#233,#234,#235,#236,#237,#238,#239,#240,#241,#242,#243,#244,#245,#246,#247,#248,#249,#250,#251,#252,#253,#254,#255);
 
 function HexToByte(c: char): byte;
 begin
@@ -827,7 +838,7 @@ begin
 end;
 {$ENDIF}
 
-procedure p_PutFirstCharOfWordsInMaj(var AChaine:UTF8String; const ANewWordChar : String = CST_DELIMITERS_CHAR ; const ab_OnlyFirstLetterInMaj : Boolean = False);
+procedure p_PutFirstCharOfWordsInMaj(var AChaine:UTF8String; const ANewWordChar : String = CST_DELIMITERS_CHAR);
 var AChar :PChar;
     EndChar : PChar;
     lb_isnewword : Boolean;
@@ -850,9 +861,7 @@ begin
        Then ls_temp:=UTF8UpperCase(ls_temp,gs_Lang)
        Else ls_temp:=UTF8LowerCase(ls_temp,gs_Lang);
       System.Move(ls_temp[1], AChar^, li_length);
-      if ab_OnlyFirstLetterInMaj
-        Then lb_isnewword:= False // only first letter in uppercase
-        Else lb_isnewword:=pos(AChar^,ANewWordChar)>0;
+      lb_isnewword:=pos(AChar^,ANewWordChar)>0;
       inc (Achar,li_length);
     end;
 end;
@@ -878,13 +887,11 @@ begin
    mftFirstIsMaj:
     Begin
       if Length(Chaine) > 1
-      Then p_PutFirstCharOfWordsInMaj(Chaine,'',True)
+      Then p_PutFirstCharOfWordsInMaj(Chaine,'')
       else Chaine := UTF8UpperCase (Chaine,gs_Lang);
     end;
    mftFirstCharOfWordsIsMaj:
-    Begin
       p_PutFirstCharOfWordsInMaj(Chaine);
-    end;
   end;
 end;
 function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
