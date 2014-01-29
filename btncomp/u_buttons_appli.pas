@@ -344,8 +344,7 @@ uses {$IFDEF FPC}ObjInspStrConsts, lclstrconsts,
 procedure p_setControlCaption ( const AControl : TControl ; const as_Caption : String );
 Begin
   with AControl do
-    if  ( csDesigning in ComponentState )
-    and ( name = Caption ) Then
+    if  name = Caption Then
       Caption:=as_Caption;
 end;
 
