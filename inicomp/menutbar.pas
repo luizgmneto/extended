@@ -28,17 +28,31 @@ uses
   Classes, SysUtils, ComCtrls, Menus, {$IFDEF LCLwin32}LMessages,{$ENDIF} Controls;
 
 type
+
+  { TMenuToolBar }
+
   TMenuToolBar = class(TToolBar)
   private
     FMenu : TMenu;
+    FOnMenuCreating ,
+    FOnMenuCreated  : TNotifyEvent;
+    FCreate : Boolean;
+    procedure SetAutoCreate(const Value: Boolean);
   protected
-    procedure SetMenu(Value: TMenu); virtual;
+    procedure SetMenu(const Value: TMenu); virtual;
     {$IFDEF LCLwin32}procedure WndProc(var Message: TLMessage); override;{$ENDIF}
+    procedure DoOnShowHint(HintInfo: PHintInfo); override;
+    procedure DoOnMenuCreated; virtual;
+    procedure DoOnMenuCreating; virtual;
   public
     constructor Create(TheOwner: TComponent); override;
+    procedure LoadMenu; virtual;
     destructor Destroy; override;
   published
     property Menu: TMenu read FMenu write SetMenu;
+    property AutoCreate: Boolean read FCreate write SetAutoCreate default True;
+    property OnMenuCreated: TNotifyEvent read FOnMenuCreated write FOnMenuCreated;
+    property OnMenuCreating: TNotifyEvent read FOnMenuCreating write FOnMenuCreating;
     property EdgeBorders default [];
     property Flat default true;
     property List default true;
@@ -46,17 +60,11 @@ type
     property AutoSize default true;
   end;
 
-procedure Register;
   
 implementation
 
 {$IFDEF LCLwin32}uses Windows;{$ENDIF}
 
-
-procedure Register;
-begin
-  RegisterComponents('Ext', [TMenuToolBar]);
-end;
 
 {$IFDEF LCLwin32}
 var
@@ -103,6 +111,10 @@ begin
   List:=true;
   ShowCaptions:=true;
   AutoSize:=true;
+  FMenu:=nil;
+  FOnMenuCreated := nil;
+  FOnMenuCreating := nil;
+  FCreate := True;
 end;
 
 destructor TMenuToolBar.Destroy;
@@ -156,31 +168,77 @@ begin
 
   inherited;
 end;
+
+procedure TMenuToolBar.DoOnShowHint(HintInfo: PHintInfo);
+begin
+  with HintInfo^ do
+   Begin
+     HintControl := ControlAtPos(CursorPos,True);
+     if HintControl = nil Then
+      Begin
+        HintControl:=Self;
+        inherited DoOnShowHint(HintInfo);
+      end
+     Else
+      if HintControl.Hint > ''
+       Then HintStr:=HintControl.Hint
+       Else HintStr:=HintControl.Caption;
+   end;
+end;
+
 {$ENDIF}
+procedure TMenuToolBar.DoOnMenuCreated;
+Begin
+  if Assigned(FOnMenuCreated) Then
+    FOnMenuCreated ( Self );
 
-procedure TMenuToolBar.SetMenu(Value: TMenu);
+end;
 
-procedure aCreatePopupFromMenu(SrcMenuItem, DestMenuItem: TMenuItem);
- var i: Integer;
-     MovingMenuItem: TMenuItem;
- begin
-   for i := SrcMenuItem.Count - 1 downto 0 do
-    begin
-     MovingMenuItem := SrcMenuItem.Items[i];
-     SrcMenuItem.Delete(i);
-     DestMenuItem.Insert(0, MovingMenuItem);
-    end;
- end;
+procedure TMenuToolBar.DoOnMenuCreating;
+Begin
+  if Assigned(FOnMenuCreating) Then
+    FOnMenuCreating ( Self );
+
+end;
+
+procedure TMenuToolBar.SetAutoCreate(const Value: Boolean);
+begin
+  FCreate:=Value;
+  if FCreate
+  and ( csDesigning in ComponentState ) Then
+    LoadMenu;
+end;
+
+procedure TMenuToolBar.SetMenu(const Value: TMenu);
+
+begin
+  if (FMenu=Value) then exit;
+  FMenu:=Value;
+  if FCreate Then
+   LoadMenu;
+end;
+
+procedure TMenuToolBar.LoadMenu;
+
+  procedure aCreatePopupFromMenu(SrcMenuItem, DestMenuItem: TMenuItem);
+   var i: Integer;
+       MovingMenuItem: TMenuItem;
+   begin
+     for i := SrcMenuItem.Count - 1 downto 0 do
+      begin
+       MovingMenuItem := SrcMenuItem.Items[i];
+       SrcMenuItem.Delete(i);
+       DestMenuItem.Insert(0, MovingMenuItem);
+      end;
+   end;
 
 var aTB: TToolButton;
     i: integer;
 begin
-  if (FMenu=Value) then exit;
-  FMenu:=Value;
+  DoOnMenuCreating;
   while ControlCount>0 do Controls[0].Free; //delete old menubuttons
   if Assigned(FMenu) then
    begin
-    Images:=fmenu.Images;
     for I:=0  to FMenu.Items.Count-1 do
      begin
       aTB:= TToolButton.Create(Self);
@@ -189,6 +247,7 @@ begin
           aTB.Name:= Name;
           aTB.Tag:= Tag;
           aTB.Caption:= Caption;
+          aTB.Hint:= Hint;
           aTB.OnClick:= OnClick;
           aTB.ImageIndex:= ImageIndex;
         end;
@@ -200,12 +259,13 @@ begin
         if (not (csDesigning in ComponentState))then
          begin //else MenuItems will be freed
           aTB.DropdownMenu:=TPopupMenu.Create(self);
-          aTB.DropdownMenu.Images:=FMenu.Images;
+          aTB.DropdownMenu.Images:=Images;
           aCreatePopupFromMenu(FMenu.Items[I], aTB.DropdownMenu.Items);
         end;
       aTB.Parent:= Self;
     end;
   end;
+  DoOnMenuCreated;
 end;
 
 end.

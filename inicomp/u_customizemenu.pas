@@ -167,7 +167,7 @@ end;
 
 procedure TF_CustomizeMenu.FWClose1Click(Sender: TObject);
 begin
-  Free;
+  Destroy;
 end;
 
 procedure TF_CustomizeMenu.FWDeleteClick(Sender: TObject);

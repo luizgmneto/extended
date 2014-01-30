@@ -3,13 +3,14 @@ object F_CustomizeMenu: TF_CustomizeMenu
   Height = 400
   Top = 212
   Width = 600
-  Caption = 'F_CustomizeMenu'
+  Caption = 'Menu'
   ClientHeight = 400
   ClientWidth = 600
+  Font.Color = clWindowText
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '1.0.10.0'
+  LCLVersion = '1.0.14.0'
   object Panel1: TPanel
     Left = 0
     Height = 30
@@ -105,10 +106,10 @@ object F_CustomizeMenu: TF_CustomizeMenu
         TabOrder = 0
       end
       object ch_ajouteravant: TCheckBox
-        Left = 388
+        Left = 411
         Height = 30
         Top = 0
-        Width = 131
+        Width = 108
         Align = alRight
         Caption = 'Ajouter avant'
         TabOrder = 1

@@ -65,7 +65,6 @@
       </Item10>
       <Item11>
         <Filename Value="inicomp/menutbar.pas"/>
-        <HasRegisterProc Value="True"/>
         <UnitName Value="menutbar"/>
       </Item11>
     </Files>
