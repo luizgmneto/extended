@@ -6,6 +6,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
   Caption = 'Menu'
   ClientHeight = 400
   ClientWidth = 600
+  Color = clWindow
   Font.Color = clWindowText
   OnCreate = FormCreate
   OnShow = FormShow
@@ -58,6 +59,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
       Header.DefaultHeight = 22
       Header.Height = 22
       Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+      ParentColor = True
       TabOrder = 0
       OnClick = vt_MainMenuClick
       OnGetText = vt_MainMenuGetText
@@ -106,10 +108,10 @@ object F_CustomizeMenu: TF_CustomizeMenu
         TabOrder = 0
       end
       object ch_ajouteravant: TCheckBox
-        Left = 411
+        Left = 415
         Height = 30
         Top = 0
-        Width = 108
+        Width = 104
         Align = alRight
         Caption = 'Ajouter avant'
         TabOrder = 1
@@ -132,6 +134,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
       Header.DefaultHeight = 22
       Header.Height = 22
       Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+      ParentColor = True
       TabOrder = 2
       OnClick = vt_MenuIniClick
       OnGetText = vt_MainMenuGetText

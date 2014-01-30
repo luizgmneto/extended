@@ -169,6 +169,9 @@ begin
   inherited;
 end;
 
+
+{$ENDIF}
+
 procedure TMenuToolBar.DoOnShowHint(HintInfo: PHintInfo);
 begin
   with HintInfo^ do
@@ -186,7 +189,6 @@ begin
    end;
 end;
 
-{$ENDIF}
 procedure TMenuToolBar.DoOnMenuCreated;
 Begin
   if Assigned(FOnMenuCreated) Then
@@ -269,4 +271,4 @@ begin
 end;
 
 end.
-
+
