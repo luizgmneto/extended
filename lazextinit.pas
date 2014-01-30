@@ -15,7 +15,6 @@ implementation
 
 procedure Register;
 begin
-  RegisterUnit('menutbar', @menutbar.Register);
 end;
 
 initialization

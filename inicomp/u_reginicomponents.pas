@@ -31,7 +31,7 @@ uses  {$IFDEF FPC}
 {$ELSE}
      DBReg, Designintf,
 {$ENDIF}
-  {$IFDEF MENUBAR}u_extmenutoolbar, u_extmenucustomize, {$ENDIF}
+  {$IFDEF MENUBAR}u_extmenutoolbar, menutbar, u_extmenucustomize, {$ENDIF}
    U_OnFormInfoIni;
 
 procedure Register;
@@ -39,7 +39,7 @@ begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni]);
   {$IFDEF MENUBAR}
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [ TExtMenuCustomize ]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS, [ TExtMenuToolBar ]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS, [ TMenuToolBar,TExtMenuToolBar ]);
   {$ENDIF}
 end;
 
@@ -47,6 +47,8 @@ end;
 initialization
   {$i U_OnFormInfoIni.lrs}
   {$IFDEF MENUBAR}
+  {$I u_extmenucustomize.lrs}
+  {$I toolbarmenureg.lrs}
   {$I u_extmenucustomize.lrs}
   {$ENDIF}
 {$ENDIF}

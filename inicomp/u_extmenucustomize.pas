@@ -9,8 +9,7 @@ unit u_extmenucustomize;
 interface
 
 uses
-  Classes, SysUtils, ComCtrls, Menus,
-  {$IFDEF MENUBAR}u_extmenutoolbar,{$ENDIF}
+  Classes, Menus,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
@@ -54,12 +53,7 @@ type
 
 implementation
 
-uses   {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi,
-  {$ENDIF}
- Controls, Graphics,
+uses
   {$IFDEF VIRTUALTREES}
    U_CustomizeMenu,
   {$ENDIF}
@@ -108,6 +102,8 @@ constructor TExtMenuCustomize.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FAutoIni := True;
+  FMenuIni := nil;
+  FMainMenu := nil;
 end;
 
 function TExtMenuCustomize.LoadIni ( const EndSection : String = '' ): Boolean;
@@ -118,32 +114,30 @@ begin
    Then
     Begin
       FIniFile := f_GetMemIniFile;
-      if assigned ( FIniFile )
-      and FIniFile.SectionExists(MENUINI_SECTION_BEGIN+FMenuIni.Name + EndSection)
-       Then
-        Begin
-          Result := True;
-          FMenuIni.Items.Clear;
-          LoadAMenuNode(FMainMenu.Items, FMenuIni.Items, False, EndSection);
-          MenuChange;
-        end;
+      if assigned ( FIniFile ) Then
+        if FIniFile.SectionExists(MENUINI_SECTION_BEGIN+FMenuIni.Name + EndSection)
+         Then
+          Begin
+            Result := True;
+            FMenuIni.Items.Clear;
+            LoadAMenuNode(FMainMenu.Items, FMenuIni.Items, False, EndSection);
+            MenuChange;
+          end
+        Else
+         SaveIni ( EndSection );
     end;
 end;
 
 function TExtMenuCustomize.SaveIni ( const EndSection : String = '' ): Boolean;
 begin
   Result := False;
-  if  assigned ( FMenuIni )
+  FIniFile := f_GetMemIniFile;
+  if assigned ( FIniFile )
    Then
     Begin
-      FIniFile := f_GetMemIniFile;
-      if assigned ( FIniFile )
-       Then
-        Begin
-          Result := True;
-          FIniFile.EraseSection(MENUINI_SECTION_BEGIN+FMenuIni.Name + EndSection);
-          SaveAMenuNode(FMenuIni.Items, False, EndSection);
-        end;
+      Result := True;
+      FIniFile.EraseSection(MENUINI_SECTION_BEGIN+FMenuIni.Name + EndSection);
+      SaveAMenuNode(FMenuIni.Items, False, EndSection);
     end;
 end;
 
@@ -158,7 +152,8 @@ begin
   MenuChange;
   {$ENDIF}
   if FAutoIni
-  and ( MenuIni.Items.Count > 0 ) Then
+  and assigned ( FMenuIni )
+  and ( FMenuIni.Items.Count > 0 ) Then
     SaveIni;
 end;
 

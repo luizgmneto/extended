@@ -23,11 +23,12 @@ const MenuToolbar_TExtMenuToolBar = 'TExtMenuToolBar' ;
                                                FileUnit : 'u_extmenutoolbar' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Barre de menu avec bouton de click.' ;
-                                               BugsStory : '0.9.0.2 : Making comments.' + #13#10
+                                               BugsStory : '0.9.9.0 : Testing.' + #13#10
+                                                         + '0.9.0.2 : Making comments.' + #13#10
                                                          + '0.9.0.1 : Optimising.' + #13#10
                                                          + '0.9.0.0 : Gestion en place et testée.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 2 );
+                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
 
 {$ENDIF}
 
@@ -40,8 +41,10 @@ type
     FAutoDrawDisabled : Boolean;
     FOnClickCustomize : TNotifyEvent;
   protected
-    procedure SetMenu(Value: TMenu); override;
-    procedure WindowGet ( AObject : TObject );
+    procedure DoOnMenuCreating; override;
+    procedure DoOnMenuCreated; override;
+    procedure WindowGet ( AObject : TObject ); virtual;
+    procedure SetCustomizeImage; virtual;
   public
     procedure p_setAutoDrawDisabled ( AValue: Boolean ); virtual;
     constructor Create(TheOwner: TComponent); override;
@@ -86,6 +89,7 @@ end;
 procedure TExtMenuToolBar.Loaded;
 begin
   inherited;
+  SetCustomizeImage;
   p_setAutoDrawDisabled ( FAutoDrawDisabled );
 end;
 
@@ -99,8 +103,8 @@ var lbmp_Bitmap : TBitmap;
      i : Integer;
 begin
   FAutoDrawDisabled := AValue;
-  if  ( DisabledImages <> nil )
-  and ( Images <> nil )
+  if  assigned( DisabledImages )
+  and assigned( Images)
   and FAutoDrawDisabled Then
   Begin
     DisabledImages.Clear;
@@ -130,42 +134,58 @@ end;
 
 /// Procedure SetMenu
 // Creating the ToolButtons when setting the menu
-procedure TExtMenuToolBar.SetMenu(Value: TMenu);
-{$IFNDEF FPC}
-var lbmp_Bitmap : TBitmap;
-{$ENDIF}
+procedure TExtMenuToolBar.DoOnMenuCreating;
 begin
   if assigned ( FButtonGet ) Then
     Begin
       FButtonGet.Parent := nil;
     end;
-  inherited SetMenu(Value);
+  inherited;
+end;
+procedure TExtMenuToolBar.SetCustomizeImage;
+{$IFNDEF FPC}
+var lbmp_Bitmap : TBitmap;
+{$ENDIF}
+begin
+  if assigned(FButtonGet)
+  and(FButtonGet.ImageIndex=-1)
+  and assigned(Images) Then
+    Begin
+{$IFDEF FPC}
+      Images.AddLazarusResource(MenuToolbar_TExtMenuToolBar,clNone);
+{$ELSE}
+      if ( ExtMenuToolbar_ResInstance = 0 ) Then
+        ExtMenuToolbar_ResInstance:= FindResourceHInstance(HInstance);
+      lbmp_Bitmap := TBitmap.Create;
+      with lb lbmp_Bitmap do
+       Begin
+        LoadFromResourceName(ExtMenuToolbar_ResInstance, MenuToolbar_TExtMenuToolBar );
+        Images.AddMasked(lbmp_Bitmap,Canvas.Pixels [ Width - 1, Height - 1 ]);
+        Dormant;
+        Destroy;
+       End;
+{$ENDIF}
+      FButtonGet.ImageIndex:= Images.Count - 1;
+    end;
+End;
+
+procedure TExtMenuToolBar.DoOnMenuCreated;
+begin
   if not ( csDesigning in ComponentState ) Then
     Begin
       if not assigned ( FButtonGet ) Then
         Begin
           FButtonGet:= TToolButton.Create(Self);
-          FButtonGet.Name := 'Button_' + Name + '_Customize' ;
-          FButtonGet.Tag:= MenuToolbar_TagCustomizeButton;
-          FButtonGet.Caption:= GS_TOOLBARMENU_Personnaliser;
-          FButtonGet.OnClick:= WindowGet;
-          if Images <> Nil Then
-            Begin
-      {$IFDEF FPC}
-              Images.AddLazarusResource(MenuToolbar_TExtMenuToolBar,clNone);
-      {$ELSE}
-              if ( ExtMenuToolbar_ResInstance = 0 ) Then
-                ExtMenuToolbar_ResInstance:= FindResourceHInstance(HInstance);
-              lbmp_Bitmap := TBitmap.Create;
-              lbmp_Bitmap.LoadFromResourceName(ExtMenuToolbar_ResInstance, MenuToolbar_TExtMenuToolBar );
-              Images.AddMasked(lbmp_Bitmap,lbmp_Bitmap.Canvas.Pixels [ lbmp_Bitmap.Width - 1, lbmp_Bitmap.Height - 1 ]);
-              lbmp_Bitmap.Dormant;
-              lbmp_Bitmap.Free;
-      {$ENDIF}
-              FButtonGet.ImageIndex:= Images.Count - 1;
-            end;
-          FButtonGet.Style:= tbsButton;
-          FButtonGet.Visible:=True;
+          with FButtonGet do
+           Begin
+            Name := 'Button_' + Name + '_Customize' ;
+            Tag:= MenuToolbar_TagCustomizeButton;
+            Caption:= GS_TOOLBARMENU_Personnaliser;
+            OnClick:= WindowGet;
+            SetCustomizeImage;
+            Style:= tbsButton;
+            Visible:=True;
+           End;
         end;
       // At the end
       if ControlCount > 0 Then
@@ -175,6 +195,7 @@ begin
            else FButtonGet.Top   := Top  + Height ;
       FButtonGet.Parent := Self;
     end;
+  inherited DoOnMenuCreated;
   p_setAutoDrawDisabled ( FAutoDrawDisabled );
 end;
 
