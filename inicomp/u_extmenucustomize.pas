@@ -38,6 +38,7 @@ type
     procedure Loaded; override;
     procedure LoadAMenuNode ( const AMenuItemToCopy, AMenuParent : TMenuItem ; const ALoadLevel : Boolean ; const EndSection : String ); virtual;
     procedure SaveAMenuNode ( const AMenuItem : TMenuItem ; const ASaveLevel : Boolean ; const EndSection : String ); virtual;
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
   public
     constructor Create(TheOwner: TComponent); override;
     function  LoadIni ( const EndSection : String = '' ) : Boolean; virtual;
@@ -57,14 +58,15 @@ uses
   {$IFDEF VIRTUALTREES}
    U_CustomizeMenu,
   {$ENDIF}
-   fonctions_init, fonctions_objects;
+   fonctions_init, fonctions_components;
 
 { TExtMenuCustomize }
 
 procedure TExtMenuCustomize.Loaded;
 begin
   inherited Loaded;
-  if FAutoIni Then
+  if FAutoIni
+  and not ( csDesigning in ComponentState ) Then
     LoadIni;
 end;
 
@@ -77,6 +79,7 @@ begin
    Then
     Begin
       LMenuToAdd := fmi_CloneMenuItem ( AMenuItemToCopy, FMenuIni );
+      LMenuToAdd.Parent:=nil;
       AMenuParent.Add ( LMenuToAdd );
     end
    Else
@@ -96,6 +99,25 @@ begin
     Begin
       SaveAMenuNode(AMenuItem [ i ], True, EndSection);
     end;
+end;
+
+procedure TExtMenuCustomize.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if ( Operation <> opRemove )
+  or ( csDestroying in ComponentState ) Then
+    Exit;
+
+  // Suppression de menus inexistants
+  if    Assigned   ( FMenuIni )
+  and ( AComponent = FMenuIni )
+   then
+    FMenuIni := nil;
+  if    Assigned   ( FMainMenu )
+  and ( AComponent = FMainMenu )
+   then
+    FMainMenu := nil;
 end;
 
 constructor TExtMenuCustomize.Create(TheOwner: TComponent);

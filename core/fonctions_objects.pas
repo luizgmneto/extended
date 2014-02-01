@@ -28,9 +28,11 @@ function fmi_CloneMenuItem ( const AMenuItem : TMenuItem; const amenuDestination
 
 implementation
 
+uses fon
+
 function fmi_CloneMenuItem ( const AMenuItem : TMenuItem; const amenuDestination : TMenu ): TMenuItem ;
 Begin
-  Result := TMenuItem.Create ( amenuDestination );
+  Result := fcon TMenuItem.Create ( amenuDestination );
   with Result do
    Begin
      Name       := AMenuItem.Name;
