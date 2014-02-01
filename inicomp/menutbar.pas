@@ -44,9 +44,12 @@ type
     procedure DoOnShowHint(HintInfo: PHintInfo); override;
     procedure DoOnMenuCreated; virtual;
     procedure DoOnMenuCreating; virtual;
+    procedure AutoLoadMenu; virtual;
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
   public
     constructor Create(TheOwner: TComponent); override;
     procedure LoadMenu; virtual;
+    procedure Loaded; override;
     destructor Destroy; override;
   published
     property Menu: TMenu read FMenu write SetMenu;
@@ -203,12 +206,33 @@ Begin
 
 end;
 
+procedure TMenuToolBar.AutoLoadMenu;
+begin
+  if FCreate
+  and ( csDesigning in ComponentState )
+  and not ( csCreating in ControlState ) Then
+    LoadMenu;
+end;
+
+procedure TMenuToolBar.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if ( Operation <> opRemove )
+  or ( csDestroying in ComponentState ) Then
+    Exit;
+
+  // Suppression d'un menu inexistant
+  if    Assigned   ( FMenu )
+  and ( AComponent = FMenu )
+   then
+    FMenu := nil;
+end;
+
 procedure TMenuToolBar.SetAutoCreate(const Value: Boolean);
 begin
   FCreate:=Value;
-  if FCreate
-  and ( csDesigning in ComponentState ) Then
-    LoadMenu;
+  AutoLoadMenu;
 end;
 
 procedure TMenuToolBar.SetMenu(const Value: TMenu);
@@ -216,8 +240,7 @@ procedure TMenuToolBar.SetMenu(const Value: TMenu);
 begin
   if (FMenu=Value) then exit;
   FMenu:=Value;
-  if FCreate Then
-   LoadMenu;
+  AutoLoadMenu;
 end;
 
 procedure TMenuToolBar.LoadMenu;
@@ -237,10 +260,10 @@ procedure TMenuToolBar.LoadMenu;
 var aTB: TToolButton;
     i: integer;
 begin
-  DoOnMenuCreating;
-  while ControlCount>0 do Controls[0].Free; //delete old menubuttons
   if Assigned(FMenu) then
    begin
+    DoOnMenuCreating;
+    while ControlCount>0 do Controls[0].Destroy; //delete old menubuttons
     for I:=0  to FMenu.Items.Count-1 do
      begin
       aTB:= TToolButton.Create(Self);
@@ -266,9 +289,15 @@ begin
         end;
       aTB.Parent:= Self;
     end;
+    DoOnMenuCreated;
   end;
-  DoOnMenuCreated;
+end;
+
+procedure TMenuToolBar.Loaded;
+begin
+  inherited Loaded;
+  AutoLoadMenu;
 end;
 
 end.
-
+

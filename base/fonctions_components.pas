@@ -13,7 +13,7 @@ uses SysUtils,
   {$IFDEF VERSIONS}
   fonctions_version,
   {$ENDIF}
-  DB,
+  DB, Menus,
   Controls, StdCtrls,
   Classes, DBGrids ;
 
@@ -42,6 +42,7 @@ procedure ExportGridToCSV (const AFileName : String ; const AGrid : TCustomDBGri
 procedure ExportGridTo ( const AFieldMethod : TFieldMethod; const Afile : TStringList; const AGrid : TCustomDBGrid; const As_beginLine, as_endLine, as_beginCell, as_endCell, as_separator, As_beginHeader, As_EndHeader, As_beginText, As_EndText : String ; const ab_header : Boolean = False );
 function fcom_CloneObject  ( const acom_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
 function fcon_CloneControl ( const acon_AControl : TControl  ; const AOwner : TComponent ) : TControl;
+function fmi_CloneMenuItem ( const AMenuItem : TMenuItem; const amenuDestination : TMenu ): TMenuItem ;
 
 
 implementation
@@ -50,6 +51,19 @@ uses fonctions_string,
   fonctions_proprietes,
   fonctions_languages;
 
+function fmi_CloneMenuItem ( const AMenuItem : TMenuItem; const amenuDestination : TMenu ): TMenuItem ;
+Begin
+  Result := fcon_CloneControl( AMenuItem, amenuDestination );
+  with Result do
+   Begin
+     Name       := AMenuItem.Name;
+     Tag        := AMenuItem.Tag;
+     Caption    := AMenuItem.Caption;
+     ImageIndex := AMenuItem.ImageIndex;
+     OnClick    := AMenuItem.OnClick;
+     Action     := AMenuItem.Action;
+   end;
+end;
 
 //////////////////////////////////////////////////////////////////////
 // Fonction retournant le composant copié sans la personnalisation
