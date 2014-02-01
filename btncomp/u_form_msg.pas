@@ -102,6 +102,7 @@ const CST_IMAGE_Warning = 'mwarning';
 procedure TFMsg.InitMessage;
 var
   k,p,TotalWidth:integer;
+  lstemp:String;
   procedure PutInBtn(numBtn:integer;aText:string;aResult:word);//MG2013
   var
     btn:TFWButton;
@@ -203,7 +204,10 @@ begin
   end;
   with lbMsg do
    Begin
-     lbMsg.Width:=Canvas.TextWidth(Caption);
+     lstemp:=Caption;
+     if pos ( #10, lstemp ) = 0
+      Then lbMsg.Width:=Canvas.TextWidth(lstemp)
+      Else lbMsg.Width:=Canvas.TextWidth(copy(lstemp,1,pos ( #10, lstemp )+4));
      if TotalWidth < Width+Left Then
        TotalWidth:= Width+Left;
      Height:=(fi_CharCounter ( lbMsg.Caption, #10 ) + 1 )*Canvas.TextHeight('W');

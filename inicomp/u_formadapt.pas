@@ -91,8 +91,11 @@ end;
 constructor TF_FormAdapt.Create(AOwner: TComponent);
 begin
   inherited;
-  FOldCreate := OnCreate;
-  OnCreate:=FormAdaptCreate;
+  if not ( csDesigning in ComponentState ) Then
+   Begin
+    FOldCreate := OnCreate;
+    OnCreate:=FormAdaptCreate;
+   end;
 end;
 procedure TF_FormAdapt.FormAdaptCreate(AForm: TObject);
 begin

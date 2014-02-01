@@ -599,9 +599,11 @@ begin
   if  FAlwaysSame
    Then
     FixedColor := gCol_Grid ;
-  if not Assigned(FOldOnGetBtnParams) Then
-   FOldOnGetBtnParams := OnGetBtnParams;
-  OnGetBtnParams:=ExtGetBtnParams;
+  if not ( csDesigning in ComponentState ) Then
+   Begin
+    FOldOnGetBtnParams := OnGetBtnParams;
+    OnGetBtnParams:=ExtGetBtnParams;
+   end;
 End;
 
 procedure TExtDBGrid.SetBounds(ALeft, ATop, AWidth, AHeight: integer);
