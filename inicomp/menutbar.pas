@@ -269,7 +269,7 @@ begin
       aTB:= TToolButton.Create(Self);
       with FMenu.Items[I] do
         begin
-          aTB.Name:= Name;
+//          aTB.Name:= Self.Name + Name;
           aTB.Tag:= Tag;
           aTB.Caption:= Caption;
           aTB.Hint:= Hint;

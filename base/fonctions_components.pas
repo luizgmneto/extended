@@ -53,11 +53,12 @@ uses fonctions_string,
 
 function fmi_CloneMenuItem ( const AMenuItem : TMenuItem; const amenuDestination : TMenu ): TMenuItem ;
 Begin
-  Result := fcon_CloneControl( AMenuItem, amenuDestination );
+  Result := fcom_CloneObject( AMenuItem, amenuDestination ) as TMenuItem;
   with Result do
    Begin
-     Name       := AMenuItem.Name;
+     Name       := amenuDestination.Name + AMenuItem.Name;
      Tag        := AMenuItem.Tag;
+     Hint       := AMenuItem.Hint;
      Caption    := AMenuItem.Caption;
      ImageIndex := AMenuItem.ImageIndex;
      OnClick    := AMenuItem.OnClick;

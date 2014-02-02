@@ -178,7 +178,7 @@ begin
           FButtonGet:= TToolButton.Create(Self);
           with FButtonGet do
            Begin
-            Name := 'Button_' + Name + '_Customize' ;
+//            Name := 'Button_' + Name + '_Customize' ;
             Tag:= MenuToolbar_TagCustomizeButton;
             Caption:= GS_TOOLBARMENU_Personnaliser;
             OnClick:= WindowGet;
