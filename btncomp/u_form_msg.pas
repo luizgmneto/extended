@@ -52,10 +52,11 @@ const
        			                 FileUnit : 'u_form_working' ;
        			                 Owner : 'Matthieu Giroux' ;
        			                 Comment : 'Ask or tell anything.' ;
-      			                 BugsStory :'Version 0.1.1.0 : Simplifying.'+#10
-                                                   +'Version 0.1.0.0 : From other software';
+      			                 BugsStory : 'Version 0.1.2.0 : Simplify more.'+#10
+                                                   + 'Version 0.1.1.0 : Simplify.'+#10
+                                                   + 'Version 0.1.0.0 : From other software';
 			                 UnitType : CST_TYPE_UNITE_FICHE ;
-			                 Major : 0 ; Minor : 1 ; Release : 1 ; Build : 0 );
+			                 Major : 0 ; Minor : 1 ; Release : 2 ; Build : 0 );
 {$ENDIF}
 
 type
@@ -64,8 +65,10 @@ type
 
   TFMsg=class(TF_FormAdapt)
     Image: TExtImage;
-    lbMsg: TStaticText;
+    lbMsg: TLabel;
+    Panel1: TPanel;
     PanelButtons: TPanel;
+    p_Msg: TPanel;
     p_Main: TPanel;
     procedure FormShow(Sender: TObject);
   private
@@ -138,7 +141,7 @@ var
 
 begin
   k:=0;
-  TotalWidth := 0;
+  TotalWidth := 20;
   if (mbYes in fButtons) then inc(k);
   if (mbYesToAll in fButtons) then inc(k);
   if (mbNo in fButtons) then inc(k);
@@ -195,6 +198,10 @@ begin
     inc ( TotalWidth, 4 );
   end;
 
+  with p_Main do
+   if ClientWidth < TotalWidth Then
+     ClientWidth := TotalWidth;
+
   case fDlgType of
     mtWarning: PlaceType(CST_IMAGE_Warning,gs_Warning);
     mtInformation: PlaceType(CST_IMAGE_Information,gs_Information);
@@ -202,20 +209,15 @@ begin
   else
     PlaceType(CST_IMAGE_Error,gs_Error);
   end;
-  with lbMsg do
+ { with lbMsg do
    Begin
      lstemp:=Caption;
      if pos ( #10, lstemp ) = 0
-      Then lbMsg.Width:=Canvas.TextWidth(lstemp)
-      Else lbMsg.Width:=Canvas.TextWidth(copy(lstemp,1,pos ( #10, lstemp )+4));
-     if TotalWidth < Width+Left Then
-       TotalWidth:= Width+Left;
-     Height:=(fi_CharCounter ( lbMsg.Caption, #10 ) + 1 )*Canvas.TextHeight('W');
-   end;
-  Height:= lbMsg.Height+45;
-  if Width<TotalWidth Then
-   Width := TotalWidth ;
-
+      Then Width:=Canvas.TextWidth(lstemp)
+      Else Width:=Canvas.TextWidth(copy(lstemp,1,pos ( #10, lstemp )));
+     Height:=(fi_CharCounter ( lstemp, #10 ) + 1 )*Canvas.TextHeight('W');
+     Invalidate;
+   end;}
 end;
 
 procedure TFMsg.KeyDown(var Key:Word;Shift:TShiftState);
@@ -261,4 +263,4 @@ initialization
   p_ConcatVersion ( gVer_F_Msg );
 {$ENDIF}
 end.
-
+

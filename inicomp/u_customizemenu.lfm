@@ -8,10 +8,11 @@ object F_CustomizeMenu: TF_CustomizeMenu
   ClientWidth = 600
   Color = clWindow
   Font.Color = clWindowText
+  OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '1.0.14.0'
+  LCLVersion = '1.0.12.0'
   object Panel1: TPanel
     Left = 0
     Height = 30
@@ -30,6 +31,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
       Align = alRight
       Caption = 'Fermer'
       NumGlyphs = 0
+      OnClick = FWClose1Click
     end
   end
   object Panel2: TPanel
@@ -54,7 +56,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
         item
           Position = 0
           Text = 'Menu complet'
-          Width = 351
+          Width = 353
         end>
       Header.DefaultHeight = 22
       Header.Height = 22
@@ -108,10 +110,10 @@ object F_CustomizeMenu: TF_CustomizeMenu
         TabOrder = 0
       end
       object ch_ajouteravant: TCheckBox
-        Left = 415
+        Left = 408
         Height = 30
         Top = 0
-        Width = 104
+        Width = 111
         Align = alRight
         Caption = 'Ajouter avant'
         TabOrder = 1
@@ -129,7 +131,7 @@ object F_CustomizeMenu: TF_CustomizeMenu
         item
           Position = 0
           Text = 'Menu personnalisé'
-          Width = 236
+          Width = 238
         end>
       Header.DefaultHeight = 22
       Header.Height = 22

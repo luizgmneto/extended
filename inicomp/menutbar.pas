@@ -269,7 +269,7 @@ begin
       aTB:= TToolButton.Create(Self);
       with FMenu.Items[I] do
         begin
-//          aTB.Name:= Self.Name + Name;
+          aTB.Name:= Self.Name + Name;
           aTB.Tag:= Tag;
           aTB.Caption:= Caption;
           aTB.Hint:= Hint;
@@ -289,9 +289,14 @@ begin
         end;
       aTB.Parent:= Self;
     end;
+    // ordering
+    for I:=0  to FMenu.Items.Count-1 do
+      RepositionButton(FMenu.Items[i].MenuIndex);
     DoOnMenuCreated;
   end;
 end;
+
+
 
 procedure TMenuToolBar.Loaded;
 begin
@@ -300,4 +305,4 @@ begin
 end;
 
 end.
-
+
