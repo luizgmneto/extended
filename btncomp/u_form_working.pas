@@ -46,9 +46,10 @@ const
        			                 FileUnit : 'u_form_working' ;
        			                 Owner : 'Matthieu Giroux' ;
        			                 Comment : 'While working wait.' ;
-      			                 BugsStory :'Version 0.1.0.0 : From other software' ;
+      			                 BugsStory : 'Version 0.1.1.0 : Simplify'+#10
+                                                   + 'Version 0.1.0.0 : From other software' ;
 			                 UnitType : CST_TYPE_UNITE_FICHE ;
-			                 Major : 0 ; Minor : 1 ; Release : 0 ; Build : 0 );
+			                 Major : 0 ; Minor : 1 ; Release : 1 ; Build : 0 );
 {$ENDIF}
 
 type
@@ -88,26 +89,24 @@ begin
 end;
 
 procedure TFWorking.doInit(sTexte: string;Annuler:boolean=false);
-var
-  i,l:integer;
+//var
+//  i,l:integer;
 begin
   BtnCancel.Enabled:=true;
   PanCancel.Visible:=Annuler;
-  i:=0;
-  l:=Pos(#13,sTexte);
+ { i:=0;
+  l:=Pos(#10,sTexte);
   while l>0 do
   begin
     inc(i);
-    l:=PosEx(#13,sTexte,l+1);
+    l:=PosEx(#10,sTexte,l+1);
   end;
-  if Annuler then
-    self.ClientHeight:=HFiche+i*PleaseWait.Height
-  else
-    self.ClientHeight:=HFiche+i*PleaseWait.Height-PanCancel.Height;
+  if Annuler
+   then self.ClientHeight:=HFiche+i*PleaseWait.Height
+   else self.ClientHeight:=HFiche+i*PleaseWait.Height-PanCancel.Height;}
   screen.cursor := crHourGlass;
   Show;
   PleaseWait.Caption:=sTexte;
-  Application.ProcessMessages;
 end;
 
 procedure TFWorking.FormDestroy(Sender: TObject);

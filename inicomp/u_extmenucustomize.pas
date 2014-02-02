@@ -15,15 +15,16 @@ uses
 {$ENDIF}
   Forms;
 
-const MENUINI_SECTION_BEGIN = 'CustomizedMenu.' ;
   {$IFDEF VERSIONS}
+const
       gVer_TExtMenuCustomize : T_Version = ( Component : 'Composant TExtMenuCustomize' ;
                                                  FileUnit : 'u_extmenucustomize' ;
                                                  Owner : 'Matthieu Giroux' ;
                                                  Comment : 'Gestion de l''ini pour un menu avec appel à la fenêtre de personnalisation.' ;
-                                                 BugsStory : '0.9.0.0 : Gestion en place.';
+                                                 BugsStory : '0.9.9.0 : Testing' +#10
+                                                           + '0.9.0.0 : Gestion en place.';
                                                  UnitType : 3 ;
-                                                 Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                                 Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
 
   {$ENDIF}
 type
@@ -62,6 +63,8 @@ uses
    fonctions_string,
    fonctions_components;
 
+const MENUINI_SECTION_BEGIN = 'CustomizedMenu.' ;
+      MENUINI_MENU_POSITION = '.Position' ;
 { TExtMenuCustomize }
 
 procedure TExtMenuCustomize.Loaded;
@@ -75,11 +78,14 @@ end;
 procedure TExtMenuCustomize.LoadAMenuNode(const AMenuItemToCopy, AMenuParent: TMenuItem;const EndSection : String );
 var i : Integer;
     LMenuToAdd : TMenuItem ;
+    lsname : String;
 begin
-  if  f_IniReadSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name+EndSection, fs_GetBeginingOfString(AMenuItemToCopy.Name,CST_NUMBERS), False )
+  lsname := fs_GetBeginingOfString(AMenuItemToCopy.Name,CST_NUMBERS);
+  if  f_IniReadSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name+EndSection, lsname, False )
    Then
     Begin
       LMenuToAdd := fmi_CloneMenuItem ( AMenuItemToCopy, FMenuIni );
+      LMenuToAdd.MenuIndex:=f_IniReadSectionInt(MENUINI_SECTION_BEGIN+FMenuIni.Name+EndSection, lsname+MENUINI_MENU_POSITION, FMenuIni.Items.Count );
       AMenuParent.Add ( LMenuToAdd );
     end
    Else
@@ -92,8 +98,11 @@ end;
 
 procedure TExtMenuCustomize.SaveAMenuNode(const AMenuItem: TMenuItem; const EndSection : String );
 var i : Integer;
+    lsname : String;
 begin
-  p_IniWriteSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name+EndSection, fs_GetBeginingOfString(AMenuItem.Name,CST_NUMBERS), True );
+  lsname := fs_GetBeginingOfString(AMenuItem.Name,CST_NUMBERS);
+  p_IniWriteSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name+EndSection, lsname, True );
+  p_IniWriteSectionInt(MENUINI_SECTION_BEGIN+FMenuIni.Name+EndSection, lsname+MENUINI_MENU_POSITION, AMenuItem.MenuIndex );
   for i := 0 to AMenuItem.Count - 1 do
     Begin
       SaveAMenuNode(AMenuItem [ i ], EndSection);
@@ -145,7 +154,10 @@ begin
             MenuChange;
           end
         Else
-         SaveIni ( EndSection );
+         Begin
+           SaveIni ( EndSection );
+           MenuChange;
+         end;
     end;
 end;
 
@@ -170,12 +182,12 @@ begin
     F_CustomizeMenu := TF_CustomizeMenu.Create(Application);
   F_CustomizeMenu.MenuCustomize := Self;
   F_CustomizeMenu.ShowModal;
-  MenuChange;
-  {$ENDIF}
   if FAutoIni
   and assigned ( FMenuIni )
   and ( FMenuIni.Items.Count > 0 ) Then
     SaveIni;
+  MenuChange;
+  {$ENDIF}
 end;
 
 procedure TExtMenuCustomize.MenuChange;

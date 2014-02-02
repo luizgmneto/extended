@@ -16,9 +16,9 @@ uses
 {$ENDIF}
   menutbar;
 
-const MenuToolbar_TExtMenuToolBar = 'TExtMenuToolBar' ;
-      MenuToolbar_TagCustomizeButton = 1000;
+
 {$IFDEF VERSIONS}
+const
     gVer_TExtMenuToolBar : T_Version = ( Component : 'Composant TExtMenuToolBar' ;
                                                FileUnit : 'u_extmenutoolbar' ;
                                                Owner : 'Matthieu Giroux' ;
@@ -37,6 +37,9 @@ type
 
   TExtMenuToolBar = class(TMenuToolBar)
   private
+    {$IFNDEF FPC}
+    ExtMenuToolbar_ResInstance : THandle;
+    {$ENDIF}
     FButtonGet: TToolButton;
     FAutoDrawDisabled : Boolean;
     FOnClickCustomize : TNotifyEvent;
@@ -55,10 +58,6 @@ type
     property OnClickCustomize: TNotifyEvent read FOnClickCustomize write FOnClickCustomize;
   end;
 
-{$IFNDEF FPC}
-var ExtMenuToolbar_ResInstance             : THandle      = 0;
-{$ENDIF}
-
 implementation
 
 uses   {$IFDEF FPC}
@@ -71,6 +70,9 @@ uses   {$IFDEF FPC}
      LResources,
 {$ENDIF}
      Dialogs;
+
+const MenuToolbar_TExtMenuToolBar = 'TExtMenuToolBar' ;
+      MenuToolbar_TagCustomizeButton = 1000;
 
 { TExtMenuToolBar }
 
@@ -130,6 +132,9 @@ begin
   inherited Create(TheOwner);
   FButtonGet := nil;
   FAutoDrawDisabled := True;
+  {$IFNDEF FPC}
+  ExtMenuToolbar_ResInstance := 0;
+  {$ENDIF}
 end;
 
 /// Procedure SetMenu
@@ -147,6 +152,7 @@ procedure TExtMenuToolBar.SetCustomizeImage;
 var lbmp_Bitmap : TBitmap;
 {$ENDIF}
 begin
+  // create customize button once only
   if assigned(FButtonGet)
   and(FButtonGet.ImageIndex=-1)
   and assigned(Images) Then
@@ -173,12 +179,13 @@ procedure TExtMenuToolBar.DoOnMenuCreated;
 begin
   if not ( csDesigning in ComponentState ) Then
     Begin
+      // create customize button once only
       if not assigned ( FButtonGet ) Then
         Begin
           FButtonGet:= TToolButton.Create(Self);
           with FButtonGet do
            Begin
-//            Name := 'Button_' + Name + '_Customize' ;
+            Name := 'Button_' + Name + '_Customize' ;
             Tag:= MenuToolbar_TagCustomizeButton;
             Caption:= GS_TOOLBARMENU_Personnaliser;
             OnClick:= WindowGet;

@@ -2,7 +2,7 @@ inherited FMsg: TFMsg
   Left = 642
   Height = 93
   Top = 245
-  ActiveControl = p_Main
+  AutoSize = True
   BorderIcons = []
   Caption = 'FMsg'
   ClientHeight = 93
@@ -17,41 +17,66 @@ inherited FMsg: TFMsg
   Position = poMainFormCenter
   object p_Main: TPanel[0]
     Left = 0
-    Height = 93
+    Height = 119
     Top = 0
-    Width = 320
-    Align = alClient
+    Width = 318
     AutoSize = True
-    BevelInner = bvLowered
-    ClientHeight = 93
-    ClientWidth = 320
+    BevelOuter = bvNone
+    ClientHeight = 119
+    ClientWidth = 318
     Color = clBtnHighlight
     ParentColor = False
     TabOrder = 0
-    object Image: TExtImage
-      Left = 2
-      Height = 32
-      Top = 2
-      Width = 32
-      Transparent = True
-    end
-    object lbMsg: TStaticText
-      Left = 35
-      Height = 36
-      Top = 10
-      Width = 286
-      Constraints.MinHeight = 20
-      Constraints.MinWidth = 286
-      TabOrder = 1
+    object p_Msg: TPanel
+      Left = 0
+      Height = 90
+      Top = 0
+      Width = 318
+      Align = alClient
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 90
+      ClientWidth = 318
+      Color = clBtnHighlight
+      ParentColor = False
+      TabOrder = 0
+      object Image: TExtImage
+        Left = 0
+        Height = 90
+        Top = 0
+        Width = 32
+        Align = alLeft
+        Transparent = True
+      end
+      object Panel1: TPanel
+        Left = 32
+        Height = 90
+        Top = 0
+        Width = 286
+        Align = alClient
+        BevelOuter = bvNone
+        ClientHeight = 90
+        ClientWidth = 286
+        TabOrder = 0
+        object lbMsg: TLabel
+          Left = 0
+          Height = 20
+          Top = 8
+          Width = 286
+          Constraints.MinHeight = 20
+          Constraints.MinWidth = 286
+          ParentColor = False
+        end
+      end
     end
     object PanelButtons: TPanel
-      Left = 2
-      Height = 27
-      Top = 64
-      Width = 316
+      Left = 0
+      Height = 29
+      Top = 90
+      Width = 318
       Align = alBottom
       BevelOuter = bvNone
-      TabOrder = 0
+      TabOrder = 1
     end
   end
 end

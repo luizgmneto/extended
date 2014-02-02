@@ -63,6 +63,7 @@ type
     vt_MainMenu: TVirtualStringTree;
     vt_MenuIni: TVirtualStringTree;
     OnFormInfoIni: TOnFormInfoIni;
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FWClose1Click(Sender: TObject);
@@ -167,7 +168,7 @@ end;
 
 procedure TF_CustomizeMenu.FWClose1Click(Sender: TObject);
 begin
-  Destroy;
+  Close;
 end;
 
 procedure TF_CustomizeMenu.FWDeleteClick(Sender: TObject);
@@ -241,6 +242,12 @@ end;
 procedure TF_CustomizeMenu.FormCreate(Sender: TObject);
 begin
   gMenuItem := nil;
+end;
+
+procedure TF_CustomizeMenu.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+begin
+   closeaction := caFree;
 end;
 
 procedure TF_CustomizeMenu.vt_MenuIniClick(Sender: TObject);
