@@ -56,13 +56,13 @@ Begin
   Result := fcom_CloneObject( AMenuItem, amenuDestination ) as TMenuItem;
   with Result do
    Begin
-     Name       := amenuDestination.Name + AMenuItem.Name;
      Tag        := AMenuItem.Tag;
      Hint       := AMenuItem.Hint;
      Caption    := AMenuItem.Caption;
      ImageIndex := AMenuItem.ImageIndex;
      OnClick    := AMenuItem.OnClick;
      Action     := AMenuItem.Action;
+     Name       := AMenuItem.Name;
    end;
 end;
 
