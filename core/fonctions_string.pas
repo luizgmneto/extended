@@ -53,6 +53,7 @@ const
   CST_ORD_SOULIGNE   = ord ( '_' );
   CST_ORD_OUVRECROCHET   = ord ( '[' );
   CST_ORD_FERMECROCHET   = ord ( ']' );
+  CST_NUMBERS = '0123456789';
 
 type
 TCharToUTF8Table = array[char] of PChar;
@@ -76,6 +77,7 @@ type
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
   function fs_EraseSpecialChars( const aText: string): string;
   function fs_ArgConnectString ( const as_connectstring, as_arg: string): string;
+  function fs_GetBeginingOfString ( const as_text, as_endingstring: string): string;
   function fb_stringVide ( const aTexte: string): Boolean;
   function fs_stringDate(): string;
   function fs_stringDateTime(const aDateTime: TDateTime; const aFormat: string): Ansistring;
@@ -863,6 +865,23 @@ begin
       System.Move(ls_temp[1], AChar^, li_length);
       lb_isnewword:=pos(AChar^,ANewWordChar)>0;
       inc (Achar,li_length);
+    end;
+end;
+function fs_GetBeginingOfString ( const as_text, as_endingstring: string): string;
+var AChar :PChar;
+    EndChar : PChar;
+begin
+  Result:='';
+  if as_text = '' Then
+   Exit;
+  AChar:=@as_text[1];
+  EndChar:=@as_text[Length(as_text)];
+  while AChar<=EndChar do
+    begin
+      if pos(AChar^,as_endingstring)>0
+       Then Exit
+       Else AppendStr(Result,AChar^);
+      inc (Achar);
     end;
 end;
 

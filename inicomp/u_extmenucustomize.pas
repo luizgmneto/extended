@@ -35,8 +35,8 @@ type
     FMenuIni, FMainMenu : TMenu;
     FOnMenuChange : TNotifyEvent;
   protected
-    procedure LoadAMenuNode ( const AMenuItemToCopy, AMenuParent : TMenuItem ; const ALoadLevel : Boolean ; const EndSection : String ); virtual;
-    procedure SaveAMenuNode ( const AMenuItem : TMenuItem ; const ASaveLevel : Boolean ; const EndSection : String ); virtual;
+    procedure LoadAMenuNode ( const AMenuItemToCopy, AMenuParent : TMenuItem ; const EndSection : String ); virtual;
+    procedure SaveAMenuNode ( const AMenuItem : TMenuItem ; const EndSection : String ); virtual;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
   public
     constructor Create(TheOwner: TComponent); override;
@@ -46,7 +46,7 @@ type
     procedure Click; virtual;
     procedure MenuChange; virtual;
   published
-    property AutoIni : Boolean read FAutoIni write FAutoIni default True;
+    property AutoIni : Boolean read FAutoIni write FAutoIni default False;
     property MenuIni : TMenu read FMenuIni write FMenuIni;
     property MainMenu : TMenu read FMainMenu write FMainMenu;
     property OnMenuChange : TNotifyEvent read FOnMenuChange write FOnMenuChange;
@@ -58,7 +58,9 @@ uses
   {$IFDEF VIRTUALTREES}
    U_CustomizeMenu,
   {$ENDIF}
-   fonctions_init, fonctions_components;
+   fonctions_init,
+   fonctions_string,
+   fonctions_components;
 
 { TExtMenuCustomize }
 
@@ -70,12 +72,11 @@ begin
     LoadIni;
 end;
 
-procedure TExtMenuCustomize.LoadAMenuNode(const AMenuItemToCopy, AMenuParent: TMenuItem; const ALoadLevel : Boolean; const EndSection : String );
+procedure TExtMenuCustomize.LoadAMenuNode(const AMenuItemToCopy, AMenuParent: TMenuItem;const EndSection : String );
 var i : Integer;
     LMenuToAdd : TMenuItem ;
 begin
-  if ALoadLevel
-  and f_IniReadSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name+EndSection, AMenuItemToCopy.Name, False )
+  if  f_IniReadSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name+EndSection, fs_GetBeginingOfString(AMenuItemToCopy.Name,CST_NUMBERS), False )
    Then
     Begin
       LMenuToAdd := fmi_CloneMenuItem ( AMenuItemToCopy, FMenuIni );
@@ -85,18 +86,17 @@ begin
     LMenuToAdd := AMenuParent;
   for i := 0 to AMenuItemToCopy.Count - 1 do
     Begin
-      LoadAMenuNode(AMenuItemToCopy [ i ], LMenuToAdd, True, EndSection);
+      LoadAMenuNode(AMenuItemToCopy [ i ], LMenuToAdd, EndSection);
     end;
 end;
 
-procedure TExtMenuCustomize.SaveAMenuNode(const AMenuItem: TMenuItem; const ASaveLevel : Boolean; const EndSection : String );
+procedure TExtMenuCustomize.SaveAMenuNode(const AMenuItem: TMenuItem; const EndSection : String );
 var i : Integer;
 begin
-  if ASaveLevel Then
-    p_IniWriteSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name+EndSection, AMenuItem.Name, True );
+  p_IniWriteSectionBol(MENUINI_SECTION_BEGIN+FMenuIni.Name+EndSection, fs_GetBeginingOfString(AMenuItem.Name,CST_NUMBERS), True );
   for i := 0 to AMenuItem.Count - 1 do
     Begin
-      SaveAMenuNode(AMenuItem [ i ], True, EndSection);
+      SaveAMenuNode(AMenuItem [ i ], EndSection);
     end;
 end;
 
@@ -122,7 +122,7 @@ end;
 constructor TExtMenuCustomize.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
-  FAutoIni := True;
+  FAutoIni := False;
   FMenuIni := nil;
   FMainMenu := nil;
 end;
@@ -141,7 +141,7 @@ begin
           Begin
             Result := True;
             FMenuIni.Items.Clear;
-            LoadAMenuNode(FMainMenu.Items, FMenuIni.Items, False, EndSection);
+            LoadAMenuNode(FMainMenu.Items, FMenuIni.Items, EndSection);
             MenuChange;
           end
         Else
@@ -158,7 +158,7 @@ begin
     Begin
       Result := True;
       FIniFile.EraseSection(MENUINI_SECTION_BEGIN+FMenuIni.Name + EndSection);
-      SaveAMenuNode(FMenuIni.Items, False, EndSection);
+      SaveAMenuNode(FMenuIni.Items, EndSection);
     end;
 end;
 
