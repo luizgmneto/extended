@@ -35,7 +35,6 @@ type
     FMenuIni, FMainMenu : TMenu;
     FOnMenuChange : TNotifyEvent;
   protected
-    procedure Loaded; override;
     procedure LoadAMenuNode ( const AMenuItemToCopy, AMenuParent : TMenuItem ; const ALoadLevel : Boolean ; const EndSection : String ); virtual;
     procedure SaveAMenuNode ( const AMenuItem : TMenuItem ; const ASaveLevel : Boolean ; const EndSection : String ); virtual;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
@@ -43,6 +42,7 @@ type
     constructor Create(TheOwner: TComponent); override;
     function  LoadIni ( const EndSection : String = '' ) : Boolean; virtual;
     function  SaveIni ( const EndSection : String = '' ) : Boolean; virtual;
+    procedure Loaded; override;
     procedure Click; virtual;
     procedure MenuChange; virtual;
   published
@@ -79,7 +79,6 @@ begin
    Then
     Begin
       LMenuToAdd := fmi_CloneMenuItem ( AMenuItemToCopy, FMenuIni );
-      LMenuToAdd.Parent:=nil;
       AMenuParent.Add ( LMenuToAdd );
     end
    Else
