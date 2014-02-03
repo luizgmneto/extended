@@ -151,19 +151,19 @@ Begin
 end;
 // scale on form create
 procedure ScaleFormCreate(const Control: TCustomForm;const ANewEchelle:Extended);
-var
-  ANew: integer;
 Begin
   with Control do
    Begin
-//     AutoSize:=True;
-     ANew   := Min ( Screen.{$IFDEF WINDOWS}WorkAreaWidth{$ELSE}Width{$ENDIF}, Scale(Width,ANewEchelle));
-     Left   := Max ( 0, Left + Width - ANew );
-     Width  := ANew;
-     ANew   := Min ( Screen.{$IFDEF WINDOWS}WorkAreaHeight{$ELSE}Height{$ENDIF}, Scale(Height,ANewEchelle));
-     Top    := Max ( 0, Top + Height - ANew );
-     Height := ANew;
-
+     // resize if possible
+     Width  := Min ( Screen.{$IFDEF WINDOWS}WorkAreaWidth{$ELSE}Width{$ENDIF}, Scale(Width,ANewEchelle));
+     // form can be out of screen
+     if left + Width > Screen.{$IFDEF WINDOWS}WorkAreaWidth{$ELSE}Width{$ENDIF} Then
+       Left   := Max ( 0, Screen.{$IFDEF WINDOWS}WorkAreaWidth{$ELSE}Width{$ENDIF} - Width );
+     // resize if possible
+     Height  := Min ( Screen.{$IFDEF WINDOWS}WorkAreaHeight{$ELSE}Height{$ENDIF}, Scale(Height,ANewEchelle));
+     // form can be out of screen
+     if Top + Height > Screen.{$IFDEF WINDOWS}WorkAreaHeight{$ELSE}Height{$ENDIF} Then
+       Top    := Max ( 0, Screen.{$IFDEF WINDOWS}WorkAreaHeight{$ELSE}Height{$ENDIF} - Height );
    End;
 end;
 
