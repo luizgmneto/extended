@@ -87,13 +87,13 @@ type
     ExtDBComboInsert2: TExtDBComboInsert;
     Search2: TFWLabel;
     FWMemo: TFWMemo;
+    mc_Customize : TExtMenuCustomize;
+    ExtMenuToolBar : TExtMenuToolBar;
+    OpenPictureDialog : TOpenPictureDialog;
     {$IFDEF FPC}
     ExtClonedPanel1: TExtClonedPanel;
     Process: TProcess;
     Splitter3: TSplitter;
-    mc_Customize : TExtMenuCustomize;
-    ExtMenuToolBar : TExtMenuToolBar;
-    OpenPictureDialog : TOpenPictureDialog;
     FWDBSpinEdit: TFWDBSpinEdit;
     {$ENDIF}
     procedure ExtDBImageClick(Sender: TObject);

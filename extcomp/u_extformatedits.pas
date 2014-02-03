@@ -1,4 +1,4 @@
-{*********************************************************************}
+﻿{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             TExtSearchEdit :                               }
@@ -49,9 +49,14 @@ type
   private
     FNoAccent : Boolean;
     FModeFormat : TModeFormatText;
+  {$IFDEF FPC}
   protected
     procedure TextChanged; override;
+  {$ENDIF}
   public
+    {$IFNDEF FPC}
+    procedure Change; override;
+    {$ENDIF}
     constructor Create ( Aowner : TComponent ); override;
   published
     property NoAccent : Boolean read FNoAccent write FNoAccent default False;
@@ -63,9 +68,14 @@ type
   private
     FNoAccent : Boolean;
     FModeFormat : TModeFormatText;
+  {$IFDEF FPC}
   protected
     procedure TextChanged; override;
+  {$ENDIF}
   public
+    {$IFNDEF FPC}
+    procedure Change; override;
+    {$ENDIF}
     constructor Create ( Aowner : TComponent ); override;
   published
     property NoAccent : Boolean read FNoAccent write FNoAccent default False;
@@ -74,7 +84,12 @@ type
 
 implementation
 
-uses Dialogs, fonctions_db, sysutils;
+uses Dialogs,
+     {$IFNDEF FPC}
+     Types,
+     {$ENDIF}
+     fonctions_db,
+     sysutils;
 
 { TExtFormatEdit }
 
@@ -83,10 +98,13 @@ uses Dialogs, fonctions_db, sysutils;
   Params:  Value to set FModified to
   Returns: Nothing
  ------------------------------------------------------------------------------}
-procedure TExtFormatEdit.TextChanged;
+
+procedure TExtFormatEdit.{$IFDEF FPC}TextChanged{$ELSE}Change{$ENDIF};
 var
   Temp: String;
+  {$IFDEF FPC}
   CPos: TPoint;
+  {$ENDIF}
   SStart, SLen: Integer;
 begin
   //debugln('TCustomEdit.TextChanged ',DbgSName(Self));
@@ -98,6 +116,7 @@ begin
     p_FormatText(Temp,FModeFormat,FNoAccent);
     if (Temp <> Text) then
     begin
+      {$IFDEF FPC}
       CPos := CaretPos;
       SStart := SelStart;
       SLen := SelLength;
@@ -105,6 +124,13 @@ begin
       SelStart  := SStart;
       SelLength := SLen;
       CaretPos  := CPos;
+      {$ELSE}
+      SStart := GetSelStart;
+      SLen := GetSelLength;
+      Text := Temp;
+      SetSelStart ( SStart );
+      SetSelLength ( SLen );
+      {$ENDIF}
     end;
   end;
   Inherited;
@@ -127,10 +153,12 @@ end;
   Params:  Value to set FModified to
   Returns: Nothing
  ------------------------------------------------------------------------------}
-procedure TExtFormatDBEdit.TextChanged;
+procedure TExtFormatDBEdit.{$IFDEF FPC}TextChanged{$ELSE}Change{$ENDIF};
 var
   Temp: String;
+  {$IFDEF FPC}
   CPos: TPoint;
+  {$ENDIF}
   SStart, SLen: Integer;
 begin
   //debugln('TCustomEdit.TextChanged ',DbgSName(Self));
@@ -142,6 +170,7 @@ begin
     p_FormatText(Temp,FModeFormat,FNoAccent);
     if (Temp <> Text) then
     begin
+      {$IFDEF FPC}
       CPos := CaretPos;
       SStart := SelStart;
       SLen := SelLength;
@@ -149,6 +178,13 @@ begin
       SelStart  := SStart;
       SelLength := SLen;
       CaretPos  := CPos;
+      {$ELSE}
+      SStart := GetSelStart;
+      SLen := GetSelLength;
+      Text := Temp;
+      SetSelStart ( SStart );
+      SetSelLength ( SLen );
+      {$ENDIF}
     end;
   end;
   Inherited;

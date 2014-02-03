@@ -1175,10 +1175,12 @@ Begin
   inherited;
 End;
 
+{$IFDEF FPC}
 function TFWDBLookupCombo.GetField: TField;
 begin
   Result:=DataSource.DataSet.FieldByName(DataField);
 end;
+{$ENDIF}
 
 procedure TFWDBLookupCombo.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);

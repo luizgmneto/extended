@@ -21,7 +21,6 @@ uses
   U_Gamme in 'U_Gamme.pas' {F_Gamme},
   U_Caracteristique in 'U_Caracteristique.pas' {F_Caracteristique};
 {$IFNDEF FPC}
-{$R *.res}
 {$R WindowsXP.res}
 {$ENDIF}
 
