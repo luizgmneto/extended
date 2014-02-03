@@ -1,4 +1,4 @@
-unit fonctions_dialogs;
+﻿unit fonctions_dialogs;
 
 {$IFDEF FPC}
   {$MODE Delphi}
@@ -77,8 +77,8 @@ end;
 
 
 function MyMessageDlg  ( const Msg:string;
-                         const ADlgType:TMsgDlgType;
-                         const AButtons:TMsgDlgButtons;
+                         const ADlgType:TMsgDlgType=mtError;
+                         const AButtons:TMsgDlgButtons=[mbOK];
                          const proprio:TControl=nil;
                          const StyleLb:TFontStyles=[fsBold]):Word; overload;
 Begin
@@ -127,8 +127,8 @@ Begin
 end;
 
 function MyMessageDlg  ( const Title,Msg:string;
-                         const ADlgType:TMsgDlgType;
-                         const AButtons:TMsgDlgButtons;
+                         const ADlgType:TMsgDlgType=mtError;
+                         const AButtons:TMsgDlgButtons=[mbOK];
                          const Help : Integer = 0;
                          const proprio:TControl=nil;
                          const StyleLb:TFontStyles=[fsBold]):Word; overload;

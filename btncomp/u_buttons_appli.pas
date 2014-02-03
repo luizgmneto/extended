@@ -339,13 +339,14 @@ uses {$IFDEF FPC}ObjInspStrConsts, lclstrconsts,
   {$ELSE}
   unite_messages_delphi,
   {$ENDIF}
+  fonctions_proprietes,
   Forms;
 
 procedure p_setControlCaption ( const AControl : TControl ; const as_Caption : String );
 Begin
   with AControl do
-    if  name = Caption Then
-      Caption:=as_Caption;
+    if  name = fs_getComponentProperty ( AControl, CST_PROPERTY_CAPTION ) Then
+      p_setComponentProperty ( AControl, CST_PROPERTY_CAPTION, as_Caption );
 end;
 
 {$IFNDEF FPC}

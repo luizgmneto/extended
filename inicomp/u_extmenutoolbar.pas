@@ -163,7 +163,7 @@ begin
       if ( ExtMenuToolbar_ResInstance = 0 ) Then
         ExtMenuToolbar_ResInstance:= FindResourceHInstance(HInstance);
       lbmp_Bitmap := TBitmap.Create;
-      with lb lbmp_Bitmap do
+      with lbmp_Bitmap do
        Begin
         LoadFromResourceName(ExtMenuToolbar_ResInstance, MenuToolbar_TExtMenuToolBar );
         Images.AddMasked(lbmp_Bitmap,Canvas.Pixels [ Width - 1, Height - 1 ]);

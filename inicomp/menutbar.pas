@@ -25,7 +25,15 @@ unit menutbar;
 interface
 
 uses
-  Classes, SysUtils, ComCtrls, Menus, {$IFDEF LCLwin32}LMessages,{$ENDIF} Controls;
+  Classes,
+  SysUtils,
+{$IFNDEF FPC}
+  Types, Messages,
+{$ENDIF}
+  ComCtrls,
+  Menus,
+  {$IFDEF LCLwin32}LMessages,{$ENDIF}
+  Controls;
 
 type
 
@@ -38,10 +46,15 @@ type
     FOnMenuCreated  : TNotifyEvent;
     FCreate : Boolean;
     procedure SetAutoCreate(const Value: Boolean);
+{$IFNDEF FPC}
+    procedure CMHintShow(var Message: TMessage); message CM_HINTSHOW;
+{$ENDIF}
   protected
     procedure SetMenu(const Value: TMenu); virtual;
     {$IFDEF LCLwin32}procedure WndProc(var Message: TLMessage); override;{$ENDIF}
+{$IFDEF FPC}
     procedure DoOnShowHint(HintInfo: PHintInfo); override;
+{$ENDIF}
     procedure DoOnMenuCreated; virtual;
     procedure DoOnMenuCreating; virtual;
     procedure AutoLoadMenu; virtual;
@@ -66,7 +79,13 @@ type
   
 implementation
 
-{$IFDEF LCLwin32}uses Windows;{$ENDIF}
+uses
+{$IFNDEF FPC}
+    Forms,
+{$ELSE}
+{$IFDEF LCLwin32}Windows,{$ENDIF}
+{$ENDIF}
+  fonctions_proprietes;
 
 
 {$IFDEF LCLwin32}
@@ -175,20 +194,33 @@ end;
 
 {$ENDIF}
 
+{$IFDEF FPC}
 procedure TMenuToolBar.DoOnShowHint(HintInfo: PHintInfo);
+{$ELSE}
+procedure TMenuToolBar.CMHintShow(var Message: TMessage);
+{$ENDIF}
 begin
+{$IFDEF FPC}
   with HintInfo^ do
+{$ELSE}
+  with TCMHintShow(Message).HintInfo^ do
+{$ENDIF}
    Begin
      HintControl := ControlAtPos(CursorPos,True);
      if HintControl = nil Then
       Begin
         HintControl:=Self;
-        inherited DoOnShowHint(HintInfo);
+        inherited;
       end
      Else
-      if HintControl.Hint > ''
-       Then HintStr:=HintControl.Hint
-       Else HintStr:=HintControl.Caption;
+      Begin
+        if HintControl.Hint > ''
+         Then HintStr:=HintControl.Hint
+         Else HintStr:=fs_getComponentProperty(HintControl,CST_PROPERTY_CAPTION);
+{$IFNDEF FPC}
+        inherited;
+{$ENDIF}
+      End;
    end;
 end;
 
@@ -305,4 +337,4 @@ begin
 end;
 
 end.
-
+

@@ -71,7 +71,7 @@ type
   function fb_isFileChar(AChar:Char):boolean;
   function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True):AnsiString;
   function fs_getCorrectString ( const as_string : String ): String ;
-  procedure p_PutFirstCharOfWordsInMaj(var AChaine:UTF8String; const ANewWordChar : String = CST_DELIMITERS_CHAR );
+  procedure p_PutFirstCharOfWordsInMaj(var AChaine:String; const ANewWordChar : String = CST_DELIMITERS_CHAR );
   procedure p_FormatText(var Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False );
   function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
@@ -840,12 +840,14 @@ begin
 end;
 {$ENDIF}
 
-procedure p_PutFirstCharOfWordsInMaj(var AChaine:UTF8String; const ANewWordChar : String = CST_DELIMITERS_CHAR);
+procedure p_PutFirstCharOfWordsInMaj(var AChaine:String; const ANewWordChar : String = CST_DELIMITERS_CHAR);
 var AChar :PChar;
     EndChar : PChar;
     lb_isnewword : Boolean;
+    {$IFDEF FPC}
     li_length : Integer;
     ls_temp : String;
+    {$ENDIF}
 begin
   if AChaine = '' Then
    Exit;
@@ -854,6 +856,7 @@ begin
   lb_isnewword:=True;
   while AChar<=EndChar do
     begin
+     {$IFDEF FPC}
       li_length := UTF8CharacterLength ( AChar );
 //      ls_temp:=copy(AChaine,AChar-EndChar+@AChaine[1],li_length;
       //TempChar := @ls_temp[1];
@@ -863,8 +866,13 @@ begin
        Then ls_temp:=UTF8UpperCase(ls_temp,gs_Lang)
        Else ls_temp:=UTF8LowerCase(ls_temp,gs_Lang);
       System.Move(ls_temp[1], AChar^, li_length);
+      {$ELSE}
+      if lb_isnewword
+       Then AChar^:=UpperCase(AChar^)[1]
+       Else AChar^:=LowerCase(AChar^)[1];
+      {$ENDIF}
       lb_isnewword:=pos(AChar^,ANewWordChar)>0;
-      inc (Achar,li_length);
+      inc (Achar{$IFDEF FPC},li_length{$ENDIF});
     end;
 end;
 function fs_GetBeginingOfString ( const as_text, as_endingstring: string): string;
@@ -901,13 +909,18 @@ begin
     Then Chaine := AnsiToUtf8(fs_ReplaceAccents(StringReplace( StringReplace(Chaine,#195,'',[rfReplaceAll,rfIgnoreCase]),#194,'',[rfReplaceAll,rfIgnoreCase])));
   {$ENDIF}
   case amft_Mode of
+  {$IFDEF FPC}
    mftUpper : Chaine := UTF8UpperCase (Chaine,gs_Lang);
    mftLower : Chaine := UTF8LowerCase (Chaine,gs_Lang);
+  {$ELSE}
+   mftUpper : Chaine := UpperCase (Chaine);
+   mftLower : Chaine := LowerCase (Chaine);
+  {$ENDIF}
    mftFirstIsMaj:
     Begin
       if Length(Chaine) > 1
       Then p_PutFirstCharOfWordsInMaj(Chaine,'')
-      else Chaine := UTF8UpperCase (Chaine,gs_Lang);
+      else Chaine := {$IFDEF FPC}UTF8UpperCase (Chaine,gs_Lang){$ELSE}UpperCase (Chaine){$ENDIF};
     end;
    mftFirstCharOfWordsIsMaj:
       p_PutFirstCharOfWordsInMaj(Chaine);
