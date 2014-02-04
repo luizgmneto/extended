@@ -1,7 +1,7 @@
 inherited FWorking: TFWorking
-  Left = 987
+  Left = 449
   Height = 96
-  Top = 201
+  Top = 349
   Width = 372
   AutoSize = True
   BorderIcons = []
@@ -26,20 +26,20 @@ inherited FWorking: TFWorking
     BevelWidth = 3
     BorderWidth = 3
     BorderStyle = bsSingle
-    ClientHeight = 94
-    ClientWidth = 370
+    ClientHeight = 92
+    ClientWidth = 368
     Color = 2774372
     ParentColor = False
     TabOrder = 0
     object Panel2: TPanel
       Left = 9
-      Height = 76
+      Height = 74
       Top = 9
-      Width = 352
+      Width = 350
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 76
-      ClientWidth = 352
+      ClientHeight = 74
+      ClientWidth = 350
       Color = clWindow
       Constraints.MinHeight = 55
       ParentColor = False
@@ -48,7 +48,7 @@ inherited FWorking: TFWorking
         Left = 0
         Height = 27
         Top = 0
-        Width = 352
+        Width = 350
         Align = alTop
         Alignment = taCenter
         Caption = 'Merci de patienter...'
@@ -64,12 +64,12 @@ inherited FWorking: TFWorking
       object PanCancel: TPanel
         Left = 0
         Height = 36
-        Top = 40
-        Width = 352
+        Top = 38
+        Width = 350
         Align = alBottom
         BevelOuter = bvNone
         ClientHeight = 36
-        ClientWidth = 352
+        ClientWidth = 350
         TabOrder = 0
         object BtnCancel: TFWCancel
           Cursor = crHandPoint
@@ -77,7 +77,7 @@ inherited FWorking: TFWorking
           Height = 32
           Hint = 'Arrêtera l''opération en cours dès que possible.'
           Top = 2
-          Width = 98
+          Width = 96
           Caption = 'Annuler'
           TabOrder = 0
           Anchors = [akLeft, akRight, akBottom]
