@@ -104,13 +104,12 @@ begin
   and not ( Owner is TCustomForm ) Then
    Begin
      p_ReadScaleFromIni  ( f_GetMemIniFile );
-     if ge_GlobalScaleForm <> 1 Then
-      Begin
-        ScaleFormCreate(Self,ge_GlobalScaleForm)
-      end
-    else if fb_CalculateScale ( FScale ) Then
+     if ge_GlobalScaleForm <> 1
+     Then ScaleFormCreate(Self,ge_GlobalScaleForm)
+     else if fb_CalculateScale ( FScale ) Then
       ScaleFormCreate(Self,FScale);
-   End;
+   End
+   Else FormInScreen( self );
   FScale:=1;
   if Assigned(FOldCreate) Then
     FOldCreate ( Self );
