@@ -31,7 +31,8 @@ const
     FileUnit: 'u_reports_components';
     Owner: 'Matthieu Giroux';
     Comment: 'Customized Reports Buttons components.';
-    BugsStory: '1.1.2.0 : Adding Orientation and PaperSize.' + #13#10 +
+    BugsStory: '1.1.2.1 : Simplifying(need svn fortesreport for PrintData).' + #13#10 +
+               '1.1.2.0 : Adding Orientation and PaperSize.' + #13#10 +
                '1.1.1.0 : TFWPrintGrid CreateReport porperty.' + #13#10 +
                '1.1.0.0 : TFWPrintData Component.' + #13#10 +
                '1.0.1.2 : No notification verify on destroy.' + #13#10 +
@@ -40,7 +41,7 @@ const
       #13#10 + '1.0.0.0 : Tested.' + #13#10 +
                '0.9.0.0 : To test.';
     UnitType: 3;
-    Major: 1; Minor: 1; Release: 2; Build: 0);
+    Major: 1; Minor: 1; Release: 2; Build: 1);
 {$ENDIF}
 
 
@@ -66,7 +67,7 @@ type
   TFWPrintData = class(TComponent,IFWPrintComp)
   private
     FFilter: TRLCustomPrintFilter;
-    FDataLink: TDataLink;
+    FDataLink: TDataLinkPrint;
     FDBTitle: string;
     FColumns: TExtPrintColumns;
     FReport : TRLReport;
@@ -247,14 +248,11 @@ begin
         if Assigned(ADatasource) Then ADatasource.DataSet.DisableControls;
         if FormReport = nil Then
           FormReport := fref_CreateReport( FTree, FDBTitle, FOrientation, FPaperSize, FFilter );
-        with FormReport do
-            try
-              RLReport.Preview(FPReview);
-            finally
-              Destroy;
-              FormReport := nil;
-              if Assigned(ADatasource) Then ADatasource.DataSet.EnableControls;
-            end;
+        try
+          FormReport.RLReport.Preview(FPReview);
+        finally
+          if Assigned(ADatasource) Then ADatasource.DataSet.EnableControls;
+        end;
       end;
    end;
 end;
@@ -385,8 +383,8 @@ begin
   if (Operation <> opRemove) or (csDestroying in ComponentState) then
     exit;
   if (AComponent = Datasource) then Datasource := nil;
-  if (AComponent = Filter    ) then Filter  := nil;
-  if (AComponent = Report    ) then Report  := nil;
+  if (AComponent = FFilter   ) then Filter  := nil;
+  if (AComponent = FReport   ) then Report  := nil;
   if (AComponent = FPreview  ) then Preview := nil;
 end;
 
@@ -430,14 +428,13 @@ end;
 procedure TFWPrintData.ShowPreview;
 begin
   FDataLink.DataSet.DisableControls;
-  AddPreview(FReport);
-  if FReportForm <> nil Then
-   with FReportForm do
-   try
-     RLReport.Preview(FPreview);
-   Finally
-     FDataLink.DataSet.EnableControls;
-   End;
+  try
+    AddPreview(FReport);
+    if assigned ( FReportForm ) Then
+     FReportForm.RLReport.Preview(FPreview);
+  Finally
+    FDataLink.DataSet.EnableControls;
+  End;
 end;
 
 // create linked report
@@ -450,14 +447,14 @@ End;
 procedure TFWPrintData.AddPreview(const AReport: TRLReport);
 begin
   if assigned(FDataLink) then
-  if AReport = nil
-   Then
-    Begin
-       FReportForm.Free;
-       FReportForm := fref_CreateReport(nil, FDataLink.DataSource, FColumns, FDBTitle, FOrientation, FPaperSize, FFilter)
-    end
-   Else
-     CreateAReport ( AReport );
+    if AReport = nil
+     Then
+      Begin
+         if FReportForm = nil Then
+           FReportForm := fref_CreateReport(nil, FDataLink.DataSource, FColumns, FDBTitle, FOrientation, FPaperSize, FFilter)
+      end
+     Else
+       CreateAReport ( AReport );
 end;
 
 // auto add on design
@@ -526,11 +523,11 @@ begin
         fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)), TCollection(
         fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, Orientation, PaperSize, FFilter);
       with FormReport  do
-          try
-            RLReport.Preview(FPReview);
-          finally
-            EnableControls;
-          end;
+        try
+          RLReport.Preview(FPReview);
+        finally
+          EnableControls;
+        end;
     end;
 end;
 

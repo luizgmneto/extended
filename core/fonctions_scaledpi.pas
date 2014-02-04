@@ -41,6 +41,7 @@ function Scale(const Valeur:Integer;const ANewEchelle:Extended):Integer;
 procedure ScaleFormShow(const Control: TCustomForm;const ANewEchelle:Extended);
 procedure ScaleFormCreate(const Control: TCustomForm;const ANewEchelle:Extended);
 function fb_CalculateScale ( var AEchelle : Extended ):Boolean;
+procedure FormInScreen(const Control: TCustomForm);
 
 
 type
@@ -156,12 +157,22 @@ Begin
    Begin
      // resize if possible
      Width  := Min ( Screen.{$IFDEF WINDOWS}WorkAreaWidth{$ELSE}Width{$ENDIF}, Scale(Width,ANewEchelle));
+     // resize if possible
+     Height  := Min ( Screen.{$IFDEF WINDOWS}WorkAreaHeight{$ELSE}Height{$ENDIF}, Scale(Height,ANewEchelle));
+
+   End;
+  // form can be out of screen
+  FormInScreen(Control);
+end;
+
+// form can be out of screen
+procedure FormInScreen(const Control: TCustomForm);
+Begin
+  with Control do
+   Begin
      // form can be out of screen
      if left + Width > Screen.{$IFDEF WINDOWS}WorkAreaWidth{$ELSE}Width{$ENDIF} Then
        Left   := Max ( 0, Screen.{$IFDEF WINDOWS}WorkAreaWidth{$ELSE}Width{$ENDIF} - Width );
-     // resize if possible
-     Height  := Min ( Screen.{$IFDEF WINDOWS}WorkAreaHeight{$ELSE}Height{$ENDIF}, Scale(Height,ANewEchelle));
-     // form can be out of screen
      if Top + Height > Screen.{$IFDEF WINDOWS}WorkAreaHeight{$ELSE}Height{$ENDIF} Then
        Top    := Max ( 0, Screen.{$IFDEF WINDOWS}WorkAreaHeight{$ELSE}Height{$ENDIF} - Height );
    End;
