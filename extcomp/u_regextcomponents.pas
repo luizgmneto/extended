@@ -63,6 +63,7 @@ initialization
   {$i PCheck.lrs}
   {$i u_framework_dbcomponents.lrs}
   {$i u_framework_components.lrs}
+  {$i u_extformatedits.lrs}
 {$ENDIF}
 end.
 

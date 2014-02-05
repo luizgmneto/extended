@@ -72,8 +72,8 @@ type
   function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True):AnsiString;
   function fs_getCorrectString ( const as_string : String ): String ;
   procedure p_PutFirstCharOfWordsInMaj(var AChaine:String; const ANewWordChar : String = CST_DELIMITERS_CHAR );
-  procedure p_FormatText(var Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False );
-  function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
+  procedure p_FormatText(var Chaine:String ; const amft_Mode :TModeFormatText; const ab_NoAccents:Boolean = False );
+  function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText; const ab_NoAccents:Boolean = False ):String;
   function fs_GetStringValue ( const astl_Labels : TStringList ; const as_Name : String ):String;
   function fs_EraseSpecialChars( const aText: string): string;
   function fs_ArgConnectString ( const as_connectstring, as_arg: string): string;
@@ -895,7 +895,7 @@ end;
 
 // function fs_TextWithoutAccent
 // text with no special caracters
-procedure p_FormatText(var Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False );
+procedure p_FormatText(var Chaine:String ; const amft_Mode :TModeFormatText; const ab_NoAccents:Boolean = False );
 begin
   if not ab_NoAccents and ( amft_Mode = mftNone ) Then
      Exit;
@@ -926,7 +926,7 @@ begin
       p_PutFirstCharOfWordsInMaj(Chaine);
   end;
 end;
-function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText = mftNone; const ab_NoAccents:Boolean = False ):String;
+function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText; const ab_NoAccents:Boolean = False ):String;
 Begin
   Result:=Chaine;
   p_FormatText(Result,amft_Mode,ab_NoAccents);
