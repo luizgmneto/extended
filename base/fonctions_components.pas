@@ -23,11 +23,12 @@ const
                                          FileUnit : 'fonctions_components' ;
       			                 Owner : 'Matthieu Giroux' ;
       			                 Comment : 'Fonctions de gestion des composants visuels.' ;
-      			                 BugsStory : 'Version 1.0.2.0 : CSV and HTML Grid''s Export.'+#10
+      			                 BugsStory : 'Version 1.0.3.0 : Menu cloning.'+#10
+                                                   + 'Version 1.0.2.0 : CSV and HTML Grid''s Export.'+#10
                                                    + 'Version 1.0.1.0 : Auto combo init.'+#10
                                                    + 'Version 1.0.0.0 : Ajout de fonctions d''automatisation.';
       			                 UnitType : 1 ;
-      			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
+      			                 Major : 1 ; Minor : 0 ; Release : 3 ; Build : 0 );
 
   {$ENDIF}
 
@@ -91,6 +92,7 @@ Begin
     Align   := acon_AControl.Align;
     Visible := acon_AControl.Visible;
     Anchors := acon_AControl.Anchors;
+    Cursor  := acon_AControl.Cursor;
     p_SetComponentProperty ( Result, CST_PROPERTY_TEXT      , fs_getComponentProperty   ( acon_AControl, CST_PROPERTY_TEXT ));
     p_SetComponentProperty ( Result, CST_PROPERTY_CAPTION   , fs_getComponentProperty   ( acon_AControl, CST_PROPERTY_CAPTION ));
     p_SetComponentProperty ( Result, CST_PROPERTY_COLOR     , fli_getComponentProperty ( acon_AControl, CST_PROPERTY_COLOR ));
