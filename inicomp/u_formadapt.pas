@@ -106,8 +106,9 @@ begin
      p_ReadScaleFromIni  ( f_GetMemIniFile );
      if ge_GlobalScaleForm <> 1
      Then ScaleFormCreate(Self,ge_GlobalScaleForm)
-     else if fb_CalculateScale ( FScale ) Then
-      ScaleFormCreate(Self,FScale);
+     else if fb_CalculateScale ( FScale )
+      Then ScaleFormCreate(Self,FScale)
+      Else FormInScreen( self );
    End
    Else FormInScreen( self );
   FScale:=1;

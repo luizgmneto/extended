@@ -53,7 +53,7 @@ function AMessageDlg   ( const Msg:string;
                          const StyleLb:TFontStyles=[fsBold]):Word;
 
 
-var gF_Working:TFWorking;
+var gF_Working:TFWorking=nil;
     gb_btnCancel:boolean;
 
 implementation
@@ -65,9 +65,10 @@ uses u_form_msg,
 procedure doShowWorking(const sText:string;const Cancel:boolean=false);//AL
 begin
   if not Assigned(gF_Working) then
-    gF_Working:=TFWorking.create(Application);
+    gF_Working:=TFWorking.create(nil);
   gb_btnCancel:=False;
   gF_Working.doInit(sText,Cancel);
+  gF_Working.Update;
 end;
 
 procedure doCloseWorking;//AL
@@ -144,6 +145,7 @@ Begin
  end;
 end;
 
-
+finalization
+  gF_Working.Free;
 end.
-
+

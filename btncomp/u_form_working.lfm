@@ -13,7 +13,7 @@ inherited FWorking: TFWorking
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
-  FormStyle = fsStayOnTop
+  FormStyle = fsSplash
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poMainFormCenter

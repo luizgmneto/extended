@@ -171,6 +171,10 @@ Begin
   with Control do
    Begin
      // form can be out of screen
+     if Width > Screen.{$IFDEF WINDOWS}WorkAreaWidth{$ELSE}Width{$ENDIF} Then
+       Width   := Screen.{$IFDEF WINDOWS}WorkAreaWidth{$ELSE}Width{$ENDIF};
+     if Height > Screen.{$IFDEF WINDOWS}WorkAreaHeight{$ELSE}Height{$ENDIF} Then
+       Height  := Screen.{$IFDEF WINDOWS}WorkAreaHeight{$ELSE}Height{$ENDIF};
      if left + Width > Screen.{$IFDEF WINDOWS}WorkAreaWidth{$ELSE}Width{$ENDIF} Then
        Left   := Max ( 0, Screen.{$IFDEF WINDOWS}WorkAreaWidth{$ELSE}Width{$ENDIF} - Width );
      if Top + Height > Screen.{$IFDEF WINDOWS}WorkAreaHeight{$ELSE}Height{$ENDIF} Then

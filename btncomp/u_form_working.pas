@@ -76,7 +76,7 @@ implementation
 
 {$IFDEF FPC}{$R *.lfm}{$ELSE}{$R *.DFM}{$ENDIF}
 
-uses StrUtils,sysutils,
+uses sysutils,
      fonctions_dialogs;
 
 { TFWorking }
@@ -113,6 +113,7 @@ procedure TFWorking.FormDestroy(Sender: TObject);
 begin
   doDesactive;
   close;
+  gF_Working:=nil;
 end;
 
 procedure TFWorking.FormCreate(Sender: TObject);
@@ -144,4 +145,4 @@ end;
 initialization
   p_ConcatVersion ( gVer_F_Working );
 {$ENDIF}
-end.
+end.
