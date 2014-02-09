@@ -44,6 +44,7 @@ const
     CST_PROPERTY_IMAGES         = 'Images' ;
     CST_PROPERTY_CAPTION        = 'Caption' ;
     CST_PROPERTY_ITEMS          = 'Items'  ;
+    CST_PROPERTY_VALUES         = 'Values'  ;
     CST_PROPERTY_ITEMINDEX      = 'ItemIndex'  ;
     CST_PROPERTY_COUNT          = 'Count'  ;
     CST_PROPERTY_COLOR          = 'Color'  ;
