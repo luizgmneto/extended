@@ -1,0 +1,11 @@
+Package: package
+Source: package-src
+Version: 2014.1.1.1
+Architecture: i386
+Maintainer: Matthieu GIROUX www.liberlog.fr
+Installed-Size: 15290
+Depends: firebird2.5-classic-common, firebird2.5-superclassic
+Section: gnome
+Priority: standard
+Homepage: http://www.liberlog.fr
+Description: My Software
