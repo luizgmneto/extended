@@ -8,9 +8,8 @@ interface
 
 uses
   unite_messages, fonctions_proprietes, fonctions_string, fonctions_system, 
-  fonctions_objects, fonctions_scaledpi, fonctions_erreurs, 
-  fonctions_languages, u_extcomponent, fonctions_variant, fonctions_db, 
-  LazarusPackageIntf;
+  fonctions_scaledpi, fonctions_erreurs, fonctions_languages, u_extcomponent, 
+  fonctions_variant, fonctions_db, LazarusPackageIntf;
 
 implementation
 

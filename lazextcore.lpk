@@ -8,6 +8,11 @@
         <OtherUnitFiles Value="core"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
+      <Linking>
+        <Debugging>
+          <UseHeaptrc Value="True"/>
+        </Debugging>
+      </Linking>
       <Other>
         <CompilerMessages>
           <MsgFileName Value=""/>
@@ -15,7 +20,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="11">
+    <Files Count="10">
       <Item1>
         <Filename Value="core/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
@@ -33,33 +38,29 @@
         <UnitName Value="fonctions_system"/>
       </Item4>
       <Item5>
-        <Filename Value="core/fonctions_objects.pas"/>
-        <UnitName Value="fonctions_objects"/>
-      </Item5>
-      <Item6>
         <Filename Value="core/fonctions_scaledpi.pas"/>
         <UnitName Value="fonctions_scaledpi"/>
-      </Item6>
-      <Item7>
+      </Item5>
+      <Item6>
         <Filename Value="core/fonctions_erreurs.pas"/>
         <UnitName Value="fonctions_erreurs"/>
-      </Item7>
-      <Item8>
+      </Item6>
+      <Item7>
         <Filename Value="core/fonctions_languages.pas"/>
         <UnitName Value="fonctions_languages"/>
-      </Item8>
-      <Item9>
+      </Item7>
+      <Item8>
         <Filename Value="core/u_extcomponent.pas"/>
         <UnitName Value="u_extcomponent"/>
-      </Item9>
-      <Item10>
+      </Item8>
+      <Item9>
         <Filename Value="core/fonctions_variant.pas"/>
         <UnitName Value="fonctions_variant"/>
-      </Item10>
-      <Item11>
+      </Item9>
+      <Item10>
         <Filename Value="core/fonctions_db.pas"/>
         <UnitName Value="fonctions_db"/>
-      </Item11>
+      </Item10>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">
