@@ -61,7 +61,8 @@ const
                                      FileUnit : 'U_GroupView' ;
                                      Owner : 'Matthieu Giroux' ;
                                      Comment : 'TDBListView avec gestion de groupes et affectation.' ;
-                                     BugsStory :  '1.1.0.2 : Removing IsImplementorOf.' +
+                                     BugsStory :  '1.1.0.3 : Init buttons to disabled.' +
+                                                  '1.1.0.2 : Removing IsImplementorOf.' +
                                                   '1.1.0.1 : testing with SuperForm.' +
                                                   '1.1.0.0 : traducing methods and variables to english.' +
                                                   '1.0.1.2 : Creating methods from recording action.' +
@@ -69,7 +70,7 @@ const
                                                   '1.0.1.0 : Gestion pour tous Datasources testée.' +
                                                   '1.0.0.0 : Gestion de groupe avec gestion de l''ADO non testée.';
                                      UnitType : 3 ;
-                                     Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
+                                     Major : 1 ; Minor : 1 ; Release : 0 ; Build : 3 );
 {$ENDIF}
 
 type
@@ -930,6 +931,8 @@ Begin
       // affectation de la méthode du nouvel évènement
       lmet_MethodeDistribuee .Data := Self ;
       lmet_MethodeDistribuee.Code := MethodAddress ( as_procedure );
+      // Default : Not enabled
+      awin_Control.Enabled:=False;
       // récupération et Affectation
       if  IsPublishedProp ( awin_Control, 'OnClick'           )
       and PropIsType      ( awin_Control, 'OnClick', tkMethod )
