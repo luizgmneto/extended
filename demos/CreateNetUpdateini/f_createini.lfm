@@ -3,14 +3,14 @@ object Form1: TForm1
   Height = 585
   Top = 202
   Width = 885
-  Caption = 'Form1'
+  Caption = 'TNetUpdate Ini'
   ClientHeight = 585
   ClientWidth = 885
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.0.12.0'
+  LCLVersion = '1.0.14.0'
   object Panel31: TPanel
     Left = 0
     Height = 536
@@ -34,7 +34,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 78
+        Width = 79
         Align = alLeft
         Caption = 'Windows i386'
         ParentColor = False
@@ -77,7 +77,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 89
+        Width = 90
         Align = alLeft
         Caption = 'Windows i86-64'
         ParentColor = False
@@ -120,7 +120,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 132
+        Width = 135
         Align = alLeft
         Caption = 'MAC OSX CARBON i386'
         ParentColor = False
@@ -163,7 +163,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 143
+        Width = 146
         Align = alLeft
         Caption = 'MAC OSX CARBON i86-64'
         ParentColor = False
@@ -206,7 +206,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 130
+        Width = 133
         Align = alLeft
         Caption = 'MAC OSX CARBON PPC'
         ParentColor = False
@@ -249,7 +249,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 131
+        Width = 136
         Align = alLeft
         Caption = 'MAC OSX CARBON ARM'
         ParentColor = False
@@ -292,7 +292,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 116
+        Width = 117
         Align = alLeft
         Caption = 'DEBIAN GNOME i386'
         ParentColor = False
@@ -335,7 +335,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 127
+        Width = 128
         Align = alLeft
         Caption = 'DEBIAN GNOME i86-64'
         ParentColor = False
@@ -378,7 +378,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 114
+        Width = 115
         Align = alLeft
         Caption = 'DEBIAN GNOME PPC'
         ParentColor = False
@@ -421,7 +421,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 115
+        Width = 118
         Align = alLeft
         Caption = 'DEBIAN GNOME ARM'
         ParentColor = False
@@ -464,7 +464,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 95
+        Width = 98
         Align = alLeft
         Caption = 'DEBIAN KDE ARM'
         ParentColor = False
@@ -507,7 +507,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 94
+        Width = 95
         Align = alLeft
         Caption = 'DEBIAN KDE PPC'
         ParentColor = False
@@ -550,7 +550,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 107
+        Width = 108
         Align = alLeft
         Caption = 'DEBIAN KDE i86-64'
         ParentColor = False
@@ -593,7 +593,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 96
+        Width = 97
         Align = alLeft
         Caption = 'DEBIAN KDE i386'
         ParentColor = False
@@ -636,7 +636,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 119
+        Width = 121
         Align = alLeft
         Caption = 'REDHAT GNOME i386'
         ParentColor = False
@@ -679,7 +679,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 130
+        Width = 132
         Align = alLeft
         Caption = 'REDHAT GNOME i86-64'
         ParentColor = False
@@ -722,7 +722,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 117
+        Width = 119
         Align = alLeft
         Caption = 'REDHAT GNOME PPC'
         ParentColor = False
@@ -765,7 +765,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 118
+        Width = 122
         Align = alLeft
         Caption = 'REDHAT GNOME ARM'
         ParentColor = False
@@ -808,7 +808,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 99
+        Width = 101
         Align = alLeft
         Caption = 'REDHAT KDE i386'
         ParentColor = False
@@ -851,7 +851,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 110
+        Width = 112
         Align = alLeft
         Caption = 'REDHAT KDE i86-64'
         ParentColor = False
@@ -894,7 +894,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 97
+        Width = 99
         Align = alLeft
         Caption = 'REDHAT KDE PPC'
         ParentColor = False
@@ -937,7 +937,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 98
+        Width = 102
         Align = alLeft
         Caption = 'REDHAT KDE ARM'
         ParentColor = False
@@ -1030,7 +1030,7 @@ object Form1: TForm1
       Left = 256
       Height = 15
       Top = 22
-      Width = 49
+      Width = 50
       Caption = 'Exe Dir :'
       ParentColor = False
     end
@@ -1053,7 +1053,7 @@ object Form1: TForm1
       Left = 536
       Height = 15
       Top = 3
-      Width = 38
+      Width = 37
       Caption = 'Base :'
       ParentColor = False
     end
@@ -1088,7 +1088,7 @@ object Form1: TForm1
       Left = 536
       Height = 15
       Top = 31
-      Width = 36
+      Width = 35
       Caption = 'User :'
       ParentColor = False
     end
@@ -1096,7 +1096,7 @@ object Form1: TForm1
       Left = 664
       Height = 15
       Top = 31
-      Width = 65
+      Width = 63
       Caption = 'Password :'
       ParentColor = False
     end
@@ -1123,7 +1123,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 87
+        Width = 89
         Align = alLeft
         Caption = 'TAR KDE i86-64'
         ParentColor = False
@@ -1166,7 +1166,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 96
+        Width = 98
         Align = alLeft
         Caption = 'TAR GNOME i386'
         ParentColor = False
@@ -1209,7 +1209,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 107
+        Width = 109
         Align = alLeft
         Caption = 'TAR GNOME i86-64'
         ParentColor = False
@@ -1252,7 +1252,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 94
+        Width = 96
         Align = alLeft
         Caption = 'TAR GNOME PPC'
         ParentColor = False
@@ -1295,7 +1295,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 95
+        Width = 99
         Align = alLeft
         Caption = 'TAR GNOME ARM'
         ParentColor = False
@@ -1338,7 +1338,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 75
+        Width = 79
         Align = alLeft
         Caption = 'TAR KDE ARM'
         ParentColor = False
@@ -1381,7 +1381,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 74
+        Width = 76
         Align = alLeft
         Caption = 'TAR KDE PPC'
         ParentColor = False
@@ -1424,7 +1424,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 76
+        Width = 78
         Align = alLeft
         Caption = 'TAR KDE i386'
         ParentColor = False
