@@ -25,11 +25,16 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
   Messages, Math, DB, Buttons,
   SysUtils, Classes, Graphics,
   Controls, Forms, Dialogs,
   fonctions_db,
-  ExtCtrls, DBCtrls, unite_messages ;
+  ExtCtrls, DBCtrls ;
 
 {$IFDEF VERSIONS}
   const

@@ -23,7 +23,11 @@ implementation
 
 uses u_reports_components,
      u_reports_rlcomponents,
-     unite_messages,
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
      fonctions_reports,
      Forms;
 
