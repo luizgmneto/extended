@@ -36,7 +36,12 @@ implementation
 
 uses
     u_buttons_appli,
-    u_buttons_defs, unite_messages ;
+  {$IFDEF FPC}
+  unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
+  {$ENDIF}
+    u_buttons_defs;
 
 procedure Register;
 begin

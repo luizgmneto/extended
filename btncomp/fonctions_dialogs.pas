@@ -9,6 +9,9 @@ interface
 uses
   Classes, SysUtils,
   Graphics,
+{$IFDEF VERSIONS}
+  fonctions_version,
+{$ENDIF}
   Dialogs, Controls,
   u_form_working;
 
@@ -145,6 +148,7 @@ Begin
  end;
 end;
 
+initialization
 finalization
   gF_Working.Free;
 end.

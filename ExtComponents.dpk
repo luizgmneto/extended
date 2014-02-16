@@ -71,7 +71,8 @@ requires
   JvSystem,
   JvStdCtrls,
   JvDB,
-  JvXPCtrls;
+  JvXPCtrls,
+  ESBase70;
 
 contains
   fonctions_db in 'core\fonctions_db.pas',
@@ -158,6 +159,7 @@ contains
   u_netupdate in 'extnet\u_netupdate.pas',
   u_register_net in 'extnet\u_register_net.pas',
   u_extmenutoolbar in 'inicomp\u_extmenutoolbar.pas',
-  menutbar in 'inicomp\menutbar.pas';
+  menutbar in 'inicomp\menutbar.pas',
+  u_extformatedits in 'extcomp\u_extformatedits.pas';
 
 end.
