@@ -31,6 +31,7 @@ const
 {$ENDIF}
 
 procedure doShowWorking(const sText:string;const Cancel:boolean=false);//AL
+procedure doShowWorkingMessage(const sText:string);//MG
 procedure doCloseWorking;
 
 function MyShowMessage ( const Msg:string;
@@ -72,6 +73,14 @@ begin
   gb_btnCancel:=False;
   gF_Working.doInit(sText,Cancel);
   gF_Working.Update;
+end;
+procedure doShowWorkingMessage(const sText:string);//MG
+Begin
+  with gF_Working.PleaseWait do
+   Begin
+    Caption:=sText;
+    Visible:=True;
+   end;
 end;
 
 procedure doCloseWorking;//AL
