@@ -216,6 +216,28 @@ var aobj_Update : TObject;
 Begin
   Result := TDataset(fcom_CloneObject ( adat_ADataset, AOwner ));
 
+  with Result do
+   Begin
+     AfterPost     :=adat_ADataset.AfterPost;
+     AfterCancel   :=adat_ADataset.AfterCancel;
+     AfterClose    :=adat_ADataset.AfterClose;
+     AfterDelete   :=adat_ADataset.AfterDelete;
+     AfterEdit     :=adat_ADataset.AfterEdit;
+     AfterInsert   :=adat_ADataset.AfterInsert;
+     AfterOpen     :=adat_ADataset.AfterOpen;
+     AfterRefresh  :=adat_ADataset.AfterRefresh;
+     AfterScroll   :=adat_ADataset.AfterScroll;
+     BeforePost    :=adat_ADataset.BeforePost;
+     BeforeCancel  :=adat_ADataset.BeforeCancel;
+     BeforeClose   :=adat_ADataset.BeforeClose;
+     BeforeDelete  :=adat_ADataset.BeforeDelete;
+     BeforeEdit    :=adat_ADataset.BeforeEdit;
+     BeforeInsert  :=adat_ADataset.BeforeInsert;
+     BeforeOpen    :=adat_ADataset.BeforeOpen;
+     BeforeRefresh :=adat_ADataset.BeforeRefresh;
+     BeforeScroll  :=adat_ADataset.BeforeScroll;
+   end;
+
   p_SetConnexion ( Result, fobj_getComponentObjectProperty(adat_ADataset,CST_DBPROPERTY_CONNECTION) as TComponent);
   // ADO
   if  assigned ( GetPropInfo ( adat_ADataset, CST_DBPROPERTY_CONNECTIONSTRING ))  Then
@@ -350,7 +372,6 @@ procedure p_setParamDataset (const adat_ADataset : Tdataset ; const as_ParamName
 var lobj_Params1 :  TParams ;
     lprm_Param   :  TParam ;
     lstl_params : TStrings;
-    li_i : Integer;
 {$IFDEF EADO}
     lobj_Params2   :  TParameters ;
     lprm_Parameter :  TParameter ;
