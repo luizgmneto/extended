@@ -271,7 +271,7 @@ end;
 function FileWriteString(const AFile : THandle; const as_chaine : String; const ab_addAtEnd : Boolean = False; const ab_toadd : Byte = 0 ):Longint;
 Begin
   if as_chaine>'' then
-    Result := FileWrite(AFile,as_chaine[1],Length(as_chaine));
+     Result := FileWrite(AFile,PChar(as_chaine)^,Length(as_chaine));
  if ab_addAtEnd then
     Result := FileWrite(AFile,ab_toadd,1);
 End;
