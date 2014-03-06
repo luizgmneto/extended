@@ -525,11 +525,7 @@ procedure TFWQuit.Loaded;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWQUIT, Self);
   inherited Loaded;
-  p_setControlCaption ( Self, SCloseButton
-{$IFDEF FPC}
-    + ' ' + oisAll
-{$ENDIF}
-  );
+  p_setControlCaption ( Self, SCloseButton );
 end;
 
 

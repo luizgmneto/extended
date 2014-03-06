@@ -73,7 +73,6 @@ type
 { TSBOK }
    TSBOK = class ( TSBButton )
       public
-       constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
       published
        
@@ -82,7 +81,6 @@ type
 { TSBInsert }
    TSBInsert = class ( TSBButton )
       public
-       constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
       published
        
@@ -130,35 +128,30 @@ type
 { TSBQuit }
    TSBQuit = class ( TSBMiniButton )
       public
-       constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
      End;
 
 { TSBErase }
    TSBErase = class ( TSBButton )
       public
-       constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
      End;
 
 { TSBSaveAs }
    TSBSaveAs = class ( TSBButton )
       public
-       constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
      End;
 
    { TSBLoad }
       TSBLoad = class ( TSBMiniButton )
          public
-          constructor Create ( AOwner : TComponent ) ; override;
           procedure Loaded; override;
         End;
 
 { TSBPrint }
    TSBPrint = class ( TSBMiniButton )
       public
-       constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
 
       published
@@ -168,7 +161,6 @@ type
 { TSBCancel }
    TSBCancel = class ( TSBButton )
       public
-       constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
      End;
 
@@ -199,7 +191,6 @@ type
 { TSBCopy }
    TSBCopy = class ( TSBMiniButton )
       public
-       constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
      End;
 
@@ -251,24 +242,14 @@ type
 
    TSBBasket = class ( TSBGroupButtonActions )
       public
-       constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
-
-      published
-       
-       property Caption stored False;
      End;
 
    { TSBRecord }
 
    TSBRecord = class ( TSBGroupButtonActions )
       public
-       constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
-
-      published
-       
-       property Caption stored False;
      End;
 
    { TSBGroupButtonMoving }
@@ -284,8 +265,6 @@ type
     TSBOutSelect = class ( TSBGroupButtonMoving )
        public
         procedure Loaded; override;
-       published
-        
       End;
 
    { TSBOutAll }
@@ -294,24 +273,18 @@ type
    TSBOutAll = class ( TSBGroupButtonMoving )
       public
        procedure Loaded; override;
-      published
-       
      End;
 
 { TSBInSelect }
    TSBInSelect = class ( TSBGroupButtonMoving )
       public
        procedure Loaded; override;
-      published
-       
      End;
 
 { TSBInAll }
    TSBInAll = class ( TSBGroupButtonMoving )
       public
        procedure Loaded; override;
-      published
-
      End;
 
 {$ENDIF}
@@ -382,18 +355,13 @@ end;
 
 { TSBLoad }
 
-constructor TSBLoad.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  caption := oiStdActFileOpenHint;
-  {$ENDIF}
-end;
-
 procedure TSBLoad.Loaded;
 begin
   p_Load_Bitmap_Appli ( Glyph, CST_FWLOAD, Self );
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oiStdActFileOpenHint );
+  {$ENDIF}
 end;
 
 { TSBDocument }
@@ -440,7 +408,6 @@ end;
 constructor TSBClose.Create(AOwner: TComponent);
 begin
   inherited;
-  Caption := SCloseButton;
   Width := CST_FWWIDTH_CLOSE_BUTTON;
 end;
 
@@ -448,61 +415,43 @@ procedure TSBClose.Loaded;
 begin
   p_Load_Bitmap_Appli ( Glyph, CST_FWCLOSE, Self );
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, SCloseButton );
+  {$ENDIF}
 end;
 
 { TSBCancel }
-
-constructor TSBCancel.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oiStdActDataSetCancel1Hint;
-  {$ELSE}
-  Caption := SMsgDlgCancel;
-  {$ENDIF}
-end;
 
 procedure TSBCancel.Loaded;
 begin
   p_Load_Bitmap_Appli ( Glyph, CST_FWCANCEL, Self );
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oiStdActDataSetCancel1Hint );
+  {$ENDIF}
 end;
 
 
 { TSBOK }
 
-constructor TSBOK.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oisOk2;
-  {$ELSE}
-  Caption := SMsgDlgOK;
-  {$ENDIF}
-end;
-
 procedure TSBOK.Loaded;
 begin
   p_Load_Bitmap_Appli ( Glyph, CST_FWOK, Self );
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oisOk2 );
+  {$ENDIF}
 end;
 
 { TSBInsert }
-
-constructor TSBInsert.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := ifsVK_INSERT;
-  {$ELSE}
-  Caption := SInsertRecord;
-  {$ENDIF}
-end;
 
 procedure TSBInsert.Loaded;
 begin
   p_Load_Bitmap_Appli ( Glyph, CST_FWINSERT, Self );
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, ifsVK_INSERT );
+  {$ENDIF}
 end;
 { TSBAdd }
 procedure TSBAdd.Loaded;
@@ -520,67 +469,48 @@ end;
 
 { TSBSaveAs }
 
-constructor TSBSaveAs.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  caption := oiStdActFileSaveAsHint;
-  {$ENDIF}
-end;
 
 procedure TSBSaveAs.Loaded;
 begin
   p_Load_Bitmap_Appli ( Glyph, CST_FWSAVEAS, Self );
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oiStdActFileSaveAsHint );
+  {$ENDIF}
 end;
 
 { TSBQuit }
-
-constructor TSBQuit.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  Caption := SCloseButton {$IFDEF FPC}+ ' ' + oisAll{$ENDIF};
-end;
 
 procedure TSBQuit.Loaded;
 begin
   p_Load_Bitmap_Appli ( Glyph, CST_FWQUIT, Self );
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, SCloseButton );
+  {$ENDIF}
 end;
 
 
 { TSBerase }
 
-constructor TSBErase.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oisDelete;
-  {$ELSE}
-  //Caption := SDeleteRecord;
-  {$ENDIF}
-end;
-
 procedure TSBErase.Loaded;
 begin
   p_Load_Bitmap_Appli ( Glyph, CST_FWERASE, Self );
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oisDelete );
+  {$ENDIF}
 end;
 
 { TSBPrint }
-
-constructor TSBPrint.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := ifsVK_PRINT;
-  {$ENDIF}
-end;
 
 procedure TSBPrint.Loaded;
 begin
   p_Load_Bitmap_Appli ( Glyph, CST_FWPRINT, Self );
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, ifsVK_PRINT );
+  {$ENDIF}
 end;
 
 { TSBNext }
@@ -648,18 +578,13 @@ end;
 
 { TSBCopy }
 
-constructor TSBCopy.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oiStdActEditCopyShortHint;
-  {$ENDIF}
-end;
-
 procedure TSBCopy.Loaded;
 begin
   p_Load_Bitmap_Appli ( Glyph, CST_FWCOPY, Self );
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oiStdActEditCopyShortHint );
+  {$ENDIF}
 end;
 
 
@@ -675,38 +600,24 @@ end;
 
 { TSBBasket }
 
-constructor TSBBasket.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oisUndo;
-  {$ELSE}
-  Caption := Gs_GROUPVIEW_Basket;
-  {$ENDIF}
-end;
-
 procedure TSBBasket.Loaded;
 begin
   p_Load_Bitmap_Appli ( Glyph, CST_FWBASKET, Self );
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oisUndo );
+  {$ENDIF}
 end;
 
 { TSBRecord }
-
-constructor TSBRecord.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  {$IFDEF FPC}
-  Caption := oisRecord;
-  {$ELSE}
-  Caption := Gs_GROUPVIEW_Record;
-  {$ENDIF}
-end;
 
 procedure TSBRecord.Loaded;
 begin
   p_Load_Bitmap_Appli ( Glyph, CST_FWOK, Self );
   inherited Loaded;
+  {$IFDEF FPC}
+  p_setControlCaption ( Self, oisRecord );
+  {$ENDIF}
 end;
 
 

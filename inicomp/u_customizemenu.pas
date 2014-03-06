@@ -100,7 +100,7 @@ var
 
 implementation
 
-uses fonctions_objects;
+uses fonctions_components;
 
 { TF_CustomizeMenu }
 
