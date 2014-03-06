@@ -184,7 +184,7 @@ type
        procedure TitleClick(Column: TColumn); override;
        {$ELSE}
        {$IFDEF RX}
-       procedure DoTitleClick(ACol: longint; AColumn: TRxColumn; Shift: TShiftState); override;
+       procedure DoTitleClick(ACol: Longint; AField: TField); override;
        {$ELSE}
        {$IFDEF FPC}
        procedure DoTitleClick(ACol: longint; AColumn: TRxColumn; Shift: TShiftState); override;
@@ -904,7 +904,7 @@ end;
 procedure TExtDBGrid.TitleClick(Column: TColumn);
 {$ELSE}
 {$IFDEF RX}
-procedure TExtDBGrid.DoTitleClick(ACol: longint; AColumn: TRxColumn; Shift: TShiftState);
+procedure TExtDBGrid.DoTitleClick(ACol: Longint; AField: TField);
 {$ELSE}
 {$IFDEF FPC}
 procedure TExtDBGrid.DoTitleClick(ACol: longint; AColumn: TRxColumn; Shift: TShiftState);
