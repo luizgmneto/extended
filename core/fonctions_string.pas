@@ -71,6 +71,7 @@ type
   function fb_isFileChar(AChar:Char):boolean;
   function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True):AnsiString;
   function fs_getCorrectString ( const as_string : String ): String ;
+  function fs_copyutf8 ( const astring : String; apositionNonUTF8 : Int64 ; const aLengthNonUTF8 : Int64 ): String;
   procedure p_PutFirstCharOfWordsInMaj(var AChaine:String; const ANewWordChar : String = CST_DELIMITERS_CHAR );
   procedure p_FormatText(var Chaine:String ; const amft_Mode :TModeFormatText; const ab_NoAccents:Boolean = False );
   function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText; const ab_NoAccents:Boolean = False ):String;
@@ -874,6 +875,49 @@ begin
       lb_isnewword:=pos(AChar^,ANewWordChar)>0;
       inc (Achar{$IFDEF FPC},li_length{$ENDIF});
     end;
+end;
+
+// just for utf8
+// copy a string from real aposition and real alength
+// Because a utf8 char has a length between 1 and more.
+function fs_copyutf8 ( const astring : String; apositionNonUTF8 : Int64 ; const aLengthNonUTF8 : Int64 ): String;
+var AChar :PChar;
+    EndChar : PChar;
+    {$IFDEF FPC}
+    li_charlength : Integer;
+    li_length : Int64;
+    {$ENDIF}
+begin
+  if (astring = '')
+  or ( apositionNonUTF8 >= aLengthNonUTF8 ) Then
+   Begin
+    Result:='';
+    Exit;
+   end;
+  if  ( apositionNonUTF8 = 1 )
+  and (Length(astring) >= aLengthNonUTF8) Then
+   Begin
+     Result:=astring;
+     Exit;
+   end;
+  {$IFDEF FPC}
+  AChar:=@astring[1];
+  EndChar:=@astring[Length(astring)];
+  li_length:=0;
+  while AChar<=EndChar do
+    begin
+      li_charlength := UTF8CharacterLength ( AChar );
+      inc (Achar{$IFDEF FPC},li_charlength{$ENDIF});
+      inc (li_length);
+      if apositionNonUTF8 = li_length Then
+         apositionNonUTF8:=AChar-@astring[1]+1;
+      if li_length = aLengthNonUTF8 Then
+       Break;
+    end;
+  Result:=copy(astring,apositionNonUTF8,AChar-@astring[1]+li_charlength);
+  {$ELSE}
+  Result:=copy(astring,aposition,aLength);
+  {$ENDIF}
 end;
 function fs_GetBeginingOfString ( const as_text, as_endingstring: string): string;
 var AChar :PChar;

@@ -51,6 +51,7 @@ const
 
 function fb_EraseFiles(  as_StartDir : String ):Boolean;
 function FileCreateDeleteUTF8 ( const as_filename : String ) :THandle;
+function FileCreateDeleteFile ( const as_filename : String ) :THandle;
 function FileCreateDeleteUTF8File ( const as_filename : String ) :THandle;
 function FileCreateUTF8File ( const as_filename : String ) :THandle;
 Function FileReadln (Handle : THandle; var Buffer : String) : Longint;
@@ -307,6 +308,15 @@ Begin
 {$ELSE}
   FileWriteString(Result,sUTF8BOMString[1],False);
 {$ENDIF}
+end;
+
+// function FileCreateDeleteUTF8
+// Deletes and create a file to result handle
+function FileCreateDeleteFile ( const as_filename : String ) :THandle;
+Begin
+  if FileExistsUTF8(as_filename) Then
+    DeleteFileUTF8(as_filename);
+  Result:=FileCreateUTF8(as_filename);
 end;
 
 // copy a file from source to destination
