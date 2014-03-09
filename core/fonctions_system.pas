@@ -37,7 +37,8 @@ const
   gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_system' ;
                         	       Owner : 'Matthieu Giroux' ;
                         	       Comment : 'System Functions, with traducing and path management.' ;
-                        	       BugsStory : 'Version 1.1.0.3 : Renaming to fs_getappdir.' + #10
+                        	       BugsStory : 'Version 1.1.0.4 : Testing command line on linux.' + #10
+                                                 + 'Version 1.1.0.3 : Renaming to fs_getappdir.' + #10
                                                  + 'Version 1.1.0.2 : Testing p_openfileordirectory on windows.' + #10
                                                  + 'Version 1.1.0.1 : Using explorer to open files, more secure.' + #10
                                                  + 'Version 1.1.0.0 : Linux and architecture functions.' + #10
@@ -45,7 +46,7 @@ const
                                                  + 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
                                                  + 'Version 1.0.0.0 : Creating from fonctions_string.';
                         	       UnitType : 1 ;
-                        	       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 3 );
+                        	       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 4 );
 {$ENDIF}
 {$IFDEF DELPHI}
   DirectorySeparator = '\' ;
@@ -89,6 +90,7 @@ function GetWinDir ( const CSIDL : Integer ) : String ;
 {$ENDIF}
 {$ENDIF}
 function fs_GetArchitecture : String;
+function fs_GetFullArchitecture : String;
 function fat_GetArchitectureType : TArchitectureType;
 function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String = '' ; const HasOutput : Boolean = True):String;
 {$IFNDEF FPC}
@@ -130,11 +132,15 @@ uses
 
 {$IFNDEF LINUX}
 const ENV_VARIABLE_ARCHITECTURE = {$IFDEF WINDOWS}'PROCESSOR_ARCHITECTURE'{$ELSE}'MACHTYPE'{$ENDIF};
+      {$IFDEF WINDOWS}
+      ENV_VARIABLE_OS = 'OS';
+      {$ENDIF}
 {$ENDIF}
 
 {$IFDEF UNIX}
 const UNIX_UNAME = 'uname';
-      UNIX_ARCHITECTURE = '-m';
+      UNIX_ARCHITECTURE = ' -m';
+      UNIX_FULL_ARCHITECTURE = ' -omrv';
       UNIX_PACKAGES     = 'lsb_release -si';
       UNIX_VERSION      = 'lsb_release -sr';
 {$ENDIF}
@@ -429,9 +435,13 @@ begin
       if HasOutput // get the result
         Then Options := Options + [poWaitOnExit,poNoConsole, poStderrToOutPut,poUsePipes]
         Else Options := Options + [poWaitOnExit]; // wait for result
+      {$IFDEF WINDOWS}
       Executable      := AExecutable;
       if AParameter > '' Then
         Parameters.Add(AParameter);
+      {$ELSE}
+      CommandLine:=AExecutable+' '+AParameter;
+      {$ENDIF}
       Execute; // will the command work ?
       if HasOutput Then
        Begin // result
@@ -441,7 +451,7 @@ begin
     finally
       Destroy;
       if HasOutput Then
-        lList.Free;
+        lList.Destroy;
     end;
 {$ELSE}
   if HasOutput then
@@ -506,6 +516,16 @@ Begin
             fs_ExecuteProcess ( UNIX_UNAME, UNIX_ARCHITECTURE );
             {$ELSE}
             GetEnvironmentVariable(ENV_VARIABLE_ARCHITECTURE);
+            {$ENDIF}
+End;
+
+// architecture info
+function fs_GetFullArchitecture : String;
+Begin
+  Result := {$IFDEF LINUX}
+            fs_ExecuteProcess ( UNIX_UNAME, UNIX_FULL_ARCHITECTURE );
+            {$ELSE}
+            GetEnvironmentVariable(ENV_VARIABLE_OS)+' '+GetEnvironmentVariable(ENV_VARIABLE_ARCHITECTURE);
             {$ENDIF}
 End;
 
