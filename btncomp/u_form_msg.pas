@@ -223,6 +223,7 @@ end;
 procedure TFMsg.KeyDown(var Key:Word;Shift:TShiftState);
 begin
   if (ssAlt in Shift)and(Key=VK_F4) then Key:=0;
+  if key = VK_ESCAPE Then Close;
   Inherited;
 end;
 
@@ -263,4 +264,4 @@ initialization
   p_ConcatVersion ( gVer_F_Msg );
 {$ENDIF}
 end.
-
+
