@@ -139,8 +139,8 @@ const ENV_VARIABLE_ARCHITECTURE = {$IFDEF WINDOWS}'PROCESSOR_ARCHITECTURE'{$ELSE
 
 {$IFDEF UNIX}
 const UNIX_UNAME = 'uname';
-      UNIX_ARCHITECTURE = ' -m';
-      UNIX_FULL_ARCHITECTURE = ' -omrv';
+      UNIX_ARCHITECTURE = '-m';
+      UNIX_FULL_ARCHITECTURE = '-omrv';
       UNIX_PACKAGES     = 'lsb_release -si';
       UNIX_VERSION      = 'lsb_release -sr';
 {$ENDIF}
@@ -440,6 +440,7 @@ begin
       if AParameter > '' Then
         Parameters.Add(AParameter);
       {$ELSE}
+      // parameters property not read on linux
       CommandLine:=AExecutable+' '+AParameter;
       {$ENDIF}
       Execute; // will the command work ?
