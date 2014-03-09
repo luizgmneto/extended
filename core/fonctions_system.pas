@@ -37,7 +37,7 @@ const
   gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_system' ;
                         	       Owner : 'Matthieu Giroux' ;
                         	       Comment : 'System Functions, with traducing and path management.' ;
-                        	       BugsStory : 'Version 1.1.0.4 : Testing command line on linux.' + #10
+                        	       BugsStory : 'Version 1.1.0.4 : Testing command line on linux and windows.' + #10
                                                  + 'Version 1.1.0.3 : Renaming to fs_getappdir.' + #10
                                                  + 'Version 1.1.0.2 : Testing p_openfileordirectory on windows.' + #10
                                                  + 'Version 1.1.0.1 : Using explorer to open files, more secure.' + #10
@@ -435,12 +435,12 @@ begin
       if HasOutput // get the result
         Then Options := Options + [poWaitOnExit,poNoConsole, poStderrToOutPut,poUsePipes]
         Else Options := Options + [poWaitOnExit]; // wait for result
-      {$IFDEF WINDOWS}
+      {$IFDEF WIeNDOWS}
       Executable      := AExecutable;
       if AParameter > '' Then
         Parameters.Add(AParameter);
       {$ELSE}
-      // parameters property not read on linux
+      // parameters property not read on linux and windows
       CommandLine:=AExecutable+' '+AParameter;
       {$ENDIF}
       Execute; // will the command work ?
