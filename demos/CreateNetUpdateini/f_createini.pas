@@ -314,8 +314,7 @@ var Admin : Boolean;
 begin
   Admin := True;
   with ibd_BASE,Params do
-  if FileExistsUTF8(FileBase.FileName)
-  and not Connected Then
+  if not Connected Then
   begin
     Clear;
     Add('user_name='+UserName.Text);
@@ -327,7 +326,6 @@ begin
    end;
   if not DirectoryExistsUTF8(DirectoryExe.Directory)
   or not DirectoryExistsUTF8 ( DirectoryDest.Directory )
-  or not FileExists(FileBase.FileName)
    then
     Begin
      MessageDlg('Bottom panel not filled.', 'Please fill bottom panel.',mtError,[mbOK],0);

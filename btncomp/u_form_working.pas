@@ -3,9 +3,9 @@
 {           Subprogram Name:                                            }
 {           Purpose:          Ancestromania                             }
 {           Source Language:  Francais                                  }
-{           Auteurs :                      }
-{           Andr? Langlet (Main), Matthieu Giroux (LAZARUS),            }
-{           Philippe Cazaux-Moutou (Old Ancestro GPL)                            }
+{           Auteurs :                                                   }
+{           André Langlet (Main), Matthieu Giroux (LAZARUS),            }
+{           Philippe Cazaux-Moutou (Old Ancestro GPL)                   }
 {                                                                       }
 {-----------------------------------------------------------------------}
 {                                                                       }
@@ -145,4 +145,4 @@ end;
 initialization
   p_ConcatVersion ( gVer_F_Working );
 {$ENDIF}
-end.
+end.
