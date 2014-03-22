@@ -92,6 +92,7 @@ uses
      unite_messages_delphi,
      {$ENDIF}
      fonctions_string,
+     Clipbrd,
      Sysutils;
 
 const CST_IMAGE_Warning = 'mwarning';
@@ -209,20 +210,13 @@ begin
   else
     PlaceType(CST_IMAGE_Error,gs_Error);
   end;
- { with lbMsg do
-   Begin
-     lstemp:=Caption;
-     if pos ( #10, lstemp ) = 0
-      Then Width:=Canvas.TextWidth(lstemp)
-      Else Width:=Canvas.TextWidth(copy(lstemp,1,pos ( #10, lstemp )));
-     Height:=(fi_CharCounter ( lstemp, #10 ) + 1 )*Canvas.TextHeight('W');
-     Invalidate;
-   end;}
+  lbMsg.Hint:=gs_Press_ctrl_c_to_copy_text;
 end;
 
 procedure TFMsg.KeyDown(var Key:Word;Shift:TShiftState);
 begin
   if (ssAlt in Shift)and(Key=VK_F4) then Key:=0;
+  if (ssCtrl in Shift)and(Key=VK_C) then Clipboard.AsText:=lbMsg.Caption;
   if key = VK_ESCAPE Then Close;
   Inherited;
 end;
