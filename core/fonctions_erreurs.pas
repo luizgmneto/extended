@@ -68,10 +68,8 @@ var gstl_CleEnDoubleErreurs : TStringlist = nil ;
 implementation
 
 uses Forms,
-  {$IFDEF FPC}
-  unite_messages,
-  {$ELSE}
-  unite_messages_delphi, fonctions_dbcomponents ,
+  {$IFNDEF FPC}
+  fonctions_dbcomponents ,
   {$ENDIF}
 {$IFDEF DELPHI}
      OleDb,
