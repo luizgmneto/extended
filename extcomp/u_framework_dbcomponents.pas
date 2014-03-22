@@ -34,10 +34,10 @@ uses
    Windows, Mask, DBTables, ActnMan,
 {$ENDIF}
 {$IFDEF RX}
-  RxLookup,
+  RxLookup, RxDBSpinEdit,
 {$ENDIF}
 {$IFDEF JEDI}
-  JvDBLookup,jvDBUltimGrid, jvDBControls, JvDBDateTimePicker,
+  JvDBLookup,jvDBUltimGrid, jvDBControls, JvDBDateTimePicker, JvDBSpinEdit,
 {$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,
@@ -436,53 +436,47 @@ type
 
      { TFWDBSpinEdit }
 
-     TFWDBSpinEdit  = class( TFWSpinEdit )
-       private
-         FDataLink: TFieldDataLink;
-         {$IFNDEF FPC}
-         FReadOnly : Boolean;
-         {$ENDIF}
-         function GetDataField: string;
-         function GetDataSource: TDataSource;
-         function GetField: TField;
-         procedure SetDataField(const AValue: string);
-         procedure SetDataSource(AValue: TDataSource);
-         procedure WMCut(var Message: TMessage); message {$IFDEF FPC} LM_CUT {$ELSE} WM_CUT {$ENDIF};
-         procedure WMPaste(var Message: TMessage); message {$IFDEF FPC} LM_PASTE {$ELSE} WM_PASTE {$ENDIF};
-       {$IFDEF FPC}
-       {$ELSE}
-         procedure WMUndo(var Message: TMessage); message WM_UNDO;
-       {$ENDIF}
-         procedure CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF}); message CM_EXIT;
-         procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
-       protected
-         procedure ActiveChange(Sender: TObject); virtual;
-         procedure DataChange(Sender: TObject); virtual;
-         procedure UpdateData(Sender: TObject); virtual;
-         function GetReadOnly: Boolean; {$IFDEF FPC}override{$ELSE}virtual{$ENDIF};
-         {$IFNDEF FPC}
-         procedure SetReadOnly(AValue: Boolean); virtual;
-         {$ENDIF}
-         procedure SetValue({$IFDEF FPC}const {$ENDIF}AValue: {$IFDEF FPC}Double{$ELSE}Extended{$ENDIF}); {$IFNDEF FPC}override ;{$ENDIF}
-         procedure KeyDown(var Key: Word; Shift: TShiftState); override;
-         procedure KeyPress(var Key: Char); override;
-         procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-       public
-         procedure Loaded; override;
-         procedure Change; override;
-         constructor Create(AOwner: TComponent); override;
-         destructor Destroy; override;
-         function ExecuteAction(AAction: TBasicAction): Boolean; override;
-         function UpdateAction(AAction: TBasicAction): Boolean; override;
-         property Field: TField read GetField;
-       published
-         property Value stored False ;
-         property DataField: string read GetDataField write SetDataField stored True;
-         property DataSource: TDataSource read GetDataSource write SetDataSource stored True;
-         {$IFNDEF FPC}
-         property ReadOnly: Boolean read GetReadOnly write SetReadOnly default false;
-         {$ENDIF}
-       end;
+     TFWDBSpinEdit = class ( {$IFDEF FPC}TRxDBSpinEdit{$ELSE}TJvDBSpinEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
+         private
+          FBeforeEnter, FBeforeExit : TNotifyEvent;
+          FLabel : TFWLabel ;
+          FOldColor ,
+          FColorFocus ,
+          FColorReadOnly,
+          FColorEdit ,
+          FColorLabel : TColor;
+          FAlwaysSame : Boolean;
+          FNotifyOrder : TNotifyEvent;
+          FBeforePopup : TPopUpMenuEvent;
+          FOnPopup : TNotifyEvent;
+          procedure p_setLabel ( const alab_Label : TFWLabel );
+          procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
+        protected
+          procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+          procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+         public
+          constructor Create ( AOwner : TComponent ); override;
+          procedure DoEnter; override;
+          procedure DoExit; override;
+          procedure Loaded; override;
+          procedure SetOrder ; virtual;
+         published
+          property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
+          property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
+          property ColorLabel : TColor read FColorLabel write FColorLabel default CST_LBL_SELECT ;
+          property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
+          property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
+          property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
+          property Color stored False ;
+          property MyLabel : TFWLabel read FLabel write p_setLabel;
+          property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
+          property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
+          property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
+          property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
+          property OnMouseEnter;
+          property OnMouseLeave;
+          property PopupMenu;
+        End;
 
 implementation
 
@@ -1362,215 +1356,84 @@ begin
 end;
 
 { TFWDBSpinEdit }
+
+procedure TFWDBSpinEdit.p_setLabel(const alab_Label: TFWLabel);
+begin
+  if alab_Label <> FLabel Then
+    Begin
+      FLabel := alab_Label;
+      FLabel.MyEdit := Self;
+    End;
+end;
+
+procedure TFWDBSpinEdit.SetOrder;
+begin
+  if assigned ( FNotifyOrder ) then
+    FNotifyOrder ( Self );
+end;
+
 constructor TFWDBSpinEdit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FDataLink := TFieldDataLink.Create ;
-  FDataLink.DataSource := nil ;
-  FDataLink.FieldName  := '' ;
-  FDataLink.Control := Self;
-  FDataLink.OnDataChange := DataChange;
-  FDataLink.OnUpdateData := UpdateData;
-  FDataLink.OnActiveChange := ActiveChange;
-  ControlStyle := ControlStyle + [csReplicatable];
+  FAlwaysSame := True;
+  FColorLabel := CST_LBL_SELECT;
+  FColorEdit  := CST_EDIT_STD;
+  FColorFocus := CST_EDIT_SELECT;
+  FColorReadOnly := CST_EDIT_READ;
 end;
 
-destructor TFWDBSpinEdit.Destroy;
+procedure TFWDBSpinEdit.DoEnter;
 begin
-  inherited Destroy;
-  FDataLink.Free ;
+  if assigned ( FBeforeEnter ) Then
+    FBeforeEnter ( Self );
+  // Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+  // de fond bleu et son libellé en marron (sauf si le libellé est sélectionné
+  // avec la souris => cas de tri)
+  p_setLabelColorEnter ( FLabel, FColorLabel, FAlwaysSame );
+  p_setCompColorEnter  ( Self, FColorFocus, FAlwaysSame );
+  inherited DoEnter;
+end;
+
+procedure TFWDBSpinEdit.DoExit;
+begin
+  if assigned ( FBeforeExit ) Then
+    FBeforeExit ( Self );
+  inherited DoExit;
+  p_setLabelColorExit ( FLabel, FAlwaysSame );
+  p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
+
 end;
 
 procedure TFWDBSpinEdit.Loaded;
 begin
   inherited Loaded;
-  if (csDesigning in ComponentState) then
-    Begin
-      DataChange(Self);
-    End ;
+  FOldColor := Color;
+  if  FAlwaysSame
+   Then
+    Color := gCol_Edit ;
 end;
 
-procedure TFWDBSpinEdit.Notification(AComponent: TComponent;
-  Operation: TOperation);
+procedure TFWDBSpinEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
+Begin
+  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
+  inherited;
+End;
+
+procedure TFWDBSpinEdit.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  inherited MouseDown(Button, Shift, X, Y);
+  if Button = mbRight Then
+   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+end;
+
+procedure TFWDBSpinEdit.Notification(AComponent: TComponent; Operation: TOperation
+  );
 begin
   inherited Notification(AComponent, Operation);
-  if (Operation = opRemove) and (FDataLink <> nil) and
-    (AComponent = DataSource) then DataSource := nil;
-end;
-
-procedure TFWDBSpinEdit.KeyDown(var Key: Word; Shift: TShiftState);
-begin
-  inherited KeyDown(Key, Shift);
-  if (Key = VK_DELETE) or ((Key = VK_INSERT) and (ssShift in Shift)) then
-    FDataLink.Edit;
-end;
-
-procedure TFWDBSpinEdit.KeyPress(var Key: Char);
-begin
-  inherited KeyPress(Key);
-  if (Key in [#32..#255]) and (FDataLink.Field <> nil) and
-    not FDataLink.Field.IsValidChar(Key) then
-  begin
-    {$IFDEF DELPHI}
-    MessageBeep(0);
-    {$ENDIF}
-    Key := #0;
-  end;
-  case Key of
-    ^H, ^V, ^X, #32..#255:
-      FDataLink.Edit;
-    #27:
-      begin
-        FDataLink.Reset;
-        SelectAll;
-        Key := #0;
-      end;
-  end;
-end;
-
-procedure TFWDBSpinEdit.Change;
-begin
-  inherited Change;
-  if assigned ( FDataLink.Field ) Then
-    if FDataLink.Field.IsNull then
-      SetValue ( MinValue )
-    Else
-      SetValue ( FDataLink.Field.AsFloat );
-  FDataLink.Modified;
-end;
-
-function TFWDBSpinEdit.GetDataSource: TDataSource;
-begin
-  Result := FDataLink.DataSource;
-end;
-
-procedure TFWDBSpinEdit.SetDataSource(AValue: TDataSource);
-begin
-  if not (FDataLink.DataSourceFixed and (csLoading in ComponentState)) then
-    FDataLink.DataSource := AValue;
-  if AValue <> nil then AValue.FreeNotification(Self);
-end;
-
-function TFWDBSpinEdit.GetDataField: string;
-begin
-  Result := FDataLink.FieldName;
-end;
-
-procedure TFWDBSpinEdit.SetDataField(const AValue: string);
-begin
-  if  assigned ( FDataLink.DataSet )
-  and FDataLink.DataSet.Active Then
-    Begin
-      if assigned ( FDataLink.DataSet.FindField ( AValue ))
-      and ( FDataLink.DataSet.FindField ( AValue ) is TNumericField ) Then
-        FDataLink.FieldName := AValue;
-    End
-  Else
-    FDataLink.FieldName := AValue;
-end;
-
-function TFWDBSpinEdit.GetReadOnly: Boolean;
-begin
-  Result := FDataLink.ReadOnly or {$IFDEF FPC}inherited{$ELSE}FReadOnly{$ENDIF};
-end;
-
-{$IFNDEF FPC}
-procedure TFWDBSpinEdit.SetReadOnly(AValue: Boolean);
-begin
-  FReadOnly := AValue;
-end;
-{$ENDIF}
-
-function TFWDBSpinEdit.GetField: TField;
-begin
-  Result := FDataLink.Field;
-end;
-
-procedure TFWDBSpinEdit.ActiveChange(Sender: TObject);
-begin
-  if FDataLink.Field <> nil then
-    begin
-      SetValue ( FDataLink.Field.AsFloat );
-    end;
-end;
-
-procedure TFWDBSpinEdit.DataChange(Sender: TObject);
-begin
-  if FDataLink.Field <> nil then
-    begin
-      SetValue ( FDataLink.Field.AsFloat );
-    end;
-end;
-
-
-procedure TFWDBSpinEdit.UpdateData(Sender: TObject);
-begin
-  if Value > -1 Then
-    Begin
-      FDataLink.Edit ;
-      FDataLink.Field.Value := Value ;
-    End ;
-end;
-
-{$IFDEF DELPHI}
-procedure TFWDBSpinEdit.WMUndo(var Message: TMessage);
-begin
-  FDataLink.Edit;
-  inherited;
-end;
-{$ENDIF}
-
-procedure TFWDBSpinEdit.WMPaste(var Message: TMessage);
-begin
-  FDataLink.Edit;
-  inherited;
-end;
-
-procedure TFWDBSpinEdit.WMCut(var Message: TMessage);
-begin
-  FDataLink.Edit;
-  inherited;
-end;
-
-procedure TFWDBSpinEdit.CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF});
-begin
-  try
-    FDataLink.UpdateRecord;
-  except
-    on e: Exception do
-      Begin
-        SetFocus;
-        f_GereException ( e, FDataLink.DataSet, nil , False )
-      End ;
-  end;
-  DoExit;
-end;
-
-procedure TFWDBSpinEdit.CMGetDataLink(var Message: TMessage);
-begin
-  Message.Result := Integer(FDataLink);
-end;
-
-function TFWDBSpinEdit.ExecuteAction(AAction: TBasicAction): Boolean;
-begin
-  Result := inherited ExecuteAction(AAction){$IFDEF DELPHI}  or (FDataLink <> nil) and
-    FDataLink.ExecuteAction(AAction){$ENDIF};
-end;
-
-function TFWDBSpinEdit.UpdateAction(AAction: TBasicAction): Boolean;
-begin
-  Result := inherited UpdateAction(AAction) {$IFDEF DELPHI}  or (FDataLink <> nil) and
-    FDataLink.UpdateAction(AAction){$ENDIF};
-end;
-
-procedure TFWDBSpinEdit.SetValue({$IFDEF FPC}const {$ENDIF}AValue: {$IFDEF FPC}Double{$ELSE}Extended{$ENDIF});
-begin
- if assigned ( FDataLink.Field )
- and ( FDataLink.Field.AsInteger <> AValue ) Then
-  Begin
-    FDataLink.Dataset.Edit ;
-    FDataLink.Field.Value := AValue ;
-  End ;
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
 end;
 
 
@@ -1582,4 +1445,4 @@ initialization
   p_ConcatVersion(gVer_framework_DBcomponents);
 {$ENDIF}
 end.
-
+
