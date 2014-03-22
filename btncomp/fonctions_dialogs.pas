@@ -69,7 +69,7 @@ uses u_form_msg,
 procedure doShowWorking(const sText:string;const Cancel:boolean=false);//AL
 begin
   if not Assigned(gF_Working) then
-    gF_Working:=TFWorking.create(nil);
+    gF_Working:=TFWorking.create(Application);
   gb_btnCancel:=False;
   gF_Working.doInit(sText,Cancel);
   gF_Working.Update;
@@ -85,7 +85,8 @@ end;
 
 procedure doCloseWorking;//AL
 begin
-  FreeAndNil(gF_Working);
+  // some problems at closing software on linux
+  FreeAndNil(gF_Working)
 end;
 
 
@@ -157,8 +158,5 @@ Begin
  end;
 end;
 
-initialization
-finalization
-  gF_Working.Free;
 end.
-
+
