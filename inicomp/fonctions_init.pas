@@ -870,12 +870,8 @@ initialization
   p_ConcatVersion ( gVer_fonctions_init );
 {$ENDIF}
 finalization
-  FIniRoot.Free;
-  FIniRoot := nil ;
-  FIniFile.Free;
-  FIniFile := nil ;
-  FSQLFile.Free;
-  FSQLFile := nil ;
-
+  FreeAndNil(FIniRoot);
+  FreeAndNil(FIniFile);
+  FreeAndNil(FSQLFile);
 end.
 
