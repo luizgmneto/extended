@@ -679,73 +679,80 @@ begin
 
 
   FImage:=TBitmap.Create;
-  if not FFlat then
-   begin
-
-    if enabled then
-
-     {$IFDEF FPC}
-    FImage.LoadFromLazarusResource( 'BLANK')
-    else
-    FImage.LoadFromLazarusResource( 'ENABLED');
-    end
-    else
-    begin
-     if enabled then
-      FImage.LoadFromLazarusResource( 'BLANKFLAT')
-     else
-      FImage.LoadFromLazarusResource( 'ENABLEDFLAT');
-
-     {$ELSE}
-      FGlyph.Handle := LoadBitmap(hInstance, 'Blank')
-     else
-      FGlyph.Handle := LoadBitmap(hInstance, 'Enabled');
-    end
-    else
+  try
+    if not FFlat then
      begin
+
       if enabled then
-       FGlyph.Handle := LoadBitmap(hInstance, 'BlankFlat')
+
+       {$IFDEF FPC}
+      FImage.LoadFromLazarusResource( 'BLANK')
       else
-       FGlyph.Handle := LoadBitmap(hInstance, 'EnabledFlat');
-    {$ENDIF}
-     end;
+      FImage.LoadFromLazarusResource( 'ENABLED');
+      end
+      else
+      begin
+       if enabled then
+        FImage.LoadFromLazarusResource( 'BLANKFLAT')
+       else
+        FImage.LoadFromLazarusResource( 'ENABLEDFLAT');
+
+       {$ELSE}
+        FGlyph.Handle := LoadBitmap(hInstance, 'Blank')
+       else
+        FGlyph.Handle := LoadBitmap(hInstance, 'Enabled');
+      end
+      else
+       begin
+        if enabled then
+         FGlyph.Handle := LoadBitmap(hInstance, 'BlankFlat')
+        else
+         FGlyph.Handle := LoadBitmap(hInstance, 'EnabledFlat');
+      {$ENDIF}
+       end;
 
 
 
-  {$IFDEF FPC}
-  FGlyph.Width:=FImage.Width;
-  FGlyph.Height:=FImage.Height;
-  FGlyph.Canvas.Brush.Color:=Color;
-  FGlyph.Canvas.FillRect(0,0,FImage.Width,FImage.Height);
-  TransColor := FImage.Canvas.Pixels[0, FImage.Height - 1];
-  Image := Rect(0, 0, FImage.Width, FImage.Height);
-  x:=(R.top+((R.bottom-R.top)-FImage.Height) div 2);
-  case FLeft of
-    taRightJustify:BitRect := Rect(R.Left+2, x , R.Left+2+FImage.width, x+FImage.height);
-    taLeftJustify:BitRect := Rect(R.right-18, x , R.right-18+FImage.width, x+FImage.height);
-    end;
-  {$ELSE}
-  TransColor := FGlyph.Canvas.Pixels[0, FGlyph.Height - 1];
-  Image := Rect(0, 0, FGlyph.Width, FGlyph.Height);
-  x:=(R.top+((R.bottom-R.top)-FGlyph.Height) div 2);
-  case FLeft of
-    taRightJustify:BitRect := Rect(R.Left+2, x , R.Left+2+FGlyph.width, x+FGlyph.height);
-    taLeftJustify:BitRect := Rect(R.right-18, x , R.right-18+FGlyph.width, x+FGlyph.height);
-    end;
-  {$ENDIF}
-  {$IFDEF PDJ_D2}
-  canvas.BrushCopy(Bitrect, FGlyph,Image, clFuchsia);
-  {$ELSE}
     {$IFDEF FPC}
-      FImage.TransparentColor:= TransColor;
-      FImage.TransparentMode:= tmAuto;
-      FGlyph.Canvas.Draw(0,0, FImage );
-      Canvas.Draw(Bitrect.Left,Bitrect.Top,FGlyph);
+    FGlyph.Width:=FImage.Width;
+    FGlyph.Height:=FImage.Height;
+    FGlyph.Canvas.Brush.Color:=Color;
+    FGlyph.Canvas.FillRect(0,0,FImage.Width,FImage.Height);
+    TransColor := FImage.Canvas.Pixels[0, FImage.Height - 1];
+    Image := Rect(0, 0, FImage.Width, FImage.Height);
+    x:=(R.top+((R.bottom-R.top)-FImage.Height) div 2);
+    case FLeft of
+      taRightJustify:BitRect := Rect(R.Left+2, x , R.Left+2+FImage.width, x+FImage.height);
+      taLeftJustify:BitRect := Rect(R.right-18, x , R.right-18+FImage.width, x+FImage.height);
+      end;
     {$ELSE}
-      canvas.BrushCopy(Bitrect, FGlyph,Image, TransColor);
+    TransColor := FGlyph.Canvas.Pixels[0, FGlyph.Height - 1];
+    Image := Rect(0, 0, FGlyph.Width, FGlyph.Height);
+    x:=(R.top+((R.bottom-R.top)-FGlyph.Height) div 2);
+    case FLeft of
+      taRightJustify:BitRect := Rect(R.Left+2, x , R.Left+2+FGlyph.width, x+FGlyph.height);
+      taLeftJustify:BitRect := Rect(R.right-18, x , R.right-18+FGlyph.width, x+FGlyph.height);
+      end;
     {$ENDIF}
-  {$ENDIF}
-
+    {$IFDEF PDJ_D2}
+    canvas.BrushCopy(Bitrect, FGlyph,Image, clFuchsia);
+    {$ELSE}
+      {$IFDEF FPC}
+        FImage.TransparentColor:= TransColor;
+        FImage.TransparentMode:= tmAuto;
+        FGlyph.Canvas.Draw(0,0, FImage );
+        Canvas.Draw(Bitrect.Left,Bitrect.Top,FGlyph);
+      {$ELSE}
+        canvas.BrushCopy(Bitrect, FGlyph,Image, TransColor);
+      {$ENDIF}
+    {$ENDIF}
+  finally
+    {$IFNDEF FPC}
+    FImage.dormant;
+    {$ENDIF}
+    FImage.FreeImage;
+    FImage.Destroy;
+  End;
 end;
 
 procedure TPCustomCheck.SetImageType(Value:TImageType);
