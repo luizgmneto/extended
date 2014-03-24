@@ -107,6 +107,7 @@ resourcestring
   gs_Confirmation = 'Confirmation';
   gs_Error = 'Erreur';
   gs_Please_Wait = 'Veuillez patienter…';
+  gs_Press_ctrl_c_to_copy_text = 'Appuyez sur Ctrl+C pour copier ce texte.';
   gs_Downloading_in_progress = 'Téléchargement de @ARG en cours…';
   gs_Download_update = 'Télécharger mise à jour';
   gs_Download_finished = 'Téléchargement terminé.';

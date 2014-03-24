@@ -916,7 +916,7 @@ begin
     end;
   Result:=copy(astring,apositionNonUTF8,AChar-@astring[1]+li_charlength);
   {$ELSE}
-  Result:=copy(astring,aposition,aLength);
+  Result:=copy(astring,apositionNonUTF8,aLengthNonUTF8);
   {$ENDIF}
 end;
 function fs_GetBeginingOfString ( const as_text, as_endingstring: string): string;

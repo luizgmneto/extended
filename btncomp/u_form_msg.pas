@@ -216,7 +216,7 @@ end;
 procedure TFMsg.KeyDown(var Key:Word;Shift:TShiftState);
 begin
   if (ssAlt in Shift)and(Key=VK_F4) then Key:=0;
-  if (ssCtrl in Shift)and(Key=VK_C) then Clipboard.AsText:=lbMsg.Caption;
+  if (ssCtrl in Shift)and(LowerCase(Chr(Key))='c') then Clipboard.AsText:=lbMsg.Caption;
   if key = VK_ESCAPE Then Close;
   Inherited;
 end;
