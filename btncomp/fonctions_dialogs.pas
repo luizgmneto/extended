@@ -29,9 +29,13 @@ const
 			                 UnitType : CST_TYPE_UNITE_FONCTIONS ;
 			                 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
 {$ENDIF}
+type TOnShowWorkingMessage = procedure ( const as_SQL: String ; const Cancel : Boolean );
+     TOnCloseWorkingMessage = procedure ();
+
+var ge_ShowWorkingMessage  : TOnShowWorkingMessage  = nil ;
+    ge_CloseWorkingMessage : TOnCloseWorkingMessage = nil ;
 
 procedure doShowWorking(const sText:string;const Cancel:boolean=false);//AL
-procedure doShowWorkingMessage(const sText:string);//MG
 procedure doCloseWorking;
 
 function MyShowMessage ( const Msg:string;
@@ -68,23 +72,25 @@ uses u_form_msg,
 
 procedure doShowWorking(const sText:string;const Cancel:boolean=false);//AL
 begin
+  if Assigned(ge_ShowWorkingMessage) Then
+    Begin
+      ge_ShowWorkingMessage(sText,Cancel);
+      Exit;
+    end;
   if not Assigned(gF_Working) then
     gF_Working:=TFWorking.create(Application);
   gb_btnCancel:=False;
   gF_Working.doInit(sText,Cancel);
   gF_Working.Update;
 end;
-procedure doShowWorkingMessage(const sText:string);//MG
-Begin
-  with gF_Working.PleaseWait do
-   Begin
-    Caption:=sText;
-    Visible:=True;
-   end;
-end;
 
 procedure doCloseWorking;//AL
 begin
+  if Assigned(ge_CloseWorkingMessage) Then
+    Begin
+      ge_CloseWorkingMessage();
+      Exit;
+    end;
   // some problems at closing software on linux
   FreeAndNil(gF_Working)
 end;
@@ -159,4 +165,4 @@ Begin
 end;
 
 end.
-
+

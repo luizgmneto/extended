@@ -69,7 +69,7 @@ implementation
 
 uses Forms,
   {$IFNDEF FPC}
-  fonctions_dbcomponents ,
+  unite_messages_delphi,fonctions_dbcomponents ,
   {$ENDIF}
 {$IFDEF DELPHI}
      OleDb,
