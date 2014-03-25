@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <Name Value="ExtCopy"/>
@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Release="2"/>
-    <Files Count="6">
+    <Files Count="7">
       <Item1>
         <Filename Value="copy/u_traducefile.pas"/>
         <UnitName Value="u_traducefile"/>
@@ -46,22 +46,32 @@
         <Filename Value="copy/unit_messagescopy.pas"/>
         <UnitName Value="unit_messagescopy"/>
       </Item6>
+      <Item7>
+        <Filename Value="copy/u_extfilecomp.pas"/>
+        <UnitName Value="u_extfilecomp"/>
+      </Item7>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="4">
+    <RequiredPkgs Count="6">
       <Item1>
-        <PackageName Value="VampyreImagingPackage"/>
+        <PackageName Value="lazextbuttons"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazextcore"/>
+        <PackageName Value="lazextcomponents"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="VampyreImagingPackage"/>
       </Item3>
       <Item4>
+        <PackageName Value="lazextcore"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="LCL"/>
+      </Item5>
+      <Item6>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item4>
+      </Item6>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

@@ -29,12 +29,12 @@ uses
 {$IFDEF FPC}
    LCLIntf, LCLType,
    SQLDB, lmessages,
-   dbdateedit,
 {$ELSE}
    Windows, Mask, DBTables, ActnMan,
 {$ENDIF}
 {$IFDEF RX}
   RxLookup, RxDBSpinEdit,
+  dbdateedit,
 {$ENDIF}
 {$IFDEF JEDI}
   JvDBLookup,jvDBUltimGrid, jvDBControls, JvDBDateTimePicker, JvDBSpinEdit,
@@ -252,7 +252,7 @@ type
 
     { TFWDBFileEdit }
 
-    TFWDBFileEdit = class ( TFWFileEdit, IFWComponent, IFWComponentEdit )
+    TFWDBFileEdit = class ( TFWFileEdit )
        private
           FReadOnly : Boolean;
           FBeforePopup : TPopUpMenuEvent;
@@ -261,13 +261,13 @@ type
           function GetDataField: string;
           function GetDataSource: TDataSource;
           function GetField: TField;
-          procedure SetDataField(const AValue: string);
-          procedure SetDataSource(AValue: TDataSource);
           procedure WMCut(var Message: TMessage); message {$IFDEF FPC} LM_CUT {$ELSE} WM_CUT {$ENDIF};
           procedure WMPaste(var Message: TMessage); message {$IFDEF FPC} LM_PASTE {$ELSE} WM_PASTE {$ENDIF};
           procedure CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF}); message CM_EXIT;
           procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
        protected
+          procedure SetDataSource(AValue: TDataSource); virtual;
+          procedure SetDataField(const AValue: string); virtual;
           procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
           procedure Change; override;
           procedure ActiveChange(Sender: TObject); virtual;
@@ -947,9 +947,7 @@ end;
 procedure TFWDBFileEdit.DataChange(Sender: TObject);
 begin
   if FDataLink.Field <> nil then
-    begin
-      filename := FDataLink.Field.AsString;
-    end;
+    filename := FDataLink.Field.AsString;
 end;
 
 
@@ -1019,10 +1017,7 @@ begin
  if assigned ( FDataLink )
  and assigned ( FDataLink.Field )
  and ( FDataLink.Field.AsString <> filename ) Then
-  Begin
-    FDataLink.Dataset.Edit ;
-    FDataLink.Field.AsString := filename ;
-  End ;
+   UpdateData(Self);
 end;
 
 { TFWDBDateEdit }
