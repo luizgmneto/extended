@@ -39,7 +39,7 @@ type
         procedure VerifyField;
      protected
         procedure SaveFile(const ADirectory: String); virtual;
-        procedure DeleteFile(const ADirectory: String); virtual;
+        procedure DeleteFile; virtual;
         procedure SetDataSource(AValue: TDataSource); override;
         procedure SetDataField(const AValue: string); override;
         procedure UpdateData(Sender: TObject); override;
@@ -68,8 +68,7 @@ uses FileUtil,
 
 procedure TExtDBFileEdit.SetFilesDir(const Avalue: String);
 begin
-  FFilesDir:=Avalue;
-  IncludeTrailingPathDelimiter(FFilesDir);
+  FFilesDir:=IncludeTrailingPathDelimiter(Avalue);
 end;
 
 procedure TExtDBFileEdit.SetFileField(const Avalue: String);
@@ -85,9 +84,8 @@ begin
   or (Avalue[1]<>DirectorySeparator)Then
    Exit;
   {$ENDIF}
-  FLocalDir:=ExtractFileDir(Avalue);
-  IncludeTrailingPathDelimiter(FLocalDir);
-  DeleteFile ( FFilesDir );
+  FLocalDir:=IncludeTrailingPathDelimiter(ExtractFileDir(Avalue));
+  DeleteFile;
   Field.AsString:=ExtractFileName(Avalue);
 end;
 
@@ -109,50 +107,51 @@ begin
   VerifyField;
 end;
 
-procedure TExtDBFileEdit.DeleteFile ( const ADirectory : String );
+procedure TExtDBFileEdit.DeleteFile;
 Begin
   with Field do
     if  (AsString>'')
-    and (FileExistsUTF8(ADirectory+AsString)) Then
-      DeleteFileUTF8(ADirectory+AsString);
+    and (FileExistsUTF8(FFilesDir+AsString)) Then
+      DeleteFileUTF8(FFilesDir+AsString);
 end;
 
 procedure TExtDBFileEdit.SaveFile ( const ADirectory : String );
 var ls_filePath,ls_file : String ;
     li_i : Integer;
 Begin
-  with Field do
-   Begin
-    ls_filePath := ADirectory+AsString;
-    fb_CreateDirectoryStructure(ADirectory);
-    if FileExistsUTF8(ls_filePath) Then
+  if FLocalDir > '' Then
+    with Field do
      Begin
-      if FileSize(ls_filePath) = FileSize(FLocalDir+AsString) Then
-        if MyShowMessage(GS_Files_seems_to_be_the_same_reuse,mbYesNo)=mrno Then
-         Begin
-          li_i := 1;
-          ls_file := AsString;
-          repeat
-            inc ( li_i );
-            ls_filePath:=ADirectory+ExtractFileNameWithoutExt(AsString)+IntToStr(li_i)+ExtractFileExt(AsString);
-          until not FileExistsUTF8(ls_filePath);
-          AsString:=ExtractFileNameWithoutExt(AsString)+IntToStr(li_i)+ExtractFileExt(AsString);
-          fb_CopyFile(FLocalDir+ls_file,FFilesDir+AsString,False);
-         end;
-     end
-    Else
-     fb_CopyFile(FLocalDir+ls_file,FFilesDir+AsString,False);
-   end;
+      ls_filePath := ADirectory+AsString;
+      fb_CreateDirectoryStructure(ADirectory);
+      if FileExistsUTF8(ls_filePath) Then
+       Begin
+        if FileSize(ls_filePath) = FileSize(FLocalDir+AsString) Then
+          if MyShowMessage(GS_Files_seems_to_be_the_same_reuse,mbYesNo)=mrno Then
+           Begin
+            li_i := 1;
+            ls_file := AsString;
+            repeat
+              inc ( li_i );
+              ls_filePath:=ADirectory+ExtractFileNameWithoutExt(AsString)+IntToStr(li_i)+ExtractFileExt(AsString);
+            until not FileExistsUTF8(ls_filePath);
+            AsString:=ExtractFileNameWithoutExt(AsString)+IntToStr(li_i)+ExtractFileExt(AsString);
+            fb_CopyFile(FLocalDir+ls_file,FFilesDir+AsString,False);
+           end;
+       end
+      Else
+       fb_CopyFile(FLocalDir+ls_file,FFilesDir+AsString,False);
+      Refresh;
+     end;
 
 end;
 
 procedure TExtDBFileEdit.UpdateData(Sender: TObject);
 begin
-  SetFileField ( Field.AsString );
+  SetFileField ( FileName );
   if FFilesDir > ''
-   Then SaveFile(FFilesDir )
+   Then SaveFile( FFilesDir )
    else MyShowMessage('FilesDir not set. Can not save on TExtDBFileEdit.');
-  inherited Change;
 end;
 
 {$IFDEF VERSIONS}
