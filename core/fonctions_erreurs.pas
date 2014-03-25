@@ -67,7 +67,7 @@ var gstl_CleEnDoubleErreurs : TStringlist = nil ;
 
 implementation
 
-uses Forms,
+uses
   {$IFNDEF FPC}
   unite_messages_delphi,fonctions_dbcomponents ,
   {$ENDIF}
@@ -77,7 +77,7 @@ uses Forms,
 {$IFDEF EADO}
      ADOInt, ComObj,
 {$ENDIF}
-     fonctions_string;
+     Forms;
 
 // gestion d'une exception delphi
 // aexc_exception : l'exception
@@ -88,18 +88,14 @@ Begin
   if assigned ( adat_Dataset )
 {$IFDEF EADO}
   and ( adat_Dataset is TCustomADODataset )  Then
-    Begin
-      // Exception avec dataset ado
-      Result := f_GereException ( aexc_exception, adat_Dataset,( adat_Dataset as TCustomADODataset ).Connection, False );
-    End
+    // Exception avec dataset ado
+    Result := f_GereException ( aexc_exception, adat_Dataset,( adat_Dataset as TCustomADODataset ).Connection, False )
   Else
 {$ELSE}
-         Then
+   Then
 {$ENDIF}
-    Begin
       // Exception sans dataset
       Result := f_GereException ( aexc_exception, nil, nil, False );
-    End
 End ;
 
 // gestion d'une exception delphi
@@ -114,16 +110,12 @@ Begin
 {$ENDIF}
   and not assigned ( ae_Evenement )  Then
 {$IFDEF EADO}
-    Begin
       // Exception avec dataset ado
       Result := f_GereException ( aexc_exception, adat_Dataset,( adat_Dataset as TCustomADODataset ).Connection, ab_PasseErreur )
-    End
   Else
 {$ENDIF}
-    Begin
-      // Exception sans dataset
-      Result := f_GereException ( aexc_exception, nil, nil, ab_PasseErreur );
-    End
+    // Exception sans dataset
+    Result := f_GereException ( aexc_exception, nil, nil, ab_PasseErreur );
 End ;
 
 function f_GereException ( const aexc_exception : Exception ; const adat_Dataset : TDataset ; const aaco_connecteur : TCustomConnection ; const ab_PasseErreur : Boolean ) : TClass;
@@ -162,12 +154,9 @@ Begin
       if  ( aaco_connecteur is TADOConnection ) and ( ( aaco_connecteur as TADOConnection ).Errors.Count > 0 ) Then
 //      and ( aexc_exception.HelpContext = aaco_connecteur.Errors [ aaco_connecteur.Errors.Count - 1 ].HelpContext ) Then
         Begin
-          if adat_Dataset is TCustomADODataSet Then
-            Begin
-              ls_Message := f_GereExceptionADO ( aaco_connecteur as TADOConnection, aexc_exception, adat_Dataset as TCustomADODataSet, Icone )
-            End
-          Else
-            ls_Message := f_GereExceptionADO (aaco_connecteur as TADOConnection , aexc_exception, nil, Icone );
+          if adat_Dataset is TCustomADODataSet
+          Then ls_Message := f_GereExceptionADO ( aaco_connecteur as TADOConnection, aexc_exception, adat_Dataset as TCustomADODataSet, Icone )
+          Else ls_Message := f_GereExceptionADO ( aaco_connecteur as TADOConnection, aexc_exception, nil, Icone );
           if ls_Message <> '' Then
             MessageDlg (  ls_Message, Icone, [mbOK], aexc_exception.HelpContext);
           gb_ShowError32 := True ;
@@ -201,9 +190,7 @@ Begin
         Begin
           Result := '' ;
           if gb_ShowError32 Then
-            Begin
               MessageDlg (  GS_METTRE_A_JOUR_FICHE, mtWarning, [mbOK], 0);
-            End ;
 
           if assigned ( gdat_DatasetRefreshOnError )
           and gdat_DatasetRefreshOnError.Active Then
