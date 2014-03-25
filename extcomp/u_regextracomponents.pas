@@ -21,7 +21,8 @@ procedure Register;
 
 implementation
 
-uses  {$IFDEF FPC}
+uses
+  {$IFDEF FPC}
   unite_messages,
   {$ELSE}
   unite_messages_delphi,

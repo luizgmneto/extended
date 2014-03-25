@@ -8,7 +8,7 @@ interface
 
 uses
   u_traducefile, U_ExtFileCopy, u_extabscopy, u_extractfile, fonctions_file, 
-  unit_messagescopy, LazarusPackageIntf;
+  unit_messagescopy, u_extfilecomp, LazarusPackageIntf;
 
 implementation
 

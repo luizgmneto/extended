@@ -36,25 +36,26 @@ implementation
 
 uses U_ExtFileCopy,
 {$IFDEF FPC}
-     ComponentEditors, dbpropedits, PropEdits, lresources,
+  ComponentEditors, dbpropedits, PropEdits, lresources,
 {$ELSE}
-     DBReg, Designintf,
+  DBReg, Designintf,
 {$ENDIF}
-     u_traducefile,
+  u_traducefile,
   {$IFDEF FPC}
   unite_messages,
   {$ELSE}
   unite_messages_delphi,
   {$ENDIF}
-
-     u_extractfile;
+  u_extractfile,
+  u_extfilecomp;
 
 {TExtFileCopy}
 
 
 procedure Register;
 begin
-  RegisterComponents ( CST_PALETTE_COMPOSANTS_INVISIBLE, [TExtFileCopy, TTraduceFile, TExtractFile]);
+  RegisterComponents ( CST_PALETTE_COMPOSANTS_INVISIBLE, [TExtractFile,TExtFileCopy, TTraduceFile]);
+  RegisterComponents ( CST_PALETTE_COMPOSANTS_DB, [TExtDBFileEdit]);
   RegisterPropertyEditor ( TypeInfo(string), TExtractFile, 'FieldName'   , {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
 
 end;
