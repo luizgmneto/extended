@@ -27,11 +27,11 @@ uses
   {$ELSE}
   unite_messages_delphi,
   {$ENDIF}
-{$IFDEF FPC}
-     ComponentEditors, dbpropedits, PropEdits,
-{$ELSE}
-     DBReg, Designintf,
-{$ENDIF}
+  {$IFDEF FPC}
+  ComponentEditors, dbpropedits, PropEdits,
+  {$ELSE}
+   DBReg, Designintf,
+  {$ENDIF}
   u_framework_components,
   u_framework_dbcomponents,
   U_ExtComboInsert;

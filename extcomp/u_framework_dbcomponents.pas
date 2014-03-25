@@ -266,6 +266,7 @@ type
           procedure CMExit(var Message: {$IFDEF FPC} TLMExit {$ELSE} TCMExit {$ENDIF}); message CM_EXIT;
           procedure CMGetDataLink(var Message: TMessage); message CM_GETDATALINK;
        protected
+          procedure Refresh; virtual;
           procedure SetDataSource(AValue: TDataSource); virtual;
           procedure SetDataField(const AValue: string); virtual;
           procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
@@ -936,18 +937,20 @@ begin
   Result := FDataLink.Field;
 end;
 
-procedure TFWDBFileEdit.ActiveChange(Sender: TObject);
+procedure TFWDBFileEdit.Refresh;
 begin
   if FDataLink.Field <> nil then
-    begin
-      filename := FDataLink.Field.AsString;
-    end;
+    filename := FDataLink.Field.AsString;
+end;
+
+procedure TFWDBFileEdit.ActiveChange(Sender: TObject);
+begin
+  Refresh;
 end;
 
 procedure TFWDBFileEdit.DataChange(Sender: TObject);
 begin
-  if FDataLink.Field <> nil then
-    filename := FDataLink.Field.AsString;
+  Refresh;
 end;
 
 
