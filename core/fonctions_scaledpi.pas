@@ -236,7 +236,8 @@ begin
 
     if assigned ( GetPropInfo ( Control, SCALE_NODE_HEIGHT )) Then
       SetPropValue(Control, SCALE_NODE_HEIGHT, Scale ( GetPropValue (Control, SCALE_NODE_HEIGHT ), ANewEchelle));
-    if assigned ( GetPropInfo ( Control, SPACING )) Then
+    if assigned ( GetPropInfo ( Control, SPACING ))
+    and ( PropType(Control,SPACING) in [tkInteger,tkQWord,tkInt64] ) Then
      Begin
       I := Scale ( GetPropValue (Control, SPACING ), ANewEchelle);
       if i < 0
@@ -247,8 +248,9 @@ begin
         end;
      end;
     if assigned ( GetPropInfo ( Control, SCALE_GLYPH_SIZE ))
-    and ( PropIsType(Control,SCALE_GLYPH_SIZE,tkInteger) ) Then
+    and ( PropType(Control,SCALE_GLYPH_SIZE) in [tkInteger,tkQWord,tkInt64] ) Then
       SetPropValue(Control, SCALE_GLYPH_SIZE, Scale ( GetPropValue (Control, SCALE_GLYPH_SIZE ), ANewEchelle));
+
     if ( Control is TCustomGrid )
     and assigned ( GetPropInfo ( Control, CST_PROPERTY_COLUMNS )) Then
      Begin

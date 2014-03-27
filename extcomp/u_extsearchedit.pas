@@ -42,7 +42,8 @@ const
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '1.0.1.3 : Popup not erasing bug.'
+                                          BugsStory : '1.0.1.4 : MyLabel unset correctly.'
+                                                    + '1.0.1.3 : Popup not erasing bug.'
                                                     + '1.0.1.2 : Testing on LAZARUS.'
                                                     + '1.0.1.1 : Delphi compatible.'
                                                     + '1.0.1.0 : Simple Edit capability on Lazarus Only.'
@@ -53,7 +54,7 @@ const
                                                     + '0.9.0.1 : Not tested, compiling on DELPHI.'
                                                     + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 1 ; Minor : 0 ; Release : 1 ; Build : 3 );
+                                          Major : 1 ; Minor : 0 ; Release : 1 ; Build : 4 );
 
 {$ENDIF}
   SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
@@ -85,7 +86,7 @@ type
     FOnLocate ,
     FOnSet ,
     FBeforeEnter, FAfterExit : TNotifyEvent;
-    FLabel : TFWLabel;
+    FLabel : TLabel;
     FOldColor ,
     FColorFocus ,
     FColorReadOnly,
@@ -107,7 +108,7 @@ type
     function fs_getSearchDisplay : String ;
     procedure p_setSearchSource ( AValue : TDataSource );
     function fs_getSearchSource : TDataSource ;
-    procedure p_setLabel ( const alab_Label : TFWLabel );
+    procedure p_setLabel ( const alab_Label: TLabel );
     procedure ShowPopup;
     procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
     procedure WMSize(var Message: {$IFDEF FPC}TLMSize{$ELSE}TWMSize{$ENDIF}); message {$IFDEF FPC}LM_SIZE{$ELSE}WM_SIZE{$ENDIF};
@@ -148,7 +149,7 @@ type
     property ColorFocus : TColor read FColorFocus write FColorFocus default CST_EDIT_SELECT ;
     property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
     property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
-    property MyLabel : TFWLabel read FLabel write p_setLabel;
+    property MyLabel : TLabel read FLabel write p_setLabel;
     property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
     property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
     property OnSet : TNotifyEvent read FOnSet write FOnSet;
@@ -159,7 +160,10 @@ type
 
 implementation
 
-uses Dialogs, fonctions_db, sysutils;
+uses Dialogs,
+     fonctions_db,
+     fonctions_components,
+     sysutils;
 
 
 { TListPopup }
@@ -257,13 +261,9 @@ end;
 // procedure TExtSearchDBEdit.p_setLabel
 // Linked label property setting
 // The Label changes its color on focusing
-procedure TExtSearchDBEdit.p_setLabel(const alab_Label: TFWLabel);
+procedure TExtSearchDBEdit.p_setLabel(const alab_Label: TLabel);
 begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      FLabel.MyEdit := Self;
-    End;
+  p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
 // procedure TExtSearchDBEdit.WMPaint

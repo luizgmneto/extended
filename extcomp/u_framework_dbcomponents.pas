@@ -50,6 +50,7 @@ uses
    TntStdCtrls, TntDBCtrls,
 {$ENDIF}
   fonctions_erreurs, DB, Messages,
+  StdCtrls,
   u_framework_components;
 
 {$IFDEF VERSIONS}
@@ -58,7 +59,8 @@ const
                                                FileUnit : 'u_framework_dbcomponents' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'U_CustomFrameWork Data interactivity.' ;
-                                               BugsStory : '0.9.0.6 : FWDBSpinEdit working.'
+                                               BugsStory : '0.9.9.0 : MyLabel unset correctly.'
+                                                         + '0.9.0.6 : FWDBSpinEdit working.'
                                                          + '0.9.0.5 : UTF 8.'
                                                          + '0.9.0.4 : Added FWDBCombobox.'
                                                          + '0.9.0.3 : Using RXLookupCombo on FPC.'
@@ -66,7 +68,7 @@ const
                                                          + '0.9.0.1 : FWDBGrid tested on Delphi, with Controls on Columns.'
                                                          + '0.9.0.0 : Création à partir de u_framework_components.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 6 );
+                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
 
 {$ENDIF}
 type
@@ -76,7 +78,7 @@ type
    TFWDBEdit = class ( {$IFDEF TNT}TTntDBEdit{$ELSE}TDBEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
-       FLabel : TFWLabel ;
+       FLabel : TLabel ;
        FOldColor ,
        FColorFocus ,
        FColorReadOnly,
@@ -86,7 +88,7 @@ type
        FOnPopup : TNotifyEvent;
        FAlwaysSame : Boolean;
        FNotifyOrder : TNotifyEvent;
-       procedure p_setLabel ( const alab_Label : TFWLabel );
+       procedure p_setLabel ( const alab_Label: TLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
@@ -106,7 +108,7 @@ type
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
        property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
        property Color stored False ;
-       property MyLabel : TFWLabel read FLabel write p_setLabel;
+       property MyLabel : TLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
@@ -121,7 +123,7 @@ type
    TFWDBDateEdit = class ( {$IFDEF FPC}TDBDateEdit{$ELSE}TJvDBDateEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
-       FLabel : TFWLabel ;
+       FLabel: TLabel ;
        FOldColor ,
        FColorFocus ,
        FColorReadOnly,
@@ -131,7 +133,7 @@ type
        FNotifyOrder : TNotifyEvent;
        FBeforePopup : TPopUpMenuEvent;
        FOnPopup : TNotifyEvent;
-       procedure p_setLabel ( const alab_Label : TFWLabel );
+       procedure p_setLabel ( const alab_Label: TLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
@@ -151,7 +153,7 @@ type
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
        property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
        property Color stored False ;
-       property MyLabel : TFWLabel read FLabel write p_setLabel;
+       property MyLabel : TLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
@@ -211,7 +213,7 @@ type
          property ReadOnly: Boolean read GetReadOnly write SetReadOnly default false;
        {$ELSE}
        FBeforeEnter, FBeforeExit : TNotifyEvent;
-       FLabel : TFWLabel ;
+       FLabel: TLabel ;
        FOldColor ,
        FColorFocus ,
        FColorReadOnly,
@@ -219,7 +221,7 @@ type
        FColorLabel : TColor;
        FAlwaysSame : Boolean;
        FNotifyOrder : TNotifyEvent;
-       procedure p_setLabel ( const alab_Label : TFWLabel );
+       procedure p_setLabel ( const alab_Label: TLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
        procedure WMRButtonDown(var Msg: TWMRButtonDown); message WM_RBUTTONDOWN;
       protected
@@ -239,7 +241,7 @@ type
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
        property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
        property Color stored False ;
-       property MyLabel : TFWLabel read FLabel write p_setLabel;
+       property MyLabel : TLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
        {$ENDIF}
@@ -300,7 +302,7 @@ type
    TFWDBLookupCombo = class ( {$IFDEF JEDI}TJvDBLookupCombo{$ELSE}{$IFDEF RX}TRxDBLookupCombo{$ELSE}TLookupComboBox{$ENDIF}{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
-       FLabel : TFWLabel ;
+       FLabel: TLabel ;
        FOldColor ,
        FColorReadOnly,
        FColorFocus ,
@@ -310,7 +312,7 @@ type
        FNotifyOrder : TNotifyEvent;
        FBeforePopup : TPopUpMenuEvent;
        FOnPopup : TNotifyEvent;
-       procedure p_setLabel ( const alab_Label : TFWLabel );
+       procedure p_setLabel ( const alab_Label: TLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
        {$IFDEF FPC}
        function GetField:TField ;
@@ -336,7 +338,7 @@ type
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
        property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
        property Color stored False ;
-       property MyLabel : TFWLabel read FLabel write p_setLabel;
+       property MyLabel : TLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
@@ -350,7 +352,7 @@ type
    TFWDBComboBox = class ( TDBComboBox, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
-       FLabel : TFWLabel ;
+       FLabel: TLabel ;
        FOldColor ,
        FColorReadOnly,
        FColorFocus ,
@@ -360,7 +362,7 @@ type
        FNotifyOrder : TNotifyEvent;
        FBeforePopup : TPopUpMenuEvent;
        FOnPopup : TNotifyEvent;
-       procedure p_setLabel ( const alab_Label : TFWLabel );
+       procedure p_setLabel ( const alab_Label: TLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
@@ -380,7 +382,7 @@ type
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
        property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
        property Color stored False ;
-       property MyLabel : TFWLabel read FLabel write p_setLabel;
+       property MyLabel : TLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
@@ -395,7 +397,7 @@ type
    TFWDBMemo = class ( TDBMemo, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
-       FLabel : TFWLabel ;
+       FLabel: TLabel ;
        FOldColor ,
        FColorFocus ,
        FColorReadOnly,
@@ -405,7 +407,7 @@ type
        FNotifyOrder : TNotifyEvent;
        FBeforePopup : TPopUpMenuEvent;
        FOnPopup : TNotifyEvent;
-       procedure p_setLabel ( const alab_Label : TFWLabel );
+       procedure p_setLabel ( const alab_Label: TLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       protected
        procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
@@ -425,7 +427,7 @@ type
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
        property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
        property Color stored False ;
-       property MyLabel : TFWLabel read FLabel write p_setLabel;
+       property MyLabel : TLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
@@ -441,7 +443,7 @@ type
      TFWDBSpinEdit = class ( {$IFDEF FPC}TRxDBSpinEdit{$ELSE}TJvDBSpinEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
          private
           FBeforeEnter, FBeforeExit : TNotifyEvent;
-          FLabel : TFWLabel ;
+          FLabel: TLabel ;
           FOldColor ,
           FColorFocus ,
           FColorReadOnly,
@@ -451,7 +453,7 @@ type
           FNotifyOrder : TNotifyEvent;
           FBeforePopup : TPopUpMenuEvent;
           FOnPopup : TNotifyEvent;
-          procedure p_setLabel ( const alab_Label : TFWLabel );
+          procedure p_setLabel ( const alab_Label: TLabel );
           procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
         protected
           procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
@@ -470,7 +472,7 @@ type
           property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
           property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
           property Color stored False ;
-          property MyLabel : TFWLabel read FLabel write p_setLabel;
+          property MyLabel : TLabel read FLabel write p_setLabel;
           property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
           property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
           property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
@@ -482,17 +484,13 @@ type
 
 implementation
 
-
+uses fonctions_components;
 
 { TFWDBEdit }
 
-procedure TFWDBEdit.p_setLabel(const alab_Label: TFWLabel);
+procedure TFWDBEdit.p_setLabel(const alab_Label: TLabel);
 begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      FLabel.MyEdit := Self;
-    End;
+  p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
 procedure TFWDBEdit.SetOrder;
@@ -782,11 +780,7 @@ end;
 
 procedure TFWDBDateTimePicker.p_setLabel(const alab_Label: TFWLabel);
 begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      FLabel.MyEdit := Self;
-    End;
+  p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
 procedure TFWDBDateTimePicker.SetOrder;
@@ -1025,13 +1019,9 @@ end;
 
 { TFWDBDateEdit }
 
-procedure TFWDBDateEdit.p_setLabel(const alab_Label: TFWLabel);
+procedure TFWDBDateEdit.p_setLabel(const alab_Label: TLabel);
 begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      FLabel.MyEdit := Self;
-    End;
+  p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
 procedure TFWDBDateEdit.SetOrder;
@@ -1106,13 +1096,9 @@ end;
 
 { TFWDBLookupCombo }
 
-procedure TFWDBLookupCombo.p_setLabel(const alab_Label: TFWLabel);
+procedure TFWDBLookupCombo.p_setLabel(const alab_Label: TLabel);
 begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      FLabel.MyEdit := Self;
-    End;
+  p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
 procedure TFWDBLookupCombo.SetOrder;
@@ -1194,13 +1180,9 @@ end;
 
 { TFWDBComboBox }
 
-procedure TFWDBComboBox.p_setLabel(const alab_Label: TFWLabel);
+procedure TFWDBComboBox.p_setLabel(const alab_Label: TLabel);
 begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      FLabel.MyEdit := Self;
-    End;
+  p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
 procedure TFWDBComboBox.SetOrder;
@@ -1276,13 +1258,9 @@ end;
 
 { TFWDBMemo }
 
-procedure TFWDBMemo.p_setLabel(const alab_Label: TFWLabel);
+procedure TFWDBMemo.p_setLabel(const alab_Label: TLabel);
 begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      FLabel.MyEdit := Self;
-    End;
+  p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
 procedure TFWDBMemo.SetOrder;
@@ -1356,13 +1334,9 @@ end;
 
 { TFWDBSpinEdit }
 
-procedure TFWDBSpinEdit.p_setLabel(const alab_Label: TFWLabel);
+procedure TFWDBSpinEdit.p_setLabel(const alab_Label: TLabel);
 begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      FLabel.MyEdit := Self;
-    End;
+  p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
 procedure TFWDBSpinEdit.SetOrder;

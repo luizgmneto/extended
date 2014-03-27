@@ -82,12 +82,13 @@ type
     TFWButton = class ( TFWXPButton )
     private
       FGlyphSize: Integer;
+      procedure SetGlyphSize ( Avalue : Integer );
       public
        constructor Create ( AOwner : TComponent ) ; override;
        procedure Loaded; override;
       published
        property Glyph stored False;
-       property GlyphSize : Integer read FGlyphSize write FGlyphSize default 24;
+       property GlyphSize : Integer read FGlyphSize write SetGlyphSize default 24;
        property Height default 26;
        property Width default 80;
      End;
@@ -269,6 +270,16 @@ begin
 end;
 
 { TFWButton }
+
+procedure TFWButton.SetGlyphSize(Avalue: Integer);
+begin
+  if Avalue <> FGlyphSize Then
+   Begin
+     FGlyphSize:=Avalue;
+     if Assigned(Parent) Then
+       AdaptGlyph(FGlyphSize);
+   end;
+end;
 
 constructor TFWButton.Create(AOwner: TComponent);
 begin

@@ -33,6 +33,7 @@ uses Variants, Controls, Classes,
   {$ENDIF}
     u_framework_dbcomponents,
     u_framework_components,
+    StdCtrls,
     u_extcomponent;
 
 {$IFDEF VERSIONS}
@@ -41,7 +42,8 @@ uses Variants, Controls, Classes,
                                                FileUnit : 'U_DBComboBoxInsert' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Insertion automatique dans une DBComboLookupEdit.' ;
-                                               BugsStory : '1.0.1.4 : Better component testing.' +#13#10
+                                               BugsStory : '1.0.1.5 : MyLabel unset correctly.' +#13#10
+                                                         + '1.0.1.4 : Better component testing.' +#13#10
                                                          + '1.0.1.3 : Compiling on lazarus.' +#13#10
                                                          + '1.0.1.2 : Bug validation au post.' +#13#10
                                                          + '1.0.1.1 : Bug rafraîchissement quand pas de focus.' +#13#10
@@ -49,7 +51,7 @@ uses Variants, Controls, Classes,
                                                          + '1.0.0.0 : Version bêta inadaptée, réutilisation du code de la TJvDBLookupComboEdit.' +#13#10
                                                          + '0.9.0.0 : En place à tester.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 4 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 5 );
 
 {$ENDIF}
 type
@@ -81,7 +83,7 @@ type
 
     //look
     FBeforeEnter, FBeforeExit : TNotifyEvent;
-    FLabel : TFWLabel ;
+    FLabel : TLabel ;
     FOldColor ,
     FColorReadOnly,
     FColorFocus ,
@@ -97,7 +99,7 @@ type
     {$ENDIF}
     procedure SetSearchSource(Value: TDataSource);
     procedure WMPaint(var Msg: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF} ); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
-    procedure p_setLabel ( const alab_Label : TFWLabel );
+    procedure p_setLabel ( const alab_Label: TLabel );
   protected
     OldText : String ;
     OldSelStart : Integer;
@@ -141,7 +143,7 @@ type
     property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
     property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
     property Color stored False ;
-    property MyLabel : TFWLabel read FLabel write p_setLabel;
+    property MyLabel : TLabel read FLabel write p_setLabel;
     property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
     property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
     property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
@@ -163,13 +165,14 @@ type
 implementation
 
 uses
-  SysUtils, Forms, StdCtrls, fonctions_erreurs,
+  SysUtils, Forms, fonctions_erreurs,
   {$IFDEF FPC}
   LCLProc,
   {$ELSE}
   JvConsts, JvToolEdit,
   {$ENDIF}
- fonctions_db;
+  fonctions_components,
+  fonctions_db;
 
 { TExtDBComboInsert }
 
@@ -203,13 +206,9 @@ begin
   FColorReadOnly := CST_EDIT_READ;
 end;
 
-procedure TExtDBComboInsert.p_setLabel(const alab_Label: TFWLabel);
+procedure TExtDBComboInsert.p_setLabel(const alab_Label: TLabel);
 begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      FLabel.MyEdit := Self;
-    End;
+  p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
 procedure TExtDBComboInsert.SetOrder;

@@ -45,12 +45,13 @@ const
                                                FileUnit : 'U_ExtPictCombo' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Choisir une image dans une liste.' ;
-                                               BugsStory : '0.9.9.1 : Tested more.' + #13#10 +
+                                               BugsStory : '1.0.0.0 : MyLabel unset correctly.' + #13#10 +
+                                                           '0.9.9.1 : Tested more.' + #13#10 +
                                                            '0.9.9.0 : Tested more.' + #13#10 +
                                                            '0.9.0.0 : Tested and optimised.' + #13#10 +
                                                            '0.8.0.0 : Not tested.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 1 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 
 
 {$ENDIF}
@@ -76,7 +77,7 @@ type
       FValue : String;
       procedure p_SetImages ( const Value : TCustomImageList );
       procedure p_SetImagesMap ( const Value : TExtMapImages );
-      procedure p_setLabel ( const alab_Label : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} );
+      procedure p_setLabel ( const alab_Label : TLabel);
       procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       procedure CNCommand(var TheMessage: {$IFDEF FPC}TLMCommand{$ELSE}TWMCommand{$ENDIF}); message {$IFDEF FPC}CN_COMMAND{$ELSE}WM_COMMAND{$ENDIF};
     protected
@@ -177,7 +178,9 @@ type
 
 implementation
 
-uses fonctions_proprietes, fonctions_images;
+uses fonctions_proprietes,
+     fonctions_components,
+     fonctions_images;
 
 
 { TExtPictCombo }
@@ -209,13 +212,9 @@ begin
   FImages:= Value;
 end;
 
-procedure TExtPictCombo.p_setLabel(const alab_Label: {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF});
+procedure TExtPictCombo.p_setLabel(const alab_Label: TLabel);
 begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      p_SetComponentObjectProperty ( FLabel, 'MyEdit', Self );
-    End;
+  p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
 function TExtPictCombo.GetReadOnly: Boolean;
