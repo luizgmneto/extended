@@ -249,7 +249,10 @@ procedure TExtDBDirectoryEdit.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
-  if (Operation = opRemove) and (FDataLink <> nil) and
+  if Operation <> opRemove Then
+    Exit;
+  if AComponent = FLabel     then FLabel := nil;
+  if (FDataLink <> nil) and
     (AComponent = DataSource) then DataSource := nil;
 end;
 

@@ -115,6 +115,7 @@ type
     procedure WMSetFocus(var Message: {$IFDEF FPC}TLMSetFocus{$ELSE}TWMSetFocus{$ENDIF}); message {$IFDEF FPC}LM_SETFOCUS{$ELSE}WM_SETFOCUS{$ENDIF};
     procedure WMKillFocus(var Message: {$IFDEF FPC}TLMKillFocus{$ELSE}TWMKillFocus{$ENDIF}); message {$IFDEF FPC}LM_KILLFOCUS{$ELSE}WM_KILLFOCUS{$ENDIF};
   protected
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure CreatePopup; virtual;
     procedure FreePopup; virtual;
@@ -291,6 +292,15 @@ procedure TExtSearchDBEdit.WMKillFocus(var Message: {$IFDEF FPC}TLMKillFocus{$EL
 begin
   if Assigned(DataSource) Then
     Inherited;
+end;
+
+procedure TExtSearchDBEdit.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
 end;
 
 procedure TExtSearchDBEdit.ShowPopup;
