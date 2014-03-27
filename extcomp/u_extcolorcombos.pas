@@ -45,11 +45,12 @@ const
                                                FileUnit : 'U_ExtColorCombo' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Choisir une couleur dans une liste ou avec la palette de couleurs.' ;
-                                               BugsStory : '1.0.1.1 : Better items'' dimension, correct inherit.' + #13#10 +
+                                               BugsStory : '1.0.1.2 : MyLabel unset correctly.' + #13#10 +
+                                                           '1.0.1.1 : Better items'' dimension, correct inherit.' + #13#10 +
                                                            '1.0.1.0 : Bug du re-focus enlevé, propriétés Combo.' + #13#10 +
                                                            '1.0.0.0 : OK.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
     gVer_TDBColorCombo : T_Version = ( Component : 'Composant TExtDBColorCombo' ;
                                                FileUnit : 'U_ExtColorCombo' ;
                                                Owner : 'Matthieu Giroux' ;
@@ -94,7 +95,7 @@ type
       ColorDlg: TColorDialog;
     private
       FBeforeEnter, FBeforeExit : TNotifyEvent;
-      FLabel : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} ;
+      FLabel : TLabel ;
       FOldColor ,
       FColorFocus ,
       FColorReadOnly,
@@ -106,7 +107,7 @@ type
       FColorValue : TColor;
       FHTMLColor: shortstring;
       procedure SetHTMLColor(Value: shortstring);
-      procedure p_setLabel ( const alab_Label : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF} );
+      procedure p_setLabel ( const alab_Label : TLabel );
       procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
       procedure WMLButtonDown(var Message: {$IFDEF FPC}TLMLButtonDown{$ELSE}TWMLButtonDown{$ENDIF}); message {$IFDEF FPC}LM_LBUTTONDOWN{$ELSE}WM_LBUTTONDOWN{$ENDIF};
       procedure WMRButtonDown(var Message: {$IFDEF FPC}TLMRButtonDown{$ELSE}TWMRButtonDown{$ENDIF}); message {$IFDEF FPC}LM_RBUTTONDOWN{$ELSE}WM_RBUTTONDOWN{$ENDIF};
@@ -250,7 +251,9 @@ type
 
 implementation
 
-uses fonctions_proprietes, fonctions_languages;
+uses fonctions_proprietes,
+     fonctions_components,
+     fonctions_languages;
 
 const
   CST_COLOR_COMBO_LastDefinedColor = 19;
@@ -311,13 +314,9 @@ Begin
 End;
 
 
-procedure TExtColorCombo.p_setLabel(const alab_Label: {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF});
+procedure TExtColorCombo.p_setLabel(const alab_Label: TLabel);
 begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      p_SetComponentObjectProperty ( FLabel, 'MyEdit', Self );
-    End;
+ p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
 function TExtColorCombo.GetReadOnly: Boolean;

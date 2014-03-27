@@ -56,11 +56,12 @@ type
     FScale:Extended;
     FOldCreate : TNotifyEvent;
     procedure FormAdaptCreate(AForm: TObject);
+  protected
+    procedure DoShow; override;
   public
     { Déclarations publiques }
     // Constructeur et destructeur
     constructor Create(AOwner: TComponent); override;
-    procedure DoShow; override;
     property Scale : Extended read FScale;
   end;
 

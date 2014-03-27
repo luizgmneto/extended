@@ -23,12 +23,13 @@ const
                                          FileUnit : 'fonctions_components' ;
       			                 Owner : 'Matthieu Giroux' ;
       			                 Comment : 'Fonctions de gestion des composants visuels.' ;
-      			                 BugsStory : 'Version 1.0.3.0 : Menu cloning.'+#10
+      			                 BugsStory : 'Version 1.0.4.0 : Centralizing setting MyLabel.'+#10
+                                                   + 'Version 1.0.3.0 : Menu cloning.'+#10
                                                    + 'Version 1.0.2.0 : CSV and HTML Grid''s Export.'+#10
                                                    + 'Version 1.0.1.0 : Auto combo init.'+#10
                                                    + 'Version 1.0.0.0 : Ajout de fonctions d''automatisation.';
       			                 UnitType : 1 ;
-      			                 Major : 1 ; Minor : 0 ; Release : 3 ; Build : 0 );
+      			                 Major : 1 ; Minor : 0 ; Release : 4 ; Build : 0 );
 
   {$ENDIF}
 
@@ -44,13 +45,23 @@ procedure ExportGridTo ( const AFieldMethod : TFieldMethod; const Afile : TStrin
 function fcom_CloneObject  ( const acom_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
 function fcon_CloneControl ( const acon_AControl : TControl  ; const AOwner : TComponent ) : TControl;
 function fmi_CloneMenuItem ( const AMenuItem : TMenuItem; const amenuDestination : TMenu ): TMenuItem ;
-
+procedure p_setMyLabel ( var Flabel : TLabel; const ALabel :  TLabel; const AOwner : TComponent);
 
 implementation
 
 uses fonctions_string,
   fonctions_proprietes,
   fonctions_languages;
+
+procedure p_setMyLabel ( var Flabel : TLabel; const ALabel :  TLabel; const AOwner : TComponent);
+Begin
+  if ALabel <> FLabel Then
+    Begin
+      FLabel := ALabel;
+      if Assigned(FLabel) Then
+        p_SetComponentObjectProperty ( FLabel, 'MyEdit', AOwner );
+    End;
+end;
 
 function fmi_CloneMenuItem ( const AMenuItem : TMenuItem; const amenuDestination : TMenu ): TMenuItem ;
 Begin

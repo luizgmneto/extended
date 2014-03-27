@@ -16,6 +16,7 @@ uses
   SysUtils, DB,
   DbCtrls, Graphics,
   u_extcomponent,
+  StdCtrls,
   u_framework_components;
 
 
@@ -25,10 +26,11 @@ const
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory :'0.9.9.0 : Testing and adding dev image.' + #13#10
+                                          BugsStory :'1.0.0.0 : MyLabel unset correctly.' + #13#10
+                                                    +'0.9.9.0 : Testing and adding dev image.' + #13#10
                                                     +'0.9.0.0 : Creating ExtDBDierectoryEdit.';
                                           UnitType : 3 ;
-                                          Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
+                                          Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
 
@@ -40,7 +42,7 @@ type
 
   private
     FBeforeEnter, FBeforeExit : TNotifyEvent;
-    FLabel : TFWLabel ;
+    FLabel : TLabel ;
     FOldColor ,
     FColorFocus ,
     FColorReadOnly,
@@ -50,7 +52,7 @@ type
     FNotifyOrder : TNotifyEvent;
     FReadOnly:boolean;
     FDataLink: TFieldDataLink;
-    procedure p_setLabel ( const alab_Label : TFWLabel );
+    procedure p_setLabel ( const alab_Label: TLabel );
     procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
     function GetDataField: string;
     function GetDataSource: TDataSource;
@@ -81,7 +83,7 @@ type
     property ColorEdit : TColor read FColorEdit write FColorEdit default CST_EDIT_STD ;
     property ColorReadOnly : TColor read FColorReadOnly write FColorReadOnly default CST_EDIT_READ ;
     property Color stored False ;
-    property MyLabel : TFWLabel read FLabel write p_setLabel;
+    property MyLabel : TLabel read FLabel write p_setLabel;
     property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
     property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
     property DataField: string read GetDataField write SetDataField;
@@ -91,18 +93,15 @@ type
 
 implementation
 
-uses fonctions_db;
+uses fonctions_db,
+     fonctions_components;
 
 { TExtDBDirectoryEdit }
 
 
-procedure TExtDBDirectoryEdit.p_setLabel(const alab_Label: TFWLabel);
+procedure TExtDBDirectoryEdit.p_setLabel(const alab_Label: TLabel);
 begin
-  if alab_Label <> FLabel Then
-    Begin
-      FLabel := alab_Label;
-      FLabel.MyEdit := Self;
-    End;
+  p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
 procedure TExtDBDirectoryEdit.SetOrder;
