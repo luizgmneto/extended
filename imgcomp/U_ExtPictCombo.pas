@@ -232,8 +232,11 @@ procedure TExtPictCombo.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
-  if (Operation = opRemove) and (AComponent = FMapImages) then FMapImages := nil;
-  if (Operation = opRemove) and (AComponent = FImages) then FImages := nil;
+  if Operation <> opRemove Then
+    Exit;
+  if AComponent = FLabel     then FLabel := nil;
+  if AComponent = FMapImages then FMapImages := nil;
+  if AComponent = FImages    then FImages := nil;
 end;
 
 procedure TExtPictCombo.DoEnter;

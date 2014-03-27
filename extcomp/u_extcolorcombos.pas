@@ -90,6 +90,8 @@ resourcestring
 
 type
 
+  { TExtColorCombo }
+
   TExtColorCombo = class(TCustomComboBox, IFWComponent, IFWComponentEdit)
     { Private declarations }
       ColorDlg: TColorDialog;
@@ -116,6 +118,7 @@ type
     protected
     { Protected declarations }
       Function WebColor(const AColor:TColor): String;
+      procedure Notification(AComponent: TComponent; Operation: TOperation); override;
       procedure p_SetColorValue(const AColor: TColor); virtual ;
       procedure MouseDown(Button: TMouseButton;
         Shift: TShiftState; X, Y: Integer); override;
@@ -472,11 +475,20 @@ begin
     end;
 end;
 
-Function TExtColorCombo.WebColor(const AColor:TColor): String;
+function TExtColorCombo.WebColor(const AColor: TColor): String;
 var
      Temp: String;
 begin
  Result := '#'+IntToHex(ColorToRGB(AColor),6);
+end;
+
+procedure TExtColorCombo.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if  ( Operation  = opRemove )
+  and ( AComponent = FLabel   )
+   Then FLabel := nil;
 end;
 
 procedure TExtColorCombo.SetHTMLColor(Value: shortstring);
