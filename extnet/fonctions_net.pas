@@ -98,7 +98,7 @@ function fi64_VersionExeInt64:Int64;
 begin
   // Matthieu Pas de version, c'est sur DELPHI
 //    GetFileBuildInfo(NomFic,V1,V2,V3,V4);
-  result:=(int64(gr_ExeVersion [ 0 ]) shl 48);
+  //result:=(int64(gr_ExeVersion [ 0 ]) shl 48);
   result:=int64(gr_ExeVersion [ 3 ])or(int64(gr_ExeVersion [ 2 ]) shl 16)or(int64(gr_ExeVersion [ 1 ]) shl 32)or(int64(gr_ExeVersion [ 0 ]) shl 48);
 end;
 
