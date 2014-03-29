@@ -76,7 +76,7 @@ begin
   FLocalDir:='';
   {$IFDEF WINDOWS}
   if (length(Avalue)<4)
-  or (Avalue[2]<>':')Then
+  or (Avalue[2]<>':')
   or (Avalue[3]<>DirectorySeparator)Then
    Exit;
   {$ELSE}
