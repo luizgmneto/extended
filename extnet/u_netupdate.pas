@@ -46,12 +46,13 @@ const
     FileUnit: 'U_NetUpdate';
     Owner: 'Matthieu Giroux';
     Comment: 'Net File Download.';
-    BugsStory: '1.0.1.0 : For Indy.'+#10+
+    BugsStory: '1.0.1.1 : Testing ini.'+#10+
+               '1.0.1.0 : For Indy.'+#10+
                '1.0.0.0 : Tested ok.'+#10+
                '0.9.0.0 : Updating ok.';
     UnitType: 3;
     Major: 1; Minor: 0;
-    Release: 1; Build: 0);
+    Release: 1; Build: 1);
 
 
 {$ENDIF}
