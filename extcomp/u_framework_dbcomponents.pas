@@ -116,6 +116,7 @@ type
        property OnMouseEnter;
        property OnMouseLeave;
        property PopupMenu;
+       property Align;
      End;
 
    { TFWDBDateEdit }
@@ -161,6 +162,7 @@ type
        property OnMouseEnter;
        property OnMouseLeave;
        property PopupMenu;
+       property Align;
      End;
 
 
@@ -248,6 +250,7 @@ type
        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
        property PopupMenu;
+       property Align;
      End;
 
 
@@ -294,6 +297,7 @@ type
           property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
           property PopupMenu;
           property ReadOnly: Boolean read GetReadOnly write SetReadOnly default false;
+          property Align;
       End;
 
 
@@ -346,6 +350,7 @@ type
        property OnMouseEnter;
        property OnMouseLeave;
        property PopupMenu;
+       property Align;
      End;
 
    { TFWDBComboBox }
@@ -390,6 +395,7 @@ type
        property OnMouseEnter;
        property OnMouseLeave;
        property PopupMenu;
+       property Align;
      End;
 
    { TFWDBMemo }
@@ -435,6 +441,7 @@ type
        property OnMouseEnter;
        property OnMouseLeave;
        property PopupMenu;
+       property Align;
      End;
 
 
@@ -480,6 +487,7 @@ type
           property OnMouseEnter;
           property OnMouseLeave;
           property PopupMenu;
+          property Align;
         End;
 
 implementation

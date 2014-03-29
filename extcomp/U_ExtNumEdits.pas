@@ -209,6 +209,7 @@ type
     property OnStartDrag;
     property OnMouseEnter;
     property OnMouseLeave;
+    property Align;
 
   end;
 
