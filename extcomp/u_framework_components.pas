@@ -97,6 +97,7 @@ type
        property OnMouseEnter;
        property OnMouseLeave;
        property PopupMenu;
+       property Align;
      End;
 
    { TFWEdit }
@@ -141,6 +142,7 @@ type
         property OnMouseEnter;
         property OnMouseLeave;
         property PopupMenu;
+        property Align;
       End;
 
 
@@ -186,6 +188,7 @@ type
         property OnMouseEnter;
         property OnMouseLeave;
         property PopupMenu;
+        property Align;
       End;
 
      { TFWDateEdit }
@@ -231,6 +234,7 @@ type
          property OnMouseEnter;
          property OnMouseLeave;
          property PopupMenu;
+         property Align;
        End;
 
    { TFWComboBox }
@@ -275,6 +279,7 @@ type
        property OnMouseEnter;
        property OnMouseLeave;
        property PopupMenu;
+       property Align;
      End;
 
    { TFWLabel }
@@ -304,6 +309,7 @@ type
        {$IFDEF FPC}
        property OptimalFill default True ;
        {$ENDIF}
+       property Align;
      End;
    { TFWDBGrid }
 
@@ -376,6 +382,7 @@ type
        property OnMouseEnter;
        property OnMouseLeave;
        property PopupMenu;
+       property Align;
      End;
 
 
@@ -422,6 +429,7 @@ type
         property OnMouseEnter;
         property OnMouseLeave;
         property PopupMenu;
+        property Align;
       End;
 
 
