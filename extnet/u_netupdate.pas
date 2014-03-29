@@ -327,9 +327,9 @@ procedure TNetUpdate.IdWork(ASender: TObject; AWorkMode: TWorkMode;
 var
   OldLength: integer;
 begin
+  {$IFDEF LNET}
   if gi_Weight = 0 Then
    Begin
-    {$IFDEF LNET}
     if gc_Component is TLHTTPClient Then
      gi_Weight:=( gc_Component as TLHTTPClient ).ContentLength;
     {$ELSE}
@@ -337,11 +337,11 @@ begin
     {$ENDIF}
     if gi_Weight = 0 Then
      gi_Weight:=100000; // do not return here
-    if assigned ( ge_IniRead ) Then
-      ge_IniRead ( Self, gi_Weight );
     if assigned ( gpb_Progress ) Then
       gpb_Progress.Max := gi_Weight ;
+  {$IFDEF LNET}
    End;
+  {$ENDIF}
 
   if ASize <= 0 then
     Exit; // nothing to do
