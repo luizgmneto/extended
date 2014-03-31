@@ -65,6 +65,7 @@ function  fb_FindFiles( const astl_FilesList: TStrings; as_StartDir : String;
                         const as_FileMask: String='*'; const as_DirMask: String='*'):Boolean;
 Function fb_CopyFile ( const as_Source, as_Destination : String ; const ab_AppendFile : Boolean ; const ab_CreateBackup : Boolean = False ):Integer;
 function fb_CreateDirectoryStructure ( const as_DirectoryToCreate : String ) : Boolean ;
+function fb_IsFullPath ( const ASPath : String ):Boolean;
 procedure p_FileNameDivision ( const as_FileNameWithExtension : String ; var as_FileName, as_Extension : String );
 function fs_createUniqueFileName ( const as_base, as_FileAltName : String ; const as_extension : String ):String;
 function ExtractSubDir ( const as_FilePath : String ) :String;
@@ -432,25 +433,20 @@ var
   ls_Temp : String ;
 begin
   Result := False ;
-  if DirectoryExists ( as_DirectoryToCreate )
-   Then
-    Begin
-      Result := True;
-    End
-  Else
+  if DirectoryExistsUTF8 ( as_DirectoryToCreate )
+   Then Result := True
+   Else
     try
        li_Pos := 1 ;
        while ( Posex ( DirectorySeparator, as_DirectoryToCreate, li_pos + 1 ) > 1 ) do
          li_Pos := Posex ( DirectorySeparator, as_DirectoryToCreate, li_pos + 1 );
-       if ( li_pos > 1 ) Then
-         ls_Temp := Copy ( as_DirectoryToCreate, 1 , li_pos - 1 )
-       Else
-         Exit ;
-       if  not DirectoryExistsUTF8 ( ls_Temp ) Then
-         Begin
-           fb_CreateDirectoryStructure ( ls_Temp );
-         End ;
-       if DirectoryExistsUTF8 ( ls_Temp ) then
+       if ( li_pos > 1 )
+        Then ls_Temp := Copy ( as_DirectoryToCreate, 1 , li_pos - 1 )
+        Else Exit ;
+       if  not DirectoryExistsUTF8 ( ls_Temp )
+        Then fb_CreateDirectoryStructure ( ls_Temp );
+       if DirectoryExistsUTF8 ( ls_Temp )
+        then
          Begin
            FindFirstUTF8 ( ls_Temp,faanyfile,lsr_data);
            if ( DirectoryExistsUTF8 ( ls_Temp )) Then
@@ -526,9 +522,17 @@ Begin
     End ;
 End ;
 
+function fb_IsFullPath ( const ASPath : String ):Boolean;
+Begin
+  {$IFDEF WINDOWS}
+  Result := Pos(':',ASPath)=2;
+  {$ELSE}
+  Result := Pos(DirectorySeparator,ASPath)=1;
+  {$ENDIF}
+end;
+
 {$IFDEF FPC}
 function ExtractFileDir ( const as_FilePath : String ) :String;
-var li_Pos : Integer;
 Begin
   Result := as_FilePath;
   while not DirectoryExistsUTF8(Result) do

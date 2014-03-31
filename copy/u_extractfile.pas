@@ -16,7 +16,7 @@ interface
 {$ENDIF}
 
 uses
-  SysUtils, Classes,ComCtrls,
+  SysUtils, Classes,
 {$IFDEF VERSIONS}
    fonctions_version,
 {$ENDIF}
@@ -92,7 +92,7 @@ type
 
 implementation
 
-uses fonctions_file, Forms, TypInfo, StrUtils, fonctions_proprietes, Dialogs;
+uses Forms, TypInfo, StrUtils, Dialogs;
 
 {TExtractFile}
 
