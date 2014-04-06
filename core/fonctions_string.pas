@@ -112,7 +112,7 @@ type
   function HexToByte(c: char): byte;
   function HexToBinary ( const ALines : TStrings ; const AStream : TStream ): Boolean;
   function fs_ReplaceEndOfLines ( const ALines : TStrings; const as_replace : String = '\n' ): String;
-  function fs_SeparateTextFromWidth ( ASText : String; const ANeededWidth : Integer; const Acanvas : TCanvas; const Ach_separator : Char = ' ' ) : TStringArray ;
+  function fs_SeparateTextFromWidth ( ASText : String; const ANeededWidth : Integer; const Acanvas : TCanvas; const Ach_separator : String=' ' ) : TStringArray ;
   function fs_IfThen ( const ab_IfTest : Boolean; const as_IfTrue, as_IfFalse : String ) : String;
 implementation
 
@@ -1067,29 +1067,38 @@ begin
   if ( li_texte < AChar ) and ( lw_Char > 0 ) Then
     p_add;
 end;
-function fs_SeparateTextFromWidth ( ASText : String; const ANeededWidth : Integer; const Acanvas : TCanvas; const Ach_separator : Char = ' ' ) : TStringArray ;
-var Apos, J : Integer;
+function fs_SeparateTextFromWidth ( ASText : String; const ANeededWidth : Integer; const Acanvas : TCanvas; const Ach_separator : String = ' ' ) : TStringArray ;
+var Apos, J, i : Integer;
+    lb_found : Boolean ;
+    lchar : Char;
 Begin
   Apos := 1;
   j    := 0;
-  while (ANeededWidth < ACanvas.TextWidth(ASText))
-     and ( pos(Ach_separator, ASText ) > 0 ) do
+  while ANeededWidth < ACanvas.TextWidth(ASText)do
    Begin
-     while  (posex(Ach_separator, ASText, Apos + 1 ) > 0)
-        and ( ANeededWidth > ACanvas.TextWidth(copy(ASText,1,posex(Ach_separator, ASText, Apos + 1 )))) do
-      Begin
-       Apos:=posex(Ach_separator, ASText, Apos +1 );
-      end;
-     if Apos = 0 Then
-       break;
-     if Apos > 1 Then
-      Begin
-       SetLength(Result,high ( Result ) + 2);
-       Result [ high ( Result )] := copy(ASText,1,Apos-1);
-       inc ( j );
-      end;
-     ASText:=copy(ASText,Apos+1,Length(ASText)-Apos);
-     Apos := 1;
+     for i := 1 to length ( Ach_separator ) do
+       Begin
+         lchar := Ach_separator[i];
+         if pos( lchar, ASText ) > 0 then
+           Begin
+             while  (posex(lchar, ASText, Apos + 1 ) > 0)
+                and ( ANeededWidth > ACanvas.TextWidth(copy(ASText,1,posex(lchar, ASText, Apos + 1 )))) do
+              Begin
+               Apos:=posex(lchar, ASText, Apos +1 );
+              end;
+             if Apos = 0 Then
+               break;
+             if Apos > 1 Then
+              Begin
+               SetLength(Result,high ( Result ) + 2);
+               Result [ high ( Result )] := copy(ASText,1,Apos-1);
+               inc ( j );
+              end;
+             ASText:=copy(ASText,Apos+1,Length(ASText)-Apos);
+             Apos := 1;
+             Break;
+           end;
+       end;
    end;
   SetLength(Result,high ( Result ) + 2);
   Result [ high ( Result )] := ASText;
