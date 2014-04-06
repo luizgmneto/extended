@@ -1111,6 +1111,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
            Begin
             if lcountedcolumn Then
              Begin
+              // add width and visible to printed columns
               inc ( totalgridwidth, fli_getComponentProperty(Items [ i ], CST_PROPERTY_WIDTH ) );
               inc ( aVisibleColumns );
               if fb_getComponentBoolProperty ( Items [ i ], CST_COLUMN_Resize, True )
@@ -1121,6 +1122,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
                  end;
              end;
            end;
+          // is there a line break on column ?
           ATemp := fli_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK, -1 );
           if  ( ATemp > -1 )
           and ( ATemp < i  )
@@ -1169,8 +1171,8 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
         ALastVisible := i;
         awidth:=fi_resize ( fli_getComponentProperty ( Items [ i ], CST_PROPERTY_WIDTH ), i );
         if agrid = nil
-         Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' ')
-         Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' ');
+         Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' |')
+         Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' |');
         if high ( LString ) > ALinesAddedHeader Then
          ALinesAddedHeader:=high ( LString );
        end;
@@ -1184,8 +1186,8 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
                inc ( SomeLeft, ATempCanvas.TextWidth(fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION )) );
             awidth:=fi_resize ( fli_getComponentProperty ( Items [ i ], CST_PROPERTY_WIDTH ), i );
             if agrid = nil
-             Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' ')
-             Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' ');
+             Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' |')
+             Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' |');
   //          RLColumnHeaderFont.GetTextSize(LString,Apos,j);
              for j := 0 to ALinesAddedHeader do
               Begin
