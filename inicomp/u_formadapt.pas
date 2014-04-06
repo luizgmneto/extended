@@ -42,11 +42,10 @@ uses
                                        FileUnit : 'U_FormAdapt' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Fiche principale deuxième version.' ;
-                                       BugsStory : '1.1.1.0 : AutoSize to True, no form properties on lazarus.' + #13#10 +
-                                                   '1.1.0.0 : oncreate event, ini procedures.' + #13#10 +
+                                       BugsStory : '1.1.0.0 : oncreate event, ini procedures.' + #13#10 +
                                                    '1.0.0.0 : Adapting Fonts.';
                                        UnitType : 3 ;
-                                       Major : 1 ; Minor : 1 ; Release : 1 ; Build : 0 );
+                                       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
 type
@@ -64,10 +63,6 @@ type
     // Constructeur et destructeur
     constructor Create(AOwner: TComponent); override;
     property Scale : Extended read FScale;
-    {$IFDEF DELPHI}
-  published
-    property AutoSize default True;
-    {$ENDIF}
   end;
 
 var ge_GlobalScaleForm : Extended = 1;
@@ -97,9 +92,6 @@ end;
 constructor TF_FormAdapt.Create(AOwner: TComponent);
 begin
   inherited;
-  {$IFDEF DELPHI}
-  AutoSize:=True; // ideal for resizing
-  {$ENDIF}
   if not ( csDesigning in ComponentState ) Then
    Begin
     FOldCreate := OnCreate;
