@@ -89,6 +89,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor  Destroy; override;
     procedure CreateAReport( const AReport : TRLReport ); virtual;
+    procedure Clear; virtual;
     procedure ShowPreview; virtual;
     procedure AddPreview ( const AReport : TRLReport = nil ); virtual;
     property  FormReport : TReportForm read FReportForm;
@@ -120,6 +121,7 @@ type
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure SetCreateReport ( const AValue : Boolean ); virtual;
   public
+    procedure Clear; Virtual;
     constructor Create(AOwner: TComponent); override;
     procedure p_SetReport ( const Areport : TRLReport ); virtual;
     procedure CreateAReport( const AReport : TRLReport );  virtual; abstract;
@@ -174,7 +176,7 @@ procedure p_SetPageSetup ( const ARLPageSetup : TObject; const ab_portrait : Boo
 
 implementation
 
-uses Forms, typinfo;
+uses Forms, SysUtils, typinfo;
 
 // From interface : setting report button
 procedure p_SetBtnPrint  ( const APrintComp   : TObject; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean );
@@ -262,7 +264,7 @@ procedure TFWPrintVTree.CreateAReport(const AReport: TRLReport);
 begin
   p_SetReport(AReport);
   if Assigned(FTree) Then
-   fb_CreateReport(AReport,FTree,AReport.Background.Picture.Bitmap.Canvas,DBTitle);
+   p_CreateReport(AReport,FTree,AReport.Background.Picture.Bitmap.Canvas,DBTitle);
 end;
 
 { TFWPrintComp }
@@ -294,6 +296,11 @@ begin
   if  ( AValue =  True )
   and ( FReport <> nil ) Then
     CreateAReport ( FReport );
+end;
+
+procedure TFWPrintComp.Clear;
+begin
+  FreeAndNil(FReportForm);
 end;
 
 // initing
@@ -442,6 +449,11 @@ procedure TFWPrintData.CreateAReport ( const AReport : TRLReport );
 begin
   fb_CreateReport(AReport,nil, FDataLink.DataSource, FColumns, AReport.Background.Picture.Bitmap.Canvas, FDBTitle);
 End;
+
+procedure TFWPrintData.Clear;
+begin
+  FreeAndNil(FReportForm);
+end;
 
 // create report
 procedure TFWPrintData.AddPreview(const AReport: TRLReport);

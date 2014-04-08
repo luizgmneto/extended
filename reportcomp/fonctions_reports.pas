@@ -30,14 +30,15 @@ const
   gVer_fonctions_reports : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_reports' ;
                         		 Owner : 'Matthieu Giroux' ;
                         		 Comment : 'Reports'' Functions, with grid reports.' ;
-                        		 BugsStory : 'Version 1.0.1.2 : Simplifying.' + #13#10 +
+                        		 BugsStory : 'Version 1.0.1.3 : Unfating.' + #13#10 +
+                                                     'Version 1.0.1.2 : Simplifying.' + #13#10 +
                                                      'Version 1.0.1.1 : Testing tree.' + #13#10 +
                                                      'Version 1.0.1.0 : Ini management.' + #13#10 +
                                                      'Version 1.0.0.2 : Testing reports.' + #13#10 +
                                                      'Version 1.0.0.1 : image centering.' + #13#10 +
                                                      'Version 1.0.0.0 : Working.';
                         		 UnitType : 1 ;
-                        		 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
+                        		 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 3 );
 {$ENDIF}
   CST_COLUMN_Visible = 'Visible';
   CST_COLUMN_MIN_Width= 4;
@@ -97,14 +98,14 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtLandscapeColumnsCount : Integer = 9;
     ExtHeader  : TRLBand = nil;
 
-function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean; overload;
-function fb_CreateReport ( const AParentReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String): Boolean; overload;
+function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 function fref_CreateReport ( const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm; overload;
 function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
 function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
 function frlr_CreateNewReport ( const ASourceReport : TRLReport ):TRLReport;
 procedure p_CreateAndPreviewReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
 procedure p_CreateAndPreviewReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
+procedure p_CreateReport ( const AParentReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String);
 procedure p_ReadReportsViewFromIni ( const AIniFile : TIniFile );
 procedure p_WriteReportsViewToIni ( const AIniFile : TIniFile );
 procedure p_ReinitValues;
@@ -826,11 +827,10 @@ begin
 end;
 
 // create a report from a virtual tree
-function fb_CreateReport ( const AParentReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String): Boolean;
-var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, SomeLeft, aSpaceWidth, ALinesAdded: Integer;
+procedure p_CreateReport ( const AParentReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String);
+var atitleHeight, aSpaceWidth: Integer;
     ARLLabel : TRLLabel;
     AReport : TRLReport;
-    ARLDBText : TRLDBText;
     ARLImage : TRLCustomImage;
     ARLBand : TRLBand;
     ATreeNodeSigns : TLineImage;
@@ -846,7 +846,6 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
     ATreeLevel : Integer;
     AOnGetImage: TVTGetImageEvent;               // Used to retrieve the image index of a given node.
     AOnGetImageEx: TVTGetImageExEvent;           // Used to retrieve the image index of a given node along with a custom
-    LEndOfName : String;
     LIndex : Word;
 
     const CST_PROPERTY_OnGetImageIndex = 'OnGetImageIndex';
@@ -870,11 +869,11 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
 
     // text can go right out
     procedure p_addEventualRightReport ( const ARealTop : Integer );
-    var ARightLabel : TRLLabel;
-        Aindex      : Integer;
-        AWidth,ADotWidth, ALeftLength      : Integer;
+    var Aindex      : Integer;
+        ADotWidth, ALeftLength      : Integer;
         ARightString : String;
     Begin
+       ARightString := '';
        with ARLLabel do
          Begin
           if Width + Left > ARLBand.Width Then
@@ -899,7 +898,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
                 Caption:= copy ( Caption, 1, ALeftLength );
               end;
              Caption:= Caption + '…';
-             ARightLabel := frlc_createLabel(ARightReport,ARightBand,CST_PRINT_INTERNAL_BAND_MARGIN,ARealTop,ARLBand.Width-CST_PRINT_INTERNAL_BAND_MARGIN,ExtColumnFont,ARightString);
+             frlc_createLabel(ARightReport,ARightBand,CST_PRINT_INTERNAL_BAND_MARGIN,ARealTop,ARLBand.Width-CST_PRINT_INTERNAL_BAND_MARGIN,ExtColumnFont,ARightString);
            end;
          end;
 
@@ -922,6 +921,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
         LLine : TBitmap;
         AIndex : Integer;
     Begin
+      AIndex:= -1;
       with atree, ARect do
        Begin
         Left:=0;
@@ -980,8 +980,7 @@ var totalgridwidth, aresizecolumns, atitleHeight, AlineHeight, aVisibleColumns, 
 
     // recursive reports' print procedure
     procedure p_labelNode ( const ANode : PVirtualNode );
-    var ARect : TRect;
-        APriorReport : TRLReport;
+    var APriorReport : TRLReport;
     Begin
       ATreeLevel := GetNodeLevel(ANode,atree.RootNode)+1;
       with atree, ANode^ do
@@ -1071,11 +1070,13 @@ end;
 
 // create a datasource or grid report
 function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
-var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastResizedColumn, ATitleHeight, aVisibleColumns, SomeLeft, totalreportwidth, aWidth, ALinesAddedHeader, ALinesAddedColumns : Integer;
+var totalgridwidth, aresizecolumns, ALastVisible,
+    AlastColumnAddedSize, ALastResizedColumn,
+    ATitleHeight, aVisibleColumns, SomeLeft,
+    aWidth, ALinesAddedHeader, ALinesAddedColumns : Integer;
     ARLControl : TRLCustomControl;
     ARLBand : TRLBand;
     LImages : TCustomImageList;
-    ARLSystemInfo : TRLSystemInfo;
 
   // resize property
   function fi_resize ( const ai_width, aindex : Integer ):Integer;
@@ -1092,7 +1093,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
 
   // calculate lines and widths
   procedure PreparePrint;
-  var i, Aline, ATemp : Integer;
+  var i, ATemp : Integer;
       lcountedcolumn : Boolean;
   Begin
     ALinesAddedHeader:=0;
@@ -1171,8 +1172,8 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
         ALastVisible := i;
         awidth:=fi_resize ( fli_getComponentProperty ( Items [ i ], CST_PROPERTY_WIDTH ), i );
         if agrid = nil
-         Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' |')
-         Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' |');
+         Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,'| ')
+         Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,'| ');
         if high ( LString ) > ALinesAddedHeader Then
          ALinesAddedHeader:=high ( LString );
        end;
@@ -1186,8 +1187,8 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
                inc ( SomeLeft, ATempCanvas.TextWidth(fs_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_BREAKCAPTION )) );
             awidth:=fi_resize ( fli_getComponentProperty ( Items [ i ], CST_PROPERTY_WIDTH ), i );
             if agrid = nil
-             Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,' |')
-             Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,' |');
+             Then LString := fs_SeparateTextFromWidth(fs_getComponentProperty(Items [ i ], 'DBTitle'),aWidth,ATempCanvas,'| ')
+             Else LString := fs_SeparateTextFromWidth((fobj_getComponentObjectProperty(Items [ i ], CST_COLUMN_Title) as {$IFDEF FPC}TGridColumnTitle{$ELSE}TColumnTitle{$ENDIF}).caption,aWidth,ATempCanvas,'| ');
   //          RLColumnHeaderFont.GetTextSize(LString,Apos,j);
              for j := 0 to ALinesAddedHeader do
               Begin
@@ -1222,8 +1223,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
   end;
 
   // set a printed field
-  procedure p_CreatePrintField ( const AItem : TCollectionItem ; var AIsFirst : Boolean; const ATop, Aline, Aheight : Integer ; const AIWidth, AItemIndex : Integer ; const Adataset : TDataset ; const ASBreakCaption : String = '' );
-  var I : Integer;
+  procedure p_CreatePrintField ( const AItem : TCollectionItem ; var AIsFirst : Boolean; const ATop, Aheight : Integer ; const AIWidth, AItemIndex : Integer ; const Adataset : TDataset ; const ASBreakCaption : String = '' );
   Begin
     if assigned ( AItem ) Then
      Begin
@@ -1313,7 +1313,7 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
                end;
        if aWidth > 0 Then
           Begin
-            p_CreatePrintField ( nil, AIsFirst,ATop,ALine,AHeight,AWidth, ADecColumn,ADataSource.DataSet,LSBreakCaption);
+            p_CreatePrintField ( nil, AIsFirst,ATop,AHeight,AWidth, ADecColumn,ADataSource.DataSet,LSBreakCaption);
             ARLControl.Alignment:=TRLTextAlignment(taRightJustify);
             ARLControl.Font.Assign(ExtColumnHeaderFont);
             inc(SomeLeft,aWidth);
@@ -1324,12 +1324,12 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
 
   // Print Grid ( TFWPrintGrid )
   procedure CreateListGrid;
-  var i,ALine, ATop, Aheight, AColumn : Integer;
+  var i,ATop, Aheight : Integer;
       LIsFirst : Boolean;
   Begin
-    ALine := 0;
-    AHeight := ATempCanvas.TextHeight('W');
-    AColumn    := -1;
+    AHeight  := ATempCanvas.TextHeight('W');
+    ATop     := 0;
+    LIsFirst := True;
     with AReport do
      Begin
       p_InitList ( ATop, Aheight, LIsFirst );
@@ -1338,24 +1338,23 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
          if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
            Begin
              awidth:=fi_resize ( fli_getComponentProperty ( Items [ i ], CST_PROPERTY_WIDTH ), i );
-             p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,Aheight,AWidth,i,ADataSource.DataSet);
+             p_CreatePrintField ( Items [ i ], LIsFirst,ATop,Aheight,AWidth,i,ADataSource.DataSet);
              inc ( SomeLeft, aWidth );
              LIsFirst := False;
-             AColumn := i;
            end;
       End;
     p_AdaptBands ( ARLBand, Aheight, LIsFirst );
   end;
   // Print Datasource ( TFWPrintData )
   procedure CreateListPrint;
-  var i,Aline,ATop, AHeight, ADecColumn, AColumn : Integer;
+  var i,Aline,ATop, AHeight, ADecColumn : Integer;
       LIsFirst : Boolean;
-      LSBreakCaption : String ;
   Begin
-    ALine := 0;
-    AHeight := ATempCanvas.TextHeight('W');
+    ALine      := 0;
+    AHeight    := ATempCanvas.TextHeight('W');
     ADecColumn := -1;
-    AColumn    := -1;
+    LIsFirst   := True;
+    ATop       := 0;
     with ADatasource.DataSet,AReport do
      Begin
       p_InitList ( ATop, AHeight, LIsFirst );
@@ -1365,9 +1364,8 @@ var totalgridwidth, aresizecolumns, ALastVisible, AlastColumnAddedSize, ALastRes
         inc ( ADecColumn ); // for linebreak
         if fb_IsVisibleAPrintedColumn ( Items [ i ], ADatasource ) Then
          Begin
-           AColumn := i;
            awidth:=fi_resize ( fli_getComponentProperty ( Items [ ADecColumn ], CST_PROPERTY_WIDTH ), ADecColumn );
-           p_CreatePrintField ( Items [ i ], LIsFirst,ATop,ALine,Aheight,AWidth,i,ADataSource.DataSet);
+           p_CreatePrintField ( Items [ i ], LIsFirst,ATop,Aheight,AWidth,i,ADataSource.DataSet);
            // linebreak ?
            if fli_getComponentProperty ( Items [ i ], CST_PRINT_COLUMN_LINEBREAK ) < 0 Then
             Begin
@@ -1409,7 +1407,7 @@ End;
 function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm;
 Begin
   Result := fref_CreateReport ( AOrientation, APaperSize, acf_filter );
-  fb_CreateReport ( Result.RLReport, atree, Result.Canvas, as_Title );
+  p_CreateReport ( Result.RLReport, atree, Result.Canvas, as_Title );
 end;
 
 // main create grid or data report's form

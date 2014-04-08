@@ -27,23 +27,24 @@ const
     gVer_fonction_string : T_Version = ( Component : 'String management' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'String traduction and format.' ;
-                        			                 BugsStory : 'Version 1.0.8.0 : procedure p_SetStringMaxLength.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.7.0 : function fs_RemplaceMsgIfExists.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.6.0 : Creating fs_SeparateTextFromWidth.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.5.0 : Creating fs_ListeVersChamps.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.4.0 : fs_FormatText and other.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.3.1 : Upgrading fs_TextToFileName.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.3.0 : Moving function to DB functions.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.2.3 : UTF 8.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.2.2 : fs_TextToFileName of André Langlet.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.2.1 : Optimising.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.2.0 : Fonction fs_GetBinOfString.' + #13#10 + #13#10 +
-              			                	        	     'Version 1.0.1.1 : Paramètres constantes plus rapides.' + #13#10 + #13#10 +
-                        			                	     'Version 1.0.1.0 : Fonction fs_stringDbQuoteFilter qui ne fonctionne pas mais ne provoque pas d''erreur.' + #13#10 + #13#10 +
-                        			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 + #13#10 +
+                        			                 BugsStory : 'Version 1.0.8.1 : Modify fs_SeparateTextFromWidth.' + #13#10 +
+              			                	        	     'Version 1.0.8.0 : procedure p_SetStringMaxLength.' + #13#10 +
+              			                	        	     'Version 1.0.7.0 : function fs_RemplaceMsgIfExists.' + #13#10 +
+              			                	        	     'Version 1.0.6.0 : Creating fs_SeparateTextFromWidth.' + #13#10 +
+              			                	        	     'Version 1.0.5.0 : Creating fs_ListeVersChamps.' + #13#10 +
+              			                	        	     'Version 1.0.4.0 : fs_FormatText and other.' + #13#10 +
+              			                	        	     'Version 1.0.3.1 : Upgrading fs_TextToFileName.' + #13#10 +
+              			                	        	     'Version 1.0.3.0 : Moving function to DB functions.' + #13#10 +
+              			                	        	     'Version 1.0.2.3 : UTF 8.' + #13#10 +
+              			                	        	     'Version 1.0.2.2 : fs_TextToFileName of André Langlet.' + #13#10 +
+              			                	        	     'Version 1.0.2.1 : Optimising.' + #13#10 +
+              			                	        	     'Version 1.0.2.0 : Fonction fs_GetBinOfString.' + #13#10 +
+              			                	        	     'Version 1.0.1.1 : Paramètres constantes plus rapides.' + #13#10 +
+                        			                	     'Version 1.0.1.0 : Fonction fs_stringDbQuoteFilter qui ne fonctionne pas mais ne provoque pas d''erreur.' + #13#10 +
+                        			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 +
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 8 ; Build :  0);
+                        			                 Major : 1 ; Minor : 0 ; Release : 8 ; Build :  1);
 {$ENDIF}
   CST_ENDOFLINE = #10;
   CST_DELIMITERS_CHAR = '-_ .,:[()]{}=+*';
@@ -1069,35 +1070,33 @@ begin
 end;
 function fs_SeparateTextFromWidth ( ASText : String; const ANeededWidth : Integer; const Acanvas : TCanvas; const Ach_separator : String = ' ' ) : TStringArray ;
 var Apos, J, i : Integer;
-    lb_found : Boolean ;
+    lb_notfound : Boolean ;
     lchar : Char;
 Begin
   Apos := 1;
   j    := 0;
-  while ANeededWidth < ACanvas.TextWidth(ASText)do
+  for i := 1 to length ( Ach_separator ) do
    Begin
-     for i := 1 to length ( Ach_separator ) do
+     lchar := Ach_separator[i];
+     if pos( lchar, ASText ) > 0 then
        Begin
-         lchar := Ach_separator[i];
-         if pos( lchar, ASText ) > 0 then
-           Begin
-             while  (posex(lchar, ASText, Apos + 1 ) > 0)
-                and ( ANeededWidth > ACanvas.TextWidth(copy(ASText,1,posex(lchar, ASText, Apos + 1 )))) do
-              Begin
-               Apos:=posex(lchar, ASText, Apos +1 );
-              end;
-             if Apos = 0 Then
-               break;
-             if Apos > 1 Then
-              Begin
-               SetLength(Result,high ( Result ) + 2);
-               Result [ high ( Result )] := copy(ASText,1,Apos-1);
-               inc ( j );
-              end;
-             ASText:=copy(ASText,Apos+1,Length(ASText)-Apos);
-             Apos := 1;
-             Break;
-           end;
+         while  (posex(lchar, ASText, Apos + 1 ) > 0)
+            and ( ANeededWidth > ACanvas.TextWidth(copy(ASText,1,posex(lchar, ASText, Apos + 1 )))) do
+          Begin
+           Apos:=posex(lchar, ASText, Apos +1 );
+          end;
+         if Apos = 0 Then
+           break;
+         if Apos > 1 Then
+          Begin
+           SetLength(Result,high ( Result ) + 2);
+           Result [ high ( Result )] := copy(ASText,1,Apos-1);
+           inc ( j );
+          end;
+         ASText:=copy(ASText,Apos+1,Length(ASText)-Apos);
+         Apos := 1;
+         if ANeededWidth < ACanvas.TextWidth(ASText) Then
+           Break;
        end;
    end;
   SetLength(Result,high ( Result ) + 2);
