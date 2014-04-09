@@ -140,7 +140,7 @@ type
     property DropDownRows : Integer read FListLines write FListLines default 5;
     property DropDownWidth : Word read FListWidth write FListWidth default 0;
     property DropUp : Boolean read FListUp write FListUp default False;
-    property SearchFiltered : Boolean read FSearchFiltered write FSearchFiltered default True;
+    property SearchFiltered : Boolean read FSearchFiltered write FSearchFiltered default False;
     property FieldSeparator : Char read FSeparator write FSeparator default ',';
     property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
@@ -584,7 +584,7 @@ constructor TExtSearchDBEdit.Create(Aowner: TComponent);
 begin
   inherited Create(Aowner);
   //DataLink.OnDataChange := DataChange;
-  FSearchFiltered := True;
+  FSearchFiltered := False;
   FListUp := False;
   FListWidth:=0;
   FSeparator := ',';
