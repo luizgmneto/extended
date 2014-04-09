@@ -604,7 +604,7 @@ end;
 destructor TExtSearchDBEdit.Destroy;
 begin
   inherited Destroy;
-  FSearchSource.Free;
+  FSearchSource.Destroy;
 end;
 
 {$IFDEF VERSIONS}
