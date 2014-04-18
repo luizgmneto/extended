@@ -34,7 +34,6 @@ type
     Label3: TLabel;
     Label34: TLabel;
     Label35: TLabel;
-    Label36: TLabel;
     Label37: TLabel;
     Label4: TLabel;
     OnFormInfoIni: TOnFormInfoIni;
@@ -52,11 +51,9 @@ type
     Panel31: TPanel;
     Panel4: TPanel;
     Panel5: TPanel;
-    Panel6: TPanel;
     Panel7: TPanel;
     UniqueInstance: TUniqueInstance;
     UserName: TEdit;
-    CharsetSource: TEdit;
     CharsetDest: TEdit;
     procedure FormShow(Sender: TObject);
     procedure MigrateClick(Sender: TObject);
@@ -76,6 +73,7 @@ implementation
 
 uses fonctions_dialogs,
      LazUTF8Classes,
+     strutils,
      FileUtil;
 
 { TForm1 }
@@ -100,13 +98,31 @@ Begin
 end;
 
 procedure TForm1.MigrateClick(Sender: TObject);
-var ls_fileDest : String ;
-    li_i : Integer;
+var ls_temp, ls_fileDest : String ;
+    li_i, li_pos, li_pos2  : Integer;
     lst_DDL : TStringListUTF8;
     lb_addCommit : Boolean;
+    function getPos2 ( const as_temp : String; const ai_pos1 : Integer ):Integer;
+    var li_pos3 : Integer;
+        procedure  p_calculateResult;
+        Begin
+          if (li_pos3 > 0) and (( li_pos3 < Result) or ( Result = 0 )) Then
+            Result:=li_pos3;
+
+        end;
+
+    Begin
+      result  := PosEx(',',as_temp,ai_pos1);
+      li_pos3 := PosEx(' ',as_temp,ai_pos1);
+      p_calculateResult;
+      li_pos3 := PosEx(')',as_temp,ai_pos1);
+      p_calculateResult;
+      li_pos3 := PosEx(';',as_temp,ai_pos1);
+      p_calculateResult;
+    end;
+
 begin
   if (CharsetDest.Text = '')
-  or (CharsetSource.Text = '')
   or (Database.FileName = '')
   or (ISQL.FileName = '')
   or (FBClone.FileName = '')
@@ -121,10 +137,10 @@ begin
       if fb_PromptDelete(DDL.text) Then
         Begin
          DeleteFile(DDL.text);
-         MyMessageDlg('Will execute this :'+#13#10+ISQL.Text+' -a -ch '+CharsetDest.Text +' -o '''+DDL.text+''' '''+Database.FileName+''''+#10+'Please wait...');
+         MyMessageDlg('Will execute this :'+#13#10+ISQL.Text+' -a -ch '+CharsetDest.Text +' -o '''+DDL.text+''' '''+Database.FileName+''''+#10+'Please wait...',mtInformation);
          fs_ExecuteProcess(ISQL.Text,' -a -ch '+CharsetDest.Text +' -o '''+DDL.text+''' '''+Database.FileName+'''',False);
         end;
-      lb_addCommit := MyMessageDlg('Will copy this file :'+DDL.Text+#10+'Do i place ''commit;'' after table creation and at the end ?',mtConfirmation,mbYesNo,Self)=mrYes;
+      lb_addCommit := MyMessageDlg('Will copy this file :'+DDL.Text+#10+'Do i place ''commit;'' after table creation and at the end, with collate deleting ?',mtConfirmation,mbYesNo,Self)=mrYes;
       lst_DDL := TStringListUTF8.Create;
       with lst_DDL do
        try
@@ -133,8 +149,24 @@ begin
           Begin
             add('commit;');
             for li_i := count -1 downto 0 do
-             if pos ( '/***', lst_DDL [ li_i ] ) = 1
-              then insert ( li_i, 'commit;' );
+             Begin
+               ls_temp := lst_DDL [ li_i ];
+               if pos ( '/***', ls_temp ) = 1
+                then insert ( li_i, 'commit;' )
+                else
+                  Begin
+                   li_pos:=pos ( 'COLLATE', UpperCase(ls_temp) );
+                   if (li_pos  > 0) Then
+                     Begin
+                      lst_DDL [ li_i ] := copy ( ls_temp, 1, li_pos -1)+copy(ls_temp,getPos2(ls_temp,li_pos+9),Length(ls_temp));
+                     end;
+                    ls_temp := lst_DDL [ li_i ];
+                    li_pos:=pos  ( 'CHARACTER', UpperCase(ls_temp) );
+                    if (li_pos  > 0) Then
+                        lst_DDL [ li_i ] := copy ( ls_temp, 1, li_pos -1)+copy(ls_temp,getPos2(ls_temp,li_pos+14),Length(ls_temp));
+                   end;
+
+             end;
           end;
         insert(0,fs_CreateDatabase ( ls_fileDest, UserName.Text, PassWord.Text, CharsetDest.Text ));
         SaveToFile(fs_getAppDir+'DDL.sql');
@@ -144,14 +176,13 @@ begin
   if fb_PromptDelete ( ls_fileDest )
    Then
      Begin
-      MyMessageDlg('Will execute this :'+#13#10+ISQL.Text+' -ch '+CharsetDest.Text +' -i '''+fs_getAppDir+'DDL.sql'''+#10+'Please wait...');
+      MyMessageDlg('Will execute this :'+#13#10+ISQL.Text+' -ch '+CharsetDest.Text +' -i '''+fs_getAppDir+'DDL.sql'''+#10+'Please wait...',mtInformation);
       fs_ExecuteProcess(ISQL.Text,' -ch '+CharsetDest.Text +' -i '''+fs_getAppDir+'DDL.sql''',False);
-      DeleteFile(fs_getAppDir+'DDL.sql');
+      MyMessageDlg('Will execute this :'+#10+FBClone.Text+' -s '''+Database.FileName+''' -t '+ls_fileDest+' -u '+UserName.Text+' -e po -p '+PassWord.Text+' -tc '+CharsetDest.Text+#10+'Please install Firebird 2.5 for Windows 32. Please wait...',mtInformation);
+      ls_fileDest := fs_ExecuteProcess(FBClone.Text,' -s '+Database.FileName+' -t '+ls_fileDest+' -u '+UserName.Text+' -e -po -p '+PassWord.Text+' -tc '+CharsetDest.Text,False);
+      if ls_fileDest >'' Then
+        MessageDlg('Error :'+#0+ls_fileDest,mtError,[mbOK],0);
      end;
-  MyMessageDlg('Will execute this :'+#10+FBClone.Text+' -s '''+Database.FileName+''' -t '+ls_fileDest+' -u '+UserName.Text+' -p '+PassWord.Text+' -e -po -rc '+CharsetSource.Text+' -tc '+CharsetDest.Text+#10+'Please install Firebird 2.5 for Windows 32. Please wait...');
-  ls_fileDest := fs_ExecuteProcess(FBClone.Text,' -s '+Database.FileName+' -t '+ls_fileDest+' -u '+UserName.Text+' -p '+PassWord.Text+' -e -po -rc '+CharsetSource.Text+' -tc '+CharsetDest.Text,False);
-  if ls_fileDest >'' Then
-    MessageDlg('Error :'+#0+ls_fileDest,mtError,[mbOK],0);
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
