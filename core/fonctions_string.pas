@@ -72,7 +72,7 @@ type
   function fb_isFileChar(AChar:Char):boolean;
   function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True):AnsiString;
   function fs_getCorrectString ( const as_string : String ): String ;
-  function fs_copyutf8 ( const astring : String; apositionNonUTF8 : Int64 ; const aLengthNonUTF8 : Int64 ): String;
+  function fs_copyutf8 ( const astring : String; const apositionNonUTF8 : Int64 ; const aLengthNonUTF8 : Int64 ; const ab_strict : Boolean = False): String;
   procedure p_PutFirstCharOfWordsInMaj(var AChaine:String; const ANewWordChar : String = CST_DELIMITERS_CHAR );
   procedure p_FormatText(var Chaine:String ; const amft_Mode :TModeFormatText; const ab_NoAccents:Boolean = False );
   function fs_FormatText(const Chaine:String ; const amft_Mode :TModeFormatText; const ab_NoAccents:Boolean = False ):String;
@@ -881,10 +881,12 @@ end;
 // just for utf8
 // copy a string from real aposition and real alength
 // Because a utf8 char has a length between 1 and more.
-function fs_copyutf8 ( const astring : String; apositionNonUTF8 : Int64 ; const aLengthNonUTF8 : Int64 ): String;
+// strict length includes double or triple length of special  chars
+function fs_copyutf8 ( const astring : String; const apositionNonUTF8 : Int64 ; const aLengthNonUTF8 : Int64 ; const ab_strict : Boolean = False): String;
 var AChar :PChar;
     EndChar : PChar;
     {$IFDEF FPC}
+    li_pos ,
     li_charlength : Integer;
     li_length : Int64;
     {$ENDIF}
@@ -895,8 +897,9 @@ begin
     Result:='';
     Exit;
    end;
+  // uneeded calculate
   if  ( apositionNonUTF8 = 1 )
-  and (Length(astring) >= aLengthNonUTF8) Then
+  and (Length(astring) <= aLengthNonUTF8) Then
    Begin
      Result:=astring;
      Exit;
@@ -908,14 +911,19 @@ begin
   while AChar<=EndChar do
     begin
       li_charlength := UTF8CharacterLength ( AChar );
-      inc (Achar{$IFDEF FPC},li_charlength{$ENDIF});
+      if ab_strict // strict calculate total lenght
+      and (AChar-@astring[1]+li_charlength>aLengthNonUTF8) Then
+        Break;
       inc (li_length);
+      // adapt position behore increasing pchar
       if apositionNonUTF8 = li_length Then
-         apositionNonUTF8:=AChar-@astring[1]+1;
-      if li_length = aLengthNonUTF8 Then
-       Break;
+         li_pos:=AChar-@astring[1]+1;
+      inc (Achar{$IFDEF FPC},li_charlength{$ENDIF});
+      // not strict : visible lenght
+      if not ab_strict and (li_length = aLengthNonUTF8) Then
+        Break;
     end;
-  Result:=copy(astring,apositionNonUTF8,AChar-@astring[1]+li_charlength);
+  Result:=copy(astring,li_pos,AChar-@astring[1]);
   {$ELSE}
   Result:=copy(astring,apositionNonUTF8,aLengthNonUTF8);
   {$ENDIF}
