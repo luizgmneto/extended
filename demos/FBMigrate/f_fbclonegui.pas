@@ -178,7 +178,7 @@ begin
      Begin
       MyMessageDlg('Will execute this :'+#13#10+ISQL.Text+' -ch '+CharsetDest.Text +' -i '''+fs_getAppDir+'DDL.sql'''+#10+'Please wait...',mtInformation);
       fs_ExecuteProcess(ISQL.Text,' -ch '+CharsetDest.Text +' -i '''+fs_getAppDir+'DDL.sql''',False);
-      MyMessageDlg('Will execute this :'+#10+FBClone.Text+' -s '''+Database.FileName+''' -t '+ls_fileDest+' -u '+UserName.Text+' -e po -p '+PassWord.Text+' -tc '+CharsetDest.Text+#10+'Please install Firebird 2.5 for Windows 32. Please wait...',mtInformation);
+      MyMessageDlg('Will execute this :'+#13#10+FBClone.Text+' -s '''+Database.FileName+''' -t '+ls_fileDest+' -u '+UserName.Text+' -e po -p '+PassWord.Text+' -tc '+CharsetDest.Text+#13#10+'Please install Firebird 2.5 and Visual C++ 2005 Runtime for Windows 32. Please wait...',mtInformation);
       ls_fileDest := fs_ExecuteProcess(FBClone.Text,' -s '+Database.FileName+' -t '+ls_fileDest+' -u '+UserName.Text+' -e -po -p '+PassWord.Text+' -tc '+CharsetDest.Text,False);
       if ls_fileDest >'' Then
         MessageDlg('Error :'+#0+ls_fileDest,mtError,[mbOK],0);

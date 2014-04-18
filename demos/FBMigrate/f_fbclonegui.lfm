@@ -33,14 +33,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 40
+        Width = 46
         Align = alLeft
         Caption = 'FBClone'
         ParentColor = False
       end
       object FBClone: TFileNameEdit
         Left = 152
-        Height = 21
+        Height = 24
         Top = 1
         Width = 259
         FileName = 'FBClone'
@@ -68,14 +68,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 46
+        Width = 53
         Align = alLeft
         Caption = 'Database'
         ParentColor = False
       end
       object Database: TFileNameEdit
         Left = 151
-        Height = 21
+        Height = 24
         Top = -1
         Width = 260
         Filter = 'Firebird|*.fdb;*.FDB'
@@ -100,7 +100,7 @@ object Form1: TForm1
       TabOrder = 2
       object UserName: TEdit
         Left = 151
-        Height = 21
+        Height = 24
         Top = -1
         Width = 128
         TabOrder = 0
@@ -108,9 +108,9 @@ object Form1: TForm1
       end
       object Label34: TLabel
         Left = 1
-        Height = 13
+        Height = 14
         Top = 7
-        Width = 28
+        Width = 34
         Caption = 'User :'
         ParentColor = False
       end
@@ -126,7 +126,7 @@ object Form1: TForm1
       TabOrder = 3
       object PassWord: TEdit
         Left = 151
-        Height = 21
+        Height = 24
         Top = 0
         Width = 128
         EchoMode = emPassword
@@ -136,9 +136,9 @@ object Form1: TForm1
       end
       object Label35: TLabel
         Left = 1
-        Height = 13
+        Height = 14
         Top = 7
-        Width = 52
+        Width = 62
         Caption = 'Password :'
         ParentColor = False
       end
@@ -154,15 +154,15 @@ object Form1: TForm1
       TabOrder = 4
       object Label37: TLabel
         Left = 1
-        Height = 13
+        Height = 14
         Top = 7
-        Width = 92
+        Width = 111
         Caption = 'Destination Charset'
         ParentColor = False
       end
       object CharsetDest: TEdit
         Left = 151
-        Height = 21
+        Height = 24
         Top = 0
         Width = 128
         TabOrder = 0
@@ -182,14 +182,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 49
+        Width = 51
         Align = alLeft
         Caption = 'ISQL DDL'
         ParentColor = False
       end
       object DDL: TFileNameEdit
         Left = 151
-        Height = 21
+        Height = 24
         Top = -1
         Width = 260
         Filter = 'Firebird SQL|*.sql;*.SQL'
@@ -216,14 +216,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 24
+        Width = 25
         Align = alLeft
         Caption = 'ISQL'
         ParentColor = False
       end
       object ISQL: TFileNameEdit
         Left = 152
-        Height = 21
+        Height = 24
         Top = 1
         Width = 259
         FileName = 'ISQL'
