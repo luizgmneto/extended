@@ -786,7 +786,7 @@ end;
 
 { TFWDBDateTimePicker }
 
-procedure TFWDBDateTimePicker.p_setLabel(const alab_Label: TFWLabel);
+procedure TFWDBDateTimePicker.p_setLabel(const alab_Label: TLabel);
 begin
   p_setMyLabel ( FLabel, alab_Label, Self );
 end;

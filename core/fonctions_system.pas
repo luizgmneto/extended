@@ -13,6 +13,7 @@ interface
 uses
 {$IFDEF FPC}
   LCLIntf,
+  Process,
 {$IFDEF UNIX}
   Unix,
 {$ENDIF}
@@ -27,7 +28,6 @@ uses
   fonctions_version,
 {$ENDIF}
   StrUtils,
-  Process,
   Classes ;
 
 type TPackageType = ( ptExe, ptTar, ptRpm, ptDeb, ptPkg, ptDmg );
@@ -95,7 +95,7 @@ function GetWinDir ( const CSIDL : Integer ) : String ;
 function fs_GetArchitecture : String;
 function fs_GetFullArchitecture : String;
 function fat_GetArchitectureType : TArchitectureType;
-function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String = '' ; const HasOutput : Boolean = True; const AOptions : TProcessOptions = [poWaitOnExit]):String;
+function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String = '' ; const HasOutput : Boolean = True{$IFDEF FPC}; const AOptions : TProcessOptions = [poWaitOnExit]{$ENDIF}):String;
 {$IFNDEF FPC}
 function GetAppConfigDir ( const Global : Boolean ): string;
 function GetUserDir: string;
@@ -409,7 +409,7 @@ begin
 end;
 
 // dos or unix process executing
-function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String = '' ; const HasOutput : Boolean = True; const AOptions : TProcessOptions = [poWaitOnExit]):String;
+function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String = '' ; const HasOutput : Boolean = True{$IFDEF FPC}; const AOptions : TProcessOptions = [poWaitOnExit]{$ENDIF}):String;
 {$IFNDEF FPC}
 const
      ReadBuffer = 2400;

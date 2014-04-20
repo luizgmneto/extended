@@ -30,8 +30,6 @@ uses
   IniFiles,
   ComCtrls;
 
-{$DEFINE MD5}
-
 const
   INI_FILE_UPDATE = 'UPDATE';
   INI_FILE_UPDATE_SIZE = 'Size';
@@ -218,15 +216,18 @@ end;
 procedure TNetUpdate.SetMD5;
 begin
   {$IFDEF MD5}
+  {$IFDEF LNET}
   if gb_Buffered and ( gs_Buffer > '' ) Then
     Begin
       gs_md5File := MD5DataToStr(MD5DataFromString(gs_Buffer));
     End
-  else if not gb_Buffered and FileExistsUTF8(gs_UpdateDir + gs_File) then
-  begin
+  else
+  {$ENDIF}
+  if not gb_Buffered and FileExistsUTF8(gs_UpdateDir + gs_File) then
+   begin
     // Matthieu : comparing files
-    gs_md5File := MD5DataFromFile(gs_UpdateDir + gs_File);
-  end
+    gs_md5File := MD5FromFile(gs_UpdateDir + gs_File);
+   end
   else
   {$ENDIF}
     gs_md5File := '';

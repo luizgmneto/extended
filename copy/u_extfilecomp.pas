@@ -1,6 +1,9 @@
 unit u_extfilecomp;
 
-{$mode delphi}
+{$IFDEF FPC}
+{$mode Delphi}
+{$ENDIF}
+
 
 interface
 
@@ -52,16 +55,17 @@ type
 
 implementation
 
-uses FileUtil,
-     lazutf8,
-     Dialogs,
+uses Dialogs,
      Controls,
      fonctions_file,
      {$IFDEF FPC}
      unite_messages,
+     FileUtil,
+     lazutf8,
      {$ELSE}
      unite_messages_delphi,
      {$ENDIF}
+     fonctions_system,
      fonctions_dialogs;
 
 { TExtDBFileEdit }
@@ -133,9 +137,9 @@ Begin
             ls_file := AsString;
             repeat
               inc ( li_i );
-              ls_filePath:=ADirectory+ExtractFileNameWithoutExt(AsString)+IntToStr(li_i)+ExtractFileExt(AsString);
+              ls_filePath:=ADirectory+fs_ExtractFileNameOnlyWithoutExt(AsString)+IntToStr(li_i)+ExtractFileExt(AsString);
             until not FileExistsUTF8(ls_filePath);
-            AsString:=ExtractFileNameWithoutExt(AsString)+IntToStr(li_i)+ExtractFileExt(AsString);
+            AsString:=fs_ExtractFileNameOnlyWithoutExt(AsString)+IntToStr(li_i)+ExtractFileExt(AsString);
             fb_CopyFile(FLocalDir+ls_file,FFilesDir+AsString,False);
            end;
        end
