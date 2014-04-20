@@ -26,11 +26,12 @@ Const
                                      FileUnit : 'fonctions_scaledpi' ;
               			                 Owner : 'Matthieu Giroux' ;
               			                 Comment : 'Adapt forms and controls to system.' ;
-              			                 BugsStory :  'Version 1.0.0.0 : OK on linux with ini.' + #13#10 +
+              			                 BugsStory :  'Version 1.0.1.0 : Adding interfaces for classes.' + #13#10 +
+                                                              'Version 1.0.0.0 : OK on linux with ini.' + #13#10 +
                                                               'Version 0.9.9.0 : OK on windows.' + #13#10 +
                                                               'Version 0.9.0.0 : To test.';
               			                 UnitType : 1 ;
-              			                 Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
+              			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 
 {$ENDIF}
 
@@ -45,6 +46,14 @@ procedure FormInScreen(const Control: TCustomForm);
 
 
 type
+  INoAdaptComponent = interface
+   ['{4D071431-71E6-4B55-9AD2-B815D34A8379}']
+  End;
+
+  ISpecialAdaptComponent = interface
+    ['{4D071431-71E6-4B55-9AD2-B815D34A8379}']
+    procedure ScaleComponent ( const NewScale : Extended );
+  End;
 
   { TDMAdaptForms }
 
@@ -205,6 +214,7 @@ var
   AColumn : TCollection;
   AItem   : TCollectionItem;
 begin
+  if not ( Control is INoAdaptComponent) Then
   with Control do
   begin
     with Constraints do
@@ -267,6 +277,8 @@ begin
         end;
      end;
     ScaleFont(Control,ANewEchelle);
+    if Control is ISpecialAdaptComponent Then
+     ( Control as ISpecialAdaptComponent ).ScaleComponent(ANewEchelle);
   end;
 
   if Control is TWinControl then
