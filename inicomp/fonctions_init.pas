@@ -32,7 +32,7 @@ uses
   {$ELSE}
   unite_messages_delphi,
   {$ENDIF}
-  DBGrids;
+  DBGrids,Graphics;
 
 type
   TIniEvent = procedure( const afor_MainObject : TObject ; const aini_iniFile : TCustomInifile ) of object;
@@ -112,6 +112,8 @@ const
   // Mise à jour de la date de lancement du fichier ini
   procedure p_IniMAJ;
 
+  function FontToString(const Font:TFont):string;
+  procedure StringToFont( Str:string;const Font:TFont);
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Fonctions standard de gestion de valeur
@@ -220,8 +222,10 @@ var
 
 implementation
 
-uses TypInfo, fonctions_string, fonctions_system,
-      fonctions_proprietes;
+uses TypInfo,
+     fonctions_string,
+     fonctions_system,
+     fonctions_proprietes;
 
 
       
@@ -336,6 +340,52 @@ end;
 function f_IniReadSectionBol(aSection: string; aCle: string; aDefaut: Boolean): Boolean;
 begin
   result := FIniFile.ReadBool(aSection, aCle, aDefaut);
+end;
+
+
+function FontToString(const Font:TFont):string;
+begin
+  Result:=Format('%s,%d,%d%d%d%d,%s', [Font.Name,Font.Size,
+    Integer(fsBold in Font.Style),Integer(fsItalic in Font.Style),
+      Integer(fsUnderline in Font.Style),Integer(fsStrikeOut in Font.Style),
+      ColorToString(Font.Color)]);
+end;
+
+procedure StringToFont( Str:string;const Font:TFont);
+const
+  SEP=',';
+  EXCEPT_MSG='Invalid string to font conversion.';
+var
+  i:Integer;
+  tmpFont:TFont;
+begin
+  try
+    // name
+    i:=Pos(SEP,Str);
+    if i=0 then raise EConvertError.Create(EXCEPT_MSG);
+    Font.Name:=Copy(Str,1,i-1);
+    Delete(Str,1,i);
+
+    // size
+    i:=Pos(SEP,Str);
+    if i=0 then raise EConvertError.Create(EXCEPT_MSG);
+    Font.Size:=StrToInt(Copy(Str,1,i-1));
+    Delete(Str,1,i);
+
+    // bold, italic, underline, strikethrough
+    if Pos(SEP,Str)<>5 then raise EConvertError.Create(EXCEPT_MSG);
+    Font.Style:= [];
+    if Boolean(StrToInt(Copy(Str,1,1))) then Font.Style:=Font.Style+ [fsBold];
+    if Boolean(StrToInt(Copy(Str,2,1))) then Font.Style:=Font.Style+ [fsItalic];
+    if Boolean(StrToInt(Copy(Str,3,1))) then Font.Style:=Font.Style+ [fsUnderline];
+    if Boolean(StrToInt(Copy(Str,4,1))) then Font.Style:=Font.Style+ [fsStrikeOut];
+
+    Delete(Str,1,5);
+
+    // colour
+    Font.Color:=StringToColor(Str);
+  except
+  end;
 end;
 
 /////////////////////////////////////////////////////////////////////////////////
