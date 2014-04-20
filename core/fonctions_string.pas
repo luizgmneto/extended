@@ -890,6 +890,7 @@ var AChar :PChar;
     li_pos ,
     li_charlength : Integer;
     li_length : Int64;
+    PosChar : PChar;
     {$ENDIF}
 begin
   if (astring = '')
@@ -907,21 +908,25 @@ begin
    end;
   {$IFDEF FPC}
   AChar:=@astring[1];
+  PosChar:=AChar;
   EndChar:=@astring[Length(astring)];
   li_length:=0;
   while AChar<=EndChar do
     begin
       li_charlength := UTF8CharacterLength ( AChar );
       if ab_strict // strict calculate total lenght
-      and (AChar-@astring[1]+li_charlength>aLengthNonUTF8) Then
+      and (AChar-PosChar+li_charlength>aLengthNonUTF8) Then
         Break;
       inc (li_length);
       // adapt position behore increasing pchar
       if apositionNonUTF8 = li_length Then
+       Begin
          li_pos:=AChar-@astring[1]+1;
-      inc (Achar{$IFDEF FPC},li_charlength{$ENDIF});
+         PosChar:=AChar;
+       end;
+      inc (Achar,li_charlength);
       // not strict : visible lenght
-      if not ab_strict and (li_length = aLengthNonUTF8) Then
+      if not ab_strict and (li_length -apositionNonUTF8 + 1 = aLengthNonUTF8) Then
         Break;
     end;
   Result:=copy(astring,li_pos,AChar-@astring[1]);
