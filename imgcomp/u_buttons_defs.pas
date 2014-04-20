@@ -341,6 +341,7 @@ begin
   inherited Create(AOwner);
   FColorFrameFocus:=clCream;
   FOnPopup := nil;
+  FBeforePopup := nil;
 end;
 
 

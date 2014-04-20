@@ -26,7 +26,9 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-  StrUtils, Classes ;
+  StrUtils,
+  Process,
+  Classes ;
 
 type TPackageType = ( ptExe, ptTar, ptRpm, ptDeb, ptPkg, ptDmg );
      TProcessorType = ( ptIntel, ptMIPS, ptAlpha, ptPPC, ptSHX, ptARM, ptIA64, ptAlpha64, ptUnknown );
@@ -37,7 +39,8 @@ const
   gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_system' ;
                         	       Owner : 'Matthieu Giroux' ;
                         	       Comment : 'System Functions, with traducing and path management.' ;
-                        	       BugsStory : 'Version 1.1.0.4 : Testing command line on linux and windows.' + #10
+                        	       BugsStory : 'Version 1.1.0.5 : Testing Open File.' + #10
+                                                 + 'Version 1.1.0.4 : Testing command line on linux and windows.' + #10
                                                  + 'Version 1.1.0.3 : Renaming to fs_getappdir.' + #10
                                                  + 'Version 1.1.0.2 : Testing p_openfileordirectory on windows.' + #10
                                                  + 'Version 1.1.0.1 : Using explorer to open files, more secure.' + #10
@@ -46,7 +49,7 @@ const
                                                  + 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
                                                  + 'Version 1.0.0.0 : Creating from fonctions_string.';
                         	       UnitType : 1 ;
-                        	       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 4 );
+                        	       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 5 );
 {$ENDIF}
 {$IFDEF DELPHI}
   DirectorySeparator = '\' ;
@@ -92,7 +95,7 @@ function GetWinDir ( const CSIDL : Integer ) : String ;
 function fs_GetArchitecture : String;
 function fs_GetFullArchitecture : String;
 function fat_GetArchitectureType : TArchitectureType;
-function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String = '' ; const HasOutput : Boolean = True):String;
+function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String = '' ; const HasOutput : Boolean = True; const AOptions : TProcessOptions = [poWaitOnExit]):String;
 {$IFNDEF FPC}
 function GetAppConfigDir ( const Global : Boolean ): string;
 function GetUserDir: string;
@@ -120,7 +123,7 @@ implementation
 
 uses
 {$IFDEF FPC}
-  LCLType, FileUtil, UTF8Process, process,
+  LCLType, FileUtil, UTF8Process,
 {$ENDIF}
 {$IFDEF WINDOWS}
   ShlObj,
@@ -406,7 +409,7 @@ begin
 end;
 
 // dos or unix process executing
-function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String = '' ; const HasOutput : Boolean = True):String;
+function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String = '' ; const HasOutput : Boolean = True; const AOptions : TProcessOptions = [poWaitOnExit]):String;
 {$IFNDEF FPC}
 const
      ReadBuffer = 2400;
@@ -433,8 +436,8 @@ begin
   with Process do
     try
       if HasOutput // get the result
-        Then Options := Options + [poWaitOnExit,poNoConsole, poStderrToOutPut,poUsePipes]
-        Else Options := Options + [poWaitOnExit]; // wait for result
+        Then Options := Options + AOptions+[poNoConsole, poStderrToOutPut,poUsePipes]
+        Else Options := Options + AOptions; // wait for result
       {$IFDEF WIeNDOWS}
       Executable      := AExecutable;
       if AParameter > '' Then
@@ -524,7 +527,7 @@ End;
 function fs_GetFullArchitecture : String;
 Begin
   Result := {$IFDEF LINUX}
-            fs_ExecuteProcess ( UNIX_UNAME, UNIX_FULL_ARCHITECTURE );
+            fs_ExecuteProcess ( UNIX_UNAME, UNIX_FULL_ARCHITECTURE, False );
             {$ELSE}
             GetEnvironmentVariable(ENV_VARIABLE_OS)+' '+GetEnvironmentVariable(ENV_VARIABLE_ARCHITECTURE);
             {$ENDIF}
@@ -553,7 +556,7 @@ Begin
       'open'
       {$ENDIF},
       AFilePath,
-      False);
+      False, []);
 {$ENDIF}
 End;
 
