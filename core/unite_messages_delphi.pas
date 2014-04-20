@@ -9,6 +9,7 @@ interface
 {$I ..\dlcompilers.inc}
 {$I ..\extends.inc}
 
+
 uses fonctions_string
 {$IFDEF VERSIONS}
      ,fonctions_version ;
@@ -198,6 +199,7 @@ resourcestring
                       + 'Veuillez contacter votre administrateur.';
   GS_DECONNECTER_ANNULE = 'Annulation de la déconnexion';
   GS_PLEASE_SET_PROPERTY = 'Veuillez renseigner cette propriété : ';
+  GS_Files_seems_to_be_the_same_reuse = 'Il y a un fichier de même taille et nom déjà sauvegardé. Le réutilise-t-on ?';
 
   GS_MODE_ASYNCHRONE = 'Mode Asynchrone' ;
   GS_ACCES_DIRECT_SERVEUR = 'Accès directs Serveur' ;

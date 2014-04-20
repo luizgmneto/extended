@@ -1,4 +1,4 @@
-unit U_ExtDBImage;
+﻿unit U_ExtDBImage;
 
 interface
 
@@ -225,7 +225,40 @@ begin
      and FDataLink.CanModify Then
        with TOpenPictureDialog.Create(Self) do
         try
-          Filter:='Graphic (*.bmp;*.xpm;*.pbm;*.pgm;*.ppm;*.ico;*.icns;*.cur;*.jpeg;*.jpg;*.jpe;*.jfif;*.tif;*.tiff;*.gif;*.gif;*.dagsky;*.dat;*.dagtexture;*.img;*.cif;*.rci;*.bsi;*.xpm;*.pcx;*.psd;*.pdd;*.jp2;*.j2k;*.j2c;*.jpx;*.jpc;*.pfm;*.pam;*.ppm;*.pgm;*.pbm;*.tga;*.dds;*.gif;*.jng;*.mng;*.png;*.jpg;*.jpeg;*.jfif;*.jpe;*.jif;*.bmp;*.dib;*.tga;*.dds;*.jng;*.mng;*.gif;*.png;*.jpg;*.jpeg;*.jfif;*.jpe;*.jif;*.bmp;*.dib)|*.bmp;*.xpm;*.pbm;*.pgm;*.ppm;*.ico;*.icns;*.cur;*.jpeg;*.jpg;*.jpe;*.jfif;*.tif;*.tiff;*.gif;*.gif;*.dagsky;*.dat;*.dagtexture;*.img;*.cif;*.rci;*.bsi;*.xpm;*.pcx;*.psd;*.pdd;*.jp2;*.j2k;*.j2c;*.jpx;*.jpc;*.pfm;*.pam;*.ppm;*.pgm;*.pbm;*.tga;*.dds;*.gif;*.jng;*.mng;*.png;*.jpg;*.jpeg;*.jfif;*.jpe;*.jif;*.bmp;*.dib;*.tga;*.dds;*.jng;*.mng;*.gif;*.png;*.jpg;*.jpeg;*.jfif;*.jpe;*.jif;*.bmp;*.dib|Bitmaps (*.bmp)|*.bmp|Pixmap (*.xpm)|*.xpm|Portable PixMap (*.pbm;*.pgm;*.ppm)|*.pbm;*.pgm;*.ppm|Icon (*.ico)|*.ico|Mac OS X Icon (*.icns)|*.icns|Cursor (*.cur)|*.cur|Joint Picture Expert Group (*.jpeg;*.jpg;*.jpe;*.jfif)|*.jpeg;*.jpg;*.jpe;*.jfif|Tagged Image File Format (*.tif;*.tiff)|*.tif;*.tiff|Graphics Interchange Format (*.gif)|*.gif|Animated GIF (*.gif)|*.gif|Imaging Graphic AllInOne (*.dagsky)|*.dagsky|Imaging Graphic AllInOne (*.dat)|*.dat|Imaging Graphic AllInOne (*.dagtexture)|*.dagtexture|Imaging Graphic AllInOne (*.img)|*.img|Imaging Graphic AllInOne (*.cif)|*.cif|Imaging Graphic AllInOne (*.rci)|*.rci|Imaging Graphic AllInOne (*.bsi)|*.bsi|Imaging Graphic AllInOne (*.xpm)|*.xpm|Imaging Graphic AllInOne (*.pcx)|*.pcx|Imaging Graphic AllInOne (*.psd)|*.psd|Imaging Graphic AllInOne (*.pdd)|*.pdd|Imaging Graphic AllInOne (*.jp2)|*.jp2|Imaging Graphic AllInOne (*.j2k)|*.j2k|Imaging Graphic AllInOne (*.j2c)|*.j2c|Imaging Graphic AllInOne (*.jpx)|*.jpx|Imaging Graphic AllInOne (*.jpc)|*.jpc|Imaging Graphic AllInOne (*.pfm)|*.pfm|Imaging Graphic AllInOne (*.pam)|*.pam|Imaging Graphic AllInOne (*.ppm)|*.ppm|Imaging Graphic AllInOne (*.pgm)|*.pgm|Imaging Graphic AllInOne (*.pbm)|*.pbm|Imaging Graphic AllInOne (*.tga)|*.tga|Imaging Graphic AllInOne (*.dds)|*.dds|Imaging Graphic AllInOne (*.gif)|*.gif|Imaging Graphic AllInOne (*.jng)|*.jng|Imaging Graphic AllInOne (*.mng)|*.mng|Imaging Graphic AllInOne (*.png)|*.png|Imaging Graphic AllInOne (*.jpg)|*.jpg|Imaging Graphic AllInOne (*.jpeg)|*.jpeg|Imaging Graphic AllInOne (*.jfif)|*.jfif|Imaging Graphic AllInOne (*.jpe)|*.jpe|Imaging Graphic AllInOne (*.jif)|*.jif|Imaging Graphic AllInOne (*.bmp)|*.bmp|Imaging Graphic AllInOne (*.dib)|*.dib|Truevision Targa Image (*.tga)|*.tga|DirectDraw Surface (*.dds)|*.dds|JPEG Network Graphics (*.jng)|*.jng|Multiple Network Graphics (*.mng)|*.mng|Graphics Interchange Format (*.gif)|*.gif|Portable Network Graphics (*.png)|*.png|Joint Photographic Experts Group Image (*.jpg)|*.jpg|Joint Photographic Experts Group Image (*.jpeg)|*.jpeg|Joint Photographic Experts Group Image (*.jfif)|*.jfif|Joint Photographic Experts Group Image (*.jpe)|*.jpe|Joint Photographic Experts Group Image (*.jif)|*.jif|Windows Bitmap Image (*.bmp)|*.bmp|Windows Bitmap Image (*.dib)|*.dib|Tous les fichiers (*)|*|';
+          Filter:='Graphic (*.bmp;*.xpm;*.pbm;*.pgm;*.ppm;*.ico;*.icns;*.cur;*.jpeg;*.jpg;*.jpe;'
+          +'*.jfif;*.tif;*.tiff;*.gif;*.gif;*.dagsky;*.dat;*.dagtexture;*.img;*.cif;*.rci;*.bsi;'
+          +'*.xpm;*.pcx;*.psd;*.pdd;*.jp2;*.j2k;*.j2c;*.jpx;*.jpc;*.pfm;*.pam;*.ppm;*.pgm;*.pbm;'
+          +'*.tga;*.dds;*.gif;*.jng;*.mng;*.png;*.jpg;*.jpeg;*.jfif;*.jpe;*.jif;*.bmp;*.dib;*.tga;'
+          +'*.dds;*.jng;*.mng;*.gif;*.png;*.jpg;*.jpeg;*.jfif;*.jpe;*.jif;*.bmp;*.dib)|*.bmp;*.xpm;'
+          +'*.pbm;*.pgm;*.ppm;*.ico;*.icns;*.cur;*.jpeg;*.jpg;*.jpe;*.jfif;*.tif;*.tiff;*.gif;*.gif;'
+          +'*.dagsky;*.dat;*.dagtexture;*.img;*.cif;*.rci;*.bsi;*.xpm;*.pcx;*.psd;*.pdd;*.jp2;*.j2k;'
+          +'*.j2c;*.jpx;*.jpc;*.pfm;*.pam;*.ppm;*.pgm;*.pbm;*.tga;*.dds;*.gif;*.jng;*.mng;*.png;*.jpg;'
+          +'*.jpeg;*.jfif;*.jpe;*.jif;*.bmp;*.dib;*.tga;*.dds;*.jng;*.mng;*.gif;*.png;*.jpg;*.jpeg;'
+          +'*.jfif;*.jpe;*.jif;*.bmp;*.dib|Bitmaps (*.bmp)|*.bmp|Pixmap (*.xpm)|*.xpm|Portable PixMap'
+          +' (*.pbm;*.pgm;*.ppm)|*.pbm;*.pgm;*.ppm|Icon (*.ico)|*.ico|Mac OS X Icon (*.icns)|*.icns|Cursor'
+          +' (*.cur)|*.cur|Joint Picture Expert Group (*.jpeg;*.jpg;*.jpe;*.jfif)|*.jpeg;*.jpg;*.jpe;*.jfif|'
+          +'Tagged Image File Format (*.tif;*.tiff)|*.tif;*.tiff|Graphics Interchange Format (*.gif)|*.gif|'
+          +'Animated GIF (*.gif)|*.gif|Imaging Graphic AllInOne (*.dagsky)|*.dagsky|Imaging Graphic AllInOne'
+          +' (*.dat)|*.dat|Imaging Graphic AllInOne (*.dagtexture)|*.dagtexture|Imaging Graphic AllInOne (*.img)'
+          +'|*.img|Imaging Graphic AllInOne (*.cif)|*.cif|Imaging Graphic AllInOne (*.rci)|*.rci|Imaging Graphic '
+          +'AllInOne (*.bsi)|*.bsi|Imaging Graphic AllInOne (*.xpm)|*.xpm|Imaging Graphic AllInOne (*.pcx)|*.pcx|'
+          +'Imaging Graphic AllInOne (*.psd)|*.psd|Imaging Graphic AllInOne (*.pdd)|*.pdd|Imaging Graphic AllInOne'
+          +' (*.jp2)|*.jp2|Imaging Graphic AllInOne (*.j2k)|*.j2k|Imaging Graphic AllInOne (*.j2c)|*.j2c|'
+          +'Imaging Graphic AllInOne (*.jpx)|*.jpx|Imaging Graphic AllInOne (*.jpc)|*.jpc|Imaging Graphic AllInOne '
+          +'(*.pfm)|*.pfm|Imaging Graphic AllInOne (*.pam)|*.pam|Imaging Graphic AllInOne (*.ppm)|*.ppm|'
+          +'Imaging Graphic AllInOne (*.pgm)|*.pgm|Imaging Graphic AllInOne (*.pbm)|*.pbm|Imaging Graphic'
+          +' AllInOne (*.tga)|*.tga|Imaging Graphic AllInOne (*.dds)|*.dds|Imaging Graphic AllInOne (*.gif)|'
+          +'*.gif|Imaging Graphic AllInOne (*.jng)|*.jng|Imaging Graphic AllInOne (*.mng)|*.mng|'
+          +'Imaging Graphic AllInOne (*.png)|*.png|Imaging Graphic AllInOne (*.jpg)|*.jpg|'
+          +'Imaging Graphic AllInOne (*.jpeg)|*.jpeg|Imaging Graphic AllInOne (*.jfif)|*.jfif|'
+          +'Imaging Graphic AllInOne (*.jpe)|*.jpe|Imaging Graphic AllInOne (*.jif)|*.jif|'
+          +'Imaging Graphic AllInOne (*.bmp)|*.bmp|Imaging Graphic AllInOne (*.dib)|*.dib|'
+          +'Truevision Targa Image (*.tga)|*.tga|DirectDraw Surface (*.dds)|*.dds|JPEG Network Graphics (*.jng)|'
+          +'*.jng|Multiple Network Graphics (*.mng)|*.mng|Graphics Interchange Format (*.gif)|*.gif|'
+          +'Portable Network Graphics (*.png)|*.png|Joint Photographic Experts Group Image (*.jpg)|*.jpg|'
+          +'Joint Photographic Experts Group Image (*.jpeg)|*.jpeg|Joint Photographic Experts Group Image '
+          +'(*.jfif)|*.jfif|Joint Photographic Experts Group Image (*.jpe)|*.jpe|Joint Photographic Experts Group Image (*.jif)|'
+          +'*.jif|Windows Bitmap Image (*.bmp)|*.bmp|Windows Bitmap Image (*.dib)|*.dib|Tous les fichiers (*)|*|';
           if Execute Then
            Begin
             FDataLink.Edit;

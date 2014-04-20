@@ -160,6 +160,7 @@ contains
   u_register_net in 'extnet\u_register_net.pas',
   u_extmenutoolbar in 'inicomp\u_extmenutoolbar.pas',
   menutbar in 'inicomp\menutbar.pas',
-  u_extformatedits in 'extcomp\u_extformatedits.pas';
+  u_extformatedits in 'extcomp\u_extformatedits.pas',
+  md5api in 'extnet\md5api.pas';
 
 end.

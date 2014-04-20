@@ -73,6 +73,7 @@ uses
   {$ENDIF}
 {$IFDEF DELPHI}
      OleDb,
+     fonctions_string,
 {$ENDIF}
 {$IFDEF EADO}
      ADOInt, ComObj,

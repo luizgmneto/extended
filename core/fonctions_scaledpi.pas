@@ -214,7 +214,7 @@ var
   AColumn : TCollection;
   AItem   : TCollectionItem;
 begin
-  if not ( Control is INoAdaptComponent) Then
+  if not {$IFNDEF FPC}Supports{$ENDIF}( Control {$IFDEF FPC}is{$ELSE},{$ENDIF} INoAdaptComponent) Then
   with Control do
   begin
     with Constraints do
@@ -247,7 +247,7 @@ begin
     if assigned ( GetPropInfo ( Control, SCALE_NODE_HEIGHT )) Then
       SetPropValue(Control, SCALE_NODE_HEIGHT, Scale ( GetPropValue (Control, SCALE_NODE_HEIGHT ), ANewEchelle));
     if assigned ( GetPropInfo ( Control, SPACING ))
-    and ( PropType(Control,SPACING) in [tkInteger,tkQWord,tkInt64] ) Then
+    and ( PropType(Control,SPACING) in [tkInteger{$IFDEF FPC},tkQWord{$ENDIF},tkInt64] ) Then
      Begin
       I := Scale ( GetPropValue (Control, SPACING ), ANewEchelle);
       if i < 0
@@ -258,7 +258,7 @@ begin
         end;
      end;
     if assigned ( GetPropInfo ( Control, SCALE_GLYPH_SIZE ))
-    and ( PropType(Control,SCALE_GLYPH_SIZE) in [tkInteger,tkQWord,tkInt64] ) Then
+    and ( PropType(Control,SCALE_GLYPH_SIZE) in [tkInteger{$IFDEF FPC},tkQWord{$ENDIF},tkInt64] ) Then
       SetPropValue(Control, SCALE_GLYPH_SIZE, Scale ( GetPropValue (Control, SCALE_GLYPH_SIZE ), ANewEchelle));
 
     if ( Control is TCustomGrid )
@@ -277,7 +277,7 @@ begin
         end;
      end;
     ScaleFont(Control,ANewEchelle);
-    if Control is ISpecialAdaptComponent Then
+    if {$IFNDEF FPC}Supports{$ENDIF}( Control {$IFDEF FPC}is{$ELSE},{$ENDIF} ISpecialAdaptComponent) Then
      ( Control as ISpecialAdaptComponent ).ScaleComponent(ANewEchelle);
   end;
 
