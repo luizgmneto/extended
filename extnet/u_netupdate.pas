@@ -30,7 +30,7 @@ uses
   IniFiles,
   ComCtrls;
 
-{.$DEFINE MD5}
+{$DEFINE MD5}
 
 const
   INI_FILE_UPDATE = 'UPDATE';
@@ -220,7 +220,7 @@ begin
   {$IFDEF MD5}
   if gb_Buffered and ( gs_Buffer > '' ) Then
     Begin
-      gs_md5File := MD5DataFromString(gs_Buffer);
+      gs_md5File := MD5DataToStr(MD5DataFromString(gs_Buffer));
     End
   else if not gb_Buffered and FileExistsUTF8(gs_UpdateDir + gs_File) then
   begin
