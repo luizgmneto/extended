@@ -23,13 +23,14 @@ const
                                          FileUnit : 'fonctions_components' ;
       			                 Owner : 'Matthieu Giroux' ;
       			                 Comment : 'Fonctions de gestion des composants visuels.' ;
-      			                 BugsStory : 'Version 1.0.4.0 : Centralizing setting MyLabel.'+#10
+      			                 BugsStory : 'Version 1.0.5.0 : Show CSV or HTML File.'+#10
+                                                   + 'Version 1.0.4.0 : Centralizing setting MyLabel.'+#10
                                                    + 'Version 1.0.3.0 : Menu cloning.'+#10
                                                    + 'Version 1.0.2.0 : CSV and HTML Grid''s Export.'+#10
                                                    + 'Version 1.0.1.0 : Auto combo init.'+#10
                                                    + 'Version 1.0.0.0 : Ajout de fonctions d''automatisation.';
       			                 UnitType : 1 ;
-      			                 Major : 1 ; Minor : 0 ; Release : 4 ; Build : 0 );
+      			                 Major : 1 ; Minor : 0 ; Release : 5 ; Build : 0 );
 
   {$ENDIF}
 
@@ -39,8 +40,8 @@ type TFieldMethod = function ( const AField : TField ;
 
 procedure p_ComponentSelectAll ( const aobj_Component : TObject );
 function  fb_AutoComboInit ( const acom_Combo : TComponent ):Boolean;
-procedure ExportGridToHTML(const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'html' );
-procedure ExportGridToCSV (const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'csv'; const aseparate : Char = ';' );
+procedure ExportGridToHTML(const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'html' ; const ab_showFile : Boolean = True );
+procedure ExportGridToCSV (const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'csv'; const aseparate : Char = ';' ; const ab_showFile : Boolean = True );
 procedure ExportGridTo ( const AFieldMethod : TFieldMethod; const Afile : TStringList; const AGrid : TCustomDBGrid; const As_beginLine, as_endLine, as_beginCell, as_endCell, as_separator, As_beginHeader, As_EndHeader, As_beginText, As_EndText : String ; const ab_header : Boolean = False );
 function fcom_CloneObject  ( const acom_AObject : TComponent ; const AOwner : TComponent ) : TComponent;
 function fcon_CloneControl ( const acon_AControl : TControl  ; const AOwner : TComponent ) : TControl;
@@ -51,6 +52,7 @@ implementation
 
 uses fonctions_string,
   fonctions_proprietes,
+  fonctions_system,
   fonctions_languages;
 
 procedure p_setMyLabel ( var Flabel : TLabel; const ALabel :  TLabel; const AOwner : TComponent);
@@ -202,7 +204,7 @@ Begin
      end;
 End;
 
-procedure ExportGridToCSV (const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'csv'; const aseparate : Char = ';' );
+procedure ExportGridToCSV (const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'csv'; const aseparate : Char = ';' ; const ab_showFile : Boolean = True );
 var astringlist : TStringList;
 Begin
   astringlist := TStringList.Create;
@@ -212,9 +214,11 @@ Begin
   finally
     astringlist.Free;
   end;
+  if ab_showFile Then
+   p_OpenFileOrDirectory(AFileName);
 End;
 
-procedure ExportGridToHTML(const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'html' );
+procedure ExportGridToHTML(const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'html' ; const ab_showFile : Boolean = True );
 var astringlist : TStringList;
 Begin
   astringlist := TStringList.Create;
@@ -226,6 +230,8 @@ Begin
   finally
     astringlist.Free;
   end;
+  if ab_showFile Then
+   p_OpenFileOrDirectory(AFileName);
 End;
 
 function fb_AutoComboInit ( const acom_Combo : TComponent ):Boolean;
