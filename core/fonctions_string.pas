@@ -27,7 +27,8 @@ const
     gVer_fonction_string : T_Version = ( Component : 'String management' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'String traduction and format.' ;
-                        			                 BugsStory : 'Version 1.0.8.1 : Modify fs_SeparateTextFromWidth.' + #13#10 +
+                        			                 BugsStory : 'Version 1.0.9.0 : Adding FontToString and StringToFont.' + #13#10 +
+              			                	        	     'Version 1.0.8.1 : Modify fs_SeparateTextFromWidth.' + #13#10 +
               			                	        	     'Version 1.0.8.0 : procedure p_SetStringMaxLength.' + #13#10 +
               			                	        	     'Version 1.0.7.0 : function fs_RemplaceMsgIfExists.' + #13#10 +
               			                	        	     'Version 1.0.6.0 : Creating fs_SeparateTextFromWidth.' + #13#10 +
@@ -44,7 +45,7 @@ const
                         			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 +
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 8 ; Build :  1);
+                        			                 Major : 1 ; Minor : 0 ; Release : 9 ; Build :  0);
 {$ENDIF}
   CST_ENDOFLINE = #10;
   CST_DELIMITERS_CHAR = '-_ .,:[()]{}=+*';

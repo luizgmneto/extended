@@ -52,11 +52,12 @@ const
        			                 FileUnit : 'u_form_working' ;
        			                 Owner : 'Matthieu Giroux' ;
        			                 Comment : 'Ask or tell anything.' ;
-      			                 BugsStory : 'Version 0.1.2.0 : Simplify more.'+#10
+      			                 BugsStory : 'Version 0.1.3.0 : Adding copy of showed text.'+#10
+                                                   + 'Version 0.1.2.0 : Simplify more.'+#10
                                                    + 'Version 0.1.1.0 : Simplify.'+#10
                                                    + 'Version 0.1.0.0 : From other software';
 			                 UnitType : CST_TYPE_UNITE_FICHE ;
-			                 Major : 0 ; Minor : 1 ; Release : 2 ; Build : 0 );
+			                 Major : 0 ; Minor : 1 ; Release : 3 ; Build : 0 );
 {$ENDIF}
 
 type
@@ -71,6 +72,7 @@ type
     p_Msg: TPanel;
     p_Main: TPanel;
     procedure FormShow(Sender: TObject);
+    procedure lbMsgClick(Sender: TObject);
   private
     fButtons:TMsgDlgButtons;
     fDlgType:TMsgDlgType;
@@ -252,10 +254,21 @@ begin
   BringToFront;
 end;
 
+procedure TFMsg.lbMsgClick(Sender: TObject);
+begin
+  with lbMsg do
+   if Color = clBtnFace
+    Then Color:=clNone
+    Else Begin
+          Clipboard.AsText:=Caption;
+          Color := clBtnFace;
+         end;
+end;
+
 
 {$IFDEF VERSIONS}
 initialization
   p_ConcatVersion ( gVer_F_Msg );
 {$ENDIF}
 end.
-
+

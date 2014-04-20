@@ -66,6 +66,9 @@ inherited FMsg: TFMsg
           Constraints.MinHeight = 20
           Constraints.MinWidth = 286
           ParentColor = False
+          ParentShowHint = False
+          ShowHint = True
+          OnClick = lbMsgClick
         end
       end
     end
