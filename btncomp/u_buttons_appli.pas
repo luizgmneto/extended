@@ -25,14 +25,15 @@ const
     FileUnit: 'u_buttons_appli';
     Owner: 'Matthieu Giroux';
     Comment: 'Customized Buttons components.';
-    BugsStory: '1.0.1.0 : Changing setting of names.' +
+    BugsStory: '1.0.1.1 : Testing GlyphSize.' +
+      #13#10 + '1.0.1.0 : Changing setting of names.' +
       #13#10 + '1.0.0.2 : Date and Folder Buttons.' +
       #13#10 + '1.0.0.1 : UTF 8.' +
       #13#10 + '1.0.0.0 : Version OK.' +
       #13#10 + '0.8.0.1 : Group view buttons better.' +
       #13#10 + '0.8.0.0 : To test.';
     UnitType: 3;
-    Major: 1; Minor: 0; Release: 0; Build: 2);
+    Major: 1; Minor: 0; Release: 1; Build: 1);
 {$ENDIF}
   CST_FWCANCEL='tfwcancel';
   CST_FWCLOSE='tfwclose';
@@ -77,6 +78,7 @@ type
   TFWClose = class(TFWButton)
   public
     constructor Create(AOwner: TComponent); override;
+    procedure LoadBitmap; override;
     procedure Loaded; override;
     procedure Click; override;
   published
@@ -88,6 +90,7 @@ type
   TFWCancel = class(TFWButton)
   public
     procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
 
@@ -95,6 +98,7 @@ type
   TFWOK = class(TFWButton)
   public
     procedure Loaded; override;
+    procedure LoadBitmap; override;
   published
 
   end;
@@ -104,6 +108,7 @@ type
   TFWInsert = class(TFWButton)
   public
     procedure Loaded; override;
+    procedure LoadBitmap; override;
   published
 
   end;
@@ -111,139 +116,145 @@ type
   { TFWAdd }
   TFWAdd = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWDelete }
   TFWDelete = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWDocument }
   TFWDocument = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWFolder }
   TFWFolder = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWDate }
   TFWDate = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWQuit }
   TFWQuit = class(TFWButton)
   public
     procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWErase }
   TFWErase = class(TFWButton)
   public
     procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWSaveAs }
   TFWSaveAs = class(TFWButton)
   public
     procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWLoad }
   TFWLoad = class(TFWButton)
   public
     procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWPrint }
   TFWPrint = class(TFWButton)
   public
     procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWPreview }
   TFWPreview = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWNext }
   TFWNext = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWPrior }
   TFWPrior = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWPrior }
   TFWRefresh = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWCopy }
   TFWCopy = class(TFWButton)
   public
     procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWInit }
   TFWInit = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWConfig }
   TFWConfig = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWImport }
   TFWImport = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWTrash }
   TFWTrash = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWExport }
   TFWExport = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWSearch }
   TFWSearch = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWZoomIn }
   TFWZoomIn = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
   { TFWZoomOut }
   TFWZoomOut = class(TFWButton)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   end;
 
 {$IFDEF GROUPVIEW}
@@ -266,6 +277,7 @@ type
   TFWBasket = class(TFWGroupButtonActions)
   public
     procedure Loaded; override;
+    procedure LoadBitmap; override;
 
   published
 
@@ -277,6 +289,7 @@ type
   TFWRecord = class(TFWGroupButtonActions)
   public
     procedure Loaded; override;
+    procedure LoadBitmap; override;
 
   published
 
@@ -297,7 +310,7 @@ type
   { TFWOutSelect }
   TFWOutSelect = class(TFWGroupButtonMoving)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   published
 
   end;
@@ -307,7 +320,7 @@ type
 
   TFWOutAll = class(TFWGroupButtonMoving)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   published
 
   end;
@@ -315,7 +328,7 @@ type
   { TFWInSelect }
   TFWInSelect = class(TFWGroupButtonMoving)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   published
 
   end;
@@ -323,7 +336,7 @@ type
   { TFWInAll }
   TFWInAll = class(TFWGroupButtonMoving)
   public
-    procedure Loaded; override;
+    procedure LoadBitmap; override;
   published
 
   end;
@@ -377,20 +390,28 @@ begin
   Width := CST_FWWIDTH_CLOSE_BUTTON;
 end;
 
-procedure TFWClose.Loaded;
+procedure TFWClose.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWCLOSE, Self);
-  inherited Loaded;
+End;
+
+procedure TFWClose.Loaded;
+Begin
+  inherited;
   p_setControlCaption ( Self, SCloseButton);
 end;
 
 
 { TFWCancel }
 
-procedure TFWCancel.Loaded;
+procedure TFWCancel.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWCANCEL, Self);
-  inherited Loaded;
+End;
+
+procedure TFWCancel.Loaded;
+Begin
+  inherited;
   {$IFDEF FPC}
   p_setControlCaption ( Self, oiStdActDataSetCancel1Hint);
   {$ELSE}
@@ -401,10 +422,14 @@ end;
 
 { TFWOK }
 
-procedure TFWOK.Loaded;
+procedure TFWOK.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWOK, Self);
-  inherited Loaded;
+End;
+
+procedure TFWOK.Loaded;
+Begin
+  inherited;
   {$IFDEF FPC}
   p_setControlCaption ( Self, oisOk2);
   {$ELSE}
@@ -414,59 +439,56 @@ end;
 
 { TFWSearch }
 
-procedure TFWSearch.Loaded;
+procedure TFWSearch.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWSEARCH, Self);
-  inherited Loaded;
 end;
 
 { TFWZoomOut }
 
-procedure TFWZoomOut.Loaded;
+procedure TFWZoomOut.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWZOOMOUT, Self);
-  inherited Loaded;
 end;
 
 { TFWZoomIn }
 
-procedure TFWZoomIn.Loaded;
+procedure TFWZoomIn.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWZOOMIN, Self);
-  inherited Loaded;
 end;
 
 { TFWFolder }
 
-procedure TFWFolder.Loaded;
+procedure TFWFolder.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWFOLDER, Self);
-  inherited Loaded;
 end;
 
 { TFWTrash }
 
-procedure TFWTrash.Loaded;
+procedure TFWTrash.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWTRASH, Self);
-  inherited Loaded;
 end;
 
 
 { TFWDate }
 
-procedure TFWDate.Loaded;
+procedure TFWDate.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWDATE, Self);
-  inherited Loaded;
 end;
 
 { TFWLoad }
 
-procedure TFWLoad.Loaded;
+procedure TFWLoad.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWLOAD, Self);
-  inherited Loaded;
+End;
+procedure TFWLoad.Loaded;
+Begin
+  inherited;
   {$IFDEF FPC}
   p_setControlCaption ( Self, oiStdActFileOpenHint );
   {$ENDIF}
@@ -474,26 +496,27 @@ end;
 
 { TFWDocument }
 
-procedure TFWDocument.Loaded;
+procedure TFWDocument.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWDOCUMENT, Self);
-  inherited Loaded;
 end;
 
 { TFWDelete }
 
-procedure TFWDelete.Loaded;
+procedure TFWDelete.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWDELETE, Self);
-  inherited Loaded;
 end;
 
 { TFWInsert }
 
-procedure TFWInsert.Loaded;
+procedure TFWInsert.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWINSERT, Self);
-  inherited Loaded;
+End;
+procedure tfwinsert.Loaded;
+Begin
+  inherited;
   {$IFDEF FPC}
   p_setControlCaption ( Self, ifsVK_INSERT );
   {$ELSE}
@@ -502,18 +525,20 @@ begin
 end;
 
 { TFWAdd }
-procedure TFWAdd.Loaded;
+procedure TFWAdd.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWINSERT, Self);
-  inherited Loaded;
 end;
 
 { TFWSaveAs }
 
-procedure TFWSaveAs.Loaded;
+procedure TFWSaveAs.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWSAVEAS, Self);
-  inherited Loaded;
+End;
+procedure TFWSAveAs.Loaded;
+Begin
+  inherited;
   {$IFDEF FPC}
   p_setControlCaption ( Self, oiStdActFileSaveAsHint );
   {$ENDIF}
@@ -521,20 +546,27 @@ end;
 
 { TFWQuit }
 
-procedure TFWQuit.Loaded;
+procedure TFWQuit.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWQUIT, Self);
-  inherited Loaded;
+End;
+procedure TFWQuit.Loaded;
+Begin
+  inherited;
   p_setControlCaption ( Self, SCloseButton );
 end;
 
 
 { TFWerase }
 
-procedure TFWErase.Loaded;
+procedure TFWErase.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWERASE, Self);
-  inherited Loaded;
+End;
+
+procedure TFWErase.Loaded;
+Begin
+  inherited;
   {$IFDEF FPC}
   p_setControlCaption ( Self, oisDelete );
   {$ELSE}
@@ -544,10 +576,13 @@ end;
 
 { TFWPrint }
 
-procedure TFWPrint.Loaded;
+procedure TFWPrint.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWPRINT, Self);
-  inherited Loaded;
+End;
+procedure TFWPrint.Loaded;
+Begin
+  inherited;
   {$IFDEF FPC}
   p_setControlCaption ( Self, ifsVK_PRINT );
   {$ENDIF}
@@ -555,75 +590,70 @@ end;
 
 { TFWNext }
 
-procedure TFWNext.Loaded;
+procedure TFWNext.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWNEXT, Self);
-  inherited Loaded;
 end;
 
 { TFWPrior }
 
-procedure TFWPrior.Loaded;
+procedure TFWPrior.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWPRIOR, Self);
-  inherited Loaded;
 end;
 
 { TFWRefresh }
 
-procedure TFWRefresh.Loaded;
+procedure TFWRefresh.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWREFRESH, Self);
-  inherited Loaded;
 end;
 
 { TFWPreview }
 
-procedure TFWPreview.Loaded;
+procedure TFWPreview.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWPREVIEW, Self);
-  inherited Loaded;
 end;
 
 { TFWInit }
 
-procedure TFWInit.Loaded;
+procedure TFWInit.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWINIT, Self);
-  inherited Loaded;
 end;
 
 { TFWConfig }
 
-procedure TFWConfig.Loaded;
+procedure TFWConfig.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWCONFIG, Self);
-  inherited Loaded;
 end;
 
 { TFWImport }
 
-procedure TFWImport.Loaded;
+procedure TFWImport.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWIMPORT, Self);
-  inherited Loaded;
 end;
 
 { TFWExport }
 
-procedure TFWExport.Loaded;
+procedure TFWExport.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWEXPORT, Self);
-  inherited Loaded;
 end;
 
 { TFWCopy }
 
 
-procedure TFWCopy.Loaded;
+procedure TFWCopy.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWCOPY, Self);
-  inherited Loaded;
+End;
+procedure TFWCopy.Loaded;
+Begin
+  inherited;
   {$IFDEF FPC}
   p_setControlCaption ( Self, oiStdActEditCopyShortHint );
   {$ENDIF}
@@ -634,18 +664,21 @@ end;
 
 { TFWOutSelect }
 
-procedure TFWOutSelect.Loaded;
+procedure TFWOutSelect.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWOUTSELECT, Self);
-  inherited Loaded;
 end;
 
 { TFWBasket }
 
-procedure TFWBasket.Loaded;
+procedure TFWBasket.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWBASKET, Self);
-  inherited Loaded;
+End;
+
+procedure TFWBasket.Loaded;
+Begin
+  inherited;
   {$IFDEF FPC}
   p_setControlCaption ( Self, oisUndo );
   {$ELSE}
@@ -656,10 +689,14 @@ end;
 { TFWRecord }
 
 
-procedure TFWRecord.Loaded;
+procedure TFWRecord.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWOK, Self);
-  inherited Loaded;
+End;
+
+procedure TFWRecord.Loaded;
+Begin
+  inherited;
   {$IFDEF FPC}
   p_setControlCaption ( Self, oisRecord );
   {$ELSE}
@@ -670,26 +707,23 @@ end;
 
 { TFWOutAll }
 
-procedure TFWOutAll.Loaded;
+procedure TFWOutAll.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWOUTALL, Self);
-  inherited Loaded;
 end;
 
 { TFWInSelect }
 
-procedure TFWInSelect.Loaded;
+procedure TFWInSelect.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWINSELECT, Self);
-  inherited Loaded;
 end;
 
 { TFWInAll }
 
-procedure TFWInAll.Loaded;
+procedure TFWInAll.LoadBitmap;
 begin
   p_Load_Buttons_Appli(Glyph, CST_FWINALL, Self);
-  inherited Loaded;
 end;
 
 { TFWGroupButtonActions }
