@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <PathDelim Value="\"/>
@@ -18,7 +18,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="2">
+    <Files Count="3">
       <Item1>
         <Filename Value="extnet\u_netupdate.pas"/>
         <UnitName Value="u_netupdate"/>
@@ -27,6 +27,10 @@
         <Filename Value="extnet\fonctions_net.pas"/>
         <UnitName Value="fonctions_net"/>
       </Item2>
+      <Item3>
+        <Filename Value="extnet\md5api.pas"/>
+        <UnitName Value="MD5Api"/>
+      </Item3>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="5">
@@ -56,4 +60,4 @@
       <_ExternHelp Items="Count"/>
     </CustomOptions>
   </Package>
-</CONFIG>
+</CONFIG>

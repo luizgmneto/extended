@@ -339,9 +339,9 @@ Begin
   lrec_Rectangle.Top  := 0 ;
   lb_Continue := False;
   with abmp_BitmapOrigine do
-    if  (( ali_newWidth  < Width ) or ( ali_newHeight < Height ))
-    and ( Width > 0 )
-    and ( not ab_KeepProportion )
+    if   ( Width  > 0 )
+    and  ( Height > 0 ) Then
+     if not ab_KeepProportion
       Then
        Begin
         lb_Continue := True;
@@ -394,9 +394,9 @@ Begin
       {$ENDIF}
       lbmp_Tempo.TransparentColor := clBlack ;
       lbmp_Tempo.Transparent := True ;
-    {$IFDEF FPC}
+      {$IFDEF FPC}
       abmp_BitmapOrigine.Clear;
-    {$ENDIF}
+      {$ENDIF}
 
       // 2004-10-20 : MAJ destruction bitmap
       p_ClearBitmapWithoutMemoryLeak ( abmp_BitmapOrigine );
