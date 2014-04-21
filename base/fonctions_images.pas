@@ -333,6 +333,9 @@ var
   li_Size             : Longint ;
   lb_Continue         : Boolean;
 Begin
+  if  ( ali_newWidth  <= 0 )
+  and ( ali_newHeight <= 0 )
+   Then exit;
   lbmp_Tempo := TBitmap.Create ; // Création petit bitmap
   lbmp_Tempo.Handle := 0 ;
   lrec_Rectangle.Left := 0 ;
@@ -358,7 +361,7 @@ Begin
          if  ( ali_newWidth > 0 )
          and ( ali_newWidth <  Width )
          // doit-on retailler en longueur ?
-         and (( ali_newHeight = 0 ) or ( Width / ali_newWidth >= Height / ali_newHeight ))
+         and (( ali_newHeight <= 0 ) or ( Width / ali_newWidth >= Height / ali_newHeight ))
           Then
            Begin
              lb_Continue := True;

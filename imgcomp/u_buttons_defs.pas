@@ -46,11 +46,11 @@ const
   CST_WIDTH_BUTTONS_ACTIONS  = 120;
   CST_HEIGHT_BUTTONS_ACTIONS = 20;
   CST_IMAGE_SOFT_BITMAP = '.bmp';
-  CST_IMAGES_SOFT_EXTENSIONS : array [ 0 .. {$IFDEF FPC}2{$ELSE}0{$ENDIF} ] of String  = ({$IFDEF FPC}'.xpm','.png',{$ENDIF}CST_IMAGE_SOFT_BITMAP);
+  CST_IMAGES_SOFT_EXTENSIONS : array [ 0 .. {$IFDEF FPC}2{$ELSE}0{$ENDIF} ] of String  = (CST_IMAGE_SOFT_BITMAP{$IFDEF FPC},'.xpm','.png'{$ENDIF});
 
 
-procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; as_Resource : String ; const acon_control :TControl);
-procedure p_Load_Bitmap_Appli ( const FGLyph : TBitmap; as_Resource : String ; const acon_control :TControl );
+procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; const as_Resource : String ; const acon_control :TControl);
+procedure p_Load_Bitmap_Appli ( const FGLyph : TBitmap; const as_Resource : String ; const acon_control :TControl );
 
 type
    IFWButton = interface
@@ -63,34 +63,33 @@ type
     TFWXPButton = class ( TJvXPButton, IFWButton )
       private
        FColor           ,
+       FGlyphSize: Integer;
        FColorFrameFocus : TColor;
        FBeforePopup : TPopUpMenuEvent;
        FOnPopup : TNotifyEvent;
       protected
        procedure MouseEnter{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
        procedure MouseLeave{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
+       procedure SetGlyphSize(AValue: Integer); virtual;
+       procedure AdaptGlyph (const ASize : Integer ); virtual;
+       procedure LoadBitmap; virtual;
      public
-      procedure Click; override;
-      procedure LoadBitmap; virtual;
-      procedure AdaptGlyph (const ASize : Integer ); virtual;
       constructor Create ( AOwner : TComponent ) ; override;
-      published
+      procedure Click; override;
+      procedure Loaded; override;
+     published
        property ColorFrameFocus : TColor read FColorFrameFocus write FColorFrameFocus default clCream;
+       property GlyphSize : Integer read FGlyphSize write SetGlyphSize default 0;
        property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
      End;
     { TFWButton }
 
     TFWButton = class ( TFWXPButton )
-    private
-      FGlyphSize: Integer;
-      procedure SetGlyphSize ( Avalue : Integer );
       public
        constructor Create ( AOwner : TComponent ) ; override;
-       procedure Loaded; override;
       published
        property Glyph stored False;
-       property GlyphSize : Integer read FGlyphSize write SetGlyphSize default 24;
        property Height default 26;
        property Width default 80;
      End;
@@ -104,14 +103,12 @@ type
        FImageIndex : Integer;
        procedure p_setImagesList ( const AValue : TCustomImageList );
        procedure p_setImageIndex ( const AValue : Integer );
-       procedure p_setImageSize  ( const AValue : Integer );
       public
        constructor Create ( AOwner : TComponent ) ; override;
-       procedure LoadGlyph; virtual;
+       procedure LoadBitmap; override;
       published
        property Images: TCustomImageList read FImagesList write p_setImagesList;
        property ImageIndex: Integer read FImageIndex write p_setImageIndex default -1;
-       property ImageSize : Integer read FImageSize  write p_setImageSize default 0;
        property Glyph stored False;
        property Height default 18;
        property Width default 18;
@@ -125,6 +122,7 @@ uses {$IFDEF FPC}
      Consts, VDBConsts, unite_messages_delphi,
      {$ENDIF}
      fonctions_images,
+     Dialogs,
      fonctions_system, sysutils,
      fonctions_string;
 
@@ -135,7 +133,8 @@ var Buttons_Appli_ResInstance             : THandle      = 0 ;
 
 // procedure p_Load_Bitmap_Appli
 // loads a picture into a Button with Bitmap
-procedure p_Load_Bitmap_Appli ( const FGLyph : TBitmap; as_Resource : String ; const acon_control :TControl );
+procedure p_Load_Bitmap_Appli ( const FGLyph : TBitmap; const as_Resource : String ; const acon_control :TControl );
+var ls_imagePath : String;
 begin
   {$IFNDEF MEMBUTTONS}
   if csDesigning in acon_control.ComponentState Then
@@ -151,15 +150,18 @@ begin
     {$IFNDEF MEMBUTTONS}
     end
    else
-    try
-      as_Resource := fs_getSoftImages + as_Resource + CST_IMAGE_SOFT_BITMAP;
-      if FileExists( as_Resource )
-       then FGLyph.LoadFromFile( as_Resource )
-       Else writeln( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [as_Resource]));
+    Begin
+     ls_imagePath := fs_getSoftImages + as_Resource + CST_IMAGE_SOFT_BITMAP;
+     if FileExistsUTF8( ls_imagePath ) Then
+       try
+        FGLyph.LoadFromFile( ls_imagePath );
+      Except
+      end
+     else
+      writeln( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [ls_imagePath]));
 
-    Except
-    end;
     {$ENDIF}
+    end;
   if not ( csCreating in acon_control.ControlState ) then
     acon_control.Invalidate;
 end;
@@ -167,9 +169,10 @@ end;
 
 // procedure p_Load_Buttons_Appli
 // loads a picture into a Button with Picture
-procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; as_Resource : String ; const acon_control :TControl);
+procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; const as_Resource : String ; const acon_control :TControl);
 var n : Integer;
     lb_Found : Boolean;
+    ls_imagePath : String;
 begin
   with FGLyph{$IFNDEF FPC}.Bitmap{$ENDIF} do
    Begin
@@ -194,21 +197,25 @@ begin
       {$IFNDEF MEMBUTTONS}
       end
      Else
-      try
+      Begin
         lb_Found := False;
-        as_Resource := fs_getSoftImages + as_Resource;
-        for n := 0 to high ( CST_IMAGES_SOFT_EXTENSIONS ) do
-         if FileExistsUTF8( as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ n ] ) Then
-           Begin
-            LoadFromFile( as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ n ] );
+        for n := high ( CST_IMAGES_SOFT_EXTENSIONS ) downto 0 do
+         Begin
+          ls_imagePath := fs_getSoftImages + as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ n ];
+
+         if FileExistsUTF8( ls_imagePath ) Then
+           try
+            LoadFromFile( ls_imagePath );
             lb_Found := True;
             Break;
+
+           Except
            end;
+         end;
         if not lb_Found
          then
-           writeln( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ 0 ]]));
+           writeln( fs_RemplaceMsg(GS_SOFT_IMAGE_NOT_FOUND, [ls_imagePath]));
 
-      finally
       end;
       {$ENDIF}
 
@@ -223,7 +230,7 @@ begin
   if FImagesList <> AValue Then
     Begin
      FImagesList:=AValue;
-     LoadGlyph;
+     AdaptGlyph(FGlyphSize);
     end;
 end;
 
@@ -232,17 +239,7 @@ begin
   if FImageIndex <> AValue Then
     Begin
      FImageIndex:=AValue;
-     LoadGlyph;
-    end;
-end;
-
-procedure TFWButtonList.p_setImageSize(const AValue: Integer);
-begin
-  if FImageSize <> AValue Then
-    Begin
-     FImageSize:=AValue;
-     if FImageSize > 0 Then
-       AdaptGlyph(FImageSize);
+     AdaptGlyph(FGlyphSize);
     end;
 end;
 
@@ -256,65 +253,52 @@ begin
   Width :=17;
 end;
 
-procedure TFWButtonList.LoadGlyph;
+procedure TFWButtonList.LoadBitmap;
 begin
   if assigned ( FImagesList )
   and ( FImageIndex >= 0 )
   and ( FImageIndex < FImagesList.Count )
-   then
-    Begin
-     FImagesList.GetBitmap ( FImageIndex , Glyph.Bitmap );
-     if FImageSize > 0 Then
-       AdaptGlyph(FImageSize);
-    end
-   Else
-    Glyph.Bitmap.Assign(nil);
+   then FImagesList.GetBitmap ( FImageIndex , Glyph.Bitmap )
+   Else Glyph.Bitmap.Assign(nil);
 end;
 
 { TFWButton }
 
-procedure TFWButton.SetGlyphSize(Avalue: Integer);
-begin
-  if Avalue <> FGlyphSize Then
-   Begin
-     FGlyphSize:=Avalue;
-     if Assigned(Parent) Then
-       AdaptGlyph(FGlyphSize);
-   end;
-end;
-
 constructor TFWButton.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FGlyphSize:=24;
+  FGlyphSize:=0;
   Height:=25;
   Width :=80;
-end;
-
-procedure TFWButton.Loaded;
-begin
-  if FGlyphSize >= 0 Then
-    AdaptGlyph(FGlyphSize);
-  inherited Loaded;
 end;
 
 
 { TFWXPButton }
 
+procedure TFWXPButton.Loaded;
+begin
+  AdaptGlyph(FGlyphSize);
+  inherited Loaded;
+end;
+
 procedure TFWXPButton.AdaptGlyph(const ASize: Integer);
 begin
+  if ( csCreating in ControlState )
+  or ( Parent = nil ) Then
+    Exit;
+  BeginUpdate;
   LoadBitmap;
-  with Glyph.Bitmap do
-  if  ( Handle <> 0 )
-  and ( ASize  > 0 )
-  and (( ASize < Height ) or ( ASize < Width )) Then
+  with Glyph,Bitmap do
+   if  ( ASize  > 0 )
+   and ( Handle <> 0 )
+   and (( ASize < Height ) or ( ASize < Width )) Then
     Begin
-      p_ChangeTailleBitmap(Glyph.Bitmap,ASize,Asize,True);
-      Modified:=True;
+      p_ChangeTailleBitmap(Bitmap,ASize,Asize,True);
       TransparentMode:=tmAuto;
       Transparent:=True;
-      Invalidate;
     end;
+  EndUpdate;
+  Invalidate;
 end;
 
 procedure TFWXPButton.MouseEnter;
@@ -334,6 +318,15 @@ begin
 {$ENDIF}
 end;
 
+procedure TFWXPButton.SetGlyphSize(Avalue: Integer);
+begin
+  if Avalue <> FGlyphSize Then
+   Begin
+     FGlyphSize:=Avalue;
+     AdaptGlyph(FGlyphSize);
+   end;
+end;
+
 procedure TFWXPButton.Click;
 begin
   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
@@ -350,6 +343,7 @@ begin
   inherited Create(AOwner);
   FColorFrameFocus:=clCream;
   FOnPopup := nil;
+  FGlyphSize := 0;
   FBeforePopup := nil;
 end;
 
