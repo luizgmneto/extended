@@ -2,7 +2,7 @@
  MD5Api - f0xi - 2006 - www.delphifr.com
 }
 
-unit MD5Api;
+unit md5api;
 
 interface
 {$IFDEF FPC}
@@ -12,4 +12,4 @@ interface
 {$ENDIF}
 
 
-end.
+end.
