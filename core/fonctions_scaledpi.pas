@@ -26,12 +26,13 @@ Const
                                      FileUnit : 'fonctions_scaledpi' ;
               			                 Owner : 'Matthieu Giroux' ;
               			                 Comment : 'Adapt forms and controls to system.' ;
-              			                 BugsStory :  'Version 1.0.1.0 : Adding interfaces for classes.' + #13#10 +
+              			                 BugsStory :  'Version 1.0.1.1 : Never scale on design.' + #13#10 +
+                                                              'Version 1.0.1.0 : Adding interfaces for classes.' + #13#10 +
                                                               'Version 1.0.0.0 : OK on linux with ini.' + #13#10 +
                                                               'Version 0.9.9.0 : OK on windows.' + #13#10 +
                                                               'Version 0.9.0.0 : To test.';
               			                 UnitType : 1 ;
-              			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
+              			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
 
 {$ENDIF}
 
@@ -149,15 +150,16 @@ var
   i: integer;
 Begin
   with Control do
-   Begin
+  if not ( csDesigning in ComponentState ) //never change designing
+   Then
+    Begin
      {$IFDEF FPC}BeginUpdateBounds;{$ENDIF}
 
      Font.Size:=Scale(Font.Size,ANewEchelle);
      for i:=0 to Control.ControlCount-1 do
       ScaleDPIControl(Control.Controls[i],ANewEchelle);
      {$IFDEF FPC}EndUpdateBounds;{$ENDIF}
-
-   End;
+    End;
 end;
 // scale on form create
 procedure ScaleFormCreate(const Control: TCustomForm;const ANewEchelle:Extended);
@@ -214,16 +216,18 @@ var
   AColumn : TCollection;
   AItem   : TCollectionItem;
 begin
-  if not {$IFNDEF FPC}Supports{$ENDIF}( Control {$IFDEF FPC}is{$ELSE},{$ENDIF} INoAdaptComponent) Then
   with Control do
-  begin
+   begin
+    if  {$IFNDEF FPC}Supports{$ENDIF}( Control {$IFDEF FPC}is{$ELSE},{$ENDIF} INoAdaptComponent)
+    or ( csDesigning in ComponentState ) Then  //never change designing
+     Exit;
     with Constraints do
-    begin
+     begin
       MaxHeight:=Scale(MaxHeight,ANewEchelle);
       MaxWidth:=Scale(MaxWidth,ANewEchelle);
       MinHeight:=Scale(MinHeight,ANewEchelle);
       MinWidth:=Scale(MinWidth,ANewEchelle);
-    end;
+     end;
 
     if not ( Control is TCustomForm )
     and    ( Align   <> alClient    ) then
