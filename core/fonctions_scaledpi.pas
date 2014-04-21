@@ -298,8 +298,8 @@ Begin
   Application.OnActivate    := TNotifyEvent ( fmet_getComponentMethodProperty ( DMAdaptForms, 'ApplicationActivate' ) );
 end;
 
-initialization
 {$IFDEF VERSIONS}
+initialization
   p_ConcatVersion ( gver_fonctions_scaledpi );
 {$ENDIF}
 end.
