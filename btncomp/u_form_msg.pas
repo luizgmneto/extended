@@ -125,7 +125,7 @@ var
          mrClose                         : p_Load_Buttons_Appli (Glyph,CST_FWCLOSE,btn);
          {$ENDIF}
         End;
-       AdaptGlyph ( Height - 2 );
+       GlyphSize := Height - 2 ;
        Caption:=aText;
        ModalResult:=aResult;
        Default:=numBtn=(4-k);//si c'est le premier
