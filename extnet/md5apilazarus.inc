@@ -46,7 +46,7 @@ function MD5OddSwap(const Data:TMD5Data):TMD5Data;
 
 implementation
 
-uses MD5;
+uses md5;
 
 { ------------------------------------------------------------------------------------------------ }
 
@@ -164,4 +164,4 @@ begin
       result[N]:=Data[N+1];
 end;
 
-end.
+end.
