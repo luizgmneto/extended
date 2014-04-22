@@ -28,28 +28,47 @@ const
                                       UnitType : 1 ;
                         	      Major : 1 ; Minor : 0 ; Release : 0 ; Build : 2 );
     {$ENDIF}
-    CST_PROPERTY_DATASOURCE     = 'DataSource';
-    CST_PROPERTY_LISTFIELD      = 'ListField';
-    CST_PROPERTY_LOOKUPDISPLAY  = 'LookupDisplay';
-    CST_PROPERTY_LISTSOURCE     = 'ListSource';
-    CST_PROPERTY_LOOKUPSOURCE   = 'LookupSource';
-    CST_PROPERTY_SEARCHSOURCE   = 'SearchSource';
-    CST_PROPERTY_FIELDNAME      = 'FieldName';
+
     CST_PROPERTY_DISPLAYFORMAT  = 'DisplayFormat';
-    CST_PROPERTY_KEYFIELD       = 'KeyField';
     CST_PROPERTY_COLUMNS        = 'Columns';
     CST_PROPERTY_WIDTH          = 'Width';
-    CST_PROPERTY_LOOKUPFIELD    = 'LookupField';
     CST_PROPERTY_TEXT           = 'Text' ;
     CST_PROPERTY_IMAGES         = 'Images' ;
     CST_PROPERTY_CAPTION        = 'Caption' ;
     CST_PROPERTY_ITEMS          = 'Items'  ;
     CST_PROPERTY_VALUES         = 'Values'  ;
     CST_PROPERTY_ITEMINDEX      = 'ItemIndex'  ;
+    CST_PROPERTY_CANVAS         = 'Canvas'  ;
     CST_PROPERTY_COUNT          = 'Count'  ;
     CST_PROPERTY_COLOR          = 'Color'  ;
     CST_PROPERTY_FONT           = 'Font'  ;
 
+    CST_DBPROPERTY_LISTFIELD      = 'ListField';
+    CST_DBPROPERTY_LOOKUPDISPLAY  = 'LookupDisplay';
+    CST_DBPROPERTY_LISTSOURCE     = 'ListSource';
+    CST_DBPROPERTY_LOOKUPSOURCE   = 'LookupSource';
+    CST_DBPROPERTY_SEARCHSOURCE   = 'SearchSource';
+    CST_DBPROPERTY_KEYFIELD       = 'KeyField';
+    CST_DBPROPERTY_LOOKUPFIELD    = 'LookupField';
+    CST_DBPROPERTY_SQL = 'SQL';
+    CST_DBPROPERTY_SQLCONNECTION = 'SQLConnection';
+    CST_DBPROPERTY_CONNECTION = 'Connection';
+    CST_DBPROPERTY_CONNECTED  = 'Connected';
+    CST_DBPROPERTY_ONLINECONN = 'OnLineConn';
+    CST_DBPROPERTY_CONNECTIONSTRING = 'ConnectionString';
+    CST_DBPROPERTY_TRANSACTION = 'Transaction';
+    CST_DBPROPERTY_DATABASE = 'Database';
+    CST_DBPROPERTY_DATASOURCE = 'Datasource';
+    CST_DBPROPERTY_DATAFIELD = 'DataField';
+    CST_DBPROPERTY_FIELDNAME = 'FieldName';
+    CST_DBPROPERTY_DATABASENAME = 'DatabaseName';
+    CST_DBPROPERTY_SESSIONNAME = 'SessionName';
+    CST_DBPROPERTY_UPDATEOBJECT = 'UpdateObject';
+    CST_DBPROPERTY_CLIENTPARAM = 'ClientParam';
+    CST_DBPROPERTY_ZEOSDB = 'ZeosDBConnection';
+    CST_DBPROPERTY_FIELDDEFS = 'FieldDefs';
+    CST_DBPROPERTY_Active = 'Active';
+    CST_DBPROPERTY_ENDPARAM = ';';
 
 type
   // On utilise les tableaux de variant pour plus tard :

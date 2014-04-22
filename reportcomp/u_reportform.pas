@@ -13,18 +13,19 @@ uses
 {$ELSE}
 {$ENDIF}
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  u_formadapt, RLReport, RLRichFilter, RLPDFFilter, RLHTMLFilter,
+  u_formadapt, RLReport,
+  RLRichFilter, RLPDFFilter,
+  RLHTMLFilter, u_reports_rlcomponents,
   RLDraftFilter;
 
 type
-
   { TReportForm }
 
   TReportForm = class(TF_FormAdapt)
     RLDraftFilter: TRLDraftFilter;
     RLHTMLFilter: TRLHTMLFilter;
     RLPDFFilter: TRLPDFFilter;
-    RLReport: TRLReport;
+    RLReport: TExtReport;
     Panel1: TPanel;
     RLRichFilter: TRLRichFilter;
   private

@@ -49,6 +49,7 @@ uses
    fonctions_version,
 {$ENDIF}
    ComCtrls,
+   fonctions_components,
    fonctions_proprietes;
 
 {$IFDEF VERSIONS}
@@ -233,6 +234,7 @@ type
    public
     // Bookmark pour le chargement intermédiaire
     gbm_DernierEnregistrement : TBookmarkStr ;
+    constructor Create ( acom_owner : TComponent ); override;
     procedure Loaded; override;
     {$IFDEF FPC}
     procedure SelectAll ; dynamic;
@@ -243,7 +245,6 @@ type
     procedure p_MetAjour; virtual;
     Function  fb_FetchIsLoaded : Boolean ; virtual;
     procedure p_SetSortDirectionAsc(const ab_Ascendant: Boolean);
-    constructor Create ( acom_owner : TComponent ); override;
     destructor Destroy ; override;
     Procedure p_AddRecords ; dynamic;
     Procedure p_AddSyncronousRecords; dynamic;
@@ -282,6 +283,8 @@ type
     property DataTableUnit : String read gs_TableSource write gs_TableSource;
     property SortColumn : Integer read FSortColumn write p_setSortColumn default 0;
     property SortOrder : TSortOrder read FSortOrder write p_setSortOrder default soAscending;
+    property OnMouseEnter;
+    property OnMouseLeave;
    end;
 
 
@@ -381,7 +384,7 @@ End;
 //////////////////////////////////////////////////////////////
 // Création du composant : première intialisation
 // acom_owner : Le composant propriétaire
-constructor TDBListView.create ( acom_owner : Tcomponent );
+constructor TDBListView.Create(acom_owner: TComponent);
 begin
   inherited create ( acom_owner );
 
@@ -429,7 +432,7 @@ begin
 end;
 
 // destruction du composant : destruction des objets
-destructor TDBListView.destroy;
+destructor TDBListView.Destroy;
 begin
   // Libération du bookmark si il existe
   p_FreeBookmark ;
@@ -490,7 +493,7 @@ Begin
 End ;
 {$ENDIF}
 // Mode asynchrone : A-t-on chargé suffisamment d'items dans la liste
-Function  TDBListView.fb_FetchIsLoaded : Boolean ;
+function TDBListView.fb_FetchIsLoaded: Boolean;
 Begin
   // On prend en considération la taile écran et non la taille du composant qui varie en fonction de la fiche
   Result := ( Items.Count > 0 ) and (( Font.Height <= 0 ) and ( gi_Fetch - 1 > Screen.Height )) or (( Font.Height > 0 ) and ( gi_Fetch - 1 > Screen.Height div ( Font.Height - 1 )));
@@ -1625,6 +1628,7 @@ begin
 
     End ;
 end;
+
 // Procédure p_SetFieldsList
 // Affectation de DataFieldsDisplay
 // chaîne a_Value : La valeur à affecter

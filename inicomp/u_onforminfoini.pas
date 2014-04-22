@@ -491,7 +491,7 @@ var
   Begin
     Result := False;
     if GetfeSauveEdit(FSaveEdits ,feTedit) and ((lcom_Component is TCustomEdit)
-    and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_PROPERTY_DATASOURCE)))
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_DBPROPERTY_DATASOURCE)))
      then
       begin
         ls_Temp := fs_ReadString(lcom_Component.Name,'');
@@ -860,7 +860,7 @@ var
     Result := False;
     if GetfeSauveEdit(FSaveEdits ,feTedit)
     and ((lcom_Component is TCustomEdit)
-    and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_PROPERTY_DATASOURCE)))
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_DBPROPERTY_DATASOURCE)))
      then
       begin
         p_WriteString(lcom_Component.Name,fs_getComponentProperty(lcom_Component,CST_ONFORMINI_TEXT));
@@ -869,7 +869,7 @@ var
       end;
     if GetfeSauveEdit(FSaveEdits ,feTCurrencyEdit)
     and lcom_Component.ClassNameIs(CST_ONFORMINI_EXTNUMEDIT)
-    and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_PROPERTY_DATASOURCE))then
+    and not assigned ( fobj_getComponentObjectProperty(lcom_Component, CST_DBPROPERTY_DATASOURCE))then
       begin
         p_WriteString(lcom_Component.Name,TCustomEdit(lcom_Component).Text);
         Result := True;

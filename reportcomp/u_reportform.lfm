@@ -3,7 +3,7 @@ inherited ReportForm: TReportForm
   Top = 240
   AutoSize = True
   Caption = 'ReportForm'
-  object RLReport: TRLReport[0]
+  object RLReport: TExtReport[0]
     Left = 0
     Height = 1123
     Top = 24
@@ -46,7 +46,7 @@ inherited ReportForm: TReportForm
   end
   object RLDraftFilter: TRLDraftFilter[5]
     FontSizeReal = False
-    left = 217
-    top = 166
+    left = 216
+    top = 160
   end
 end

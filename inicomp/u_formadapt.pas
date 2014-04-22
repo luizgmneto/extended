@@ -32,8 +32,12 @@ uses
 {$IFDEF TNT}
   TNTForms,
 {$ENDIF}
-  SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, fonctions_init, IniFiles,
+  SysUtils, Variants, Classes,
+  Graphics, Controls, Forms,
+  Dialogs, ExtCtrls,
+  fonctions_init, IniFiles,
+  fonctions_components,
+  LMessages,
   fonctions_scaledpi;
 
 {$IFDEF VERSIONS}
@@ -55,14 +59,17 @@ type
   private
     FScale:Extended;
     FOldCreate : TNotifyEvent;
+    FMouseControl : TControl;
     procedure FormAdaptCreate(AForm: TObject);
   protected
+    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure DoShow; override;
   public
     { Déclarations publiques }
     // Constructeur et destructeur
     constructor Create(AOwner: TComponent); override;
     property Scale : Extended read FScale;
+    property MouseControl : TControl read FMouseControl;
   end;
 
 var ge_GlobalScaleForm : Extended = 1;
@@ -92,6 +99,7 @@ end;
 constructor TF_FormAdapt.Create(AOwner: TComponent);
 begin
   inherited;
+  FMouseControl:=nil;
   if not ( csDesigning in ComponentState ) Then
    Begin
     FOldCreate := OnCreate;
@@ -115,6 +123,29 @@ begin
   FScale:=1;
   if Assigned(FOldCreate) Then
     FOldCreate ( Self );
+end;
+
+//////////////////////////////////////////////////////////////////////////////
+// event WMMouseMove
+// Now you can create IMouseControl inherit
+// to set OnMouseEnter and OnMouseLeave Events
+//////////////////////////////////////////////////////////////////////////////
+procedure TF_FormAdapt.MouseMove(Shift: TShiftState; X, Y: Integer);
+var LAControl : TControl;
+    LPoint : TPoint;
+begin
+  LPoint.X:=X;
+  LPoint.Y:=Y;
+  LAControl:=ControlAtPos(LPoint,True,True);
+  {
+  if LAControl<>FMouseControl Then
+   Begin
+     if FMouseControl is IMouseControl Then
+      ( FMouseControl as IMouseControl ).MouseLeave;
+     FMouseControl:=LAControl;
+     if FMouseControl is IMouseControl Then
+      ( FMouseControl as IMouseControl ).MouseEnter;
+   end;}
 end;
 
 

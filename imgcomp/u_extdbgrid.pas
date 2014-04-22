@@ -146,6 +146,7 @@ type
        FOldFixedColor : TColor;
        FOnGetImageIndex : TFieldIndexEvent;
        FAlwaysSame : Boolean;
+       FMouseFocus : Boolean;
        function GetColumns: TExtDbGridColumns;
        procedure SetColumns(const AValue: TExtDbGridColumns);
        procedure WMSetFocus(var Msg: TWMSetFocus); message WM_SETFOCUS;
@@ -170,7 +171,6 @@ type
       protected
        procedure ChangeBounds(ALeft, ATop, AWidth, AHeight: integer; KeepBase: boolean); override;
        {$ENDIF}
-
       public
        procedure KeyDown(var Key: Word; Shift: TShiftState); override;
        procedure KeyUp(var ach_Key: Word; ashi_Shift: TShiftState); override;
@@ -198,6 +198,8 @@ type
        property Columns: TExtDbGridColumns read GetColumns write SetColumns stored IsColumnsStored;
        property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
        property FWBeforeExit  : TnotifyEvent read FBeforeExit  write FBeforeExit stored False ;
+       property OnMouseEnter;
+       property OnMouseLeave;
        property OnGetImageIndex : TFieldIndexEvent read FOnGetImageIndex write FOnGetImageIndex;
        property ColorEdit : TColor read FColorEdit write FColorEdit default CST_GRID_STD ;
        property FixedColor default CST_GRID_STD ;
@@ -402,7 +404,6 @@ begin
        Invalidate;
     end;
 end;
-
 
 
 // procedure TExtDBGrid.HideColumnControl

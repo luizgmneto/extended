@@ -34,7 +34,9 @@ uses
 {$IFDEF TNT}
    TntGrids, TntStdCtrls, TntEditBtn,
 {$ENDIF}
-  Grids,fonctions_erreurs;
+  Grids,
+  fonctions_components,
+  fonctions_erreurs;
 
 {$IFDEF VERSIONS}
 const
@@ -407,6 +409,7 @@ type
         procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
        protected
         procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+        procedure MouseEnter; override;
         procedure Notification(AComponent: TComponent; Operation: TOperation); override;
        public
         constructor Create ( AOwner : TComponent ); override;
@@ -436,7 +439,6 @@ type
 
 implementation
 
-uses fonctions_components;
 { TFWEdit }
 
 procedure TFWEdit.p_setLabel(const alab_Label: TLabel);
@@ -657,6 +659,11 @@ begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
    fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+end;
+
+procedure TFWDateTimePicker.MouseEnter;
+begin
+  inherited MouseEnter;
 end;
 
 procedure TFWDateTimePicker.Notification(AComponent: TComponent;

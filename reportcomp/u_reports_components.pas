@@ -22,6 +22,7 @@ uses
   RLPreview, u_reportform,
   u_reports_rlcomponents,
   Printers, RLTypes,
+  rxdbgrid,
   u_buttons_appli, RLFilters, Graphics;
 
 
@@ -66,6 +67,7 @@ type
  // create a report from datasource
   TFWPrintData = class(TComponent,IFWPrintComp)
   private
+    FBeforePrintCells : TGetCellPropsEvent;
     FFilter: TRLCustomPrintFilter;
     FDataLink: TDataLinkPrint;
     FDBTitle: string;
@@ -94,6 +96,8 @@ type
     procedure AddPreview ( const AReport : TRLReport = nil ); virtual;
     property  FormReport : TReportForm read FReportForm;
   published
+
+    property OnGetCellProps: TGetCellPropsEvent read FBeforePrintCells write FBeforePrintCells;
     property Datasource: TDatasource read GetDatasource write SetDatasource;
     property Filter: TRLCustomPrintFilter read FFilter write FFilter;
     property DBTitle: string read FDBTitle write FDBTitle;
@@ -246,7 +250,7 @@ begin
       Then CreateAReport(FReport)
      Else
       Begin
-        ADatasource := TDataSource(fobj_getComponentObjectProperty(FTree, CST_PROPERTY_DATASOURCE));
+        ADatasource := TDataSource(fobj_getComponentObjectProperty(FTree, CST_DBPROPERTY_DATASOURCE));
         if Assigned(ADatasource) Then ADatasource.DataSet.DisableControls;
         if FormReport = nil Then
           FormReport := fref_CreateReport( FTree, FDBTitle, FOrientation, FPaperSize, FFilter );
@@ -447,7 +451,7 @@ end;
 // create linked report
 procedure TFWPrintData.CreateAReport ( const AReport : TRLReport );
 begin
-  fb_CreateReport(AReport,nil, FDataLink.DataSource, FColumns, AReport.Background.Picture.Bitmap.Canvas, FDBTitle);
+  fb_CreateReport(Self,AReport,nil, FDataLink.DataSource, FColumns, AReport.Background.Picture.Bitmap.Canvas, FDBTitle);
 End;
 
 procedure TFWPrintData.Clear;
@@ -463,7 +467,7 @@ begin
      Then
       Begin
          if FReportForm = nil Then
-           FReportForm := fref_CreateReport(nil, FDataLink.DataSource, FColumns, FDBTitle, FOrientation, FPaperSize, FFilter)
+           FReportForm := fref_CreateReport(Self,nil, FDataLink.DataSource, FColumns, FDBTitle, FOrientation, FPaperSize, FFilter)
       end
      Else
        CreateAReport ( AReport );
@@ -502,7 +506,7 @@ procedure TFWPrintGrid.CreateAReport(const AReport: TRLReport);
 begin
   p_SetReport(AReport);
   if Assigned(FDBGrid) Then
-    fb_CreateReport(AReport,FDBGrid, fobj_getComponentObjectProperty(FDBGrid,CST_PROPERTY_DATASOURCE) as TDataSource,
+    fb_CreateReport(FDBGrid,AReport,FDBGrid, fobj_getComponentObjectProperty(FDBGrid,CST_DBPROPERTY_DATASOURCE) as TDataSource,
                                      fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS  ) as TCollection,
                                      AReport.Background.Picture.Bitmap.Canvas,
                                      FDBTitle);
@@ -527,12 +531,12 @@ begin
      end
    Else
     with TDataSource(
-        fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)).DataSet do
+        fobj_getComponentObjectProperty(FDBGrid, CST_DBPROPERTY_DATASOURCE)).DataSet do
     begin
       DisableControls;
       if FormReport = nil Then
-        FormReport := fref_CreateReport(FDBGrid, TDataSource(
-        fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_DATASOURCE)), TCollection(
+        FormReport := fref_CreateReport(FDBGrid, FDBGrid, TDataSource(
+        fobj_getComponentObjectProperty(FDBGrid, CST_DBPROPERTY_DATASOURCE)), TCollection(
         fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, Orientation, PaperSize, FFilter);
       with FormReport  do
         try
