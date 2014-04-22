@@ -14,7 +14,7 @@ uses
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
-    u_reportform,ImgList, Graphics,
+    ImgList, Graphics,
     RLFilters,Classes, RLPreview;
 
 
@@ -24,16 +24,30 @@ const
     FileUnit: 'u_reports_rlcomponents';
     Owner: 'Matthieu Giroux';
     Comment: 'Customized Fortes Reports components.';
-    BugsStory: '1.0.1.0 : TRLImageList.' + #13#10 +
+    BugsStory: '1.0.2.0 : Adding TExtReport.' + #13#10 +
+               '1.0.1.0 : TRLImageList.' + #13#10 +
                '1.0.0.0 : From fonctions_reports.' + #13#10 +
                '0.9.0.0 : To test.';
     UnitType: 3;
-    Major: 1; Minor: 0; Release: 1; Build: 0);
+    Major: 1; Minor: 0; Release: 2; Build: 0);
 {$ENDIF}
 
 type TBoolArray = Array of Boolean;
   {@class TRLCustomDBExtImage - Classe base para caixa de imagem ligada a campo de dataset.
    @ancestor TRLCustomImage. }
+
+  { TExtReport }
+
+  TExtReport = class ( TRLReport )
+    private
+      FPrintComponent : TComponent;
+    public
+      constructor Create(aOwner:TComponent); override;
+      procedure p_BeforePrintTexts (Sender:TObject; var OutputText:string; var PrintIt:boolean); virtual;
+    published
+      property PrintComponent : TComponent read FPrintComponent write FPrintComponent;
+    End;
+
 
   { TRLCustomImageList }
 
@@ -367,7 +381,40 @@ type TBoolArray = Array of Boolean;
 
 implementation
 
-uses RLConsts,fonctions_proprietes,fonctions_images;
+uses RLConsts,
+     fonctions_proprietes,
+     fonctions_dbcomponents,
+     fonctions_reports,
+     rxdbgrid,
+     fonctions_images;
+
+{ TExtReport }
+
+procedure TExtReport.p_BeforePrintTexts(Sender:TObject; var OutputText:string; var PrintIt:boolean);
+var ACellProps : TGetCellPropsEvent;
+    ABack : TColor;
+begin
+  if  Assigned(FPrintComponent)
+  and Assigned(fmet_getComponentMethodProperty(FPrintComponent,'OnGetCellProps').Code)
+   Then
+    with Sender as TRLCustomControl do
+      Begin
+        ACellProps:=TGetCellPropsEvent(fmet_getComponentMethodProperty(FPrintComponent,'OnGetCellProps'));
+        ABack := Brush.Color;
+        ACellProps ( Sender,
+                     (fobj_getComponentObjectProperty(FPrintComponent,CST_DBPROPERTY_DATASOURCE) as TDataSource).DataSet.
+                         FieldByName(fs_getComponentProperty(Sender,CST_DBPROPERTY_DATAFIELD)),
+                     Font,
+                     ABack);
+        Brush.Color:=fcol_GetPrintedColor (ABack);
+      end;
+end;
+
+constructor TExtReport.Create(aOwner: TComponent);
+begin
+  inherited Create(aOwner);
+  FPrintComponent:=nil;
+end;
 
 { TRLCustomImageList }
 
@@ -556,7 +603,7 @@ end;
 procedure TExtPrintColumns.SetDatasource ( const AColumn: TExtPrintColumn );
 var ADatasource : TDataSource;
 begin
-  AColumn.Datasource := fobj_getComponentObjectProperty(FOwner,CST_PROPERTY_DATASOURCE) as TDataSource;
+  AColumn.Datasource := fobj_getComponentObjectProperty(FOwner,CST_DBPROPERTY_DATASOURCE) as TDataSource;
 end;
 
 procedure TExtPrintColumns.SetDatasource;

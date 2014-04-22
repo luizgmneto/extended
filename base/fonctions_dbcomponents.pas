@@ -45,24 +45,6 @@ const
   {$ENDIF}
   ge_OnExecuteQuery: TOnExecuteQuery = nil;
   ge_OnRefreshDataset : TSpecialFuncDataset = nil;
-  CST_DBPROPERTY_SQL = 'SQL';
-  CST_DBPROPERTY_SQLCONNECTION = 'SQLConnection';
-  CST_DBPROPERTY_CONNECTION = 'Connection';
-  CST_DBPROPERTY_CONNECTED  = 'Connected';
-  CST_DBPROPERTY_ONLINECONN = 'OnLineConn';
-  CST_DBPROPERTY_CONNECTIONSTRING = 'ConnectionString';
-  CST_DBPROPERTY_TRANSACTION = 'Transaction';
-  CST_DBPROPERTY_DATABASE = 'Database';
-  CST_DBPROPERTY_DATASOURCE = 'Datasource';
-  CST_DBPROPERTY_DATAFIELD = 'DataField';
-  CST_DBPROPERTY_DATABASENAME = 'DatabaseName';
-  CST_DBPROPERTY_SESSIONNAME = 'SessionName';
-  CST_DBPROPERTY_UPDATEOBJECT = 'UpdateObject';
-  CST_DBPROPERTY_CLIENTPARAM = 'ClientParam';
-  CST_DBPROPERTY_ZEOSDB = 'ZeosDBConnection';
-  CST_DBPROPERTY_FIELDDEFS = 'FieldDefs';
-  CST_DBPROPERTY_Active = 'Active';
-  CST_DBPROPERTY_ENDPARAM = ';';
 function fb_RefreshDataset ( const aDat_Dataset : TDataset ): Boolean ; overload;
 function fb_RefreshDataset ( const aDat_Dataset : TDataset; const ab_GardePosition : Boolean ): Boolean ; overload;
 procedure p_AutoConnection ( const adat_Dataset : TDataset; const AConnect : Boolean = True );

@@ -21,6 +21,7 @@ uses
   fonctions_version,
 {$ENDIF}
   Classes, Grids,
+  u_reports_rlcomponents,
   VirtualTrees,
   RLTypes,
   IniFiles;
@@ -30,7 +31,8 @@ const
   gVer_fonctions_reports : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_reports' ;
                         		 Owner : 'Matthieu Giroux' ;
                         		 Comment : 'Reports'' Functions, with grid reports.' ;
-                        		 BugsStory : 'Version 1.0.1.3 : Unfating.' + #13#10 +
+                        		 BugsStory : 'Version 1.0.2.0 : Adding OnGetCellProps searching.' + #13#10 +
+                                                     'Version 1.0.1.3 : Unfating.' + #13#10 +
                                                      'Version 1.0.1.2 : Simplifying.' + #13#10 +
                                                      'Version 1.0.1.1 : Testing tree.' + #13#10 +
                                                      'Version 1.0.1.0 : Ini management.' + #13#10 +
@@ -38,7 +40,7 @@ const
                                                      'Version 1.0.0.1 : image centering.' + #13#10 +
                                                      'Version 1.0.0.0 : Working.';
                         		 UnitType : 1 ;
-                        		 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 3 );
+                        		 Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
 {$ENDIF}
   CST_COLUMN_Visible = 'Visible';
   CST_COLUMN_MIN_Width= 4;
@@ -98,18 +100,19 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtLandscapeColumnsCount : Integer = 9;
     ExtHeader  : TRLBand = nil;
 
-function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
+function fb_CreateReport ( const AReportComponent : TComponent ; const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 function fref_CreateReport ( const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm; overload;
-function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
+function fref_CreateReport ( const aReportComponent : TComponent; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
 function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
 function frlr_CreateNewReport ( const ASourceReport : TRLReport ):TRLReport;
 procedure p_CreateAndPreviewReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
-procedure p_CreateAndPreviewReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
+procedure p_CreateAndPreviewReport ( const aReportComponent : TComponent; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
 procedure p_CreateReport ( const AParentReport : TRLReport ; const atree : TCustomVirtualStringTree;const ATempCanvas : TCanvas;const as_Title : String);
 procedure p_ReadReportsViewFromIni ( const AIniFile : TIniFile );
 procedure p_WriteReportsViewToIni ( const AIniFile : TIniFile );
 procedure p_ReinitValues;
 function  fb_IsVisibleAPrintedColumn ( const AItem : TCollectionItem; const ADatasource : TDatasource = nil ) : Boolean;
+function fcol_GetPrintedColor ( const AColor : TColor ) : TColor;
 
 implementation
 
@@ -117,13 +120,27 @@ uses fonctions_proprietes,
      fonctions_images,
      fonctions_string,
      fonctions_vtree,
+     rxdbgrid,
      controls,
-     u_reports_rlcomponents,
      Math;
 
-procedure p_CreateAndPreviewReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
+function fcol_GetPrintedColor ( const AColor : TColor ) : TColor;
 Begin
-  with fref_CreateReport ( agrid, ADatasource, AColumns, as_Title, AOrientation, APaperSize, acf_filter ) do
+  case AColor of
+    clWindowText,clCaptionText,clMenuText,clBtnText,clActiveBorder: Result:=clBlack;
+    clWindow,clWindowFrame,clInactiveBorder,clBackground,clMenu,clNone: Result:=clWhite;
+    clActiveBackground,clActiveButton,clActiveHighlight,clBtnShadow,clMenuBar: Result:=clGray;
+    clBtnFace,clBtnHighlight,clHighlight,clMenuHighlight: Result:=$404040;
+    clActiveText,clActiveForeground,clActiveCaption,clActiveBrightText,clActiveButtonText : Result:=clRed;
+    clActiveDark,clActiveHighlightedText,clHighlightedText,clActiveShadow:Result:=$8888FF;
+   Else
+    Result:=AColor;
+  end;
+end;
+
+procedure p_CreateAndPreviewReport ( const aReportComponent : TComponent; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
+Begin
+  with fref_CreateReport ( aReportComponent, agrid, ADatasource, AColumns, as_Title, AOrientation, APaperSize, acf_filter ) do
    try
      RLReport.Preview(nil);
    Finally
@@ -286,6 +303,7 @@ Begin
      Else Height:=Aheight;
    end;
 end;
+
 function frlc_createDBText ( const AReport : TRLReport; const ARLBand : TRLBand; const ADatasource : TDatasource; const ALeft, ATop, AWidth : Integer ; const afont : TFont; const as_Fieldname, as_format : String ; const ai_SizeFont : Integer = 0):TRLDBText;
 Begin
   Result := TRLDBText.Create(AReport.Owner);
@@ -307,6 +325,8 @@ Begin
        Width:=AWidth;
      end;
     DataField:=as_Fieldname;
+    if AReport is TExtReport Then
+      BeforePrint:=(AReport as TExtReport).p_BeforePrintTexts;
     if ( as_format > '' )
     and ( ADatasource.DataSet.FieldByName(as_Fieldname) is TNumericField )Then
       TNumericField(ADatasource.DataSet.FieldByName(as_Fieldname)).DisplayFormat:=as_format;
@@ -333,6 +353,8 @@ Begin
        AutoSize:=False;
        Width:=AWidth;
      end;
+    if AReport is TExtReport Then
+      BeforePrint:=(AReport as TExtReport).p_BeforePrintTexts;
     DataField:=as_Fieldname;
    end;
 end;
@@ -920,6 +942,7 @@ var atitleHeight, aSpaceWidth: Integer;
         ARealTop : Integer;
         LLine : TBitmap;
         AIndex : Integer;
+        ANodeText:TVTPaintText;
     Begin
       AIndex:= -1;
       with atree, ARect do
@@ -973,6 +996,17 @@ var atitleHeight, aSpaceWidth: Integer;
         GetTextInfo(ANode,-1,ARLBand.Font,ARect,AText);
         with ARect do
           ARLLabel := frlc_createLabel(AReport,ARLBand,aSpaceWidth,ARealTop,0,ExtColumnFont,AText);
+        if  Assigned(fmet_getComponentMethodProperty(atree,'OnPaintText').Code)
+         Then
+          with ARLLabel do
+            Begin
+              ANodeText:=TVTPaintText(fmet_getComponentMethodProperty(atree,'OnPaintText'));
+              Canvas.Brush.Color := Brush.Color;
+              Canvas.Font.Assign(Font);
+              ANodeText ( atree, Canvas, ANode, 0, ttNormal);
+              Font.Assign(Canvas.Font);
+              Brush.Color:=fcol_GetPrintedColor (Canvas.Brush.Color);
+            end;
         // text can go right out
         p_addEventualRightReport ( ARealTop );
        end;
@@ -1063,13 +1097,13 @@ function fb_IsVisibleAPrintedColumn ( const AItem : TCollectionItem; const AData
 Begin
   Result :=    fb_getComponentBoolProperty ( AItem, CST_COLUMN_Visible, True )
          and ( fli_getComponentProperty ( AItem, CST_PROPERTY_WIDTH ) > CST_COLUMN_MIN_Width )
-         and ( not Assigned(ADatasource) or assigned ( ADatasource.DataSet.FindField(fs_getComponentProperty ( AItem, CST_PROPERTY_FIELDNAME ))));
+         and ( not Assigned(ADatasource) or assigned ( ADatasource.DataSet.FindField(fs_getComponentProperty ( AItem, CST_DBPROPERTY_FIELDNAME ))));
 
 end;
 
 
 // create a datasource or grid report
-function fb_CreateReport ( const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
+function fb_CreateReport ( const AReportComponent : TComponent ; const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
 var totalgridwidth, aresizecolumns, ALastVisible,
     AlastColumnAddedSize, ALastResizedColumn,
     ATitleHeight, aVisibleColumns, SomeLeft,
@@ -1230,7 +1264,7 @@ var totalgridwidth, aresizecolumns, ALastVisible,
       LImages:= fobj_getComponentObjectProperty ( AItem,CST_PROPERTY_IMAGES ) as TCustomImageList;
       if assigned(LImages) Then
        Begin
-         ARLControl := frlc_createDBImageList ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth,AHeight, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME),ExtColumnColorBack,LImages);
+         ARLControl := frlc_createDBImageList ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth,AHeight, fs_getComponentProperty( AItem, CST_DBPROPERTY_FIELDNAME),ExtColumnColorBack,LImages);
          with ARLControl as TRLCustomDBExtImageList do
           Begin
             OnGetImageIndex := TFieldIndexEvent (fmet_getComponentMethodProperty( AItem, 'OnGetImageIndex' ));
@@ -1240,12 +1274,12 @@ var totalgridwidth, aresizecolumns, ALastVisible,
        end
       Else
        Begin
-        if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TBlobField
-         Then Begin ARLControl := frlc_createDBImage ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, AHeight  , fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), ExtColumnColorBack); p_DesignCell( ARLControl , AItemIndex, AIsFirst ); End
-         else if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TMemoField
-         Then Begin ARLControl := frlc_createDBMemo ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End
-         Else Begin ARLControl := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME), fs_getComponentProperty( AItem, CST_PROPERTY_DISPLAYFORMAT)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End;
-         if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_PROPERTY_FIELDNAME)) is TFloatField
+        if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_DBPROPERTY_FIELDNAME)) is TBlobField
+         Then Begin ARLControl := frlc_createDBImage ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, AHeight  , fs_getComponentProperty( AItem, CST_DBPROPERTY_FIELDNAME), ExtColumnColorBack); p_DesignCell( ARLControl , AItemIndex, AIsFirst ); End
+         else if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_DBPROPERTY_FIELDNAME)) is TMemoField
+         Then Begin ARLControl := frlc_createDBMemo ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_DBPROPERTY_FIELDNAME)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End
+         Else Begin ARLControl := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_DBPROPERTY_FIELDNAME), fs_getComponentProperty( AItem, CST_PROPERTY_DISPLAYFORMAT)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End;
+         if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_DBPROPERTY_FIELDNAME)) is TFloatField
           Then ( ARLControl as TRLDBText ).DisplayMask := '#9'+DecimalSeparator+'9';
        end
     End
@@ -1381,6 +1415,8 @@ var totalgridwidth, aresizecolumns, ALastVisible,
     p_AdaptBands ( ARLBand, AHeight, LIsFirst, ALinesAddedColumns + 1 );
   end;
 Begin
+  if AReport is TExtReport Then
+    (AReport as TExtReport).PrintComponent:=AReportComponent;
   Result := False;
   PreparePrint;
   if totalgridwidth = 0 Then Exit;
@@ -1411,10 +1447,10 @@ Begin
 end;
 
 // main create grid or data report's form
-function fref_CreateReport ( const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
+function fref_CreateReport ( const aReportComponent : TComponent; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
 Begin
   Result := fref_CreateReport ( AOrientation, APaperSize, acf_filter );
-  fb_CreateReport ( Result.RLReport, agrid, ADatasource, AColumns, Result.Canvas, as_Title );
+  fb_CreateReport ( aReportComponent, Result.RLReport, agrid, ADatasource, AColumns, Result.Canvas, as_Title );
 end;
 
 initialization

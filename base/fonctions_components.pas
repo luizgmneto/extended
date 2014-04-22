@@ -37,8 +37,8 @@ const
 type TFieldMethod = function ( const AField : TField ;
                                var IsFirst : Boolean ;
                                const Separator : String; const AReplaceCaption : String = '' ):String;
-
 procedure p_ComponentSelectAll ( const aobj_Component : TObject );
+procedure p_GoToEvent ( const AEvent : TNotifyEvent ; const ASender :TObject );
 function  fb_AutoComboInit ( const acom_Combo : TComponent ):Boolean;
 procedure ExportGridToHTML(const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'html' ; const ab_showFile : Boolean = True );
 procedure ExportGridToCSV (const AFileName : String ; const AGrid : TCustomDBGrid;const ab_Header, ab_all : Boolean ; const As_Extension : String = 'csv'; const aseparate : Char = ';' ; const ab_showFile : Boolean = True );
@@ -54,6 +54,12 @@ uses fonctions_string,
   fonctions_proprietes,
   fonctions_system,
   fonctions_languages;
+
+procedure p_GoToEvent ( const AEvent : TNotifyEvent ; const ASender :TObject );
+Begin
+  if Assigned(AEvent)
+   Then AEvent(ASender);
+end;
 
 procedure p_setMyLabel ( var Flabel : TLabel; const ALabel :  TLabel; const AOwner : TComponent);
 Begin
