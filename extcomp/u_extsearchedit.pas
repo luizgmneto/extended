@@ -42,7 +42,8 @@ const
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '1.0.1.4 : MyLabel unset correctly.'
+                                          BugsStory : '1.0.1.5 : Testing popup and unfocusing.'
+                                                    + '1.0.1.4 : MyLabel unset correctly.'
                                                     + '1.0.1.3 : Popup not erasing bug.'
                                                     + '1.0.1.2 : Testing on LAZARUS.'
                                                     + '1.0.1.1 : Delphi compatible.'
@@ -54,7 +55,7 @@ const
                                                     + '0.9.0.1 : Not tested, compiling on DELPHI.'
                                                     + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 1 ; Minor : 0 ; Release : 1 ; Build : 4 );
+                                          Major : 1 ; Minor : 0 ; Release : 1 ; Build : 5 );
 
 {$ENDIF}
   SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
@@ -73,6 +74,8 @@ type
     procedure Click; override;
     constructor Create ( Aowner : TComponent ); override;
     property Edit : TExtSearchDBEdit read FEdit;
+    procedure ShowPopup; virtual;
+    procedure AutoPlace; virtual;
   published
     property Options default SEARCHEDIT_GRID_DEFAULTS;
     property Scrollbars default SEARCHEDIT_GRID_DEFAULT_SCROLL;
@@ -109,7 +112,6 @@ type
     procedure p_setSearchSource ( AValue : TDataSource );
     function fs_getSearchSource : TDataSource ;
     procedure p_setLabel ( const alab_Label: TLabel );
-    procedure ShowPopup;
     procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
     procedure WMSize(var Message: {$IFDEF FPC}TLMSize{$ELSE}TWMSize{$ENDIF}); message {$IFDEF FPC}LM_SIZE{$ELSE}WM_SIZE{$ENDIF};
     procedure WMSetFocus(var Message: {$IFDEF FPC}TLMSetFocus{$ELSE}TWMSetFocus{$ENDIF}); message {$IFDEF FPC}LM_SETFOCUS{$ELSE}WM_SETFOCUS{$ENDIF};
@@ -121,7 +123,10 @@ type
     procedure FreePopup; virtual;
     procedure DoEnter; override;
     procedure DoExit; override;
+    procedure TextChanged; override;
     procedure Loaded; override;
+    procedure PasteFromClipboard; override;
+    procedure CutToClipboard; override;
     procedure SetOrder ; virtual;
     procedure ValidateSearch; virtual;
     function EditCanModify: Boolean; override;
@@ -178,11 +183,14 @@ begin
     end;
 end;
 
+// clik event of datasearch popup
 procedure TListPopupEdit.Click;
 begin
   with FEdit do
    Begin
     Text := FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
+    FSet:=False;
+    Flocated:=True;
     ValidateSearch;
    End;
  Visible:=False;
@@ -194,6 +202,61 @@ begin
   Options:= SEARCHEDIT_GRID_DEFAULTS;
   ScrollBars:=SEARCHEDIT_GRID_DEFAULT_SCROLL;
 end;
+
+procedure TListPopupEdit.AutoPlace;
+var    APoint : TPoint;
+Begin
+  with APoint do
+   Begin
+     X := FEdit.Left;
+     if FEdit.FListUp
+      Then Y := FEdit.Top - Height
+      Else Y := FEdit.Top + FEdit.Height;
+     APoint:=(Owner as TWinControl).ScreenToClient(FEdit.ClientToScreen(APoint));
+     Left:=X;
+     Top :=Y;
+   end;
+end;
+
+procedure TListPopupEdit.ShowPopup;
+var i, j, AWidth, AActiveRecord : Integer;
+Begin
+  with FEdit,FSearchSource,DataSet do
+   Begin
+     DisableControls;
+     AActiveRecord := ActiveRecord;
+     try
+       // good columns' size
+       for j := 0 to FListLines do
+         Begin
+           AWidth:=0;
+           for i := 0 to Columns.Count-1 do
+             Begin
+               with Columns [i] do
+                Begin
+                 if i = Columns.Count-1 Then
+                  Begin
+                    Width:=FPopup.Width-AWidth;
+                    Break;
+                  end;
+                 Width  := Canvas.TextWidth(Field.DisplayText+'a');
+                 if Width > FPopup.Width div Columns.Count
+                  then Width := FPopup.Width div Columns.Count;
+                 inc ( AWidth, Width );
+                end;
+             end;
+            Next;
+          if eof Then
+            Break;
+         end;
+     finally
+       ActiveRecord:=AActiveRecord;
+       EnableControls;
+     end;
+   end;
+   AutoPlace;
+   Visible:=True;
+End;
 
 { TExtSearchDBEdit }
 
@@ -303,53 +366,6 @@ begin
    Then FLabel := nil;
 end;
 
-procedure TExtSearchDBEdit.ShowPopup;
-var i, j, AWidth, AActiveRecord : Integer;
-    APoint : TPoint;
-Begin
-  with FPopup do
-   Begin
-     APoint.X := 0;
-     if FListUp
-      Then APoint.Y := Self.Height - Height
-      Else APoint.Y := Self.Height;
-     APoint:=Parent.ScreenToClient(Self.ClientToScreen(APoint));
-     Left := APoint.X;
-     Top  := APoint.Y;
-     FSearchSource.DataSet.DisableControls;
-     AActiveRecord := FSearchSource.ActiveRecord;
-     with FSearchSource.DataSet do
-       try
-         // good columns' size
-         for j := 0 to FListLines do
-           Begin
-             AWidth:=0;
-             for i := 0 to Columns.Count-1 do
-               Begin
-                 with Columns [i] do
-                  Begin
-                   if i = Columns.Count-1 Then
-                    Begin
-                      Width:=FPopup.Width-AWidth;
-                      Break;
-                    end;
-                   Width  := Canvas.TextWidth(Field.DisplayText+'a');
-                   if Width > FPopup.Width div Columns.Count
-                    then Width := FPopup.Width div Columns.Count;
-                   inc ( AWidth, Width );
-                  end;
-               end;
-              Next;
-            if eof Then
-              Break;
-           end;
-       finally
-         FSearchSource.ActiveRecord:=AActiveRecord;
-         FSearchSource.DataSet.EnableControls;
-       end;
-     Visible:=True;
-   end;
-End;
 procedure TExtSearchDBEdit.CreatePopup;
 var Alist:TStrings;
     i : Integer;
@@ -375,11 +391,8 @@ Begin
                  Else Width := Self.Width;
                 Height := FListLines * Self.Height;
                 DataSource:=FSearchSource.DataSource;
-                if ( Self.Owner is TWinControl )
-                  Then Parent:=Self.Owner as TWinControl
-                  Else if Self.Parent.Parent <> nil
-                  Then Parent:=Self.Parent.Parent
-                  Else Parent:=Self.Parent;
+                // cannot make self parent
+                Parent:=Owner as TWinControl;
                 Color := Self.Color;
                 Font.Assign(Self.Font);
                 for i := 0 to Alist.Count-1 do
@@ -390,13 +403,12 @@ Begin
                      end;
                   end;
                 Loaded;
-                Visible:=True;
               end;
           finally
             Alist.Free;
           end;
         end;
-       ShowPopup;
+       FPopup.ShowPopup;
      finally
        FSearchSource.DataSet.GotoBookmark(ABookmark);
        FreeBookmark(ABookmark);
@@ -474,8 +486,11 @@ begin
                 FOnLocate ( Self );
           End
          Else // not found : no popup
-          if Assigned(FPopup) Then
-            FPopup.Visible:=False;
+          Begin
+            Flocated  := False;
+            if Assigned(FPopup) Then
+              FPopup.Visible:=False;
+          End;
       end
 
 end;
@@ -551,6 +566,7 @@ end;
 // Setting the label and ExtSearchDBEdit color
 procedure TExtSearchDBEdit.DoExit;
 begin
+  ValidateSearch;
   inherited DoExit;
   p_setLabelColorExit ( FLabel, FAlwaysSame );
   p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
@@ -559,6 +575,16 @@ begin
   if assigned ( FPopup )
   and not FPopup.Focused Then
     FreePopup;
+end;
+
+procedure TExtSearchDBEdit.TextChanged;
+begin
+  inherited TextChanged;
+  if Text = '' Then
+   Begin
+     FSet:=False;
+     Flocated:=False;
+   end;
 end;
 
 // procedure TExtSearchDBEdit.Loaded
@@ -570,6 +596,20 @@ begin
   if  FAlwaysSame
    Then
     Color := gCol_Edit ;
+end;
+
+procedure TExtSearchDBEdit.PasteFromClipboard;
+begin
+  FSet:=False;
+  Flocated:=False;
+  inherited PasteFromClipboard;
+end;
+
+procedure TExtSearchDBEdit.CutToClipboard;
+begin
+  inherited CutToClipboard;
+  FSet:=False;
+  Flocated:=False;
 end;
 
 // procedure TExtSearchDBEdit.SetOrder
