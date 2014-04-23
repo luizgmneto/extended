@@ -69,7 +69,7 @@ type
     procedure doDesactive;
 
   public
-    procedure doInit(sTexte:string;Annuler:boolean=false);
+    procedure doInit(const sTexte:string;const Annuler:boolean=false);
   end;
 
 implementation
@@ -88,7 +88,7 @@ begin
   Application.ProcessMessages;
 end;
 
-procedure TFWorking.doInit(sTexte: string;Annuler:boolean=false);
+procedure TFWorking.doInit(const sTexte: string;const Annuler:boolean=false);
 //var
 //  i,l:integer;
 begin
@@ -105,8 +105,9 @@ begin
    then self.ClientHeight:=HFiche+i*PleaseWait.Height
    else self.ClientHeight:=HFiche+i*PleaseWait.Height-PanCancel.Height;}
   screen.cursor := crHourGlass;
-  Show;
   PleaseWait.Caption:=sTexte;
+  Show;
+  Update;
 end;
 
 procedure TFWorking.FormDestroy(Sender: TObject);
