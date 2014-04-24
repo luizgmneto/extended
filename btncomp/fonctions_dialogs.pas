@@ -81,7 +81,6 @@ begin
     gF_Working:=TFWorking.create(Application);
   gb_btnCancel:=False;
   gF_Working.doInit(sText,Cancel);
-  gF_Working.Update;
 end;
 
 procedure doCloseWorking;//AL
@@ -165,4 +164,4 @@ Begin
 end;
 
 end.
-
+
