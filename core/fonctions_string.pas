@@ -885,31 +885,34 @@ end;
 // strict length includes double or triple length of special  chars
 function fs_copyutf8 ( const astring : String; const apositionNonUTF8 : Int64 ; const aLengthNonUTF8 : Int64 ; const ab_strict : Boolean = False): String;
 var AChar :PChar;
+    li_length : Int64;
     EndChar : PChar;
     {$IFDEF FPC}
     li_pos ,
     li_charlength : Integer;
-    li_length : Int64;
     PosChar : PChar;
     {$ENDIF}
 begin
-  if (astring = '')
-  or ( apositionNonUTF8 >= aLengthNonUTF8 ) Then
-   Begin
-    Result:='';
-    Exit;
-   end;
-  // uneeded calculate
+  li_length:=Length(astring);
+
+  // less use of cpu
   if  ( apositionNonUTF8 = 1 )
-  and (Length(astring) <= aLengthNonUTF8) Then
+  and (li_length <= aLengthNonUTF8) Then
    Begin
      Result:=astring;
      Exit;
    end;
+  if (astring = '')
+  or ( apositionNonUTF8 > li_length ) Then
+   Begin
+    Result:='';
+    Exit;
+   end;
+
   {$IFDEF FPC}
   AChar:=@astring[1];
   PosChar:=AChar;
-  EndChar:=@astring[Length(astring)];
+  EndChar:=@astring[li_length];
   li_length:=0;
   while AChar<=EndChar do
     begin
