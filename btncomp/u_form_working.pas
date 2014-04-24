@@ -107,7 +107,8 @@ begin
   screen.cursor := crHourGlass;
   PleaseWait.Caption:=sTexte;
   Show;
-  Update;
+  Update;// needed to show message
+  Application.ProcessMessages;  // needed to show message
 end;
 
 procedure TFWorking.FormDestroy(Sender: TObject);
