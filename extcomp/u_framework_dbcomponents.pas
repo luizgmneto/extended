@@ -84,7 +84,6 @@ type
        FColorReadOnly,
        FColorEdit ,
        FColorLabel : TColor;
-       FBeforePopup : TPopUpMenuEvent;
        FOnPopup : TNotifyEvent;
        FAlwaysSame : Boolean;
        FNotifyOrder : TNotifyEvent;
@@ -111,7 +110,6 @@ type
        property MyLabel : TLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
-       property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
        property OnMouseEnter;
        property OnMouseLeave;
@@ -132,7 +130,6 @@ type
        FColorLabel : TColor;
        FAlwaysSame : Boolean;
        FNotifyOrder : TNotifyEvent;
-       FBeforePopup : TPopUpMenuEvent;
        FOnPopup : TNotifyEvent;
        procedure p_setLabel ( const alab_Label: TLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
@@ -157,7 +154,6 @@ type
        property MyLabel : TLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
-       property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
        property OnMouseEnter;
        property OnMouseLeave;
@@ -172,7 +168,6 @@ type
    TFWDBDateTimePicker = class ( {$IFDEF FPC}TFWDateTimePicker{$ELSE}TJvDBDateTimePicker{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
         FReadOnly : Boolean;
-        FBeforePopup : TPopUpMenuEvent;
         FOnPopup : TNotifyEvent;
        {$IFDEF FPC}
          FDataLink: TFieldDataLink;
@@ -247,7 +242,6 @@ type
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
        {$ENDIF}
-       property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
        property PopupMenu;
        property Align;
@@ -260,7 +254,6 @@ type
     TFWDBFileEdit = class ( TFWFileEdit )
        private
           FReadOnly : Boolean;
-          FBeforePopup : TPopUpMenuEvent;
           FOnPopup : TNotifyEvent;
           FDataLink: TFieldDataLink;
           function GetDataField: string;
@@ -293,7 +286,6 @@ type
           property filename stored False ;
           property DataField: string read GetDataField write SetDataField stored True;
           property DataSource: TDataSource read GetDataSource write SetDataSource stored True;
-          property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
           property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
           property PopupMenu;
           property ReadOnly: Boolean read GetReadOnly write SetReadOnly default false;
@@ -314,7 +306,6 @@ type
        FColorLabel : TColor;
        FAlwaysSame : Boolean;
        FNotifyOrder : TNotifyEvent;
-       FBeforePopup : TPopUpMenuEvent;
        FOnPopup : TNotifyEvent;
        procedure p_setLabel ( const alab_Label: TLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
@@ -345,7 +336,6 @@ type
        property MyLabel : TLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
-       property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
        property OnMouseEnter;
        property OnMouseLeave;
@@ -365,7 +355,6 @@ type
        FColorLabel : TColor;
        FAlwaysSame : Boolean;
        FNotifyOrder : TNotifyEvent;
-       FBeforePopup : TPopUpMenuEvent;
        FOnPopup : TNotifyEvent;
        procedure p_setLabel ( const alab_Label: TLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
@@ -390,7 +379,6 @@ type
        property MyLabel : TLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
-       property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
        property OnMouseEnter;
        property OnMouseLeave;
@@ -411,7 +399,6 @@ type
        FColorLabel : TColor;
        FAlwaysSame : Boolean;
        FNotifyOrder : TNotifyEvent;
-       FBeforePopup : TPopUpMenuEvent;
        FOnPopup : TNotifyEvent;
        procedure p_setLabel ( const alab_Label: TLabel );
        procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
@@ -436,7 +423,6 @@ type
        property MyLabel : TLabel read FLabel write p_setLabel;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
-       property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
        property OnMouseEnter;
        property OnMouseLeave;
@@ -458,7 +444,6 @@ type
           FColorLabel : TColor;
           FAlwaysSame : Boolean;
           FNotifyOrder : TNotifyEvent;
-          FBeforePopup : TPopUpMenuEvent;
           FOnPopup : TNotifyEvent;
           procedure p_setLabel ( const alab_Label: TLabel );
           procedure WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF}); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
@@ -482,7 +467,6 @@ type
           property MyLabel : TLabel read FLabel write p_setLabel;
           property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
           property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
-          property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
           property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
           property OnMouseEnter;
           property OnMouseLeave;
@@ -515,7 +499,6 @@ begin
   FColorEdit  := CST_EDIT_STD;
   FColorFocus := CST_EDIT_SELECT;
   FColorReadOnly := CST_EDIT_READ;
-  FBeforePopup:=nil;
   FOnPopup:=nil;
 end;
 
@@ -561,7 +544,7 @@ procedure TFWDBEdit.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
 begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
-   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+   fb_ShowPopup (Self,PopUpMenu,OnContextPopup,FOnPopup);
 end;
 
 procedure TFWDBEdit.Notification(AComponent: TComponent; Operation: TOperation);
@@ -748,7 +731,7 @@ procedure TFWDBDateTimePicker.MouseDown(Button: TMouseButton;
 begin
   inherited;
   if Button = mbRight Then
-   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+   fb_ShowPopup (Self,PopUpMenu,OnContextPopup,FOnPopup);
 end;
 
 function TFWDBDateTimePicker.ExecuteAction(AAction: TBasicAction): Boolean;
@@ -781,7 +764,7 @@ end;
 procedure TFWDBDateTimePicker.WMRButtonDown(var Msg: TWMRButtonDown);
 begin
   inherited;
-  fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+  fb_ShowPopup (Self,PopUpMenu,FOnPopup);
 end;
 
 { TFWDBDateTimePicker }
@@ -1001,7 +984,7 @@ procedure TFWDBFileEdit.MouseDown(Button: TMouseButton;
 begin
   inherited;
   if Button = mbRight Then
-   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+   fb_ShowPopup (Self,PopUpMenu,OnContextPopup,FOnPopup);
 end;
 
 function TFWDBFileEdit.ExecuteAction(AAction: TBasicAction): Boolean;
@@ -1090,7 +1073,7 @@ procedure TFWDBDateEdit.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
 begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
-   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+   fb_ShowPopup (Self,PopUpMenu,OnContextPopup,FOnPopup);
 end;
 
 procedure TFWDBDateEdit.Notification(AComponent: TComponent;
@@ -1174,7 +1157,7 @@ procedure TFWDBLookupCombo.MouseDown(Button: TMouseButton; Shift: TShiftState;
 begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
-   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+   fb_ShowPopup (Self,PopUpMenu,OnContextPopup,FOnPopup);
 end;
 
 procedure TFWDBLookupCombo.Notification(AComponent: TComponent;
@@ -1251,7 +1234,7 @@ procedure TFWDBComboBox.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
 begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
-   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+   fb_ShowPopup (Self,PopUpMenu,OnContextPopup,FOnPopup);
 end;
 
 procedure TFWDBComboBox.Notification(AComponent: TComponent;
@@ -1329,7 +1312,7 @@ procedure TFWDBMemo.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
 begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
-   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+   fb_ShowPopup (Self,PopUpMenu,OnContextPopup,FOnPopup);
 end;
 
 procedure TFWDBMemo.Notification(AComponent: TComponent; Operation: TOperation);
@@ -1405,7 +1388,7 @@ procedure TFWDBSpinEdit.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
 begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
-   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+   fb_ShowPopup (Self,PopUpMenu,OnContextPopup,FOnPopup);
 end;
 
 procedure TFWDBSpinEdit.Notification(AComponent: TComponent; Operation: TOperation

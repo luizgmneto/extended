@@ -79,7 +79,6 @@ type
 
   TExtNumEdit   = class(TCustomMaskEdit, IFWComponent, IFWComponentEdit)
   private
-    FBeforePopup: TPopUpMenuEvent;
     FCanvas: TControlCanvas;
     FFocused: Boolean;
     FAlwaysSame: Boolean;
@@ -147,7 +146,6 @@ type
     property HasMin : Boolean read FHasMin write FHasMin default False;
     property HasMax : Boolean read FHasMax write FHasMax default False;
     property NumRounded : TNumRounded read FNumRounded write FNumRounded default nrNone;
-    property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
     property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
     property Anchors;
     property AutoSelect;
@@ -870,7 +868,7 @@ procedure TExtNumEdit.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
 begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
-   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+   fb_ShowPopup (Self,PopUpMenu,OnContextPopup,FOnPopup);
 end;
 
 procedure TExtNumEdit.SetName(const NewName: TComponentName);

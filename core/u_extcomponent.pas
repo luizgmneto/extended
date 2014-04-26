@@ -56,13 +56,14 @@ const
                                                FileUnit : 'u_extcomponent' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Interface réutilisée centralisant les composants FW.' ;
-                                               BugsStory : '1.0.1.1 : EDITSCOLOR compile option.' + #13#10
+                                               BugsStory : '1.0.1.2 : Replacing BeforePopup by original OnContextPopu.' + #13#10
+                                                         + '1.0.1.1 : EDITSCOLOR compile option.' + #13#10
                                                          + '1.0.1.0 : Adapting to OS''s themes.' + #13#10
                                                          + '1.0.0.1 : UTF 8.' + #13#10
                                                          + '1.0.0.0 : En place testée.' + #13#10
                                                          + '0.9.0.0 : En place à tester.';
                                                UnitType : 1 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
 
 {$ENDIF}
 
@@ -73,8 +74,6 @@ type IFWComponent = interface
    ['{62CAE27F-94C1-4A3D-B94F-FE57A36207D5}'] // GUID nécessaire pour l'opération de cast
        procedure SetOrder ;
      End;
-   // interfaces
-   TPopUpMenuEvent = procedure ( Sender:TObject;var APopupMenu:TPopupMenu;var AHandled:Boolean) of object;
 
 var
     // Couleurs à mettre sur les composants
@@ -94,34 +93,37 @@ procedure p_setCompColorEnter ( const Fcomponent : TControl; const FFocusColor :
 procedure p_setLabelColorExit  ( const FLabel : {$IFDEF TNT}TTntLabel{$ELSE}TLabel{$ENDIF}; const FAlwaysSame : boolean  );
 procedure p_setCompColorExit ( const Fcomponent : TControl; const FColor : TColor ; const FAlwaysSame : boolean  );
 procedure p_setCompColorReadOnly ( const Fcomponent : TControl; const FEditColor, FReadOnlyColor : TColor ; const FAlwaysSame, FReadOnly : boolean  );
-function fb_ShowPopup ( const AControl : TControl; const APopUpMenu : TPopUpMenu ; const ABeforePopup : TPopUpMenuEvent ; const AOnPopup : TNotifyEvent ):Boolean;
+function fb_ShowPopup ( const AControl : TControl; const APopUpMenu : TPopUpMenu ; const AContextPopup: TContextPopupEvent; const AOnPopup : TNotifyEvent ):Boolean;
 
 implementation
 
 uses fonctions_proprietes;
 
 
-function fb_ShowPopup ( const AControl : TControl; const APopUpMenu : TPopUpMenu ; const ABeforePopup : TPopUpMenuEvent ; const AOnPopup : TNotifyEvent ):Boolean;
+function fb_ShowPopup ( const AControl : TControl; const APopUpMenu : TPopUpMenu ; const AContextPopup: TContextPopupEvent; const AOnPopup : TNotifyEvent ):Boolean;
 var lp_pos : TPoint;
     LPopupMenu : TPopupMenu;
 begin
-  if Assigned(APopUpMenu) Then
+  with AControl do
+   Begin
+    lp_pos.X := Width;
+    lp_pos.Y := Top ;
+   end;
+  Result := True;
+  if Assigned(AContextPopup) Then
+   AContextPopup(AControl,lp_pos,Result);
+  if Result
+  and Assigned(APopUpMenu) Then
     Begin
-     Result := True;
      LPopupMenu := APopUpMenu;
-     if Assigned(ABeforePopup) Then
-       ABeforePopup ( AControl, LPopupMenu, Result );
      if Result Then
-     with AControl do
        Begin
-         lp_pos.X := Width;
-         lp_pos.Y := Top ;
+        if Assigned(AOnPopup) Then
+          AOnPopup ( AControl );
          {if Owner is TControl
           Then lp_pos := ( Owner as TControl).ScreenToClient ( ControlToScreen( lp_pos ))
-          Else} lp_pos := ClientToScreen( lp_pos );
+          Else} lp_pos := AControl.ClientToScreen( lp_pos );
          LPopupMenu.Popup(lp_pos.X,lp_pos.Y);
-         if Assigned(AOnPopup) Then
-           AOnPopup ( AControl );
        end;
     end
    Else Result := False;

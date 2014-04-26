@@ -65,7 +65,6 @@ type
        FColor           ,
        FGlyphSize: Integer;
        FColorFrameFocus : TColor;
-       FBeforePopup : TPopUpMenuEvent;
        FOnPopup : TNotifyEvent;
       protected
        procedure MouseEnter{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
@@ -80,7 +79,6 @@ type
      published
        property ColorFrameFocus : TColor read FColorFrameFocus write FColorFrameFocus default clCream;
        property GlyphSize : Integer read FGlyphSize write SetGlyphSize default 0;
-       property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
      End;
     { TFWButton }
@@ -329,7 +327,7 @@ end;
 
 procedure TFWXPButton.Click;
 begin
-  fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+  fb_ShowPopup (Self,PopUpMenu,OnContextPopup,FOnPopup);
   inherited Click;
 end;
 
@@ -344,7 +342,6 @@ begin
   FColorFrameFocus:=clCream;
   FOnPopup := nil;
   FGlyphSize := 0;
-  FBeforePopup := nil;
 end;
 
 

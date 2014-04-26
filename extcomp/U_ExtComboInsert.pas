@@ -91,7 +91,6 @@ type
     FColorLabel : TColor;
     FAlwaysSame : Boolean;
     FNotifyOrder : TNotifyEvent;
-    FBeforePopup : TPopUpMenuEvent;
     FOnPopup : TNotifyEvent;
     function GetSearchSource: TDataSource;
     {$IFNDEF JEDI}
@@ -146,7 +145,6 @@ type
     property MyLabel : TLabel read FLabel write p_setLabel;
     property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
     property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
-    property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
     property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
     property OnMouseEnter;
     property OnMouseLeave;
@@ -232,7 +230,7 @@ procedure TExtDBComboInsert.MouseDown(Button: TMouseButton; Shift: TShiftState;
 begin
   inherited MouseDown(Button, Shift, X, Y);
   if Button = mbRight Then
-   fb_ShowPopup (Self,PopUpMenu,FBeforePopup,FOnPopup);
+  fb_ShowPopup (Self,PopUpMenu,OnContextPopup,FOnPopup);
 end;
 
 procedure TExtDBComboInsert.Notification(AComponent: TComponent;
