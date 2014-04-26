@@ -137,7 +137,6 @@ type
    TExtDBGrid = class ( {$IFDEF TNT}TTntDBGrid{$ELSE}{$IFDEF EXRX}TExRxDBGrid{$ELSE}{$IFDEF JEDI}TJvDBUltimGrid{$ELSE}TRXDBGrid{$ENDIF}{$ENDIF}{$ENDIF}, IFWComponent )
      private
        FOnPopup : TNotifyEvent;
-       FBeforePopup : TPopUpMenuEvent;
        FOldOnGetBtnParams: TGetBtnParamsEvent;
        FPaintOptions : TExtOptions;
        FBeforeEnter, FBeforeExit : TNotifyEvent;
@@ -206,7 +205,6 @@ type
        property ColorFocus : TColor read FColorFocus write FColorFocus default CST_GRID_SELECT ;
        property AlwaysSame : Boolean read FAlwaysSame write FAlwaysSame default true;
        property OptionsExt : TExtOptions read FPaintOptions write p_SetPaintOptions default CST_EXTGRID_DEFAULT_OPTIONS;
-       property BeforePopup : TPopUpMenuEvent read FBeforePopup write FBeforePopup;
        property OnPopup : TNotifyEvent read FOnPopup write FOnPopup;
      End;
 
@@ -620,23 +618,10 @@ var APopupMenu : TPopupMenu;
     Continue : Boolean;
 begin
   inherited;
-  if Assigned(PopUpMenu)
-  and (Button = mbRight)
-  and ( Shift = [] ) Then
-    Begin
-     Continue := True;
-     APopupMenu := PopupMenu;
-     if Assigned(FBeforePopup) Then
-       FBeforePopup ( Self, APopupMenu, Continue );
-     if Continue Then
-       Begin
-         with Mouse.CursorPos do
-           APopUpMenu.Popup(X,Y);
-         if Assigned(FOnPopup) Then
-           FOnPopup ( Self );
-       end;
-    end;
   ShowControlColumn;
+  if  (Button = mbRight)
+  and ( Shift = [] ) Then
+    fb_ShowPopup(self,PopupMenu,OnContextPopup,FOnPopup);
 end;
 {$IFDEF FPC}
 function TExtDBGrid.MouseButtonAllowed(Button: TMouseButton): boolean;
