@@ -1,24 +1,24 @@
 object Form1: TForm1
   Left = 613
-  Height = 585
+  Height = 564
   Top = 202
   Width = 885
   Caption = 'TNetUpdate Ini'
-  ClientHeight = 585
+  ClientHeight = 564
   ClientWidth = 885
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.0.14.0'
+  LCLVersion = '1.2.3.0'
   object Panel31: TPanel
     Left = 0
-    Height = 536
+    Height = 515
     Top = 0
     Width = 424
     Align = alLeft
     Caption = 'Panel31'
-    ClientHeight = 536
+    ClientHeight = 515
     ClientWidth = 424
     TabOrder = 0
     object Panel2: TPanel
@@ -34,7 +34,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 79
+        Width = 77
         Align = alLeft
         Caption = 'Windows i386'
         ParentColor = False
@@ -48,7 +48,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -77,7 +77,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 90
+        Width = 88
         Align = alLeft
         Caption = 'Windows i86-64'
         ParentColor = False
@@ -91,7 +91,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -120,7 +120,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 135
+        Width = 131
         Align = alLeft
         Caption = 'MAC OSX CARBON i386'
         ParentColor = False
@@ -134,7 +134,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -163,7 +163,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 146
+        Width = 142
         Align = alLeft
         Caption = 'MAC OSX CARBON i86-64'
         ParentColor = False
@@ -177,7 +177,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -206,7 +206,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 133
+        Width = 129
         Align = alLeft
         Caption = 'MAC OSX CARBON PPC'
         ParentColor = False
@@ -220,7 +220,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -236,7 +236,7 @@ object Form1: TForm1
         TabOrder = 1
       end
     end
-    object Panel7: TPanel
+    object Panel8: TPanel
       Left = 1
       Height = 24
       Top = 121
@@ -245,54 +245,11 @@ object Form1: TForm1
       ClientHeight = 24
       ClientWidth = 422
       TabOrder = 5
-      object Label6: TLabel
-        Left = 1
-        Height = 22
-        Top = 1
-        Width = 136
-        Align = alLeft
-        Caption = 'MAC OSX CARBON ARM'
-        ParentColor = False
-      end
-      object FileWin37: TFileNameEdit
-        Left = 152
-        Height = 22
-        Top = 1
-        Width = 169
-        Filter = 'mdg,pkg|*.mdg;*.pkg'
-        FilterIndex = 0
-        HideDirectories = False
-        ButtonWidth = 23
-        NumGlyphs = 0
-        Align = alCustom
-        Anchors = [akTop, akLeft, akRight]
-        MaxLength = 0
-        TabOrder = 0
-      end
-      object CreerCarbonARM: TButton
-        Left = 346
-        Height = 22
-        Top = 1
-        Width = 75
-        Align = alRight
-        Caption = 'Créer ini'
-        TabOrder = 1
-      end
-    end
-    object Panel8: TPanel
-      Left = 1
-      Height = 24
-      Top = 145
-      Width = 422
-      Align = alTop
-      ClientHeight = 24
-      ClientWidth = 422
-      TabOrder = 6
       object Label7: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 117
+        Width = 115
         Align = alLeft
         Caption = 'DEBIAN GNOME i386'
         ParentColor = False
@@ -306,7 +263,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -325,17 +282,17 @@ object Form1: TForm1
     object Panel9: TPanel
       Left = 1
       Height = 24
-      Top = 169
+      Top = 145
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 7
+      TabOrder = 6
       object Label8: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 128
+        Width = 126
         Align = alLeft
         Caption = 'DEBIAN GNOME i86-64'
         ParentColor = False
@@ -349,7 +306,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -368,17 +325,17 @@ object Form1: TForm1
     object Panel10: TPanel
       Left = 1
       Height = 24
-      Top = 193
+      Top = 169
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 8
+      TabOrder = 7
       object Label9: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 115
+        Width = 113
         Align = alLeft
         Caption = 'DEBIAN GNOME PPC'
         ParentColor = False
@@ -392,7 +349,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -411,17 +368,17 @@ object Form1: TForm1
     object Panel11: TPanel
       Left = 1
       Height = 24
-      Top = 217
+      Top = 193
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 9
+      TabOrder = 8
       object Label10: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 118
+        Width = 114
         Align = alLeft
         Caption = 'DEBIAN GNOME ARM'
         ParentColor = False
@@ -435,7 +392,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -454,17 +411,17 @@ object Form1: TForm1
     object Panel12: TPanel
       Left = 1
       Height = 24
-      Top = 313
+      Top = 289
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 10
+      TabOrder = 9
       object Label11: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 98
+        Width = 94
         Align = alLeft
         Caption = 'DEBIAN KDE ARM'
         ParentColor = False
@@ -478,7 +435,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -497,17 +454,17 @@ object Form1: TForm1
     object Panel13: TPanel
       Left = 1
       Height = 24
-      Top = 289
+      Top = 265
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 11
+      TabOrder = 10
       object Label12: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 95
+        Width = 93
         Align = alLeft
         Caption = 'DEBIAN KDE PPC'
         ParentColor = False
@@ -521,7 +478,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -540,17 +497,17 @@ object Form1: TForm1
     object Panel14: TPanel
       Left = 1
       Height = 24
-      Top = 265
+      Top = 241
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 12
+      TabOrder = 11
       object Label13: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 108
+        Width = 106
         Align = alLeft
         Caption = 'DEBIAN KDE i86-64'
         ParentColor = False
@@ -564,7 +521,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -583,17 +540,17 @@ object Form1: TForm1
     object Panel15: TPanel
       Left = 1
       Height = 24
-      Top = 241
+      Top = 217
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 13
+      TabOrder = 12
       object Label14: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 97
+        Width = 95
         Align = alLeft
         Caption = 'DEBIAN KDE i386'
         ParentColor = False
@@ -607,7 +564,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -626,17 +583,17 @@ object Form1: TForm1
     object Panel17: TPanel
       Left = 1
       Height = 24
-      Top = 337
+      Top = 313
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 14
+      TabOrder = 13
       object Label16: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 121
+        Width = 118
         Align = alLeft
         Caption = 'REDHAT GNOME i386'
         ParentColor = False
@@ -650,7 +607,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -669,17 +626,17 @@ object Form1: TForm1
     object Panel18: TPanel
       Left = 1
       Height = 24
-      Top = 361
+      Top = 337
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 15
+      TabOrder = 14
       object Label17: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 132
+        Width = 129
         Align = alLeft
         Caption = 'REDHAT GNOME i86-64'
         ParentColor = False
@@ -693,7 +650,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -712,17 +669,17 @@ object Form1: TForm1
     object Panel19: TPanel
       Left = 1
       Height = 24
-      Top = 385
+      Top = 361
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 16
+      TabOrder = 15
       object Label18: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 119
+        Width = 116
         Align = alLeft
         Caption = 'REDHAT GNOME PPC'
         ParentColor = False
@@ -736,7 +693,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -755,17 +712,17 @@ object Form1: TForm1
     object Panel20: TPanel
       Left = 1
       Height = 24
-      Top = 409
+      Top = 385
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 17
+      TabOrder = 16
       object Label19: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 122
+        Width = 117
         Align = alLeft
         Caption = 'REDHAT GNOME ARM'
         ParentColor = False
@@ -779,7 +736,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -798,17 +755,17 @@ object Form1: TForm1
     object Panel21: TPanel
       Left = 1
       Height = 24
-      Top = 433
+      Top = 409
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 18
+      TabOrder = 17
       object Label20: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 101
+        Width = 98
         Align = alLeft
         Caption = 'REDHAT KDE i386'
         ParentColor = False
@@ -822,7 +779,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -841,17 +798,17 @@ object Form1: TForm1
     object Panel22: TPanel
       Left = 1
       Height = 24
-      Top = 457
+      Top = 433
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 19
+      TabOrder = 18
       object Label21: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 112
+        Width = 109
         Align = alLeft
         Caption = 'REDHAT KDE i86-64'
         ParentColor = False
@@ -865,7 +822,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -884,17 +841,17 @@ object Form1: TForm1
     object Panel23: TPanel
       Left = 1
       Height = 24
-      Top = 481
+      Top = 457
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 20
+      TabOrder = 19
       object Label22: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 99
+        Width = 96
         Align = alLeft
         Caption = 'REDHAT KDE PPC'
         ParentColor = False
@@ -908,7 +865,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -927,17 +884,17 @@ object Form1: TForm1
     object Panel32: TPanel
       Left = 1
       Height = 24
-      Top = 505
+      Top = 481
       Width = 422
       Align = alTop
       ClientHeight = 24
       ClientWidth = 422
-      TabOrder = 21
+      TabOrder = 20
       object Label29: TLabel
         Left = 1
         Height = 22
         Top = 1
-        Width = 102
+        Width = 97
         Align = alLeft
         Caption = 'REDHAT KDE ARM'
         ParentColor = False
@@ -951,7 +908,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -971,7 +928,7 @@ object Form1: TForm1
   object PanelBottom: TPanel
     Left = 0
     Height = 49
-    Top = 536
+    Top = 515
     Width = 885
     Align = alBottom
     ClientHeight = 49
@@ -1002,7 +959,7 @@ object Form1: TForm1
       Width = 192
       ShowHidden = False
       ButtonWidth = 23
-      NumGlyphs = 0
+      NumGlyphs = 1
       MaxLength = 0
       TabOrder = 2
     end
@@ -1013,24 +970,24 @@ object Form1: TForm1
       Width = 192
       ShowHidden = False
       ButtonWidth = 23
-      NumGlyphs = 0
+      NumGlyphs = 1
       Anchors = [akTop, akLeft, akRight]
       MaxLength = 0
       TabOrder = 3
     end
     object Label31: TLabel
       Left = 256
-      Height = 15
+      Height = 14
       Top = 3
-      Width = 21
+      Width = 20
       Caption = 'Ici :'
       ParentColor = False
     end
     object Label32: TLabel
       Left = 256
-      Height = 15
+      Height = 14
       Top = 22
-      Width = 50
+      Width = 48
       Caption = 'Exe Dir :'
       ParentColor = False
     end
@@ -1043,7 +1000,7 @@ object Form1: TForm1
       FilterIndex = 0
       HideDirectories = False
       ButtonWidth = 23
-      NumGlyphs = 0
+      NumGlyphs = 1
       Align = alCustom
       Anchors = [akTop, akLeft, akRight]
       MaxLength = 0
@@ -1051,7 +1008,7 @@ object Form1: TForm1
     end
     object Label33: TLabel
       Left = 536
-      Height = 15
+      Height = 14
       Top = 3
       Width = 37
       Caption = 'Base :'
@@ -1086,7 +1043,7 @@ object Form1: TForm1
     end
     object Label34: TLabel
       Left = 536
-      Height = 15
+      Height = 14
       Top = 31
       Width = 35
       Caption = 'User :'
@@ -1094,26 +1051,26 @@ object Form1: TForm1
     end
     object Label35: TLabel
       Left = 664
-      Height = 15
+      Height = 14
       Top = 31
-      Width = 63
+      Width = 64
       Caption = 'Password :'
       ParentColor = False
     end
   end
   object Panel16: TPanel
     Left = 424
-    Height = 536
+    Height = 515
     Top = 0
     Width = 461
     Align = alClient
-    ClientHeight = 536
+    ClientHeight = 515
     ClientWidth = 461
     TabOrder = 2
     object Panel28: TPanel
       Left = 1
       Height = 24
-      Top = 121
+      Top = 169
       Width = 459
       Align = alTop
       ClientHeight = 24
@@ -1123,7 +1080,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 89
+        Width = 86
         Align = alLeft
         Caption = 'TAR KDE i86-64'
         ParentColor = False
@@ -1137,7 +1094,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -1166,7 +1123,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 98
+        Width = 95
         Align = alLeft
         Caption = 'TAR GNOME i386'
         ParentColor = False
@@ -1180,7 +1137,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -1209,7 +1166,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 109
+        Width = 106
         Align = alLeft
         Caption = 'TAR GNOME i86-64'
         ParentColor = False
@@ -1223,7 +1180,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -1252,7 +1209,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 96
+        Width = 93
         Align = alLeft
         Caption = 'TAR GNOME PPC'
         ParentColor = False
@@ -1266,7 +1223,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -1295,7 +1252,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 99
+        Width = 94
         Align = alLeft
         Caption = 'TAR GNOME ARM'
         ParentColor = False
@@ -1309,7 +1266,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -1328,7 +1285,7 @@ object Form1: TForm1
     object Panel29: TPanel
       Left = 1
       Height = 24
-      Top = 169
+      Top = 121
       Width = 459
       Align = alTop
       ClientHeight = 24
@@ -1338,7 +1295,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 79
+        Width = 74
         Align = alLeft
         Caption = 'TAR KDE ARM'
         ParentColor = False
@@ -1352,7 +1309,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -1381,7 +1338,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 76
+        Width = 73
         Align = alLeft
         Caption = 'TAR KDE PPC'
         ParentColor = False
@@ -1395,7 +1352,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -1424,7 +1381,7 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 78
+        Width = 75
         Align = alLeft
         Caption = 'TAR KDE i386'
         ParentColor = False
@@ -1438,7 +1395,7 @@ object Form1: TForm1
         FilterIndex = 0
         HideDirectories = False
         ButtonWidth = 23
-        NumGlyphs = 0
+        NumGlyphs = 1
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         MaxLength = 0
@@ -1454,11 +1411,140 @@ object Form1: TForm1
         TabOrder = 1
       end
     end
+    object Panel34: TPanel
+      Left = 1
+      Height = 24
+      Top = 193
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 8
+      object Label36: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 48
+        Align = alLeft
+        Caption = 'iOS i386'
+        ParentColor = False
+      end
+      object FileWin62: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'mdg,pkg|*.mdg;*.pkg'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerCarboni387: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel35: TPanel
+      Left = 1
+      Height = 24
+      Top = 217
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 9
+      object Label37: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 59
+        Align = alLeft
+        Caption = 'IOS i86-64'
+        ParentColor = False
+      end
+      object FileWin63: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'mdg,pkg|*.mdg;*.pkg'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerCarbon65: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel37: TPanel
+      Left = 1
+      Height = 24
+      Top = 241
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 10
+      object Label39: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 47
+        Align = alLeft
+        Caption = 'iOS ARM'
+        ParentColor = False
+      end
+      object FileWin65: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'mdg,pkg|*.mdg;*.pkg'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerCarbonARM1: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
   end
   object OnFormInfoIni: TOnFormInfoIni
     SaveEdits = [feTEdit, feTDirectoryEdit, feTFileNameEdit]
-    left = 472
-    top = 200
+    left = 464
+    top = 384
   end
   object IBT_BASE: TIBTransaction
     Active = False
@@ -1499,7 +1585,7 @@ object Form1: TForm1
     top = 256
   end
   object UniqueInstance: TUniqueInstance
-    left = 497
-    top = 243
+    left = 552
+    top = 392
   end
 end

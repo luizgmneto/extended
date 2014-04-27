@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectSession>
     <PathDelim Value="\"/>
@@ -24,8 +24,8 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="352"/>
-        <CursorPos X="52" Y="378"/>
+        <TopLine Value="360"/>
+        <CursorPos X="52" Y="386"/>
         <UsageCount Value="31"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -175,7 +175,7 @@
       <Unit20>
         <Filename Value="..\..\extnet\fonctions_net.pas"/>
         <UnitName Value="fonctions_net"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="7" Y="23"/>
@@ -185,7 +185,7 @@
       <Unit21>
         <Filename Value="..\..\..\Ancestromania\AncestroComponents\functions\u_common_functions.pas"/>
         <UnitName Value="u_common_functions"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="225"/>
         <CursorPos X="1" Y="254"/>
@@ -195,12 +195,10 @@
       <Unit22>
         <Filename Value="..\..\..\Ancestromania\AncestroComponents\functions\u_connexion.pas"/>
         <UnitName Value="u_connexion"/>
-        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="183"/>
         <CursorPos X="1" Y="209"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit22>
       <Unit23>
         <Filename Value="f_createini.lfm"/>
@@ -226,7 +224,7 @@
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="489"/>
-        <CursorPos X="1" Y="590"/>
+        <CursorPos X="1" Y="589"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit25>
@@ -237,124 +235,125 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="31" Column="20" TopLine="1"/>
+        <Caret Line="364" Column="6" TopLine="317"/>
       </Position1>
       <Position2>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="26" Column="53" TopLine="1"/>
+        <Caret Line="365" Column="6" TopLine="318"/>
       </Position2>
       <Position3>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="323" Column="10" TopLine="293"/>
+        <Caret Line="366" Column="6" TopLine="319"/>
       </Position3>
       <Position4>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="350" Column="86" TopLine="320"/>
+        <Caret Line="367" Column="62" TopLine="320"/>
       </Position4>
       <Position5>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="354" Column="81" TopLine="320"/>
+        <Caret Line="366" Column="70" TopLine="321"/>
       </Position5>
       <Position6>
-        <Filename Value="..\..\..\Ancestromania\AncestroComponents\functions\u_common_functions.pas"/>
-        <Caret Line="54" Column="20" TopLine="45"/>
+        <Filename Value="f_createini.pas"/>
+        <Caret Line="353" Column="40" TopLine="321"/>
       </Position6>
       <Position7>
-        <Filename Value="f_createini.pas"/>
-        <Caret Line="365" Column="6" TopLine="320"/>
+        <Filename Value="..\..\..\Ancestromania\AncestroComponents\components\u_genealogy_context.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position7>
       <Position8>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="366" Column="6" TopLine="320"/>
+        <Caret Line="399" Column="7" TopLine="345"/>
       </Position8>
       <Position9>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="325" Column="10" TopLine="286"/>
       </Position9>
       <Position10>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="171" Column="6" TopLine="125"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position10>
       <Position11>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="364" Column="6" TopLine="317"/>
+        <Caret Line="103" Column="13" TopLine="57"/>
       </Position11>
       <Position12>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="365" Column="6" TopLine="318"/>
+        <Caret Line="240" Column="41" TopLine="219"/>
       </Position12>
       <Position13>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="366" Column="6" TopLine="319"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position13>
       <Position14>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="367" Column="62" TopLine="320"/>
+        <Caret Line="353" Column="70" TopLine="312"/>
       </Position14>
       <Position15>
-        <Filename Value="f_createini.pas"/>
-        <Caret Line="366" Column="70" TopLine="321"/>
+        <Filename Value="..\..\copy\fonctions_file.pas"/>
+        <Caret Line="132" Column="57" TopLine="93"/>
       </Position15>
       <Position16>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="353" Column="40" TopLine="321"/>
+        <Caret Line="359" Column="101" TopLine="318"/>
       </Position16>
       <Position17>
-        <Filename Value="..\..\..\Ancestromania\AncestroComponents\components\u_genealogy_context.pas"/>
+        <Filename Value="f_createini.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
       </Position17>
       <Position18>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="399" Column="7" TopLine="345"/>
+        <Caret Line="21" Column="5" TopLine="1"/>
       </Position18>
       <Position19>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="325" Column="10" TopLine="286"/>
+        <Caret Line="199" Column="15" TopLine="149"/>
       </Position19>
       <Position20>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="360" Column="130" TopLine="333"/>
       </Position20>
       <Position21>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="103" Column="13" TopLine="57"/>
+        <Caret Line="378" Column="52" TopLine="352"/>
       </Position21>
       <Position22>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="240" Column="41" TopLine="219"/>
+        <Caret Line="394" Column="52" TopLine="368"/>
       </Position22>
       <Position23>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="393" Column="52" TopLine="367"/>
       </Position23>
       <Position24>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="353" Column="70" TopLine="312"/>
+        <Caret Line="392" Column="52" TopLine="366"/>
       </Position24>
       <Position25>
-        <Filename Value="..\..\copy\fonctions_file.pas"/>
-        <Caret Line="132" Column="57" TopLine="93"/>
+        <Filename Value="f_createini.pas"/>
+        <Caret Line="391" Column="52" TopLine="365"/>
       </Position25>
       <Position26>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="359" Column="101" TopLine="318"/>
+        <Caret Line="390" Column="52" TopLine="364"/>
       </Position26>
       <Position27>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="389" Column="52" TopLine="363"/>
       </Position27>
       <Position28>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="21" Column="5" TopLine="1"/>
+        <Caret Line="388" Column="52" TopLine="362"/>
       </Position28>
       <Position29>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="199" Column="15" TopLine="149"/>
+        <Caret Line="387" Column="52" TopLine="361"/>
       </Position29>
       <Position30>
         <Filename Value="f_createini.pas"/>
-        <Caret Line="360" Column="130" TopLine="333"/>
+        <Caret Line="386" Column="52" TopLine="360"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
+  <EditorMacros Count="0"/>
 </CONFIG>
