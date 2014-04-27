@@ -26,19 +26,20 @@ Const
                                      FileUnit : 'fonctions_scaledpi' ;
               			                 Owner : 'Matthieu Giroux' ;
               			                 Comment : 'Adapt forms and controls to system.' ;
-              			                 BugsStory :  'Version 1.0.1.1 : Never scale on design.' + #13#10 +
+              			                 BugsStory :  'Version 1.0.1.2 : More components to scale.' + #13#10 +
+                                                              'Version 1.0.1.1 : Never scale on design.' + #13#10 +
                                                               'Version 1.0.1.0 : Adding interfaces for classes.' + #13#10 +
                                                               'Version 1.0.0.0 : OK on linux with ini.' + #13#10 +
                                                               'Version 0.9.9.0 : OK on windows.' + #13#10 +
                                                               'Version 0.9.0.0 : To test.';
               			                 UnitType : 1 ;
-              			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 1 );
+              			                 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 2 );
 
 {$ENDIF}
 
 procedure p_addtoSoftware;
 procedure HighDPI;
-procedure ScaleDPIControl(const Control: TControl;const ANewEchelle:Extended);
+procedure ScaleDPIControl(const Control: TComponent;const ANewEchelle:Extended;const ab_GotoChildren : Boolean = True);
 function Scale(const Valeur:Integer;const ANewEchelle:Extended):Integer;
 procedure ScaleFormShow(const Control: TCustomForm;const ANewEchelle:Extended);
 procedure ScaleFormCreate(const Control: TCustomForm;const ANewEchelle:Extended);
@@ -156,8 +157,8 @@ Begin
      {$IFDEF FPC}BeginUpdateBounds;{$ENDIF}
 
      Font.Size:=Scale(Font.Size,ANewEchelle);
-     for i:=0 to Control.ControlCount-1 do
-      ScaleDPIControl(Control.Controls[i],ANewEchelle);
+     for i:=0 to Control.ComponentCount-1 do
+      ScaleDPIControl(Control.Components[i],ANewEchelle,False);
      {$IFDEF FPC}EndUpdateBounds;{$ENDIF}
     End;
 end;
@@ -209,18 +210,19 @@ Begin
 end;
 
 // scale a control
-procedure ScaleDPIControl(const Control: TControl;const ANewEchelle:Extended);
+procedure ScaleDPIControl(const Control: TComponent;const ANewEchelle:Extended;const ab_GotoChildren : Boolean = True);
 var
   i: integer;
   WinControl: TWinControl;
   AColumn : TCollection;
   AItem   : TCollectionItem;
 begin
-  with Control do
+  if  {$IFNDEF FPC}Supports{$ENDIF}( Control {$IFDEF FPC}is{$ELSE},{$ENDIF} INoAdaptComponent)
+  or ( csDesigning in Control.ComponentState ) Then  //never change designing
+   Exit;
+  if Control is TControl Then
+  with Control as TControl do
    begin
-    if  {$IFNDEF FPC}Supports{$ENDIF}( Control {$IFDEF FPC}is{$ELSE},{$ENDIF} INoAdaptComponent)
-    or ( csDesigning in ComponentState ) Then  //never change designing
-     Exit;
     with Constraints do
      begin
       MaxHeight:=Scale(MaxHeight,ANewEchelle);
@@ -280,12 +282,15 @@ begin
                                   , ANewEchelle ));
         end;
      end;
-    ScaleFont(Control,ANewEchelle);
-    if {$IFNDEF FPC}Supports{$ENDIF}( Control {$IFDEF FPC}is{$ELSE},{$ENDIF} ISpecialAdaptComponent) Then
-     ( Control as ISpecialAdaptComponent ).ScaleComponent(ANewEchelle);
   end;
 
-  if Control is TWinControl then
+  ScaleFont(Control,ANewEchelle);
+
+  if {$IFNDEF FPC}Supports{$ENDIF}( Control {$IFDEF FPC}is{$ELSE},{$ENDIF} ISpecialAdaptComponent) Then
+   ( Control as ISpecialAdaptComponent ).ScaleComponent(ANewEchelle);
+
+  if ab_GotoChildren
+  and (Control is TWinControl) then
   begin
     WinControl:=TWinControl(Control);
     for i:=0 to WinControl.ControlCount-1 do
