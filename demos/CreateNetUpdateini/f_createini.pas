@@ -29,6 +29,18 @@ type
 
   TForm1 = class(TForm)
     Creer: TButton;
+    CreerCarbon65: TButton;
+    CreerCarbonARM1: TButton;
+    CreerCarboni387: TButton;
+    FileWin62: TFileNameEdit;
+    FileWin63: TFileNameEdit;
+    FileWin65: TFileNameEdit;
+    Label36: TLabel;
+    Label37: TLabel;
+    Label39: TLabel;
+    Panel34: TPanel;
+    Panel35: TPanel;
+    Panel37: TPanel;
     UserName: TEdit;
     PassWord: TEdit;
     Label34: TLabel;
@@ -36,7 +48,6 @@ type
     See: TButton;
     CreerCarboni386: TButton;
     CreerCarbon64: TButton;
-    CreerCarbonARM: TButton;
     CreerCarbonPPC: TButton;
     CreerDebianGnomei386: TButton;
     CreerDebianGnomeARM: TButton;
@@ -72,7 +83,6 @@ type
     FileWin34: TFileNameEdit;
     FileWin35: TFileNameEdit;
     FileWin36: TFileNameEdit;
-    FileWin37: TFileNameEdit;
     FileWin38: TFileNameEdit;
     FileWin39: TFileNameEdit;
     FileWin40: TFileNameEdit;
@@ -130,7 +140,6 @@ type
     Label33: TLabel;
     Label4: TLabel;
     Label5: TLabel;
-    Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
     Label9: TLabel;
@@ -165,7 +174,6 @@ type
     Panel4: TPanel;
     Panel5: TPanel;
     Panel6: TPanel;
-    Panel7: TPanel;
     Panel8: TPanel;
     Panel9: TPanel;
     IBQ_VersionBase: TIBSQL;
