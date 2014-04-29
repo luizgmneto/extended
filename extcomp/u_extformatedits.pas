@@ -20,15 +20,10 @@ unit u_extformatedits;
 
 interface
 
-uses Variants, Classes,
-     Menus,
+uses Classes,
      u_framework_components,
      u_framework_dbcomponents,
-     fonctions_string,
-     {$IFDEF VERSIONS}
-     fonctions_version,
-     {$ENDIF}
-     u_extcomponent, StdCtrls;
+     fonctions_string;
 
 {$IFDEF VERSIONS}
 const
@@ -84,12 +79,6 @@ type
 
 implementation
 
-uses Dialogs,
-     {$IFNDEF FPC}
-     Types,
-     {$ENDIF}
-     fonctions_db,
-     sysutils;
 
 { TExtFormatEdit }
 

@@ -166,6 +166,11 @@ var AStrings : TStrings;
    {$IFDEF DELPHI_9_UP}awst_SQLQuery : TWideStrings; {$ENDIF}
 Begin
   Result := fdat_CloneDatasetWithoutSQL(adat_ADataset,AOwner);
+  AStrings := nil;
+  Astl_Params := nil;
+  {$IFDEF EADO}
+  aprs_ParamterSource := nil;
+  {$ENDIF}
   if fb_GetSQLStrings(adat_ADataset,AStrings{$IFDEF DELPHI_9_UP}, awst_SQLQuery {$ENDIF})
    Then if Assigned ( AStrings )
     then p_SetSQLQuery(Result,AStrings.Text)

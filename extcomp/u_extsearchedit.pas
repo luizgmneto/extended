@@ -27,7 +27,6 @@ uses Variants, Controls, Classes,
      Messages, Windows,
      {$ENDIF}
      Graphics, Menus, DB,DBCtrls,
-     u_framework_components,
      u_extformatedits,
      {$IFDEF VERSIONS}
      fonctions_version,
@@ -121,13 +120,8 @@ type
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure CreatePopup; virtual;
     procedure FreePopup; virtual;
-    procedure DoEnter; override;
-    procedure DoExit; override;
     procedure TextChanged; override;
-    procedure Loaded; override;
-    procedure PasteFromClipboard; override;
-    procedure CutToClipboard; override;
-    procedure SetOrder ; virtual;
+    procedure SetEvent ; virtual;
     procedure ValidateSearch; virtual;
     function EditCanModify: Boolean; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -136,6 +130,11 @@ type
     {$ENDIF}
     procedure Change; override;
   public
+    procedure DoEnter; override;
+    procedure DoExit; override;
+    procedure Loaded; override;
+    procedure PasteFromClipboard; override;
+    procedure CutToClipboard; override;
     constructor Create ( Aowner : TComponent ); override;
     destructor Destroy ; override;
     property Located : Boolean read Flocated;
@@ -612,9 +611,9 @@ begin
   Flocated:=False;
 end;
 
-// procedure TExtSearchDBEdit.SetOrder
+// procedure TExtSearchDBEdit.SetEvent
 // calling FNotifyOrder Event
-procedure TExtSearchDBEdit.SetOrder;
+procedure TExtSearchDBEdit.SetEvent;
 begin
   if assigned ( FNotifyOrder ) then
     FNotifyOrder ( Self );

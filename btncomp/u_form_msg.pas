@@ -108,7 +108,6 @@ const CST_IMAGE_Warning = 'mwarning';
 procedure TFMsg.InitMessage;
 var
   k,p,TotalWidth:integer;
-  lstemp:String;
   procedure PutInBtn(numBtn:integer;aText:string;aResult:word);//MG2013
   var
     btn:TFWButton;
@@ -271,4 +270,4 @@ initialization
   p_ConcatVersion ( gVer_F_Msg );
 {$ENDIF}
 end.
-
+

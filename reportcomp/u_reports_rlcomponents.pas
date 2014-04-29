@@ -9,13 +9,13 @@
 interface
 
 uses
-    SysUtils, RLReport, DBGrids, DB,
-    u_extdbgrid,U_ExtMapImageIndex,Forms,
+    SysUtils, RLReport, DB,
+    u_extdbgrid,U_ExtMapImageIndex,
 {$IFDEF VERSIONS}
   fonctions_version,
 {$ENDIF}
     ImgList, Graphics,
-    RLFilters,Classes, RLPreview;
+    Classes;
 
 
 {$IFDEF VERSIONS}
@@ -383,7 +383,6 @@ implementation
 
 uses RLConsts,
      fonctions_proprietes,
-     fonctions_dbcomponents,
      fonctions_reports,
      rxdbgrid,
      fonctions_images;

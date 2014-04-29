@@ -36,8 +36,6 @@ uses
   Graphics, Controls, Forms,
   Dialogs, ExtCtrls,
   fonctions_init, IniFiles,
-  fonctions_components,
-  LMessages,
   fonctions_scaledpi;
 
 {$IFDEF VERSIONS}
@@ -124,30 +122,6 @@ begin
   if Assigned(FOldCreate) Then
     FOldCreate ( Self );
 end;
-
-//////////////////////////////////////////////////////////////////////////////
-// event WMMouseMove
-// Now you can create IMouseControl inherit
-// to set OnMouseEnter and OnMouseLeave Events
-//////////////////////////////////////////////////////////////////////////////
-procedure TF_FormAdapt.MouseMove(Shift: TShiftState; X, Y: Integer);
-var LAControl : TControl;
-    LPoint : TPoint;
-begin
-  LPoint.X:=X;
-  LPoint.Y:=Y;
-  LAControl:=ControlAtPos(LPoint,True,True);
-  {
-  if LAControl<>FMouseControl Then
-   Begin
-     if FMouseControl is IMouseControl Then
-      ( FMouseControl as IMouseControl ).MouseLeave;
-     FMouseControl:=LAControl;
-     if FMouseControl is IMouseControl Then
-      ( FMouseControl as IMouseControl ).MouseEnter;
-   end;}
-end;
-
 
 procedure TF_FormAdapt.DoShow;
 begin
