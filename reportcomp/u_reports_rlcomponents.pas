@@ -600,7 +600,6 @@ begin
 end;
 
 procedure TExtPrintColumns.SetDatasource ( const AColumn: TExtPrintColumn );
-var ADatasource : TDataSource;
 begin
   AColumn.Datasource := fobj_getComponentObjectProperty(FOwner,CST_DBPROPERTY_DATASOURCE) as TDataSource;
 end;
