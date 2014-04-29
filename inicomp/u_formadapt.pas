@@ -60,7 +60,6 @@ type
     FMouseControl : TControl;
     procedure FormAdaptCreate(AForm: TObject);
   protected
-    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure DoShow; override;
   public
     { Déclarations publiques }

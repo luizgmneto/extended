@@ -93,7 +93,6 @@ uses
      {$ELSE}
      unite_messages_delphi,
      {$ENDIF}
-     fonctions_string,
      Clipbrd,
      Sysutils;
 
