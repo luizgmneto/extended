@@ -9,11 +9,10 @@ interface
 
 uses
 {$IFDEF FPC}
-  FileUtil, 
 {$ELSE}
 {$ENDIF}
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  u_formadapt, RLReport,
+  ExtCtrls,
+  u_formadapt,
   RLRichFilter, RLPDFFilter,
   RLHTMLFilter, u_reports_rlcomponents,
   RLDraftFilter;
@@ -36,7 +35,6 @@ type
 
 implementation
 
-uses DB, fonctions_images, fonctions_reports;
 
 {$IFDEF FPC}
 {$R *.lfm}
