@@ -39,7 +39,7 @@ Const
 
 procedure p_addtoSoftware;
 procedure HighDPI;
-procedure ScaleDPIControl(const Control: TComponent;const ANewEchelle:Extended;const ab_GotoChildren : Boolean = True);
+procedure ScaleDPIControl(const Control: TComponent;const ANewEchelle:Extended);
 function Scale(const Valeur:Integer;const ANewEchelle:Extended):Integer;
 procedure ScaleFormShow(const Control: TCustomForm;const ANewEchelle:Extended);
 procedure ScaleFormCreate(const Control: TCustomForm;const ANewEchelle:Extended);
@@ -158,7 +158,7 @@ Begin
 
      Font.Size:=Scale(Font.Size,ANewEchelle);
      for i:=0 to Control.ComponentCount-1 do
-      ScaleDPIControl(Control.Components[i],ANewEchelle,False);
+      ScaleDPIControl(Control.Components[i],ANewEchelle);
      {$IFDEF FPC}EndUpdateBounds;{$ENDIF}
     End;
 end;
@@ -209,11 +209,27 @@ Begin
    end;
 end;
 
+procedure p_ScaleChildControls(const Control: TComponent;const ANewEchelle:Extended);
+var WinControl: TWinControl;
+    ChildControl : TControl;
+    i: integer;
+Begin
+  if (Control is TWinControl) Then
+  begin
+    WinControl:=TWinControl(Control);
+    for i:=0 to WinControl.ControlCount-1 do
+     Begin
+      ChildControl:= WinControl.Controls[i];
+      if not ( ChildControl.Owner is TCustomForm ) then
+       ScaleDPIControl(ChildControl,ANewEchelle);
+     end;
+  end;
+end;
+
 // scale a control
-procedure ScaleDPIControl(const Control: TComponent;const ANewEchelle:Extended;const ab_GotoChildren : Boolean = True);
+procedure ScaleDPIControl(const Control: TComponent;const ANewEchelle:Extended);
 var
   i: integer;
-  WinControl: TWinControl;
   AColumn : TCollection;
   AItem   : TCollectionItem;
 begin
@@ -289,13 +305,7 @@ begin
   if {$IFNDEF FPC}Supports{$ENDIF}( Control {$IFDEF FPC}is{$ELSE},{$ENDIF} ISpecialAdaptComponent) Then
    ( Control as ISpecialAdaptComponent ).ScaleComponent(ANewEchelle);
 
-  if ab_GotoChildren
-  and (Control is TWinControl) then
-  begin
-    WinControl:=TWinControl(Control);
-    for i:=0 to WinControl.ControlCount-1 do
-      ScaleDPIControl(WinControl.Controls[i],ANewEchelle);
-  end;
+  p_ScaleChildControls(Control,ANewEchelle);
 end;
 
 // main optinal procedure ( not using FormAdapt )
