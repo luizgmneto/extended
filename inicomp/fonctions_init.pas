@@ -42,7 +42,8 @@ const
   gVer_fonctions_init : T_Version = ( Component : 'Gestion du fichier INI' ; FileUnit : 'fonctions_init' ;
                                       Owner     : 'Matthieu Giroux' ;
                                       Comment   : 'Première version de gestion du fichier INI.' + #13#10 + 'Certaines fonctions sont encore utilisées.' ;
-                                      BugsStory : 'Version 1.0.5.0 : No ItemIndex in strings R/W.' + #13#10 +
+                                      BugsStory : 'Version 1.0.5.1 : Strange Format Font bug.' + #13#10 +
+                                                  'Version 1.0.5.0 : No ItemIndex in strings R/W.' + #13#10 +
                                                   'Version 1.0.4.3 : Vista App Config Dir Bug on Destroy.' + #13#10 +
                                                   'Version 1.0.4.2 : Debuging.' + #13#10 +
                                                   'Version 1.0.4.1 : UTF 8.' + #13#10 +
@@ -55,7 +56,7 @@ const
                                                   'Version 1.0.0.0 : La gestion est en place.' + #13#10 +
                                                   'On utilise plus cette unité complètement mais Fenêtre principale puis plus tard Mc Form Main INI.';
                                      UnitType : 1 ;
-                                     Major : 1 ; Minor : 0 ; Release : 5 ; Build : 0 );
+                                     Major : 1 ; Minor : 0 ; Release : 5 ; Build : 1 );
 {$ENDIF}
   // Constantes des sections du fichier ini
   INISEC_PAR = 'parametres';
@@ -383,7 +384,10 @@ begin
     Delete(Str,1,5);
 
     // colour
-    Font.Color:=StringToColor(Str);
+    i:=Pos(SEP,Str);
+    if i=0
+     then Font.Color:=StringToColor(Str)
+     Else Font.Color:=StringToColor(Copy(Str,1,i-1))
   except
   end;
 end;
