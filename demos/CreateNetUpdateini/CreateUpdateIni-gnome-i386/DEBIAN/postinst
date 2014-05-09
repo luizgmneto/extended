@@ -1,0 +1,20 @@
+#!/bin/sh -e
+
+chown firebird.firebird /var/lib/firebird/2.5/data/MyDatabase.fdb
+
+## get UID limit ##
+l=$(grep "^UID_MIN" /etc/login.defs)
+
+## use awk to print if UID >= $UID_LIMIT ##
+for USER in `awk -F':' -v "limit=${l##UID_MIN}" '{ if ( $3 >= limit ) print $1}' /etc/passwd`;do
+	echo "setting $USER as firebird member"
+	usermod -a -G firebird $USER
+done
+
+
+# Automatically added by dh_installmenu
+if [ "$1" = "configure" ] && [ -x "`which update-menus 2>/dev/null`" ]; then
+	update-menus
+fi
+# End automatically added section
+

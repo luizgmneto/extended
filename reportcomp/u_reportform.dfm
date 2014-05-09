@@ -1,0 +1,44 @@
+object ReportForm: TReportForm
+  Left = 547
+  Top = 240
+  AutoSize = True
+  Caption = 'ReportForm'
+  ClientHeight = 1147
+  ClientWidth = 794
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  FormMode = sfmEdit
+  AutoFillFieldsWhenShow = False
+  IncrustMode = aicCenter
+  AdaptParentSize = True
+  AutoFreeOnClose = False
+  ShowBevel = False
+  AlreadyPassedInFirstActivate = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object RLReport: TRLReport
+    Left = 0
+    Top = 24
+    Width = 794
+    Height = 1123
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'Arial'
+    Font.Style = []
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 794
+    Height = 26
+    Align = alTop
+    TabOrder = 1
+    ExplicitWidth = 320
+  end
+end

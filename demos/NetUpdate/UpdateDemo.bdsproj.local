@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2013/10/22 10:40:42.912.pas,C:\Users\Matthieu\Documents\Projets Borland Studio\Unit1.pas=C:\Users\Matthieu\Documents\u_formupdate.pas</Transaction>
+    <Transaction>2013/10/22 10:40:42.912.dfm,C:\Users\Matthieu\Documents\Projets Borland Studio\Unit1.dfm=C:\Users\Matthieu\Documents\u_formupdate.dfm</Transaction>
+    <Transaction>2013/10/22 10:41:01.482.bdsproj,C:\Users\Matthieu\Documents\Projets Borland Studio\Project1.bdsproj=C:\Users\Matthieu\Documents\UpdateDemo.bdsproj</Transaction>
+  </Transactions>
+</BorlandProject>

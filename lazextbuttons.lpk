@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="lazextbuttons"/>
+    <AddToProjectUsesSection Value="True"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <IncludeFiles Value="btncomp"/>
+        <OtherUnitFiles Value="btncomp"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <IncludeAssertionCode Value="True"/>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Version Minor="9" Release="5" Build="2"/>
+    <Files Count="7">
+      <Item1>
+        <Filename Value="btncomp/u_buttons_appli.pas"/>
+        <UnitName Value="u_buttons_appli"/>
+      </Item1>
+      <Item2>
+        <Filename Value="btncomp/u_buttons_speed.pas"/>
+        <UnitName Value="u_buttons_speed"/>
+      </Item2>
+      <Item3>
+        <Filename Value="btncomp/u_form_msg.lfm"/>
+        <Type Value="LFM"/>
+      </Item3>
+      <Item4>
+        <Filename Value="btncomp/u_form_msg.pas"/>
+        <UnitName Value="u_form_msg"/>
+      </Item4>
+      <Item5>
+        <Filename Value="btncomp/u_form_working.lfm"/>
+        <Type Value="LFM"/>
+      </Item5>
+      <Item6>
+        <Filename Value="btncomp/u_form_working.pas"/>
+        <UnitName Value="u_form_working"/>
+      </Item6>
+      <Item7>
+        <Filename Value="btncomp/fonctions_dialogs.pas"/>
+        <UnitName Value="fonctions_dialogs"/>
+      </Item7>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="lazextinit"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="lazextcomponentsimg"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="JvXPBarLaz"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
+  </Package>
+</CONFIG>

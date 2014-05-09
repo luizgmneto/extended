@@ -1,0 +1,53 @@
+object F_Update: TF_Update
+  Left = 499
+  Height = 240
+  Top = 161
+  Width = 320
+  Caption = 'F_Update'
+  ClientHeight = 240
+  ClientWidth = 320
+  OnCreate = FormCreate
+  LCLVersion = '1.0.12.0'
+  object ProgressBar: TProgressBar
+    Left = 0
+    Height = 20
+    Top = 220
+    Width = 320
+    Align = alBottom
+    TabOrder = 0
+  end
+  object FWDownload: TFWRefresh
+    Left = 88
+    Height = 25
+    Top = 64
+    Width = 120
+    Caption = 'Download'
+    TabOrder = 1
+    OnClick = FWDownloadClick
+  end
+  object FWLoad: TFWLoad
+    Left = 88
+    Height = 25
+    Top = 128
+    Width = 120
+    Caption = 'FWLoad'
+    TabOrder = 2
+    OnClick = FWLoadClick
+  end
+  object NetUpdate: TNetUpdate
+    FileUpdate = 'LINUX_A5.pdf'
+    URLBase = 'http://www.aides-informatique.com/IMG/pdf/'
+    Progress = ProgressBar
+    OnErrorMessage = NetUpdateErrorMessage
+    OnDownloading = NetUpdateDownloading
+    OnDownloaded = NetUpdateDownloaded
+    LNetComponent = LHTTPClient
+    left = 85
+    top = 70
+  end
+  object LHTTPClient: TLHTTPClientComponent
+    Timeout = 0
+    left = 230
+    top = 66
+  end
+end

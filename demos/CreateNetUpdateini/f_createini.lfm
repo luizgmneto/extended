@@ -1,0 +1,1591 @@
+object Form1: TForm1
+  Left = 613
+  Height = 564
+  Top = 202
+  Width = 885
+  Caption = 'TNetUpdate Ini'
+  ClientHeight = 564
+  ClientWidth = 885
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  LCLVersion = '1.2.3.0'
+  object Panel31: TPanel
+    Left = 0
+    Height = 515
+    Top = 0
+    Width = 424
+    Align = alLeft
+    Caption = 'Panel31'
+    ClientHeight = 515
+    ClientWidth = 424
+    TabOrder = 0
+    object Panel2: TPanel
+      Left = 1
+      Height = 24
+      Top = 1
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 0
+      object Label1: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 77
+        Align = alLeft
+        Caption = 'Windows i386'
+        ParentColor = False
+      end
+      object FileWin32: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'exe|*.exe'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerWini386: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel3: TPanel
+      Left = 1
+      Height = 24
+      Top = 25
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 1
+      object Label2: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 88
+        Align = alLeft
+        Caption = 'Windows i86-64'
+        ParentColor = False
+      end
+      object FileWin33: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'exe|*.exe'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerWini64: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel4: TPanel
+      Left = 1
+      Height = 24
+      Top = 49
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 2
+      object Label3: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 131
+        Align = alLeft
+        Caption = 'MAC OSX CARBON i386'
+        ParentColor = False
+      end
+      object FileWin34: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'mdg,pkg|*.mdg;*.pkg'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerCarboni386: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel5: TPanel
+      Left = 1
+      Height = 24
+      Top = 73
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 3
+      object Label4: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 142
+        Align = alLeft
+        Caption = 'MAC OSX CARBON i86-64'
+        ParentColor = False
+      end
+      object FileWin35: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'mdg,pkg|*.mdg;*.pkg'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerCarbon64: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel6: TPanel
+      Left = 1
+      Height = 24
+      Top = 97
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 4
+      object Label5: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 129
+        Align = alLeft
+        Caption = 'MAC OSX CARBON PPC'
+        ParentColor = False
+      end
+      object FileWin36: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'mdg,pkg|*.mdg;*.pkg'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerCarbonPPC: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel8: TPanel
+      Left = 1
+      Height = 24
+      Top = 121
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 5
+      object Label7: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 115
+        Align = alLeft
+        Caption = 'DEBIAN GNOME i386'
+        ParentColor = False
+      end
+      object FileWin38: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'deb|*.deb'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerDebianGnomei386: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel9: TPanel
+      Left = 1
+      Height = 24
+      Top = 145
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 6
+      object Label8: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 126
+        Align = alLeft
+        Caption = 'DEBIAN GNOME i86-64'
+        ParentColor = False
+      end
+      object FileWin39: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'deb|*.deb'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerDebianGnomei64: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel10: TPanel
+      Left = 1
+      Height = 24
+      Top = 169
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 7
+      object Label9: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 113
+        Align = alLeft
+        Caption = 'DEBIAN GNOME PPC'
+        ParentColor = False
+      end
+      object FileWin40: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'deb|*.deb'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerDebianGnomePPC: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel11: TPanel
+      Left = 1
+      Height = 24
+      Top = 193
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 8
+      object Label10: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 114
+        Align = alLeft
+        Caption = 'DEBIAN GNOME ARM'
+        ParentColor = False
+      end
+      object FileWin41: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'deb|*.deb'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerDebianGnomeARM: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel12: TPanel
+      Left = 1
+      Height = 24
+      Top = 289
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 9
+      object Label11: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 94
+        Align = alLeft
+        Caption = 'DEBIAN KDE ARM'
+        ParentColor = False
+      end
+      object FileWin42: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'deb|*.deb'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerDebianKDEARM: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel13: TPanel
+      Left = 1
+      Height = 24
+      Top = 265
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 10
+      object Label12: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 93
+        Align = alLeft
+        Caption = 'DEBIAN KDE PPC'
+        ParentColor = False
+      end
+      object FileWin43: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'deb|*.deb'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerDebianKDEPPC: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel14: TPanel
+      Left = 1
+      Height = 24
+      Top = 241
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 11
+      object Label13: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 106
+        Align = alLeft
+        Caption = 'DEBIAN KDE i86-64'
+        ParentColor = False
+      end
+      object FileWin44: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'deb|*.deb'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerDebianKDEi64: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel15: TPanel
+      Left = 1
+      Height = 24
+      Top = 217
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 12
+      object Label14: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 95
+        Align = alLeft
+        Caption = 'DEBIAN KDE i386'
+        ParentColor = False
+      end
+      object FileWin45: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'deb|*.deb'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerDebianKDE386: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel17: TPanel
+      Left = 1
+      Height = 24
+      Top = 313
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 13
+      object Label16: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 118
+        Align = alLeft
+        Caption = 'REDHAT GNOME i386'
+        ParentColor = False
+      end
+      object FileWin47: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'rpm|*.rpm'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerRedhatGnomei386: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel18: TPanel
+      Left = 1
+      Height = 24
+      Top = 337
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 14
+      object Label17: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 129
+        Align = alLeft
+        Caption = 'REDHAT GNOME i86-64'
+        ParentColor = False
+      end
+      object FileWin48: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'rpm|*.rpm'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerRedhatGnomei64: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel19: TPanel
+      Left = 1
+      Height = 24
+      Top = 361
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 15
+      object Label18: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 116
+        Align = alLeft
+        Caption = 'REDHAT GNOME PPC'
+        ParentColor = False
+      end
+      object FileWin49: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'rpm|*.rpm'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerRedhatGnomePPC: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel20: TPanel
+      Left = 1
+      Height = 24
+      Top = 385
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 16
+      object Label19: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 117
+        Align = alLeft
+        Caption = 'REDHAT GNOME ARM'
+        ParentColor = False
+      end
+      object FileWin50: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'rpm|*.rpm'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerRedhatGnomeARM: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel21: TPanel
+      Left = 1
+      Height = 24
+      Top = 409
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 17
+      object Label20: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 98
+        Align = alLeft
+        Caption = 'REDHAT KDE i386'
+        ParentColor = False
+      end
+      object FileWin51: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'rpm|*.rpm'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerRedhatKDEi386: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel22: TPanel
+      Left = 1
+      Height = 24
+      Top = 433
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 18
+      object Label21: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 109
+        Align = alLeft
+        Caption = 'REDHAT KDE i86-64'
+        ParentColor = False
+      end
+      object FileWin52: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'rpm|*.rpm'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerRedhatKDEi64: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel23: TPanel
+      Left = 1
+      Height = 24
+      Top = 457
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 19
+      object Label22: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 96
+        Align = alLeft
+        Caption = 'REDHAT KDE PPC'
+        ParentColor = False
+      end
+      object FileWin53: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'rpm|*.rpm'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerRedhatKDEPPC: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel32: TPanel
+      Left = 1
+      Height = 24
+      Top = 481
+      Width = 422
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 422
+      TabOrder = 20
+      object Label29: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 97
+        Align = alLeft
+        Caption = 'REDHAT KDE ARM'
+        ParentColor = False
+      end
+      object FileWin60: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 169
+        Filter = 'rpm|*.rpm'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerRedhatKDEARM1: TButton
+        Left = 346
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+  end
+  object PanelBottom: TPanel
+    Left = 0
+    Height = 49
+    Top = 515
+    Width = 885
+    Align = alBottom
+    ClientHeight = 49
+    ClientWidth = 885
+    TabOrder = 1
+    object Creer: TButton
+      Left = 168
+      Height = 25
+      Top = 0
+      Width = 80
+      Caption = 'Créer inis'
+      OnClick = CreerClick
+      TabOrder = 1
+    end
+    object FilterComboBox: TFilterComboBox
+      Left = 8
+      Height = 25
+      Top = 6
+      Width = 153
+      Filter = 'Tous les fichiers (*.*)|*.*|Fichiers DELPHI et LAZARUS|*.dpr;*.lpi;*.pas;*.dfm;*.lfm|Fichiers projet|*.dpr;*.lpi|Unités DELPHI|*.pas|Propriétés DELPHI|*.dfm|Propriétés LAZARUS|*.lfm'
+      ItemIndex = 0
+      TabOrder = 0
+    end
+    object DirectoryDest: TDirectoryEdit
+      Left = 312
+      Height = 22
+      Top = 0
+      Width = 192
+      ShowHidden = False
+      ButtonWidth = 23
+      NumGlyphs = 1
+      MaxLength = 0
+      TabOrder = 2
+    end
+    object DirectoryExe: TDirectoryEdit
+      Left = 312
+      Height = 22
+      Top = 19
+      Width = 192
+      ShowHidden = False
+      ButtonWidth = 23
+      NumGlyphs = 1
+      Anchors = [akTop, akLeft, akRight]
+      MaxLength = 0
+      TabOrder = 3
+    end
+    object Label31: TLabel
+      Left = 256
+      Height = 14
+      Top = 3
+      Width = 20
+      Caption = 'Ici :'
+      ParentColor = False
+    end
+    object Label32: TLabel
+      Left = 256
+      Height = 14
+      Top = 22
+      Width = 48
+      Caption = 'Exe Dir :'
+      ParentColor = False
+    end
+    object FileBase: TFileNameEdit
+      Left = 576
+      Height = 22
+      Top = 0
+      Width = 193
+      Filter = 'Firebird|*.fdb;*.FDB'
+      FilterIndex = 0
+      HideDirectories = False
+      ButtonWidth = 23
+      NumGlyphs = 1
+      Align = alCustom
+      Anchors = [akTop, akLeft, akRight]
+      MaxLength = 0
+      TabOrder = 4
+    end
+    object Label33: TLabel
+      Left = 536
+      Height = 14
+      Top = 3
+      Width = 37
+      Caption = 'Base :'
+      ParentColor = False
+    end
+    object See: TButton
+      Left = 168
+      Height = 25
+      Top = 24
+      Width = 80
+      Caption = 'Voir inis'
+      OnClick = SeeClick
+      TabOrder = 5
+    end
+    object UserName: TEdit
+      Left = 576
+      Height = 22
+      Top = 24
+      Width = 80
+      TabOrder = 6
+      Text = 'SYSDBA'
+    end
+    object PassWord: TEdit
+      Left = 728
+      Height = 22
+      Top = 24
+      Width = 80
+      EchoMode = emPassword
+      PasswordChar = '*'
+      TabOrder = 7
+      Text = 'masterkey'
+    end
+    object Label34: TLabel
+      Left = 536
+      Height = 14
+      Top = 31
+      Width = 35
+      Caption = 'User :'
+      ParentColor = False
+    end
+    object Label35: TLabel
+      Left = 664
+      Height = 14
+      Top = 31
+      Width = 64
+      Caption = 'Password :'
+      ParentColor = False
+    end
+  end
+  object Panel16: TPanel
+    Left = 424
+    Height = 515
+    Top = 0
+    Width = 461
+    Align = alClient
+    ClientHeight = 515
+    ClientWidth = 461
+    TabOrder = 2
+    object Panel28: TPanel
+      Left = 1
+      Height = 24
+      Top = 169
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 0
+      object Label27: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 86
+        Align = alLeft
+        Caption = 'TAR KDE i86-64'
+        ParentColor = False
+      end
+      object FileWin58: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'tar.gz|*.tar.gz'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerTarKDEi64: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel24: TPanel
+      Left = 1
+      Height = 24
+      Top = 1
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 1
+      object Label23: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 95
+        Align = alLeft
+        Caption = 'TAR GNOME i386'
+        ParentColor = False
+      end
+      object FileWin54: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'tar.gz|*.tar.gz'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerTarGnomei386: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel25: TPanel
+      Left = 1
+      Height = 24
+      Top = 25
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 2
+      object Label24: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 106
+        Align = alLeft
+        Caption = 'TAR GNOME i86-64'
+        ParentColor = False
+      end
+      object FileWin55: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'tar.gz|*.tar.gz'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerTarGnomei64: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel26: TPanel
+      Left = 1
+      Height = 24
+      Top = 49
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 3
+      object Label25: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 93
+        Align = alLeft
+        Caption = 'TAR GNOME PPC'
+        ParentColor = False
+      end
+      object FileWin56: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'tar.gz|*.tar.gz'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerTarGnomePPC: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel27: TPanel
+      Left = 1
+      Height = 24
+      Top = 73
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 4
+      object Label26: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 94
+        Align = alLeft
+        Caption = 'TAR GNOME ARM'
+        ParentColor = False
+      end
+      object FileWin57: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'tar.gz|*.tar.gz'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerTarGnomeARM: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel29: TPanel
+      Left = 1
+      Height = 24
+      Top = 121
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 5
+      object Label15: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 74
+        Align = alLeft
+        Caption = 'TAR KDE ARM'
+        ParentColor = False
+      end
+      object FileWin46: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'tar.gz|*.tar.gz'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerTarKDEARM: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel30: TPanel
+      Left = 1
+      Height = 24
+      Top = 145
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 6
+      object Label28: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 73
+        Align = alLeft
+        Caption = 'TAR KDE PPC'
+        ParentColor = False
+      end
+      object FileWin59: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'tar.gz|*.tar.gz'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerTarKDEPPC: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel33: TPanel
+      Left = 1
+      Height = 24
+      Top = 97
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 7
+      object Label30: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alLeft
+        Caption = 'TAR KDE i386'
+        ParentColor = False
+      end
+      object FileWin61: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'tar.gz|*.tar.gz'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerTarKDEi386: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel34: TPanel
+      Left = 1
+      Height = 24
+      Top = 193
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 8
+      object Label36: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 48
+        Align = alLeft
+        Caption = 'iOS i386'
+        ParentColor = False
+      end
+      object FileWin62: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'mdg,pkg|*.mdg;*.pkg'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerCarboni387: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel35: TPanel
+      Left = 1
+      Height = 24
+      Top = 217
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 9
+      object Label37: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 59
+        Align = alLeft
+        Caption = 'IOS i86-64'
+        ParentColor = False
+      end
+      object FileWin63: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'mdg,pkg|*.mdg;*.pkg'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerCarbon65: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+    object Panel37: TPanel
+      Left = 1
+      Height = 24
+      Top = 241
+      Width = 459
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 459
+      TabOrder = 10
+      object Label39: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 47
+        Align = alLeft
+        Caption = 'iOS ARM'
+        ParentColor = False
+      end
+      object FileWin65: TFileNameEdit
+        Left = 152
+        Height = 22
+        Top = 1
+        Width = 206
+        Filter = 'mdg,pkg|*.mdg;*.pkg'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object CreerCarbonARM1: TButton
+        Left = 383
+        Height = 22
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Créer ini'
+        TabOrder = 1
+      end
+    end
+  end
+  object OnFormInfoIni: TOnFormInfoIni
+    SaveEdits = [feTEdit, feTDirectoryEdit, feTFileNameEdit]
+    left = 464
+    top = 384
+  end
+  object IBT_BASE: TIBTransaction
+    Active = False
+    DefaultDatabase = ibd_BASE
+    DefaultAction = TACommitRetaining
+    Params.Strings = (
+      'read_committed'
+      'rec_version'
+      'nowait'
+    )
+    left = 224
+    top = 176
+  end
+  object ibd_BASE: TIBDatabase
+    Connected = False
+    LoginPrompt = False
+    AllowStreamedConnected = False
+    DatabaseName = '/var/lib/firebird/2.5/data/Ancestro.fdb'
+    Params.Strings = (
+      'user_name=SYSDBA'
+      'password=masterkey'
+      'lc_ctype=utf8'
+    )
+    DefaultTransaction = IBT_BASE
+    IdleTimer = 0
+    TraceFlags = []
+    left = 224
+    top = 116
+  end
+  object IBQ_VersionBase: TIBSQL
+    Database = ibd_BASE
+    ParamCheck = True
+    SQL.Strings = (
+      'select VER_VERSION from T_VERSION_BASE'
+    )
+    Transaction = IBT_BASE
+    left = 224
+    top = 256
+  end
+  object UniqueInstance: TUniqueInstance
+    left = 552
+    top = 392
+  end
+end
