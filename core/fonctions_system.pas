@@ -288,9 +288,9 @@ end;
 // Supprime le nom du fichier exe dans le chemin
 function fs_EraseNameSoft ( const as_Nomapp, as_Path : String ) : String ;
 Begin
-  if pos ( as_Nomapp, as_Path )> 0 then
+  if pos ( LowerCase(as_Nomapp), LowerCase(as_Path) )=1 then
     Begin
-      Result := copy ( as_Path, pos ( as_nomapp, as_Path ) + length ( as_NomApp ) + 1, length ( as_Path ) - length (as_Nomapp)- pos (as_NomApp, as_Path ));
+      Result := copy ( as_Path,  length ( as_NomApp ) + 2, length ( as_Path ) - length (as_Nomapp)- 1);
     End
    else
     Result := as_Path ;
