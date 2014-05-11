@@ -115,16 +115,20 @@ type
     procedure WMSize(var Message: {$IFDEF FPC}TLMSize{$ELSE}TWMSize{$ENDIF}); message {$IFDEF FPC}LM_SIZE{$ELSE}WM_SIZE{$ENDIF};
     procedure WMSetFocus(var Message: {$IFDEF FPC}TLMSetFocus{$ELSE}TWMSetFocus{$ENDIF}); message {$IFDEF FPC}LM_SETFOCUS{$ELSE}WM_SETFOCUS{$ENDIF};
     procedure WMKillFocus(var Message: {$IFDEF FPC}TLMKillFocus{$ELSE}TWMKillFocus{$ENDIF}); message {$IFDEF FPC}LM_KILLFOCUS{$ELSE}WM_KILLFOCUS{$ENDIF};
+    {$IFNDEF FPC}
+    procedure WMCut(var Message: TMessage); message WM_CUT;
+    procedure WMPaste(var Message: TMessage); message WM_PASTE;
+    {$ENDIF}
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure CreatePopup; virtual;
     procedure FreePopup; virtual;
-    procedure TextChanged; override;
     procedure SetEvent ; virtual;
     procedure ValidateSearch; virtual;
     function EditCanModify: Boolean; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure TextChanged; {$IFDEF FPC}override;{$ELSE}virtual;{$ENDIF}
     {$IFDEF FPC}
     procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
     {$ENDIF}
@@ -133,8 +137,10 @@ type
     procedure DoEnter; override;
     procedure DoExit; override;
     procedure Loaded; override;
+    {$IFDEF FPC}
     procedure PasteFromClipboard; override;
     procedure CutToClipboard; override;
+    {$ENDIF}
     constructor Create ( Aowner : TComponent ); override;
     destructor Destroy ; override;
     property Located : Boolean read Flocated;
@@ -545,6 +551,9 @@ begin
    Else
      if Assigned(OnChange) Then
       OnChange ( Self );
+  {$IFNDEF FPC}
+  TextChanged;
+  {$ENDIF}
 end;
 
 // procedure TExtSearchDBEdit.DoEnter
@@ -578,7 +587,9 @@ end;
 
 procedure TExtSearchDBEdit.TextChanged;
 begin
+  {$IFDEF FPC}
   inherited TextChanged;
+  {$ENDIF}
   if Text = '' Then
    Begin
      FSet:=False;
@@ -597,16 +608,25 @@ begin
     Color := gCol_Edit ;
 end;
 
+
+{$IFDEF FPC}
 procedure TExtSearchDBEdit.PasteFromClipboard;
+{$ELSE}
+procedure TExtSearchDBEdit.WMPaste(var Message: TMessage);
+{$ENDIF}
 begin
   FSet:=False;
   Flocated:=False;
-  inherited PasteFromClipboard;
+  inherited;
 end;
 
+{$IFDEF FPC}
 procedure TExtSearchDBEdit.CutToClipboard;
+{$ELSE}
+procedure TExtSearchDBEdit.WMCut(var Message: TMessage);
+{$ENDIF}
 begin
-  inherited CutToClipboard;
+  inherited;
   FSet:=False;
   Flocated:=False;
 end;
