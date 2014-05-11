@@ -115,8 +115,10 @@ type
     procedure WMSize(var Message: {$IFDEF FPC}TLMSize{$ELSE}TWMSize{$ENDIF}); message {$IFDEF FPC}LM_SIZE{$ELSE}WM_SIZE{$ENDIF};
     procedure WMSetFocus(var Message: {$IFDEF FPC}TLMSetFocus{$ELSE}TWMSetFocus{$ENDIF}); message {$IFDEF FPC}LM_SETFOCUS{$ELSE}WM_SETFOCUS{$ENDIF};
     procedure WMKillFocus(var Message: {$IFDEF FPC}TLMKillFocus{$ELSE}TWMKillFocus{$ENDIF}); message {$IFDEF FPC}LM_KILLFOCUS{$ELSE}WM_KILLFOCUS{$ENDIF};
+    {$IFNDEF FPC}
     procedure WMCut(var Message: TMessage); message WM_CUT;
     procedure WMPaste(var Message: TMessage); message WM_PASTE;
+    {$ENDIF}
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
@@ -126,7 +128,7 @@ type
     procedure ValidateSearch; virtual;
     function EditCanModify: Boolean; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
-    procedure TextChanged; {$IFDEF FPC}override;{$ELSE}virtual{$ENDIF};
+    procedure TextChanged; {$IFDEF FPC}override;{$ELSE}virtual;{$ENDIF}
     {$IFDEF FPC}
     procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
     {$ENDIF}
@@ -549,7 +551,7 @@ begin
    Else
      if Assigned(OnChange) Then
       OnChange ( Self );
-  {$IFDEF FPC}
+  {$IFNDEF FPC}
   TextChanged;
   {$ENDIF}
 end;
