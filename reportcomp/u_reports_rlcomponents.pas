@@ -384,7 +384,12 @@ implementation
 uses RLConsts,
      fonctions_proprietes,
      fonctions_reports,
+{$IFDEF RX}
      rxdbgrid,
+{$ENDIF}
+{$IFDEF JEDI}
+  jvDBGrid,
+{$ENDIF}
      fonctions_images;
 
 { TExtReport }

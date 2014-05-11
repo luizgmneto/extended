@@ -22,7 +22,12 @@ uses
   RLPreview, u_reportform,
   u_reports_rlcomponents,
   Printers, RLTypes,
+{$IFDEF RX}
   rxdbgrid,
+{$ENDIF}
+{$IFDEF JEDI}
+  jvDBGrid,
+{$ENDIF}
   u_buttons_appli, RLFilters, Graphics;
 
 

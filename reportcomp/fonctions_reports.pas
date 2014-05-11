@@ -120,7 +120,12 @@ uses fonctions_proprietes,
      fonctions_images,
      fonctions_string,
      fonctions_vtree,
+{$IFDEF RX}
      rxdbgrid,
+{$ENDIF}
+{$IFDEF JEDI}
+  jvDBUltimGrid,
+{$ENDIF}
      controls,
      Math;
 
@@ -129,10 +134,15 @@ Begin
   case AColor of
     clWindowText,clCaptionText,clMenuText,clBtnText,clActiveBorder: Result:=clBlack;
     clWindow,clWindowFrame,clInactiveBorder,clBackground,clMenu,clNone: Result:=clWhite;
-    clActiveBackground,clActiveButton,clActiveHighlight,clBtnShadow,clMenuBar: Result:=clGray;
+{$IFDEF FPC}
+    clActiveBackground,clActiveButton,clActiveHighlight,
+{$ENDIF}
+    clBtnShadow,clMenuBar: Result:=clGray;
     clBtnFace,clBtnHighlight,clHighlight,clMenuHighlight: Result:=$404040;
+{$IFDEF FPC}
     clActiveText,clActiveForeground,clActiveCaption,clActiveBrightText,clActiveButtonText : Result:=clRed;
     clActiveDark,clActiveHighlightedText,clHighlightedText,clActiveShadow:Result:=$8888FF;
+{$ENDIF}
    Else
     Result:=AColor;
   end;
@@ -1001,11 +1011,11 @@ var atitleHeight, aSpaceWidth: Integer;
           with ARLLabel do
             Begin
               ANodeText:=TVTPaintText(fmet_getComponentMethodProperty(atree,'OnPaintText'));
-              Canvas.Brush.Color := Brush.Color;
-              Canvas.Font.Assign(Font);
-              ANodeText ( atree, Canvas, ANode, 0, ttNormal);
-              Font.Assign(Canvas.Font);
-              Brush.Color:=fcol_GetPrintedColor (Canvas.Brush.Color);
+              ATempCanvas.Brush.Color := Brush.Color;
+              ATempCanvas.Font.Assign(Font);
+              ANodeText ( atree, ATempCanvas, ANode, 0, ttNormal);
+              Font.Assign(ATempCanvas.Font);
+              Brush.Color:=fcol_GetPrintedColor (ATempCanvas.Brush.Color);
             end;
         // text can go right out
         p_addEventualRightReport ( ARealTop );
