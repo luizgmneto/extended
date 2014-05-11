@@ -764,7 +764,7 @@ end;
 procedure TFWDBDateTimePicker.WMRButtonDown(var Msg: TWMRButtonDown);
 begin
   inherited;
-  fb_ShowPopup (Self,PopUpMenu,FOnPopup);
+  fb_ShowPopup (Self,PopUpMenu,OnContextPopup,FOnPopup);
 end;
 
 { TFWDBDateTimePicker }
