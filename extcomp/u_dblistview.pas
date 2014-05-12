@@ -233,7 +233,11 @@ type
     procedure DataLinkScrolled ; virtual;
    public
     // Bookmark pour le chargement intermédiaire
+    {$IF FPC_FULLVERSION >= 20700 }
+    gbm_DernierEnregistrement : TBookmark ;
+    {$ELSE}
     gbm_DernierEnregistrement : TBookmarkStr ;
+    {$ENDIF}
     constructor Create ( acom_owner : TComponent ); override;
     procedure Loaded; override;
     {$IFDEF FPC}

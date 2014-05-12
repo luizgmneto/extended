@@ -4340,8 +4340,13 @@ end;
 // Retour      : Trouvé ou pas
 //////////////////////////////////////////////////////////////////////////////
 procedure TDBGroupView.p_LocateRestore;
-var lbkm_Bookmark : TBookmarkStr ;
-//    ls_Tables : String ;
+var
+  {$IF FPC_FULLVERSION >= 20700 }
+  lbkm_Bookmark : TBookmark ;
+  {$ELSE}
+  lbkm_Bookmark : TBookmarkStr ;
+  {$ENDIF}
+
 begin
   lbkm_Bookmark := gdl_DataLink.DataSet.Bookmark ;
   gdl_DataLink.DataSet.Filter := gws_Oldfilter ;
