@@ -417,7 +417,11 @@ End;
 function fb_IntervertitPositions2Champs   ( const aDat_Dataset : TDataset ; const as_NomOrdre : String ; const ab_Precedent, ab_SortAsc, ab_DisableControls : Boolean ): Boolean;
 var lvar_Numordre1      ,
     lvar_Numordre2      : Variant ;
+    {$IF FPC_FULLVERSION >= 20700 }
+    lbkm_GardeEnr     : TBookmark ;
+    {$ELSE}
     lbkm_GardeEnr     : TBookmarkStr ;
+    {$ENDIF}
     lb_continue       : Boolean ;
 
 begin
@@ -988,4 +992,4 @@ End ;}
 initialization
   p_ConcatVersion ( gVer_fonctions_db );
 {$ENDIF}
-end.
+end.

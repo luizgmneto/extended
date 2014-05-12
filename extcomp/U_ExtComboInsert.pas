@@ -27,12 +27,10 @@ uses Variants, Controls, Classes,
   {$ELSE}
      Windows, Mask, JvDBLookup, Messages,
   {$ENDIF}
-     Graphics, Menus, DB,DBCtrls, Dialogs,
+     Graphics, DB,DBCtrls,
   {$IFDEF VERSIONS}
     fonctions_version,
   {$ENDIF}
-    u_framework_dbcomponents,
-    u_framework_components,
     StdCtrls,
     u_extcomponent;
 
@@ -163,7 +161,7 @@ type
 implementation
 
 uses
-  SysUtils, Forms, fonctions_erreurs,
+  SysUtils,
   {$IFDEF FPC}
   LCLProc,
   {$ELSE}
