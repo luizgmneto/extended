@@ -62,6 +62,9 @@ const
 
 
 resourcestring
+  gs_TestOk  = 'Test OK' ;
+  gs_TestBad  = 'Error' ;
+
   // Paquet extcore
 
   GS_ECRITURE_IMPOSSIBLE_AVEC_ATTR = 'Impossible d''écrire sur le fichier @ARG avec l''attribut de fichier @ARG.' ;
@@ -112,6 +115,16 @@ resourcestring
   gs_Downloading_in_progress = 'Téléchargement de @ARG en cours…';
   gs_Download_update = 'Télécharger mise à jour';
   gs_Download_finished = 'Téléchargement terminé.';
+  GS_mot_passe_invalide = 'Mot de passe invalide.' + CST_ENDOFLINE
+	 + 'Veuillez resaisir votre mot de passe.' ;
+
+  // dbcomponents
+  gs_Caption_Save_in = 'Sauvegarde dans @ARG.';
+  gs_Caption_Restore_database = 'Restauration base @ARG.';
+  gs_Error_Restore_Directory_does_not_exists =
+          'Opération impossible, le répertoire de sauvegarde'+CST_ENDOFLINE
+        +'@ARG'+CST_ENDOFLINE+'n''existe pas et ne peut être créé.';
+  gs_Optimising_database_is_a_success = 'L''optimisation de la base s''est bien passée.';
 
  // Composants
   GS_SUPPRIMER_QUESTION = 'Confirmez-vous l''effacement de l''enregistrement ?' ;

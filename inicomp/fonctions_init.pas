@@ -79,6 +79,17 @@ const
   CST_DBEXPRESS = 'DBEXPRESS' ;
   INIVAL_CDE  = 'cde';
 
+  //data
+  CST_ADOCONNECTION ='TADOConnection';
+  CST_ADOCONNECTION_STRING ='ConnectionString';
+  CST_ZCONNECTION = 'TZConnection';
+  CST_DATABASE   = 'Database';
+  CST_PROTOCOL   = 'Protocol';
+  CST_HOSTNAME   = 'HostName';
+  CST_PASSWORD   = 'Password';
+  CST_USER       = 'User';
+  CST_CATALOG    = 'Catalog';
+  CST_PROPERTIES = 'Properties';
 ////////////////////////////////////////////////////////////////////////////////
 //  Fonctions à appeler pour la gestion des fichiers INI
 ////////////////////////////////////////////////////////////////////////////////
@@ -199,6 +210,7 @@ procedure LitTstringsDeIni(const FIni: TCustomIniFile; SectionIni: string; const
 procedure p_FreeConfigFile;
 procedure p_IniOuvre;
 procedure p_IniQuitte;
+procedure p_InitConnectForm ( const Connexion : TComponent ; const Inifile : TCustomInifile ; const Test : Boolean );
 
 var
   FIniFile: TIniFile = nil;
@@ -220,12 +232,21 @@ var
   GS_CHEMIN_AIDE    : String = 'CHM\Aide.chm';
   gs_AppConfigDir : Array [ 0..1 ] of String = ('','');
   gs_NomApp: string;
+  gs_DataDriverIni : String = 'Driver' ;
+  gs_DataBaseNameIni : String = 'Database Name' ;
+  gs_DataUserNameIni : String = 'User Name' ;
+  gs_DataHostIni : String = 'Host Name' ;
+  gs_DataCatalogIni : String = 'Catalog' ;
+  gs_DataPasswordIni : String = 'Password' ;
+  gs_DataProtocolIni : String = 'Protocol' ;
+  gs_DataCollationIni : String = 'Collation Encode' ;
 
 implementation
 
 uses TypInfo,
      fonctions_string,
      fonctions_system,
+     fonctions_dbcomponents,
      fonctions_proprietes;
 
 
@@ -917,6 +938,38 @@ procedure p_IniOuvre;
 begin
   p_IniWriteSectionStr(INISEC_PAR, INIPAR_LANCEMENT , DateToStr(Date)  + ' ' +  TimeToStr(Time) );
 end;
+
+procedure p_SetCaractersZEOSConnector(const azco_Connect : TComponent ; const as_NonUtfChars : String );
+var
+    astl_Strings : TStrings ;
+    {$IFDEF DELPHI_9_UP}awst_Strings : TWideStrings;{$ENDIF}
+Begin
+  if  fb_GetStrings (azco_Connect, CST_PROPERTIES, astl_Strings{$IFDEF DELPHI_9_UP}, awst_Strings {$ENDIF}) Then
+    with  astl_Strings do
+      begin
+        Clear;
+        Add('codepage='+as_NonUtfChars);
+      end;
+end;
+
+
+// Init connexion with inifile
+procedure p_InitConnectForm ( const Connexion : TComponent ; const Inifile : TCustomInifile ; const Test : Boolean );
+Begin
+  if assigned ( Inifile )
+  and assigned ( Connexion ) Then
+    Begin
+      p_SetComponentProperty ( Connexion, CST_DATABASE, Inifile.ReadString ( gs_DataSectionIni, gs_DataBaseNameIni, '' ));
+      p_SetComponentProperty ( Connexion, CST_PROTOCOL, Inifile.ReadString ( gs_DataSectionIni, gs_DataProtocolIni , '' ));
+      p_SetComponentProperty ( Connexion, CST_HOSTNAME, Inifile.ReadString ( gs_DataSectionIni, gs_DataHostIni    , '' ));
+      p_SetComponentProperty ( Connexion, CST_PASSWORD, Inifile.ReadString ( gs_DataSectionIni, gs_DataPasswordIni, '' ));
+      p_SetComponentProperty ( Connexion, CST_USER    , Inifile.ReadString ( gs_DataSectionIni, gs_DataUserNameIni, '' ));
+      p_SetComponentProperty ( Connexion, CST_CATALOG , Inifile.ReadString ( gs_DataSectionIni, gs_DataCatalogIni    , '' ));
+      p_SetCaractersZEOSConnector(Connexion, Inifile.ReadString ( gs_DataSectionIni, gs_DataCollationIni    , Inifile.ReadString ( gs_DataSectionIni, gs_DataCollationIni    , 'UTF8' )));
+
+
+    End ;
+End ;
 
 
 {$IFDEF VERSIONS}
