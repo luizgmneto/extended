@@ -26,6 +26,19 @@ uses SysUtils,
 
 type
   TOnExecuteQuery = procedure ( const adat_Dataset: Tdataset );
+  TOnOptimiseDatabase = function ( const AConnection : TComponent ;
+                                   const as_database, as_user, as_password, APathSave : String ;
+                                   const ASt_Messages : TStrings; const acom_ControlMessage, acom_owner : TComponent):Boolean;
+  TOnOpenCloseDatabase = function ( const AConnection : TComponent ;
+                               const ab_Open : Boolean ;
+                               const ab_showError : Boolean  ):Boolean;
+  TOnExecuteCommand = procedure ( const as_SQL: {$IFDEF DELPHI_9_UP} WideString {$ELSE} String{$ENDIF} );
+  TOnExecuteScriptServer = procedure ( const AConnection : TComponent; const as_SQL: {$IFDEF DELPHI_9_UP} WideString {$ELSE} String{$ENDIF} );
+  TSetConnectComponents = procedure ( const cbx_Protocol, ch_ServerConnect, ed_Base, ed_Host, ed_Password, ed_User, ed_Catalog, ed_Collation: TComponent );
+
+  // database name to load
+var gs_DefaultDatabase : String = '';
+
 
 const
   {$IFDEF VERSIONS}
@@ -43,8 +56,15 @@ const
       			                 Major : 1 ; Minor : 1 ; Release : 2 ; Build : 0 );
 
   {$ENDIF}
+  CST_CONNECTED   = 'Connected';
   ge_OnExecuteQuery: TOnExecuteQuery = nil;
   ge_OnRefreshDataset : TSpecialFuncDataset = nil;
+  ge_OnOpenOrCloseDatabase: TOnOpenCloseDatabase = nil;
+  ge_OnOptimiseDatabase: TOnOptimiseDatabase = nil;
+  ge_OnExecuteCommand: TOnExecuteCommand = nil;
+  ge_OnExecuteScriptServer: TOnExecuteScriptServer = nil;
+  ge_SetConnectComponentsOnCreate : TSetConnectComponents = nil;
+
 function fb_RefreshDataset ( const aDat_Dataset : TDataset ): Boolean ; overload;
 function fb_RefreshDataset ( const aDat_Dataset : TDataset; const ab_GardePosition : Boolean ): Boolean ; overload;
 procedure p_AutoConnection ( const adat_Dataset : TDataset; const AConnect : Boolean = True );
@@ -56,6 +76,18 @@ procedure p_SetConnexion ( const acom_ADataset : TComponent ; acco_Connexion : T
 procedure p_SetComponentsConnexions ( const acom_Form : TComponent ; acco_Connexion : TComponent );
 function  fb_RefreshDatasetIfEmpty ( const adat_Dataset : TDataset ) : Boolean ;
 procedure p_ExecuteSQLQuery ( const adat_Dataset : Tdataset ; const as_Query :String ; const ab_ShowException : boolean = True );
+procedure p_ExecuteSQLCommand ( const as_Command :{$IFDEF DELPHI_9_UP} WideString {$ELSE} String{$ENDIF} ; const ab_ShowException : boolean = True );
+procedure p_optimiseDatabase ( const AConnection : TComponent;
+                               const as_database, as_user, as_password, APathSave : String );
+function fb_OptimiseDatabase  ( const AConnection : TComponent ;
+                                const as_database, as_user, as_password, APathSave : String ;
+                                const ASt_Messages : TStrings;
+                                const acom_ControlMessage, acom_owner : TComponent):Boolean;
+function fb_OpenCloseDatabase ( const AConnection  : TComponent ;
+                                const ab_Open : Boolean ;
+                                const ab_showError : Boolean = False   ):Boolean;
+function fb_TestConnection ( const Connexion : TComponent ; const lb_ShowMessage : Boolean ) : Boolean;
+procedure p_ExecuteSQLScriptServer ( const AConnection : TComponent; const as_Command :{$IFDEF DELPHI_9_UP} WideString {$ELSE} String{$ENDIF} ; const ab_ShowException : boolean = True );
 function fdat_CloneDatasetWithoutSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithSQL ( const adat_ADataset : TDataset ; const AOwner : TComponent ) : TDataset;
 function fdat_CloneDatasetWithoutSQLWithDataSource ( const adat_ADataset : Tdataset ; const AOwner : TComponent ; var ads_Datasource : TDatasource  ) : Tdataset;
@@ -83,6 +115,7 @@ procedure p_ShowSQLError ( const AException, ASQL : String );
 var ge_DataSetErrorEvent : TDataSetErrorEvent ;
     gch_SeparatorCSV: Char = ';';
 
+
 implementation
 
 uses Variants,  fonctions_erreurs, fonctions_string,
@@ -93,6 +126,11 @@ uses Variants,  fonctions_erreurs, fonctions_string,
      SQLExpr,
  {$ENDIF}
    fonctions_proprietes, TypInfo,
+  {$IFDEF WINDOWS}
+  unite_messages_delphi,
+  {$ELSE}
+  unite_messages,
+  {$ENDIF}
    Dialogs, fonctions_components;
 
 
@@ -818,6 +856,99 @@ begin
 
   Result := fb_RecordExists ( adat_DatasetQuery, as_Table, ls_Where, ab_DBMessageOnError );
 end;
+
+
+// execute query with optional module
+procedure p_ExecuteSQLCommand ( const as_Command :{$IFDEF DELPHI_9_UP} WideString {$ELSE} String{$ENDIF} ; const ab_ShowException : boolean = True );
+Begin
+  try
+    if assigned ( ge_OnExecuteCommand ) Then
+     ge_OnExecuteCommand ( as_Command );
+  Except
+    on E:Exception do
+     if ab_ShowException Then
+       p_ShowSQLError(E.Message,as_Command);
+  end;
+End ;
+
+// open or close one type of database
+function fb_OpenCloseDatabase ( const AConnection  : TComponent ;
+                                const ab_Open : Boolean ;
+                                const ab_showError : Boolean = False   ):Boolean;
+begin
+  if Assigned(ge_OnOpenOrCloseDatabase) Then
+   Begin
+     Result:=ge_OnOpenOrCloseDatabase ( AConnection, ab_open, ab_showError );
+   end;
+End;
+
+// optimise one original database
+procedure p_optimiseDatabase ( const AConnection : TComponent;
+                               const as_database, as_user, as_password, APathSave : String );
+var ls_Message : String;
+begin
+  if Assigned(ge_OnOptimiseDatabase) Then
+   Begin
+
+    if ge_OnOptimiseDatabase ( AConnection, as_database, as_user, as_password, APathSave, nil, nil, AConnection )
+     Then ls_Message:=gs_Optimising_database_is_a_success
+     Else ls_Message:=gs_Error_Restore_Directory_does_not_exists;
+   End;
+end;
+
+// optimise one original database with message
+function fb_OptimiseDatabase  ( const AConnection : TComponent ;
+                                const as_database, as_user, as_password, APathSave : String ;
+                                const ASt_Messages : TStrings;
+                                const acom_ControlMessage, acom_owner : TComponent):Boolean;
+Begin
+  if Assigned(ge_OnOptimiseDatabase) Then
+    Result:=ge_OnOptimiseDatabase (AConnection,
+                                   as_database, as_user, as_password, APathSave,
+                                   ASt_Messages,
+                                   acom_ControlMessage, acom_owner);
+end;
+
+
+// execute query with optional module
+procedure p_ExecuteSQLScriptServer ( const AConnection : TComponent; const as_Command :{$IFDEF DELPHI_9_UP} WideString {$ELSE} String{$ENDIF} ; const ab_ShowException : boolean = True );
+Begin
+  try
+    if assigned ( ge_OnExecuteScriptServer ) Then
+     ge_OnExecuteScriptServer ( AConnection, as_Command );
+  Except
+    on E:Exception do
+     if ab_ShowException Then
+      p_ShowSQLError(E.Message,as_Command);
+  end;
+End ;
+
+// Open connexion and errors
+function fb_TestConnection ( const Connexion : TComponent ; const lb_ShowMessage : Boolean ) : Boolean;
+Begin
+  Result := False ;
+  if not Assigned(ge_OnOpenOrCloseDatabase) Then
+  try
+    p_SetComponentBoolProperty ( Connexion, CST_CONNECTED, True );
+  Except
+    on E: Exception do
+      Begin
+        if lb_ShowMessage Then
+          ShowMessage ( gs_TestBad + ' : ' + #13#10 + E.Message );
+        Exit ;
+      End ;
+  End ;
+  if ( Assigned(ge_OnOpenOrCloseDatabase)
+      and fb_OpenCloseDatabase(Connexion,True,False))
+  or ( not Assigned(ge_OnOpenOrCloseDatabase)
+      and fb_getComponentBoolProperty( Connexion, CST_CONNECTED ))
+   Then
+    Begin
+      Result := True ;
+      if lb_ShowMessage Then
+        ShowMessage ( gs_TestOk );
+    End ;
+End ;
 
 {$IFDEF VERSIONS}
 initialization

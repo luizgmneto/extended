@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <Name Value="lazextinit"/>
@@ -22,7 +22,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="3" Release="3" Build="1"/>
-    <Files Count="11">
+    <Files Count="13">
       <Item1>
         <Filename Value="inicomp/u_extmenucustomize.pas"/>
         <UnitName Value="u_extmenucustomize"/>
@@ -67,6 +67,14 @@
         <Filename Value="inicomp/menutbar.pas"/>
         <UnitName Value="menutbar"/>
       </Item11>
+      <Item12>
+        <Filename Value="inicomp/u_connection.lfm"/>
+        <Type Value="LFM"/>
+      </Item12>
+      <Item13>
+        <Filename Value="inicomp/u_connection.pas"/>
+        <UnitName Value="u_connection"/>
+      </Item13>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
@@ -105,4 +113,4 @@
       <_ExternHelp Items="Count"/>
     </CustomOptions>
   </Package>
-</CONFIG>
+</CONFIG>

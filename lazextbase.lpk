@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <Name Value="lazextbase"/>
@@ -57,23 +57,26 @@
       <OutDir Value="LANG"/>
     </i18n>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="5">
+    <RequiredPkgs Count="6">
       <Item1>
-        <PackageName Value="virtualtreeview_package"/>
+        <PackageName Value="ExpertSuperForm"/>
       </Item1>
       <Item2>
-        <PackageName Value="VampyreImagingPackage"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item2>
       <Item3>
-        <PackageName Value="lazextcore"/>
+        <PackageName Value="VampyreImagingPackage"/>
       </Item3>
       <Item4>
-        <PackageName Value="LCL"/>
+        <PackageName Value="lazextcore"/>
       </Item4>
       <Item5>
+        <PackageName Value="LCL"/>
+      </Item5>
+      <Item6>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item5>
+      </Item6>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
@@ -86,4 +89,4 @@
       <_ExternHelp Items="Count"/>
     </CustomOptions>
   </Package>
-</CONFIG>
+</CONFIG>
