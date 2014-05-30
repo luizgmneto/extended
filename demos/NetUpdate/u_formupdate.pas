@@ -61,7 +61,7 @@ uses fonctions_system;
 
 procedure TF_Update.FormCreate(Sender: TObject);
 begin
-  Netupdate.UpdateDir := ExtractFileDir ( Application.Exename );
+  Netupdate.UpdateDir := fs_getAppDir;
 end;
 
 procedure TF_Update.FWDownLoadClick(Sender: TObject);
@@ -97,4 +97,4 @@ begin
 end;
 
 end.
-
+

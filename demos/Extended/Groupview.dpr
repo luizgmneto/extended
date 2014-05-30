@@ -11,6 +11,9 @@ uses
 {$IFDEF FPC}
   Interfaces, LCLType,
 {$ENDIF}
+  fonctions_startibx,
+  fonctions_dbcomponents,
+  fonctions_system,
   Forms,
   U_FormMainIni,
   U_Article in 'U_Article.pas' {F_Categ},
@@ -26,6 +29,8 @@ uses
 
 begin
   Application.Initialize;
+  gs_DefaultDatabase:=ExtractSubDir(fs_getAppDir)+'Exemple.fdb';
+  GS_SUBDIR_IMAGES_SOFT:='..'+DirectorySeparator+'..'+DirectorySeparator+'Images'+DirectorySeparator;
   Application.Title := CST_APPLI_NAME;
   Application.CreateForm(TM_Article, M_Article);
   Application.CreateForm(TFMain, FMain);

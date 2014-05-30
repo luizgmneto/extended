@@ -68,13 +68,8 @@ function fb_CreateDirectoryStructure ( const as_DirectoryToCreate : String ) : B
 function fb_IsFullPath ( const ASPath : String ):Boolean;
 procedure p_FileNameDivision ( const as_FileNameWithExtension : String ; var as_FileName, as_Extension : String );
 function fs_createUniqueFileName ( const as_base, as_FileAltName : String ; const as_extension : String ):String;
-function ExtractSubDir ( const as_FilePath : String ) :String;
-function ExtractDirName ( const as_FilePath : String ) :String;
 procedure p_LoadStrings ( const astl_StringList : TStrings; const as_FilePath,  as_message : String );
 procedure p_SaveStrings ( const astl_StringList : TStrings; const as_FilePath,  as_message : String );
-{$IFDEF FPC}
-function ExtractFileDir ( const as_FilePath : String ) :String;
-{$ENDIF}
 {$IFDEF WINDOWS}
 function fs_verifyAndReplaceDriveLetter ( const as_path : String ):String;
 {$ENDIF}
@@ -530,55 +525,6 @@ Begin
   Result := Pos(DirectorySeparator,ASPath)=1;
   {$ENDIF}
 end;
-
-{$IFDEF FPC}
-function ExtractFileDir ( const as_FilePath : String ) :String;
-Begin
-  Result := as_FilePath;
-  while not DirectoryExistsUTF8(Result) do
-   Result:=ExtractSubDir(Result);
-End;
-{$ENDIF}
-
-// function ExtractSubDir
-// optimised SubDir Extracting
-function ExtractSubDir ( const as_FilePath : String ) :String;
-var lpch_Pos : PChar;
-    lp_pointer : Pointer;
-Begin
-  Result := as_FilePath;
-  if Result = '' Then
-    Exit;
-  lpch_Pos := @Result [ length ( Result )-1];
-  lp_pointer := @Result [ 1 ];
-  while ( lpch_Pos > lp_pointer ) do
-    Begin
-      if lpch_Pos^ = DirectorySeparator Then
-        Break;
-      dec ( lpch_Pos );
-    End;
-  Result:=copy(Result,1,lpch_Pos- lp_pointer);
-End;
-
-// function ExtractSubDir
-// optimised SubDir Extracting
-function ExtractDirName ( const as_FilePath : String ) :String;
-var lpch_Pos : PChar;
-    lp_pointer : Pointer;
-Begin
-  Result := as_FilePath;
-  if Result = '' Then
-    Exit;
-  lpch_Pos := @Result [ length ( Result )-1];
-  lp_pointer := @Result [ 1 ];
-  while ( lpch_Pos > lp_pointer ) do
-    Begin
-      if lpch_Pos^ = DirectorySeparator Then
-        Break;
-      dec ( lpch_Pos );
-    End;
-  Result:=copy(Result,lpch_Pos- lp_pointer+2,@Result [ length ( Result )]-lpch_Pos-1);
-End;
 
 initialization
 {$IFDEF VERSIONS}

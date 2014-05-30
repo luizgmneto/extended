@@ -5,7 +5,7 @@ object Myform: TMyform
   Width = 785
   ActiveControl = Panel1
   Caption = 'Myform'
-  ClientHeight = 524
+  ClientHeight = 521
   ClientWidth = 785
   Color = clBtnFace
   Font.Color = clWindowText
@@ -13,21 +13,21 @@ object Myform: TMyform
   Font.Name = 'Tahoma'
   Menu = mu_MainMenu
   OnShow = FormShow
-  LCLVersion = '1.0.14.0'
+  LCLVersion = '1.2.3.0'
   object Splitter1: TSplitter
     Left = 208
-    Height = 524
+    Height = 521
     Top = 0
     Width = 5
   end
   object Panel1: TPanel
     Left = 0
-    Height = 524
+    Height = 521
     Top = 0
     Width = 208
     Align = alLeft
     Caption = 'Panel1'
-    ClientHeight = 524
+    ClientHeight = 521
     ClientWidth = 208
     TabOrder = 0
     object ExtDBNavigator: TExtDBNavigator
@@ -43,7 +43,7 @@ object Myform: TMyform
     end
     object Noms: TExtDBGrid
       Left = 1
-      Height = 313
+      Height = 310
       Top = 21
       Width = 206
       TitleButtons = False
@@ -148,7 +148,7 @@ object Myform: TMyform
     end
     object Prenom: TExtFormatDBEdit
       Left = 7
-      Height = 21
+      Height = 22
       Top = 81
       Width = 221
       DataField = 'PRENOM'
@@ -162,7 +162,7 @@ object Myform: TMyform
     end
     object Nom: TExtFormatDBEdit
       Left = 7
-      Height = 21
+      Height = 22
       Top = 121
       Width = 221
       DataField = 'NOM'
@@ -177,7 +177,7 @@ object Myform: TMyform
     object Panel5: TPanel
       Left = 1
       Height = 186
-      Top = 337
+      Top = 334
       Width = 206
       Align = alBottom
       BevelOuter = bvNone
@@ -209,7 +209,7 @@ object Myform: TMyform
           TabOrder = 0
           object Prenom_: TFWEdit
             Left = -2
-            Height = 21
+            Height = 22
             Top = 1
             Width = 203
             Anchors = [akTop, akLeft, akRight]
@@ -222,7 +222,7 @@ object Myform: TMyform
           end
           object Nom_: TFWEdit
             Left = 39
-            Height = 21
+            Height = 22
             Top = 26
             Width = 159
             Anchors = [akTop, akLeft, akRight]
@@ -256,7 +256,7 @@ object Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 334
+      Top = 331
       Width = 206
       Align = alBottom
       ResizeAnchor = akBottom
@@ -264,11 +264,11 @@ object Myform: TMyform
   end
   object Panel2: TPanel
     Left = 213
-    Height = 524
+    Height = 521
     Top = 0
     Width = 540
     Align = alClient
-    ClientHeight = 524
+    ClientHeight = 521
     ClientWidth = 540
     TabOrder = 3
     object FWLabel1: TFWLabel
@@ -359,7 +359,7 @@ object Myform: TMyform
       AutoSize = False
       Caption = 'Surname'
       Color = clBtnFace
-      Font.Color = clWindowText
+      Font.Color = clActiveText
       Font.Height = 14
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -371,7 +371,7 @@ object Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 302
+      Top = 299
       Width = 538
       Align = alBottom
       ResizeAnchor = akBottom
@@ -410,7 +410,7 @@ object Myform: TMyform
     end
     object ExtColorCombo: TExtColorCombo
       Left = 120
-      Height = 22
+      Height = 26
       Top = 75
       Width = 221
       HTMLcolor = '#FFFFFF'
@@ -423,7 +423,7 @@ object Myform: TMyform
     end
     object ExtNumEdit1: TExtNumEdit
       Left = 120
-      Height = 21
+      Height = 22
       Top = 108
       Width = 221
       EditMask = '#0,#9;0; '
@@ -443,7 +443,7 @@ object Myform: TMyform
     end
     object FWDateEdit1: TFWDateEdit
       Left = 120
-      Height = 21
+      Height = 22
       Top = 134
       Width = 221
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
@@ -452,43 +452,7 @@ object Myform: TMyform
       DateOrder = doNone
       ButtonWidth = 0
       CharCase = ecNormal
-      Glyph.Data = {
-        36040000424D3604000000000000360000002800000010000000100000000100
-        2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00D69E
-        72C4D3996EF4D19668FFCE9263FFCB8E5EFFC98A5BFFC78756FFC38452FFC384
-        52FFC38452FFC38452FFC38452FFC38452FFBB7742B0FFFFFF00FFFFFF00D7A1
-        75FFF8F2EDFFF7F0EAFFF6EDE6FFF4EAE2FFF3E7DEFFF1E4DBFFF0E2D8FFEAD6
-        C8FFF2E5DCFFFAF4F1FFF9F3F0FFFAF5F2FFC58A5DFDFFFFFF00FFFFFF00D9A4
-        7AFFF9F3EEFFEBD2BEFFFFFFFFFFEBD3BFFFFFFFFFFFEBD3C0FFFFFFFFFFEAC7
-        ADFFECD9CDFFF1E4DBFFF9F3F0FFF9F2EFFFC68C5FFFFFFFFF00FFFFFF00DDA8
-        7EFFF9F3EFFFEBD0BAFFEBD0BBFF75B57AFF75B57AFF75B57AFFEBD1BDFFEACD
-        B5FFFAF4F0FFEBD9CCFFF1E4DBFFFAF4F1FFC68A5CFFFFFFFF00FFFFFF00DFAA
-        82FFF9F3EFFFEACEB7FFFFFFFFFF75B57AFF94D49BFF74B579FFFFFFFFFFEACF
-        BAFFFBF6F2FFFAF3F0FFEBD8CBFFF2E6DDFFC88D5FFFFFFFFF00FFFFFF00E1AE
-        87FFFAF4F0FFEACBB2FFEACCB3FF75B57AFF74B579FF73B478FFEACEB7FF70B3
-        75FF6FB274FF6EB172FFE8C8AEFFEAD7C9FFC48654FFFFFFFF00FFFFFF00E3B1
-        8CFFFAF6F1FFEAC9AEFFFFFFFFFFEAC9B0FFFFFFFFFFE9CBB3FFFFFFFFFF6FB1
-        73FF8ED295FF6BAF6FFFFFFFFFFFF1E5DBFFC68655FFFFFFFF00FFFFFF00E5B4
-        8FFFFAF6F2FFE9C6AAFFE9C6ACFFEAC7ACFFE9C7ADFFE9C9AEFFE9C9B0FF6CB0
-        71FF6AAF6EFF68AD6DFFE8CCB5FFF2E7DEFFC88A59FFFFFFFF00FFFFFF00E7B7
-        94FFFBF7F4FFE9C3A6FFFFFFFFFFE8C4A9FFFFFFFFFFE9C6AAFFFFFFFFFFE8C7
-        ACFFFFFFFFFFE8C8B0FFFFFFFFFFF7F1EBFFCB8F5FFFFFFFFF00FFFFFF00E9BA
-        98FFFBF7F4FF65A4FFFF64A3FFFF62A2FFFF61A1FFFF5F9FFFFF5C9DFFFF5A9A
-        FFFF5798FFFF5495FFFF5294FFFFFBF7F4FFCE9364FFFFFFFF00FFFFFF00EBBD
-        9BFFFBF7F4FF64A4FFFF79BDFFFF75BBFFFF71B9FFFF6DB8FFFF68B3FFFF61B0
-        FFFF5AABFFFF54A7FFFF3B7DFFFFFBF7F4FFD1976AFFFFFFFF00FFFFFF00ECBF
-        9EFFFBF7F4FF65A4FFFF64A3FFFF60A0FFFF5D9EFFFF5899FFFF5496FFFF4D90
-        FFFF478BFFFF4284FFFF3D7FFFFFFBF7F4FFD49B6FFFFFFFFF00FFFFFF00EEC1
-        A1EBFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7
-        F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFD7A074F8FFFFFF00FFFFFF00EFC2
-        A37EEFC1A2E3EDC09FFFEBBE9DFFEBBC9AFFE9BA96FFE7B793FFE6B590FFE4B2
-        8CFFE2AF88FFE0AC84FFDDA980FFDCA57DFFDAA37ACAFFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
-      }
-      NumGlyphs = 0
+      NumGlyphs = 1
       MaxLength = 0
       TabOrder = 3
       ColorReadOnly = clInfoText
@@ -497,7 +461,7 @@ object Myform: TMyform
     end
     object FWEdit: TFWEdit
       Left = 120
-      Height = 21
+      Height = 22
       Top = 160
       Width = 221
       CharCase = ecNormal
@@ -511,18 +475,18 @@ object Myform: TMyform
     object DBListView: TDBListView
       Left = 1
       Height = 218
-      Top = 305
+      Top = 302
       Width = 538
       Align = alBottom
       Columns = <      
         item
           Caption = 'Nom'
           MinWidth = 120
-          Width = 10
+          Width = 120
         end      
         item
           Caption = 'Prenom'
-          Width = 10
+          Width = 395
         end>
       DragMode = dmAutomatic
       MultiSelect = True
@@ -563,7 +527,7 @@ object Myform: TMyform
     end
     object ExtSearchDBEdit2: TExtSearchDBEdit
       Left = 120
-      Height = 21
+      Height = 22
       Top = 185
       Width = 221
       DataField = 'NOM'
@@ -576,7 +540,7 @@ object Myform: TMyform
     end
     object ExtDBPictCombo: TExtDBPictCombo
       Left = 120
-      Height = 22
+      Height = 26
       Top = 290
       Width = 219
       Images = ImageResources
@@ -615,7 +579,7 @@ object Myform: TMyform
     end
     object FWSpinEdit: TFWSpinEdit
       Left = 120
-      Height = 21
+      Height = 22
       Top = 240
       Width = 220
       TabOrder = 10
@@ -653,12 +617,16 @@ object Myform: TMyform
     end
     object FWDBSpinEdit: TFWDBSpinEdit
       Left = 120
-      Height = 21
+      Height = 22
       Top = 265
       Width = 219
-      TabOrder = 11
       DataField = 'ENTIER'
       DataSource = ds_user
+      Increment = 1
+      MaxValue = 100
+      MinValue = 0
+      TabOrder = 11
+      Value = 0
     end
     object FWLabel9: TFWLabel
       Left = 21
@@ -728,7 +696,7 @@ object Myform: TMyform
   end
   object FWDBEdit1: TExtFormatDBEdit
     Left = 333
-    Height = 21
+    Height = 22
     Top = 48
     Width = 221
     DataField = 'Nom'
@@ -742,7 +710,7 @@ object Myform: TMyform
   end
   object FWDBEdit2: TExtFormatDBEdit
     Left = 333
-    Height = 21
+    Height = 22
     Top = 16
     Width = 221
     DataField = 'Prenom'
@@ -757,7 +725,7 @@ object Myform: TMyform
   end
   object ExtMenuToolBar: TExtMenuToolBar
     Left = 753
-    Height = 524
+    Height = 521
     Top = 0
     Width = 32
     Align = alRight
