@@ -47,11 +47,13 @@ const DEFAULT_FIREBIRD_SERVER_DIR = '/var/lib/firebird/2.5/';
                         		 UnitType : 1 ;
                         		 Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 {$ENDIF}
+{$IFDEF FPC}
+procedure p_setLibrary (var libname: string);
+{$ENDIF}
 
 implementation
 
 uses IBQuery,
-     IBUpdateSQL,
      IBServices,
      IBDatabase,
      fonctions_dialogs,
