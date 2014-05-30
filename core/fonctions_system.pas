@@ -73,6 +73,8 @@ const
 type TArchitectureType = ( at32, at64 );
 const  gat_ArchitectureType : TArchitectureType = {$IFDEF CPU64}at64{$ELSE}at32{$ENDIF};
 
+function ExtractSubDir ( const as_FilePath : String ) :String;
+function ExtractDirName ( const as_FilePath : String ) :String;
 function fs_ExtractFileNameOnlyWithoutExt ( const as_Path : String ): String;
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
 function fs_GetNameSoft : String;
@@ -112,6 +114,8 @@ procedure CreateDirUTF8 ( const as_dir : String );
 procedure DeleteFileUTF8 ( const as_File : String );
 function FileCreateUTF8(const as_file: String):integer;
 function FileSize(const as_file: String):int64;
+{$ELSE}
+function ExtractFileDir ( const as_FilePath : String ) :String;
 {$ENDIF}
 function fs_EraseNameSoft ( const as_Nomapp, as_Path : String ) : String ;
 function fs_getAppDir : String;
@@ -243,7 +247,7 @@ End;
 // application directory with Separator
 function fs_getAppDir : String;
 Begin
-  Result := ExtractFileDir( Application.ExeName ) + DirectorySeparator ;
+  Result := ExtractFileDir( Application.ExeName ) ;
 End;
 
 // Erase first Directory with Separator
@@ -555,6 +559,57 @@ Begin
       False, []);
 {$ENDIF}
 End;
+
+
+// function ExtractSubDir
+// optimised SubDir Extracting
+function ExtractSubDir ( const as_FilePath : String ) :String;
+var lpch_Pos : PChar;
+    lp_pointer : Pointer;
+Begin
+  Result := as_FilePath;
+  if Result = '' Then
+    Exit;
+  lpch_Pos := @Result [ length ( Result )-1];
+  lp_pointer := @Result [ 1 ];
+  while ( lpch_Pos > lp_pointer ) do
+    Begin
+      if lpch_Pos^ = DirectorySeparator Then
+        Break;
+      dec ( lpch_Pos );
+    End;
+  Result:=copy(Result,1,lpch_Pos- lp_pointer+1);
+End;
+
+// function ExtractSubDir
+// optimised SubDir Extracting
+function ExtractDirName ( const as_FilePath : String ) :String;
+var lpch_Pos : PChar;
+    lp_pointer : Pointer;
+Begin
+  Result := as_FilePath;
+  if Result = '' Then
+    Exit;
+  lpch_Pos := @Result [ length ( Result )-1];
+  lp_pointer := @Result [ 1 ];
+  while ( lpch_Pos > lp_pointer ) do
+    Begin
+      if lpch_Pos^ = DirectorySeparator Then
+        Break;
+      dec ( lpch_Pos );
+    End;
+  Result:=copy(Result,lpch_Pos- lp_pointer+2,@Result [ length ( Result )]-lpch_Pos-1);
+End;
+
+
+{$IFDEF FPC}
+function ExtractFileDir ( const as_FilePath : String ) :String;
+Begin
+  Result := as_FilePath;
+  while not DirectoryExistsUTF8(Result) do
+   Result:=ExtractSubDir(Result);
+End;
+{$ENDIF}
 
 initialization
   {$IFDEF VERSIONS}

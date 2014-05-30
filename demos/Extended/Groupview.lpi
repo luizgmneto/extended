@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
     <Version Value="9"/>
@@ -34,58 +34,62 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication PathPlusParams="/usr/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="12">
+    <RequiredPackages Count="13">
       <Item1>
-        <PackageName Value="extreports"/>
+        <PackageName Value="lazregisteribx"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazextbuttons"/>
+        <PackageName Value="extreports"/>
       </Item2>
       <Item3>
-        <PackageName Value="ibexpress"/>
+        <PackageName Value="lazextbuttons"/>
       </Item3>
       <Item4>
-        <PackageName Value="FCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <PackageName Value="ibexpress"/>
       </Item4>
       <Item5>
-        <PackageName Value="CodeTools"/>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item5>
       <Item6>
-        <PackageName Value="ExtCopy"/>
+        <PackageName Value="CodeTools"/>
       </Item6>
       <Item7>
-        <PackageName Value="lazextcomponents"/>
-        <MinVersion Major="1" Build="8" Valid="True"/>
+        <PackageName Value="ExtCopy"/>
       </Item7>
       <Item8>
-        <PackageName Value="ExpertSuperForm"/>
+        <PackageName Value="lazextcomponents"/>
+        <MinVersion Major="1" Build="8" Valid="True"/>
       </Item8>
       <Item9>
-        <PackageName Value="rxnew"/>
+        <PackageName Value="ExpertSuperForm"/>
       </Item9>
       <Item10>
-        <PackageName Value="JvXPBarLaz"/>
+        <PackageName Value="rxnew"/>
       </Item10>
       <Item11>
-        <PackageName Value="virtualtreeview_package"/>
+        <PackageName Value="JvXPBarLaz"/>
       </Item11>
       <Item12>
-        <PackageName Value="LCL"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item12>
+      <Item13>
+        <PackageName Value="LCL"/>
+      </Item13>
     </RequiredPackages>
-    <Units Count="174">
+    <Units Count="175">
       <Unit0>
         <Filename Value="Groupview.dpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Groupview"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="5"/>
-        <CursorPos X="43" Y="12"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="17"/>
         <UsageCount Value="84"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -721,10 +725,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="U_DmArticles"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="42"/>
-        <CursorPos X="85" Y="96"/>
+        <TopLine Value="65"/>
+        <CursorPos X="94" Y="83"/>
         <UsageCount Value="68"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit58>
       <Unit59>
@@ -1666,17 +1673,15 @@
       <Unit170>
         <Filename Value="../../../../Lazarus/composants/kcontrols/source/kicon.pas"/>
         <UnitName Value="KIcon"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="25"/>
         <CursorPos X="2" Y="49"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit170>
       <Unit171>
         <Filename Value="../../../../Lazarus/composants/DBNetProcessor/MemDataBase.pas"/>
         <UnitName Value="MemDataBase"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1616"/>
         <CursorPos X="81" Y="1637"/>
@@ -1686,7 +1691,7 @@
       <Unit172>
         <Filename Value="../../reportcomp/fonctions_reports.pas"/>
         <UnitName Value="fonctions_reports"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="513"/>
         <CursorPos X="44" Y="535"/>
@@ -1696,66 +1701,80 @@
       <Unit173>
         <Filename Value="../../../ManFrames/lazregdbnet.pas"/>
         <UnitName Value="lazregdbnet"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="47" Y="8"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit173>
+      <Unit174>
+        <Filename Value="demo.lpr"/>
+        <UnitName Value="demo"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="12"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit174>
     </Units>
-    <JumpHistory Count="11" HistoryIndex="10">
+    <JumpHistory Count="12" HistoryIndex="11">
       <Position1>
         <Filename Value="../../../../Lazarus/ccr/components/virtualtreeview-new/trunk/include/intf/win32/vtgraphicsi.inc"/>
         <Caret Line="1" Column="1" TopLine="1"/>
       </Position1>
       <Position2>
-        <Filename Value="../../../../Lazarus/composants/kcontrols/source/kicon.pas"/>
+        <Filename Value="../../../../Lazarus/composants/DBNetProcessor/MemDataBase.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
       </Position2>
       <Position3>
         <Filename Value="../../../../Lazarus/composants/DBNetProcessor/MemDataBase.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="887" Column="32" TopLine="866"/>
       </Position3>
       <Position4>
-        <Filename Value="../../../../Lazarus/composants/kcontrols/source/kicon.pas"/>
-        <Caret Line="759" Column="20" TopLine="752"/>
+        <Filename Value="../../../../Lazarus/composants/DBNetProcessor/MemDataBase.pas"/>
+        <Caret Line="1637" Column="39" TopLine="1616"/>
       </Position4>
       <Position5>
         <Filename Value="../../../../Lazarus/composants/DBNetProcessor/MemDataBase.pas"/>
-        <Caret Line="887" Column="32" TopLine="866"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position5>
       <Position6>
         <Filename Value="../../../../Lazarus/composants/DBNetProcessor/MemDataBase.pas"/>
-        <Caret Line="1637" Column="39" TopLine="1616"/>
+        <Caret Line="29" Column="45" TopLine="10"/>
       </Position6>
       <Position7>
         <Filename Value="../../../../Lazarus/composants/DBNetProcessor/MemDataBase.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="887" Column="74" TopLine="861"/>
       </Position7>
       <Position8>
-        <Filename Value="../../../../Lazarus/composants/DBNetProcessor/MemDataBase.pas"/>
-        <Caret Line="29" Column="45" TopLine="10"/>
-      </Position8>
-      <Position9>
-        <Filename Value="../../../../Lazarus/composants/DBNetProcessor/MemDataBase.pas"/>
-        <Caret Line="887" Column="74" TopLine="861"/>
-      </Position9>
-      <Position10>
         <Filename Value="../../reportcomp/fonctions_reports.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
-      </Position10>
-      <Position11>
+      </Position8>
+      <Position9>
         <Filename Value="../../../ManFrames/lazregdbnet.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
+      </Position9>
+      <Position10>
+        <Filename Value="u_dmarticles.pas"/>
+        <Caret Line="96" Column="85" TopLine="42"/>
+      </Position10>
+      <Position11>
+        <Filename Value="u_dmarticles.pas"/>
+        <Caret Line="144" Column="124" TopLine="124"/>
       </Position11>
+      <Position12>
+        <Filename Value="u_dmarticles.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position12>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="Groupview"/>
+      <Filename Value="$(TargetCPU)-$(TargetOS)/Groupview"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
@@ -1770,6 +1789,9 @@
       <SmartLinkUnit Value="True"/>
     </CodeGeneration>
     <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+      </Debugging>
       <LinkSmart Value="True"/>
       <Options>
         <Win32>
@@ -1841,4 +1863,5 @@
       </Item3>
     </Exceptions>
   </Debugging>
+  <EditorMacros Count="0"/>
 </CONFIG>

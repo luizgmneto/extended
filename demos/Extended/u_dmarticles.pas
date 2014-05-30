@@ -79,47 +79,6 @@ Begin
    ( Adat_dataset as TIBQuery ).ExecSQL;
 end;
 
-
-
-procedure p_setLibrary (var libname: string);
-{$IFNDEF WINDOWS}
-var AProcess : TProcess;
-{$ENDIF}
-Begin
-  {$IFDEF WINDOWS}
-  {$IFDEF CPU64}
-  libname:='fbclient'+CST_EXTENSION_LIBRARY;
-  {$ELSE}
-  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbembed'+CST_EXTENSION_LIBRARY;
-  if not FileExists(libname)
-    Then libname:='fbclient'+CST_EXTENSION_LIBRARY;
-  {$ENDIF}
-  {$ELSE}
-  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed'+CST_EXTENSION_LIBRARY;
-  if FileExists(libname) Then
-    Begin
-      AProcess := TProcess.Create(nil);
-      with AProcess do
-        try
-          CommandLine:='sh "'+ExtractFileDir(Application.ExeName)+DirectorySeparator+'exec.sh"';
-          Execute;
-          Exit;
-
-        finally
-          AProcess.Free;
-        end;
-    end;
-  if not FileExists(libname)
-    Then libname:='/usr/lib/libfbembed.so.2.5';
-  if not FileExists(libname)
-    Then libname:='/usr/lib/libfbembed.so';
-  if not FileExists(libname)
-    Then libname:='/usr/lib/i386-linux-gnu/libfbembed.so.2.5';
-  if not FileExists(libname)
-    Then libname:='/usr/lib/x86_64-linux-gnu/libfbembed.so.2.5';
-  {$ENDIF}
-end;
-
 procedure TM_Article.IB_articleAfterScroll(DataSet: TDataSet);
 begin
  { with  IB_artfinition do
@@ -139,10 +98,8 @@ procedure TM_Article.DataModuleCreate(Sender: TObject);
 var li_i : Integer;
     lstl_conf : TStringList;
 begin
-  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
+  IBDatabase.DatabaseName:=gs_DefaultDatabase;
   {$IFNDEF WINDOWS}
-  Process.CommandLine:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'exec.sh';
-  Process.Execute;
   try
     lstl_conf := TStringList.Create;
     lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName);
@@ -207,9 +164,4 @@ begin
 end;
 
 
-initialization
-  {$IFDEF FPC}
-  OnGetLibraryName:= TOnGetLibraryName( p_setLibrary);
-  ge_OnExecuteQuery := TOnExecuteQuery ( p_executeQuery );
-  {$ENDIF}
 end.

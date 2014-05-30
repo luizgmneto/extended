@@ -130,9 +130,9 @@ Begin
    Else while (length ( APath ) > 5) do
       Begin
         APath:=ExtractSubDir(APath);
-        if FileExistsUTF8(APath+DirectorySeparator+exeorlib_subdirectories) Then
+        if FileExistsUTF8(APath+exeorlib_subdirectories) Then
           Begin
-           Result:=APath+DirectorySeparator+exeorlib_subdirectories;
+           Result:=APath+exeorlib_subdirectories;
            Exit;
           end;
       end;

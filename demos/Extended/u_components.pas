@@ -123,7 +123,7 @@ implementation
 {$R *.DFM}
 {$ENDIF}
 
-uses fonctions_system;
+uses fonctions_system,fonctions_dbcomponents;
 
 procedure TMyform.DbfNomsAfterPost(DataSet: TDataSet);
 begin
@@ -156,7 +156,7 @@ end;
 procedure TMyform.IBDatabaseBeforeConnect(Sender: TObject);
 var lstl_conf : TStringList;
 begin
-  IBDatabase.DatabaseName:=ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemple.fdb';
+  IBDatabase.DatabaseName:=gs_DefaultDatabase;
   try
     lstl_conf := TStringList.Create;
     lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName);
@@ -186,45 +186,6 @@ begin
   Close;
 end;
 
-procedure p_setLibrary (var libname: string);
-{$IFDEF FPC}
-var AProcess : TProcess;
-{$ENDIF}
-Begin
-  {$IFDEF WINDOWS}
-  {$IFDEF CPU64}
-  libname:='fbclient'+CST_EXTENSION_LIBRARY;
-  {$ELSE}
-  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'fbembed'+CST_EXTENSION_LIBRARY;
-  if not FileExists(libname)
-    Then libname:='fbclient'+CST_EXTENSION_LIBRARY;
-  {$ENDIF}
-  {$ELSE}
-  libname:= ExtractFileDir(Application.ExeName)+DirectorySeparator+'libfbembed'+CST_EXTENSION_LIBRARY;
-  if FileExists(libname) Then
-    Begin
-      AProcess := TProcess.Create(nil);
-      with AProcess do
-        try
-          CommandLine:='sh "'+ExtractFileDir(Application.ExeName)+DirectorySeparator+'exec.sh"';
-          Execute;
-          Exit;
-
-        finally
-          AProcess.Free;
-        end;
-    end;
-  if not FileExists(libname)
-    Then libname:='/usr/lib/libfbembed.so.2.5';
-  if not FileExists(libname)
-    Then libname:='/usr/lib/libfbembed.so';
-  if not FileExists(libname)
-    Then libname:='/usr/lib/i386-linux-gnu/libfbembed.so.2.5';
-  if not FileExists(libname)
-    Then libname:='/usr/lib/x86_64-linux-gnu/libfbembed.so.2.5';
-  {$ENDIF}
-end;
-
 procedure TMyform.ExtDBImageClick(Sender: TObject);
 begin
   if IBUtilisateur.CanModify
@@ -240,8 +201,4 @@ begin
   Close;
 end;
 
-initialization
-{$IFDEF FPC}
-  OnGetLibraryName:= TOnGetLibraryName( p_setLibrary);
-{$ENDIF}
 end.
