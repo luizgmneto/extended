@@ -137,12 +137,15 @@ end;
 
 procedure TMyForm.FormShow(Sender: TObject);
 begin
+  {$IFNDEF FPC}
+  IBDatabase.Params.Add('lc_ctype=UTF8');
+  {$ENDIF}
   try
-  IBDatabase.Connected := True;
-//  IBTransaction.Active := True;
-  // On cherche ou crée le fichier CSV
-  IBUtilisateur.Open;
-  IBDepartement.Open;
+    IBDatabase.Connected := True;
+    IBTransaction.Active := True;
+    // On cherche ou crée le fichier CSV
+    IBUtilisateur.Open;
+    IBDepartement.Open;
   Except
     // Il s'agit d'une entrée/sortie donc on gère les exceptions
     on e:Exception do

@@ -43,21 +43,24 @@ type
     ib_typearti: TIBQuery;
     {$IFDEF FPC}
     Process: TProcess;
+    zq_Carac: TIBQuery;
+    zq_FiltreProduit: TIBQuery;
+    zq_Gamme: TIBQuery;
+    zq_Article: TIBQuery;
+    zq_TypProduit: TIBQuery;
     {$ENDIF}
     procedure DataModuleCreate(Sender: TObject);
     procedure IB_articleAfterScroll(DataSet: TDataSet);
     procedure IB_articleNewRecord(DataSet: TDataSet);
     procedure IB_articleAfterOpen(DataSet: TDataSet);
-    procedure IB_AffectePostError(DataSet: TDataSet; E: EDatabaseError;
-      var Action: TDataAction);
     procedure IB_FinitionAfterOpen(DataSet: TDataSet);
     procedure IB_Article1AfterInsert(DataSet: TDataSet);
 
   private
-    { D?clarations privées }
+    { Déclarations privées }
   public
     gi_AccesProduits : Integer ;
-    { D?clarations publiques }
+    { Déclarations publiques }
   end;
 
 var
@@ -72,12 +75,6 @@ uses Variants , fonctions_dbcomponents, fonctions_system;
 {$ELSE}
   {$R *.lfm}
 {$ENDIF}
-
-procedure p_executeQuery ( const Adat_dataset : TDataSet );
-Begin
-  if Adat_dataset is TIBQuery Then
-   ( Adat_dataset as TIBQuery ).ExecSQL;
-end;
 
 procedure TM_Article.IB_articleAfterScroll(DataSet: TDataSet);
 begin
@@ -99,20 +96,8 @@ var li_i : Integer;
     lstl_conf : TStringList;
 begin
   IBDatabase.DatabaseName:=gs_DefaultDatabase;
-  {$IFNDEF WINDOWS}
-  try
-    lstl_conf := TStringList.Create;
-    lstl_conf.Text := 'RootDirectory='+ExtractFileDir(Application.ExeName);
-    lstl_conf.SaveToFile(ExtractFileDir(Application.ExeName)+DirectorySeparator+'firebird.conf');
-    lstl_conf.Clear;
-    lstl_conf.Text := 'Exemple='+ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemble.fdb'+#13#10
-                    + 'security2='+ExtractFileDir(Application.ExeName)+DirectorySeparator+'security2.fdb'+#13#10
-                    + 'Exemple.fdb='+ExtractFileDir(Application.ExeName)+DirectorySeparator+'Exemble.fdb'+#13#10
-                    + 'security2.fdb='+ExtractFileDir(Application.ExeName)+DirectorySeparator+'security2.fdb';
-    lstl_conf.SaveToFile(ExtractFileDir(Application.ExeName)+DirectorySeparator+'aliases.conf');
-  finally
-    lstl_conf.Free;
-  end;
+  {$IFNDEF FPC}
+  IBDatabase.Params.Add('lc_ctype=utf8');
   {$ENDIF}
   for li_i := 0 to ComponentCount - 1 do
     if Components[li_i] is TIBQuery Then
@@ -122,6 +107,7 @@ begin
         Transaction:=IBTransaction;
       end;
   IBDatabase.Connected := True;
+  IBTransaction.Active := True;
 end;
 
 
@@ -142,14 +128,6 @@ begin
   TNumericField  (DataSet.FieldByName( 'ARTI_Poids'    )).DisplayFormat := U_CST_format_money_1 ;
 end;
 
-procedure TM_Article.IB_AffectePostError(DataSet: TDataSet;
-  E: EDatabaseError; var Action: TDataAction);
-begin
-  MessageDlg ( 'La zone ''Nom de la zone'' ne peut pas ?tre vide.' + #13 + #13
-                           + 'Effectuer une saisie ou annuler.', mtWarning, [mbOk], 0)
-end;
-
-
 procedure TM_Article.IB_FinitionAfterOpen(DataSet: TDataSet);
 begin
   TNumericField ( Dataset.FieldByName ( 'FINI_Txcharge' )).DisplayFormat := U_CST_format_money_1 ;
@@ -162,6 +140,5 @@ begin
   DataSet.FieldByName ( 'ARTI_Compose'  ).Value := 0;
 
 end;
-
 
 end.

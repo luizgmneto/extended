@@ -94,7 +94,6 @@ inherited F_Article: TF_Article
           ParentShowHint = False
           ShowHint = True
           TabOrder = 0
-          Orientation = noHorizontal
           VisibleButtons = [nbEInsert, nbEDelete, nbEPost, nbECancel, nbESearch]
           GlyphSize = gsLarge
           Hints.Strings = (
@@ -115,7 +114,7 @@ inherited F_Article: TF_Article
       object ed_libelcateg: TFWDBEdit
         Tag = 2
         Left = 128
-        Height = 27
+        Height = 24
         Top = 64
         Width = 190
         DataField = 'ARTI_Libcom'
@@ -131,7 +130,7 @@ inherited F_Article: TF_Article
       object ed_codecateg: TFWDBEdit
         Tag = 1
         Left = 128
-        Height = 27
+        Height = 24
         Top = 36
         Width = 34
         DataField = 'ARTI_Clep'
@@ -147,7 +146,7 @@ inherited F_Article: TF_Article
       end
       object cb_Categ: TExtDBComboInsert
         Left = 128
-        Height = 27
+        Height = 21
         Top = 93
         Width = 218
         DataField = 'ARTI__GAMM'
@@ -177,7 +176,7 @@ inherited F_Article: TF_Article
       end
       object cb_Categ1: TExtDBComboInsert
         Left = 128
-        Height = 27
+        Height = 21
         Top = 121
         Width = 218
         DataField = 'ARTI__TYPR'
@@ -207,7 +206,7 @@ inherited F_Article: TF_Article
       end
       object cb_Categ2: TExtDBComboInsert
         Left = 128
-        Height = 27
+        Height = 21
         Top = 149
         Width = 218
         DataField = 'ARTI__CARA'
@@ -227,7 +226,9 @@ inherited F_Article: TF_Article
         Width = 77
         AutoSize = False
         Caption = 'Catégorie'
+        Font.Color = clWindowText
         ParentColor = False
+        ParentFont = False
         ColorFocus = clMaroon
       end
     end
@@ -259,12 +260,70 @@ inherited F_Article: TF_Article
             Filter.EmptyValue = '(Empty)'
             Filter.EmptyFont.Style = [fsItalic]
             Filter.ItemIndex = -1
+            EditButtons = <>
             FieldTag = 0
+          end>
+        KeyStrokes = <        
+          item
+            Command = rxgcShowFindDlg
+            ShortCut = 16454
+            Enabled = True
+          end        
+          item
+            Command = rxgcShowColumnsDlg
+            ShortCut = 16471
+            Enabled = True
+          end        
+          item
+            Command = rxgcShowFilterDlg
+            ShortCut = 16468
+            Enabled = True
+          end        
+          item
+            Command = rxgcShowSortDlg
+            ShortCut = 16467
+            Enabled = True
+          end        
+          item
+            Command = rxgcShowQuickFilter
+            ShortCut = 16465
+            Enabled = True
+          end        
+          item
+            Command = rxgcHideQuickFilter
+            ShortCut = 16456
+            Enabled = True
+          end        
+          item
+            Command = rxgcSelectAll
+            ShortCut = 16449
+            Enabled = True
+          end        
+          item
+            Command = rxgcDeSelectAll
+            ShortCut = 16429
+            Enabled = True
+          end        
+          item
+            Command = rxgcInvertSelection
+            ShortCut = 16426
+            Enabled = True
+          end        
+          item
+            Command = rxgcOptimizeColumnsWidth
+            ShortCut = 16427
+            Enabled = True
+          end        
+          item
+            Command = rxgcCopyCellValue
+            ShortCut = 16451
+            Enabled = True
           end>
         OptionsRx = []
         Align = alClient
         BorderStyle = bsNone
         Color = clWindow
+        DrawFullLine = False
         FocusColor = clRed
         SelectedColor = clHighlight
         GridLineStyle = psSolid
@@ -289,7 +348,6 @@ inherited F_Article: TF_Article
         ParentShowHint = False
         ShowHint = True
         TabOrder = 1
-        Orientation = noHorizontal
         VisibleButtons = [nbEFirst, nbEPrior, nbENext, nbELast]
         GlyphSize = gsLarge
         Hints.Strings = (
@@ -331,7 +389,6 @@ inherited F_Article: TF_Article
       Left = 528
       Hint = 'Impression des résultats de la sélection'
       Top = 0
-      Width = 80
       Caption = 'Imprimer'
       TabOrder = 3
       Align = alRight
@@ -339,8 +396,8 @@ inherited F_Article: TF_Article
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
       ParentFont = False
-      DBGrid = gd_categ
       DBTitle = 'Articles'
+      DBGrid = gd_categ
     end
     object Panel5: TPanel
       Left = 0

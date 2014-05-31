@@ -19,7 +19,7 @@ begin
   RequireDerivedFormResource := True;
   Application.Initialize;
   gs_DefaultDatabase:=ExtractSubDir(fs_getAppDir)+'Exemple.fdb';
-  GS_SUBDIR_IMAGES_SOFT:='..'+DirectorySeparator+'..'+DirectorySeparator+'Images'+DirectorySeparator;
+  GS_SUBDIR_IMAGES_SOFT:='..'+DirectorySeparator+'Images'+DirectorySeparator;
   Application.CreateForm(TForm1,Form1);
   Application.Run;
 end.
