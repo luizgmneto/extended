@@ -126,10 +126,10 @@ uses Variants,  fonctions_erreurs, fonctions_string,
      SQLExpr,
  {$ENDIF}
    fonctions_proprietes, TypInfo,
-  {$IFDEF WINDOWS}
-  unite_messages_delphi,
-  {$ELSE}
+  {$IFDEF FPC}
   unite_messages,
+  {$ELSE}
+  unite_messages_delphi,
   {$ENDIF}
    Dialogs, fonctions_components;
 
