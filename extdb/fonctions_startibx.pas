@@ -57,10 +57,10 @@ uses IBQuery,
      IBServices,
      IBDatabase,
      fonctions_dialogs,
-     {$IFDEF WINDOWS}
-     unite_messages_delphi,
-     {$ELSE}
+     {$IFDEF FPC}
      unite_messages,
+     {$ELSE}
+     unite_messages_delphi,
      {$ENDIF}
      FileUtil,
      fonctions_init,

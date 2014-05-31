@@ -40,7 +40,8 @@ uses Variants, Controls, Classes,
                                                FileUnit : 'U_DBComboBoxInsert' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Insertion automatique dans une DBComboLookupEdit.' ;
-                                               BugsStory : '1.0.1.5 : MyLabel unset correctly.' +#13#10
+                                               BugsStory : '1.0.1.6 : Testing on Lazarus.' +#13#10
+                                                         + '1.0.1.5 : MyLabel unset correctly.' +#13#10
                                                          + '1.0.1.4 : Better component testing.' +#13#10
                                                          + '1.0.1.3 : Compiling on lazarus.' +#13#10
                                                          + '1.0.1.2 : Bug validation au post.' +#13#10
@@ -49,7 +50,7 @@ uses Variants, Controls, Classes,
                                                          + '1.0.0.0 : Version bêta inadaptée, réutilisation du code de la TJvDBLookupComboEdit.' +#13#10
                                                          + '0.9.0.0 : En place à tester.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 5 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 6 );
 
 {$ENDIF}
 type
@@ -168,6 +169,7 @@ uses
   JvConsts, JvToolEdit,
   {$ENDIF}
   fonctions_components,
+  fonctions_dbcomponents,
   fonctions_db;
 
 { TExtDBComboInsert }
@@ -306,7 +308,8 @@ begin
       end;
     VK_RETURN:
       Begin
-        InsertLookup ( True );
+        with Field do
+          InsertLookup ( not assigned ( Field ) or not assigned ( Dataset ) or ( DataSet.State in [dsEdit,dsInsert ] ) );
         Key := 0;
       end;
   end;
@@ -596,6 +599,7 @@ end;
 // paramètre   : Update : validation du champ si pas en train de valider
 ////////////////////////////////////////////////////////////////////////////////
 procedure TExtDBComboInsert.InsertLookup ( const AUpdate : Boolean );
+var LText : String;
 begin
   if ( csDesigning in ComponentState ) Then
     Exit ;
@@ -604,20 +608,22 @@ begin
   and assigned ( Field.Dataset )
   and assigned ( {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF} )
   and assigned ( {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet ) Then
-    with {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet do
+    with {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF},DataSet do
     try
-      if ( Text <> '' ) Then
+      LText := Text;
+      if ( LText > '' ) Then
        Begin
         // Si du texte est présent
-        if not Locate ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [loCaseInsensitive] ) Then
+        if not Locate ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF}, LText, [loCaseInsensitive] ) Then
               // Autoinsertion si pas dans la liste
           Begin
             Updating;
             Insert ;
-            FieldByName ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value := Text ;
+            FieldByName ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value := LText ;
             Post ;
             Updated;
-            if Locate ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF}, Text, [] ) Then
+            fb_RefreshDataset(DataSet);
+            if Locate ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF}, LText, [] ) Then
               Begin
                 Field.Dataset.Edit;
                 Field.Value := FieldByName ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
@@ -634,7 +640,9 @@ begin
        End
       Else
        if AUpdate
-       and assigned (  Field ) Then
+       and assigned (  Field )
+       and assigned (  Field.DataSet )
+        Then
         // pas de texte : on remet le texte originel
         Field.Value := OldText ;
       FModify := False ;
@@ -654,7 +662,8 @@ End ;
 procedure TExtDBComboInsert.DoExit;
 begin
   // Auto-insertion
-  InsertLookup ( True );
+  with Field do
+    InsertLookup ( not assigned ( Field ) or not assigned ( Dataset ) or ( DataSet.State in [dsEdit,dsInsert ] ) );
   if assigned ( FBeforeExit ) Then
     FBeforeExit ( Self );
   inherited DoExit;

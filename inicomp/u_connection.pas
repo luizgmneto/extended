@@ -103,10 +103,10 @@ procedure p_InitComponent ( const Connexion : TComponent ; const Inifile : TCust
 implementation
 
 uses fonctions_init,
-     {$IFDEF WINDOWS}
-     unite_messages_delphi,
-     {$ELSE}
+     {$IFDEF FPC}
      unite_messages,
+     {$ELSE}
+     unite_messages_delphi,
      {$ENDIF}
      fonctions_components,
      fonctions_dbcomponents,
