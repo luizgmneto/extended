@@ -130,7 +130,7 @@ type
     {$IFDEF JEDI}
     procedure SelectAll; virtual;
     {$ENDIF}
-    function GetDisplayValue: String;virtual;
+    procedure AssignListValue;virtual;
     property Modify : Boolean read FModify ;
     property DisplayValue : String read FDisplayValue write FDisplayValue;
   published
@@ -478,30 +478,35 @@ end;
 
 
 ///////////////////////////////////////////////////////////////////////////
-// fonction    : GetDisplayValue
+// fonction    : AssignListValue
 // description : Récupère la valeur affichée
-// paramètre   : résultat : la valeur affichée
 ////////////////////////////////////////////////////////////////////////////////
-function  TExtDBComboInsert.GetDisplayValue : String ;
+procedure TExtDBComboInsert.AssignListValue;
 Begin
-  Result := '' ;
-    // Tests
+    // Verify Text value or locate
   If  assigned ( Field )
   and ( Field.Value <> Null )
   and assigned ( {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF} )
   and assigned ( {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
   Then
     with {$IFNDEF JEDI}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet do
-     Begin
-      Open;
-      if  assigned ( FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ))
-      and assigned ( FindField ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF}   )) Then
-        Begin
-          if Locate ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF}, Field.Value, [] ) Then
-            // récupération à partir de la listes
-            Result := FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString ;
-        End ;
-     end;
+     if not (State in [dsEdit,dsInsert]) Then
+       Begin
+        Open;
+        if  assigned ( FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ))
+        and ( FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString <> {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} )
+        and assigned ( FindField ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF}   ))
+         Then
+          try
+            DisableControls;
+            if Locate ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF}, Field.Value, [] ) Then
+              // récupération à partir de la liste
+              {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).AsString ;
+
+          finally
+            EnableControls;
+          end;
+       end;
 End ;
 
 
@@ -526,9 +531,10 @@ begin
         MaxLength := Field.Size;
     {$ENDIF}
     // récupération des données de la liste en mode lecture
-    if  not ( Field.DataSet.State in [dsEdit, dsInsert]) Then
+    if  not FUpdate
+    and not ( Field.DataSet.State in [dsEdit, dsInsert]) Then
       Begin
-        {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := GetDisplayValue ;
+        AssignListValue ;
       End ;
     FUpdate := False;
   end
@@ -622,29 +628,31 @@ begin
             FieldByName ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value := LText ;
             Post ;
             Updated;
+            FUpdate := True ;
             fb_RefreshDataset(DataSet);
             if Locate ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF}, LText, [] ) Then
               Begin
                 Field.Dataset.Edit;
                 Field.Value := FieldByName ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
                 {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := FindField ( {$IFNDEF JEDI}ListField{$ELSE}LookupDisplay{$ENDIF} ).Value ;
-                FUpdate := True ;
                 if assigned ( FOnSet ) Then
                   FOnSet ( Self );
               end;
           End
          Else
           if assigned ( Field.DataSet )
-          and ( Field.DataSet.State in [dsEdit,dsInsert] ) Then
-           Field.Value := FieldByName ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
+          and ( Field.DataSet.State in [dsEdit,dsInsert] )
+           Then
+            Field.Value := FieldByName ( {$IFNDEF JEDI}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
        End
       Else
        if AUpdate
+       and ( OldText > '' )
        and assigned (  Field )
        and assigned (  Field.DataSet )
         Then
         // pas de texte : on remet le texte originel
-        Field.Value := OldText ;
+         Field.AsString := OldText ;
       FModify := False ;
     except
       {$IFDEF FPC}
