@@ -5,7 +5,7 @@ object Myform: TMyform
   Width = 785
   ActiveControl = Panel1
   Caption = 'Myform'
-  ClientHeight = 521
+  ClientHeight = 528
   ClientWidth = 785
   Color = clBtnFace
   Font.Color = clWindowText
@@ -13,21 +13,21 @@ object Myform: TMyform
   Font.Name = 'Tahoma'
   Menu = mu_MainMenu
   OnShow = FormShow
-  LCLVersion = '1.2.3.0'
+  LCLVersion = '1.2.0.3'
   object Splitter1: TSplitter
     Left = 208
-    Height = 521
+    Height = 528
     Top = 0
     Width = 5
   end
   object Panel1: TPanel
     Left = 0
-    Height = 521
+    Height = 528
     Top = 0
     Width = 208
     Align = alLeft
     Caption = 'Panel1'
-    ClientHeight = 521
+    ClientHeight = 528
     ClientWidth = 208
     TabOrder = 0
     object ExtDBNavigator: TExtDBNavigator
@@ -43,7 +43,7 @@ object Myform: TMyform
     end
     object Noms: TExtDBGrid
       Left = 1
-      Height = 310
+      Height = 317
       Top = 21
       Width = 206
       TitleButtons = False
@@ -148,7 +148,7 @@ object Myform: TMyform
     end
     object Prenom: TExtFormatDBEdit
       Left = 7
-      Height = 22
+      Height = 21
       Top = 81
       Width = 221
       DataField = 'PRENOM'
@@ -162,7 +162,7 @@ object Myform: TMyform
     end
     object Nom: TExtFormatDBEdit
       Left = 7
-      Height = 22
+      Height = 21
       Top = 121
       Width = 221
       DataField = 'NOM'
@@ -177,7 +177,7 @@ object Myform: TMyform
     object Panel5: TPanel
       Left = 1
       Height = 186
-      Top = 334
+      Top = 341
       Width = 206
       Align = alBottom
       BevelOuter = bvNone
@@ -209,7 +209,7 @@ object Myform: TMyform
           TabOrder = 0
           object Prenom_: TFWEdit
             Left = -2
-            Height = 22
+            Height = 21
             Top = 1
             Width = 203
             Anchors = [akTop, akLeft, akRight]
@@ -222,7 +222,7 @@ object Myform: TMyform
           end
           object Nom_: TFWEdit
             Left = 39
-            Height = 22
+            Height = 21
             Top = 26
             Width = 159
             Anchors = [akTop, akLeft, akRight]
@@ -256,7 +256,7 @@ object Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 331
+      Top = 338
       Width = 206
       Align = alBottom
       ResizeAnchor = akBottom
@@ -264,11 +264,11 @@ object Myform: TMyform
   end
   object Panel2: TPanel
     Left = 213
-    Height = 521
+    Height = 528
     Top = 0
     Width = 540
     Align = alClient
-    ClientHeight = 521
+    ClientHeight = 528
     ClientWidth = 540
     TabOrder = 3
     object FWLabel1: TFWLabel
@@ -359,7 +359,7 @@ object Myform: TMyform
       AutoSize = False
       Caption = 'Surname'
       Color = clBtnFace
-      Font.Color = clActiveText
+      Font.Color = clWindowText
       Font.Height = 14
       Font.Name = 'Tahoma'
       ParentColor = False
@@ -371,7 +371,7 @@ object Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 299
+      Top = 306
       Width = 538
       Align = alBottom
       ResizeAnchor = akBottom
@@ -410,7 +410,7 @@ object Myform: TMyform
     end
     object ExtColorCombo: TExtColorCombo
       Left = 120
-      Height = 26
+      Height = 22
       Top = 75
       Width = 221
       HTMLcolor = '#FFFFFF'
@@ -423,7 +423,7 @@ object Myform: TMyform
     end
     object ExtNumEdit1: TExtNumEdit
       Left = 120
-      Height = 22
+      Height = 21
       Top = 108
       Width = 221
       EditMask = '#0,#9;0; '
@@ -443,7 +443,7 @@ object Myform: TMyform
     end
     object FWDateEdit1: TFWDateEdit
       Left = 120
-      Height = 22
+      Height = 21
       Top = 134
       Width = 221
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
@@ -461,7 +461,7 @@ object Myform: TMyform
     end
     object FWEdit: TFWEdit
       Left = 120
-      Height = 22
+      Height = 21
       Top = 160
       Width = 221
       CharCase = ecNormal
@@ -475,18 +475,18 @@ object Myform: TMyform
     object DBListView: TDBListView
       Left = 1
       Height = 218
-      Top = 302
+      Top = 309
       Width = 538
       Align = alBottom
       Columns = <      
         item
           Caption = 'Nom'
           MinWidth = 120
-          Width = 120
+          Width = 10
         end      
         item
           Caption = 'Prenom'
-          Width = 395
+          Width = 10
         end>
       DragMode = dmAutomatic
       MultiSelect = True
@@ -511,7 +511,7 @@ object Myform: TMyform
     end
     object ExtDBComboInsert2: TExtDBComboInsert
       Left = 120
-      Height = 25
+      Height = 23
       Top = 211
       Width = 221
       DataField = 'IDDEPARTEMENT'
@@ -527,7 +527,7 @@ object Myform: TMyform
     end
     object ExtSearchDBEdit2: TExtSearchDBEdit
       Left = 120
-      Height = 22
+      Height = 21
       Top = 185
       Width = 221
       DataField = 'NOM'
@@ -540,7 +540,7 @@ object Myform: TMyform
     end
     object ExtDBPictCombo: TExtDBPictCombo
       Left = 120
-      Height = 26
+      Height = 22
       Top = 290
       Width = 219
       Images = ImageResources
@@ -579,7 +579,7 @@ object Myform: TMyform
     end
     object FWSpinEdit: TFWSpinEdit
       Left = 120
-      Height = 22
+      Height = 21
       Top = 240
       Width = 220
       TabOrder = 10
@@ -617,16 +617,12 @@ object Myform: TMyform
     end
     object FWDBSpinEdit: TFWDBSpinEdit
       Left = 120
-      Height = 22
+      Height = 21
       Top = 265
       Width = 219
+      TabOrder = 11
       DataField = 'ENTIER'
       DataSource = ds_user
-      Increment = 1
-      MaxValue = 100
-      MinValue = 0
-      TabOrder = 11
-      Value = 0
     end
     object FWLabel9: TFWLabel
       Left = 21
@@ -696,7 +692,7 @@ object Myform: TMyform
   end
   object FWDBEdit1: TExtFormatDBEdit
     Left = 333
-    Height = 22
+    Height = 21
     Top = 48
     Width = 221
     DataField = 'Nom'
@@ -710,7 +706,7 @@ object Myform: TMyform
   end
   object FWDBEdit2: TExtFormatDBEdit
     Left = 333
-    Height = 22
+    Height = 21
     Top = 16
     Width = 221
     DataField = 'Prenom'
@@ -725,7 +721,7 @@ object Myform: TMyform
   end
   object ExtMenuToolBar: TExtMenuToolBar
     Left = 753
-    Height = 521
+    Height = 528
     Top = 0
     Width = 32
     Align = alRight
@@ -762,7 +758,6 @@ object Myform: TMyform
     Params.Strings = (
       'user_name=SYSDBA'
       'password=masterkey'
-      'lc_ctype=UTF8'
     )
     DefaultTransaction = IBTransaction
     IdleTimer = 0

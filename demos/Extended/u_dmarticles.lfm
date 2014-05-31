@@ -4,8 +4,8 @@ object M_Article: TM_Article
   left = 97
   top = 65516
   Height = 508
-  HorizontalOffset = 279
-  VerticalOffset = 217
+  HorizontalOffset = 203
+  VerticalOffset = 42
   Width = 771
   object ds_article: TDatasource
     DataSet = zq_Article
@@ -77,23 +77,8 @@ object M_Article: TM_Article
       'SELECT * FROM FILTRE_PRODUIT'
     )
     Params = <>
-    left = 328
+    left = 312
     top = 72
-  end
-  object zq_Article: TIBQuery
-    Database = IBDatabase
-    Transaction = IBTransaction
-    BufferChunks = 1000
-    CachedUpdates = False
-    GeneratorField.ApplyOnEvent = gaeOnNewRecord
-    SQL.Strings = (
-      'select * '
-      'from ARTICLE'
-    )
-    Params = <>
-    UpdateObject = IBU_Article
-    left = 216
-    top = 13
   end
   object IBDatabase: TIBDatabase
     Connected = False
@@ -103,7 +88,6 @@ object M_Article: TM_Article
     Params.Strings = (
       'user_name=SYSDBA'
       'password=masterkey'
-      'lc_ctype=UTF8'
     )
     DefaultTransaction = IBTransaction
     IdleTimer = 0
@@ -171,7 +155,7 @@ object M_Article: TM_Article
   end
   object IBU_Article: TIBUpdateSQL
     RefreshSQL.Strings = (
-      'SELECT * FROM ARTICLE'
+      'SELECT * FROM ARTICLE WHERE ARTI_CLEP=:ARTI_CLEP'
     )
     ModifySQL.Strings = (
       'UPDATE ARTICLE SET'
@@ -298,5 +282,20 @@ object M_Article: TM_Article
     FillAttribute = 0
     left = 208
     top = 288
+  end
+  object zq_Article: TIBQuery
+    AfterInsert = IB_Article1AfterInsert
+    AfterOpen = IB_articleAfterOpen
+    AfterScroll = IB_articleAfterScroll
+    BufferChunks = 1000
+    CachedUpdates = False
+    GeneratorField.ApplyOnEvent = gaeOnNewRecord
+    SQL.Strings = (
+      'SELECT * from ARTICLE'
+    )
+    Params = <>
+    UpdateObject = IBU_Article
+    left = 208
+    top = 13
   end
 end

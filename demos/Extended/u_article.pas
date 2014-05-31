@@ -84,11 +84,13 @@ procedure TF_Article.F_FormDicoCreate(Sender: TObject);
 begin
   F_Article := Self;
 
-  M_Article.ds_article.DataSet.Open;
+  // combos
   M_Article.ds_typearti.DataSet.Open;
   M_Article.ds_Carac.DataSet.Open;
   M_Article.ds_Gamme.DataSet.Open;
 
+  // main
+  M_Article.ds_article.DataSet.Open;
 end;
 
 
