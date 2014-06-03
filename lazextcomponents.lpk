@@ -72,20 +72,20 @@
         <UnitName Value="u_extformatedits"/>
       </Item11>
       <Item12>
-        <Filename Value="extcomp/U_ExtComboInsert.pas"/>
-        <UnitName Value="U_ExtComboInsert"/>
-      </Item12>
-      <Item13>
         <Filename Value="extcomp/u_framework_components.pas"/>
         <UnitName Value="u_framework_components"/>
-      </Item13>
-      <Item14>
+      </Item12>
+      <Item13>
         <Filename Value="extcomp/u_framework_dbcomponents.pas"/>
         <UnitName Value="u_framework_dbcomponents"/>
-      </Item14>
-      <Item15>
+      </Item13>
+      <Item14>
         <Filename Value="extcomp/u_extsearchedit.pas"/>
         <UnitName Value="u_extsearchedit"/>
+      </Item14>
+      <Item15>
+        <Filename Value="extcomp/U_ExtComboInsert.pas"/>
+        <UnitName Value="U_ExtComboInsert"/>
       </Item15>
     </Files>
     <i18n>
