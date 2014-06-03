@@ -41,7 +41,8 @@ const
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '1.0.1.5 : Testing popup and unfocusing.'
+                                          BugsStory : '1.1.0.0 : ExtComboInsert inherit.'
+                                                    + '1.0.1.5 : Testing popup and unfocusing.'
                                                     + '1.0.1.4 : MyLabel unset correctly.'
                                                     + '1.0.1.3 : Popup not erasing bug.'
                                                     + '1.0.1.2 : Testing on LAZARUS.'
@@ -54,25 +55,25 @@ const
                                                     + '0.9.0.1 : Not tested, compiling on DELPHI.'
                                                     + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 1 ; Minor : 0 ; Release : 1 ; Build : 5 );
+                                          Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
   SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
   SEARCHEDIT_GRID_DEFAULT_SCROLL = {$IFDEF FPC}ssAutoBoth{$ELSE}ssBoth{$ENDIF};
 type
 
-  TExtSearchDBEdit = class;
+  TCustomSearchDBEdit = class;
 
   { TListPopupEdit }
 
   TListPopupEdit = class ( TDBGrid )
-    FEdit : TExtSearchDBEdit;
+    FEdit : TCustomSearchDBEdit;
   protected
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
   public
     procedure Click; override;
     constructor Create ( Aowner : TComponent ); override;
-    property Edit : TExtSearchDBEdit read FEdit;
+    property Edit : TCustomSearchDBEdit read FEdit;
     procedure ShowPopup; virtual;
     procedure AutoPlace; virtual;
   published
@@ -80,8 +81,8 @@ type
     property Scrollbars default SEARCHEDIT_GRID_DEFAULT_SCROLL;
   end;
 
-{ TExtSearchDBEdit }
-  TExtSearchDBEdit = class(TExtFormatDBEdit)
+  { TExtSearchDBEdit }
+  TCustomSearchDBEdit = class(TExtFormatDBEdit)
   private
     // Lien de données
     FSearchSource: TFieldDataLink;
@@ -105,7 +106,6 @@ type
     FListUp : Boolean;
     FNotifyOrder : TNotifyEvent;
     FPopup:TListPopupEdit;
-    procedure DataChange(Sender: TObject);
     procedure p_setSearchDisplay ( AValue : String );
     function fs_getSearchDisplay : String ;
     procedure p_setSearchSource ( AValue : TDataSource );
@@ -169,12 +169,49 @@ type
     property PopupMenu;
   end;
 
+
+  { TExtSearchDBEdit }
+  TExtSearchDBEdit = class(TCustomSearchDBEdit)
+  private
+  protected
+    procedure TextChanged; {$IFDEF FPC}override;{$ELSE}virtual;{$ENDIF}
+    {$IFDEF FPC}
+    procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
+    {$ENDIF}
+    procedure Change; override;
+  public
+    constructor Create ( Aowner : TComponent ); override;
+  published
+  end;
+
 implementation
 
 uses Dialogs,
      fonctions_db,
      fonctions_components,
      sysutils;
+
+{ TExtSearchDBEdit }
+
+procedure TExtSearchDBEdit.TextChanged;
+begin
+  inherited TextChanged;
+end;
+
+procedure TExtSearchDBEdit.UTF8KeyPress(var UTF8Key: TUTF8Char);
+begin
+  inherited UTF8KeyPress(UTF8Key);
+end;
+
+procedure TExtSearchDBEdit.Change;
+begin
+  inherited Change;
+end;
+
+constructor TExtSearchDBEdit.Create(Aowner: TComponent);
+begin
+  inherited Create(Aowner);
+end;
 
 
 { TListPopup }
@@ -217,9 +254,9 @@ Begin
      if FEdit.FListUp
       Then Y := FEdit.Top - Height
       Else Y := FEdit.Top + FEdit.Height;
-     APoint:=(Owner as TWinControl).ScreenToClient(FEdit.ClientToScreen(APoint));
-     Left:=X;
-     Top :=Y;
+     APoint:=FEdit.ClientToScreen(APoint);
+     Left:=X-(Owner as TControl).Left;
+     Top :=Y-(Owner as TControl).Top;
    end;
 end;
 
@@ -263,106 +300,72 @@ Begin
    Visible:=True;
 End;
 
-{ TExtSearchDBEdit }
+{ TCustomSearchDBEdit }
 
-// procedure TExtSearchDBEdit.p_setSearchDisplay
+// procedure TCustomSearchDBEdit.p_setSearchDisplay
 // Setting The Search field on SearchSource
-procedure TExtSearchDBEdit.p_setSearchDisplay(AValue: String);
+procedure TCustomSearchDBEdit.p_setSearchDisplay(AValue: String);
 begin
   FSearchSource.FieldName:= AValue;
 end;
 
-// function TExtSearchDBEdit.fs_getSearchDisplay
+// function TCustomSearchDBEdit.fs_getSearchDisplay
 // Getting The Search field on SearchSource
-function TExtSearchDBEdit.fs_getSearchDisplay: String;
+function TCustomSearchDBEdit.fs_getSearchDisplay: String;
 begin
   Result := FSearchSource.FieldName;
 end;
 
-// procedure TExtSearchDBEdit.p_setSearchSource
+// procedure TCustomSearchDBEdit.p_setSearchSource
 // Setting the Search source
-procedure TExtSearchDBEdit.p_setSearchSource(AValue: TDataSource);
+procedure TCustomSearchDBEdit.p_setSearchSource(AValue: TDataSource);
 begin
   FSearchSource.DataSource := AValue;
 end;
 
-// Event TExtSearchDBEdit.DataChange
-//update the caption on next record etc...
-procedure TExtSearchDBEdit.DataChange(Sender: TObject);
-begin
-  if Field <> nil then begin
-    //use the right EditMask if any
-    //EditMask := FDataLink.Field.EditMask; doesn't exist yet
-    {$IFDEF FPC}
-    Alignment := Field.Alignment;
-
-    //if we are focused its possible to edit,
-    //if the field is currently modifiable
-    if Focused and DataSource.DataSet.CanModify then begin
-      //display the real text since we can modify it
-      RestoreMask(Field.Text);
-    end else
-      //otherwise display the pretified/formated text since we can't
-      DisableMask(Field.DisplayText);
-    {$ENDIF}
-    if (Field.DataType in [ftString, ftFixedChar, ftWidestring, ftFixedWideChar])
-      and (MaxLength = 0) then
-      MaxLength := Field.Size;
-  end
-  else if assigned ( DataSource )
-    then
-     begin
-      //todo: uncomment this when TField implements EditMask
-      //EditMask := ''
-      Text := '';
-      MaxLength := 0;
-     end;
-end;
-
-
-// function TExtSearchDBEdit.fs_getSearchSource
+// function TCustomSearchDBEdit.fs_getSearchSource
 // Getting the Search source
-function TExtSearchDBEdit.fs_getSearchSource: TDataSource;
+function TCustomSearchDBEdit.fs_getSearchSource: TDataSource;
 begin
   Result := FSearchSource.DataSource;
 end;
 
-// procedure TExtSearchDBEdit.p_setLabel
+// procedure TCustomSearchDBEdit.p_setLabel
 // Linked label property setting
 // The Label changes its color on focusing
-procedure TExtSearchDBEdit.p_setLabel(const alab_Label: TLabel);
+procedure TCustomSearchDBEdit.p_setLabel(const alab_Label: TLabel);
 begin
   p_setMyLabel ( FLabel, alab_Label, Self );
 end;
 
-// procedure TExtSearchDBEdit.WMPaint
+// procedure TCustomSearchDBEdit.WMPaint
 // Setting the correct color on painting
-procedure TExtSearchDBEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
+procedure TCustomSearchDBEdit.WMPaint(var Message: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
 begin
   p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
   inherited;
 end;
 
-procedure TExtSearchDBEdit.WMSize(var Message: {$IFDEF FPC}TLMSize{$ELSE}TWMSize{$ENDIF});
+procedure TCustomSearchDBEdit.WMSize(var Message: {$IFDEF FPC}TLMSize{$ELSE}TWMSize{$ENDIF});
 begin
   if ( Message.Width <> Width ) or ( Message.Height <> Height ) Then
     FreePopup;
   Inherited;
 end;
 
-procedure TExtSearchDBEdit.WMSetFocus(var Message: {$IFDEF FPC}TLMSetFocus{$ELSE}TWMSetFocus{$ENDIF});
+procedure TCustomSearchDBEdit.WMSetFocus(var Message: {$IFDEF FPC}TLMSetFocus{$ELSE}TWMSetFocus{$ENDIF});
 begin
   if Assigned(DataSource) Then
     Inherited;
 end;
 
-procedure TExtSearchDBEdit.WMKillFocus(var Message: {$IFDEF FPC}TLMKillFocus{$ELSE}TWMKillFocus{$ENDIF});
+procedure TCustomSearchDBEdit.WMKillFocus(var Message: {$IFDEF FPC}TLMKillFocus{$ELSE}TWMKillFocus{$ENDIF});
 begin
   if Assigned(DataSource) Then
     Inherited;
 end;
 
-procedure TExtSearchDBEdit.Notification(AComponent: TComponent;
+procedure TCustomSearchDBEdit.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
@@ -371,7 +374,7 @@ begin
    Then FLabel := nil;
 end;
 
-procedure TExtSearchDBEdit.CreatePopup;
+procedure TCustomSearchDBEdit.CreatePopup;
 var Alist:TStrings;
     i : Integer;
     ABookmark:TBookmark;
@@ -421,14 +424,14 @@ Begin
    End;
 End;
 
-procedure TExtSearchDBEdit.FreePopup;
+procedure TCustomSearchDBEdit.FreePopup;
 begin
   FreeAndNil(FPopup);
 end;
 
-// procedure TExtSearchDBEdit.KeyUp
+// procedure TCustomSearchDBEdit.KeyUp
 //  searching on key up
-procedure TExtSearchDBEdit.KeyUp(var Key: Word; Shift: TShiftState);
+procedure TCustomSearchDBEdit.KeyUp(var Key: Word; Shift: TShiftState);
 var li_pos : Integer;
     ls_temp : String;
 begin
@@ -500,9 +503,9 @@ begin
 
 end;
 
-// procedure TExtSearchDBEdit.ValidateSearch
+// procedure TCustomSearchDBEdit.ValidateSearch
 // Calling OnSet Event if setted
-procedure TExtSearchDBEdit.ValidateSearch;
+procedure TCustomSearchDBEdit.ValidateSearch;
 Begin
   if not FSet
   and Flocated
@@ -517,12 +520,12 @@ Begin
       End ;
 end;
 
-function TExtSearchDBEdit.EditCanModify: Boolean;
+function TCustomSearchDBEdit.EditCanModify: Boolean;
 begin
   Result:= not Assigned(DataSource) or inherited EditCanModify;
 end;
 
-procedure TExtSearchDBEdit.KeyDown(var Key: Word; Shift: TShiftState);
+procedure TCustomSearchDBEdit.KeyDown(var Key: Word; Shift: TShiftState);
 var OldKey : Integer;
 begin
   OldKey:=Key;
@@ -532,7 +535,7 @@ begin
 end;
 
 {$IFDEF FPC}
-procedure TExtSearchDBEdit.UTF8KeyPress(var UTF8Key: TUTF8Char);
+procedure TCustomSearchDBEdit.UTF8KeyPress(var UTF8Key: TUTF8Char);
 begin
   // When no datasource so can edit
   if assigned ( DataSource )
@@ -543,7 +546,7 @@ begin
 end;
 {$ENDIF}
 
-procedure TExtSearchDBEdit.Change;
+procedure TCustomSearchDBEdit.Change;
 begin
   if Assigned(DataSource)
    Then
@@ -556,9 +559,9 @@ begin
   {$ENDIF}
 end;
 
-// procedure TExtSearchDBEdit.DoEnter
+// procedure TCustomSearchDBEdit.DoEnter
 // Setting the label and ExtSearchDBEdit color
-procedure TExtSearchDBEdit.DoEnter;
+procedure TCustomSearchDBEdit.DoEnter;
 begin
   if assigned ( FBeforeEnter ) Then
     FBeforeEnter ( Self );
@@ -570,9 +573,9 @@ begin
   inherited DoEnter;
 end;
 
-// procedure TExtSearchDBEdit.DoExit
+// procedure TCustomSearchDBEdit.DoExit
 // Setting the label and ExtSearchDBEdit color
-procedure TExtSearchDBEdit.DoExit;
+procedure TCustomSearchDBEdit.DoExit;
 begin
   ValidateSearch;
   inherited DoExit;
@@ -585,7 +588,7 @@ begin
     FreePopup;
 end;
 
-procedure TExtSearchDBEdit.TextChanged;
+procedure TCustomSearchDBEdit.TextChanged;
 begin
   {$IFDEF FPC}
   inherited TextChanged;
@@ -597,9 +600,9 @@ begin
    end;
 end;
 
-// procedure TExtSearchDBEdit.Loaded
+// procedure TCustomSearchDBEdit.Loaded
 // Finishing the init of loaded component
-procedure TExtSearchDBEdit.Loaded;
+procedure TCustomSearchDBEdit.Loaded;
 begin
   inherited Loaded;
   FOldColor := Color;
@@ -610,9 +613,9 @@ end;
 
 
 {$IFDEF FPC}
-procedure TExtSearchDBEdit.PasteFromClipboard;
+procedure TCustomSearchDBEdit.PasteFromClipboard;
 {$ELSE}
-procedure TExtSearchDBEdit.WMPaste(var Message: TMessage);
+procedure TCustomSearchDBEdit.WMPaste(var Message: TMessage);
 {$ENDIF}
 begin
   FSet:=False;
@@ -621,9 +624,9 @@ begin
 end;
 
 {$IFDEF FPC}
-procedure TExtSearchDBEdit.CutToClipboard;
+procedure TCustomSearchDBEdit.CutToClipboard;
 {$ELSE}
-procedure TExtSearchDBEdit.WMCut(var Message: TMessage);
+procedure TCustomSearchDBEdit.WMCut(var Message: TMessage);
 {$ENDIF}
 begin
   inherited;
@@ -631,15 +634,15 @@ begin
   Flocated:=False;
 end;
 
-// procedure TExtSearchDBEdit.SetEvent
+// procedure TCustomSearchDBEdit.SetEvent
 // calling FNotifyOrder Event
-procedure TExtSearchDBEdit.SetEvent;
+procedure TCustomSearchDBEdit.SetEvent;
 begin
   if assigned ( FNotifyOrder ) then
     FNotifyOrder ( Self );
 end;
 
-constructor TExtSearchDBEdit.Create(Aowner: TComponent);
+constructor TCustomSearchDBEdit.Create(Aowner: TComponent);
 begin
   inherited Create(Aowner);
   //DataLink.OnDataChange := DataChange;
@@ -658,9 +661,9 @@ begin
   FColorReadOnly := CST_EDIT_READ;
 end;
 
-// destructor TExtSearchDBEdit.Destroy
+// destructor TCustomSearchDBEdit.Destroy
 // Destroying
-destructor TExtSearchDBEdit.Destroy;
+destructor TCustomSearchDBEdit.Destroy;
 begin
   inherited Destroy;
   FSearchSource.Destroy;

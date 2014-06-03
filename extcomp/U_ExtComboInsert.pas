@@ -28,43 +28,36 @@ uses Variants, Controls, Classes,
      Windows, Mask, JvDBLookup, Messages,
   {$ENDIF}
      Graphics, DB,DBCtrls,
-  {$IFDEF RX}
-    RxLookup,
-  {$ENDIF}
-  {$IFDEF JEDI}
-    JvDBLookup,
-  {$ENDIF}
   {$IFDEF VERSIONS}
     fonctions_version,
   {$ENDIF}
     StdCtrls,
-    u_extcomponent;
+  u_extsearchedit,
+  u_extcomponent;
 
 {$IFDEF VERSIONS}
-  const
-    gVer_TDBLookupComboInsert : T_Version = ( Component : 'Composant TDBComboBoxInsert' ;
-                                               FileUnit : 'U_DBComboBoxInsert' ;
-                                               Owner : 'Matthieu Giroux' ;
-                                               Comment : 'Insertion automatique dans une DBComboLookupEdit.' ;
-                                               BugsStory : '1.0.2.0 : Testing and Lookup uprgading on Lazarus.' +#13#10
-                                                         + '1.0.1.5 : MyLabel unset correctly.' +#13#10
-                                                         + '1.0.1.4 : Better component testing.' +#13#10
-                                                         + '1.0.1.3 : Compiling on lazarus.' +#13#10
-                                                         + '1.0.1.2 : Bug validation au post.' +#13#10
-                                                         + '1.0.1.1 : Bug rafraîchissement quand pas de focus.' +#13#10
-                                                         + '1.0.1.0 : Propriété Modify.' +#13#10
-                                                         + '1.0.0.0 : Version bêta inadaptée, réutilisation du code de la TJvDBLookupComboEdit.' +#13#10
-                                                         + '0.9.0.0 : En place à tester.';
-                                               UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 2 ; Build : 0 );
+const
+  gVer_TDBLookupComboInsert : T_Version = ( Component : 'Composant TDBComboBoxInsert' ;
+                                             FileUnit : 'U_DBComboBoxInsert' ;
+                                             Owner : 'Matthieu Giroux' ;
+                                             Comment : 'Insertion automatique dans une DBComboLookupEdit.' ;
+                                             BugsStory : '1.1.0.0 : ExtSearchDbEdit inherit.' +#13#10
+                                                       + '1.0.1.5 : MyLabel unset correctly.' +#13#10
+                                                       + '1.0.1.4 : Better component testing.' +#13#10
+                                                       + '1.0.1.3 : Compiling on lazarus.' +#13#10
+                                                       + '1.0.1.2 : Bug validation au post.' +#13#10
+                                                       + '1.0.1.1 : Bug rafraîchissement quand pas de focus.' +#13#10
+                                                       + '1.0.1.0 : Propriété Modify.' +#13#10
+                                                       + '1.0.0.0 : Version bêta inadaptée, réutilisation du code de la TJvDBLookupComboEdit.' +#13#10
+                                                       + '0.9.0.0 : En place à tester.';
+                                             UnitType : 3 ;
+                                             Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
 type
 
-  TExtDBComboInsert = class;
-
 { TExtDBComboInsert }
-  TExtDBComboInsert = class({$IFDEF JEDI}TJvDBLookupCombo{$ELSE}TRxDBLookupCombo{$ENDIF}, IFWComponent, IFWComponentEdit)
+  TExtDBComboInsert = class(TCustomSearchDBEdit)
    private
 
     // On est en train d'écrire dans la combo
@@ -98,8 +91,10 @@ type
     FNotifyOrder : TNotifyEvent;
     FOnPopup : TNotifyEvent;
     function GetSearchSource: TDataSource;
+    {$IFNDEF JEDI}
+    procedure ResetMaxLength;
+    {$ENDIF}
     procedure SetSearchSource(Value: TDataSource);
-    procedure WMPaint(var Msg: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF} ); message {$IFDEF FPC}LM_PAINT{$ELSE}WM_PAINT{$ENDIF};
     procedure p_setLabel ( const alab_Label: TLabel );
   protected
     OldText : String ;
@@ -108,10 +103,11 @@ type
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     function GetTextMargins: TPoint; virtual;
     procedure ValidateSearch; virtual;
-    {$IFDEF FPC}
+    procedure SetSelText(const Val: string); override;
+    procedure CompleteText; virtual;
     procedure RealSetText(const AValue: TCaption); override;
-    {$ENDIF}
 
+    procedure TextChanged; override;
     procedure CreateParams(var Params: TCreateParams); override;
     procedure InsertLookup ( const AUpdate : Boolean ); virtual ;
 
@@ -124,7 +120,6 @@ type
     procedure DoExit; override;
     procedure Loaded; override;
     procedure SetOrder ; virtual;
-    procedure SelectAll; virtual;
     procedure AssignListValue;virtual;
     property Modify : Boolean read FModify ;
     property DisplayValue : String read FDisplayValue write FDisplayValue;
@@ -237,6 +232,26 @@ begin
    Then FLabel := nil;
 end;
 
+
+////////////////////////////////////////////////////////////////////////////////
+// procédure   : ResetMaxLength
+// description : Vérifications avant affectation de la taille du texte à rien
+////////////////////////////////////////////////////////////////////////////////
+{$IFNDEF JEDI}
+procedure TExtDBComboInsert.ResetMaxLength;
+var
+  F: TField;
+begin
+  if (MaxLength > 0) and Assigned(DataSource) and Assigned(DataSource.DataSet) then
+  begin
+    F := DataSource.DataSet.FindField(DataField);
+    if Assigned(F) and (F.DataType in [ftString, ftWideString]) and (F.Size = MaxLength) then
+      MaxLength := 0;
+  end;
+end;
+{$ENDIF}
+
+
 procedure TExtDBComboInsert.CreateParams(var Params: TCreateParams);
 const
   AlignmentStyle: array[TAlignment] of DWord = (
@@ -250,9 +265,11 @@ begin
     Params.Style := Params.Style or ES_NOHIDESEL;
 end;
 
+{$IFDEF JEDI}
 procedure TExtDBComboInsert.SelectAll;
 Begin
 End;
+{$ENDIF}
 
 ////////////////////////////////////////////////////////////////////////////////
 // procédure   : KeyDown
@@ -275,13 +292,14 @@ begin
       Begin
         Flocated:=False;
         FSet := False;
+        {$IFNDEF JEDI}SelText:='';{$ENDIF}
         Key := 0;
         Exit;
       end;
     VK_RETURN:
       Begin
-        with DataSource do
-          InsertLookup ( not assigned ( DataSource ) or not assigned ( Dataset ) or ( DataSet.State in [dsEdit,dsInsert ] ) );
+        with Field do
+          InsertLookup ( not assigned ( Field ) or not assigned ( Dataset ) or ( DataSet.State in [dsEdit,dsInsert ] ) );
         Key := 0;
       end;
   end;
@@ -303,19 +321,21 @@ procedure TExtDBComboInsert.KeyPress(var Key: Char);
 begin
   inherited;
   // vérifications : Tout est-il renseigné correctement ?
-  if (Key in [#32..#255]) and (DataSource <> nil) and (DataSource.DataSet <> nil) Then
-   with DataSource.DataSet do
+  if (Key in [#32..#255]) and (Field <> nil) Then
     Begin
       FModify := True ;
 {      SelText:='';
       Text := Text + Key ;
       SelStart:=SelStart+1;}
-       if  ( (( LookupDisplay = '' ) and not FindField ( DataField ).IsValidChar(Key))
-       or  ( ( LookupDisplay <> '' ) and
-       ( not assigned ( LookupSource )
-        or not assigned ( LookupSource.DataSet )
-        or not assigned ( LookupSource.DataSet.FindField ( LookupDisplay ) )
-        or not LookupSource.DataSet.FindField ( LookupDisplay ).IsValidChar(Key)))) then
+      {$IFNDEF JEDI}
+      CompleteText;
+      {$ENDIF}
+       if  ( (( SearchList = '' ) and not Field.IsValidChar(Key))
+       or  ( ( SearchList <> '' ) and
+       ( not assigned ( SearchSource )
+        or not assigned ( SearchSource.DataSet )
+        or not assigned ( SearchSource.DataSet.FindField ( SearchList ) )
+        or not SearchSource.DataSet.FindField ( SearchList ).IsValidChar(Key)))) then
       begin
         if BeepOnError then
           SysUtils.Beep;
@@ -325,6 +345,30 @@ begin
 end;
 
 {$IFDEF FPC}
+{$IFNDEF RXCOMBO}
+{------------------------------------------------------------------------------
+  Method: TExtDBComboInsert.SetSelText
+  Params: val - new string for text-field
+  Returns: nothings
+
+  Replace the selected part of text-field with "val".
+ ------------------------------------------------------------------------------}
+procedure TExtDBComboInsert.SetSelText(const Val: string);
+var
+  OldText, NewText: string;
+  OldPos: integer;
+begin
+  OldPos := SelStart;
+  OldText := Text;
+  NewText := UTF8Copy(OldText, 1, OldPos) +
+             Val +
+             UTF8Copy(OldText, OldPos + SelLength + 1, MaxInt);
+  Text := NewText;
+  SelStart := OldPos + UTF8Length(Val);
+end;
+{$ENDIF}
+
+
 // procedure TExtDBComboInsert.RealSetText
 // ?
 procedure TExtDBComboInsert.RealSetText(const AValue: TCaption);
@@ -348,6 +392,44 @@ begin
 end;
 {$ENDIF}
 
+//////////////////////////////////////////////////////////////////////////////////
+// Procédure Completetext
+// Complétion
+//////////////////////////////////////////////////////////////////////////////////
+{$IFNDEF JEDI}
+procedure TExtDBComboInsert.CompleteText;
+var li_pos : Integer;
+    ls_temp : String;
+begin
+  if FCompleteWord
+  and assigned ( FSearchSource ) Then
+    with FSearchSource.DataSet do
+      Begin
+        Open;
+        FSet := False;
+        if not assigned ( FindField ( SearchList )) Then Exit;
+        if fb_Locate ( FSearchSource.DataSet,
+                       SearchList,
+                       Text, [loCaseInsensitive, loPartialKey], True )
+         Then
+          Begin
+            Flocated  := True;
+            li_pos    := SelStart ;
+            ls_temp   := FindField ( SearchList ).AsString;
+            Text :=  ls_temp ;
+            SelStart := li_pos ;
+            SelLength := length ( ls_temp ) - li_pos;
+            if ( SelText = '' )  Then
+                ValidateSearch
+             else
+                if assigned ( FOnLocate ) Then
+                  FOnLocate ( Self );
+          End ;
+      end
+end;
+{$ENDIF}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // procédure   : Change
 // description : Evènement sur changement du datasourc principal
@@ -366,11 +448,11 @@ begin
   and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF} )
   and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet )
   and assigned ( {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ))
-  and assigned ( FindField ( DataField ) ) Then
+  and assigned ( Field ) Then
     try
       // affectation
       FDataLink.Dataset.edit ;
-      FDataLink.FindField ( DataField ).Value := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
+      FDataLink.Field.Value := {$IFDEF FPC}ListSource{$ELSE}LookupSource{$ENDIF}.DataSet.FindField ( {$IFDEF FPC}KeyField{$ELSE}LookupField{$ENDIF} ).Value ;
     finally
     End ;
   inherited Change;
@@ -392,26 +474,24 @@ end;
 procedure TExtDBComboInsert.AssignListValue;
 Begin
     // Verify Text value or locate
-  If  assigned ( DataSource )
-  and assigned ( DataSource.DataSet )
-  and assigned ( DataSource.DataSet.FindField ( DataField ) )
-  and ( DataSource.DataSet.FindField ( DataField ).Value <> Null )
-  and assigned ( LookupSource )
-  and assigned ( LookupSource.DataSet )
+  If  assigned ( Field )
+  and ( Field.Value <> Null )
+  and assigned ( SearchSource )
+  and assigned ( SearchSource.DataSet )
   Then
-    with DataSource,LookupSource.DataSet do
+    with SearchSource.DataSet do
      if not (State in [dsEdit,dsInsert]) Then
        Begin
         Open;
-        if  assigned ( DataSet.FindField ( LookupDisplay ))
-        and ( DataSet.FindField ( LookupDisplay ).AsString <> {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} )
-        and assigned ( DataSet.FindField ( LookupField   ))
+        if  assigned ( FindField ( SearchList ))
+        and ( FindField ( SearchList ).AsString <> {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} )
+        and assigned ( FindField ( SearchDisplay   ))
          Then
           try
             DisableControls;
-            if Locate ( LookupField, FindField ( DataField ).Value, [] ) Then
+            if Locate ( SearchDisplay, Field.Value, [] ) Then
               // récupération à partir de la liste
-              {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := DataSet.FindField ( LookupDisplay ).AsString ;
+              {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := FindField ( SearchList ).AsString ;
 
           finally
             EnableControls;
@@ -420,58 +500,32 @@ Begin
 End ;
 
 
-//////////////////////////////////////////////////////////////////////////
-// Evènement   : DataChange
-// description : Changement dans les données
+////////////////////////////////////////////////////////////////////////////////
+// Evènement   : UpdateData
+// description : Mise à jour après l'édition des données
 // paramètre   : Sender : pour l'évènement
 ////////////////////////////////////////////////////////////////////////////////
-{$IFDEF JEDI}
-procedure TExtDBComboInsert.DataLinkRecordChanged(FindField ( DataField ):TField);
+procedure TExtDBComboInsert.TextChanged;
 begin
-  {$IFNDEF JEDI}
-  ResetMaxLength;
-  {$ENDIF}
-  if FindField ( DataField ) <> nil then
-  begin
-    // récupération du masque de saisie
-//    EditMask := FDataLink.FindField ( DataField ).EditMask;
-    {$IFNDEF JEDI}
-    if not (csDesigning in ComponentState) then
-      if (FindField ( DataField ).DataType in [ftString, ftWideString]) and (MaxLength = 0) then
-        // Taille maxi
-        MaxLength := FindField ( DataField ).Size;
-    {$ENDIF}
-    // récupération des données de la liste en mode lecture
-    if  not FUpdate
-    and not ( FindField ( DataField ).DataSet.State in [dsEdit, dsInsert]) Then
-      Begin
-        AssignListValue ;
-      End ;
-    FUpdate := False;
-  end
-  else
-  begin
-//    EditMask := '';
-    if csDesigning in ComponentState then
-      // Pas de donnée : on montre le nom de la combo
-      {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := Name
-    else
-      {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := '' ;
-  end;
+  // auto-insertion spécifique de ce composant
+  InsertLookup ( False );
+  // Validation de l'édition
+  Inherited;
+  // affectation
+//  Field.Value := SearchSource.Dataset.FindField ( SearchDisplay ).Value;
 end;
-{$ENDIF}
 
 procedure TExtDBComboInsert.ValidateSearch;
 Begin
   if not FSet
   and Flocated Then
-  with LookupSource do
-  if fb_Locate ( DataSet, LookupDisplay, Text, [loCaseInsensitive, loPartialKey], True )
+  with SearchSource do
+  if fb_Locate ( DataSet, SearchList, Text, [loCaseInsensitive, loPartialKey], True )
    Then
       Begin
         Flocated  := True;
         FSet := True;
-        {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := DataSet.FindField ( LookupDisplay ).AsString;
+        {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := DataSet.FindField ( SearchList ).AsString;
         if assigned ( FOnSet ) Then
           FOnSet ( Self )
       End ;
@@ -507,53 +561,50 @@ begin
   if ( csDesigning in ComponentState ) Then
     Exit ;
     // vérifications
-  if  assigned ( DataSource )
-  and assigned ( DataSource.DataSet )
-  and assigned ( DataSource.DataSet.FindField ( DataField ) )
-  and assigned ( DataSource.DataSet.FindField ( DataField ).Dataset )
-  and assigned ( LookupSource )
-  and assigned ( LookupSource.DataSet ) Then
-    with DataSource,LookupSource.DataSet do
+  if  assigned ( Field )
+  and assigned ( Field.Dataset )
+  and assigned ( SearchSource )
+  and assigned ( SearchSource.DataSet ) Then
+    with SearchSource,DataSet do
     try
       LText := Text;
+      Open;
       if ( LText > '' ) Then
        Begin
         // Si du texte est présent
-        if not Locate ( LookupDisplay, LText, [loCaseInsensitive] ) Then
+        if not Locate ( SearchList, LText, [loCaseInsensitive] ) Then
               // Autoinsertion si pas dans la liste
-          try
-            DisableControls;
-            Dataset.DisableControls;
+          Begin
             Updating;
             Insert ;
-            FieldByName ( LookupDisplay ).Value := LText ;
+            FieldByName ( SearchList ).Value := LText ;
             Post ;
             Updated;
             FUpdate := True ;
             fb_RefreshDataset(DataSet);
-            if Locate ( LookupDisplay, LText, [] ) Then
+            if Locate ( SearchList, LText, [] ) Then
               Begin
-                Dataset.Edit;
-                DataSet.FindField ( DataField ).Value := FieldByName ( LookupField ).Value ;
-                {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := FindField ( LookupDisplay ).Value ;
+                Field.Dataset.Edit;
+                Field.Value := FieldByName ( SearchDisplay ).Value ;
+                {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := FindField ( SearchList ).Value ;
                 if assigned ( FOnSet ) Then
                   FOnSet ( Self );
               end;
-          finally
-            EnableControls;
-            Dataset.EnableControls;
           End
          Else
-          if  ( DataSet.State in [dsEdit,dsInsert] )
+          if assigned ( Field.DataSet )
+          and ( Field.DataSet.State in [dsEdit,dsInsert] )
            Then
-            DataSet.FindField ( DataField ).Value := FieldByName ( LookupField ).Value ;
+            Field.Value := FieldByName ( SearchDisplay ).Value ;
        End
       Else
        if AUpdate
        and ( OldText > '' )
+       and assigned (  Field )
+       and assigned (  Field.DataSet )
         Then
         // pas de texte : on remet le texte originel
-         DataSet.FindField ( DataField ).AsString := OldText ;
+         Field.AsString := OldText ;
       FModify := False ;
     except
       {$IFDEF FPC}
@@ -571,105 +622,13 @@ End ;
 procedure TExtDBComboInsert.DoExit;
 begin
   // Auto-insertion
-  with DataSource do
-    InsertLookup ( not assigned ( DataSource ) or not assigned ( Dataset ) or ( DataSet.State in [dsEdit,dsInsert ] ) );
+  with Field do
+    InsertLookup ( not assigned ( Field ) or not assigned ( Dataset ) or ( DataSet.State in [dsEdit,dsInsert ] ) );
   if assigned ( FBeforeExit ) Then
     FBeforeExit ( Self );
   inherited DoExit;
   p_setLabelColorExit ( FLabel, FAlwaysSame );
   p_setCompColorExit ( Self, FOldColor, FAlwaysSame );
-end;
-
-////////////////////////////////////////////////////////////////////////////////
-// Evènement message  : WMPaint
-// description : Peinture de la combo
-// paramètre   : Msg : données du message
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.WMPaint(var Msg: {$IFDEF FPC}TLMPaint{$ELSE}TWMPaint{$ENDIF});
-const
-  AlignStyle: array [Boolean, TAlignment] of DWORD =
-   ((WS_EX_LEFT, WS_EX_RIGHT, WS_EX_LEFT),
-    (WS_EX_RIGHT, WS_EX_LEFT, WS_EX_LEFT));
-var
-  Left: Integer;
-  Margins: TPoint;
-  R: TRect;
-  DC: HDC;
-  PS: TPaintStruct;
-  S: string;
-  AAlignment: TAlignment;
-begin
-  // destruction : pas besoin de peindre
-  if csDestroying in ComponentState then
-    Exit;
-  p_setCompColorReadOnly ( Self,FColorEdit,FColorReadOnly, FAlwaysSame, ReadOnly );
-  // alignement horizontal en cours
-  AAlignment := taLeftJustify; //FAlignment;
-  if UseRightToLeftAlignment then
-    ChangeBiDiModeAlignment(AAlignment);
-
-{ Since edit controls do not handle justification unless multi-line (and
-  then only poorly) we will draw right and center justify manually unless
-  the edit has the focus. }
-  // Initialisation de la peinture
-  DC := Msg.DC;
-  if DC = 0 then
-    DC := BeginPaint(Handle, PS);
-  PaintWindow(DC);
-  Canvas.Handle := DC;
-  try
-    // couleur de police
-    Canvas.Font := Font;
-    with Canvas do
-    begin
-      R := ClientRect;
-      if not (NewStyleControls {$IFNDEF FPC}and Ctl3D{$ENDIF}) {$IFDEF FPC} and (BorderStyle = bsSingle) {$ENDIF} then
-      // Mode simple
-      begin
-        Brush.Color := clWindowFrame;
-        FrameRect(R);
-        InflateRect(R, -1, -1);
-      end;
-      // Couleur de pinceau
-      Brush.Color := Color;
-      if not Enabled then
-        // désactivation
-        Font.Color := clGrayText;
-      if (csPaintCopy in ControlState)
-      and (DataSource <> nil)
-      and (DataSource.DataSet <> nil)
-      and (DataSource.DataSet.FindField ( DataField ) <> nil) then
-        begin
-          //récupération du texte du champ
-          S := DataSource.DataSet.FindField ( DataField ).DisplayText;
-        end
-      else
-        //récupération du texte d'édition
-        S := Text;
-        // mode mot de passe
-//      if PasswordChar <> #0 then
-//        FillChar(S[1], Length(S), PasswordChar);
-        // Marges
-      Margins := GetTextMargins;
-      case AAlignment of
-        taLeftJustify:
-          Left := Margins.X;
-        taRightJustify:
-          Left := ClientWidth - TextWidth(S) - Margins.X - 1;
-      else
-        Left := (ClientWidth - TextWidth(S)) div 2;
-      end;
-//      if SysLocale.MiddleEast then
-//        UpdateTextFlags;
-        // affiche le texte
-      TextRect(R, Left, Margins.Y, S);
-    end;
-  finally
-    // libération du canevas
-    Canvas.Handle := 0;
-    if Msg.DC = 0 then
-      EndPaint(Handle, PS);
-  end;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

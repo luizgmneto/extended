@@ -516,14 +516,11 @@ object Myform: TMyform
       Width = 221
       DataField = 'IDDEPARTEMENT'
       DataSource = ds_user
-      KeyField = 'CLEP'
-      ListField = 'NOM'
-      ListFieldIndex = 0
-      ListSource = ds_dep
-      LookupCache = False
+      SearchDisplay = 'CLEP'
+      SearchList = 'NOM'
       TabOrder = 7
       MyLabel = Search2
-      SearchSource = ds_dep2
+      SearchSource = ds_dep
     end
     object ExtSearchDBEdit2: TExtSearchDBEdit
       Left = 120
