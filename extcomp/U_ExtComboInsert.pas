@@ -62,7 +62,7 @@ type
 
     // On est en train d'écrire dans la combo
     FModify : Boolean ;
-    FSearchSource : TDatasource;
+    FSearchKey    : TFieldDataLink;
     // Valeur affichée
     FDisplayValue : String ;
     // Focus sur le composant
@@ -90,22 +90,21 @@ type
     FAlwaysSame : Boolean;
     FNotifyOrder : TNotifyEvent;
     FOnPopup : TNotifyEvent;
-    function GetSearchSource: TDataSource;
-    {$IFNDEF JEDI}
-    procedure ResetMaxLength;
-    {$ENDIF}
-    procedure SetSearchSource(Value: TDataSource);
+    function GetSearchKey: String;
+    function GetSearchSource: String;
+    procedure SetSearchKey(AValue: String);
+    procedure SetSearchSource(const Value: String);
     procedure p_setLabel ( const alab_Label: TLabel );
   protected
     OldText : String ;
     OldSelStart : Integer;
+    function GetText: TCaption;
+    procedure SetText(AValue: TCaption);
     procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-    function GetTextMargins: TPoint; virtual;
     procedure ValidateSearch; virtual;
     procedure SetSelText(const Val: string); override;
     procedure CompleteText; virtual;
-    procedure RealSetText(const AValue: TCaption); override;
 
     procedure TextChanged; override;
     procedure CreateParams(var Params: TCreateParams); override;
@@ -113,9 +112,14 @@ type
 
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
-    procedure KeyPress(var Key: Char); override;
+    {$IFDEF FPC}
+    procedure UTF8KeyPress(var CharKey: TUTF8Char); override;
+    {$ELSE}
+    procedure KeyPress(var CharKey: Char); override;
+    {$ENDIF}
   public
     constructor Create ( AOwner : TComponent ); override;
+    destructor Destroy; override;
     procedure DoEnter; override;
     procedure DoExit; override;
     procedure Loaded; override;
@@ -141,9 +145,10 @@ type
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
     property OnSet : TNotifyEvent read FOnSet write FOnSet;
     property BeepOnError: Boolean read FBeepOnError write FBeepOnError default True;
-    property SearchSource: TDataSource read GetSearchSource write SetSearchSource;
+    property SearchKey: String read GetSearchKey write SetSearchKey;
     property HideSelection : Boolean read FHideSelection write FHideSelection default false;
     property ReadOnly default False;
+    property Text: TCaption read GetText write SetText;
     {$IFDEF FPC}
     property CompleteWord : Boolean read FCompleteWord write FCompleteWord default true;
     {$ENDIF}
@@ -192,11 +197,23 @@ begin
   FColorEdit  := CST_EDIT_STD;
   FColorFocus := CST_EDIT_SELECT;
   FColorReadOnly := CST_EDIT_READ;
+  FSearchKey := TFieldDataLink.Create;
+end;
+
+destructor TExtDBComboInsert.Destroy;
+begin
+  inherited Destroy;
+  FSearchKey.Destroy;
 end;
 
 procedure TExtDBComboInsert.p_setLabel(const alab_Label: TLabel);
 begin
   p_setMyLabel ( FLabel, alab_Label, Self );
+end;
+
+procedure TExtDBComboInsert.SetText(AValue: TCaption);
+begin
+  Inherited SetText(AValue);
 end;
 
 procedure TExtDBComboInsert.SetOrder;
@@ -231,25 +248,6 @@ begin
   and ( AComponent = FLabel   )
    Then FLabel := nil;
 end;
-
-
-////////////////////////////////////////////////////////////////////////////////
-// procédure   : ResetMaxLength
-// description : Vérifications avant affectation de la taille du texte à rien
-////////////////////////////////////////////////////////////////////////////////
-{$IFNDEF JEDI}
-procedure TExtDBComboInsert.ResetMaxLength;
-var
-  F: TField;
-begin
-  if (MaxLength > 0) and Assigned(DataSource) and Assigned(DataSource.DataSet) then
-  begin
-    F := DataSource.DataSet.FindField(DataField);
-    if Assigned(F) and (F.DataType in [ftString, ftWideString]) and (F.Size = MaxLength) then
-      MaxLength := 0;
-  end;
-end;
-{$ENDIF}
 
 
 procedure TExtDBComboInsert.CreateParams(var Params: TCreateParams);
@@ -308,89 +306,36 @@ end;
 
 procedure TExtDBComboInsert.KeyUp(var Key: Word; Shift: TShiftState);
 begin
-  inherited;
-
+  inherited KeyUp(Key, Shift);
 end;
 
-////////////////////////////////////////////////////////////////////////////////
-// procédure   : KeyPress
-// description : évènement appuie sur touche
-// paramètre   : Key : La touche appuyée
-////////////////////////////////////////////////////////////////////////////////
-procedure TExtDBComboInsert.KeyPress(var Key: Char);
-begin
-  inherited;
-  // vérifications : Tout est-il renseigné correctement ?
-  if (Key in [#32..#255]) and (Field <> nil) Then
-    Begin
-      FModify := True ;
-{      SelText:='';
-      Text := Text + Key ;
-      SelStart:=SelStart+1;}
-      {$IFNDEF JEDI}
-      CompleteText;
-      {$ENDIF}
-       if  ( (( SearchList = '' ) and not Field.IsValidChar(Key))
-       or  ( ( SearchList <> '' ) and
-       ( not assigned ( SearchSource )
-        or not assigned ( SearchSource.DataSet )
-        or not assigned ( SearchSource.DataSet.FindField ( SearchList ) )
-        or not SearchSource.DataSet.FindField ( SearchList ).IsValidChar(Key)))) then
-      begin
-        if BeepOnError then
-          SysUtils.Beep;
-        Key := #0;
-      end;
-    End ;
-end;
-
-{$IFDEF FPC}
-{$IFNDEF RXCOMBO}
-{------------------------------------------------------------------------------
-  Method: TExtDBComboInsert.SetSelText
-  Params: val - new string for text-field
-  Returns: nothings
-
-  Replace the selected part of text-field with "val".
- ------------------------------------------------------------------------------}
-procedure TExtDBComboInsert.SetSelText(const Val: string);
+procedure TExtDBComboInsert.UTF8KeyPress(var CharKey: TUTF8Char);
 var
-  OldText, NewText: string;
-  OldPos: integer;
+  AChar: Char;
 begin
-  OldPos := SelStart;
-  OldText := Text;
-  NewText := UTF8Copy(OldText, 1, OldPos) +
-             Val +
-             UTF8Copy(OldText, OldPos + SelLength + 1, MaxInt);
-  Text := NewText;
-  SelStart := OldPos + UTF8Length(Val);
-end;
-{$ENDIF}
+  //If the pressed key is unicode then map the char to #255
+  //Necessary to keep the TField.IsValidChar check
+  if Length(CharKey) = 1 then
+    AChar := CharKey[1]
+  else
+    AChar := #255;
 
-
-// procedure TExtDBComboInsert.RealSetText
-// ?
-procedure TExtDBComboInsert.RealSetText(const AValue: TCaption);
-begin
-  {$IFDEF VerboseTWinControlRealText}
-  DebugLn(['TWinControl.RealSetText ',DbgSName(Self),' AValue="',AValue,'" HandleAllocated=',HandleAllocated,' csLoading=',csLoading in ComponentState]);
-  {$ENDIF}
-  if HandleAllocated and (not (csLoading in ComponentState)) then
+  //handle standard keys
+  if AChar in [#32..#255] then
   begin
-    WSSetText(AValue);
-    InvalidatePreferredSize;
-    if RealGetText = AValue then Exit;
-    Caption := AValue;
-    Perform(CM_TEXTCHANGED, 0, 0);
-    AdjustSize;
-  end
-  else inherited RealSetText(AValue);
-  {$IFDEF VerboseTWinControlRealText}
-  DebugLn(['TWinControl.RealSetText ',DbgSName(Self),' END']);
-  {$ENDIF}
+    if GetSearchKey > '' then
+     Begin
+       if (   not FieldCanAcceptKey(SearchLink.Field, AChar)
+           or not assigned(SearchSource))
+       and ( not assigned(Field.DataSet)
+            or not Field.DataSet.CanModify)
+        Then
+         CharKey := '';
+       Exit;
+     end;
+  end;
+  inherited UTF8KeyPress(CharKey);
 end;
-{$ENDIF}
 
 //////////////////////////////////////////////////////////////////////////////////
 // Procédure Completetext
@@ -402,20 +347,20 @@ var li_pos : Integer;
     ls_temp : String;
 begin
   if FCompleteWord
-  and assigned ( FSearchSource ) Then
-    with FSearchSource.DataSet do
+  and assigned ( SearchSource ) Then
+    with SearchSource.DataSet do
       Begin
         Open;
         FSet := False;
-        if not assigned ( FindField ( SearchList )) Then Exit;
-        if fb_Locate ( FSearchSource.DataSet,
-                       SearchList,
+        if not assigned ( FindField ( SearchDisplay )) Then Exit;
+        if fb_Locate ( SearchSource.DataSet,
+                       SearchDisplay,
                        Text, [loCaseInsensitive, loPartialKey], True )
          Then
           Begin
             Flocated  := True;
             li_pos    := SelStart ;
-            ls_temp   := FindField ( SearchList ).AsString;
+            ls_temp   := FindField ( SearchDisplay ).AsString;
             Text :=  ls_temp ;
             SelStart := li_pos ;
             SelLength := length ( ls_temp ) - li_pos;
@@ -460,10 +405,10 @@ end;
 *)
 
 
-procedure TExtDBComboInsert.SetSearchSource(Value: TDataSource);
+procedure TExtDBComboInsert.SetSearchSource(const Value: String);
 begin
-  if Value <> FSearchSource Then
-    FSearchSource := Value;
+  if Value <> FSearchKey.FieldName Then
+    FSearchKey.FieldName := Value;
 end;
 
 
@@ -483,15 +428,15 @@ Begin
      if not (State in [dsEdit,dsInsert]) Then
        Begin
         Open;
-        if  assigned ( FindField ( SearchList ))
-        and ( FindField ( SearchList ).AsString <> {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} )
-        and assigned ( FindField ( SearchDisplay   ))
+        if  assigned ( FindField ( SearchDisplay ))
+        and ( FindField ( SearchDisplay ).AsString <> Text )
+        and assigned ( FindField ( SearchKey   ))
          Then
           try
             DisableControls;
-            if Locate ( SearchDisplay, Field.Value, [] ) Then
+            if Locate ( SearchKey, Field.Value, [] ) Then
               // récupération à partir de la liste
-              {$IFDEF FPC}Text{$ELSE}Value{$ENDIF} := FindField ( SearchList ).AsString ;
+              Text := FindField ( SearchDisplay ).AsString ;
 
           finally
             EnableControls;
@@ -512,7 +457,7 @@ begin
   // Validation de l'édition
   Inherited;
   // affectation
-//  Field.Value := SearchSource.Dataset.FindField ( SearchDisplay ).Value;
+//  Field.Value := SearchSource.Dataset.FindField ( SearchKey ).Value;
 end;
 
 procedure TExtDBComboInsert.ValidateSearch;
@@ -520,15 +465,20 @@ Begin
   if not FSet
   and Flocated Then
   with SearchSource do
-  if fb_Locate ( DataSet, SearchList, Text, [loCaseInsensitive, loPartialKey], True )
+  if fb_Locate ( DataSet, SearchDisplay, Text, [loCaseInsensitive, loPartialKey], True )
    Then
       Begin
         Flocated  := True;
         FSet := True;
-        {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := DataSet.FindField ( SearchList ).AsString;
+        Text := DataSet.FindField ( SearchDisplay ).AsString;
         if assigned ( FOnSet ) Then
           FOnSet ( Self )
       End ;
+end;
+
+procedure TExtDBComboInsert.SetSelText(const Val: string);
+begin
+  inherited SetSelText(Val);
 end;
 
 
@@ -572,30 +522,34 @@ begin
       if ( LText > '' ) Then
        Begin
         // Si du texte est présent
-        if not Locate ( SearchList, LText, [loCaseInsensitive] ) Then
+        if not Locate ( SearchDisplay, LText, [loCaseInsensitive] ) Then
               // Autoinsertion si pas dans la liste
           Begin
             Updating;
             Insert ;
-            FieldByName ( SearchList ).Value := LText ;
+            FieldByName ( SearchDisplay ).Value := LText ;
             Post ;
             Updated;
             FUpdate := True ;
             fb_RefreshDataset(DataSet);
-            if Locate ( SearchList, LText, [] ) Then
+            if Locate ( SearchDisplay, LText, [] ) Then
               Begin
                 Field.Dataset.Edit;
-                Field.Value := FieldByName ( SearchDisplay ).Value ;
-                {$IFDEF FPC}Text{$ELSE}DisplayValue{$ENDIF} := FindField ( SearchList ).Value ;
+                Field.Value := FieldByName ( SearchKey ).Value ;
+                Text := FindField ( SearchDisplay ).Value ;
                 if assigned ( FOnSet ) Then
                   FOnSet ( Self );
               end;
           End
          Else
-          if assigned ( Field.DataSet )
-          and ( Field.DataSet.State in [dsEdit,dsInsert] )
-           Then
-            Field.Value := FieldByName ( SearchDisplay ).Value ;
+          Begin
+            if Text <> LText Then
+              Text := FindField ( SearchDisplay ).Value ;
+            if assigned ( Field.DataSet )
+            and ( Field.DataSet.State in [dsEdit,dsInsert] )
+             Then
+              Field.Value := FieldByName ( SearchKey ).Value ;
+          end;
        End
       Else
        if AUpdate
@@ -632,75 +586,36 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// fonction    : GetTextMargins
-// description : Récupère les marges sur le texte
-// paramètre   : résultat : les marges du haut et du bas
+// fonction   : GetSearchSource
+// description : Rénvoie SearchSource
 ////////////////////////////////////////////////////////////////////////////////
-function TExtDBComboInsert.GetTextMargins: TPoint;
-var
-  DC: HDC;
-  SaveFont: HFont;
-  I: Integer;
-  SysMetrics, Metrics: TTextMetric;
+function TExtDBComboInsert.GetSearchSource: String;
 begin
-  // mode style 3D ou pas
-  if NewStyleControls then
-  begin
-  {$IFNDEF FPC}
-    if Ctl3D then
-      I := 1
-    else
-  {$ENDIF}
-{$IFDEF FPC}
-    if BorderStyle = bsNone then
-{$ENDIF}
-      I := 0
-{$IFDEF FPC}
-    else
-      // mode enfoncement et superposé
-      I := 2;
-{$ELSE}
-;
-{$ENDIF}
-      // Nouvelles marges : avertir windows
-    {$IFDEF FPC}
-    Result.X := I;
-    {$ELSE}
-    Result.X := SendMessage(Handle, EM_GETMARGINS, 0, 0) and $0000FFFF + I;
-    {$ENDIF}
-    Result.Y := I;
-  end
-  else
-  begin
-    // Aucune marge prédéfinie sinon
-{$IFDEF FPC}
-    if BorderStyle = bsNone then
-{$ENDIF}
-      I := 0
-{$IFDEF FPC}
-    else
-    begin
-      // calculs des marges autour du texte
-      DC := GetDC({$IFDEF FPC}0{$ELSE}HWND_DESKTOP{$ENDIF});
-      GetTextMetrics(DC, SysMetrics);
-      SaveFont := SelectObject(DC, Font.Handle);
-      GetTextMetrics(DC, Metrics);
-      SelectObject(DC, SaveFont);
-      ReleaseDC({$IFDEF FPC}0{$ELSE}HWND_DESKTOP{$ENDIF}, DC);
-      I := SysMetrics.tmHeight;
-      if I > Metrics.tmHeight then
-        I := Metrics.tmHeight;
-      I := I div 4;
-    end
-{$ENDIF};
-    Result.X := I;
-    Result.Y := I;
-  end;
+  Result := FSearchKey.FieldName;
 end;
 
-function TExtDBComboInsert.GetSearchSource: TDataSource;
+function TExtDBComboInsert.GetText: TCaption;
 begin
-  Result := FSearchSource;
+  if SearchKey > ''  Then
+   Begin
+     if  Assigned(SearchSource)
+     and Assigned(SearchSource.DataSet) Then
+      with SearchSource.DataSet do
+       if Assigned(FindField(SearchDisplay))
+        then Result:=FindField(SearchDisplay).AsString
+        Else Result:='';
+   end
+  Else Result:=Inherited;
+end;
+
+function TExtDBComboInsert.GetSearchKey: String;
+begin
+  Result:=FSearchKey.FieldName;
+end;
+
+procedure TExtDBComboInsert.SetSearchKey(AValue: String);
+begin
+  FSearchKey.FieldName:=AValue;
 end;
 
 

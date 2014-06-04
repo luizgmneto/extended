@@ -82,6 +82,9 @@ type
   end;
 
   { TExtSearchDBEdit }
+
+  { TCustomSearchDBEdit }
+
   TCustomSearchDBEdit = class(TExtFormatDBEdit)
   private
     // Lien de données
@@ -127,12 +130,14 @@ type
     procedure SetEvent ; virtual;
     procedure ValidateSearch; virtual;
     function EditCanModify: Boolean; override;
+    function GetFieldSearch: String; virtual;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure TextChanged; {$IFDEF FPC}override;{$ELSE}virtual;{$ENDIF}
     {$IFDEF FPC}
     procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
     {$ENDIF}
     procedure Change; override;
+    property SearchLink : TFieldDataLink read FSearchSource write FSearchSource ;
   public
     procedure DoEnter; override;
     procedure DoExit; override;
@@ -463,7 +468,7 @@ begin
     End;
     end;
   if not ( Key in [ VK_TAB, VK_BACK ])
-  and ( Text    <> '' )
+  and ( Text > '' )
    Then
     with FSearchSource.DataSet do
       Begin
@@ -523,6 +528,11 @@ end;
 function TCustomSearchDBEdit.EditCanModify: Boolean;
 begin
   Result:= not Assigned(DataSource) or inherited EditCanModify;
+end;
+// return field for datafield
+function TCustomSearchDBEdit.GetFieldSearch: String;
+begin
+  Result:=fs_getSearchDisplay;
 end;
 
 procedure TCustomSearchDBEdit.KeyDown(var Key: Word; Shift: TShiftState);
