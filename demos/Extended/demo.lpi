@@ -2178,7 +2178,7 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="520"/>
+        <TopLine Value="450"/>
         <CursorPos X="55" Y="450"/>
         <UsageCount Value="15"/>
         <Loaded Value="True"/>
@@ -2808,7 +2808,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="20">
+    <BreakPoints Count="18">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
@@ -2926,29 +2926,15 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../extcomp/u_extsearchedit.pas"/>
-        <Line Value="489"/>
+        <Line Value="522"/>
       </Item17>
       <Item18>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../extcomp/u_extsearchedit.pas"/>
-        <Line Value="522"/>
-      </Item18>
-      <Item19>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/u_extsearchedit.pas"/>
-        <Line Value="473"/>
-      </Item19>
-      <Item20>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/u_extsearchedit.pas"/>
         <Line Value="444"/>
-      </Item20>
+      </Item18>
     </BreakPoints>
     <Exceptions Count="4">
       <Item1>
