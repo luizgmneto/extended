@@ -272,9 +272,12 @@ Begin
  if ab_addAtEnd then
     Result := FileWrite(AFile,ab_toadd,1);
 End;
+
 function FileWriteln(const AFile : THandle; const as_chaine : String = '' ):Longint;
+const CST_10:Byte = 10;
 Begin
- Result:=FileWriteString(AFile,as_chaine,True,10);
+ Result:=FileWriteString(AFile,as_chaine,True,13);
+ FileWrite ( Afile,CST_10,1);
 End;
 // function FileCreateDeleteUTF8
 // Deletes and create a file to result handle
