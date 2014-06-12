@@ -603,7 +603,7 @@ End;
 
 // universal refresh ( maybe )
 function fb_RefreshDataset ( const aDat_Dataset : TDataset; const ab_GardePosition : Boolean ): Boolean ;
-var {$IF FPC_FULLVERSION >= 20700 }
+var {$IFDEF BOOKMARK_OBJECT}
     lbkm_Bookmark : TBookmark ;
     {$ELSE}
     lbkm_Bookmark : TBookmarkStr ;

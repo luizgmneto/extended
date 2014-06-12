@@ -74,6 +74,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure lbMsgClick(Sender: TObject);
   private
+    FModalCancel,FModalOK:Integer;
     fButtons:TMsgDlgButtons;
     fDlgType:TMsgDlgType;
   protected
@@ -107,7 +108,7 @@ const CST_IMAGE_Warning = 'mwarning';
 procedure TFMsg.InitMessage;
 var
   k,p,TotalWidth:integer;
-  procedure PutInBtn(numBtn:integer;aText:string;aResult:word);//MG2013
+  procedure PutInBtn(const numBtn:integer;const aText:string;const aResult:word);//MG2013
   var
     btn:TFWButton;
   begin
@@ -126,8 +127,18 @@ var
        GlyphSize := Height - 2 ;
        Caption:=aText;
        ModalResult:=aResult;
-       Default:=numBtn=(4-k);//si c'est le premier
-       Cancel:=numBtn=1; //c'est le dernier (pas d'inconvénient s'il est aussi le premier)
+       if numBtn=1//si c'est le premier
+        Then
+         Begin
+           Default:=True;
+           FModalOK:=AResult;
+         end;
+       if numBtn=4-k //c'est le dernier (pas d'inconvénient s'il est aussi le premier)
+        Then
+          Begin
+            Cancel:=True;
+            FModalCancel:=AResult;
+          end;
        Width := Canvas.TextWidth(aText)+GlyphSize+12;
        inc ( TotalWidth, Width );
        visible:=true;
@@ -217,7 +228,14 @@ procedure TFMsg.KeyDown(var Key:Word;Shift:TShiftState);
 begin
   if (ssAlt in Shift)and(Key=VK_F4) then Key:=0;
   if (ssCtrl in Shift)and(LowerCase(Chr(Key))='c') then Clipboard.AsText:=lbMsg.Caption;
-  if key = VK_ESCAPE Then Close;
+  if key = VK_ESCAPE Then
+    Begin
+      ModalResult:=FModalCancel;
+    end;
+  if key = VK_RETURN Then
+    Begin
+      ModalResult:=FModalOK;
+    end;
   Inherited;
 end;
 
