@@ -105,6 +105,7 @@ begin
    then self.ClientHeight:=HFiche+i*PleaseWait.Height
    else self.ClientHeight:=HFiche+i*PleaseWait.Height-PanCancel.Height;}
   screen.cursor := crHourGlass;
+  Caption:=sTexte;
   PleaseWait.Caption:=sTexte;
   Show;
   Update;// needed to show message
