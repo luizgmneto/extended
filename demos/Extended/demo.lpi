@@ -57,7 +57,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="299">
+    <Units Count="301">
       <Unit0>
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -65,7 +65,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="101" Y="19"/>
-        <UsageCount Value="168"/>
+        <UsageCount Value="171"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -84,8 +84,8 @@
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="510"/>
-        <CursorPos X="29" Y="524"/>
-        <UsageCount Value="16"/>
+        <CursorPos X="72" Y="523"/>
+        <UsageCount Value="17"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit2>
@@ -164,10 +164,11 @@
         <UnitName Value="U_Components"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="5"/>
-        <CursorPos X="10" Y="7"/>
-        <UsageCount Value="108"/>
+        <TopLine Value="20"/>
+        <CursorPos X="86" Y="54"/>
+        <UsageCount Value="111"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -1475,12 +1476,10 @@
       <Unit161>
         <Filename Value="../../../ibx/runtime/IBCustomDataSet.pas"/>
         <UnitName Value="IBCustomDataSet"/>
-        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <TopLine Value="677"/>
         <CursorPos X="1" Y="704"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="12"/>
       </Unit161>
       <Unit162>
         <Filename Value="../../../ibx/runtime/IBQuery.pas"/>
@@ -2175,12 +2174,11 @@
       <Unit245>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
         <UnitName Value="u_extsearchedit"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="450"/>
-        <CursorPos X="55" Y="450"/>
-        <UsageCount Value="15"/>
+        <TopLine Value="452"/>
+        <CursorPos X="1" Y="479"/>
+        <UsageCount Value="16"/>
         <Loaded Value="True"/>
       </Unit245>
       <Unit246>
@@ -2194,20 +2192,20 @@
       <Unit247>
         <Filename Value="../../extcomp/u_framework_dbcomponents.pas"/>
         <UnitName Value="u_framework_dbcomponents"/>
-        <EditorIndex Value="15"/>
         <WindowIndex Value="0"/>
         <TopLine Value="54"/>
         <CursorPos X="4" Y="78"/>
-        <UsageCount Value="16"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="17"/>
       </Unit247>
       <Unit248>
         <Filename Value="../../extcomp/u_regextracomponents.pas"/>
         <UnitName Value="u_regextracomponents"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="6"/>
-        <CursorPos X="28" Y="57"/>
-        <UsageCount Value="9"/>
+        <CursorPos X="1" Y="30"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit248>
       <Unit249>
         <Filename Value="../../imgcomp/u_regimagecomponents.pas"/>
@@ -2261,11 +2259,11 @@
       <Unit255>
         <Filename Value="../../extcomp/u_extformatedits.pas"/>
         <UnitName Value="u_extformatedits"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="148"/>
         <CursorPos X="1" Y="180"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="18"/>
         <Loaded Value="True"/>
       </Unit255>
       <Unit256>
@@ -2305,10 +2303,12 @@
       <Unit260>
         <Filename Value="../../inicomp/fonctions_init.pas"/>
         <UnitName Value="fonctions_init"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="680"/>
-        <CursorPos X="58" Y="703"/>
+        <TopLine Value="187"/>
+        <CursorPos X="1" Y="212"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit260>
       <Unit261>
         <Filename Value="../../copy/u_extfilecomp.pas"/>
@@ -2461,9 +2461,9 @@
         <UnitName Value="U_ExtComboInsert"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="259"/>
-        <CursorPos X="1" Y="283"/>
-        <UsageCount Value="15"/>
+        <TopLine Value="155"/>
+        <CursorPos X="87" Y="194"/>
+        <UsageCount Value="16"/>
         <Loaded Value="True"/>
       </Unit279>
       <Unit280>
@@ -2476,12 +2476,10 @@
       <Unit281>
         <Filename Value="../../extnet/u_netupdate.pas"/>
         <UnitName Value="u_netupdate"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="166"/>
         <CursorPos X="23" Y="169"/>
-        <UsageCount Value="14"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="15"/>
       </Unit281>
       <Unit282>
         <Filename Value="../../extnet/md5api.pas"/>
@@ -2508,258 +2506,261 @@
       </Unit284>
       <Unit285>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/include/wincontrol.inc"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="5762"/>
-        <CursorPos X="1" Y="5786"/>
-        <UsageCount Value="11"/>
+        <TopLine Value="5582"/>
+        <CursorPos X="1" Y="5608"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit285>
       <Unit286>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/maskedit.pp"/>
         <UnitName Value="maskedit"/>
-        <EditorIndex Value="5"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="930"/>
-        <CursorPos X="3" Y="935"/>
-        <UsageCount Value="12"/>
+        <TopLine Value="909"/>
+        <CursorPos X="5" Y="938"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit286>
       <Unit287>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/include/customedit.inc"/>
-        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="453"/>
         <CursorPos X="1" Y="478"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="11"/>
       </Unit287>
       <Unit288>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/include/dbedit.inc"/>
-        <EditorIndex Value="17"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="213"/>
+        <TopLine Value="212"/>
         <CursorPos X="1" Y="244"/>
-        <UsageCount Value="12"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="13"/>
       </Unit288>
       <Unit289>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/include/control.inc"/>
         <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="4721"/>
-        <CursorPos X="1" Y="4746"/>
-        <UsageCount Value="12"/>
+        <TopLine Value="4722"/>
+        <CursorPos X="1" Y="4763"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit289>
       <Unit290>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/lclmessageglue.pas"/>
         <UnitName Value="LCLMessageGlue"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="82"/>
         <CursorPos X="1" Y="123"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit290>
       <Unit291>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/interfaces/gtk2/gtk2proc.inc"/>
-        <EditorIndex Value="19"/>
         <WindowIndex Value="0"/>
         <TopLine Value="2478"/>
         <CursorPos X="1" Y="2505"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="11"/>
       </Unit291>
       <Unit292>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/interfaces/gtk2/gtk2callback.inc"/>
-        <EditorIndex Value="20"/>
         <WindowIndex Value="0"/>
         <TopLine Value="878"/>
         <CursorPos X="1" Y="903"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="11"/>
       </Unit292>
       <Unit293>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/interfaces/gtk2/gtk2widgetset.inc"/>
-        <EditorIndex Value="21"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="2383"/>
         <CursorPos X="1" Y="2408"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit293>
       <Unit294>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/controls.pp"/>
         <UnitName Value="Controls"/>
-        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1155"/>
         <CursorPos X="15" Y="1179"/>
-        <UsageCount Value="12"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="13"/>
       </Unit294>
       <Unit295>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbctrls.pp"/>
         <UnitName Value="DbCtrls"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="141"/>
-        <CursorPos X="20" Y="181"/>
-        <UsageCount Value="12"/>
+        <TopLine Value="177"/>
+        <CursorPos X="14" Y="200"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit295>
       <Unit296>
         <Filename Value="../../core/fonctions_db.pas"/>
         <UnitName Value="fonctions_db"/>
-        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="155"/>
         <CursorPos X="3" Y="157"/>
-        <UsageCount Value="12"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="13"/>
       </Unit296>
       <Unit297>
         <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fcl-db/src/base/db.pas"/>
         <UnitName Value="db"/>
-        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1556"/>
         <CursorPos X="15" Y="1579"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="12"/>
       </Unit297>
       <Unit298>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/stdctrls.pp"/>
         <UnitName Value="StdCtrls"/>
-        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="737"/>
         <CursorPos X="14" Y="772"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="11"/>
       </Unit298>
+      <Unit299>
+        <Filename Value="../../../ManFrames/mansoftware/u_acces.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="U_Acces"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="72"/>
+        <CursorPos X="3" Y="102"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit299>
+      <Unit300>
+        <Filename Value="../../../ManFrames/mansoftware/u_acces.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit300>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="514" Column="1" TopLine="490"/>
+        <Caret Line="193" Column="5" TopLine="155"/>
       </Position1>
       <Position2>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="521" Column="1" TopLine="490"/>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="466" Column="1" TopLine="450"/>
       </Position2>
       <Position3>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="283" Column="1" TopLine="259"/>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="468" Column="1" TopLine="450"/>
       </Position3>
       <Position4>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="304" Column="1" TopLine="263"/>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="470" Column="1" TopLine="450"/>
       </Position4>
       <Position5>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="318" Column="1" TopLine="294"/>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="472" Column="1" TopLine="450"/>
       </Position5>
       <Position6>
-        <Filename Value="/usr/share/lazarus/1.2.1/lcl/include/wincontrol.inc"/>
-        <Caret Line="7063" Column="1" TopLine="7039"/>
+        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
+        <Caret Line="180" Column="1" TopLine="155"/>
       </Position6>
       <Position7>
-        <Filename Value="/usr/share/lazarus/1.2.1/lcl/include/wincontrol.inc"/>
-        <Caret Line="5786" Column="1" TopLine="5762"/>
+        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
+        <Caret Line="194" Column="87" TopLine="155"/>
       </Position7>
       <Position8>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="456" Column="1" TopLine="432"/>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="528" Column="1" TopLine="492"/>
       </Position8>
       <Position9>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="514" Column="1" TopLine="490"/>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="500" Column="1" TopLine="492"/>
       </Position9>
       <Position10>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="521" Column="1" TopLine="490"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/include/wincontrol.inc"/>
+        <Caret Line="5607" Column="1" TopLine="5582"/>
       </Position10>
       <Position11>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="456" Column="1" TopLine="432"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/include/wincontrol.inc"/>
+        <Caret Line="5608" Column="1" TopLine="5582"/>
       </Position11>
       <Position12>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="514" Column="1" TopLine="490"/>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="501" Column="1" TopLine="492"/>
       </Position12>
       <Position13>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="228" Column="65" TopLine="214"/>
+        <Caret Line="502" Column="1" TopLine="492"/>
       </Position13>
       <Position14>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="504" Column="1" TopLine="492"/>
       </Position14>
       <Position15>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="238" Column="9" TopLine="197"/>
+        <Caret Line="527" Column="1" TopLine="492"/>
       </Position15>
       <Position16>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="471" Column="13" TopLine="430"/>
+        <Caret Line="528" Column="1" TopLine="492"/>
       </Position16>
       <Position17>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="481" Column="100" TopLine="441"/>
+        <Caret Line="476" Column="1" TopLine="452"/>
       </Position17>
       <Position18>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="485" Column="77" TopLine="445"/>
+        <Caret Line="478" Column="1" TopLine="452"/>
       </Position18>
       <Position19>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="492" Column="17" TopLine="436"/>
+        <Caret Line="479" Column="1" TopLine="452"/>
       </Position19>
       <Position20>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="283" Column="1" TopLine="259"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/maskedit.pp"/>
+        <Caret Line="1178" Column="1" TopLine="1154"/>
       </Position20>
       <Position21>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="304" Column="1" TopLine="263"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/maskedit.pp"/>
+        <Caret Line="1179" Column="1" TopLine="1154"/>
       </Position21>
       <Position22>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="318" Column="1" TopLine="294"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/maskedit.pp"/>
+        <Caret Line="1181" Column="1" TopLine="1154"/>
       </Position22>
       <Position23>
-        <Filename Value="/usr/share/lazarus/1.2.1/lcl/include/wincontrol.inc"/>
-        <Caret Line="7063" Column="1" TopLine="7039"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/maskedit.pp"/>
+        <Caret Line="1201" Column="43" TopLine="1186"/>
       </Position23>
       <Position24>
-        <Filename Value="/usr/share/lazarus/1.2.1/lcl/include/wincontrol.inc"/>
-        <Caret Line="5786" Column="1" TopLine="5762"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/maskedit.pp"/>
+        <Caret Line="1270" Column="1" TopLine="1246"/>
       </Position24>
       <Position25>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="456" Column="1" TopLine="432"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/maskedit.pp"/>
+        <Caret Line="1272" Column="1" TopLine="1246"/>
       </Position25>
       <Position26>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="514" Column="1" TopLine="490"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/maskedit.pp"/>
+        <Caret Line="1277" Column="1" TopLine="1246"/>
       </Position26>
       <Position27>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="521" Column="1" TopLine="490"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/maskedit.pp"/>
+        <Caret Line="1420" Column="1" TopLine="1396"/>
       </Position27>
       <Position28>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="456" Column="1" TopLine="432"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/maskedit.pp"/>
+        <Caret Line="934" Column="1" TopLine="909"/>
       </Position28>
       <Position29>
-        <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Caret Line="514" Column="1" TopLine="490"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/maskedit.pp"/>
+        <Caret Line="935" Column="1" TopLine="909"/>
       </Position29>
       <Position30>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="492" Column="17" TopLine="436"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/maskedit.pp"/>
+        <Caret Line="937" Column="1" TopLine="909"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>
@@ -2808,133 +2809,49 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="18">
+    <BreakPoints Count="6">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Line Value="180"/>
+        <Source Value="../../extcomp/u_extsearchedit.pas"/>
+        <Line Value="241"/>
       </Item1>
       <Item2>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Line Value="228"/>
+        <Source Value="../../extcomp/u_extsearchedit.pas"/>
+        <Line Value="476"/>
       </Item2>
       <Item3>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Line Value="465"/>
+        <Source Value="../../extcomp/u_extsearchedit.pas"/>
+        <Line Value="528"/>
       </Item3>
       <Item4>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Line Value="456"/>
+        <Line Value="207"/>
       </Item4>
       <Item5>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Line Value="514"/>
+        <Source Value="../../extcomp/u_extsearchedit.pas"/>
+        <Line Value="491"/>
       </Item5>
       <Item6>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Line Value="422"/>
+        <Source Value="../../extcomp/u_extsearchedit.pas"/>
+        <Line Value="500"/>
       </Item6>
-      <Item7>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Line Value="349"/>
-      </Item7>
-      <Item8>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Line Value="521"/>
-      </Item8>
-      <Item9>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Line Value="283"/>
-      </Item9>
-      <Item10>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/u_extsearchedit.pas"/>
-        <Line Value="443"/>
-      </Item10>
-      <Item11>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="/usr/share/lazarus/1.2.1/lcl/include/wincontrol.inc"/>
-        <Line Value="5786"/>
-      </Item11>
-      <Item12>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="/usr/share/lazarus/1.2.1/lcl/include/wincontrol.inc"/>
-        <Line Value="7063"/>
-      </Item12>
-      <Item13>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Line Value="318"/>
-      </Item13>
-      <Item14>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Line Value="216"/>
-      </Item14>
-      <Item15>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/U_ExtComboInsert.pas"/>
-        <Line Value="304"/>
-      </Item15>
-      <Item16>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/u_extsearchedit.pas"/>
-        <Line Value="236"/>
-      </Item16>
-      <Item17>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/u_extsearchedit.pas"/>
-        <Line Value="522"/>
-      </Item17>
-      <Item18>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../extcomp/u_extsearchedit.pas"/>
-        <Line Value="444"/>
-      </Item18>
     </BreakPoints>
     <Exceptions Count="4">
       <Item1>

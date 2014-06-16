@@ -208,6 +208,7 @@ procedure p_writeComboBoxItems (  const acom_combobox : TComponent ;const Astl_I
 procedure SauveTStringsDansIni(const FIni:TCustomIniFile; SectionIni:string; const LeTStrings:TStrings);
 procedure LitTstringsDeIni(const FIni: TCustomIniFile; SectionIni: string; const LeTStrings: TStrings);
 procedure p_FreeConfigFile;
+procedure p_SetCaractersZEOSConnector(const azco_Connect : TComponent ; const as_NonUtfChars : String );
 procedure p_IniOuvre;
 procedure p_IniQuitte;
 procedure p_InitConnectForm ( const Connexion : TComponent ; const Inifile : TCustomInifile ; const Test : Boolean );
