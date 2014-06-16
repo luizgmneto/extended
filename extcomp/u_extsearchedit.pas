@@ -89,6 +89,7 @@ type
   private
     // Lien de données
     FSearchSource: TFieldDataLink;
+    FOnNotFound,
     FOnLocate ,
     FOnSet ,
     FBeforeEnter, FAfterExit : TNotifyEvent;
@@ -123,6 +124,9 @@ type
     procedure WMPaste(var Message: TMessage); message WM_PASTE;
     {$ENDIF}
   protected
+    procedure Locating; virtual;
+    procedure NotFound; virtual;
+    procedure SearchText(const AKey:Byte); virtual;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure CreatePopup; virtual;
@@ -159,6 +163,7 @@ type
     property FieldSeparator : Char read FSeparator write FSeparator default ',';
     property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
+    property OnNotFound : TNotifyEvent read FOnNotFound write FOnNotFound;
     property FWBeforeEnter : TnotifyEvent read FBeforeEnter write FBeforeEnter stored False;
     property FWAfterExit  : TnotifyEvent read FAfterExit  write FAfterExit stored False ;
     property ColorLabel : TColor read FColorLabel write FColorLabel default CST_LBL_SELECT ;
@@ -434,11 +439,63 @@ begin
   FreeAndNil(FPopup);
 end;
 
+// procedure TCustomSearchDBEdit.Located
+// Record Found function
+procedure TCustomSearchDBEdit.Locating;
+var li_pos : Integer;
+    ls_temp : String;
+begin
+  Flocated  := True;
+  CreatePopup;
+  li_pos    := SelStart ;
+  ls_temp   := FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
+  Text      := ls_temp ; // c'est en affectant le texte que l'on passe en mode édition
+  SelStart  := li_pos ;
+  SelLength := length ( ls_temp ) - li_pos ;
+  if SelLength=0
+   Then ValidateSearch
+   Else
+    if assigned ( FOnLocate ) Then
+      FOnLocate ( Self );
+end;
+
+// procedure TCustomSearchDBEdit.NotFound
+// NotFound function
+procedure TCustomSearchDBEdit.NotFound;
+begin
+  Flocated  := False;
+   // not found : no popup
+  if Assigned(FPopup) Then
+    FPopup.Visible:=False;
+  if assigned ( FOnNotFound ) Then
+    FOnNotFound ( Self );
+end;
+
+procedure TCustomSearchDBEdit.SearchText(const AKey:Byte);
+begin
+  with FSearchSource,Dataset do
+    Begin
+      Open ;
+      Text:=Text+chr(AKey);
+      FSet := False;
+      // Trouvé ?
+      if not assigned ( FindField ( FieldName )) Then Exit;
+      if FSearchFiltered Then
+       Begin
+        Filter := 'LOWER('+ FieldName+') LIKE ''' + LowerCase(fs_stringDbQuote(Text)) +'%''';
+        Filtered:=True;
+       End;
+      if not IsEmpty
+      and fb_Locate ( DataSet, FieldName, Text, [loCaseInsensitive, loPartialKey], True )
+       Then Locating
+       Else NotFound; // not found : no popup
+
+    end
+end;
+
 // procedure TCustomSearchDBEdit.KeyUp
 //  searching on key up
 procedure TCustomSearchDBEdit.KeyUp(var Key: Word; Shift: TShiftState);
-var li_pos : Integer;
-    ls_temp : String;
 begin
   inherited KeyUp(Key, Shift);
   if not Assigned ( FSearchSource.DataSet )
@@ -468,43 +525,8 @@ begin
     End;
     end;
   if not ( Key in [ VK_TAB, VK_BACK ])
-  and ( Text > '' )
-   Then
-    with FSearchSource.DataSet do
-      Begin
-        Open ;
-        FSet := False;
-        // Trouvé ?
-        if not assigned ( FindField ( FSearchSource.FieldName )) Then Exit;
-        if FSearchFiltered Then
-         Begin
-          Filter := 'LOWER('+ FSearchSource.FieldName+') LIKE ''' + LowerCase(fs_stringDbQuote(Text)) +'%''';
-          Filtered:=True;
-         End;
-        if not IsEmpty
-        and fb_Locate ( FSearchSource.DataSet, FSearchSource.FieldName, Text, [loCaseInsensitive, loPartialKey], True )
-         Then
-          Begin
-            CreatePopup;
-            Flocated  := True;
-            li_pos    := SelStart ;
-            ls_temp   := FieldByName ( FSearchSource.FieldName ).AsString;
-            Text      := ls_temp ; // c'est en affectant le texte que l'on passe en mode édition
-            SelStart  := li_pos ;
-            SelLength := length ( ls_temp ) - li_pos ;
-            if SelLength=0
-             Then ValidateSearch
-             Else
-              if assigned ( FOnLocate ) Then
-                FOnLocate ( Self );
-          End
-         Else // not found : no popup
-          Begin
-            Flocated  := False;
-            if Assigned(FPopup) Then
-              FPopup.Visible:=False;
-          End;
-      end
+   Then SearchText(Key);
+
 
 end;
 
