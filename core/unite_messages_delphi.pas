@@ -18,18 +18,19 @@ const
   gVer_unite_messages : T_Version= ( Component : 'Constantes messages' ; FileUnit : 'unite_messages' ;
                         	     Owner : 'Matthieu Giroux' ;
                         	     Comment : 'Constantes et variables messages.' ;
-                        	     BugsStory : 'Version 1.0.5.0 : NetUpdate messages.' + CST_ENDOFLINE
-                                         + 'Version 1.0.4.1 : Menu Toolbar messages.' + CST_ENDOFLINE
-                                         + 'Version 1.0.4.0 : Message d''erreur de sauvegarde ini.' + CST_ENDOFLINE
-                                         + 'Version 1.0.3.3 : Message GS_MC_ERREUR_CONNEXION.' + CST_ENDOFLINE
-                                         + 'Version 1.0.3.2 : Modifs GS_MC_VALEUR_UTILISEE et GS_MC_VALEURS_UTILISEES, ajout de GS_MC_DETAILS_TECHNIQUES.' + CST_ENDOFLINE
-                                         + 'Version 1.0.3.1 : Constante message Form Dico.' + CST_ENDOFLINE
-                                         + 'Version 1.0.3.0 : Constantes INI.' + CST_ENDOFLINE
-                                         + 'Version 1.0.2.0 : Plus de messages dans l''unité.' + CST_ENDOFLINE
-                                         + 'Version 1.0.1.0 : Plus de messages dans l''unité.' + CST_ENDOFLINE
-                                         + 'Version 1.0.0.0 : Gestion des messages des fenêtres.';
+                        	     BugsStory : 'Version 1.0.6.0 : db messages.' + CST_ENDOFLINE
+                                               + 'Version 1.0.5.0 : NetUpdate messages.' + CST_ENDOFLINE
+                                               + 'Version 1.0.4.1 : Menu Toolbar messages.' + CST_ENDOFLINE
+                                               + 'Version 1.0.4.0 : Message d''erreur de sauvegarde ini.' + CST_ENDOFLINE
+                                               + 'Version 1.0.3.3 : Message GS_MC_ERREUR_CONNEXION.' + CST_ENDOFLINE
+                                               + 'Version 1.0.3.2 : Modifs GS_MC_VALEUR_UTILISEE et GS_MC_VALEURS_UTILISEES, ajout de GS_MC_DETAILS_TECHNIQUES.' + CST_ENDOFLINE
+                                               + 'Version 1.0.3.1 : Constante message Form Dico.' + CST_ENDOFLINE
+                                               + 'Version 1.0.3.0 : Constantes INI.' + CST_ENDOFLINE
+                                               + 'Version 1.0.2.0 : Plus de messages dans l''unité.' + CST_ENDOFLINE
+                                               + 'Version 1.0.1.0 : Plus de messages dans l''unité.' + CST_ENDOFLINE
+                                               + 'Version 1.0.0.0 : Gestion des messages des fenêtres.';
                         	     UnitType : 1 ;
-                        	     Major : 1 ; Minor : 0 ; Release : 5 ; Build : 0 )
+                        	     Major : 1 ; Minor : 0 ; Release : 6 ; Build : 0 )
 
 {$ENDIF};
 
@@ -62,6 +63,9 @@ const
 
 
 resourcestring
+  gs_TestOk  = 'Test OK' ;
+  gs_TestBad  = 'Error' ;
+
   // Paquet extcore
 
   GS_ECRITURE_IMPOSSIBLE_AVEC_ATTR = 'Impossible d''écrire sur le fichier @ARG avec l''attribut de fichier @ARG.' ;
@@ -112,6 +116,17 @@ resourcestring
   gs_Downloading_in_progress = 'Téléchargement de @ARG en cours…';
   gs_Download_update = 'Télécharger mise à jour';
   gs_Download_finished = 'Téléchargement terminé.';
+  GS_mot_passe_invalide = 'Mot de passe invalide.' + CST_ENDOFLINE
+	 + 'Veuillez resaisir votre mot de passe.' ;
+  GS_EXE_DO_NOT_EXISTS_EXITING   = 'L''exécutable suivant n''a pas été trouvé. L''application va s''arr?ter.'+#10+'@ARG' ;
+
+  // dbcomponents
+  gs_Caption_Save_in = 'Sauvegarde dans @ARG.';
+  gs_Caption_Restore_database = 'Restauration base @ARG.';
+  gs_Error_Restore_Directory_does_not_exists =
+          'Opération impossible, le répertoire de sauvegarde'+CST_ENDOFLINE
+        +'@ARG'+CST_ENDOFLINE+'n''existe pas et ne peut être créé.';
+  gs_Optimising_database_is_a_success = 'L''optimisation de la base s''est bien passée.';
 
  // Composants
   GS_SUPPRIMER_QUESTION = 'Confirmez-vous l''effacement de l''enregistrement ?' ;

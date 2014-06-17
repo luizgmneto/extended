@@ -1,4 +1,4 @@
-unit fonctions_startibx;
+﻿unit fonctions_startibx;
 
 {$IFDEF FPC}
 {$MODE Delphi}
@@ -59,10 +59,10 @@ uses IBQuery,
      fonctions_dialogs,
      {$IFDEF FPC}
      unite_messages,
+     FileUtil,
      {$ELSE}
      unite_messages_delphi,
      {$ENDIF}
-     FileUtil,
      fonctions_init,
      fonctions_db,
      fonctions_file,
@@ -213,7 +213,7 @@ begin
      end
       else
         PathNameGBK:=APathSave;
-    if not ForceDirectoriesUTF8(PathNameGBK) { *Converted from ForceDirectories*  } then
+    if not ForceDirectoriesUTF8(PathNameGBK) then
     begin
       Result:=False;
       exit;
@@ -353,9 +353,9 @@ initialization
  {$IFDEF FPC}
  OnGetLibraryName:= TOnGetLibraryName( p_setLibrary);
  {$ENDIF}
- ge_OnExecuteQuery  :=TOnExecuteQuery(p_ExecuteIBXQuery);
- ge_OnOptimiseDatabase  :=TOnOptimiseDatabase( fb_RestoreBase );
- ge_OnExecuteCommand:=TOnExecuteCommand(p_ExecuteSQLCommand);
+ ge_OnExecuteQuery  :=TOnExecuteQuery(@p_ExecuteIBXQuery);
+ ge_OnOptimiseDatabase  :=TOnOptimiseDatabase(@fb_RestoreBase );
+ ge_OnExecuteCommand:=TOnExecuteCommand(@p_ExecuteSQLCommand);
  {$IFDEF VERSIONS}
  p_ConcatVersion ( gver_fonctions_ibx );
  {$ENDIF}
