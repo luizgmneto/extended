@@ -126,7 +126,7 @@ type
   protected
     procedure Locating; virtual;
     procedure NotFound; virtual;
-    procedure SearchText(const AKey:Byte); virtual;
+    procedure SearchText; virtual;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure CreatePopup; virtual;
@@ -471,12 +471,11 @@ begin
     FOnNotFound ( Self );
 end;
 
-procedure TCustomSearchDBEdit.SearchText(const AKey:Byte);
+procedure TCustomSearchDBEdit.SearchText;
 begin
   with FSearchSource,Dataset do
     Begin
       Open ;
-      Text:=Text+chr(AKey);
       FSet := False;
       // Trouvé ?
       if not assigned ( FindField ( FieldName )) Then Exit;
@@ -525,7 +524,8 @@ begin
     End;
     end;
   if not ( Key in [ VK_TAB, VK_BACK ])
-   Then SearchText(Key);
+  and ( Text > '' )
+   Then SearchText;
 
 
 end;
