@@ -137,9 +137,9 @@ Begin
             ls_file := AsString;
             repeat
               inc ( li_i );
-              ls_filePath:=ADirectory+fs_ExtractFileNameOnlyWithoutExt(AsString)+IntToStr(li_i)+ExtractFileExt(AsString);
+              ls_filePath:=ADirectory+ExtractFileNameOnly(AsString)+IntToStr(li_i)+ExtractFileExt(AsString);
             until not FileExistsUTF8(ls_filePath);
-            AsString:=fs_ExtractFileNameOnlyWithoutExt(AsString)+IntToStr(li_i)+ExtractFileExt(AsString);
+            AsString:=ExtractFileNameOnly(AsString)+IntToStr(li_i)+ExtractFileExt(AsString);
             fb_CopyFile(FLocalDir+ls_file,FFilesDir+AsString,False);
            end;
        end
