@@ -237,7 +237,7 @@ type
     gbm_DernierEnregistrement : TBookmark ;
     {$ELSE}
     gbm_DernierEnregistrement : TBookmarkStr ;
-    {$ENDIF}
+    {$IFEND}
     constructor Create ( acom_owner : TComponent ); override;
     procedure Loaded; override;
     {$IFDEF FPC}

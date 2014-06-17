@@ -725,15 +725,16 @@ var Aindex, LCol : Integer;
 
    procedure p_FieldMemo;
    var AImageIndex:Integer;
-       RxColumn : TRxColumn;
+       RxColumn : TExtGridColumn;
    Begin
     if ( eoPaintMemos in FPaintOptions) Then
      Begin
-      RxColumn:=( TExtGridColumn ( Columns [ LCol - FixedCols ])) as TRxColumn;
+      RxColumn:= TExtGridColumn ( Columns [ LCol - FixedCols ]);
       with RxColumn do
       if ( Field is TMemoField )  Then
        Begin
          PrepareCell;
+    {$IFDEF FPC}
          DrawCellGrid(aCol, aRow, aRect, aState);
 
          if Assigned(ImageList) then
@@ -745,6 +746,7 @@ var Aindex, LCol : Integer;
          end
          else
            DefaultDrawCellData(aCol, aRow, aRect, aState);
+    {$ENDIF}
          Canvas.TextRect(aRect,3,3,( Field as TMemoField ).Text);
          FPainted := True;
        End;

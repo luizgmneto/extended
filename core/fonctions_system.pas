@@ -75,7 +75,6 @@ const  gat_ArchitectureType : TArchitectureType = {$IFDEF CPU64}at64{$ELSE}at32{
 
 function ExtractSubDir ( const as_FilePath : String ) :String;
 function ExtractDirName ( const as_FilePath : String ) :String;
-function fs_ExtractFileNameOnlyWithoutExt ( const as_Path : String ): String;
 procedure p_OpenFileOrDirectory ( const AFilePath : String );
 function fs_GetNameSoft : String;
 // Retourne le nom d'utilisateur (string) de la session WINDOWS
@@ -90,6 +89,7 @@ function fs_GetPackagesExtension : String;
 function fpt_GetPackagesType : TPackageType;
 {$IFDEF WINDOWS}
 function GetWinDir ( const CSIDL : Integer ) : String ;
+function ExtractFileNameOnly ( const as_Path : String ): String;
 {$ELSE}
 {$IFDEF UNIX}
 {$ENDIF}
@@ -109,7 +109,7 @@ procedure FindCloseUTF8(var F: TSearchRec);
 function FileOpenUTF8(const FileName: string; Mode: LongWord): Integer;
 function FindNextUTF8(var SR: TSearchRec):integer;
 procedure RemoveDirUTF8 ( const as_dir : String );
-procedure ForceDirectoriesUTF8 ( const as_dir : String );
+function ForceDirectoriesUTF8 ( const as_dir : String ):Boolean;
 procedure CreateDirUTF8 ( const as_dir : String );
 procedure DeleteFileUTF8 ( const as_File : String );
 function FileCreateUTF8(const as_file: String):integer;
@@ -163,7 +163,7 @@ function GetAppConfigDir ( const Global : Boolean ): string;
    if Global
     Then Result := GetWinDir ( CSIDL_COMMON_APPDATA )
     Else Result := GetWinDir ( CSIDL_APPDATA );
-   Result := Result + DirectorySeparator + fs_ExtractFileNameOnlyWithoutExt ( Application.ExeName );
+   Result := Result + DirectorySeparator + ExtractFileNameOnly ( Application.ExeName );
  end;
 
 // delphi user directory
@@ -227,9 +227,9 @@ procedure RemoveDirUTF8 ( const as_dir : String );
 Begin
   RemoveDir(as_dir);
 End;
-procedure ForceDirectoriesUTF8 ( const as_dir : String );
+function ForceDirectoriesUTF8 ( const as_dir : String ):Boolean;
 Begin
-  ForceDirectories(as_dir);
+  Result := ForceDirectories(as_dir);
 End;
 procedure CreateDirUTF8 ( const as_dir : String );
 Begin
@@ -247,7 +247,7 @@ End;
 // application directory with Separator
 function fs_getAppDir : String;
 Begin
-  Result := ExtractFileDir( Application.ExeName ) ;
+  Result := ExtractFileDir( Application.ExeName ){$IFDEF DELPHI}+DirectorySeparator{$ENDIF} ;
 End;
 
 // Erase first Directory with Separator
@@ -339,7 +339,7 @@ begin
 end;
 
 // filename with no extension ( forced )
-function fs_ExtractFileNameOnlyWithoutExt ( const as_Path : String ): String;
+function ExtractFileNameOnly ( const as_Path : String ): String;
 Begin
   Result := ExtractFileName(as_path);
   Result :=copy ( Result, 1 , length ( Result ) - length( ExtractFileExt(Result)));

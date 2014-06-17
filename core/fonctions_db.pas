@@ -426,7 +426,7 @@ var lvar_Numordre1      ,
     lbkm_GardeEnr     : TBookmark ;
     {$ELSE}
     lbkm_GardeEnr     : TBookmarkStr ;
-    {$ENDIF}
+    {$IFEND}
     lb_continue       : Boolean ;
 
 begin

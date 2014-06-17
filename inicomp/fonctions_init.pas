@@ -27,6 +27,9 @@ uses
   fonctions_version,
 {$ENDIF}
   dialogs,
+  {$IFDEF DELPHI_9_UP}
+  WideStrings,
+  {$ENDIF}
   {$IFDEF FPC}
   unite_messages,
   {$ELSE}

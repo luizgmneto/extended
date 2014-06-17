@@ -208,11 +208,6 @@ begin
   inherited TextChanged;
 end;
 
-procedure TExtSearchDBEdit.UTF8KeyPress(var UTF8Key: TUTF8Char);
-begin
-  inherited UTF8KeyPress(UTF8Key);
-end;
-
 procedure TExtSearchDBEdit.Change;
 begin
   inherited Change;
