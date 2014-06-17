@@ -182,42 +182,17 @@ type
 
   { TExtSearchDBEdit }
   TExtSearchDBEdit = class(TCustomSearchDBEdit)
-  private
-  protected
-    procedure TextChanged; {$IFDEF FPC}override;{$ELSE}virtual;{$ENDIF}
-    {$IFDEF FPC}
-    procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
-    {$ENDIF}
-    procedure Change; override;
-  public
-    constructor Create ( Aowner : TComponent ); override;
-  published
   end;
 
 implementation
 
 uses Dialogs,
      fonctions_db,
+     fonctions_search_edit,
      fonctions_components,
      sysutils;
 
 { TExtSearchDBEdit }
-
-procedure TExtSearchDBEdit.TextChanged;
-begin
-  inherited TextChanged;
-end;
-
-procedure TExtSearchDBEdit.Change;
-begin
-  inherited Change;
-end;
-
-constructor TExtSearchDBEdit.Create(Aowner: TComponent);
-begin
-  inherited Create(Aowner);
-end;
-
 
 { TListPopup }
 
@@ -468,23 +443,10 @@ end;
 
 procedure TCustomSearchDBEdit.SearchText;
 begin
-  with FSearchSource,Dataset do
-    Begin
-      Open ;
-      FSet := False;
-      // Trouvé ?
-      if not assigned ( FindField ( FieldName )) Then Exit;
-      if FSearchFiltered Then
-       Begin
-        Filter := 'LOWER('+ FieldName+') LIKE ''' + LowerCase(fs_stringDbQuote(Text)) +'%''';
-        Filtered:=True;
-       End;
-      if not IsEmpty
-      and fb_Locate ( DataSet, FieldName, Text, [loCaseInsensitive, loPartialKey], True )
-       Then Locating
-       Else NotFound; // not found : no popup
-
-    end
+  FSet := False;
+  if fb_SearchText ( Self, FSearchSource, FSearchFiltered )
+   Then Locating
+   Else NotFound; // not found : no popup
 end;
 
 // procedure TCustomSearchDBEdit.KeyUp

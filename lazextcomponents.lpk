@@ -26,7 +26,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="4"/>
-    <Files Count="15">
+    <Files Count="16">
       <Item1>
         <Filename Value="extcomp/PDBCheck.pas"/>
         <UnitName Value="PDBCheck"/>
@@ -87,6 +87,10 @@
         <Filename Value="extcomp/U_ExtComboInsert.pas"/>
         <UnitName Value="U_ExtComboInsert"/>
       </Item15>
+      <Item16>
+        <Filename Value="extcomp/fonctions_search_edit.pas"/>
+        <UnitName Value="fonctions_search_edit"/>
+      </Item16>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
