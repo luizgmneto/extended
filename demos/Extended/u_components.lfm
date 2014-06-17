@@ -1,11 +1,11 @@
 object Myform: TMyform
   Left = 181
-  Height = 548
+  Height = 587
   Top = 29
   Width = 785
   ActiveControl = Panel1
   Caption = 'Myform'
-  ClientHeight = 525
+  ClientHeight = 564
   ClientWidth = 785
   Color = clBtnFace
   Font.Color = clWindowText
@@ -16,18 +16,18 @@ object Myform: TMyform
   LCLVersion = '1.2.1.0'
   object Splitter1: TSplitter
     Left = 208
-    Height = 525
+    Height = 564
     Top = 0
     Width = 5
   end
   object Panel1: TPanel
     Left = 0
-    Height = 525
+    Height = 564
     Top = 0
     Width = 208
     Align = alLeft
     Caption = 'Panel1'
-    ClientHeight = 525
+    ClientHeight = 564
     ClientWidth = 208
     TabOrder = 0
     object ExtDBNavigator: TExtDBNavigator
@@ -43,7 +43,7 @@ object Myform: TMyform
     end
     object Noms: TExtDBGrid
       Left = 1
-      Height = 314
+      Height = 353
       Top = 21
       Width = 206
       TitleButtons = False
@@ -177,7 +177,7 @@ object Myform: TMyform
     object Panel5: TPanel
       Left = 1
       Height = 186
-      Top = 338
+      Top = 377
       Width = 206
       Align = alBottom
       BevelOuter = bvNone
@@ -256,7 +256,7 @@ object Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 335
+      Top = 374
       Width = 206
       Align = alBottom
       ResizeAnchor = akBottom
@@ -264,11 +264,11 @@ object Myform: TMyform
   end
   object Panel2: TPanel
     Left = 213
-    Height = 525
+    Height = 564
     Top = 0
     Width = 540
     Align = alClient
-    ClientHeight = 525
+    ClientHeight = 564
     ClientWidth = 540
     TabOrder = 3
     object FWLabel1: TFWLabel
@@ -371,7 +371,7 @@ object Myform: TMyform
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 303
+      Top = 342
       Width = 538
       Align = alBottom
       ResizeAnchor = akBottom
@@ -475,7 +475,7 @@ object Myform: TMyform
     object DBListView: TDBListView
       Left = 1
       Height = 218
-      Top = 306
+      Top = 345
       Width = 538
       Align = alBottom
       Columns = <      
@@ -724,7 +724,7 @@ object Myform: TMyform
   end
   object ExtMenuToolBar: TExtMenuToolBar
     Left = 753
-    Height = 525
+    Height = 564
     Top = 0
     Width = 32
     Align = alRight
@@ -793,7 +793,6 @@ object Myform: TMyform
       'SELECT * FROM DEPARTEMENT'
     )
     Params = <>
-    UpdateObject = IBUpdateDepartem
     left = 160
     top = 432
   end
@@ -814,6 +813,7 @@ object Myform: TMyform
       'SELECT * FROM DEPARTEMENT'
     )
     Params = <>
+    UpdateObject = IBUpdateDepartem
     left = 160
     top = 488
   end

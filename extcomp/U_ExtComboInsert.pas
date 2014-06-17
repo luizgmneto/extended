@@ -61,8 +61,8 @@ type
    private
 
     // On est en train d'écrire dans la combo
-    FSearchKey,
-    FFieldKey    :String;
+    FSearchKey   : String;
+    FFieldKey    : TFieldDatalink;
     // Focus sur le composant
     // En train de mettre à jour ou pas
     FUpdate,
@@ -70,8 +70,8 @@ type
 
     //look
     FNotifyOrder : TNotifyEvent;
-    function GetSearchKey: String;
-    procedure SetSearchKey(AValue: String);
+    function GetFieldKey: String;
+    procedure SetFieldKey(AValue: String);
   protected
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure AutoInsert; virtual;
@@ -81,11 +81,14 @@ type
     procedure DoExit; override ;
   public
     constructor Create ( AOwner : TComponent ); override;
+    destructor Destroy ; override;
+    procedure Loaded; override ;
+    procedure LoadSourceKey; virtual;
     procedure AssignListValue;virtual;
   published
     property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
-    property SearchKey: String read GetSearchKey write SetSearchKey;
-    property DataKey: String read FFieldKey write FFieldKey;
+    property SearchKey: String read FSearchKey write FSearchKey;
+    property DataKey: String read GetFieldKey write SetFieldKey;
   end;
 
 implementation
@@ -117,7 +120,32 @@ begin
   FNotFound := False;
   // look
   FSearchKey := '';
-  FFieldKey := '';
+  FFieldKey := TFieldDataLink.Create;
+end;
+
+destructor TExtDBComboInsert.Destroy;
+begin
+  inherited Destroy;
+  FFieldKey.Destroy;
+end;
+
+procedure TExtDBComboInsert.Loaded;
+begin
+  LoadSourceKey;
+  inherited Loaded;
+end;
+
+procedure TExtDBComboInsert.LoadSourceKey;
+begin
+  if assigned ( Datasource ) Then
+   Begin
+    FFieldKey.Datasource := Datasource;
+    if DataField = ''
+     Then
+      Datasource:=nil;
+   end
+  Else
+   Datasource := FFieldKey.Datasource;
 end;
 
 
@@ -129,8 +157,8 @@ end;
 procedure TExtDBComboInsert.AssignListValue;
 Begin
     // Verify Text value or locate
-  If  assigned ( Field.Dataset.FindField(FFieldKey))
-  and not Field.Dataset.FindField(FFieldKey).IsNull
+  If  assigned ( FFieldKey.Field )
+  and not FFieldKey.Field.IsNull
   and assigned ( SearchSource )
   and assigned ( SearchSource.DataSet )
   Then
@@ -215,20 +243,27 @@ begin
       if Locate ( SearchDisplay, LText, [] ) Then
         Begin
           Text := FindField ( SearchDisplay ).Value ;
+          if Assigned ( FFieldKey.Field )
+           Then
+            Begin
+             FFieldKey.Dataset.Edit;
+             FFieldKey.Field.Value := FieldByName ( SearchKey ).Value;
+            end;
           if assigned ( OnSet ) Then
             OnSet ( Self );
         end;
      end;
 end;
 
-function TExtDBComboInsert.GetSearchKey: String;
+function TExtDBComboInsert.GetFieldKey: String;
 begin
-  Result:=FSearchKey;
+  Result:=FFieldKey.FieldName;
 end;
 
-procedure TExtDBComboInsert.SetSearchKey(AValue: String);
+procedure TExtDBComboInsert.SetFieldKey(AValue: String);
 begin
-  FSearchKey:=AValue;
+
+  FFieldKey.FieldName:=AValue;
 end;
 
 procedure TExtDBComboInsert.KeyUp(var Key: Word; Shift: TShiftState);
