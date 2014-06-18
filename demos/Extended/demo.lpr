@@ -11,7 +11,7 @@ uses
   fonctions_system,
   Interfaces, // this includes the LCL widgetset
   Forms, U_Components, LResources, DBFLaz, lazextcomponents,
-  lazextbuttons, ibexpress;
+  lazextbuttons, lazextcomponentsimg, lazextinit, ibexpress;
 begin
   {$I demo.lrs}
   Application.Initialize;

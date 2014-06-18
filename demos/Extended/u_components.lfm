@@ -272,9 +272,9 @@ object Myform: TMyform
     ClientWidth = 540
     TabOrder = 3
     object FWLabel1: TFWLabel
-      Left = 19
+      Left = 20
       Height = 17
-      Top = 86
+      Top = 115
       Width = 65
       AutoSize = False
       Caption = 'Color'
@@ -288,9 +288,9 @@ object Myform: TMyform
       ColorFocus = clMaroon
     end
     object FWLabel2: TFWLabel
-      Left = 21
+      Left = 22
       Height = 17
-      Top = 113
+      Top = 142
       Width = 65
       AutoSize = False
       Caption = 'NumEdit'
@@ -304,9 +304,9 @@ object Myform: TMyform
       ColorFocus = clMaroon
     end
     object FWLabel3: TFWLabel
-      Left = 19
+      Left = 20
       Height = 17
-      Top = 142
+      Top = 171
       Width = 65
       AutoSize = False
       Caption = 'Date'
@@ -320,9 +320,9 @@ object Myform: TMyform
       ColorFocus = clMaroon
     end
     object FWLabel4: TFWLabel
-      Left = 19
+      Left = 20
       Height = 17
-      Top = 168
+      Top = 197
       Width = 65
       AutoSize = False
       Caption = 'Edit'
@@ -376,32 +376,16 @@ object Myform: TMyform
       Align = alBottom
       ResizeAnchor = akBottom
     end
-    object Search2: TFWLabel
-      Left = 21
-      Height = 15
-      Top = 216
-      Width = 65
-      AutoSize = False
-      Caption = 'City 2'
-      Color = clBtnFace
-      Font.Color = clWindowText
-      Font.Height = 15
-      Font.Name = 'Tahoma'
-      ParentColor = False
-      ParentFont = False
-      Transparent = False
-      ColorFocus = clMaroon
-    end
     object Search: TFWLabel
-      Left = 19
+      Left = 20
       Height = 15
-      Top = 191
+      Top = 220
       Width = 65
       AutoSize = False
       Caption = 'City'
       Color = clBtnFace
       Font.Color = clWindowText
-      Font.Height = 15
+      Font.Height = 12
       Font.Name = 'Tahoma'
       ParentColor = False
       ParentFont = False
@@ -409,9 +393,9 @@ object Myform: TMyform
       ColorFocus = clMaroon
     end
     object ExtColorCombo: TExtColorCombo
-      Left = 120
+      Left = 121
       Height = 28
-      Top = 75
+      Top = 104
       Width = 221
       HTMLcolor = '#FFFFFF'
       ColorReadOnly = clInfoText
@@ -422,9 +406,9 @@ object Myform: TMyform
       TabOrder = 0
     end
     object ExtNumEdit1: TExtNumEdit
-      Left = 120
+      Left = 121
       Height = 24
-      Top = 108
+      Top = 137
       Width = 221
       EditMask = '#0,#9;0; '
       AlwaysSame = False
@@ -442,9 +426,9 @@ object Myform: TMyform
       Text = '0'
     end
     object FWDateEdit1: TFWDateEdit
-      Left = 120
+      Left = 121
       Height = 24
-      Top = 134
+      Top = 163
       Width = 221
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
       OKCaption = 'OK'
@@ -460,9 +444,9 @@ object Myform: TMyform
       AlwaysSame = False
     end
     object FWEdit: TFWEdit
-      Left = 120
+      Left = 121
       Height = 24
-      Top = 160
+      Top = 189
       Width = 221
       CharCase = ecNormal
       MaxLength = 0
@@ -507,32 +491,17 @@ object Myform: TMyform
       Lines.Strings = (
         'FWMemo'
       )
-      TabOrder = 8
-    end
-    object ExtDBComboInsert2: TExtDBComboInsert
-      Left = 120
-      Height = 24
-      Top = 211
-      Width = 221
-      DataSource = ds_user
-      CharCase = ecNormal
-      MaxLength = 0
       TabOrder = 7
-      MyLabel = Search2
-      SearchDisplay = 'NOM'
-      SearchList = 'NOM'
-      SearchSource = ds_dep2
-      SearchKey = 'CLEP'
-      DataKey = 'IDDEPARTEMENT'
     end
-    object ExtSearchDBEdit2: TExtSearchDBEdit
-      Left = 120
+    object ExtSearchEdit2: TExtSearchEdit
+      Left = 121
       Height = 24
-      Top = 185
+      Top = 214
       Width = 221
       CharCase = ecNormal
       MaxLength = 100
       TabOrder = 6
+      SpaceChar = '_'
       MyLabel = Search
       SearchDisplay = 'NOM'
       SearchSource = ds_dep2
@@ -555,7 +524,7 @@ object Myform: TMyform
         'Image'
       )
       ItemHeight = 16
-      TabOrder = 9
+      TabOrder = 8
       DataField = 'ENTIER'
       DataSource = ds_user
     end
@@ -581,7 +550,7 @@ object Myform: TMyform
       Height = 24
       Top = 240
       Width = 220
-      TabOrder = 10
+      TabOrder = 9
       Value = 1
       MyLabel = FWLabel8
     end
@@ -624,7 +593,7 @@ object Myform: TMyform
       Increment = 1
       MaxValue = 100
       MinValue = 0
-      TabOrder = 11
+      TabOrder = 10
       Value = 0
     end
     object FWLabel9: TFWLabel
@@ -652,7 +621,7 @@ object Myform: TMyform
       Anchors = [akTop, akLeft, akRight]
       ClientHeight = 114
       ClientWidth = 130
-      TabOrder = 12
+      TabOrder = 11
       object ExtDBImage: TExtDBImage
         Cursor = crHandPoint
         Left = 2
@@ -676,7 +645,7 @@ object Myform: TMyform
       Height = 32
       Top = 9
       Caption = 'Close'
-      TabOrder = 13
+      TabOrder = 12
       Font.Color = clMaroon
       ParentFont = False
     end
@@ -686,17 +655,50 @@ object Myform: TMyform
       Top = 9
       Width = 96
       Caption = 'Print'
-      TabOrder = 14
+      TabOrder = 13
       Font.Color = clMaroon
       ParentFont = False
       DBTitle = 'Users'
       DBGrid = Noms
     end
+    object ExtDBComboInsert2: TExtDBComboInsert
+      Left = 121
+      Height = 24
+      Top = 64
+      Width = 221
+      CharCase = ecNormal
+      MaxLength = 0
+      TabOrder = 14
+      SpaceChar = '_'
+      MyLabel = Search2
+      SearchDisplay = 'NOM'
+      SearchList = 'NOM'
+      SearchSource = ds_dep2
+      DataSource = ds_user
+      SearchKey = 'CLEP'
+      DataField = 'IDDEPARTEMENT'
+    end
+    object Search2: TFWLabel
+      Left = 22
+      Height = 15
+      Top = 72
+      Width = 65
+      AutoSize = False
+      Caption = 'User''s City'
+      Color = clBtnFace
+      Font.Color = clWindowText
+      Font.Height = 12
+      Font.Name = 'Tahoma'
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+      ColorFocus = clMaroon
+    end
   end
   object FWDBEdit1: TExtFormatDBEdit
     Left = 333
     Height = 24
-    Top = 48
+    Top = 40
     Width = 221
     DataField = 'Nom'
     DataSource = ds_user
@@ -2229,6 +2231,7 @@ object Myform: TMyform
   object IBUpdateUtilisateur: TIBUpdateSQL
     RefreshSQL.Strings = (
       'SELECT * FROM UTILISATEUR'
+      'WHERE CLEP=:CLEP'
     )
     ModifySQL.Strings = (
       'UPDATE UTILISATEUR SET NOM=:NOM,'
@@ -2257,6 +2260,7 @@ object Myform: TMyform
   object IBUpdateDepartem: TIBUpdateSQL
     RefreshSQL.Strings = (
       'SELECT * FROM DEPARTEMENT'
+      'WHERE CLEP=:CLEP'
     )
     ModifySQL.Strings = (
       'UPDATE DEPARTEMENT SET NOM=:NOM'

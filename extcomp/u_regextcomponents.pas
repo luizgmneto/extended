@@ -44,7 +44,7 @@ begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TExtFormatDBEdit,TPDBCheck,
                                                 {$IFDEF FPC}TExtDBDirectoryEdit,TExtClonedPanel,{$ENDIF}
                                                 TExtDBNavigator,
-                                                TExtSearchDBEdit,
+                                                TExtSearchDBEdit,TExtSearchEdit,
                                                 TExtDBNumEdit]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtFormatEdit,TPCheck,TExtColorCombo,
                                                 TExtNumEdit,TExtRadioGroup]);
