@@ -250,11 +250,15 @@ procedure TExtDBComboInsert.SetFieldKeyValue;
 Begin
   with FFieldKey do
   if Assigned ( Field )
+  and ( FSearchKey > '' )
    Then
-    Begin
-     Dataset.Edit;
-     Field.Value := SearchSource.DataSet.FieldByName ( SearchKey ).Value;
-    end;
+    with SearchSource.DataSet do
+     if FieldByName ( FSearchKey ).Value <> Field.Value
+      Then
+        Begin
+         Dataset.Edit;
+         Field.Value := FieldByName ( FSearchKey ).Value;
+        end;
 end;
 
 procedure TExtDBComboInsert.AutoInsert;
