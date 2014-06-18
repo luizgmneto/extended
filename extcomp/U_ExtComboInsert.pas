@@ -41,7 +41,8 @@ const
                                              FileUnit : 'U_DBComboBoxInsert' ;
                                              Owner : 'Matthieu Giroux' ;
                                              Comment : 'Insertion automatique dans une DBComboLookupEdit.' ;
-                                             BugsStory : '1.1.0.0 : ExtSearchDbEdit inherit.' +#13#10
+                                             BugsStory : '1.2.0.0 : TCustomSearchEdit inherit.'
+                                                       + '1.1.0.0 : ExtSearchDbEdit inherit.' +#13#10
                                                        + '1.0.1.5 : MyLabel unset correctly.' +#13#10
                                                        + '1.0.1.4 : Better component testing.' +#13#10
                                                        + '1.0.1.3 : Compiling on lazarus.' +#13#10
@@ -51,13 +52,13 @@ const
                                                        + '1.0.0.0 : Version bêta inadaptée, réutilisation du code de la TJvDBLookupComboEdit.' +#13#10
                                                        + '0.9.0.0 : En place à tester.';
                                              UnitType : 3 ;
-                                             Major : 1 ; Minor : 1 ; Release : 0 ; Build : 0 );
+                                             Major : 1 ; Minor : 2 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
 type
 
 { TExtDBComboInsert }
-  TExtDBComboInsert = class(TCustomSearchDBEdit)
+  TExtDBComboInsert = class(TCustomSearchEdit)
    private
 
     // On est en train d'écrire dans la combo
@@ -70,8 +71,10 @@ type
 
     //look
     FNotifyOrder : TNotifyEvent;
+    function fs_getDataSource: TDataSource;
     function GetFieldKey: String;
-    procedure SetFieldKey(AValue: String);
+    procedure p_setDataSource(const AValue: TDataSource);
+    procedure SetFieldKey(const AValue: String);
   protected
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure AutoInsert; virtual;
@@ -79,16 +82,20 @@ type
     procedure Locating; override ;
     procedure DoEnter; override ;
     procedure DoExit; override ;
+    procedure SetFieldKeyValue; virtual;
+    procedure DataChange ( ADataLink :TObject ); virtual;
   public
     constructor Create ( AOwner : TComponent ); override;
     destructor Destroy ; override;
+    function Field: TField; virtual;
     procedure Loaded; override ;
     procedure LoadSourceKey; virtual;
     procedure AssignListValue;virtual;
   published
     property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
+    property DataSource : TDatasource read fs_getDataSource write p_setDataSource ;
     property SearchKey: String read FSearchKey write FSearchKey;
-    property DataKey: String read GetFieldKey write SetFieldKey;
+    property DataField: String read GetFieldKey write SetFieldKey;
   end;
 
 implementation
@@ -121,12 +128,18 @@ begin
   // look
   FSearchKey := '';
   FFieldKey := TFieldDataLink.Create;
+  FFieldKey.OnDataChange := DataChange;
 end;
 
 destructor TExtDBComboInsert.Destroy;
 begin
   inherited Destroy;
   FFieldKey.Destroy;
+end;
+
+function TExtDBComboInsert.Field: TField;
+begin
+  Result := FFieldKey.Field;
 end;
 
 procedure TExtDBComboInsert.Loaded;
@@ -137,18 +150,8 @@ end;
 
 procedure TExtDBComboInsert.LoadSourceKey;
 begin
-  if assigned ( Datasource ) Then
-   Begin
-    FFieldKey.Datasource := Datasource;
-    if DataField = ''
-     Then
-      Datasource:=nil;
-   end
-  Else
-   Datasource := FFieldKey.Datasource;
+
 end;
-
-
 
 ///////////////////////////////////////////////////////////////////////////
 // fonction    : AssignListValue
@@ -225,6 +228,35 @@ begin
   inherited DoExit;
 end;
 
+procedure TExtDBComboInsert.DataChange(ADataLink: TObject);
+begin
+  if ( SearchSource = nil )
+  or ( SearchDisplay = '' )
+  or ( SearchSource.DataSet = nil ) Then
+   Begin
+    Text:= '';
+    Exit;
+   End;
+  with SearchSource.DataSet do
+   Begin
+    Open;
+    if Locate ( FSearchKey, Field.Value, [] )
+     Then Text:= FindField ( SearchDisplay ).Value
+     Else Text:= '';
+   End;
+end;
+
+procedure TExtDBComboInsert.SetFieldKeyValue;
+Begin
+  with FFieldKey do
+  if Assigned ( Field )
+   Then
+    Begin
+     Dataset.Edit;
+     Field.Value := SearchSource.DataSet.FieldByName ( SearchKey ).Value;
+    end;
+end;
+
 procedure TExtDBComboInsert.AutoInsert;
 var LText : String;
 begin
@@ -243,16 +275,28 @@ begin
       if Locate ( SearchDisplay, LText, [] ) Then
         Begin
           Text := FindField ( SearchDisplay ).Value ;
-          if Assigned ( FFieldKey.Field )
-           Then
-            Begin
-             FFieldKey.Dataset.Edit;
-             FFieldKey.Field.Value := FieldByName ( SearchKey ).Value;
-            end;
+          SetFieldKeyValue;
           if assigned ( OnSet ) Then
             OnSet ( Self );
         end;
-     end;
+     end
+   else
+    SetFieldKeyValue;
+end;
+
+
+// function TCustomSearchEdit.fs_getSearchSource
+// Getting the Search source
+function TExtDBComboInsert.fs_getDataSource: TDataSource;
+begin
+  Result := FFieldKey.DataSource;
+end;
+
+// procedure TCustomSearchEdit.p_setSearchSource
+// Setting the Search source
+procedure TExtDBComboInsert.p_setDataSource(const AValue: TDataSource);
+begin
+  FFieldKey.DataSource := AValue;
 end;
 
 function TExtDBComboInsert.GetFieldKey: String;
@@ -260,9 +304,8 @@ begin
   Result:=FFieldKey.FieldName;
 end;
 
-procedure TExtDBComboInsert.SetFieldKey(AValue: String);
+procedure TExtDBComboInsert.SetFieldKey(const AValue: String);
 begin
-
   FFieldKey.FieldName:=AValue;
 end;
 
