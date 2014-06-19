@@ -607,7 +607,7 @@ function ExtractFileDir ( const as_FilePath : String ) :String;
 Begin
   Result := as_FilePath;
   while not DirectoryExistsUTF8(Result)
-  and ( length(Result) > 1 ) do
+  and ( length(Result) > {$IFDEF WINDOWS}3{$ELSE}1{$ENDIF} ) do
    Result:=ExtractSubDir(Result);
 End;
 {$ENDIF}
