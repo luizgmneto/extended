@@ -3,38 +3,32 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
 <body class="body">
 <table width="100%"><tr>
-<td><span class="p_name">Package: U_ExtDBPictCombo</span></td>
+<td><span class="p_name">Package: u_buttons_defs</span></td>
 <td class="t_cell"><a href="p_xmi_2600_diagram.html">Diagram</a></td>
 <td class="t_cell"><a href="overview.html">Back to overview</a></td>
 </tr></table>
 <p></p>
-<a name="xmi_2599"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<a name="xmi_2511"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
 <td class="ClassTableHeader" width="200">
-<b>TExtDBPictCombo</b><br>
+<b>TFWButton</b><br>
 </td>
 <td class="ClassTableHeader" width="150">class
       </td>
 </tr></table>
 <br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
-TExtDBPictCombo 
+TFWButton 
 </p></td></tr></table>Inherits from:
 
-    <a href="p_xmi_2490.html#xmi_96">TExtPictCombo</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+    <a href="p_xmi_2600.html#xmi_212">TFWXPButton</a><br>Subclasses:
+
+    <a href="p_xmi_2502.html#xmi_2503">TFWClose</a>,  <a href="p_xmi_2502.html#xmi_2470">TFWCancel</a>,  <a href="p_xmi_2502.html#xmi_2515">TFWOK</a>,  <a href="p_xmi_2502.html#xmi_2519">TFWInsert</a>,  <a href="p_xmi_2502.html#xmi_2523">TFWAdd</a>,  <a href="p_xmi_2502.html#xmi_2526">TFWDelete</a>,  <a href="p_xmi_2502.html#xmi_2529">TFWDocument</a>,  <a href="p_xmi_2502.html#xmi_2532">TFWFolder</a>,  <a href="p_xmi_2502.html#xmi_2535">TFWDate</a>,  <a href="p_xmi_2502.html#xmi_2538">TFWQuit</a>,  <a href="p_xmi_2502.html#xmi_2542">TFWErase</a>,  <a href="p_xmi_2502.html#xmi_2546">TFWSaveAs</a>,  <a href="p_xmi_2502.html#xmi_2550">TFWLoad</a>,  <a href="p_xmi_2502.html#xmi_2554">TFWPrint</a>,  <a href="p_xmi_2502.html#xmi_2560">TFWPreview</a>,  <a href="p_xmi_2502.html#xmi_2563">TFWNext</a>,  <a href="p_xmi_2502.html#xmi_2566">TFWPrior</a>,  <a href="p_xmi_2502.html#xmi_2569">TFWRefresh</a>,  <a href="p_xmi_2502.html#xmi_2572">TFWCopy</a>,  <a href="p_xmi_2502.html#xmi_2576">TFWInit</a>,  <a href="p_xmi_2502.html#xmi_2579">TFWConfig</a>,  <a href="p_xmi_2502.html#xmi_2582">TFWImport</a>,  <a href="p_xmi_2502.html#xmi_2585">TFWTrash</a>,  <a href="p_xmi_2502.html#xmi_2588">TFWExport</a>,  <a href="p_xmi_2502.html#xmi_2591">TFWSearch</a>,  <a href="p_xmi_2502.html#xmi_2594">TFWZoomIn</a>,  <a href="p_xmi_2502.html#xmi_2597">TFWZoomOut</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
 <tr>
 <td class="tableheader">Name</td>
 <td class="tableheader">Type</td>
 <td class="tableheader">Visibility</td>
 </tr>
 <tr>
-<td class="t_cell">FDataLink<br>
-</td>
-<td class="t_cell">TFieldDataLink
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">Field<br>
+<td class="t_cell">Glyph<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -43,7 +37,7 @@ TExtDBPictCombo
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">Value<br>
+<td class="t_cell">Height<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -52,16 +46,7 @@ TExtDBPictCombo
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">DataField<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">DataSource<br>
+<td class="t_cell">Width<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -78,256 +63,8 @@ TExtDBPictCombo
 <td class="tableheader">Visibility</td>
 </tr>
 <tr>
-<td class="t_cell">GetDataField</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">String
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">GetDataSource</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">TDataSource
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">GetField</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">TField
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">SetDataField</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">String</td>
-<td class="t_cell">AValue</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">SetDataSource</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TDataSource</td>
-<td class="t_cell">AValue</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">WMCut</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TMessage</td>
-<td class="t_cell">Message</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">WMPaste</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TMessage</td>
-<td class="t_cell">Message</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">WMUndo</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TMessage</td>
-<td class="t_cell">Message</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">CMExit</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TCMExit</td>
-<td class="t_cell">Message</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">CMGetDataLink</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TMessage</td>
-<td class="t_cell">Message</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">CNCommand</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TWMCommand</td>
-<td class="t_cell">TheMessage</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">GetReadOnly</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">Boolean
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">ActiveChange</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TObject</td>
-<td class="t_cell">Sender</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">DataChange</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TObject</td>
-<td class="t_cell">Sender</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">UpdateData</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TObject</td>
-<td class="t_cell">Sender</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">p_SetValue</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">String</td>
-<td class="t_cell">AValue</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">Notification</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1">
-<tr>
-<td class="t_cell">TComponent</td>
-<td class="t_cell">AComponent</td>
-</tr>
-<tr>
-<td class="t_cell">TOperation</td>
-<td class="t_cell">Operation</td>
-</tr>
-</table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">DoEnter</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">Loaded</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
 <td class="t_cell">Create<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
-TExtDBPictCombo 
+TFWButton 
 </p></td></tr></table>
 </td>
 <td class="t_cell">
@@ -342,8 +79,330 @@ TExtDBPictCombo
     </td>
 <td class="t_cell">public</td>
 </tr>
+</table>
+<br><br><a name="xmi_2628"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TFWButtonList</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWButtonList 
+</p></td></tr></table>Inherits from:
+
+    <a href="p_xmi_2600.html#xmi_212">TFWXPButton</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
 <tr>
-<td class="t_cell">Destroy</td>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FImagesList<br>
+</td>
+<td class="t_cell">TCustomImageList
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FImageSize<br>
+</td>
+<td class="t_cell">Integer
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FImageIndex<br>
+</td>
+<td class="t_cell">Integer
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Images<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ImageIndex<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Glyph<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Height<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Width<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">p_setImagesList<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWButtonList 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TCustomImageList</td>
+<td class="t_cell">AValue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">p_setImageIndex</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">AValue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">LoadBitmap</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_212"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TFWXPButton</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWXPButton 
+</p></td></tr></table>Inherits from:
+
+    TJvXPButton<br>Implements:
+
+    <a href="p_xmi_2600.html#xmi_2601">IFWButton</a><br>Subclasses:
+
+    <a href="p_xmi_2600.html#xmi_2511">TFWButton</a>,  <a href="p_xmi_2600.html#xmi_2628">TFWButtonList</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FColor<br>
+</td>
+<td class="t_cell">Integer
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FGlyphSize<br>
+</td>
+<td class="t_cell">Integer
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorFrameFocus<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnPopup<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">ColorFrameFocus<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">GlyphSize<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnPopup<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">MouseEnter</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TControl</td>
+<td class="t_cell">Acontrol</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">MouseLeave</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TControl</td>
+<td class="t_cell">Acontrol</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">SetGlyphSize</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">AValue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">AdaptGlyph</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">ASize</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">LoadBitmap<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+can load no picture
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Click</td>
 <td class="t_cell">
        
     </td>
@@ -353,29 +412,38 @@ TExtDBPictCombo
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">ExecuteAction</td>
+<td class="t_cell">Loaded<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWXPButton 
+</p></td></tr></table>
+</td>
 <td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TBasicAction</td>
-<td class="t_cell">AAction</td>
-</tr></table>
        
     </td>
-<td class="t_cell">Boolean
+<td class="t_cell">
        
     </td>
 <td class="t_cell">public</td>
 </tr>
+</table>
+<br><br><a name="xmi_2601"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200"><b>IFWButton</b></td>
+<td class="ClassTableHeader" width="150">interface
+      </td>
+</tr></table>Implementing classes:
+
+    <a href="p_xmi_2600.html#xmi_212">TFWXPButton</a>,  <a href="p_xmi_3090.html#xmi_252">TSBButton</a>,  <a href="p_xmi_3090.html#xmi_254">TSBMiniButton</a><br><b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
 <tr>
-<td class="t_cell">UpdateAction</td>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">Paint</td>
 <td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TBasicAction</td>
-<td class="t_cell">AAction</td>
-</tr></table>
        
     </td>
-<td class="t_cell">Boolean
+<td class="t_cell">
        
     </td>
 <td class="t_cell">public</td>
