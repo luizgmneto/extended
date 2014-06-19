@@ -353,9 +353,9 @@ initialization
  {$IFDEF FPC}
  OnGetLibraryName:= TOnGetLibraryName( p_setLibrary);
  {$ENDIF}
- ge_OnExecuteQuery  :=TOnExecuteQuery(@p_ExecuteIBXQuery);
- ge_OnOptimiseDatabase  :=TOnOptimiseDatabase(@fb_RestoreBase );
- ge_OnExecuteCommand:=TOnExecuteCommand(@p_ExecuteSQLCommand);
+ ge_OnExecuteQuery  :=TOnExecuteQuery({$IFNDEF FPC}@{$ENDIF}p_ExecuteIBXQuery);
+ ge_OnOptimiseDatabase  :=TOnOptimiseDatabase({$IFNDEF FPC}@{$ENDIF}fb_RestoreBase );
+ ge_OnExecuteCommand:=TOnExecuteCommand({$IFNDEF FPC}@{$ENDIF}p_ExecuteSQLCommand);
  {$IFDEF VERSIONS}
  p_ConcatVersion ( gver_fonctions_ibx );
  {$ENDIF}
