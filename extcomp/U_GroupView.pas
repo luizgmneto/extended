@@ -4345,7 +4345,7 @@ var
   lbkm_Bookmark : TBookmark ;
   {$ELSE}
   lbkm_Bookmark : TBookmarkStr ;
-  {$ENDIF}
+  {$IFEND}
 
 begin
   lbkm_Bookmark := gdl_DataLink.DataSet.Bookmark ;

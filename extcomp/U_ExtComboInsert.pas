@@ -253,7 +253,8 @@ Begin
   and ( FSearchKey > '' )
    Then
     with SearchSource.DataSet do
-     if FieldByName ( FSearchKey ).Value <> Field.Value
+     if Field.IsNull
+     or (FieldByName ( FSearchKey ).Value <> Field.Value)
       Then
         Begin
          Dataset.Edit;
@@ -261,19 +262,21 @@ Begin
         end;
 end;
 
+
 procedure TExtDBComboInsert.AutoInsert;
 var LText : String;
 begin
   // Auto-insertion
   if FNotFound Then
     with SearchSource,DataSet do
-     Begin
+     try
+      if assigned ( FFieldKey.DataSet )
+        Then FFieldKey.DataSet.DisableControls;
+      DisableControls;
       LText := Text;
-      Updating;
       Insert ;
       FieldByName ( SearchDisplay ).Value := LText;
       Post ;
-      Updated;
       FUpdate := True ;
       fb_RefreshDataset(DataSet);
       if Locate ( SearchDisplay, LText, [] ) Then
@@ -283,6 +286,10 @@ begin
           if assigned ( OnSet ) Then
             OnSet ( Self );
         end;
+     finally
+      if assigned ( FFieldKey.DataSet ) 
+        Then  FFieldKey.DataSet.EnableControls;
+      EnableControls;
      end
    else
     SetFieldKeyValue;
