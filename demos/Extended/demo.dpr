@@ -17,4 +17,4 @@ begin
   GS_SUBDIR_IMAGES_SOFT:='..'+DirectorySeparator+'Images'+DirectorySeparator;
   Application.CreateForm(TMyform, Myform);
   Application.Run;
-end.
+end.                                              nnnnnnnnnnn

@@ -3,7 +3,7 @@ object Myform: TMyform
   Top = 29
   ActiveControl = Panel1
   Caption = 'Myform'
-  ClientHeight = 524
+  ClientHeight = 564
   ClientWidth = 785
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,19 +20,19 @@ object Myform: TMyform
     Left = 208
     Top = 0
     Width = 5
-    Height = 524
+    Height = 564
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 208
-    Height = 524
+    Height = 564
     Align = alLeft
     Caption = 'Panel1'
     TabOrder = 0
     object Splitter3: TSplitter
       Left = 1
-      Top = 334
+      Top = 374
       Width = 206
       Height = 3
       Cursor = crVSplit
@@ -53,14 +53,14 @@ object Myform: TMyform
       Left = 1
       Top = 21
       Width = 206
-      Height = 313
+      Height = 353
       Align = alClient
       Columns = <
         item
           Expanded = False
           FieldName = 'NOM'
           Title.Caption = 'Name'
-          Width = 82
+          Width = 78
           Visible = True
           FieldTag = 0
           Resize = True
@@ -70,7 +70,7 @@ object Myform: TMyform
           FieldName = 'PRENOM'
           Title.Alignment = taCenter
           Title.Caption = 'Surname'
-          Width = 82
+          Width = 78
           Visible = True
           FieldTag = 0
           Resize = True
@@ -94,7 +94,7 @@ object Myform: TMyform
           Expanded = False
           FieldName = 'NOM'
           Title.Caption = 'Name'
-          Width = 82
+          Width = 78
           Visible = True
           FieldTag = 0
           Resize = True
@@ -104,7 +104,7 @@ object Myform: TMyform
           FieldName = 'PRENOM'
           Title.Alignment = taCenter
           Title.Caption = 'Surname'
-          Width = 82
+          Width = 78
           Visible = True
           FieldTag = 0
           Resize = True
@@ -138,7 +138,7 @@ object Myform: TMyform
     end
     object Panel5: TPanel
       Left = 1
-      Top = 337
+      Top = 377
       Width = 206
       Height = 186
       Align = alBottom
@@ -151,15 +151,15 @@ object Myform: TMyform
     Left = 213
     Top = 0
     Width = 540
-    Height = 524
+    Height = 564
     Align = alClient
     TabOrder = 3
     DesignSize = (
       540
-      524)
+      564)
     object FWLabel1: TFWLabel
-      Left = 19
-      Top = 86
+      Left = 20
+      Top = 115
       Width = 65
       Height = 17
       AutoSize = False
@@ -176,8 +176,8 @@ object Myform: TMyform
       ColorFocus = clMaroon
     end
     object FWLabel2: TFWLabel
-      Left = 21
-      Top = 113
+      Left = 22
+      Top = 142
       Width = 65
       Height = 17
       AutoSize = False
@@ -194,8 +194,8 @@ object Myform: TMyform
       ColorFocus = clMaroon
     end
     object FWLabel3: TFWLabel
-      Left = 19
-      Top = 142
+      Left = 20
+      Top = 171
       Width = 65
       Height = 17
       AutoSize = False
@@ -212,8 +212,8 @@ object Myform: TMyform
       ColorFocus = clMaroon
     end
     object FWLabel4: TFWLabel
-      Left = 19
-      Top = 168
+      Left = 20
+      Top = 197
       Width = 65
       Height = 17
       AutoSize = False
@@ -267,33 +267,15 @@ object Myform: TMyform
     end
     object Splitter2: TSplitter
       Left = 1
-      Top = 302
+      Top = 342
       Width = 538
       Height = 3
       Cursor = crVSplit
       Align = alBottom
     end
-    object Search2: TFWLabel
-      Left = 21
-      Top = 216
-      Width = 65
-      Height = 15
-      AutoSize = False
-      Caption = 'City 2'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = 15
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = False
-      ColorFocus = clMaroon
-    end
     object Search: TFWLabel
-      Left = 19
-      Top = 191
+      Left = 20
+      Top = 220
       Width = 65
       Height = 15
       AutoSize = False
@@ -301,7 +283,7 @@ object Myform: TMyform
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = 15
+      Font.Height = 12
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentColor = False
@@ -365,6 +347,7 @@ object Myform: TMyform
       AutoSize = False
       Caption = 'DBSpinEdit'
       Color = clBtnFace
+      FocusControl = FWDBSpinEdit
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = 11
@@ -375,9 +358,27 @@ object Myform: TMyform
       Transparent = False
       ColorFocus = clMaroon
     end
+    object Search2: TFWLabel
+      Left = 22
+      Top = 72
+      Width = 65
+      Height = 15
+      AutoSize = False
+      Caption = 'User'#39's City'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = 12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+      ColorFocus = clMaroon
+    end
     object ExtColorCombo: TExtColorCombo
-      Left = 120
-      Top = 75
+      Left = 121
+      Top = 104
       Width = 221
       Height = 22
       HTMLcolor = '#FFFFFF'
@@ -389,8 +390,8 @@ object Myform: TMyform
       TabOrder = 0
     end
     object ExtNumEdit1: TExtNumEdit
-      Left = 120
-      Top = 108
+      Left = 121
+      Top = 137
       Width = 221
       Height = 21
       EditMask = '#0,#9;0; '
@@ -405,21 +406,21 @@ object Myform: TMyform
       Text = '0'
     end
     object FWDateEdit1: TFWDateEdit
-      Left = 120
-      Top = 134
+      Left = 121
+      Top = 163
       Width = 221
-      Height = 21
-      Date = 41673.658887546300000000
-      Time = 41673.658887546300000000
+      Height = 24
+      Date = 41809.571487152770000000
+      Time = 41809.571487152770000000
       TabOrder = 3
-      DropDownDate = 41673.000000000000000000
+      DropDownDate = 41809.000000000000000000
       ColorReadOnly = clInfoText
       MyLabel = FWLabel3
       AlwaysSame = False
     end
     object FWEdit: TFWEdit
-      Left = 120
-      Top = 160
+      Left = 121
+      Top = 189
       Width = 221
       Height = 21
       TabOrder = 4
@@ -429,7 +430,7 @@ object Myform: TMyform
     end
     object DBListView: TDBListView
       Left = 1
-      Top = 305
+      Top = 345
       Width = 538
       Height = 218
       Align = alBottom
@@ -441,13 +442,13 @@ object Myform: TMyform
         end
         item
           Caption = 'Prenom'
-          Width = 10
+          Width = 398
         end>
       DragMode = dmAutomatic
       MultiSelect = True
       RowSelect = True
       TabOrder = 1
-      ColumnsOrder = '0=120,1=10'
+      ColumnsOrder = '0=120,1=398'
       Groups = <>
       ExtendedColumns = <
         item
@@ -468,25 +469,13 @@ object Myform: TMyform
       Color = 11184810
       Lines.Strings = (
         'FWMemo')
-      TabOrder = 7
-    end
-    object ExtDBComboInsert2: TExtDBComboInsert
-      Left = 120
-      Top = 211
-      Width = 221
-      Height = 25
-      DataField = 'IDDEPARTEMENT'
-      DataSource = ds_user
       TabOrder = 6
-      MyLabel = Search2
-      SearchSource = ds_dep2
     end
-    object ExtSearchDBEdit2: TExtSearchDBEdit
-      Left = 120
-      Top = 185
+    object ExtSearchEdit2: TExtSearchEdit
+      Left = 121
+      Top = 214
       Width = 221
       Height = 21
-      DataField = 'NOM'
       MaxLength = 100
       TabOrder = 5
       MyLabel = Search
@@ -510,7 +499,7 @@ object Myform: TMyform
         'Image'
         'Image')
       ItemHeight = 16
-      TabOrder = 8
+      TabOrder = 7
       DataField = 'ENTIER'
       DataSource = ds_user
     end
@@ -520,8 +509,18 @@ object Myform: TMyform
       Width = 220
       Height = 21
       Value = 1.000000000000000000
-      TabOrder = 9
+      TabOrder = 8
       MyLabel = FWLabel8
+    end
+    object FWDBSpinEdit: TFWDBSpinEdit
+      Left = 120
+      Top = 265
+      Width = 219
+      Height = 21
+      MaxValue = 100.000000000000000000
+      TabOrder = 9
+      DataField = 'ENTIER'
+      DataSource = ds_user
     end
     object Panel3: TPanel
       Left = 371
@@ -529,7 +528,7 @@ object Myform: TMyform
       Width = 130
       Height = 114
       Anchors = [akLeft, akTop, akRight]
-      TabOrder = 12
+      TabOrder = 10
       object ExtDBImage: TExtDBImage
         Left = 2
         Top = 2
@@ -549,7 +548,7 @@ object Myform: TMyform
       Top = 9
       Height = 32
       Caption = 'Close'
-      TabOrder = 10
+      TabOrder = 11
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -11
@@ -563,7 +562,7 @@ object Myform: TMyform
       Width = 96
       Height = 32
       Caption = 'Print'
-      TabOrder = 11
+      TabOrder = 13
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -11
@@ -573,10 +572,24 @@ object Myform: TMyform
       DBTitle = 'Users'
       DBGrid = Noms
     end
+    object ExtDBComboInsert2: TExtDBComboInsert
+      Left = 121
+      Top = 64
+      Width = 221
+      Height = 21
+      TabOrder = 12
+      MyLabel = Search2
+      SearchDisplay = 'NOM'
+      SearchList = 'NOM'
+      SearchSource = ds_dep2
+      DataSource = ds_user
+      SearchKey = 'CLEP'
+      DataField = 'IDDEPARTEMENT'
+    end
   end
   object FWDBEdit1: TExtFormatDBEdit
     Left = 333
-    Top = 48
+    Top = 40
     Width = 221
     Height = 21
     DataField = 'Nom'
@@ -604,7 +617,7 @@ object Myform: TMyform
     Left = 753
     Top = 0
     Width = 32
-    Height = 524
+    Height = 564
     Align = alRight
     AutoSize = False
     ButtonHeight = 30
@@ -637,8 +650,7 @@ object Myform: TMyform
   object IBDatabase: TIBDatabase
     Params.Strings = (
       'user_name=SYSDBA'
-      'password=masterkey'
-      'lc_ctype=UTF8')
+      'password=masterkey')
     LoginPrompt = False
     DefaultTransaction = IBTransaction
     TraceFlags = [tfBlob]
@@ -663,7 +675,6 @@ object Myform: TMyform
     ParamCheck = False
     SQL.Strings = (
       'SELECT * FROM DEPARTEMENT')
-    UpdateObject = IBUpdateDepartem
     Left = 160
     Top = 432
   end
@@ -678,6 +689,7 @@ object Myform: TMyform
     ParamCheck = False
     SQL.Strings = (
       'SELECT * FROM DEPARTEMENT')
+    UpdateObject = IBUpdateDepartem
     Left = 160
     Top = 488
   end
@@ -687,45 +699,6 @@ object Myform: TMyform
     Top = 488
   end
   object OpenPictureDialog: TOpenPictureDialog
-    Filter = 
-      'Tous (*.dib;*.bmp;*.jif;*.jpe;*.jfif;*.jpeg;*.jpg;*.png;*.gif;*.' +
-      'mng;*.jng;*.dds;*.tga;*.dib;*.bmp;*.jif;*.jpe;*.jfif;*.jpeg;*.jp' +
-      'g;*.png;*.mng;*.jng;*.gif;*.dds;*.tga;*.pbm;*.pgm;*.ppm;*.pam;*.' +
-      'pfm;*.tiff;*.tif;*.pdd;*.psd;*.pcx;*.xpm;*.jpg;*.jpeg;*.bmp;*.ic' +
-      'o;*.emf;*.wmf)|*.dib;*.bmp;*.jif;*.jpe;*.jfif;*.jpeg;*.jpg;*.png' +
-      ';*.gif;*.mng;*.jng;*.dds;*.tga;*.dib;*.bmp;*.jif;*.jpe;*.jfif;*.' +
-      'jpeg;*.jpg;*.png;*.mng;*.jng;*.gif;*.dds;*.tga;*.pbm;*.pgm;*.ppm' +
-      ';*.pam;*.pfm;*.tiff;*.tif;*.pdd;*.psd;*.pcx;*.xpm;*.jpg;*.jpeg;*' +
-      '.bmp;*.ico;*.emf;*.wmf|Windows Bitmap Image (*.dib)|*.dib|Window' +
-      's Bitmap Image (*.bmp)|*.bmp|Joint Photographic Experts Group Im' +
-      'age (*.jif)|*.jif|Joint Photographic Experts Group Image (*.jpe)' +
-      '|*.jpe|Joint Photographic Experts Group Image (*.jfif)|*.jfif|Jo' +
-      'int Photographic Experts Group Image (*.jpeg)|*.jpeg|Joint Photo' +
-      'graphic Experts Group Image (*.jpg)|*.jpg|Portable Network Graph' +
-      'ics (*.png)|*.png|Graphics Interchange Format (*.gif)|*.gif|Mult' +
-      'iple Network Graphics (*.mng)|*.mng|JPEG Network Graphics (*.jng' +
-      ')|*.jng|DirectDraw Surface (*.dds)|*.dds|Truevision Targa Image ' +
-      '(*.tga)|*.tga|Imaging Graphic AllInOne (*.dib)|*.dib|Imaging Gra' +
-      'phic AllInOne (*.bmp)|*.bmp|Imaging Graphic AllInOne (*.jif)|*.j' +
-      'if|Imaging Graphic AllInOne (*.jpe)|*.jpe|Imaging Graphic AllInO' +
-      'ne (*.jfif)|*.jfif|Imaging Graphic AllInOne (*.jpeg)|*.jpeg|Imag' +
-      'ing Graphic AllInOne (*.jpg)|*.jpg|Imaging Graphic AllInOne (*.p' +
-      'ng)|*.png|Imaging Graphic AllInOne (*.mng)|*.mng|Imaging Graphic' +
-      ' AllInOne (*.jng)|*.jng|Imaging Graphic AllInOne (*.gif)|*.gif|I' +
-      'maging Graphic AllInOne (*.dds)|*.dds|Imaging Graphic AllInOne (' +
-      '*.tga)|*.tga|Imaging Graphic AllInOne (*.pbm)|*.pbm|Imaging Grap' +
-      'hic AllInOne (*.pgm)|*.pgm|Imaging Graphic AllInOne (*.ppm)|*.pp' +
-      'm|Imaging Graphic AllInOne (*.pam)|*.pam|Imaging Graphic AllInOn' +
-      'e (*.pfm)|*.pfm|Imaging Graphic AllInOne (*.tiff)|*.tiff|Imaging' +
-      ' Graphic AllInOne (*.tif)|*.tif|Imaging Graphic AllInOne (*.pdd)' +
-      '|*.pdd|Imaging Graphic AllInOne (*.psd)|*.psd|Imaging Graphic Al' +
-      'lInOne (*.pcx)|*.pcx|Imaging Graphic AllInOne (*.xpm)|*.xpm|Fich' +
-      'ier image JPEG (*.jpg)|*.jpg|Fichier image JPEG (*.jpeg)|*.jpeg|' +
-      'Bitmaps (*.bmp)|*.bmp|Ic'#244'nes (*.ico)|*.ico|M'#233'tafichiers '#233'volu'#233's ' +
-      '(*.emf)|*.emf|M'#233'tafichiers (*.wmf)|*.wmf'
-    InitialDir = 
-      '/home/matthieu/Bureau/Matthieu/Genealogie/Famille GIROUX/Giroux/' +
-      'Giroux Aimable Georges D'#195#169'sir'#195#169
     Left = 160
     Top = 216
   end
@@ -773,7 +746,7 @@ object Myform: TMyform
     MainMenu = mu_MainMenu
     OnMenuChange = mc_CustomizeMenuChange
     Left = 160
-    Top = 88
+    Top = 96
   end
   object mu_MenuIni: TMainMenu
     Images = ImageResources
@@ -782,7 +755,7 @@ object Myform: TMyform
   end
   object mu_MainMenu: TMainMenu
     Images = ImageResources
-    Left = 128
+    Left = 96
     Top = 32
     object mu_file: TMenuItem
       Caption = '&Application'
@@ -825,7 +798,8 @@ object Myform: TMyform
   end
   object IBUpdateUtilisateur: TIBUpdateSQL
     RefreshSQL.Strings = (
-      'SELECT * FROM UTILISATEUR')
+      'SELECT * FROM UTILISATEUR'
+      'WHERE CLEP=:CLEP')
     ModifySQL.Strings = (
       'UPDATE UTILISATEUR SET NOM=:NOM,'
       '  PRENOM=:PRENOM,'
@@ -849,7 +823,8 @@ object Myform: TMyform
   end
   object IBUpdateDepartem: TIBUpdateSQL
     RefreshSQL.Strings = (
-      'SELECT * FROM DEPARTEMENT')
+      'SELECT * FROM DEPARTEMENT'
+      'WHERE CLEP=:CLEP')
     ModifySQL.Strings = (
       'UPDATE DEPARTEMENT SET NOM=:NOM'
       'WHERE CLEP=:CLEP')

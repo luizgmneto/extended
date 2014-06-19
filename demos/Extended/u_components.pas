@@ -11,7 +11,7 @@ uses
   FileUtil, LResources, process, AsyncProcess, u_scrollclones,
 {$ELSE}
   DBCtrls, JvExControls, JvDBLookup, JvExMask, JvSpin, JvExDBGrids, JvDBGrid, JvDBUltimGrid,
-  JvExComCtrls, JvListView, Mask,  fonctions_version, JvDateTimePicker,
+  JvExComCtrls, JvListView, Mask,  fonctions_version, JvDBSpinEdit, JvDateTimePicker,
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
   StdCtrls, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
@@ -32,6 +32,7 @@ type
     ds_user: TDatasource;
     ds_dep: TDatasource;
     ds_dep2: TDatasource;
+    FWDBSpinEdit: TFWDBSpinEdit;
     ExtDBComboInsert2: TExtDBComboInsert;
     ExtDBImage: TExtDBImage;
     ExtDBImageList: TExtDBImageList;
@@ -99,7 +100,6 @@ type
     ExtClonedPanel1: TExtClonedPanel;
     Process: TProcess;
     Splitter3: TSplitter;
-    FWDBSpinEdit: TFWDBSpinEdit;
     {$ENDIF}
     procedure ExtDBImageClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -143,7 +143,7 @@ end;
 procedure TMyForm.FormShow(Sender: TObject);
 begin
   {$IFNDEF FPC}
-  IBDatabase.Params.Add('lc_ctype=UTF8');
+  IBDatabase.Params.Add('lc_ctype=LATIN1');
   {$ENDIF}
   try
     IBDatabase.Connected := True;
