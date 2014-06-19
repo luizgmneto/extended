@@ -1,0 +1,742 @@
+<html>
+<link rel="stylesheet" href="styles.css" type="text/css">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body class="body">
+<table width="100%"><tr>
+<td><span class="p_name">Package: u_netupdate</span></td>
+<td class="t_cell"><a href="p_xmi_4066_diagram.html">Diagram</a></td>
+<td class="t_cell"><a href="overview.html">Back to overview</a></td>
+</tr></table>
+<p></p>
+<a name="xmi_13"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TNetUpdate</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TNetUpdate 
+</p></td></tr></table>Inherits from:
+
+    TComponent<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">gs_VersionExeUpdate<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
+</p></td></tr></table>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gs_VersionBaseUpdate<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gs_Date<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gs_MD5Ini<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gs_URL<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gs_File<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gs_FilePage<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gs_md5File<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gs_Ini<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gs_UpdateDir<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gsu_UpdateState<br>
+</td>
+<td class="t_cell">
+<a href="p_xmi_4066.html#xmi_4068">TStateUpdate</a>
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gus_UpdateStep<br>
+</td>
+<td class="t_cell">
+<a href="p_xmi_4066.html#xmi_4067">TUpdateStep</a>
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gst_Stream<br>
+</td>
+<td class="t_cell">TStream
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gpb_Progress<br>
+</td>
+<td class="t_cell">TProgressBar
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gc_Component<br>
+</td>
+<td class="t_cell">TIdTCPConnection
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">ge_ErrorEvent<br>
+</td>
+<td class="t_cell">TErrorMessageEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">ge_ProgressEvent<br>
+</td>
+<td class="t_cell">TProgressEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">ge_Downloaded<br>
+</td>
+<td class="t_cell">TDownloadedEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">ge_CreateIni<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">ge_DownloadedPage<br>
+</td>
+<td class="t_cell">TMD5Event
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">ge_DownloadedFile<br>
+</td>
+<td class="t_cell">TMD5Event
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">ge_Downloading<br>
+</td>
+<td class="t_cell">TDownloadingEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">ge_IniRead<br>
+</td>
+<td class="t_cell">TProgressInit
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gini_inifile<br>
+</td>
+<td class="t_cell">TIniFile
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gi_Weight<br>
+</td>
+<td class="t_cell">longword
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gb_Buffered<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">gb_Messages<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">IniFile<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">UpdateWeight<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">UpdateState<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">UpdateStep<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MD5File<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MD5Ini<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">VersionExeUpdate<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">VersionBaseUpdate<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FileIni<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FileUpdate<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FilePage<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">UpdateDir<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">URLBase<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Progress<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnErrorMessage<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnIniCreate<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnIniRead<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnProgress<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnPageDownloaded<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnDownloading<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnDownloaded<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnFileDownloaded<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">IdComponent<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Buffered<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Messages<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">p_SetComponent</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TIdTCPConnection</td>
+<td class="t_cell">AValue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">SetUpdateDir</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">String</td>
+<td class="t_cell">AValue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">IdWork</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TObject</td>
+<td class="t_cell">ASender</td>
+</tr>
+<tr>
+<td class="t_cell">TWorkMode</td>
+<td class="t_cell">AWorkMode</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">ASize</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">SetMD5</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">GetURL</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">String</td>
+<td class="t_cell">as_URL</td>
+</tr>
+<tr>
+<td class="t_cell">String</td>
+<td class="t_cell">as_LocalDir</td>
+</tr>
+<tr>
+<td class="t_cell">String</td>
+<td class="t_cell">as_FileName</td>
+</tr>
+<tr>
+<td class="t_cell"><a href="p_xmi_4066.html#xmi_4067">TUpdateStep</a></td>
+<td class="t_cell">aus_Step</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">CanDownloadIni</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">CanDownloadPage</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">CanDownloadFile</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AComponent</td>
+</tr>
+<tr>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">OnError</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">ai_error</td>
+</tr>
+<tr>
+<td class="t_cell">String</td>
+<td class="t_cell">as_Message</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">GetOptionalFilename</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Destroy</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">UpdateIniPage</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Update</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">VerifyUpdate</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">VerifyIni</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">String</td>
+<td class="t_cell">as_file</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AfterUpdate</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">String</td>
+<td class="t_cell">as_file</td>
+</tr>
+<tr>
+<td class="t_cell">Boolean</td>
+<td class="t_cell">ab_StatusOK</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br>
+</body>
+</html>

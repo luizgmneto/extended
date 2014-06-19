@@ -1,0 +1,1583 @@
+<html>
+<link rel="stylesheet" href="styles.css" type="text/css">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body class="body">
+<table width="100%"><tr>
+<td><span class="p_name">Package: u_extsearchedit</span></td>
+<td class="t_cell"><a href="p_xmi_1241_diagram.html">Diagram</a></td>
+<td class="t_cell"><a href="overview.html">Back to overview</a></td>
+</tr></table>
+<p></p>
+<a name="xmi_1263"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TCustomSearchDBEdit</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TCustomSearchDBEdit 
+</p></td></tr></table>Inherits from:
+
+    <a href="p_xmi_1422.html#xmi_1340">TExtFormatDBEdit</a><br>Implements:
+
+    <a href="p_xmi_2158.html#xmi_1342">ISearchEdit</a><br>Subclasses:
+
+    <a href="p_xmi_1241.html#xmi_1344">TExtSearchDBEdit</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FSearchSource<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+Lien de donnÃ©es
+</p></td></tr></table>
+</td>
+<td class="t_cell">TFieldDataLink
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnNotFound<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnLocate<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnSet<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOldColor<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FSearchFiltered<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Flocated<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FSet<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FListWidth<br>
+</td>
+<td class="t_cell">Word
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FListLines<br>
+</td>
+<td class="t_cell">Integer
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FSeparator<br>
+</td>
+<td class="t_cell">Char
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FSearchList<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FListUp<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FNotifyOrder<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FPopup<br>
+</td>
+<td class="t_cell">
+<a href="p_xmi_1241.html#xmi_191">TListPopupEdit</a>
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">SearchLink<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Located<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SearchDisplay<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SearchList<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DropDownRows<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DropDownWidth<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DropUp<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SearchFiltered<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FieldSeparator<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SearchSource<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnLocate<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnNotFound<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnOrder<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnSet<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseLeave<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">PopupMenu<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">p_setSearchDisplay<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchDBEdit.p_setSearchDisplay
+ Setting The Search field on SearchSource
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">String</td>
+<td class="t_cell">AValue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">fs_getSearchDisplay<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+function TCustomSearchDBEdit.fs_getSearchDisplay
+ Getting The Search field on SearchSource
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">p_setSearchSource<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchDBEdit.p_setSearchSource
+ Setting the Search source
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TDataSource</td>
+<td class="t_cell">AValue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">fs_getSearchSource<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+function TCustomSearchDBEdit.fs_getSearchSource
+ Getting the Search source
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">TDataSource
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMSize</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TWMSize</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMSetFocus</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TWMSetFocus</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMKillFocus</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TWMKillFocus</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMCut</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TMessage</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMPaste</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TMessage</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AComponent</td>
+</tr>
+<tr>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">ListUp</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">ListLines</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">Integer
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Locating<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchDBEdit.Located
+ Record Found function
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">InitSearch<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+c'est en affectant le texte que l'on passe en mode Ã©dition
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">NotFound<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchDBEdit.NotFound
+ NotFound function
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">SearchText<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+not found : no popup
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">CreatePopup</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">FreePopup</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">SetEvent<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchDBEdit.SetEvent
+ calling FNotifyOrder Event
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">ValidateSearch<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchDBEdit.ValidateSearch
+ Calling OnSet Event if setted
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">GetFieldSearch<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+return field for datafield
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">KeyUp<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchDBEdit.KeyUp
+  searching on key up
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">Word</td>
+<td class="t_cell">Key</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">EditCanModify</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">KeyDown</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">Word</td>
+<td class="t_cell">Key</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">TextChanged</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Change</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">DoExit<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchDBEdit.DoExit
+ Setting the label and ExtSearchDBEdit color
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">Aowner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Destroy<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+destructor TCustomSearchDBEdit.Destroy
+ Destroying
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_1345"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TCustomSearchEdit</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TCustomSearchEdit 
+</p></td></tr></table>Inherits from:
+
+    <a href="p_xmi_1422.html#xmi_1416">TExtFormatEdit</a><br>Implements:
+
+    <a href="p_xmi_2158.html#xmi_1342">ISearchEdit</a><br>Subclasses:
+
+    <a href="p_xmi_1241.html#xmi_1419">TExtSearchEdit</a>,  <a href="p_xmi_3896.html#xmi_1421">TExtDBComboInsert</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FSearchSource<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+Lien de donnÃ©es
+</p></td></tr></table>
+</td>
+<td class="t_cell">TFieldDataLink
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnNotFound<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnLocate<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnSet<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOldColor<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FSearchFiltered<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Flocated<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FSet<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FListWidth<br>
+</td>
+<td class="t_cell">Word
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FListLines<br>
+</td>
+<td class="t_cell">Integer
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FSeparator<br>
+</td>
+<td class="t_cell">Char
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FSearchList<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FListUp<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FNotifyOrder<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FPopup<br>
+</td>
+<td class="t_cell">
+<a href="p_xmi_1241.html#xmi_191">TListPopupEdit</a>
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">SearchLink<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Located<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SearchDisplay<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SearchList<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DropDownRows<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DropDownWidth<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DropUp<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SearchFiltered<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FieldSeparator<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SearchSource<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnLocate<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnNotFound<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnOrder<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnSet<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseLeave<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">PopupMenu<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">p_setSearchDisplay<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchDBEdit.p_setSearchDisplay
+ Setting The Search field on SearchSource
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">String</td>
+<td class="t_cell">AValue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">fs_getSearchDisplay<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+function TCustomSearchEdit.fs_getSearchDisplay
+ Getting The Search field on SearchSource
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">p_setSearchSource</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TDataSource</td>
+<td class="t_cell">AValue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">fs_getSearchSource</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">TDataSource
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMSize</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TWMSize</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMCut</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TMessage</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMPaste</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TMessage</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AComponent</td>
+</tr>
+<tr>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">ListUp</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">ListLines</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">Integer
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">InitSearch<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+c'est en affectant le texte que l'on passe en mode Ã©dition
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Locating<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchEdit.Located
+ Record Found function
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">NotFound<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchEdit.NotFound
+ NotFound function
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">SearchText<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+not found : no popup
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">KeyUp<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchEdit.KeyUp
+  searching on key up
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">Word</td>
+<td class="t_cell">Key</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">CreatePopup</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">FreePopup</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">SetEvent<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchEdit.SetEvent
+ calling FNotifyOrder Event
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">ValidateSearch<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchEdit.ValidateSearch
+ Calling OnSet Event if setted
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">GetFieldSearch<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+return field for datafield
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">KeyDown</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">Word</td>
+<td class="t_cell">Key</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">TextChanged</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">DoExit<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+procedure TCustomSearchEdit.DoExit
+ Setting the label and ExtSearchDBEdit color
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">Aowner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Destroy<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+destructor TCustomSearchEdit.Destroy
+ Destroying
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_1344"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TExtSearchDBEdit</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TExtSearchDBEdit 
+</p></td></tr></table>Inherits from:
+
+    <a href="p_xmi_1241.html#xmi_1263">TCustomSearchDBEdit</a><br><br><br><a name="xmi_1419"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TExtSearchEdit</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TExtSearchDBEdit 
+</p></td></tr></table>Inherits from:
+
+    <a href="p_xmi_1241.html#xmi_1345">TCustomSearchEdit</a><br><br><br><a name="xmi_191"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TListPopupEdit</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TListPopupEdit 
+</p></td></tr></table>Inherits from:
+
+    TDBGrid<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FEdit<br>
+</td>
+<td class="t_cell">TCustomEdit
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FSearchSource<br>
+</td>
+<td class="t_cell">TFieldDataLink
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Edit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Options<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Scrollbars<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">KeyUp<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TListPopup 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">Word</td>
+<td class="t_cell">Key</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Click<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+clik event of datasearch popup
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Create<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+cannot make self parent
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">Aowner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ShowPopup</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AutoPlace</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SetPopup</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TCustomEdit</td>
+<td class="t_cell">AEdit</td>
+</tr>
+<tr>
+<td class="t_cell">TFieldDataLink</td>
+<td class="t_cell">ASearchSource</td>
+</tr>
+<tr>
+<td class="t_cell">String</td>
+<td class="t_cell">ASearchList</td>
+</tr>
+<tr>
+<td class="t_cell">Char</td>
+<td class="t_cell">ASeparator</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">AListWidth</td>
+</tr>
+<tr>
+<td class="t_cell">TColor</td>
+<td class="t_cell">AColor</td>
+</tr>
+<tr>
+<td class="t_cell">TFont</td>
+<td class="t_cell">AFont</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br>
+</body>
+</html>

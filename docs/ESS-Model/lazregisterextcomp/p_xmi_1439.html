@@ -1,0 +1,3179 @@
+<html>
+<link rel="stylesheet" href="styles.css" type="text/css">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body class="body">
+<table width="100%"><tr>
+<td><span class="p_name">Package: u_framework_components</span></td>
+<td class="t_cell"><a href="p_xmi_1439_diagram.html">Diagram</a></td>
+<td class="t_cell"><a href="overview.html">Back to overview</a></td>
+</tr></table>
+<p></p>
+<a name="xmi_72"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TFWComboBox</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWComboBox 
+</p></td></tr></table>Inherits from:
+
+    TComboBox<br>Implements:
+
+    IFWComponent,  IFWComponentEdit<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeEnter<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeExit<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FLabel<br>
+</td>
+<td class="t_cell">TLabel
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOldColor<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorFocus<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorReadOnly<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorEdit<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorLabel<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FAlwaysSame<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FNotifyOrder<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnPopup<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeExit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorFocus<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorEdit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorReadOnly<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Color<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MyLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AlwaysSame<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnOrder<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnPopup<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseLeave<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">PopupMenu<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Align<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">p_setLabel<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWComboBox 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TLabel</td>
+<td class="t_cell">alab_Label</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMPaint</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TWMPaint</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">MouseDown</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TMouseButton</td>
+<td class="t_cell">Button</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">X</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">Y</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AComponent</td>
+</tr>
+<tr>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoEnter</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoExit<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+ de fond bleu et son libellÃ© en marron (sauf si le libellÃ© est sÃ©lectionnÃ©
+ avec la souris =&gt; cas de tri)
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Loaded</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SetOrder</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_70"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TFWDateEdit</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWDateEdit 
+</p></td></tr></table>Inherits from:
+
+    TJvDateTimePicker<br>Implements:
+
+    IFWComponent,  IFWComponentEdit<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeEnter<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeExit<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FLabel<br>
+</td>
+<td class="t_cell">TLabel
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOldColor<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorFocus<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorReadOnly<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorEdit<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorLabel<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FAlwaysSame<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FNotifyOrder<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnPopup<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeExit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorFocus<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorEdit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorReadOnly<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Color<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MyLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AlwaysSame<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnOrder<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnPopup<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseLeave<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">PopupMenu<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Align<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">p_setLabel<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWDateEdit 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TLabel</td>
+<td class="t_cell">alab_Label</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMPaint</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TWMPaint</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">MouseDown</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TMouseButton</td>
+<td class="t_cell">Button</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">X</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">Y</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AComponent</td>
+</tr>
+<tr>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoEnter</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoExit<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+ de fond bleu et son libellÃ© en marron (sauf si le libellÃ© est sÃ©lectionnÃ©
+ avec la souris =&gt; cas de tri)
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Loaded</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SetOrder</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_78"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TFWDateTimePicker</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWDateTimePicker 
+</p></td></tr></table>Inherits from:
+
+    TJvDateTimePicker<br>Implements:
+
+    IFWComponent,  IFWComponentEdit<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeEnter<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeExit<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FLabel<br>
+</td>
+<td class="t_cell">TLabel
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOldColor<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorFocus<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorReadOnly<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorEdit<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorLabel<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FAlwaysSame<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FNotifyOrder<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnPopup<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeExit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorFocus<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorEdit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorReadOnly<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MyLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AlwaysSame<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnOrder<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnPopup<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseLeave<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">PopupMenu<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Align<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">p_setLabel<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWDateTimePicker 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TLabel</td>
+<td class="t_cell">alab_Label</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMPaint</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TWMPaint</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">MouseDown</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TMouseButton</td>
+<td class="t_cell">Button</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">X</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">Y</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AComponent</td>
+</tr>
+<tr>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoEnter</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoExit<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+ de fond bleu et son libellÃ© en marron (sauf si le libellÃ© est sÃ©lectionnÃ©
+ avec la souris =&gt; cas de tri)
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Loaded</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SetOrder</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_64"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TFWEdit</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWEdit 
+</p></td></tr></table>Inherits from:
+
+    TMaskEdit<br>Implements:
+
+    IFWComponent,  IFWComponentEdit<br>Subclasses:
+
+    <a href="p_xmi_1422.html#xmi_1416">TExtFormatEdit</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeEnter<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeExit<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FLabel<br>
+</td>
+<td class="t_cell">TLabel
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOldColor<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorFocus<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorReadOnly<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorEdit<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorLabel<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FAlwaysSame<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FNotifyOrder<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnPopup<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeExit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorFocus<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorEdit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorReadOnly<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Color<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MyLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AlwaysSame<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnOrder<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnPopup<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseLeave<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">PopupMenu<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Align<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">p_setLabel<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWEdit 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TLabel</td>
+<td class="t_cell">alab_Label</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMPaint</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TWMPaint</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">MouseDown</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TMouseButton</td>
+<td class="t_cell">Button</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">X</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">Y</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AComponent</td>
+</tr>
+<tr>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoEnter</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoExit<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+ de fond bleu et son libellÃ© en marron (sauf si le libellÃ© est sÃ©lectionnÃ©
+ avec la souris =&gt; cas de tri)
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Loaded</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SetOrder</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_66"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TFWFileEdit</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWEdit 
+</p></td></tr></table>Inherits from:
+
+    TJvFileNameEdit<br>Implements:
+
+    IFWComponent,  IFWComponentEdit<br>Subclasses:
+
+    <a href="p_xmi_1798.html#xmi_1554">TFWDBFileEdit</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeEnter<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeExit<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FLabel<br>
+</td>
+<td class="t_cell">TLabel
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOldColor<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorFocus<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorReadOnly<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorEdit<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorLabel<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FAlwaysSame<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FNotifyOrder<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnPopup<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeExit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorFocus<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorEdit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorReadOnly<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Color<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MyLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AlwaysSame<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnOrder<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnPopup<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseLeave<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">PopupMenu<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Align<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">p_setLabel<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWFileEdit 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TLabel</td>
+<td class="t_cell">alab_Label</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMPaint</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TWMPaint</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">MouseDown</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TMouseButton</td>
+<td class="t_cell">Button</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">X</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">Y</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AComponent</td>
+</tr>
+<tr>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoEnter</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoExit<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+ de fond bleu et son libellÃ© en marron (sauf si le libellÃ© est sÃ©lectionnÃ©
+ avec la souris =&gt; cas de tri)
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Loaded</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SetOrder</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_74"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TFWGrid</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWGrid 
+</p></td></tr></table>Inherits from:
+
+    TStringGrid<br>Implements:
+
+    IFWComponent<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeEnter<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeExit<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorEdit<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorFocus<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOldFixedColor<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FAlwaysSame<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FFieldsTags<br>
+</td>
+<td class="t_cell">of Integer
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FieldsTags<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeExit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorEdit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Color<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FixedColor<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorFocus<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AlwaysSame<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">fi_getFieldTags</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">Longint</td>
+<td class="t_cell">li_i</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">Integer
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">p_setFieldTags</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">Longint</td>
+<td class="t_cell">li_i</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">a_value</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Create<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWDBGrid 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoEnter</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoExit<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+RÃ©tablit le focus si on l'a perdu
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Loaded</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_62"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TFWLabel</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWLabel 
+</p></td></tr></table>Inherits from:
+
+    TLabel<br>Implements:
+
+    IFWComponent<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FColorFocus<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOldColor<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FAlwaysSame<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FEditComponent<br>
+</td>
+<td class="t_cell">TControl
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">ColorFocus<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OldColor<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AlwaysSame<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MyEdit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Alignment<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Align<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">CMMouseEnter</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TMessage</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">CMMouseLeave</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TMessage</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AComponent</td>
+</tr>
+<tr>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Loaded<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWLabel 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MouseDown</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TMouseButton</td>
+<td class="t_cell">Button</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">X</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">Y</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_76"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TFWMemo</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWMemo 
+</p></td></tr></table>Inherits from:
+
+    TMemo<br>Implements:
+
+    IFWComponent,  IFWComponentEdit<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeEnter<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeExit<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FLabel<br>
+</td>
+<td class="t_cell">TLabel
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOldColor<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorFocus<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorReadOnly<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorEdit<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorLabel<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FAlwaysSame<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FNotifyOrder<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnPopup<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeExit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorFocus<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorEdit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorReadOnly<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MyLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AlwaysSame<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnOrder<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnPopup<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseLeave<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">PopupMenu<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Align<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">p_setLabel<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWMemo 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TLabel</td>
+<td class="t_cell">alab_Label</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMPaint</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TWMPaint</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">MouseDown</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TMouseButton</td>
+<td class="t_cell">Button</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">X</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">Y</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AComponent</td>
+</tr>
+<tr>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoEnter</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoExit<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+ de fond bleu et son libellÃ© en marron (sauf si le libellÃ© est sÃ©lectionnÃ©
+ avec la souris =&gt; cas de tri)
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Loaded</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SetOrder</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_68"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TFWSpinEdit</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWSpinEdit 
+</p></td></tr></table>Inherits from:
+
+    TJvSpinEdit<br>Implements:
+
+    IFWComponent,  IFWComponentEdit<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeEnter<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FBeforeExit<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FLabel<br>
+</td>
+<td class="t_cell">TLabel
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOldColor<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorFocus<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorReadOnly<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorEdit<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FColorLabel<br>
+</td>
+<td class="t_cell">TColor
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FAlwaysSame<br>
+</td>
+<td class="t_cell">Boolean
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FNotifyOrder<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FOnPopup<br>
+</td>
+<td class="t_cell">TNotifyEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FWBeforeExit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorFocus<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorEdit<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ColorReadOnly<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Color<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MyLabel<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AlwaysSame<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnOrder<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnPopup<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseEnter<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMouseLeave<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">PopupMenu<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Align<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">p_setLabel<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TFWSpinEdit 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TLabel</td>
+<td class="t_cell">alab_Label</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">WMPaint</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TWMPaint</td>
+<td class="t_cell">Message</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">MouseDown</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TMouseButton</td>
+<td class="t_cell">Button</td>
+</tr>
+<tr>
+<td class="t_cell">TShiftState</td>
+<td class="t_cell">Shift</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">X</td>
+</tr>
+<tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">Y</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AComponent</td>
+</tr>
+<tr>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">AOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoEnter</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DoExit<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+Si on arrive sur une zone de saisie, on met en valeur son tlabel par une couleur
+ de fond bleu et son libellÃ© en marron (sauf si le libellÃ© est sÃ©lectionnÃ©
+ avec la souris =&gt; cas de tri)
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Loaded</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SetOrder</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br>
+</body>
+</html>
