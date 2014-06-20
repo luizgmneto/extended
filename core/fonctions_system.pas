@@ -39,7 +39,8 @@ const
   gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_system' ;
                         	       Owner : 'Matthieu Giroux' ;
                         	       Comment : 'System Functions, with traducing and path management.' ;
-                        	       BugsStory : 'Version 1.1.0.5 : Testing Open File.' + #10
+                        	       BugsStory : 'Version 1.1.0.6 : Testing FileDir.' + #10
+                                                 + 'Version 1.1.0.5 : Testing Open File.' + #10
                                                  + 'Version 1.1.0.4 : Testing command line on linux and windows.' + #10
                                                  + 'Version 1.1.0.3 : Renaming to fs_getappdir.' + #10
                                                  + 'Version 1.1.0.2 : Testing p_openfileordirectory on windows.' + #10
@@ -49,7 +50,7 @@ const
                                                  + 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
                                                  + 'Version 1.0.0.0 : Creating from fonctions_string.';
                         	       UnitType : 1 ;
-                        	       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 5 );
+                        	       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 6 );
 {$ENDIF}
 {$IFDEF DELPHI}
   DirectorySeparator = '\' ;
@@ -612,12 +613,10 @@ Begin
 End;
 {$ENDIF}
 
+{$IFDEF VERSIONS}
 initialization
-  {$IFDEF VERSIONS}
   // adding optional version infos
   p_ConcatVersion ( gVer_fonction_system );
-  {$ENDIF}
-  {$IFDEF UNIX}
-  {$ENDIF}
+{$ENDIF}
 end.
 
