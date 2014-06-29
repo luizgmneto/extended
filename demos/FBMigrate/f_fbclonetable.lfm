@@ -1,0 +1,361 @@
+object Form1: TForm1
+  Left = 442
+  Height = 261
+  Top = 110
+  Width = 579
+  Caption = 'Form1'
+  ClientHeight = 261
+  ClientWidth = 579
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  LCLVersion = '1.2.1.0'
+  object Panel31: TPanel
+    Left = 0
+    Height = 220
+    Top = 0
+    Width = 409
+    Align = alClient
+    Caption = 'Panel31'
+    ClientHeight = 220
+    ClientWidth = 409
+    TabOrder = 0
+    object Panel2: TPanel
+      Left = 1
+      Height = 24
+      Top = 25
+      Width = 407
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 407
+      TabOrder = 0
+      object Label1: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 46
+        Align = alLeft
+        Caption = 'FBClone'
+        ParentColor = False
+      end
+      object FBClone: TFileNameEdit
+        Left = 152
+        Height = 24
+        Top = 1
+        Width = 226
+        FileName = 'FBClone'
+        Filter = 'exe|*.exe'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+    end
+    object Panel3: TPanel
+      Left = 1
+      Height = 24
+      Top = 49
+      Width = 407
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 407
+      TabOrder = 1
+      object Label2: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 39
+        Align = alLeft
+        Caption = 'Source'
+        ParentColor = False
+      end
+      object DatabaseSource: TFileNameEdit
+        Left = 152
+        Height = 24
+        Top = -1
+        Width = 227
+        Filter = 'Firebird|*.fdb;*.FDB'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+        OnChange = DatabaseSourceChange
+      end
+    end
+    object Panel4: TPanel
+      Left = 1
+      Height = 24
+      Top = 145
+      Width = 407
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 407
+      TabOrder = 2
+      object UserName: TEdit
+        Left = 151
+        Height = 24
+        Top = -1
+        Width = 128
+        TabOrder = 0
+        Text = 'SYSDBA'
+      end
+      object Label34: TLabel
+        Left = 1
+        Height = 14
+        Top = 7
+        Width = 34
+        Caption = 'User :'
+        ParentColor = False
+      end
+    end
+    object Panel5: TPanel
+      Left = 1
+      Height = 24
+      Top = 169
+      Width = 407
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 407
+      TabOrder = 3
+      object PassWord: TEdit
+        Left = 151
+        Height = 24
+        Top = 0
+        Width = 128
+        EchoMode = emPassword
+        PasswordChar = '*'
+        TabOrder = 0
+        Text = 'masterkey'
+      end
+      object Label35: TLabel
+        Left = 1
+        Height = 14
+        Top = 7
+        Width = 62
+        Caption = 'Password :'
+        ParentColor = False
+      end
+    end
+    object Panel7: TPanel
+      Left = 1
+      Height = 24
+      Top = 193
+      Width = 407
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 407
+      TabOrder = 4
+      object Label37: TLabel
+        Left = 1
+        Height = 14
+        Top = 7
+        Width = 111
+        Caption = 'Destination Charset'
+        ParentColor = False
+      end
+      object CharsetDest: TEdit
+        Left = 151
+        Height = 24
+        Top = 0
+        Width = 128
+        TabOrder = 0
+        Text = 'UTF8'
+      end
+    end
+    object Panel16: TPanel
+      Left = 1
+      Height = 24
+      Top = 97
+      Width = 407
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 407
+      TabOrder = 5
+      object Label3: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 51
+        Align = alLeft
+        Caption = 'ISQL DDL'
+        ParentColor = False
+      end
+      object DDL: TFileNameEdit
+        Left = 151
+        Height = 24
+        Top = -1
+        Width = 227
+        Filter = 'Firebird SQL|*.sql;*.SQL'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+    end
+    object Panel8: TPanel
+      Left = 1
+      Height = 24
+      Top = 1
+      Width = 407
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 407
+      TabOrder = 6
+      object Label4: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 25
+        Align = alLeft
+        Caption = 'ISQL'
+        ParentColor = False
+      end
+      object ISQL: TFileNameEdit
+        Left = 152
+        Height = 24
+        Top = 1
+        Width = 226
+        FileName = 'ISQL'
+        Filter = 'exe|*.exe'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+    end
+    object Panel6: TPanel
+      Left = 1
+      Height = 24
+      Top = 121
+      Width = 407
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 407
+      TabOrder = 7
+      object Table: TEdit
+        Left = 151
+        Height = 24
+        Top = -1
+        Width = 128
+        TabOrder = 0
+        Text = 'ref_histoire'
+      end
+      object Label36: TLabel
+        Left = 1
+        Height = 14
+        Top = 7
+        Width = 37
+        Caption = 'Table :'
+        ParentColor = False
+      end
+    end
+    object Panel9: TPanel
+      Left = 1
+      Height = 24
+      Top = 73
+      Width = 407
+      Align = alTop
+      ClientHeight = 24
+      ClientWidth = 407
+      TabOrder = 8
+      object Label5: TLabel
+        Left = 1
+        Height = 22
+        Top = 1
+        Width = 63
+        Align = alLeft
+        Caption = 'Destination'
+        ParentColor = False
+      end
+      object DatabaseDest: TFileNameEdit
+        Left = 151
+        Height = 24
+        Top = -1
+        Width = 227
+        Filter = 'Firebird|*.fdb;*.FDB'
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        MaxLength = 0
+        TabOrder = 0
+      end
+    end
+  end
+  object PanelBottom: TPanel
+    Left = 0
+    Height = 41
+    Top = 220
+    Width = 579
+    Align = alBottom
+    ClientHeight = 41
+    ClientWidth = 579
+    TabOrder = 1
+    object CloneTable: TButton
+      Left = 8
+      Height = 25
+      Top = 8
+      Width = 80
+      Caption = 'CloneTable'
+      OnClick = CloneTableClick
+      TabOrder = 0
+    end
+  end
+  object Panel1: TPanel
+    Left = 409
+    Height = 220
+    Top = 0
+    Width = 170
+    Align = alRight
+    BevelOuter = bvNone
+    ClientHeight = 220
+    ClientWidth = 170
+    TabOrder = 2
+    object ListBox1: TListBox
+      Left = 0
+      Height = 206
+      Top = 14
+      Width = 170
+      Align = alClient
+      ItemHeight = 0
+      ScrollWidth = 168
+      TabOrder = 0
+      TopIndex = -1
+    end
+    object Label6: TLabel
+      Left = 0
+      Height = 14
+      Top = 0
+      Width = 170
+      Align = alTop
+      Caption = 'Tables to exclude'
+      ParentColor = False
+    end
+  end
+  object OnFormInfoIni: TOnFormInfoIni
+    SaveEdits = [feTEdit, feTDirectoryEdit, feTFileNameEdit]
+    left = 184
+    top = 64
+  end
+  object UniqueInstance: TUniqueInstance
+    left = 256
+    top = 64
+  end
+end
