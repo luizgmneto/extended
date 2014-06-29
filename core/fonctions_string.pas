@@ -106,6 +106,7 @@ type
   function fs_RemplaceChar   ( const as_Texte : String ; const ach_Origine, ach_Voulu : Char ) : String ;
 
   function fs_ReplaceChaine( as_Texte : String ; const as_Origine, as_Voulu : string):string;
+  function fs_LastString(const ATextSeparator : string;const as_Texte : String ):Integer;
   function fs_GetBinOfString ( const astr_Source: AnsiString ): String;
   function fs_AddComma ( const as_Chaine : String ) : String ;
   function fs_Lettrage ( const ach_Lettrage: Char;
@@ -132,6 +133,18 @@ const  SansAccents : TCharToUTF8Table
               'A','A','A','A','A','A','A','C','E','E','E','E','I','I','I','I','D','N','O','O','O','O','O','x','O','U','U','U','U','Y','D','B',
               'a','a','a','a','a','a','a','c','e','e','e','e','i','i','i','i','o','n','o','o','o','o','o','/','o','u','u','u','u','y','d','y',
               #192,#193,#194,#195,#196,#197,#198,#199,#200,#201,#202,#203,#204,#205,#206,#207,#208,#209,#210,#211,#212,#213,#214,#215,#216,#217,#218,#219,#220,#221,#222,#223,#224,#225,#226,#227,#228,#229,#230,#231,#232,#233,#234,#235,#236,#237,#238,#239,#240,#241,#242,#243,#244,#245,#246,#247,#248,#249,#250,#251,#252,#253,#254,#255);
+
+function fs_LastString(const ATextSeparator : string;const as_Texte : String ):Integer;
+Begin
+  if (ATextSeparator > '') Then
+   Begin
+    Result := pos ( ATextSeparator, as_Texte );
+    while posEx ( ATextSeparator, as_Texte, Result+1 )>0 do
+      Result:= posEx ( ATextSeparator, as_Texte, Result+1 );
+   End
+  Else
+   Result:=-1;
+end;
 
 function HexToByte(c: char): byte;
 begin

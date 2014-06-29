@@ -32,6 +32,7 @@ type
     ds_user: TDatasource;
     ds_dep: TDatasource;
     ds_dep2: TDatasource;
+    ds_user_search: TDatasource;
     FWDBSpinEdit: TFWDBSpinEdit;
     ExtDBComboInsert2: TExtDBComboInsert;
     ExtDBImage: TExtDBImage;
@@ -40,8 +41,9 @@ type
     FWClose1: TFWClose;
     FWLabel10: TFWLabel;
     FWPrint:  TFWPrintGrid;
-    IBUpdateUtilisateur: TIBUpdateSQL;
+    IBUpdateUser: TIBUpdateSQL;
     IBUpdateDepartem: TIBUpdateSQL;
+    IBUserSearch: TIBQuery;
     MapImages: TExtMapImages;
     FWLabel7: TFWLabel;
     FWLabel8: TFWLabel;
@@ -51,7 +53,7 @@ type
     IBDepartement: TIBQuery;
     IBDepSearch: TIBQuery;
     IBTransaction: TIBTransaction;
-    IBUtilisateur: TIBQuery;
+    IBUser: TIBQuery;
     DBListView: TDBListView;
     ExtDBNavigator: TExtDBNavigator;
     ImageResources: TImageList;
@@ -76,10 +78,10 @@ type
     Search2: TFWLabel;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
-    Prenom: TExtFormatDBEdit;
-    Nom: TExtFormatDBEdit;
-    FWDBEdit2: TExtFormatDBEdit;
-    FWDBEdit1: TExtFormatDBEdit;
+    Prenom: TExtSearchDBEdit;
+    Nom: TExtSearchDBEdit;
+    FWDBEdit2: TExtSearchDBEdit;
+    FWDBEdit1: TExtSearchDBEdit;
     FWLabel6: TFWLabel;
     FWLabel5: TFWLabel;
     FWLabel1: TFWLabel;
@@ -149,7 +151,7 @@ begin
     IBDatabase.Connected := True;
     IBTransaction.Active := True;
     // On cherche ou crée le fichier CSV
-    IBUtilisateur.Open;
+    IBUser.Open;
     IBDepartement.Open;
   Except
     // Il s'agit d'une entrée/sortie donc on gère les exceptions
@@ -196,10 +198,10 @@ end;
 
 procedure TMyform.ExtDBImageClick(Sender: TObject);
 begin
-  if IBUtilisateur.CanModify
+  if IBUser.CanModify
   and OpenPictureDialog.Execute Then
    Begin
-     IBUtilisateur.Edit;
+     IBUser.Edit;
      ExtDBImage.LoadFromFile(OpenPictureDialog.FileName);
    end;
 end;
