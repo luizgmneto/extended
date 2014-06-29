@@ -1,4 +1,4 @@
-unit fonctions_search_edit;
+﻿unit fonctions_search_edit;
 
 {$IFDEF FPC}
   {$MODE Delphi}
@@ -84,6 +84,7 @@ implementation
 
 uses Dialogs,
      fonctions_db,
+     fonctions_proprietes,
      fonctions_components,
      sysutils;
 
@@ -222,7 +223,7 @@ Begin
         Begin
           FPopup := TListPopupEdit.Create(Owner);
           FPopup.SetPopup ( AEdit,FSearchSource,FSearchList,
-                           FFieldSeparator, FListWidth, Color, Font);
+                           FFieldSeparator, FListWidth,fli_getComponentProperty (AEdit,CST_PROPERTY_COLOR), fobj_getComponentObjectProperty (AEdit,CST_PROPERTY_FONT) as TFont);
         end;
        FPopup.ShowPopup;
      finally
