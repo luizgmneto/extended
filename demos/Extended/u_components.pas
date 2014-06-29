@@ -39,7 +39,6 @@ type
     ExtDBImageList: TExtDBImageList;
     ExtDBPictCombo: TExtDBPictCombo;
     FWClose1: TFWClose;
-    FWLabel10: TFWLabel;
     FWPrint:  TFWPrintGrid;
     IBUpdateUser: TIBUpdateSQL;
     IBUpdateDepartem: TIBUpdateSQL;
@@ -67,14 +66,11 @@ type
     mu_sep1: TMenuItem;
     mu_sep2: TMenuItem;
     Noms: TExtDBGrid;
-    Nom_: TFWEdit;
     OnFormInfoIni: TOnFormInfoIni;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
-    Panel4: TPanel;
     Panel5: TPanel;
-    Prenom_: TFWEdit;
     Search2: TFWLabel;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
@@ -96,8 +92,8 @@ type
     ExtSearchEdit2: TExtSearchEdit;
     FWMemo: TFWMemo;
     mc_Customize : TExtMenuCustomize;
-    ExtMenuToolBar : TExtMenuToolBar;
     OpenPictureDialog : TOpenPictureDialog;
+    ExtMenuToolBar : TExtMenuToolBar;
     {$IFDEF FPC}
     ExtClonedPanel1: TExtClonedPanel;
     Process: TProcess;

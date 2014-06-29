@@ -110,7 +110,7 @@ object Myform: TMyform
           Resize = True
         end>
     end
-    object Prenom: TExtFormatDBEdit
+    object Prenom: TExtSearchDBEdit
       Left = 7
       Top = 81
       Width = 221
@@ -123,7 +123,7 @@ object Myform: TMyform
       MyLabel = FWLabel6
       AlwaysSame = False
     end
-    object Nom: TExtFormatDBEdit
+    object Nom: TExtSearchDBEdit
       Left = 7
       Top = 121
       Width = 221
@@ -587,7 +587,7 @@ object Myform: TMyform
       DataField = 'IDDEPARTEMENT'
     end
   end
-  object FWDBEdit1: TExtFormatDBEdit
+  object FWDBEdit1: TExtSearchDBEdit
     Left = 333
     Top = 40
     Width = 221
@@ -600,7 +600,7 @@ object Myform: TMyform
     AlwaysSame = False
     ModeFormat = mftFirstCharOfWordsIsMaj
   end
-  object FWDBEdit2: TExtFormatDBEdit
+  object FWDBEdit2: TExtSearchDBEdit
     Left = 333
     Top = 16
     Width = 221

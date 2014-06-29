@@ -161,6 +161,7 @@ contains
   u_extmenutoolbar in 'inicomp\u_extmenutoolbar.pas',
   menutbar in 'inicomp\menutbar.pas',
   u_extformatedits in 'extcomp\u_extformatedits.pas',
-  md5api in 'extnet\md5api.pas';
+  md5api in 'extnet\md5api.pas',
+  fonctions_search_edit in 'extcomp\fonctions_search_edit.pas';
 
 end.
