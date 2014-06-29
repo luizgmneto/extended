@@ -146,7 +146,7 @@ object Myform: TMyform
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
     end
-    object Prenom: TExtFormatDBEdit
+    object Prenom: TExtSearchDBEdit
       Left = 7
       Height = 24
       Top = 81
@@ -160,7 +160,7 @@ object Myform: TMyform
       MyLabel = FWLabel6
       AlwaysSame = False
     end
-    object Nom: TExtFormatDBEdit
+    object Nom: TExtSearchDBEdit
       Left = 7
       Height = 24
       Top = 121
@@ -494,7 +494,7 @@ object Myform: TMyform
       TabOrder = 7
     end
     object ExtSearchEdit2: TExtSearchEdit
-      Left = 121
+      Left = 123
       Height = 24
       Top = 214
       Width = 221
@@ -695,7 +695,7 @@ object Myform: TMyform
       ColorFocus = clMaroon
     end
   end
-  object FWDBEdit1: TExtFormatDBEdit
+  object FWDBEdit1: TExtSearchDBEdit
     Left = 333
     Height = 24
     Top = 40
@@ -708,8 +708,11 @@ object Myform: TMyform
     MyLabel = FWLabel5
     AlwaysSame = False
     ModeFormat = mftFirstCharOfWordsIsMaj
+    SearchDisplay = 'PRENOM'
+    SearchList = 'PRENOM'
+    SearchSource = ds_user_search
   end
-  object FWDBEdit2: TExtFormatDBEdit
+  object FWDBEdit2: TExtSearchDBEdit
     Left = 333
     Height = 24
     Top = 16
@@ -723,6 +726,10 @@ object Myform: TMyform
     MyLabel = FWLabel6
     AlwaysSame = False
     ModeFormat = mftUpper
+    SearchDisplay = 'NOM'
+    SearchList = 'NOM'
+    TextSeparator = '-'
+    SearchSource = ds_user_search
   end
   object ExtMenuToolBar: TExtMenuToolBar
     Left = 753
@@ -746,7 +753,7 @@ object Myform: TMyform
     top = 216
   end
   object ds_user: TDatasource
-    DataSet = IBUtilisateur
+    DataSet = IBUser
     left = 56
     top = 360
   end
@@ -770,7 +777,7 @@ object Myform: TMyform
     left = 56
     top = 289
   end
-  object IBUtilisateur: TIBQuery
+  object IBUser: TIBQuery
     Database = IBDatabase
     Transaction = IBTransaction
     BufferChunks = 2
@@ -780,7 +787,6 @@ object Myform: TMyform
       'SELECT * FROM UTILISATEUR'
     )
     Params = <>
-    UpdateObject = IBUpdateUtilisateur
     left = 160
     top = 360
   end
@@ -2228,7 +2234,7 @@ object Myform: TMyform
       end
     end
   end
-  object IBUpdateUtilisateur: TIBUpdateSQL
+  object IBUpdateUser: TIBUpdateSQL
     RefreshSQL.Strings = (
       'SELECT * FROM UTILISATEUR'
       'WHERE CLEP=:CLEP'
@@ -2291,5 +2297,24 @@ object Myform: TMyform
     FillAttribute = 0
     left = 465
     top = 360
+  end
+  object IBUserSearch: TIBQuery
+    Database = IBDatabase
+    Transaction = IBTransaction
+    BufferChunks = 2
+    CachedUpdates = False
+    GeneratorField.ApplyOnEvent = gaeOnNewRecord
+    SQL.Strings = (
+      'SELECT * FROM UTILISATEUR'
+    )
+    Params = <>
+    UpdateObject = IBUpdateUser
+    left = 400
+    top = 496
+  end
+  object ds_user_search: TDatasource
+    DataSet = IBUserSearch
+    left = 296
+    top = 496
   end
 end

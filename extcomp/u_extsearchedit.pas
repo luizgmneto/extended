@@ -36,13 +36,16 @@ uses Variants, Controls, Classes,
      u_extcomponent,
      DBGrids, StdCtrls;
 
+type TSearchOptions = ( soMultiple );
+
 const
 {$IFDEF VERSIONS}
     gVer_TExtSearchDBEdit : T_Version = ( Component : 'Composants ISearchEdit' ;
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '1.2.0.0 : TCustomSearchEdit creating.'
+                                          BugsStory : '1.2.1.0 : Multiple Searchs.'
+                                                    + '1.2.0.0 : TCustomSearchEdit creating.'
                                                     + '1.1.0.0 : ExtComboInsert inherit.'
                                                     + '1.0.1.5 : Testing popup and unfocusing.'
                                                     + '1.0.1.4 : MyLabel unset correctly.'
@@ -57,36 +60,13 @@ const
                                                     + '0.9.0.1 : Not tested, compiling on DELPHI.'
                                                     + '0.9.0.0 : In place not tested.';
                                           UnitType : 3 ;
-                                          Major : 1 ; Minor : 2 ; Release : 0 ; Build : 0 );
+                                          Major : 1 ; Minor : 2 ; Release : 1 ; Build : 0 );
 
 {$ENDIF}
   SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
   SEARCHEDIT_GRID_DEFAULT_SCROLL = {$IFDEF FPC}ssAutoBoth{$ELSE}ssBoth{$ENDIF};
+  SEARCHEDIT_SEARCH_OPTION_DEFAULT = soMultiple;
 type
-
-  { TListPopupEdit }
-
-  TListPopupEdit = class ( TDBGrid )
-    FEdit : TCustomEdit;
-    FSearchSource: TFieldDataLink;
-  private
-  protected
-    procedure KeyUp(var Key: Word; Shift: TShiftState); override;
-  public
-    procedure Click; override;
-    constructor Create ( Aowner : TComponent ); override;
-    property Edit : TCustomEdit read FEdit;
-    procedure ShowPopup; virtual;
-    procedure AutoPlace; virtual;
-    procedure SetPopup ( const AEdit: TCustomEdit; const ASearchSource: TFieldDataLink;
-                         const ASearchList: String; const ASeparator: Char;
-                         const AListWidth : Integer; const AColor: TColor; const AFont: TFont); virtual;
-  published
-    property Options default SEARCHEDIT_GRID_DEFAULTS;
-    property Scrollbars default SEARCHEDIT_GRID_DEFAULT_SCROLL;
-  end;
-
-  { TExtSearchDBEdit }
 
   { TCustomSearchDBEdit }
 
@@ -97,13 +77,15 @@ type
     FOnNotFound,
     FOnLocate ,
     FOnSet  : TNotifyEvent;
+//    FSearchOptions : TSearchOptions;
     FOldColor ,
     FSearchFiltered,
     Flocated,
     FSet : Boolean;
     FListWidth : Word;
     FListLines : Integer;
-    FSeparator : Char;
+    FTextSeparator : String;
+    FFieldSeparator : Char;
     FSearchList : String;
     FListUp : Boolean;
     FNotifyOrder : TNotifyEvent;
@@ -127,7 +109,6 @@ type
     procedure InitSearch; virtual;
     procedure NotFound; virtual;
     procedure SearchText; virtual;
-    procedure CreatePopup; virtual;
     procedure FreePopup; virtual;
     procedure SetEvent ; virtual;
     procedure ValidateSearch; virtual;
@@ -151,13 +132,15 @@ type
     destructor Destroy ; override;
     property Located : Boolean read Flocated;
   published
-    property SearchDisplay : String read fs_getSearchDisplay write p_setSearchDisplay ;
+//    property SearchOptions : String read fSearchOptions write fSearchOptions default SEARCHEDIT_SEARCH_OPTION_DEFAULT;
+    property SearchDisplay : String read fs_getSearchDisplay write p_setSearchDisplay;
     property SearchList : String read FSearchList write FSearchList ;
     property DropDownRows : Integer read FListLines write FListLines default 5;
     property DropDownWidth : Word read FListWidth write FListWidth default 0;
     property DropUp : Boolean read FListUp write FListUp default False;
     property SearchFiltered : Boolean read FSearchFiltered write FSearchFiltered default False;
-    property FieldSeparator : Char read FSeparator write FSeparator default ',';
+    property FieldSeparator : Char read FFieldSeparator write FFieldSeparator default ',';
+    property TextSeparator : String read FTextSeparator write FTextSeparator;
     property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
     property OnNotFound : TNotifyEvent read FOnNotFound write FOnNotFound;
@@ -179,13 +162,15 @@ type
     FOnNotFound,
     FOnLocate ,
     FOnSet  : TNotifyEvent;
+//    FSearchOptions : TSearchOptions;
     FOldColor ,
     FSearchFiltered,
     Flocated,
     FSet : Boolean;
     FListWidth : Word;
     FListLines : Integer;
-    FSeparator : Char;
+    FTextSeparator : String;
+    FFieldSeparator : Char;
     FSearchList : String;
     FListUp : Boolean;
     FNotifyOrder : TNotifyEvent;
@@ -208,7 +193,6 @@ type
     procedure NotFound; virtual;
     procedure SearchText; virtual;
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
-    procedure CreatePopup; virtual;
     procedure FreePopup; virtual;
     procedure SetEvent ; virtual;
     procedure ValidateSearch; virtual;
@@ -226,13 +210,15 @@ type
     destructor Destroy ; override;
     property Located : Boolean read Flocated;
   published
+//    property SearchOptions : String read fSearchOptions write fSearchOptions default SEARCHEDIT_SEARCH_OPTION_DEFAULT;
     property SearchDisplay : String read fs_getSearchDisplay write p_setSearchDisplay ;
     property SearchList : String read FSearchList write FSearchList ;
     property DropDownRows : Integer read FListLines write FListLines default 5;
     property DropDownWidth : Word read FListWidth write FListWidth default 0;
     property DropUp : Boolean read FListUp write FListUp default False;
     property SearchFiltered : Boolean read FSearchFiltered write FSearchFiltered default False;
-    property FieldSeparator : Char read FSeparator write FSeparator default ',';
+    property FieldSeparator : Char read FFieldSeparator write FFieldSeparator default ',';
+    property TextSeparator : String read FTextSeparator write FTextSeparator;
     property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
     property OnNotFound : TNotifyEvent read FOnNotFound write FOnNotFound;
@@ -260,126 +246,6 @@ uses Dialogs,
      sysutils;
 
 { TExtSearchDBEdit }
-
-{ TListPopup }
-
-procedure TListPopupEdit.KeyUp(var Key: Word; Shift: TShiftState);
-begin
-  inherited KeyUp(Key, Shift);
-  case Key of
-    VK_ESCAPE : Visible:=False;
-    VK_RETURN : Click;
-    end;
-end;
-
-// clik event of datasearch popup
-procedure TListPopupEdit.Click;
-begin
-  with FEdit as ISearchEdit do
-   Begin
-    Text := FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
-    InitSearch;
-    ValidateSearch;
-   End;
- Visible:=False;
-end;
-
-procedure TListPopupEdit.SetPopup ( const AEdit: TCustomEdit; const ASearchSource: TFieldDataLink;
-                                    const ASearchList : String;const ASeparator : Char;
-                                    const AListWidth : Integer; const AColor: TColor;const AFont: TFont );
-var Alist : TStrings;
-    i : Integer;
-Begin
-  FSearchSource := ASearchSource;
-  FEdit:=AEdit;
-  Alist := TStringList.Create;
-  try
-    p_ChampsVersListe(Alist,ASearchList,ASeparator);
-    if AListWidth > 0
-     Then Width := AListWidth
-     Else Width := AEdit.Width;
-    Height := ( AEdit as ISearchEdit ).ListLines * AEdit.Height;
-    DataSource:=FSearchSource.DataSource;
-    // cannot make self parent
-    Parent:=Owner as TWinControl;
-    Color := AColor;
-    Font.Assign(AFont);
-    for i := 0 to Alist.Count-1 do
-      Begin
-        with Columns.Add do
-         Begin
-          FieldName := Alist[i];
-         end;
-      end;
-    Loaded;
-  finally
-    Alist.Free;
-  end;
-end;
-
-constructor TListPopupEdit.Create(Aowner: TComponent);
-begin
-  inherited Create(Aowner);
-  Options:= SEARCHEDIT_GRID_DEFAULTS;
-  ScrollBars:=SEARCHEDIT_GRID_DEFAULT_SCROLL;
-end;
-
-procedure TListPopupEdit.AutoPlace;
-var    APoint : TPoint;
-Begin
-  with APoint do
-   Begin
-     X := FEdit.Left;
-     if (FEdit as ISearchEdit).ListUp
-      Then Y := FEdit.Top - Height
-      Else Y := FEdit.Top + FEdit.Height;
-     APoint:=FEdit.ClientToScreen(APoint);
-     Left:=X-(Owner as TControl).Left;
-     Top :=Y-(Owner as TControl).Top;
-   end;
-end;
-
-procedure TListPopupEdit.ShowPopup;
-var i, j, AWidth, AActiveRecord : Integer;
-Begin
-  with FEdit,FSearchSource,DataSet do
-   Begin
-     DisableControls;
-     AActiveRecord := ActiveRecord;
-     try
-       // good columns' size
-       for j := 0 to (FEdit as ISearchEdit).ListLines do
-         Begin
-           AWidth:=0;
-           for i := 0 to Columns.Count-1 do
-             Begin
-               with Columns [i] do
-                Begin
-                 if i = Columns.Count-1 Then
-                  Begin
-                    Width:=Self.Width-AWidth;
-                    Break;
-                  end;
-                 Width  := Canvas.TextWidth(Field.DisplayText+'a');
-                 if Width > Self.Width div Columns.Count
-                  then Width := Self.Width div Columns.Count;
-                 inc ( AWidth, Width );
-                end;
-             end;
-            Next;
-          if eof Then
-            Break;
-         end;
-     finally
-       ActiveRecord:=AActiveRecord;
-       EnableControls;
-     end;
-   end;
-   AutoPlace;
-   Visible:=True;
-End;
-
-{ TCustomSearchDBEdit }
 
 // procedure TCustomSearchDBEdit.p_setSearchDisplay
 // Setting The Search field on SearchSource
@@ -447,29 +313,6 @@ begin
   Result := FListLines;
 end;
 
-procedure TCustomSearchDBEdit.CreatePopup;
-var i : Integer;
-    ABookmark:TBookmark;
-Begin
-  with FSearchSource.DataSet do
-  if  ( RecordCount > 1 )
-  and ( FSearchList <> '' ) Then
-   Begin
-     ABookmark:=FSearchSource.DataSet.GetBookmark;
-     try
-       if not Assigned( FPopup ) Then
-        Begin
-          FPopup := TListPopupEdit.Create(Owner);
-          FPopup.SetPopup ( Self,FSearchSource,FSearchList,FSeparator, FListWidth, Color, Font);
-        end;
-       FPopup.ShowPopup;
-     finally
-       FSearchSource.DataSet.GotoBookmark(ABookmark);
-       FreeBookmark(ABookmark);
-     end;
-   End;
-End;
-
 procedure TCustomSearchDBEdit.FreePopup;
 begin
   FreeAndNil(FPopup);
@@ -482,13 +325,7 @@ var li_pos : Integer;
     ls_temp : String;
 begin
   Flocated  := True;
-  CreatePopup;
-  li_pos    := SelStart ;
-  ls_temp   := FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
-  Text      := ls_temp ; // c'est en affectant le texte que l'on passe en mode édition
-  SelStart  := li_pos ;
-  SelLength := length ( ls_temp ) - li_pos ;
-  if SelLength=0
+  if fb_SearchLocating( FPopup,Self,FSearchSource, FTextSeparator ,FSearchList,FFieldSeparator,FListWidth)
    Then ValidateSearch
    Else
     if assigned ( FOnLocate ) Then
@@ -516,7 +353,7 @@ end;
 procedure TCustomSearchDBEdit.SearchText;
 begin
   FSet := False;
-  if fb_SearchText ( Self, FSearchSource, FSearchFiltered )
+  if fb_SearchText ( Self, FSearchSource, FSearchFiltered, FTextSeparator )
    Then Locating
    Else NotFound; // not found : no popup
 end;
@@ -655,11 +492,13 @@ begin
   FSearchFiltered := False;
   FListUp := False;
   FListWidth:=0;
-  FSeparator := ',';
+  FFieldSeparator := ',';
   FListLines := 5;
   FPopup := nil;
   FSearchSource := TFieldDataLink.Create;
   InitSearch;
+//  fSearchOptions := SEARCHEDIT_SEARCH_OPTION_DEFAULT;
+  FTextSeparator := '';
 end;
 
 // destructor TCustomSearchDBEdit.Destroy
@@ -724,30 +563,6 @@ begin
   Result := FListLines;
 end;
 
-procedure TCustomSearchEdit.CreatePopup;
-var i : Integer;
-    ABookmark:TBookmark;
-Begin
-  with FSearchSource.DataSet do
-  if  ( RecordCount > 1 )
-  and ( FSearchList <> '' ) Then
-   Begin
-     ABookmark:=FSearchSource.DataSet.GetBookmark;
-     try
-       if not Assigned( FPopup ) Then
-        Begin
-          FPopup := TListPopupEdit.Create(Owner);
-          FPopup.SetPopup ( Self,FSearchSource,FSearchList,
-                           FSeparator, FListWidth, Color, Font);
-        end;
-       FPopup.ShowPopup;
-     finally
-       FSearchSource.DataSet.GotoBookmark(ABookmark);
-       FreeBookmark(ABookmark);
-     end;
-   End;
-End;
-
 procedure TCustomSearchEdit.FreePopup;
 begin
   FreeAndNil(FPopup);
@@ -760,13 +575,7 @@ var li_pos : Integer;
     ls_temp : String;
 begin
   Flocated  := True;
-  CreatePopup;
-  li_pos    := SelStart ;
-  ls_temp   := FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
-  Text      := ls_temp ; // c'est en affectant le texte que l'on passe en mode édition
-  SelStart  := li_pos ;
-  SelLength := length ( ls_temp ) - li_pos ;
-  if SelLength=0
+  if fb_SearchLocating( FPopup,Self,FSearchSource, FTextSeparator ,FSearchList,FFieldSeparator,FListWidth)
    Then ValidateSearch
    Else
     if assigned ( FOnLocate ) Then
@@ -794,7 +603,7 @@ end;
 procedure TCustomSearchEdit.SearchText;
 begin
   FSet := False;
-  if fb_SearchText ( Self, FSearchSource, FSearchFiltered )
+  if fb_SearchText ( Self, FSearchSource, FSearchFiltered, FTextSeparator )
    Then Locating
    Else NotFound; // not found : no popup
 end;
@@ -904,11 +713,13 @@ begin
   FSearchFiltered := False;
   FListUp := False;
   FListWidth:=0;
-  FSeparator := ',';
+  FFieldSeparator := ',';
   FListLines := 5;
   FPopup := nil;
   FSearchSource := TFieldDataLink.Create;
   InitSearch;
+//  fSearchOptions := SEARCHEDIT_SEARCH_OPTION_DEFAULT;
+  FTextSeparator := '';
 end;
 
 // destructor TCustomSearchEdit.Destroy
