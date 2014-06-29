@@ -166,10 +166,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="57"/>
-        <CursorPos X="1" Y="81"/>
+        <CursorPos X="85" Y="64"/>
         <UsageCount Value="115"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -2632,7 +2633,6 @@
       <Unit301>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
         <UnitName Value="fonctions_search_edit"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="221"/>
@@ -2657,7 +2657,7 @@
         <UsageCount Value="11"/>
       </Unit303>
     </Units>
-    <JumpHistory Count="28" HistoryIndex="27">
+    <JumpHistory Count="27" HistoryIndex="26">
       <Position1>
         <Filename Value="../../extcomp/U_ExtComboInsert.pas"/>
         <Caret Line="129" Column="12" TopLine="88"/>
@@ -2744,32 +2744,28 @@
       </Position21>
       <Position22>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="35" Column="64" TopLine="221"/>
+        <Caret Line="244" Column="1" TopLine="221"/>
       </Position22>
       <Position23>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="244" Column="1" TopLine="221"/>
+        <Caret Line="245" Column="1" TopLine="221"/>
       </Position23>
       <Position24>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="245" Column="1" TopLine="221"/>
+        <Caret Line="246" Column="1" TopLine="221"/>
       </Position24>
       <Position25>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="246" Column="1" TopLine="221"/>
+        <Caret Line="249" Column="1" TopLine="221"/>
       </Position25>
       <Position26>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="249" Column="1" TopLine="221"/>
+        <Caret Line="250" Column="1" TopLine="221"/>
       </Position26>
       <Position27>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="250" Column="1" TopLine="221"/>
-      </Position27>
-      <Position28>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
         <Caret Line="255" Column="1" TopLine="221"/>
-      </Position28>
+      </Position27>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -2794,6 +2790,7 @@
     </CodeGeneration>
     <Linking>
       <Debugging>
+        <GenerateDebugInfo Value="False"/>
         <DebugInfoType Value="dsStabs"/>
       </Debugging>
       <LinkSmart Value="True"/>

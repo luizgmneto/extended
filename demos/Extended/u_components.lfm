@@ -13,7 +13,7 @@ object Myform: TMyform
   Font.Name = 'Tahoma'
   Menu = mu_MainMenu
   OnShow = FormShow
-  LCLVersion = '1.2.1.0'
+  LCLVersion = '1.2.3.0'
   object Splitter1: TSplitter
     Left = 208
     Height = 564
@@ -341,7 +341,7 @@ object Myform: TMyform
       Top = 48
       Width = 65
       AutoSize = False
-      Caption = 'Name'
+      Caption = 'Surname'
       Color = clBtnFace
       Font.Color = clWindowText
       Font.Height = 14
@@ -357,7 +357,7 @@ object Myform: TMyform
       Top = 24
       Width = 65
       AutoSize = False
-      Caption = 'Surname'
+      Caption = 'Name'
       Color = clBtnFace
       Font.Color = clActiveText
       Font.Height = 14
@@ -708,8 +708,9 @@ object Myform: TMyform
     MyLabel = FWLabel5
     AlwaysSame = False
     ModeFormat = mftFirstCharOfWordsIsMaj
-    SearchDisplay = 'PRENOM'
-    SearchList = 'PRENOM'
+    SearchDisplay = 'NOM'
+    SearchList = 'NOM'
+    TextSeparator = ' '
     SearchSource = ds_user_search
   end
   object FWDBEdit2: TExtSearchDBEdit
@@ -726,8 +727,8 @@ object Myform: TMyform
     MyLabel = FWLabel6
     AlwaysSame = False
     ModeFormat = mftUpper
-    SearchDisplay = 'NOM'
-    SearchList = 'NOM'
+    SearchDisplay = 'PRENOM'
+    SearchList = 'PRENOM'
     TextSeparator = '-'
     SearchSource = ds_user_search
   end
@@ -787,6 +788,7 @@ object Myform: TMyform
       'SELECT * FROM UTILISATEUR'
     )
     Params = <>
+    UpdateObject = IBUpdateUser
     left = 160
     top = 360
   end
@@ -2308,7 +2310,6 @@ object Myform: TMyform
       'SELECT * FROM UTILISATEUR'
     )
     Params = <>
-    UpdateObject = IBUpdateUser
     left = 400
     top = 496
   end
