@@ -21,19 +21,17 @@ unit U_ExtComboInsert;
 
 interface
 
-uses Variants, Controls, Classes,
+uses Classes,
   {$IFDEF FPC}
-     LMessages, LCLType, LCLIntf,
+     LCLType,
   {$ELSE}
      Windows, Mask, JvDBLookup, Messages,
   {$ENDIF}
-     Graphics, DB,DBCtrls,
+     DB,DBCtrls,
   {$IFDEF VERSIONS}
     fonctions_version,
   {$ENDIF}
-    StdCtrls,
-  u_extsearchedit,
-  u_extcomponent;
+  u_extsearchedit;
 
 {$IFDEF VERSIONS}
 const
@@ -41,7 +39,8 @@ const
                                              FileUnit : 'U_DBComboBoxInsert' ;
                                              Owner : 'Matthieu Giroux' ;
                                              Comment : 'Insertion automatique dans une DBComboLookupEdit.' ;
-                                             BugsStory : '1.2.0.0 : TCustomSearchEdit inherit.'
+                                             BugsStory : '1.2.0.1 : Unfating.'
+                                                       + '1.2.0.0 : TCustomSearchEdit inherit.'
                                                        + '1.1.0.0 : ExtSearchDbEdit inherit.' +#13#10
                                                        + '1.0.1.5 : MyLabel unset correctly.' +#13#10
                                                        + '1.0.1.4 : Better component testing.' +#13#10
@@ -52,7 +51,7 @@ const
                                                        + '1.0.0.0 : Version bêta inadaptée, réutilisation du code de la TJvDBLookupComboEdit.' +#13#10
                                                        + '0.9.0.0 : En place à tester.';
                                              UnitType : 3 ;
-                                             Major : 1 ; Minor : 2 ; Release : 0 ; Build : 0 );
+                                             Major : 1 ; Minor : 2 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
 type
@@ -101,15 +100,11 @@ type
 implementation
 
 uses
-  SysUtils,
   {$IFDEF FPC}
-  LCLProc,
   {$ELSE}
   JvConsts, JvToolEdit,
   {$ENDIF}
-  fonctions_components,
-  fonctions_dbcomponents,
-  fonctions_db;
+  fonctions_dbcomponents;
 
 { TExtDBComboInsert }
 
@@ -241,7 +236,7 @@ begin
    Begin
     Open;
     if Locate ( FSearchKey, Field.Value, [] )
-     Then Text:= FindField ( SearchDisplay ).Value
+     Then Text:= FindField ( SearchDisplay ).AsString
      Else Text:= '';
    End;
 end;
@@ -281,7 +276,7 @@ begin
       fb_RefreshDataset(DataSet);
       if Locate ( SearchDisplay, LText, [] ) Then
         Begin
-          Text := FindField ( SearchDisplay ).Value ;
+          Text := FindField ( SearchDisplay ).AsString;
           SetFieldKeyValue;
           if assigned ( OnSet ) Then
             OnSet ( Self );

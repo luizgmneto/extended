@@ -8,19 +8,17 @@
 
 interface
 
-uses Variants, Controls, Classes,
+uses Controls, Classes,
      {$IFDEF FPC}
-     LMessages, LCLType,
+     LCLType,
      {$ELSE}
      Messages, Windows,
      {$ENDIF}
-     Graphics, Menus, DB,DBCtrls,
-     u_extformatedits,
+     Graphics, DB,DBCtrls,
      {$IFDEF VERSIONS}
      fonctions_version,
      {$ENDIF}
      fonctions_string,
-     u_extcomponent,
      DBGrids, StdCtrls;
 
 const
@@ -82,10 +80,9 @@ procedure p_ShowPopup(var FPopup : TListPopupEdit;const AEdit : TCustomEdit; con
 
 implementation
 
-uses Dialogs,
+uses
      fonctions_db,
      fonctions_proprietes,
-     fonctions_components,
      sysutils;
 
 { TListPopup }
@@ -245,7 +242,11 @@ begin
       Ltext := Text;
       li_pos := fs_LastString ( FTextSeparator, LText );
       if li_pos>0
-        Then LText := copy (LText,li_pos+1,length ( LText ) - li_pos );
+        Then
+         Begin
+          inc ( li_pos, length ( FTextSeparator ));
+          LText := copy (LText,li_pos,length ( LText ) - li_pos +1 );
+         End;
        // Trouvé ?
       if not assigned ( FindField ( FieldName )) Then Exit;
       if FSearchFiltered Then
@@ -267,9 +268,13 @@ begin
     Begin
       ls_temp := Text ; // c'est en affectant le texte que l'on passe en mode édition
       li_pos := fs_LastString ( FTextSeparator, Ls_temp );
-      if li_pos > 0
-       Then ls_temp := copy ( ls_temp, 1, li_pos )
-       Else ls_temp := '' ;
+      if li_pos>0
+        Then
+         Begin
+          inc ( li_pos, length ( FTextSeparator ));
+          ls_temp := copy ( ls_temp, 1, li_pos -1 );
+         End
+        Else ls_temp := '' ;
       li_pos    := SelStart ;
       ls_temp   := ls_temp + FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
       Text      := ls_temp ; // c'est en affectant le texte que l'on passe en mode édition

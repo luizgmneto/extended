@@ -20,20 +20,18 @@ unit u_extsearchedit;
 
 interface
 
-uses Variants, Controls, Classes,
+uses Classes,
      {$IFDEF FPC}
      LMessages, LCLType,
      {$ELSE}
      Messages, Windows,
      {$ENDIF}
-     Graphics, Menus, DB,DBCtrls,
+     DB,DBCtrls,
      u_extformatedits,
      {$IFDEF VERSIONS}
      fonctions_version,
      {$ENDIF}
      fonctions_search_edit,
-     fonctions_string,
-     u_extcomponent,
      DBGrids, StdCtrls;
 
 type TSearchOptions = ( soMultiple );
@@ -240,9 +238,7 @@ type
 
 implementation
 
-uses Dialogs,
-     fonctions_db,
-     fonctions_components,
+uses
      sysutils;
 
 { TExtSearchDBEdit }
