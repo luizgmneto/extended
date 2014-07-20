@@ -31,7 +31,8 @@ const CST_EXTENSION_JPEG           = '.jpg' ;
   gVer_fonctions_images : T_Version = ( Component : 'Gestion des images' ; FileUnit : 'fonctions_images' ;
                         			             Owner : 'Matthieu Giroux' ;
                         			              Comment : 'Chargement des icônes et bitmap ( vérifier des erreurs éventuelles avec Memproof ).' + #13#10 + 'Gestion des images.' ;
-                        			              BugsStory : 'Version 1.0.1.4 : Stream resizing.' + #13#10 +
+                        			              BugsStory : 'Version 1.0.1.5 : try finally added.' + #13#10 +
+                        			                	  'Version 1.0.1.4 : Stream resizing.' + #13#10 +
                         			                	  'Version 1.0.1.3 : No Bitmap bug.' + #13#10 +
                         			                	  'Version 1.0.1.2 : UTF 8.' + #13#10 +
                         			                	  'Version 1.0.1.1 : Improving p_ChangeTailleBitmap.' + #13#10 +
@@ -43,7 +44,7 @@ const CST_EXTENSION_JPEG           = '.jpg' ;
                         			                	  'Version 1.0.0.1 : Meilleure gestion des images, problèmes de rafraichissement.' + #13#10 +
                         			                	  'Version 1.0.0.0 : La gestion est en place.' + #13#10 + 'Il faut utiliser les fonctions et vérifier les erreurs éventuellement produites avec Memproof.';
                         			              UnitType : 1 ;
-                        			              Major : 1 ; Minor : 0 ; Release : 1 ; Build : 4 );
+                        			              Major : 1 ; Minor : 0 ; Release : 1 ; Build : 5 );
 
 {$ENDIF}
 
@@ -302,15 +303,18 @@ begin
       Begin                     
         Result := True ;
         lIco_Icon := TIcon.Create ;
-        lIco_Icon  .LoadFromFile   ( as_Fichier );
-        aBmp_Sortie.Width := lIco_Icon.Width;
-        aBmp_Sortie.Height := lIco_Icon.Height;
-        aBmp_Sortie.Canvas.CopyMode := cmSrcCopy;
-        aBmp_Sortie.Canvas.Draw(0, 0, lIco_Icon);
-//        aBmp_Sortie.Handle := IconToBitmap ( lIco_Icon.Handle ) ;
-        aBmp_Sortie.Modified := True ;
-        lIco_Icon.ReleaseHandle ;
-        lIco_Icon.Free ;
+        try
+          lIco_Icon  .LoadFromFile   ( as_Fichier );
+          aBmp_Sortie.Width := lIco_Icon.Width;
+          aBmp_Sortie.Height := lIco_Icon.Height;
+          aBmp_Sortie.Canvas.CopyMode := cmSrcCopy;
+          aBmp_Sortie.Canvas.Draw(0, 0, lIco_Icon);
+  //        aBmp_Sortie.Handle := IconToBitmap ( lIco_Icon.Handle ) ;
+          aBmp_Sortie.Modified := True ;
+          lIco_Icon.ReleaseHandle ;
+        finally
+          lIco_Icon.Destroy ;
+        end;
       End
      Else
       Begin
@@ -706,7 +710,7 @@ procedure p_FieldToImage ( const field : TField ; const Image : TBitmap ; const 
 var l_c_memory_stream: TMemoryStream;
 begin
   if not ( field.IsNull ) then
-    Begin
+    try
       l_c_memory_stream:= TMemoryStream.Create;
       try
         ( field as tBlobField ).SaveToStream ( l_c_memory_stream );
@@ -717,7 +721,8 @@ begin
       end;
       l_c_memory_stream.Position:=0;
       p_StreamToImage ( l_c_memory_stream, Image, ali_newWidth, ali_newHeight, ab_KeepProportion, ab_ShowError );
-      l_c_memory_stream.Free;
+    Finally
+      l_c_memory_stream.Destroy;
     End;
 
 end;
@@ -729,12 +734,13 @@ procedure p_ImageFileToField ( const afile: String; const field : TField ; const
 var l_c_memory_stream: TMemoryStream;
 begin
   if FileExists ( afile ) then
-    Begin
+    try
       l_c_memory_stream:= TMemoryStream.Create;
       p_FileToStream(afile,l_c_memory_stream, ab_ShowError);
       l_c_memory_stream.Position:=0;
       p_StreamToField ( l_c_memory_stream, field, ab_ShowError );
-      l_c_memory_stream.Free;
+    Finally
+      l_c_memory_stream.Destroy;
     End;
 
 end;
@@ -749,11 +755,12 @@ begin
   if not FileExists ( afile )
   and ( field is TBlobField )
   and (( field as TBlobField ).BlobSize > 0 ) then
-    Begin
+    try
       l_c_memory_stream := TMemoryStream.Create();
       p_ImageFieldToStream ( field, l_c_memory_stream );
       Result := fb_StreamToFile ( l_c_memory_stream, afile, ali_newWidth, ali_newHeight, ab_KeepProportion, ab_ShowError );
-      l_c_memory_stream.Free;
+    Finally
+      l_c_memory_stream.Destroy;
     End
   Else
     Result := False;
@@ -766,16 +773,16 @@ end;
 // afile : La destination
 function fb_FileToImageField ( const afile: String; const field : TField ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
 var l_c_memory_stream: tMemoryStream;
-    lid_ImageData : TImageData;
 begin
   if FileExists ( afile )
   and ( field is TBlobField )
   and (( field as TBlobField ).BlobSize > 0 ) then
-    Begin
+    try
       l_c_memory_stream := TMemoryStream.Create();
       p_FileToStream ( afile, l_c_memory_stream, ab_ShowError );
       Result := fb_StreamToFile ( l_c_memory_stream, afile, ali_newWidth, ali_newHeight, ab_KeepProportion, ab_ShowError );
-      l_c_memory_stream.Free;
+    Finally
+      l_c_memory_stream.Destroy;
     End
   Else
     Result := False;
@@ -816,37 +823,43 @@ var lid_imagedata : TImageData;
 begin
   Finalize(lid_imagedata);
   try
-    lid_imagedata := fid_StreamToImaging  ( Stream, ali_newWidth, ali_newHeight, ab_KeepProportion );
-    if  ( lid_imagedata.Width  > 0 )
-    and ( lid_imagedata.Height > 0 ) Then
-      Begin
-        ConvertDataToBitmap( lid_imagedata, Image );
-        Image.Canvas.Refresh;
-      end
-     Else
-      p_ClearBitmapWithoutMemoryLeak ( Image );
-  Except
-    On E:Exception do
-      if ab_ShowError Then
-        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_STREAM_IMAGE);
+    try
+      lid_imagedata := fid_StreamToImaging  ( Stream, ali_newWidth, ali_newHeight, ab_KeepProportion );
+      if  ( lid_imagedata.Width  > 0 )
+      and ( lid_imagedata.Height > 0 ) Then
+        Begin
+          ConvertDataToBitmap( lid_imagedata, Image );
+          Image.Canvas.Refresh;
+        end
+       Else
+        p_ClearBitmapWithoutMemoryLeak ( Image );
+    Except
+      On E:Exception do
+        if ab_ShowError Then
+          ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_STREAM_IMAGE);
+    end;
+  Finally
+    FreeImage(lid_imagedata);
   end;
-  FreeImage(lid_imagedata);
 end;
 
 procedure p_FileToStream ( const afile : String; const Stream : TStream ; const ab_ShowError : Boolean = False );
 var lid_imagedata : TImageData;
 begin
   Finalize ( lid_imagedata );
-  InitImage(lid_imagedata);
   try
-    LoadImageFromFile  ( afile, lid_imagedata );
-    SaveImageToStream( 'JPG', Stream, lid_imagedata);
-  Except
-    On E:Exception do
-      if ab_ShowError Then
-        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
+    InitImage(lid_imagedata);
+    try
+      LoadImageFromFile  ( afile, lid_imagedata );
+      SaveImageToStream( 'JPG', Stream, lid_imagedata);
+    Except
+      On E:Exception do
+        if ab_ShowError Then
+          ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
+    end;
+  Finally
+    FreeImage(lid_imagedata);
   end;
-  FreeImage(lid_imagedata);
 end;
 function fb_StreamToFile ( const Stream : TStream ; const afile : String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ; const ab_ShowError : Boolean = False ) : Boolean;
 var lid_imagedata : TImageData;
@@ -857,14 +870,17 @@ begin
       Exit;
     Stream.Position := 0;
     lid_imagedata := fid_StreamToImaging  ( Stream, ali_newWidth, ali_newHeight, ab_KeepProportion );
-    SaveImageToFile( afile, lid_imagedata);
+    try
+      SaveImageToFile( afile, lid_imagedata);
+    Finally
+      FreeImage(lid_imagedata);
+    end;
     Result := True;
   Except
     On E:Exception do
       if ab_ShowError Then
         ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
   end;
-  FreeImage(lid_imagedata);
 end;
 
 function fid_StreamToImaging ( const Stream : TStream ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ) : TImageData;
@@ -893,16 +909,19 @@ procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; co
 var lid_imagedata : TImageData;
 begin
   Finalize(lid_imagedata);
-  InitImage(lid_imagedata);
   try
-    LoadImageFromFile  ( afile, lid_imagedata );
-    ConvertDataToBitmap( lid_imagedata, abmp_Image );
-  Except
-    On E:Exception do
-      if ab_ShowError Then
-        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
+    InitImage(lid_imagedata);
+    try
+      LoadImageFromFile  ( afile, lid_imagedata );
+      ConvertDataToBitmap( lid_imagedata, abmp_Image );
+    Except
+      On E:Exception do
+        if ab_ShowError Then
+          ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
+    end;
+  Finally
+    FreeImage(lid_imagedata);
   end;
-  FreeImage(lid_imagedata);
 end;
 
 function fb_ResizeImaging ( var Fdata : TImageData; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
