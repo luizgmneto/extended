@@ -25,7 +25,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Minor="4" Release="2"/>
+    <Version Major="1" Minor="4" Release="2" Build="46"/>
     <Files Count="16">
       <Item1>
         <Filename Value="extcomp/PDBCheck.pas"/>
