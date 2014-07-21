@@ -8,7 +8,7 @@
 <td class="t_cell"><a href="overview.html">Back to overview</a></td>
 </tr></table>
 <p></p>
-<a name="xmi_1263"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<a name="xmi_1243"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
 <td class="ClassTableHeader" width="200">
 <b>TCustomSearchDBEdit</b><br>
 </td>
@@ -19,11 +19,11 @@
 TCustomSearchDBEdit 
 </p></td></tr></table>Inherits from:
 
-    <a href="p_xmi_1422.html#xmi_1340">TExtFormatDBEdit</a><br>Implements:
+    <a href="p_xmi_1404.html#xmi_1321">TExtFormatDBEdit</a><br>Implements:
 
-    <a href="p_xmi_2158.html#xmi_1342">ISearchEdit</a><br>Subclasses:
+    <a href="p_xmi_2140.html#xmi_1323">ISearchEdit</a><br>Subclasses:
 
-    <a href="p_xmi_1241.html#xmi_1344">TExtSearchDBEdit</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+    <a href="p_xmi_1241.html#xmi_1325">TExtSearchDBEdit</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
 <tr>
 <td class="tableheader">Name</td>
 <td class="tableheader">Type</td>
@@ -64,7 +64,9 @@ Lien de donnÃ©es
 <td class="t_cell">private</td>
 </tr>
 <tr>
-<td class="t_cell">FOldColor<br>
+<td class="t_cell">FOldColor<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+FSearchOptions : TSearchOptions;
+</p></td></tr></table>
 </td>
 <td class="t_cell">Boolean
        
@@ -112,7 +114,15 @@ Lien de donnÃ©es
 <td class="t_cell">private</td>
 </tr>
 <tr>
-<td class="t_cell">FSeparator<br>
+<td class="t_cell">FTextSeparator<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FFieldSeparator<br>
 </td>
 <td class="t_cell">Char
        
@@ -147,7 +157,7 @@ Lien de donnÃ©es
 <td class="t_cell">FPopup<br>
 </td>
 <td class="t_cell">
-<a href="p_xmi_1241.html#xmi_191">TListPopupEdit</a>
+<a href="p_xmi_2140.html#xmi_191">TListPopupEdit</a>
        
     </td>
 <td class="t_cell">private</td>
@@ -171,7 +181,9 @@ Lien de donnÃ©es
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">SearchDisplay<br>
+<td class="t_cell">SearchDisplay<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+property SearchOptions : String read fSearchOptions write fSearchOptions default SEARCHEDIT_SEARCH_OPTION_DEFAULT;
+</p></td></tr></table>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -226,6 +238,15 @@ Lien de donnÃ©es
 </tr>
 <tr>
 <td class="t_cell">FieldSeparator<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">TextSeparator<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -502,10 +523,7 @@ procedure TCustomSearchDBEdit.Located
 <td class="t_cell">protected</td>
 </tr>
 <tr>
-<td class="t_cell">InitSearch<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
-c'est en affectant le texte que l'on passe en mode Ã©dition
-</p></td></tr></table>
-</td>
+<td class="t_cell">InitSearch</td>
 <td class="t_cell">
        
     </td>
@@ -533,16 +551,6 @@ procedure TCustomSearchDBEdit.NotFound
 not found : no popup
 </p></td></tr></table>
 </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">CreatePopup</td>
 <td class="t_cell">
        
     </td>
@@ -719,7 +727,7 @@ destructor TCustomSearchDBEdit.Destroy
 <td class="t_cell">public</td>
 </tr>
 </table>
-<br><br><a name="xmi_1345"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<br><br><a name="xmi_1326"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
 <td class="ClassTableHeader" width="200">
 <b>TCustomSearchEdit</b><br>
 </td>
@@ -730,11 +738,11 @@ destructor TCustomSearchDBEdit.Destroy
 TCustomSearchEdit 
 </p></td></tr></table>Inherits from:
 
-    <a href="p_xmi_1422.html#xmi_1416">TExtFormatEdit</a><br>Implements:
+    <a href="p_xmi_1404.html#xmi_1398">TExtFormatEdit</a><br>Implements:
 
-    <a href="p_xmi_2158.html#xmi_1342">ISearchEdit</a><br>Subclasses:
+    <a href="p_xmi_2140.html#xmi_1323">ISearchEdit</a><br>Subclasses:
 
-    <a href="p_xmi_1241.html#xmi_1419">TExtSearchEdit</a>,  <a href="p_xmi_3896.html#xmi_1421">TExtDBComboInsert</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+    <a href="p_xmi_1241.html#xmi_1401">TExtSearchEdit</a>,  <a href="p_xmi_3898.html#xmi_1403">TExtDBComboInsert</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
 <tr>
 <td class="tableheader">Name</td>
 <td class="tableheader">Type</td>
@@ -775,7 +783,9 @@ Lien de donnÃ©es
 <td class="t_cell">private</td>
 </tr>
 <tr>
-<td class="t_cell">FOldColor<br>
+<td class="t_cell">FOldColor<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+FSearchOptions : TSearchOptions;
+</p></td></tr></table>
 </td>
 <td class="t_cell">Boolean
        
@@ -823,7 +833,15 @@ Lien de donnÃ©es
 <td class="t_cell">private</td>
 </tr>
 <tr>
-<td class="t_cell">FSeparator<br>
+<td class="t_cell">FTextSeparator<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FFieldSeparator<br>
 </td>
 <td class="t_cell">Char
        
@@ -858,7 +876,7 @@ Lien de donnÃ©es
 <td class="t_cell">FPopup<br>
 </td>
 <td class="t_cell">
-<a href="p_xmi_1241.html#xmi_191">TListPopupEdit</a>
+<a href="p_xmi_2140.html#xmi_191">TListPopupEdit</a>
        
     </td>
 <td class="t_cell">private</td>
@@ -882,7 +900,9 @@ Lien de donnÃ©es
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">SearchDisplay<br>
+<td class="t_cell">SearchDisplay<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+property SearchOptions : String read fSearchOptions write fSearchOptions default SEARCHEDIT_SEARCH_OPTION_DEFAULT;
+</p></td></tr></table>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -937,6 +957,15 @@ Lien de donnÃ©es
 </tr>
 <tr>
 <td class="t_cell">FieldSeparator<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">TextSeparator<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -1163,10 +1192,7 @@ function TCustomSearchEdit.fs_getSearchDisplay
 <td class="t_cell">protected</td>
 </tr>
 <tr>
-<td class="t_cell">InitSearch<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
-c'est en affectant le texte que l'on passe en mode Ã©dition
-</p></td></tr></table>
-</td>
+<td class="t_cell">InitSearch</td>
 <td class="t_cell">
        
     </td>
@@ -1233,16 +1259,6 @@ procedure TCustomSearchEdit.KeyUp
 <td class="t_cell">Shift</td>
 </tr>
 </table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">CreatePopup</td>
-<td class="t_cell">
        
     </td>
 <td class="t_cell">
@@ -1374,7 +1390,7 @@ destructor TCustomSearchEdit.Destroy
 <td class="t_cell">public</td>
 </tr>
 </table>
-<br><br><a name="xmi_1344"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<br><br><a name="xmi_1325"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
 <td class="ClassTableHeader" width="200">
 <b>TExtSearchDBEdit</b><br>
 </td>
@@ -1385,7 +1401,7 @@ destructor TCustomSearchEdit.Destroy
 TExtSearchDBEdit 
 </p></td></tr></table>Inherits from:
 
-    <a href="p_xmi_1241.html#xmi_1263">TCustomSearchDBEdit</a><br><br><br><a name="xmi_1419"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+    <a href="p_xmi_1241.html#xmi_1243">TCustomSearchDBEdit</a><br><br><br><a name="xmi_1401"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
 <td class="ClassTableHeader" width="200">
 <b>TExtSearchEdit</b><br>
 </td>
@@ -1396,188 +1412,6 @@ TExtSearchDBEdit
 TExtSearchDBEdit 
 </p></td></tr></table>Inherits from:
 
-    <a href="p_xmi_1241.html#xmi_1345">TCustomSearchEdit</a><br><br><br><a name="xmi_191"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="ClassTableHeader" width="200">
-<b>TListPopupEdit</b><br>
-</td>
-<td class="ClassTableHeader" width="150">class
-      </td>
-</tr></table>
-<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
-TListPopupEdit 
-</p></td></tr></table>Inherits from:
-
-    TDBGrid<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
-<tr>
-<td class="tableheader">Name</td>
-<td class="tableheader">Type</td>
-<td class="tableheader">Visibility</td>
-</tr>
-<tr>
-<td class="t_cell">FEdit<br>
-</td>
-<td class="t_cell">TCustomEdit
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">FSearchSource<br>
-</td>
-<td class="t_cell">TFieldDataLink
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">Edit<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">Options<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">Scrollbars<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-</table>
-<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
-<tr>
-<td class="tableheader">Name</td>
-<td class="tableheader">Parameters</td>
-<td class="tableheader">Returns</td>
-<td class="tableheader">Visibility</td>
-</tr>
-<tr>
-<td class="t_cell">KeyUp<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
-TListPopup 
-</p></td></tr></table>
-</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1">
-<tr>
-<td class="t_cell">Word</td>
-<td class="t_cell">Key</td>
-</tr>
-<tr>
-<td class="t_cell">TShiftState</td>
-<td class="t_cell">Shift</td>
-</tr>
-</table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">Click<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
-clik event of datasearch popup
-</p></td></tr></table>
-</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">Create<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
-cannot make self parent
-</p></td></tr></table>
-</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TComponent</td>
-<td class="t_cell">Aowner</td>
-</tr></table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">ShowPopup</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">AutoPlace</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">SetPopup</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1">
-<tr>
-<td class="t_cell">TCustomEdit</td>
-<td class="t_cell">AEdit</td>
-</tr>
-<tr>
-<td class="t_cell">TFieldDataLink</td>
-<td class="t_cell">ASearchSource</td>
-</tr>
-<tr>
-<td class="t_cell">String</td>
-<td class="t_cell">ASearchList</td>
-</tr>
-<tr>
-<td class="t_cell">Char</td>
-<td class="t_cell">ASeparator</td>
-</tr>
-<tr>
-<td class="t_cell">Integer</td>
-<td class="t_cell">AListWidth</td>
-</tr>
-<tr>
-<td class="t_cell">TColor</td>
-<td class="t_cell">AColor</td>
-</tr>
-<tr>
-<td class="t_cell">TFont</td>
-<td class="t_cell">AFont</td>
-</tr>
-</table>
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-</table>
-<br><br>
+    <a href="p_xmi_1241.html#xmi_1326">TCustomSearchEdit</a><br><br><br>
 </body>
 </html>
