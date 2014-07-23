@@ -211,13 +211,13 @@ type
 //    property SearchOptions : String read fSearchOptions write fSearchOptions default SEARCHEDIT_SEARCH_OPTION_DEFAULT;
     property SearchDisplay : String read fs_getSearchDisplay write p_setSearchDisplay ;
     property SearchList : String read FSearchList write FSearchList ;
+    property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
     property DropDownRows : Integer read FListLines write FListLines default 5;
     property DropDownWidth : Word read FListWidth write FListWidth default 0;
     property DropUp : Boolean read FListUp write FListUp default False;
     property SearchFiltered : Boolean read FSearchFiltered write FSearchFiltered default False;
     property FieldSeparator : Char read FFieldSeparator write FFieldSeparator default ',';
     property TextSeparator : String read FTextSeparator write FTextSeparator;
-    property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
     property OnLocate : TNotifyEvent read FOnLocate write FOnLocate;
     property OnNotFound : TNotifyEvent read FOnNotFound write FOnNotFound;
     property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;

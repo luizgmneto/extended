@@ -88,7 +88,7 @@ begin
   and F_SeleArticle.Visible Then
     F_SeleArticle.lb_datecreation.Caption := FormatDateTime('d/mm/yyyy',M_Article.IB_Article.FieldByName('ARTI_Datecrea').AsDateTime);}
 
-  TDateField(M_Article.ds_article.DataSet.FieldByName('ARTI_Datecrea')).DisplayFormat := U_CST_format_date_2;    
+//  TDateField(M_Article.ds_article.DataSet.FieldByName('ARTI_Datecrea')).DisplayFormat := U_CST_format_date_2;    
 end;
 
 procedure TM_Article.DataModuleCreate(Sender: TObject);
@@ -113,19 +113,19 @@ end;
 
 procedure TM_Article.IB_articleNewRecord(DataSet: TDataSet);
 begin
-  DataSet.FieldByName('ARTI_Datecrea').AsDateTime := now;
+//  DataSet.FieldByName('ARTI_Datecrea').AsDateTime := now;
   DataSet.FieldByName('ARTI_Compose').AsBoolean  := False;
 end;
 
 
 procedure TM_Article.IB_articleAfterOpen(DataSet: TDataSet);
 begin
-  TDateTimeField (DataSet.FieldByName( 'ARTI_Datecrea' )).DisplayFormat := U_CST_format_date_2 ;
-  TNumericField  (DataSet.FieldByName( 'ARTI_Pxactu'   )).DisplayFormat := U_CST_format_money_1 ;
+//  TDateTimeField (DataSet.FieldByName( 'ARTI_Datecrea' )).DisplayFormat := U_CST_format_date_2 ;
+{  TNumericField  (DataSet.FieldByName( 'ARTI_Pxactu'   )).DisplayFormat := U_CST_format_money_1 ;
   TNumericField  (DataSet.FieldByName( 'ARTI_Pxfutur'  )).DisplayFormat := U_CST_format_money_1 ;
   TNumericField  (DataSet.FieldByName( 'ARTI_Cubage'   )).DisplayFormat := U_CST_format_money_1 ;
   TNumericField  (DataSet.FieldByName( 'ARTI_Coefcub'  )).DisplayFormat := U_CST_format_money_1 ;
-  TNumericField  (DataSet.FieldByName( 'ARTI_Poids'    )).DisplayFormat := U_CST_format_money_1 ;
+  TNumericField  (DataSet.FieldByName( 'ARTI_Poids'    )).DisplayFormat := U_CST_format_money_1 ;}
 end;
 
 procedure TM_Article.IB_FinitionAfterOpen(DataSet: TDataSet);

@@ -129,7 +129,7 @@ function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_T
 // at_Liste        : la liste à traduire en SQL
 // alst_Key        : le champ clé correspondant à la liste de clés
 // avar_option     : Rectification sur le champ
-function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const ab_IsNumeric : Boolean) : Boolean ; overload ;
+function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const af_FieldValues : Variant ) : Boolean ; overload ;
 
 
 
@@ -941,7 +941,7 @@ Begin
       End ;
 End ;
 
-function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const ab_IsNumeric : Boolean) : Boolean ;
+function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant; const af_FieldValues : Variant ) : Boolean ;
 var li_i : Integer ;
     lb_PremiereFois : Boolean ;
 Begin
@@ -967,16 +967,16 @@ Begin
         if lb_PremiereFois // Première ligne
          Then
            Begin
-             if ab_IsNumeric Then
-               as_TexteAjoute :=         fs_StringDBQuote ( at_Liste [ li_i ])// option
-             Else  // Chaîne
-               as_TexteAjoute := '''' + fs_StringDBQuote ( at_Liste [ li_i ]) + '''';
+             if ( VarIsArray (  at_Liste ) and  VarIsNumeric ( at_Liste [ li_i ] ))
+             or VarIsNumeric ( at_Liste )
+              Then as_TexteAjoute :=         fs_StringDBQuote ( at_Liste [ li_i ])// option
+              Else as_TexteAjoute := '''' + fs_StringDBQuote ( at_Liste [ li_i ]) + ''''; // Chaîne
            End
          Else
-         if ab_IsNumeric Then
-           as_TexteAjoute := as_TexteAjoute + ','   +        fs_StringDBQuote ( at_Liste [ li_i ])// option
-         Else  // Chaîne
-           as_TexteAjoute := as_TexteAjoute + ','   + '''' + fs_StringDBQuote ( at_Liste [ li_i ]) + '''' ;
+         if ( VarIsArray (  at_Liste ) and  VarIsNumeric ( at_Liste [ li_i ] ))
+         or VarIsNumeric ( at_Liste )
+           Then as_TexteAjoute := as_TexteAjoute + ','   +        fs_StringDBQuote ( at_Liste [ li_i ])// option
+           Else as_TexteAjoute := as_TexteAjoute + ','   + '''' + fs_StringDBQuote ( at_Liste [ li_i ]) + '''' ;// Chaîne
         lb_PremiereFois := False ;
       End ;
 End ;
@@ -997,4 +997,4 @@ End ;}
 initialization
   p_ConcatVersion ( gVer_fonctions_db );
 {$ENDIF}
-end.
+end.

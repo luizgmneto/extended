@@ -7,7 +7,7 @@ object M_Article: TM_Article
   HorizontalOffset = 203
   VerticalOffset = 42
   Width = 771
-  object ds_article: TDatasource
+  object ds_article: TDataSource
     DataSet = zq_Article
     left = 128
     top = 13
@@ -23,7 +23,7 @@ object M_Article: TM_Article
     left = 477
     top = 13
   end
-  object ds_Gamme: TDatasource
+  object ds_Gamme: TDataSource
     DataSet = zq_Gamme
     left = 400
     top = 13
@@ -42,7 +42,7 @@ object M_Article: TM_Article
     left = 328
     top = 128
   end
-  object ds_TypProduit: TDatasource
+  object ds_TypProduit: TDataSource
     DataSet = zq_TypProduit
     left = 217
     top = 128
@@ -59,12 +59,12 @@ object M_Article: TM_Article
     left = 312
     top = 184
   end
-  object ds_Carac: TDatasource
+  object ds_Carac: TDataSource
     DataSet = zq_Carac
     left = 217
     top = 184
   end
-  object ds_FiltreProduit: TDatasource
+  object ds_FiltreProduit: TDataSource
     DataSet = zq_FiltreProduit
     left = 216
     top = 72
@@ -115,7 +115,7 @@ object M_Article: TM_Article
     left = 88
     top = 160
   end
-  object ds_typearti: TDatasource
+  object ds_typearti: TDataSource
     DataSet = ib_typearti
     left = 16
     top = 160
@@ -148,7 +148,7 @@ object M_Article: TM_Article
         ParamType = ptInput
       end>
   end
-  object ds_gammarti: TDatasource
+  object ds_gammarti: TDataSource
     DataSet = ib_gammarti
     left = 16
     top = 288

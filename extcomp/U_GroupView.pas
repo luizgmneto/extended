@@ -499,15 +499,11 @@ Begin
                   or gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).IsNull
                    then
                     Begin
-                      if ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ) is TNumericField ) then
-                       gprs_ParamSource.Items [ 0 ].Value    := 0
-                      else
-                       gprs_ParamSource.Items [ 0 ].Value    := '';
+                      if ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ) is TNumericField )
+                       then gprs_ParamSource.Items [ 0 ].Value    := 0
+                       else gprs_ParamSource.Items [ 0 ].Value    := '';
                     End
-                  else
-                   Begin
-                     gprs_ParamSource.Items [ 0 ].Value    := gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).Value
-                   End;
+                  else gprs_ParamSource.Items [ 0 ].Value    := gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).Value
                 End
         {$IFDEF EADO}
                else
@@ -2135,7 +2131,7 @@ Begin
   // Il faut ajouter les champs avec l'état ajoute si on est sur la liste en dehors du tout
   if( not gb_AllSelect or not gb_OptionTotalList or gb_MontreTout )
   and  assigned ( galv_OtherList )
-  and fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField ) Then
+  and fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey]) Then
    with  ds_DataSourceQuery2.DataSet do
      Begin
       ls_SQLCommands := 'INSERT INTO ' + gs_GroupTable + ' ( ' + gs_GroupField + ', ' + gs_UnitsField + ' ) '+#10+' SELECT ' ;
@@ -2165,7 +2161,7 @@ Begin
   and assigned ( galv_OtherList.Datasource.DataSet )
   // Il faut supprimer les champs avec l'état supprime si on est sur la liste en dehors du tout
   and ( not gb_AllSelect or not galv_OtherList.gb_OptionTotalList or gb_MontreTout )
-  and fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField ) Then
+  and fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey]) Then
     with ds_DataSourceQuery2.DataSet do
       Begin
         ls_SQLCommands := 'DELETE FROM ' + gs_GroupTable + ' where ' + gs_GroupField + ' =  ' ;
@@ -2242,7 +2238,7 @@ Begin
   // Il faut ajouter les champs avec l'état ajoute si on est sur la liste en dehors du tout
   if( not gb_AllSelect or not gb_OptionTotalList or gb_MontreTout )
   and  assigned ( galv_OtherList )
-  and fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField ) Then
+  and fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey]) Then
    with ds_DataSourceQuery2.DataSet do
     Begin
       // Propriété DatasourceGroupTable : gs_GroupTable
@@ -2266,7 +2262,7 @@ Begin
   and assigned ( galv_OtherList.Datasource.DataSet )
   // Il faut supprimer les champs avec l'état supprime si on est sur la liste en dehors du tout
   and ( not gb_AllSelect or not galv_OtherList.gb_OptionTotalList or gb_MontreTout )
-  and fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField ) Then
+  and fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey]) Then
     with ds_DataSourceQuery2.DataSet do
       begin
         // Propriété DatasourceGroupTable : gs_GroupTable
@@ -2309,7 +2305,7 @@ Begin
        then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_GroupTable + '.' + gs_GroupField + ' = ''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).AsString ) + ''')'
        Else ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_GroupTable + '.' + gs_GroupField + ' = '   +                    gdl_DataLinkOwner.DataSet.FindField ( gs_GroupKey ).AsString   +   ')' ;
        // et liste d'exclusion car il y a peut-être eu un transfert dans l'autre sens
-      if fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField )
+      if fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey])
        Then
         ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_TableSource + '.' + gs_UnitsKey + ' NOT IN (' + ls_TexteSQL + ')' ;
       // exécution
@@ -2327,7 +2323,7 @@ var ls_TexteSQL, ls_SQLCommands : String;
 Begin
   Result := False;
   ls_TexteSQL := '';
-  if fb_TableauVersSQL ( ls_TexteSQL, astl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField ) Then
+  if fb_TableauVersSQL ( ls_TexteSQL, astl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey]) Then
    with ds_DataSourceQuery2.DataSet do
     begin
       // Propriété DatasourceGroupTable : gs_GroupTable
@@ -2372,7 +2368,7 @@ Begin
        Then ls_SQLCommands := ls_SQLCommands +  gs_GroupField + ' =  ''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString ) + ''''
        Else ls_SQLCommands := ls_SQLCommands +  gs_GroupField + ' =  '   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey ).AsString ;
         ///  sauf la liste d'excusion car il y a peut-être eu un transfert vars l'autre liste
-        if fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField )
+        if fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey])
          Then
            ls_SQLCommands := ls_SQLCommands +  'and ' + gs_UnitsField + ' NOT IN (' +  ls_TexteSQL + ')' ;
       //                  Showmessage ( CommandText );
@@ -2403,7 +2399,7 @@ Begin
       ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + ' IS NULL' ;
       // A garder
                // L'unité doit être hors de liste d'exclusion car transfert possible dans l'autre liste
-      if fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField )
+      if fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey])
        Then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_UnitsField + ' NOT IN (' + ls_TexteSQL + ')' ;
       //                  Showmessage ( CommandText );
       ls_SQLCommands := ls_SQLCommands +  fws_GetExistingFilter ;
@@ -2430,7 +2426,7 @@ Begin
        Then ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + '=''' + fs_stringDbQuote ( gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey  ).AsString ) + ''''
        Else ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + '='   + gdl_DataLinkOwner.DataSet.FieldByName ( gs_GroupKey  ).AsString        ;
       // L'unité doit être hors de liste d'exclusion car transfert possible dans l'autre liste
-      if fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField )
+      if fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey])
        Then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_UnitsField + ' NOT IN (' + ls_TexteSQL + ')' ;
       // exécution
       ls_SQLCommands := ls_SQLCommands +  fws_GetExistingFilter ;
@@ -2473,7 +2469,7 @@ Begin
        Then ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + '=''' + galv_OtherList.gws_RecordValue + ''''
        Else ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + '='   + galv_OtherList.gws_RecordValue        ;
      // L'unité doit être hors de liste d'exclusion car transfert possible dans l'autre liste
-    if fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField )
+    if fb_TableauVersSQL ( ls_TexteSQL, gstl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey])
      Then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_UnitsField + ' NOT IN (' + ls_TexteSQL + ')' ;
     //                  Showmessage ( CommandText );
     ls_SQLCommands := ls_SQLCommands +  fws_GetExistingFilter ;
@@ -2513,7 +2509,7 @@ Begin
     or ( gdl_DataLink.DataSet.FindField ( gs_GroupField ).DataType IN CST_DELPHI_FIELD_STRING ))
      Then ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + '=''' + gws_RecordValue + ''''
      Else ls_SQLCommands := ls_SQLCommands +  ' WHERE ' + gs_GroupField + '='   + gws_RecordValue        ;
-    if fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField )
+    if fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey])
     Then ls_SQLCommands := ls_SQLCommands +  ' AND ' + gs_UnitsField + ' NOT IN (' + ls_TexteSQL + ')' ;
     // exécution
      ls_SQLCommands := ls_SQLCommands +  fws_GetExistingFilter ;
@@ -2725,7 +2721,7 @@ Begin
               fi_AddListe ( lt_Outs , gstl_KeysListOut [ li_i ], False ) ;}
       // Affectation aux clés d'exclusion de l'autre liste
       if gdl_DataLink.Active
-      and fb_TableauVersSQL  ( ls_TexteSQL, lt_Ins, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField )
+      and fb_TableauVersSQL  ( ls_TexteSQL, lt_Ins, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey])
         Then
           begin
 //            lvar_KeyItems := galv_OtherList.gstl_KeysListOut [ li_i ] ;
@@ -2818,10 +2814,10 @@ Begin
         Begin
           as_Result := as_Result + ')' ;
 
-          if fb_TableauVersSQL  ( ls_TexteSQL, gstl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField ) Then
+          if fb_TableauVersSQL  ( ls_TexteSQL, gstl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey] ) Then
             as_Result := as_Result + ' AND ' + gs_UnitsField + ' NOT IN (' + ls_TexteSQL + ')' ;
 
-          if fb_TableauVersSQL  ( ls_TexteSQL, lt_Outs, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField ) Then
+          if fb_TableauVersSQL  ( ls_TexteSQL, lt_Outs, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey] ) Then
             as_Result := as_Result + ' AND ' + gs_UnitsField + ' NOT IN (' + ls_TexteSQL + ')' ;
 
           as_Result := as_Result + ')' ;
@@ -3873,7 +3869,7 @@ begin
               if gb_Basket then
                 begin
                   if gb_EstPrincipale then
-                    if fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gdl_DataLink.DataSet.FieldByName(gs_UnitsKey) is TNumericField )
+                    if fb_TableauVersSQL ( ls_TexteSQL, galv_OtherList.gstl_KeysListOut, gdl_DataLink.DataSet.FieldValues[gs_UnitsKey] )
                      Then gsts_SQLQuery.Add( ' OR ' + gs_GroupTable + CST_FIELD_DECLARE_SEPARATOR + gs_UnitsField + ' IN (' + ls_TexteSQL + ')' );
                   gsts_SQLQuery.Add ( ' OR ' );
                   fb_SetMultipleFieldToQuery ( gstl_GroupField, gsts_SQLQuery, gt_OriginKey, gdl_DataLink.DataSet, True , gs_GroupTable );
