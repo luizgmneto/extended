@@ -114,7 +114,7 @@ inherited F_Article: TF_Article
       object ed_libelcateg: TFWDBEdit
         Tag = 2
         Left = 128
-        Height = 24
+        Height = 27
         Top = 64
         Width = 190
         DataField = 'ARTI_Libcom'
@@ -130,7 +130,7 @@ inherited F_Article: TF_Article
       object ed_codecateg: TFWDBEdit
         Tag = 1
         Left = 128
-        Height = 24
+        Height = 27
         Top = 36
         Width = 34
         DataField = 'ARTI_Clep'
@@ -146,18 +146,20 @@ inherited F_Article: TF_Article
       end
       object cb_Categ: TExtDBComboInsert
         Left = 128
-        Height = 21
+        Height = 24
         Top = 93
         Width = 218
-        DataField = 'ARTI__GAMM'
-        DataSource = M_Article.ds_article
-        KeyField = 'GAMM_Clep'
-        ListField = 'GAMM_Libelle'
-        ListFieldIndex = 0
-        ListSource = M_Article.ds_Gamme
-        LookupCache = False
+        CharCase = ecNormal
+        MaxLength = 0
         TabOrder = 3
+        SpaceChar = '_'
         MyLabel = lb_gamme
+        SearchDisplay = 'GAMM_Libelle'
+        SearchKey = 'GAMM_Clep'
+        SearchList = 'GAMM_Libelle'
+        SearchSource = M_Article.ds_Gamme
+        DataSource = M_Article.ds_article
+        DataField = 'ARTI__GAMM'
       end
       object lb_gamme: TFWLabel
         Tag = 1002
@@ -176,18 +178,20 @@ inherited F_Article: TF_Article
       end
       object cb_Categ1: TExtDBComboInsert
         Left = 128
-        Height = 21
+        Height = 24
         Top = 121
         Width = 218
-        DataField = 'ARTI__TYPR'
-        DataSource = M_Article.ds_article
-        KeyField = 'TYPR_CLEP'
-        ListField = 'TYPR_LIBELLE'
-        ListFieldIndex = 0
-        ListSource = M_Article.ds_typearti
-        LookupCache = False
+        CharCase = ecNormal
+        MaxLength = 0
         TabOrder = 4
+        SpaceChar = '_'
         MyLabel = lb_typart
+        SearchDisplay = 'TYPR_LIBELLE'
+        SearchKey = 'TYPR_CLEP'
+        SearchList = 'TYPR_LIBELLE'
+        SearchSource = M_Article.ds_typearti
+        DataSource = M_Article.ds_article
+        DataField = 'ARTI__TYPR'
       end
       object lb_typart: TFWLabel
         Tag = 1002
@@ -206,17 +210,19 @@ inherited F_Article: TF_Article
       end
       object cb_Categ2: TExtDBComboInsert
         Left = 128
-        Height = 21
+        Height = 24
         Top = 149
         Width = 218
-        DataField = 'ARTI__CARA'
-        DataSource = M_Article.ds_article
-        KeyField = 'CARA_Clep'
-        ListField = 'CARA_Libelle'
-        ListFieldIndex = 0
-        ListSource = M_Article.ds_Carac
-        LookupCache = False
+        CharCase = ecNormal
+        MaxLength = 0
         TabOrder = 5
+        SpaceChar = '_'
+        SearchKey = 'CARA_Clep'
+        SearchList = 'CARA_Libelle'
+        SearchDisplay = 'CARA_Libelle'
+        SearchSource = M_Article.ds_Carac
+        DataSource = M_Article.ds_article
+        DataField = 'ARTI__CARA'
       end
       object lb_libelcateg3: TFWLabel
         Tag = 1002
