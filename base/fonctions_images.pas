@@ -11,7 +11,7 @@ interface
 
 uses Forms,
 {$IFDEF FPC}
-        LCLIntf,
+  LCLIntf,
 {$ELSE}
   Windows,
 {$ENDIF}
@@ -20,9 +20,13 @@ uses Forms,
 {$ENDIF}
   DB, Graphics, Classes,
   ImgList,
+{$IFDEF BGRA}
+  bgrabitmap,
+{$ELSE}
   ImagingTypes,
   ImagingComponents,
   Imaging,
+{$ENDIF}
   Controls, Dialogs ;
 
 const CST_EXTENSION_JPEG           = '.jpg' ;
@@ -31,7 +35,8 @@ const CST_EXTENSION_JPEG           = '.jpg' ;
   gVer_fonctions_images : T_Version = ( Component : 'Gestion des images' ; FileUnit : 'fonctions_images' ;
                         			             Owner : 'Matthieu Giroux' ;
                         			              Comment : 'Chargement des icônes et bitmap ( vérifier des erreurs éventuelles avec Memproof ).' + #13#10 + 'Gestion des images.' ;
-                        			              BugsStory : 'Version 1.0.1.5 : try finally added.' + #13#10 +
+                        			              BugsStory : 'Version 1.0.2.0 : Introducing BGRABitmap.' + #13#10 +
+                        			                	  'Version 1.0.1.5 : try finally added.' + #13#10 +
                         			                	  'Version 1.0.1.4 : Stream resizing.' + #13#10 +
                         			                	  'Version 1.0.1.3 : No Bitmap bug.' + #13#10 +
                         			                	  'Version 1.0.1.2 : UTF 8.' + #13#10 +
@@ -67,14 +72,20 @@ procedure p_DestroyBitmapWithoutMemoryLeak ( const Abitmap : {$IFDEF FPC}TCustom
 procedure p_ClearBitmapWithoutMemoryLeak ( const Abitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF} );
 function  fb_ImageFieldToFile ( const field : TField ; const afile: String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
 function  fb_FiletoImageField ( const afile: String; const field : TField ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
-function  fid_StreamToImaging ( const Stream : TStream ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ) : TImageData;
+function  fci_StreamToCustomImage ( const Stream : TStream ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ) : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
 function  fb_StreamToFile ( const Stream : TStream ; const afile : String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ; const ab_ShowError : Boolean = False ) : Boolean;
+procedure p_ImageToStream ( const lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const Stream : TStream ; const Extension : String='JPG'; const ab_ShowError : Boolean = False);
 procedure p_ImageFieldToStream ( const field : TField ; const ast_memory_stream: tMemoryStream ; const ab_ShowError : Boolean = False );
 procedure p_ImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean = False );
 procedure p_StreamToField ( const astream: TStream; const field : TField ; const ab_ShowError : Boolean = False );
 procedure p_FieldToImage ( const field : TField ; const Image : TBitmap ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False );
+function  fci_GetCustomImage :{$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
+function  fci_BitmapToCustomImage ( const ab_Bitmap : TBitmap ):{$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
+procedure p_ImageToStreamJpeg ( const abb_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const Stream : TStream );
 procedure p_FileToStream ( const afile : String; const Stream : TStream ; const ab_ShowError : Boolean = False );
+procedure p_FreeCustomImage ( var abb_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF} );
 procedure p_StreamToImage ( const stream: tStream; const Image : TBitmap ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False );
+function fci_FileToCustomImage ( const afile : String; const ab_ShowError : Boolean = False ):{$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
 procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean = False );
 procedure p_FileToImage ( const afile : String; const Image : TPicture ; const ab_ShowError : Boolean = False );
 procedure p_ChangeTailleBitmap ( const abmp_BitmapOrigine : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF};
@@ -83,7 +94,8 @@ function fPoi_FromAlignToCoord ( const AWidthIn, AHeightIn, ASurfaceWidth, ASurf
 procedure p_DrawImageFromList ( const ACanvas : TCanvas; const AImages : TCustomImageList ; const AImageIndex : Integer ; const X : Integer = 0 ; const Y : Integer = 0 );
 procedure p_DrawImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex : Integer; const AColor : TColor; const X : Integer = 0 ; const Y : Integer = 0 );
 procedure p_DrawEventualImageFromListToBitmap ( const ABitmap : TBitmap; const AImages : TCustomImageList ; const AImageIndex, AWidth, AHeight : Integer; const AColor : TColor; const AAlign : TAlign = alLeft );
-function fb_ResizeImaging ( var Fdata : TImageData; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
+function fb_ResizeImage ( var Fdata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ):Boolean;
+function fb_ResizeCustomImage ( var Fdata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
 
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
                                   const ab_AjouteBitmap      ,
@@ -98,6 +110,7 @@ function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
 // ai_CompteurImageDef : Compteur d'image par défaut
 function fi_AjouteBmpAImages  (   const aBmp_Picture         : TBitmap     ;
                                   const aIma_ImagesMenus     : TCustomImageList  ) : Integer ; overload ;
+function fb_SaveBitmaptoFile(const abmp_Bitmap : TBitmap; const afile: String): Boolean;
 // Transforme un bitmap en tout petit bitmap
 // Entrée : Le Bitmap source
 // Sortie : Le petit bitmap
@@ -134,7 +147,16 @@ uses
   {$ELSE}
   unite_messages_delphi,
   {$ENDIF}
-  Math,   SysUtils;
+  {$IFDEF BGRA}
+  BGRABitmapTypes,
+  FPWriteJpeg,
+  {$ENDIF}
+  {$IFDEF FPC}
+  FileUtil,
+  {$ENDIF}
+  Math,
+  fonctions_string,
+  SysUtils;
 
 // fill acanvas with acolor
 procedure p_SetAndFillBitmap ( const ABitmap : {$IFDEF FPC}TCustomBitmap{$ELSE}TBitmap{$ENDIF} ; const AWidth, AHeight : Integer; const AColor : TColor );
@@ -417,7 +439,22 @@ procedure p_RecuperePetitBitmap ( const abmp_BitmapOrigine : TBitmap );
 Begin
   p_ChangeTailleBitmap ( abmp_BitmapOrigine, 16 );
 end ;
-// Ajoute une image bmp dans une imagelist et efface le handle
+function fb_SaveBitmaptoFile(const abmp_Bitmap : TBitmap; const afile: String): Boolean;
+var lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
+begin
+  Result:=False;
+  lid_imagedata:=fci_GetCustomImage;
+  lid_imagedata.Assign(abmp_Bitmap);
+  try
+    {$IFDEF BGRA}
+    lid_imagedata.SaveToFile( afile );
+    {$ELSE}
+    SaveImageToFile( afile, lid_imagedata);
+    {$ENDIF}
+    Result:=True;
+  finally
+  end;
+end; // Ajoute une image bmp dans une imagelist et efface le handle
 //  aBmp_Picture : L'image
 // ab_AjouteBitmap : Ajoute l'image
 // ab_ImageDefaut  : Ajoute l'image par défaut
@@ -717,7 +754,7 @@ begin
       Except
         On E:Exception do
          if ab_ShowError Then
-            ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FIELD_IMAGE);
+            ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FIELD_IMAGE+CST_ENDOFLINE+E.ClassName);
       end;
       l_c_memory_stream.Position:=0;
       p_StreamToImage ( l_c_memory_stream, Image, ali_newWidth, ali_newHeight, ab_KeepProportion, ab_ShowError );
@@ -733,7 +770,7 @@ end;
 procedure p_ImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean = False );
 var l_c_memory_stream: TMemoryStream;
 begin
-  if FileExists ( afile ) then
+  if FileExistsUTF8 ( afile ) then
     try
       l_c_memory_stream:= TMemoryStream.Create;
       p_FileToStream(afile,l_c_memory_stream, ab_ShowError);
@@ -752,7 +789,7 @@ function fb_ImageFieldToFile ( const field : TField ; const afile: String; const
 var l_c_memory_stream: tMemoryStream;
 begin
 
-  if not FileExists ( afile )
+  if not FileExistsUTF8 ( afile )
   and ( field is TBlobField )
   and (( field as TBlobField ).BlobSize > 0 ) then
     try
@@ -774,7 +811,7 @@ end;
 function fb_FileToImageField ( const afile: String; const field : TField ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
 var l_c_memory_stream: tMemoryStream;
 begin
-  if FileExists ( afile )
+  if FileExistsUTF8 ( afile )
   and ( field is TBlobField )
   and (( field as TBlobField ).BlobSize > 0 ) then
     try
@@ -793,12 +830,13 @@ end;
 // afile : La destination
 procedure p_ImageFieldToStream ( const field : TField ; const ast_memory_stream: tMemoryStream ; const ab_ShowError : Boolean = False );
 begin
+  if not field.IsNull Then
   try
     ( field as tBlobField ).SaveToStream ( ast_memory_stream );
   Except
     On E:Exception do
      if ab_ShowError Then
-        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FIELD_IMAGE);
+        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_STREAM_IMAGE+CST_ENDOFLINE+E.ClassName);
   end;
 end;
 
@@ -813,89 +851,160 @@ begin
     Except
       On E:Exception do
        if ab_ShowError Then
-          ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_STREAM_field);
+          ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_STREAM_FIELD+CST_ENDOFLINE+E.ClassName+E.Message);
     end;
 
 end;
 
 procedure p_StreamToImage ( const stream: tStream; const Image : TBitmap ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ; const ab_ShowError : Boolean = False );
-var lid_imagedata : TImageData;
+var lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
 begin
-  Finalize(lid_imagedata);
+  {$IFDEF BGRA}
+  lid_imagedata:=nil;
+  {$ELSE}
+  Finalize ( lid_imagedata );
+  {$ENDIF}
   try
-    try
-      lid_imagedata := fid_StreamToImaging  ( Stream, ali_newWidth, ali_newHeight, ab_KeepProportion );
-      if  ( lid_imagedata.Width  > 0 )
-      and ( lid_imagedata.Height > 0 ) Then
-        Begin
-          ConvertDataToBitmap( lid_imagedata, Image );
-          Image.Canvas.Refresh;
-        end
-       Else
-        p_ClearBitmapWithoutMemoryLeak ( Image );
-    Except
-      On E:Exception do
-        if ab_ShowError Then
-          ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_STREAM_IMAGE);
-    end;
+    lid_imagedata := fci_StreamToCustomImage  ( Stream, ali_newWidth, ali_newHeight, ab_KeepProportion );
+    if  ( lid_imagedata.Width  > 0 )
+    and ( lid_imagedata.Height > 0 ) Then
+      Begin
+       {$IFDEF BGRA}
+       Image.Assign(lid_imagedata.Bitmap);
+       {$ELSE}
+       ConvertDataToBitmap( lid_imagedata, Image );
+       {$ENDIF}
+        Image.Canvas.Refresh;
+      end
+     Else
+      p_ClearBitmapWithoutMemoryLeak ( Image );
   Finally
-    FreeImage(lid_imagedata);
+    p_FreeCustomImage (lid_imagedata);
   end;
+end;
+procedure p_FreeCustomImage ( var abb_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF} );
+Begin
+  {$IFDEF BGRA}FreeAndNil{$ELSE}FreeImage{$ENDIF}(abb_imagedata);
+end;
+
+procedure p_ImageToStreamJpeg ( const abb_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const Stream : TStream );
+{$IFDEF BGRA}
+var    AWriter:TFPWriterJpeg;
+Begin
+  AWriter:=TFPWriterJpeg.Create;
+  AWriter.CompressionQuality:=68;
+  try
+    abb_imagedata.SaveToStream(Stream,AWriter);
+  finally
+    AWriter.Destroy;
+  end;
+{$ELSE}
+Begin
+  SaveImageToStream( 'JPG', Stream, abb_imagedata);
+{$ENDIF}
+end;
+function  fci_BitmapToCustomImage ( const ab_Bitmap : TBitmap ):{$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
+Begin
+  if ab_Bitmap.Handle=0 Then
+   Begin
+    Result:=nil;
+    Exit;
+   end;
+  Result:=fci_GetCustomImage;
+  Result.Assign ( ab_bitmap );
+end;
+
+function  fci_GetCustomImage :{$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
+Begin
+  {$IFDEF BGRA}
+  Result:=nil;
+  {$ELSE}
+  Finalize ( Result );
+  {$ENDIF}
+  {$IFDEF BGRA}
+  Result:=TBGRABitmap.Create;
+  {$ELSE}
+  InitImage(Result);
+  {$ENDIF}
 end;
 
 procedure p_FileToStream ( const afile : String; const Stream : TStream ; const ab_ShowError : Boolean = False );
-var lid_imagedata : TImageData;
+var lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
 begin
-  Finalize ( lid_imagedata );
+  lid_imagedata:=fci_GetCustomImage;
   try
-    InitImage(lid_imagedata);
     try
+      {$IFDEF BGRA}
+      lid_imagedata.LoadFromFile  ( afile );
+      {$ELSE}
       LoadImageFromFile  ( afile, lid_imagedata );
-      SaveImageToStream( 'JPG', Stream, lid_imagedata);
+      {$ENDIF}
+      p_ImageToStreamJpeg ( lid_imagedata, Stream );
     Except
       On E:Exception do
         if ab_ShowError Then
-          ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
+          ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FILE_IMAGE+CST_ENDOFLINE+E.ClassName);
     end;
   Finally
-    FreeImage(lid_imagedata);
+    p_FreeCustomImage (lid_imagedata);
+  end;
+end;
+procedure p_ImageToStream ( const lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const Stream : TStream ; const Extension : String='JPG'; const ab_ShowError : Boolean = False);
+begin
+  try
+    {$IFDEF BGRA}
+    lid_imagedata.SaveToStreamAsPng( Stream );
+    {$ELSE}
+    SaveImageToStream( Extension, Stream, lid_imagedata);
+    {$ENDIF}
+  Except
+    On E:Exception do
+      if ab_ShowError Then
+        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FILE_IMAGE+CST_ENDOFLINE+E.ClassName);
   end;
 end;
 function fb_StreamToFile ( const Stream : TStream ; const afile : String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ; const ab_ShowError : Boolean = False ) : Boolean;
-var lid_imagedata : TImageData;
+var lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
 begin
   Result := False;
   try
     if ( Stream.Size = 0 ) then
       Exit;
     Stream.Position := 0;
-    lid_imagedata := fid_StreamToImaging  ( Stream, ali_newWidth, ali_newHeight, ab_KeepProportion );
+    lid_imagedata := fci_StreamToCustomImage  ( Stream, ali_newWidth, ali_newHeight, ab_KeepProportion );
     try
+      {$IFDEF BGRA}
+      lid_imagedata.SaveToFile( afile );
+      {$ELSE}
       SaveImageToFile( afile, lid_imagedata);
+      {$ENDIF}
     Finally
-      FreeImage(lid_imagedata);
+      p_FreeCustomImage (lid_imagedata);
     end;
     Result := True;
   Except
     On E:Exception do
       if ab_ShowError Then
-        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
+        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FILE_IMAGE+CST_ENDOFLINE+E.ClassName);
   end;
 end;
 
-function fid_StreamToImaging ( const Stream : TStream ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ) : TImageData;
+function fci_StreamToCustomImage ( const Stream : TStream ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ) : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
 begin
-  Finalize ( Result );
-  InitImage( Result );
+  Result:=fci_GetCustomImage;
   Stream.Position := 0;
   if ( Stream.Size = 0 ) then
     Exit;
+  {$IFDEF BGRA}
+  Result.LoadFromStream( Stream );
+  {$ELSE}
   LoadImageFromStream  ( Stream, Result );
+  {$ENDIF}
   if ( Result.Height = 0 )
   or (( ali_newHeight = 0 ) and ( ali_newWidth = 0 ))
   or ( Result.Width  = 0 ) then
     Exit;
-  fb_ResizeImaging(Result, ali_newWidth, ali_newHeight, ab_KeepProportion );
+  fb_ResizeCustomImage(Result, ali_newWidth, ali_newHeight, ab_KeepProportion );
 end;
 
 /////////////////////////////////////////////////////////////////////////
@@ -906,25 +1015,69 @@ end;
 // ab_ShowError : Error showing
 /////////////////////////////////////////////////////////////////////////
 procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; const ab_ShowError : Boolean = False );
-var lid_imagedata : TImageData;
+var lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
 begin
-  Finalize(lid_imagedata);
+  lid_imagedata:=fci_FileToCustomImage ( afile, ab_ShowError );
   try
-    InitImage(lid_imagedata);
-    try
-      LoadImageFromFile  ( afile, lid_imagedata );
-      ConvertDataToBitmap( lid_imagedata, abmp_Image );
-    Except
-      On E:Exception do
-        if ab_ShowError Then
-          ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_File_IMAGE);
-    end;
+    {$IFDEF BGRA}
+    abmp_Image.Assign(lid_imagedata.Bitmap);
+    {$ELSE}
+    ConvertDataToBitmap( lid_imagedata, abmp_Image );
+    {$ENDIF}
   Finally
-    FreeImage(lid_imagedata);
+    p_FreeCustomImage (lid_imagedata);
   end;
 end;
 
-function fb_ResizeImaging ( var Fdata : TImageData; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
+/////////////////////////////////////////////////////////////////////////
+// procedure p_FileToBitmap
+// setting some image file to Bitmap object
+// afile : The file image
+// abmp_Image : Bitmap object to set
+// ab_ShowError : Error showing
+/////////////////////////////////////////////////////////////////////////
+function fci_FileToCustomImage ( const afile : String; const ab_ShowError : Boolean = False ):{$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
+begin
+  {$IFDEF BGRA}
+  Result:=nil;
+  {$ELSE}
+  Finalize ( Result );
+  {$ENDIF}
+  try
+    {$IFNDEF BGRA}
+    InitImage(Result);
+    {$ENDIF}
+
+    try
+      {$IFDEF BGRA}
+      Result:=TBGRABitmap.Create(afile);
+      {$ELSE}
+      LoadImageFromFile  ( afile, Result );;
+      {$ENDIF}
+    Except
+      On E:Exception do
+        if ab_ShowError Then
+          ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FILE_IMAGE+CST_ENDOFLINE+E.ClassName);
+    end;
+  Finally
+    {$IFDEF BGRA}Result.Free{$ELSE}FreeImage(Result){$ENDIF};
+  end;
+end;
+
+function fb_ResizeImage ( var Fdata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ):Boolean;
+{$IFDEF BGRA}var lbgb_ImageTemp:TBGRACustomBitmap;{$ENDIF}
+Begin
+  {$IFDEF BGRA}
+  lbgb_ImageTemp:=Fdata.Resample( ali_newWidth, ali_newHeight );
+  Fdata.Assign(lbgb_ImageTemp);
+  Result := True;
+  {$ELSE}
+  Result := ResizeImage ( Fdata, ali_newWidth, ali_newHeight, rfBicubic );
+  {$ENDIF}
+
+end;
+
+function fb_ResizeCustomImage ( var Fdata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const ali_newWidth : Longint ; const ali_newHeight : Longint = 0 ; const ab_KeepProportion : Boolean = True ):Boolean;
 var
     li_ImageWidth,
     li_ImageHeight,
@@ -939,10 +1092,7 @@ begin
   and ( li_ImageHeight > 0 )
   and ( li_ImageWidth > 0 )
   and ( not ab_KeepProportion )
-    Then
-     Begin
-      Result := ResizeImage ( Fdata, ali_newWidth, ali_newHeight, rfBicubic );
-     End
+    Then  Result := fb_ResizeImage ( Fdata, ali_newWidth, ali_newHeight )
     else
      Begin
        if  ( ali_newWidth > 0 )
@@ -952,14 +1102,14 @@ begin
         Then
          Begin
            li_Size := ( ali_newWidth * li_ImageHeight ) div li_ImageWidth;
-           Result  := ResizeImage ( Fdata, ali_newWidth, li_Size, rfBicubic );
+           Result := fb_ResizeImage ( Fdata, ali_newWidth, li_Size );
          End
        else
          if  ( ali_newHeight > 0 )
          and ( ali_newHeight <  li_ImageHeight ) Then
            Begin
              li_Size := ( ali_newHeight * li_ImageWidth ) div li_ImageHeight ;
-             Result  := ResizeImage ( Fdata, li_Size, ali_newHeight, rfBicubic );
+             Result := fb_ResizeImage ( Fdata, li_Size, ali_newHeight );
            End ;
     End ;
 end;

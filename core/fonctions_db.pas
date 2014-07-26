@@ -130,6 +130,7 @@ function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_T
 // alst_Key        : le champ clé correspondant à la liste de clés
 // avar_option     : Rectification sur le champ
 function fb_TableauVersSQL ( var as_TexteAjoute : String ; const at_Liste : tt_TableauVariant ; const af_FieldValues : Variant ) : Boolean ; overload ;
+function fb_DatasourceModifying ( const Datasource : TDatasource ): Boolean;
 
 
 
@@ -980,6 +981,14 @@ Begin
         lb_PremiereFois := False ;
       End ;
 End ;
+
+function fb_DatasourceModifying ( const Datasource : TDatasource ): Boolean;
+Begin
+  Result:=    assigned ( Datasource )
+          and assigned ( Datasource.Dataset )
+          and (Datasource.Dataset.State in [ dsedit,dsInsert ]);
+
+end;
 
 // récupère la propriété sort
 // aDat_Dataset : Le dataset

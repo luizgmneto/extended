@@ -35,43 +35,98 @@ type
 
 { TExtImage }
 
-TExtImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF}, IFWComponent )
+   TExtImage = class( {$IFDEF TNT}TTntImage{$ELSE}TImage{$ENDIF}, IFWComponent )
      private
+       FClickAdd : Boolean;
        FShowErrors : Boolean ;
        procedure p_SetFileName  ( const Value : String ); virtual;
      protected
        FFileName : String;
      public
+       procedure Click;override;
        procedure LoadFromStream ( const astream : TStream ); virtual;
        function  LoadFromFile   ( const afile   : String ):Boolean; virtual;
+       function  SavetoFile   ( const afile   : String ):Boolean; overload; virtual;
+       function  SaveToFile :Boolean; overload; virtual;
        constructor Create(AOwner: TComponent); override;
        procedure Loaded; override;
      published
        property FileName : String read FFileName write p_SetFileName ;
        property ShowErrors : Boolean read FShowErrors write FShowErrors default True ;
+       property ClickAdd : Boolean read FClickAdd write FClickAdd default False;
      end;
 
 
 implementation
 
-uses fonctions_images, sysutils;
+uses fonctions_images,
+{$IFDEF FPC}
+     unite_messages,
+{$ELSE}
+      unite_messages_delphi,
+{$ENDIF}
+     {$IFDEF FPC}
+     FileUtil,
+     {$ENDIF}
+     sysutils,
+     ExtDlgs;
 
 { TExtImage }
+
+procedure TExtImage.Click;
+begin
+  if Assigned(OnClick) Then
+    inherited Click
+   Else
+     if not ( csDesigning in ComponentState)
+     and FClickAdd
+      Then
+       with TOpenPictureDialog.Create(Self) do
+        try
+          Filter:=GS_IMAGING_FILTER;
+          if Execute Then
+           Begin
+            LoadFromFile(FileName);
+           end;
+        finally
+          Destroy;
+        end;
+end;
+
+function TExtImage.SaveToFile: Boolean;
+var LSaveDialog : TSavePictureDialog;
+begin
+  LSaveDialog:=TSavePictureDialog.Create(Self);
+  with LSaveDialog do
+   Begin
+     Filter:=GS_IMAGING_FILTER;
+     if Execute
+      Then Result := SavetoFile(FileName)
+      Else Result := False;
+   end;
+end;
+
 
 
 function TExtImage.LoadFromFile(const afile: String):Boolean;
 begin
   Result := False;
   FFileName:=afile;
-  if FileExists ( FFileName ) Then
+  if FileExistsUTF8 ( FFileName ) Then
     p_FileToImage(FFileName, Self.Picture, FShowErrors);
   Result := True;
+end;
+
+function TExtImage.SavetoFile(const afile: String): Boolean;
+begin
+  Result:=fb_SaveBitmaptoFile(Picture.Bitmap,afile );
 end;
 
 constructor TExtImage.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FShowErrors:=True;
+  FClickAdd:=False;
 end;
 
 procedure TExtImage.Loaded;

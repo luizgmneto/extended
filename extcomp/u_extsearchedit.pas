@@ -129,6 +129,7 @@ type
     constructor Create ( Aowner : TComponent ); override;
     destructor Destroy ; override;
     property Located : Boolean read Flocated;
+    function Modify:Boolean;virtual;
   published
 //    property SearchOptions : String read fSearchOptions write fSearchOptions default SEARCHEDIT_SEARCH_OPTION_DEFAULT;
     property SearchDisplay : String read fs_getSearchDisplay write p_setSearchDisplay;
@@ -239,7 +240,7 @@ type
 implementation
 
 uses
-     sysutils;
+     sysutils,fonctions_db;
 
 { TExtSearchDBEdit }
 
@@ -503,6 +504,11 @@ destructor TCustomSearchDBEdit.Destroy;
 begin
   inherited Destroy;
   FSearchSource.Destroy;
+end;
+
+function TCustomSearchDBEdit.Modify: Boolean;
+begin
+  Result:= fb_DatasourceModifying ( Datasource );
 end;
 
 

@@ -90,6 +90,7 @@ type
     procedure Loaded; override ;
     procedure LoadSourceKey; virtual;
     procedure AssignListValue;virtual;
+    function Modify:Boolean;virtual;
   published
     property OnOrder : TNotifyEvent read FNotifyOrder write FNotifyOrder;
     property DataSource : TDatasource read fs_getDataSource write p_setDataSource ;
@@ -104,7 +105,7 @@ uses
   {$ELSE}
   JvConsts, JvToolEdit,
   {$ENDIF}
-  fonctions_dbcomponents;
+  fonctions_db,fonctions_dbcomponents;
 
 { TExtDBComboInsert }
 
@@ -179,6 +180,11 @@ Begin
           end;
        end;
 End ;
+
+function TExtDBComboInsert.Modify: Boolean;
+begin
+  Result:= fb_DatasourceModifying ( Datasource );
+end;
 
 
 
