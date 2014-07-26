@@ -138,7 +138,8 @@ function ffor_getForm   ( afor_FormClasse : TFormClass ): TForm; overload ;
 function ffor_CreateUniqueChild ( afor_FormClasse : TFormClass; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean = True ; const aico_Icon : TIcon = nil): TCustomForm;
 // Création d'une form MDI renvoie True si la form existe
 // as_FormNom : Nom de la form ; afor_FormClasse : Classe de la form ; var afor_Reference : Variable de la form
-function fp_CreateUniqueChild ( const as_FormNom, as_FormClasse : string ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean = True ; const aico_Icon : TIcon = nil): Pointer;
+function fp_CreateUniqueChild ( const as_FormNom, as_FormClasse : string ; const newFormStyle : TFormStyle; const ab_Ajuster : Boolean = True ; const aico_Icon : TIcon = nil): Pointer; overload;
+function fp_CreateUniqueChild(const afor_FormClasse : TFormClass ; const newFormStyle: TFormStyle; const ab_Ajuster: Boolean = True ; const aico_Icon : TIcon = nil): Pointer; overload;
 
 // Création d'une form modal
 // renvoie True si la form existe
@@ -849,6 +850,31 @@ begin
   afor_Reference.Show;
   {$ENDIF}
   afor_Reference.BringToFront ;
+end;
+
+// Création d'une form MDI renvoie True si la form existe dans les enfants MDI
+// as_FormNom        : nom      de la form
+// afor_FormClasse   : classe   de la form
+// newFormStyle      : style    de la form à mettre
+function fp_CreateUniqueChild(const afor_FormClasse : TFormClass ; const newFormStyle: TFormStyle; const ab_Ajuster: Boolean = True ; const aico_Icon : TIcon = nil): Pointer;
+var lb_Unload : Boolean;
+Begin
+  Result := ffor_getForm ( afor_FormClasse );
+
+      //Création si nil
+ if ( Result = nil )
+   Then Result := TForm ( ffor_CreateForm ( afor_FormClasse ));
+    // Mise à jour de la form
+
+ if Assigned(Result)
+ and ab_Ajuster then
+   Begin
+     lb_Unload := fb_getComponentBoolProperty ( TComponent( Result ), 'DataUnload' );
+     if not lb_Unload Then
+       fb_setNewFormStyle( TForm ( Result ), newFormStyle, ab_Ajuster)
+     else
+       ( TForm ( Result )).Free ;
+   End ;
 end;
 
 // Création d'une form modal

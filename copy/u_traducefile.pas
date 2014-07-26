@@ -31,17 +31,23 @@ uses
 {$IFDEF VERSIONS}
    fonctions_version,
 {$ENDIF}
-   u_extabscopy,
   {$IFDEF MAGICK}
    ImageMagick,
    magick_wand;
   {$ELSE}
-  ImagingTypes,
+  {$IFDEF BGRA}
+    bgrabitmap,
+    bgrabitmaptypes,
+    FPImage,
+  {$ELSE}
+    ImagingTypes,
+    Imaging,
+  {$ENDIF}
   {$IFDEF CCREXIF}
   CCR.Exif,
   {$ENDIF}
-  Imaging  ;
   {$ENDIF}
+  u_extabscopy;
 
 {$IFDEF VERSIONS}
 const
@@ -94,9 +100,9 @@ type
              procedure SetSource(const AValue: String);
            protected
              FInited : Boolean;
-             function  SaveToFile(const Adata : {$IFDEF MAGICK}PMagickWand{$ELSE}TImageData{$ENDIF};
+             function  SaveToFile(const Adata : {$IFDEF MAGICK}PMagickWand{$ELSE}{$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}{$ENDIF};
                                                 const as_source, as_Destination : String ; const AFormat :
-                                                {$IFDEF MAGICK}String {$ELSE}TImageFileFormat{$ENDIF};
+                                                {$IFDEF MAGICK}String {$ELSE}{$IFDEF BGRA}TBGRAImageFormat{$ELSE}TImageFileFormat{$ENDIF}{$ENDIF};
                                                 const AResized : Boolean = False):Longint;
              function DoInit: Integer; virtual;
              function UnInit: Integer; virtual;
@@ -138,9 +144,12 @@ type
 
 implementation
 
-uses fonctions_file, fonctions_string, Forms,
+uses fonctions_images,fonctions_file, fonctions_string, Forms,
   {$IFDEF CCREXIF}
      CCR.Exif.JpegUtils, CCR.Exif.TagIDs, CCR.Exif.XMPUtils,
+  {$ENDIF}
+  {$IFDEF FPC}
+     LazUTF8, FileUtil,
   {$ENDIF}
   TypInfo;
 {$IFDEF MAGICK}
@@ -208,7 +217,7 @@ end;
 
 function TTraduceFile.CreateDestination ( const as_Destination : String ):Boolean;
 begin
-  Result :=  not DirectoryExists ( FDestination )
+  Result :=  not DirectoryExistsUTF8 ( FDestination )
   and not fb_CreateDirectoryStructure ( FDestination );
 end;
 
@@ -273,43 +282,58 @@ end;
 {$IFNDEF MAGICK}
 // Function to load original file
 function LoadImageFromFileFormat(const FileNameSource, FileNameExtSource, FileNameExtDest : string;
-var Image: TImageData; var FormatSource : TImageFileFormat ;
+var Image: {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; var FormatSource :
+                                                {$IFDEF MAGICK}String {$ELSE}{$IFDEF BGRA}TBGRAImageFormat{$ELSE}TImageFileFormat{$ENDIF}{$ENDIF};
 {$IFDEF CCREXIF}const ExifData : TExifData ;{$ENDIF} const FileTypeDest : TEImageFileOption ):
   Boolean;
 var
-  IArray: TDynImageDataArray;
+  {$IFNDEF MAGICK}IArray:{$IFDEF BGRA}TStream{$ELSE}TDynImageDataArray;{$ENDIF};{$ENDIF}
   I: LongInt;
   ls_extension:String;
 begin
   Assert(FileNameSource <> '');
   Result := False;
-  FormatSource := FindImageFileFormatByExt(DetermineFileFormat(FileNameSource));
-
-  if not assigned ( FormatSource ) then
+  if {$IFDEF BGRA}FormatSource=ifUnknown{$ELSE}not assigned ( FormatSource ){$ENDIF} then
     Exit;
+  {$IFDEF BGRA}
+  Result:=FormatSource>ifUnknown;
+  {$ELSE}
   for i:=0 to FormatSource.Extensions.Count - 1  do
     if FileNameExtDest = FormatSource.Extensions [ i ] Then
       Begin
        Result := True;
        Break;
       end;
+  {$ENDIF}
   if Result Then
    Begin
     Result := False;
     ls_extension := LowerCase(FileNameExtSource);
+    {$IFNDEF BGRA}
     for i:=0 to FormatSource.Extensions.Count - 1  do
       if ls_extension = FormatSource.Extensions [ i ] Then
         Begin
          Result := True;
          Break;
         end;
+    {$ENDIF}
    end;
+
   {$IFDEF CCREXIF}
   if Result
   and ( FileTypeDest in [foJPEG] ) then
     ExifData.LoadFromJPEG(FileNameSource);
-  {$ENDIF}
+  {$ELSE}
   IArray := nil;
+  {$IFDEF BGRA}
+  try
+    Image.Free;
+    p_FileTostream(FileNameSource, IArray, True);
+    Result:=DetectFileFormat(IArray,FileNameSource)>ifUnknown;
+  finally
+    IArray.Free;
+  end;
+  {$ELSE}
   FreeImage(Image);
   Result := FormatSource.LoadFromFile(FileNameSource, IArray, True);
   if Result and (Length(IArray) > 0) then
@@ -320,12 +344,14 @@ begin
   end
   else
     Result := False;
-
- if not Result Then
-  Begin
-    FormatSource := nil;
-  end;
+  if not Result Then
+   Begin
+     FormatSource := nil;
+   end;
+  {$ENDIF}
+  {$ENDIF}
 end;
+
 
 
 
@@ -404,10 +430,10 @@ begin
       Result := True;
     End;
 end;
-{$ENDIF}
 
 // Function to save with original file
-function SaveImageToFileFormat(const AStream: TStream; const Image: TImageData; const FormatSource : TImageFileFormat): Boolean;
+function SaveImageToFileFormat(const AStream: TStream; const Image: {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}
+            {$IFDEF MAGICK}String {$ELSE}{$IFDEF BGRA}TBGRAImageFormat{$ELSE}TImageFileFormat{$ENDIF}{$ENDIF}): Boolean;
 var
   IArray: TDynImageDataArray;
   {$IFDEF CCREXIF}
@@ -439,14 +465,18 @@ begin
   end;
 end;
 {$ENDIF}
+{$ENDIF}
 
-function TTraduceFile.SaveToFile ( const Adata : {$IFDEF MAGICK}PMagickWand{$ELSE}TImageData{$ENDIF};
-                                   const as_source, as_Destination : String ;
-                                   const AFormat : {$IFDEF MAGICK}String {$ELSE}TImageFileFormat{$ENDIF} ;
+function TTraduceFile.SaveToFile ( const Adata : {$IFDEF MAGICK}PMagickWand{$ELSE}{$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}{$ENDIF};
+                                   const as_source, as_Destination : String ; const AFormat :
+                                   {$IFDEF MAGICK}String {$ELSE}{$IFDEF BGRA}TBGRAImageFormat{$ELSE}TImageFileFormat{$ENDIF}{$ENDIF};
                                    const AResized : Boolean = False ):Longint;
 var   FileStream, FileStreamSource : TFileStream ;
       LBuffer : array of Byte;
       LBufferSize : Integer;
+      {$IFDEF BGRA}
+      AWriter:TFPCustomImageWriter;
+      {$ENDIF}
 Begin
   if FTraduceImage Then
       Begin
@@ -459,12 +489,21 @@ Begin
         try
           if FHeader <> nil Then
              HexToBinary ( FHeader.Lines, FileStream );
-          if ( AFormat = nil ) Then
+          if ( AFormat = {$IFDEF MAGICK}''{$ELSE}{$IFDEF BGRA}ifUnknown{$ELSE}nil{$ENDIF}{$ENDIF} ) Then
            Begin
-            Result := Longint ( SaveImageToStream   ( ExtractFileExt(as_Destination), FileStream, Adata ) <> true )
-           end
+            p_ImageToStream   ( Adata, FileStream, ExtractFileExt(as_Destination));
+            end
            Else
             Begin
+              {$IFDEF BGRA}
+              AWriter:= CreateBGRAImageWriter(AFormat,True);
+              try
+                Adata.SaveToStream ( FileStream, AWriter);
+                Result := 0;
+              finally
+                AWriter.Destroy;
+              end;
+              {$ELSE}
               if AResized Then
                 Begin
                   // if resized reinit compression
@@ -473,9 +512,10 @@ Begin
                   AFormat.CheckOptionsValidity;
                 end;
               Result := Longint ( SaveImageToFileFormat ( FileStream, Adata, AFormat ) <> true );
+              {$ENDIF}
             end;
           if Result > 0 Then
-          if FileExists(as_source) Then
+          if FileExistsUTF8(as_source) Then
            Begin
              FileStreamSource := TFileStream.Create(as_source,fmOpenRead);
              SetLength(LBuffer,FBufferSize);
@@ -513,10 +553,10 @@ var
   li_ImageWidth,
   li_ImageHeight,
   li_Size : Longint ;
-  Format : {$IFDEF MAGICK}String {$ELSE}TImageFileFormat{$ENDIF};
+  Format : {$IFDEF MAGICK}String {$ELSE}{$IFDEF BGRA}TBGRAImageFormat{$ELSE}TImageFileFormat{$ENDIF}{$ENDIF};
   Resized : Boolean ;
 
-  Fdata : {$IFDEF MAGICK}PMagickWand{$ELSE}TImageData{$ENDIF};
+  Fdata : {$IFDEF MAGICK}PMagickWand{$ELSE}{$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}{$ENDIF};
 
 
 begin
@@ -525,7 +565,7 @@ begin
   ls_FileName := '';
   ls_FileExt := '';
   Application.ProcessMessages;
-  if ( FileExists ( as_Destination )) Then
+  if ( FileExistsUTF8 ( as_Destination )) Then
     Begin
       FindFirst(as_Destination,faanyfile,lsr_data);
       p_FileNameDivision ( lsr_data.Name, ls_FileName, ls_FileExt );
@@ -535,9 +575,9 @@ begin
         ls_Destination := as_Destination ;
       findclose(lsr_data);
     End ;
-  if ( FileExists ( as_Source )) Then
+  if ( FileExistsUTF8 ( as_Source )) Then
     Begin
-      FindFirst(as_source,faanyfile,lsr_data);
+      FindFirstUTF8(as_source,faanyfile,lsr_data);
       p_FileNameDivision ( lsr_data.Name, ls_FileName, ls_FileExt );
       if ( ls_Destination = '' )
        Then
@@ -545,7 +585,7 @@ begin
       findclose(lsr_data);
     End ;
 
-  Format := {$IFDEF MAGICK}''{$ELSE}nil{$ENDIF} ;
+  Format := {$IFDEF MAGICK}''{$ELSE}{$IFDEF BGRA}ifUnknown{$ELSE}nil{$ENDIF}{$ENDIF} ;
   Application.ProcessMessages;
   ls_FileDestExt := EExtensionsImages[FDestinationOption];
 
@@ -555,9 +595,13 @@ begin
   {$IFNDEF MAGICK}
   try
 
-  Finalize(FData);
   // initialisation of image data
-  InitImage( FData );
+  {$IFDEF BGRA}
+  FData:=TBGRABitmap.Create(as_Source);
+  {$ELSE}
+  Finalize(FData);
+  InitImage(FData);
+  {$ENDIF}
 
     // Verify if same format file
   if LoadImageFromFileFormat( as_Source, ls_FileExt, ls_FileDestExt, Fdata, Format, {$IFDEF CCREXIF}ExifData,{$ENDIF} FDestinationOption)
@@ -609,7 +653,7 @@ begin
           {$IFDEF MAGICK}
           Resized := MagickResizeImage ( Fdata, FResizeWidth, FResizeHeight, QuadraticFilter, 1 )= MagickTrue;
           {$ELSE}
-          Resized := ResizeImage ( fdata, FResizeWidth, FResizeHeight, rfNearest );
+          Resized := fb_ResizeImage ( fdata, FResizeWidth, FResizeHeight );
           {$ENDIF}
          End
         else
@@ -624,7 +668,7 @@ begin
                {$IFDEF MAGICK}
                Resized := MagickResizeImage ( Fdata, FResizeWidth, li_Size, QuadraticFilter, 1 )= MagickTrue;
                {$ELSE}
-               Resized := ResizeImage ( fdata, FResizeWidth, li_Size, rfNearest );
+               Resized := fb_ResizeImage ( fdata, FResizeWidth, li_Size );
                {$ENDIF}
              End
            else
@@ -635,7 +679,7 @@ begin
                  {$IFDEF MAGICK}
                  Resized := MagickResizeImage ( Fdata, li_Size, FResizeHeight, QuadraticFilter, 1 )= MagickTrue;
                  {$ELSE}
-                 Resized := ResizeImage ( fdata, li_Size, FResizeHeight, rfNearest );
+                 Resized := fb_ResizeImage ( fdata, li_Size, FResizeHeight );
                  {$ENDIF}
            End ;
         End ;
@@ -672,7 +716,7 @@ begin
   {$IFDEF MAGICK}
   Fdata := DestroyMagickWand(Fdata);
   {$ELSE}
-  FreeImage( FData );
+  {$IFDEF BGRA}Fdata.Free{$ELSE}FreeImage(Fdata){$ENDIF};
   {$ENDIF}
   // let the system doing some thinks
   Application.ProcessMessages;
@@ -724,9 +768,9 @@ procedure TTraduceFile.CopySourceToDestination;
 begin
   Finprogress := true;
   FSizeProgress := 0 ;
-  if not FileExists ( FSource )
-  or (     not DirectoryExists ( ExtractFileDir ( FDestination ))
-      and  not FileExists ( FDestination ))
+  if not FileExistsUTF8 ( FSource )
+  or (     not DirectoryExistsUTF8 ( ExtractFileDir ( FDestination ))
+      and  not FileExistsUTF8 ( FDestination ))
    Then
     Exit ;
   try
