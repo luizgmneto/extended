@@ -287,7 +287,7 @@ var Image: {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; var FormatSource :
 {$IFDEF CCREXIF}const ExifData : TExifData ;{$ENDIF} const FileTypeDest : TEImageFileOption ):
   Boolean;
 var
-  {$IFNDEF MAGICK}IArray:{$IFDEF BGRA}TStream{$ELSE}TDynImageDataArray;{$ENDIF};{$ENDIF}
+  {$IFNDEF MAGICK}IArray:{$IFDEF BGRA}TStream{$ELSE}TDynImageDataArray{$ENDIF};{$ENDIF}
   I: LongInt;
   ls_extension:String;
 begin

@@ -1,4 +1,4 @@
-unit U_ExtImage;
+﻿unit U_ExtImage;
 
 interface
 
@@ -63,12 +63,11 @@ implementation
 uses fonctions_images,
 {$IFDEF FPC}
      unite_messages,
+     FileUtil,
 {$ELSE}
       unite_messages_delphi,
+      fonctions_system,
 {$ENDIF}
-     {$IFDEF FPC}
-     FileUtil,
-     {$ENDIF}
      sysutils,
      ExtDlgs;
 

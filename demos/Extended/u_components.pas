@@ -32,7 +32,6 @@ type
     ds_user: TDatasource;
     ds_dep: TDatasource;
     ds_dep2: TDatasource;
-    ds_user_search: TDatasource;
     FWDBSpinEdit: TFWDBSpinEdit;
     ExtDBComboInsert2: TExtDBComboInsert;
     ExtDBImage: TExtDBImage;
@@ -42,7 +41,6 @@ type
     FWPrint:  TFWPrintGrid;
     IBUpdateUser: TIBUpdateSQL;
     IBUpdateDepartem: TIBUpdateSQL;
-    IBUserSearch: TIBQuery;
     MapImages: TExtMapImages;
     FWLabel7: TFWLabel;
     FWLabel8: TFWLabel;
@@ -94,6 +92,8 @@ type
     mc_Customize : TExtMenuCustomize;
     OpenPictureDialog : TOpenPictureDialog;
     ExtMenuToolBar : TExtMenuToolBar;
+    IBUserSearch: TIBQuery;
+    ds_user_search: TDataSource;
     {$IFDEF FPC}
     ExtClonedPanel1: TExtClonedPanel;
     Process: TProcess;
@@ -146,6 +146,10 @@ begin
   try
     IBDatabase.Connected := True;
     IBTransaction.Active := True;
+    IBUser.UpdateObject:=IBUpdateUser;
+    IBUserSearch.UpdateObject:=IBUpdateUser;
+    IBDepartement.UpdateObject:=IBUpdateDepartem;
+    IBDepSearch.UpdateObject:=IBUpdateDepartem;
     // On cherche ou crée le fichier CSV
     IBUser.Open;
     IBDepartement.Open;

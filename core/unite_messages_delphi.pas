@@ -119,6 +119,40 @@ resourcestring
   GS_mot_passe_invalide = 'Mot de passe invalide.' + CST_ENDOFLINE
 	 + 'Veuillez resaisir votre mot de passe.' ;
   GS_EXE_DO_NOT_EXISTS_EXITING   = 'L''exécutable suivant n''a pas été trouvé. L''application va s''arr?ter.'+#10+'@ARG' ;
+  GS_IMAGING_FILTER = 'Graphic (*.bmp;*.BMP;*.xpm;*.XPM;*.pbm;*.PBM;*.pgm;*.PGM;*.ppm;*.PPM;*.ico;*.ICO;*.icns;*.ICNS;*.cur;*.CUR;*.jpeg;*.JPEG;*.jpg;*.JPG;'
+          +'*.jfif;*.JFIF;*.tif;*.TIF;*.tiff;*.TIFF;*.gif*.GIF;*.dagsky;*.dat;*.dagtexture;*.img;*.cif;*.rci;*.bsi;'
+          +'*.xpm;*.XPM;*.pcx;*.psd;*.pdd;*.jp2;*.j2k;*.j2c;*.jpx;*.jpc;*.pfm;*.pam;*.ppm;*.PPM;*.pgm;*.PGM;*.pbm;*.PBM;'
+          +'*.tga;*.dds;*.gif;*.GIF;*.jng;*.JNG;*.mng;*.dib;*.DIB;*.tga;*.TGA;'
+          +'*.dds;*.jng;*.JNG;*.mng;*.png;*.PNG;*.jfif;*.JFIF;*.jpe;*.jif;*.bmp;*.BMP;*.dib;*.DIB)|*.bmp;*.BMP;*.xpm;*.XPM;'
+          +'*.pbm;*.PBM;*.pgm;*.PGM;*.ppm;*.PPM;*.ico;*.ICO;*.icns;*.ICNS;*.cur;*.CUR;*.jpeg;*.JPEG;*.jpg;*.JPG;*.jpe;*.jfif;*.JFIF;*.tif;*.TIF;*.tiff;*.TIFF;*.gif;*.GIF;*.gif;*.GIF;'
+          +'*.dagsky;*.dat;*.dagtexture;*.img;*.cif;*.rci;*.bsi;*.xpm;*.XPM;*.pcx;*.psd;*.pdd;*.jp2;*.j2k;'
+          +'*.j2c;*.jpx;*.jpc;*.pfm;*.pam;*.ppm;*.PPM;*.pgm;*.PGM;*.pbm;*.PBM;*.tga;*.TGA;*.dds;*.gif;*.GIF;*.jng;*.JNG;*.mng;*.png;*.PNG;*.jpg;*.JPG;'
+          +'*.jpeg;*.JPEG;*.jfif;*.JFIF;*.jpe;*.jif;*.bmp;*.BMP;*.dib;*.DIB;*.tga;*.TGA;*.dds;*.jng;*.JNG;*.mng;*.gif;*.GIF;*.png;*.PNG;*.jpg;*.JPG;*.jpeg;*.JPEG;'
+          +'*.jfif;*.JFIF;*.jpe;*.jif;*.bmp;*.BMP;*.dib;*.DIB|Bitmaps (*.bmp;*.BMP)|*.bmp;*.BMP|Pixmap (*.xpm;*.XPM)|*.xpm;*.XPM|Portable PixMap'
+          +' (*.pbm;*.PBM;*.pgm;*.PGM;*.ppm;*.PPM)|*.pbm;*.PBM;*.pgm;*.PGM;*.ppm;*.PPM|Icon (*.ico;*.ICO)|*.ico;*.ICO|Mac OS X Icon (*.icns;*.ICNS)|*.icns;*.ICNS|Cursor'
+          +' (*.cur;*.CUR)|*.cur;*.CUR|Joint Picture Expert Group (*.jpeg;*.JPEG;*.jpg;*.JPG;*.jpe;*.jfif;*.JFIF)|*.jpeg;*.JPEG;*.jpg;*.JPG;*.jpe;*.jfif;*.JFIF|'
+          +'Tagged Image File Format (*.tif;*.TIF;*.tiff;*.TIFF)|*.tif;*.TIF;*.tiff;*.TIFF|Graphics Interchange Format (*.gif;*.GIF)|*.gif;*.GIF|'
+          +'Animated GIF (*.gif;*.GIF)|*.gif;*.GIF|Imaging Graphic AllInOne (*.dagsky)|*.dagsky|Imaging Graphic AllInOne'
+          +' (*.dat)|*.dat|Imaging Graphic AllInOne (*.dagtexture)|*.dagtexture|Imaging Graphic AllInOne (*.img)'
+          +'|*.img|Imaging Graphic AllInOne (*.cif)|*.cif|Imaging Graphic AllInOne (*.rci)|*.rci|Imaging Graphic '
+          +'AllInOne (*.bsi)|*.bsi|Imaging Graphic AllInOne (*.xpm;*.XPM)|*.xpm;*.XPM|Imaging Graphic AllInOne (*.pcx)|*.pcx|'
+          +'Imaging Graphic AllInOne (*.psd)|*.psd|Imaging Graphic AllInOne (*.pdd)|*.pdd|Imaging Graphic AllInOne'
+          +' (*.jp2)|*.jp2|Imaging Graphic AllInOne (*.j2k)|*.j2k|Imaging Graphic AllInOne (*.j2c)|*.j2c|'
+          +'Imaging Graphic AllInOne (*.jpx)|*.jpx|Imaging Graphic AllInOne (*.jpc)|*.jpc|Imaging Graphic AllInOne '
+          +'(*.pfm)|*.pfm|Imaging Graphic AllInOne (*.pam)|*.pam|Imaging Graphic AllInOne (*.ppm;*.PPM)|*.ppm;*.PPM|'
+          +'Imaging Graphic AllInOne (*.pgm;*.PGM)|*.pgm;*.PGM|Imaging Graphic AllInOne (*.pbm;*.PBM)|*.pbm;*.PBM|Imaging Graphic'
+          +' AllInOne (*.tga;*.TGA)|*.tga;*.TGA|Imaging Graphic AllInOne (*.dds)|*.dds|Imaging Graphic AllInOne (*.gif;*.GIF)|'
+          +'*.gif;*.GIF|Imaging Graphic AllInOne (*.jng;*.JNG)|*.jng;*.JNG|Imaging Graphic AllInOne (*.mng)|*.mng|'
+          +'Imaging Graphic AllInOne (*.png;*.PNG)|*.png;*.PNG|Imaging Graphic AllInOne (*.jpg;*.JPG)|*.jpg;*.JPG|'
+          +'Imaging Graphic AllInOne (*.jpeg;*.JPEG)|*.jpeg;*.JPEG|Imaging Graphic AllInOne (*.jfif;*.JFIF)|*.jfif;*.JFIF|'
+          +'Imaging Graphic AllInOne (*.jpe)|*.jpe|Imaging Graphic AllInOne (*.jif)|*.jif|'
+          +'Imaging Graphic AllInOne (*.bmp;*.BMP)|*.bmp;*.BMP|Imaging Graphic AllInOne (*.dib;*.DIB)|*.dib;*.DIB|'
+          +'Truevision Targa Image (*.tga;*.TGA)|*.tga;*.TGA|DirectDraw Surface (*.dds)|*.dds|JPEG Network Graphics (*.jng;*.JNG)|'
+          +'*.jng;*.JNG|Multiple Network Graphics (*.mng)|*.mng|Graphics Interchange Format (*.gif;*.GIF)|*.gif;*.GIF|'
+          +'Portable Network Graphics (*.png;*.PNG)|*.png;*.PNG|Joint Photographic Experts Group Image (*.jpg;*.JPG)|*.jpg;*.JPG|'
+          +'Joint Photographic Experts Group Image (*.jpeg;*.JPEG)|*.jpeg;*.JPEG|Joint Photographic Experts Group Image '
+          +'(*.jfif;*.JFIF)|*.jfif;*.JFIF|Joint Photographic Experts Group Image (*.jpe)|*.jpe|Joint Photographic Experts Group Image (*.jif)|'
+          +'*.jif|Windows Bitmap Image (*.bmp;*.BMP)|*.bmp;*.BMP|Windows Bitmap Image (*.dib;*.DIB)|*.dib;*.DIB|Tous les fichiers (*)|*|' ;
 
   // dbcomponents
   gs_Caption_Save_in = 'Sauvegarde dans @ARG.';
@@ -222,7 +256,7 @@ resourcestring
   GS_MODE_ASYNCHRONE_NB_ENREGISTREMENTS = 'Mode Asynchrone Enregistrements' ;
   GS_MODE_ASYNCHRONE_TIMEOUT = 'Mode Asynchrone TimeOut' ;
   GS_CONNECTION_TIMEOUT = 'Connection TimeOut' ;
-  GS_Set_KEYSET         = 'Set Keyset';
+  GS_Set_KEYSET         = 'Set Keyset'; 
 
 var
   gb_MainFormIniOneUserOnServer : Boolean = False ;
