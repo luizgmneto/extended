@@ -152,7 +152,6 @@ object F_Article: TF_Article
           ParentShowHint = False
           ShowHint = True
           TabOrder = 0
-          Orientation = noHorizontal
           VisibleButtons = [nbEInsert, nbEDelete, nbEPost, nbECancel, nbESearch]
           GlyphSize = gsLarge
           Hints.Strings = (
@@ -188,7 +187,7 @@ object F_Article: TF_Article
       object ed_codecateg: TFWDBEdit
         Tag = 1
         Left = 128
-        Top = 39
+        Top = 36
         Width = 34
         Height = 24
         DataField = 'ARTI_Clep'
@@ -207,29 +206,41 @@ object F_Article: TF_Article
         Top = 93
         Width = 218
         Height = 21
-        DataField = 'ARTI__GAMM'
-        DataSource = M_Article.ds_article
         TabOrder = 3
         MyLabel = lb_gamme
+        SearchDisplay = 'GAMM_Libelle'
+        SearchList = 'GAMM_Libelle'
+        SearchSource = M_Article.ds_Gamme
+        DataSource = M_Article.ds_article
+        SearchKey = 'GAMM_Clep'
+        DataField = 'ARTI__GAMM'
       end
       object cb_Categ1: TExtDBComboInsert
         Left = 128
         Top = 121
         Width = 218
         Height = 21
-        DataField = 'ARTI__TYPR'
-        DataSource = M_Article.ds_article
         TabOrder = 4
         MyLabel = lb_typart
+        SearchDisplay = 'TYPR_LIBELLE'
+        SearchList = 'TYPR_LIBELLE'
+        SearchSource = M_Article.ds_typearti
+        DataSource = M_Article.ds_article
+        SearchKey = 'TYPR_CLEP'
+        DataField = 'ARTI__TYPR'
       end
       object cb_Categ2: TExtDBComboInsert
         Left = 128
         Top = 149
         Width = 218
         Height = 21
-        DataField = 'ARTI__CARA'
-        DataSource = M_Article.ds_article
         TabOrder = 5
+        SearchDisplay = 'CARA_Libelle'
+        SearchList = 'CARA_Libelle'
+        SearchSource = M_Article.ds_Carac
+        DataSource = M_Article.ds_article
+        SearchKey = 'CARA_Clep'
+        DataField = 'ARTI__CARA'
       end
     end
     object pa_2: TPanel
@@ -261,7 +272,6 @@ object F_Article: TF_Article
           ParentShowHint = False
           ShowHint = True
           TabOrder = 0
-          Orientation = noHorizontal
           VisibleButtons = [nbEFirst, nbEPrior, nbENext, nbELast]
           GlyphSize = gsLarge
           Hints.Strings = (
@@ -337,7 +347,6 @@ object F_Article: TF_Article
     object bt_imprimer: TFWPrintGrid
       Left = 25
       Top = 0
-      Width = 80
       Hint = 'Impression des r'#233'sultats de la s'#233'lection'
       Caption = 'Imprimer'
       TabOrder = 3
@@ -348,9 +357,8 @@ object F_Article: TF_Article
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      DBGrid = gd_categ
       DBTitle = 'Cat'#233'gories'
-      ExplicitLeft = 361
+      DBGrid = gd_categ
     end
     object Panel5: TPanel
       Left = 105
@@ -360,7 +368,6 @@ object F_Article: TF_Article
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitLeft = 441
     end
     object Panel6: TPanel
       Left = 118
@@ -370,7 +377,6 @@ object F_Article: TF_Article
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitLeft = 454
     end
     object bt_fermer: TFWClose
       Left = 928

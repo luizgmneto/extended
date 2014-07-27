@@ -430,10 +430,12 @@ begin
       Result := True;
     End;
 end;
+{$ENDIF}
 
+{$IFNDEF BGRA}
 // Function to save with original file
-function SaveImageToFileFormat(const AStream: TStream; const Image: {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}
-            {$IFDEF MAGICK}String {$ELSE}{$IFDEF BGRA}TBGRAImageFormat{$ELSE}TImageFileFormat{$ENDIF}{$ENDIF}): Boolean;
+function SaveImageToFileFormat(const AStream: TStream; const Image: {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
+            FormatSource:{$IFDEF MAGICK}String {$ELSE}{$IFDEF BGRA}TBGRAImageFormat{$ELSE}TImageFileFormat{$ENDIF}{$ENDIF}): Boolean;
 var
   IArray: TDynImageDataArray;
   {$IFDEF CCREXIF}

@@ -11,6 +11,7 @@ object M_Article: TM_Article
   object IB_Gamme: TIBQuery
     SQL.Strings = (
       'SELECT * from GAMME')
+    UpdateObject = IBU_Gamme
     Left = 477
     Top = 13
   end
@@ -105,7 +106,6 @@ object M_Article: TM_Article
       'from ARTICLE'
       'where ARTI__GAMM = :gamm'
       'ORDER BY ARTI_Libcom')
-    UpdateObject = IBU_Gamme
     Left = 88
     Top = 288
     ParamData = <
@@ -155,9 +155,9 @@ object M_Article: TM_Article
       'WHERE GAMM_CLEP=:GAMM_CLEP')
     InsertSQL.Strings = (
       'INSERT INTO GAMME'
-      '     (  GAMM_Libelle) '
+      '     ( GAMM_Libelle) '
       'VALUES'
-      '     (  :GAMM_Libelle) ')
+      '     ( :GAMM_Libelle) ')
     DeleteSQL.Strings = (
       'DELETE FROM GAMME WHERE GAMM_CLEP = :GAMM_CLEP')
     Left = 608
