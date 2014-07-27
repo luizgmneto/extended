@@ -68,6 +68,8 @@ uses fonctions_images,
      Controls,
      {$IFDEF FPC}
      FileUtil,
+     {$ELSE}
+     fonctions_system,
      {$ENDIF}
      sysutils;
 

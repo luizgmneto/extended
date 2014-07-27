@@ -142,7 +142,7 @@ uses
 {$IFDEF FPC}
      LCLType,
 {$ELSE}
-     JclGraphics,
+     JclGraphics, fonctions_system,
 {$ENDIF}
   {$IFDEF FPC}
   unite_messages,
@@ -910,11 +910,19 @@ function  fci_BitmapToCustomImage ( const ab_Bitmap : TBitmap ):{$IFDEF BGRA}TBG
 Begin
   if ab_Bitmap.Handle=0 Then
    Begin
+{$IFDEF BGRA}
     Result:=nil;
+{$ELSE}
+    Finalize(Result);
+{$ENDIF}
     Exit;
    end;
   Result:=fci_GetCustomImage;
+  {$IFDEF BGRA}
   Result.Assign ( ab_bitmap );
+  {$ELSE}
+  ConvertBitmapToData( ab_Bitmap, Result );
+  {$ENDIF}
 end;
 
 function  fci_GetCustomImage :{$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};

@@ -751,7 +751,7 @@ End;
 function TDBListView.fb_CanAddRecords : Cardinal ;
 var
   lSI_infos        : TScrollInfo ; // Infos supplémentaires de scroll
-  li_NPage         : Cardinal ;
+  li_NPage         : UINT ;
 //  lw_PagesACharger : Word        ; // Variable temporaire de test de page
 begin
   Result := 0;
@@ -773,7 +773,8 @@ begin
       if li_NPage = 0 Then li_NPage := Abs(Font.Height);
       {$ENDIF}
       // récupère les paramètres de nombre de pages visibles
-      if ( lSI_infos.nMax < lSI_infos.nPos + li_NPage * CST_GROUPE_PAGES_CHARGER )
+      if ( li_NPage < lSI_infos.nMax )
+      and ( lSI_infos.nMax < lSI_infos.nPos + li_NPage * CST_GROUPE_PAGES_CHARGER )
        Then
         // Alors ajoute des données
         Result := lSI_infos.nPos + li_NPage * CST_GROUPE_PAGES_CHARGER - lSI_infos.nMax ;

@@ -60,7 +60,7 @@ object Myform: TMyform
           Expanded = False
           FieldName = 'NOM'
           Title.Caption = 'Name'
-          Width = 78
+          Width = 74
           Visible = True
           FieldTag = 0
           Resize = True
@@ -70,7 +70,7 @@ object Myform: TMyform
           FieldName = 'PRENOM'
           Title.Alignment = taCenter
           Title.Caption = 'Surname'
-          Width = 78
+          Width = 74
           Visible = True
           FieldTag = 0
           Resize = True
@@ -94,7 +94,7 @@ object Myform: TMyform
           Expanded = False
           FieldName = 'NOM'
           Title.Caption = 'Name'
-          Width = 78
+          Width = 74
           Visible = True
           FieldTag = 0
           Resize = True
@@ -104,7 +104,7 @@ object Myform: TMyform
           FieldName = 'PRENOM'
           Title.Alignment = taCenter
           Title.Caption = 'Surname'
-          Width = 78
+          Width = 74
           Visible = True
           FieldTag = 0
           Resize = True
@@ -599,6 +599,8 @@ object Myform: TMyform
     MyLabel = FWLabel5
     AlwaysSame = False
     ModeFormat = mftFirstCharOfWordsIsMaj
+    SearchDisplay = 'PRENOM'
+    SearchSource = ds_user_search
   end
   object FWDBEdit2: TExtSearchDBEdit
     Left = 333
@@ -612,6 +614,8 @@ object Myform: TMyform
     MyLabel = FWLabel6
     AlwaysSame = False
     ModeFormat = mftUpper
+    SearchDisplay = 'NOM'
+    SearchSource = ds_user_search
   end
   object ExtMenuToolBar: TExtMenuToolBar
     Left = 753
@@ -638,7 +642,7 @@ object Myform: TMyform
     Top = 216
   end
   object ds_user: TDataSource
-    DataSet = IBUtilisateur
+    DataSet = IBUser
     Left = 56
     Top = 360
   end
@@ -659,13 +663,12 @@ object Myform: TMyform
     Left = 56
     Top = 289
   end
-  object IBUtilisateur: TIBQuery
+  object IBUser: TIBQuery
     Database = IBDatabase
     Transaction = IBTransaction
     BufferChunks = 2
     SQL.Strings = (
       'SELECT * FROM UTILISATEUR')
-    UpdateObject = IBUpdateUtilisateur
     Left = 160
     Top = 360
   end
@@ -796,7 +799,7 @@ object Myform: TMyform
       end
     end
   end
-  object IBUpdateUtilisateur: TIBUpdateSQL
+  object IBUpdateUser: TIBUpdateSQL
     RefreshSQL.Strings = (
       'SELECT * FROM UTILISATEUR'
       'WHERE CLEP=:CLEP')
@@ -835,5 +838,20 @@ object Myform: TMyform
       'DELETE FROM DEPARTEMENT WHERE CLEP = :CLEP')
     Left = 304
     Top = 432
+  end
+  object IBUserSearch: TIBQuery
+    Database = IBDatabase
+    Transaction = IBTransaction
+    BufferChunks = 2
+    SQL.Strings = (
+      'SELECT * FROM UTILISATEUR')
+    UpdateObject = IBUpdateUser
+    Left = 160
+    Top = 392
+  end
+  object ds_user_search: TDataSource
+    DataSet = IBUserSearch
+    Left = 56
+    Top = 392
   end
 end
