@@ -152,6 +152,7 @@ uses
   {$IFDEF BGRA}
   BGRABitmapTypes,
   FPWriteJpeg,
+  FPImage,
   {$ENDIF}
   {$IFDEF FPC}
   FileUtil,
@@ -961,10 +962,18 @@ begin
   end;
 end;
 procedure p_ImageToStream ( const lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const Stream : TStream ; const Extension : String='JPG'; const ab_ShowError : Boolean = False);
+{$IFDEF BGRA}
+var    AWriter:TFPCustomImageWriter;
+{$ENDIF}
 begin
   try
     {$IFDEF BGRA}
-    lid_imagedata.SaveToStreamAsPng( Stream );
+    Awriter:=CreateBGRAImageWriter(DetectFileFormat('.'+Extension),True);
+    try
+      lid_imagedata.SaveToStream(Stream,AWriter);
+    finally
+      AWriter.Destroy;
+    end;
     {$ELSE}
     SaveImageToStream( Extension, Stream, lid_imagedata);
     {$ENDIF}

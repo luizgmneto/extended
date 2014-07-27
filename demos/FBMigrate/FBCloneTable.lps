@@ -4,16 +4,16 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="30">
+    <Units Count="32">
       <Unit0>
         <Filename Value="FBCloneTable.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="FBCloneTable"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="19" Y="5"/>
-        <UsageCount Value="36"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -23,12 +23,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="f_fbclonetable"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="81"/>
         <CursorPos X="3" Y="125"/>
-        <UsageCount Value="36"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -241,11 +240,12 @@
       <Unit28>
         <Filename Value="..\Extended\demo.lpr"/>
         <UnitName Value="demo"/>
-        <EditorIndex Value="2"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="3"/>
+        <TopLine Value="1"/>
         <CursorPos X="70" Y="19"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit28>
       <Unit29>
@@ -255,9 +255,27 @@
         <WindowIndex Value="0"/>
         <TopLine Value="207"/>
         <CursorPos X="38" Y="222"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit29>
+      <Unit30>
+        <Filename Value="..\..\core\unite_messages.pas"/>
+        <UnitName Value="unite_messages"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="230"/>
+        <CursorPos X="30" Y="264"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="..\..\copy\u_traducefile.pas"/>
+        <UnitName Value="u_traducefile"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="85"/>
+        <CursorPos X="146" Y="105"/>
+        <UsageCount Value="10"/>
+      </Unit31>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>

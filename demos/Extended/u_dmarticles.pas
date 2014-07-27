@@ -1,4 +1,4 @@
-unit U_DmArticles;
+﻿unit U_DmArticles;
 
 {$IFDEF FPC}
   {$MODE Delphi}
@@ -97,7 +97,7 @@ var li_i : Integer;
 begin
   IBDatabase.DatabaseName:=gs_DefaultDatabase;
   {$IFNDEF FPC}
-  IBDatabase.Params.Add('lc_ctype=utf8');
+  IBDatabase.Params.Add('lc_ctype=LATIN1');
   {$ENDIF}
   for li_i := 0 to ComponentCount - 1 do
     if Components[li_i] is TIBQuery Then

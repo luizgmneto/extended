@@ -27,11 +27,12 @@ const
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '1.2.0.0 : Multiple searchs and TListPopupEdit import.'
+                                          BugsStory : '1.2.0.1 : Testing on Delphi.'
+                                                    + '1.2.0.0 : Multiple searchs and TListPopupEdit import.'
                                                     + '1.1.0.0 : Adding fb_KeyUp.'
                                                     + '1.0.0.0 : Creating fb_SearchText.';
                                           UnitType : 1 ;
-                                          Major : 1 ; Minor : 2 ; Release : 0 ; Build : 0 );
+                                          Major : 1 ; Minor : 2 ; Release : 0 ; Build : 1 );
 
 {$ENDIF}
   SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
@@ -125,7 +126,7 @@ Begin
     Height := ( AEdit as ISearchEdit ).ListLines * AEdit.Height;
     DataSource:=FSearchSource.DataSource;
     // cannot make self parent
-    Parent:=Owner as TWinControl;
+    Parent:=AEdit.Owner as TWinControl;
     Color := AColor;
     Font.Assign(AFont);
     for i := 0 to Alist.Count-1 do
@@ -157,7 +158,7 @@ Begin
      if (FEdit as ISearchEdit).ListUp
       Then Y := FEdit.Top - Height
       Else Y := FEdit.Top + FEdit.Height;
-     APoint:=(Owner as TControl).ScreenToClient(FEdit.ClientToScreen(APoint));
+     APoint:=(FEdit.Owner as TControl).ScreenToClient(FEdit.ClientToScreen(APoint));
      Left:=X;
      Top :=Y;
    end;

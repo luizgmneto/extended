@@ -25,7 +25,7 @@ uses
   Variants, StrUtils, U_OnFormInfoIni, U_FormAdapt,
   JvXPButtons, U_ExtDBGrid, U_ConstMessage, U_DmArticles,
   u_framework_components, u_buttons_appli, U_ExtComboInsert, u_buttons_defs,
-  u_reports_components;
+  u_reports_components, u_extformatedits, u_extsearchedit;
 
 type
 
