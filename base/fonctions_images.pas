@@ -53,6 +53,8 @@ const CST_EXTENSION_JPEG           = '.jpg' ;
 
 {$ENDIF}
 
+var gby_CompressionJpeg : Byte = 68;
+
 // Charge un icône ou un bitmap dans un champ bitmap si le bitmap est assez grand par rapport à ai_Taille
 // aod_ChargerImage : Chargement du fichier image
 // aF_FieldImage    : Champ image à enregistrer
@@ -443,8 +445,7 @@ function fb_SaveBitmaptoFile(const abmp_Bitmap : TBitmap; const afile: String): 
 var lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
 begin
   Result:=False;
-  lid_imagedata:=fci_GetCustomImage;
-  lid_imagedata.Assign(abmp_Bitmap);
+  lid_imagedata:=fci_BitmapToCustomImage(abmp_Bitmap);
   try
     {$IFDEF BGRA}
     lid_imagedata.SaveToFile( afile );
@@ -453,6 +454,7 @@ begin
     {$ENDIF}
     Result:=True;
   finally
+    p_FreeCustomImage(lid_imagedata);
   end;
 end; // Ajoute une image bmp dans une imagelist et efface le handle
 //  aBmp_Picture : L'image
@@ -892,7 +894,7 @@ procedure p_ImageToStreamJpeg ( const abb_imagedata : {$IFDEF BGRA}TBGRABitmap{$
 var    AWriter:TFPWriterJpeg;
 Begin
   AWriter:=TFPWriterJpeg.Create;
-  AWriter.CompressionQuality:=68;
+  AWriter.CompressionQuality:=gby_compressionJpeg;
   try
     abb_imagedata.SaveToStream(Stream,AWriter);
   finally
@@ -900,6 +902,7 @@ Begin
   end;
 {$ELSE}
 Begin
+  SetOption(ImagingJpegQuality,gby_compressionJpeg);
   SaveImageToStream( 'JPG', Stream, abb_imagedata);
 {$ENDIF}
 end;

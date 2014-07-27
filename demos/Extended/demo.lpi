@@ -166,13 +166,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
-        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="57"/>
         <CursorPos X="85" Y="64"/>
         <UsageCount Value="119"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -2660,29 +2657,29 @@
         <UnitName Value="fonctions_images"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="93"/>
-        <CursorPos X="51" Y="113"/>
+        <TopLine Value="423"/>
+        <CursorPos X="38" Y="455"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit304>
       <Unit305>
         <Filename Value="../../imgcomp/u_extdbimage.pas"/>
         <UnitName Value="U_ExtDBImage"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="32"/>
-        <CursorPos X="1" Y="55"/>
+        <TopLine Value="1"/>
+        <CursorPos X="95" Y="31"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit305>
       <Unit306>
         <Filename Value="../../imgcomp/u_extimage.pas"/>
         <UnitName Value="U_ExtImage"/>
-        <EditorIndex Value="13"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="99"/>
-        <CursorPos X="38" Y="122"/>
+        <TopLine Value="1"/>
+        <CursorPos X="83" Y="31"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit306>
@@ -2740,7 +2737,7 @@
       <Unit312>
         <Filename Value="../../../../../../../development/lazarus/lcl/lclclasses.pp"/>
         <UnitName Value="LCLClasses"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3"/>
         <CursorPos X="10" Y="26"/>
@@ -2750,124 +2747,124 @@
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="974" Column="1" TopLine="941"/>
+        <Filename Value="../../imgcomp/u_extimage.pas"/>
+        <Caret Line="120" Column="20" TopLine="97"/>
       </Position1>
       <Position2>
         <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="1032" Column="33" TopLine="994"/>
+        <Caret Line="974" Column="24" TopLine="944"/>
       </Position2>
       <Position3>
         <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="884" Column="11" TopLine="881"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position3>
       <Position4>
         <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="893" Column="9" TopLine="869"/>
+        <Caret Line="47" Column="89" TopLine="9"/>
       </Position4>
       <Position5>
         <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="1085" Column="8" TopLine="1061"/>
+        <Caret Line="48" Column="107" TopLine="10"/>
       </Position5>
       <Position6>
         <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="583" Column="10" TopLine="545"/>
       </Position6>
       <Position7>
         <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="75" Column="14" TopLine="37"/>
+        <Caret Line="865" Column="5" TopLine="827"/>
       </Position7>
       <Position8>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="124" Column="7" TopLine="101"/>
+        <Filename Value="../../base/fonctions_images.pas"/>
+        <Caret Line="1011" Column="17" TopLine="973"/>
       </Position8>
       <Position9>
         <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="890" Column="23" TopLine="881"/>
+        <Caret Line="87" Column="1" TopLine="63"/>
       </Position9>
       <Position10>
         <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="871" Column="54" TopLine="848"/>
       </Position10>
       <Position11>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="124" Column="31" TopLine="101"/>
+        <Filename Value="../../base/fonctions_images.pas"/>
+        <Caret Line="870" Column="1" TopLine="848"/>
       </Position11>
       <Position12>
         <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="120" Column="20" TopLine="97"/>
+        <Caret Line="123" Column="15" TopLine="118"/>
       </Position12>
       <Position13>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="974" Column="24" TopLine="944"/>
+        <Filename Value="../../imgcomp/u_extimage.pas"/>
+        <Caret Line="104" Column="41" TopLine="82"/>
       </Position13>
       <Position14>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="../../imgcomp/u_extimage.pas"/>
+        <Caret Line="120" Column="1" TopLine="98"/>
       </Position14>
       <Position15>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="47" Column="89" TopLine="9"/>
+        <Filename Value="../../imgcomp/u_extimage.pas"/>
+        <Caret Line="124" Column="1" TopLine="98"/>
       </Position15>
       <Position16>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="48" Column="107" TopLine="10"/>
+        <Filename Value="../../imgcomp/u_extimage.pas"/>
+        <Caret Line="121" Column="1" TopLine="98"/>
       </Position16>
       <Position17>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="583" Column="10" TopLine="545"/>
+        <Filename Value="../../imgcomp/u_extdbimage.pas"/>
+        <Caret Line="149" Column="1" TopLine="142"/>
       </Position17>
       <Position18>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="865" Column="5" TopLine="827"/>
+        <Filename Value="../../imgcomp/u_extdbimage.pas"/>
+        <Caret Line="54" Column="56" TopLine="54"/>
       </Position18>
       <Position19>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="1011" Column="17" TopLine="973"/>
+        <Filename Value="../../imgcomp/u_extdbimage.pas"/>
+        <Caret Line="142" Column="52" TopLine="140"/>
       </Position19>
       <Position20>
         <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="87" Column="1" TopLine="63"/>
+        <Caret Line="906" Column="17" TopLine="890"/>
       </Position20>
       <Position21>
         <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="871" Column="54" TopLine="848"/>
+        <Caret Line="83" Column="34" TopLine="60"/>
       </Position21>
       <Position22>
         <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="870" Column="1" TopLine="848"/>
+        <Caret Line="906" Column="34" TopLine="868"/>
       </Position22>
       <Position23>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="123" Column="15" TopLine="118"/>
+        <Filename Value="../../base/fonctions_images.pas"/>
+        <Caret Line="83" Column="34" TopLine="60"/>
       </Position23>
       <Position24>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="104" Column="41" TopLine="82"/>
+        <Filename Value="../../base/fonctions_images.pas"/>
+        <Caret Line="917" Column="26" TopLine="877"/>
       </Position24>
       <Position25>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="120" Column="1" TopLine="98"/>
+        <Filename Value="../../base/fonctions_images.pas"/>
+        <Caret Line="934" Column="36" TopLine="896"/>
       </Position25>
       <Position26>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="124" Column="1" TopLine="98"/>
+        <Filename Value="../../base/fonctions_images.pas"/>
+        <Caret Line="994" Column="29" TopLine="965"/>
       </Position26>
       <Position27>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="121" Column="1" TopLine="98"/>
+        <Filename Value="../../base/fonctions_images.pas"/>
+        <Caret Line="82" Column="29" TopLine="59"/>
       </Position27>
       <Position28>
-        <Filename Value="../../imgcomp/u_extdbimage.pas"/>
-        <Caret Line="149" Column="1" TopLine="142"/>
+        <Filename Value="../../base/fonctions_images.pas"/>
+        <Caret Line="446" Column="25" TopLine="420"/>
       </Position28>
       <Position29>
-        <Filename Value="../../imgcomp/u_extdbimage.pas"/>
-        <Caret Line="54" Column="56" TopLine="54"/>
+        <Filename Value="../../imgcomp/u_extimage.pas"/>
+        <Caret Line="112" Column="169" TopLine="99"/>
       </Position29>
       <Position30>
         <Filename Value="../../imgcomp/u_extdbimage.pas"/>
-        <Caret Line="142" Column="52" TopLine="140"/>
+        <Caret Line="44" Column="133" TopLine="32"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>
