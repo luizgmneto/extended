@@ -22,12 +22,13 @@ uses
 {$IFDEF VERSIONS}
   const
     gVer_TExtImage : T_Version = ( Component : 'Composant TExtImage' ;
-                                               FileUnit : 'U_ExtDBImage' ;
+                                               FileUnit : 'U_ExtImage' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Gestion d''images de tous types dans les données.' ;
-                                               BugsStory : '0.9.0.0 : Creating from TExtDBImage.';
+                                               BugsStory : '0.9.9.0 : Importing from TExtDBImage.'+#13#10+
+                                                           '0.9.0.0 : Creating from TExtDBImage.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
 
 {$ENDIF}
 

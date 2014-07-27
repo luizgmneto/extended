@@ -20,14 +20,15 @@ const
                                                FileUnit : 'U_ExtDBImage' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Gestion d''images de tous types dans les données.' ;
-                                               BugsStory : 'Version 1.0.0.3 : UTF 8.' + #13#10
+                                               BugsStory : 'Version 1.0.1.0 : RGBABitmap.' + #13#10
+                                                         + 'Version 1.0.0.3 : UTF 8.' + #13#10
                                                          + 'Version 1.0.0.2 : Upgrading from tested functions.' + #13#10
                                                          + 'Version 1.0.0.1 : Creating ExtImage.' + #13#10
                                                          + 'Version 1.0.0.0 : En place, tout a été testé.' + #13#10
                                                          + 'Version 0.9.0.1 : En place, tout n''a pas été testé.' + #13#10
                                                          + '0.9.0.0 : Simple affiche de toute image en données.';
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 3 );
+                                               Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 
 {$ENDIF}
 type
