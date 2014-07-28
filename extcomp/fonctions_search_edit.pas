@@ -63,7 +63,7 @@ type ISearchEdit = interface
 
 
   { TPopUpForm }
-  TExtDBPopup = class ({$IFDEF FPC}TDBLookup{$ELSE}TPopupDataList{$ENDIF} )
+  TExtDBPopup = class ({$IFDEF FPC}TPopupDataList{$ELSE}TPopupDataList{$ENDIF} )
   protected
     procedure KeyUp(var Key: Word; Shift: TShiftState); override;
     procedure MouseUp(Button: TMouseButton;
