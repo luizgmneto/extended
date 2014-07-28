@@ -4,7 +4,7 @@
 directory=`dirname $0`
 echo "Working in $directory"
 cd $directory
-cp ./*.inc ../Ancestromania/AncestroComponents/
+cp ./*.inc ../Ancestromania/Packages/AncestroComponents/
 cp ./*.inc ../ManFrames/
 cp ./*.inc ../XMLFrames/
 
