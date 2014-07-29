@@ -20,7 +20,6 @@ uses Controls, Classes,
      {$IFDEF VERSIONS}
      fonctions_version,
      {$ENDIF}
-     u_extdbgrid,
      Forms,
      fonctions_string,
      DBGrids, StdCtrls;
@@ -64,7 +63,7 @@ type ISearchEdit = interface
 
   { TExtPopUpGrid }
 
-  TExtPopUpGrid = class(TExtDBGrid)
+  TExtPopUpGrid = class(TDBGrid)
   private
     FFindLine:string;
     FLookupDisplayIndex: integer;
@@ -74,7 +73,6 @@ type ISearchEdit = interface
     procedure FindPriorChar;
     procedure SetLookupDisplayIndex(const AValue: integer);
   protected
-    procedure SetDBHandlers(Value: boolean);override;
     procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     property LookupDisplayIndex:integer read FLookupDisplayIndex write SetLookupDisplayIndex;
@@ -270,7 +268,7 @@ end;
 procedure TExtPopUpForm.DoSetFieldsFromString(FL,FWidths: string);
 var
   FieldName:string;
-  GK:TExtGridColumn;
+  GK:TColumn;
   K:integer;
   ANumber : String;
 begin
@@ -390,8 +388,6 @@ begin
   TExtPopUpForm(Owner).WControl.Caption:=' ';
   TExtPopUpForm(Owner).WControl.Repaint;
   FFindLine:='';
-  if DatalinkActive then
-    DataSource.DataSet.First;
 end;
 
 procedure TExtPopUpGrid.FindNextChar(var UTF8Key: TUTF8Char);
@@ -399,7 +395,7 @@ var
   F:TField;
   V:boolean;
 begin
-  if DatalinkActive then
+  if Datalink.Active then
   begin
     F:=Columns[FLookupDisplayIndex].Field;
     if F.DataType in StringTypes then
@@ -431,7 +427,7 @@ procedure TExtPopUpGrid.FindPriorChar;
 var
   F:string;
 begin
-  if (FFindLine = '') or (not DatalinkActive) then exit;
+  if (FFindLine = '') or (not Datalink.Active) then exit;
   F:=FFindLine;
   UTF8Delete(FFindLine, UTF8Length(FFindLine), 1);
   if (FFindLine<>'') then
@@ -461,11 +457,6 @@ procedure TExtPopUpGrid.SetLookupDisplayIndex(const AValue: integer);
 begin
   FLookupDisplayIndex:=AValue;
   FLookupDisplayField:=Columns[FLookupDisplayIndex].FieldName;
-end;
-
-procedure TExtPopUpGrid.SetDBHandlers(Value: boolean);
-begin
-  //
 end;
 
 procedure TExtPopUpGrid.UTF8KeyPress(var UTF8Key: TUTF8Char);
