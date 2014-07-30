@@ -57,8 +57,6 @@ type ISearchEdit = interface
       procedure FreePopup;
       procedure SetEvent ;
       function GetFieldSearch: String;
-      function ListLines:Integer;
-      function ListUp:Boolean;
      End;
 
   { TExtPopUpGrid }
@@ -86,7 +84,6 @@ type ISearchEdit = interface
     function GetLookupDisplayIndex: integer;
     procedure SetLookupDisplayIndex(const AValue: integer);
   protected
-    procedure Deactivate; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure GridClickEvent(Column: TColumn); virtual;
     procedure Paint;override;
@@ -176,16 +173,10 @@ begin
   Result:=FGrid.LookupDisplayIndex;
 end;
 
-procedure TExtPopUpForm.Deactivate;
-begin
-  inherited Deactivate;
-  Close;
-end;
-
 procedure TExtPopUpForm.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   case Key of
-    VK_ESCAPE:Deactivate;
+    VK_ESCAPE:Close;
     VK_RETURN:begin
                 Key:=0;
                 Shift:=[];
@@ -385,10 +376,10 @@ begin
         Else ls_temp := '' ;
       li_pos    := SelStart ;
       ls_temp   := ls_temp + FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
-      Text      := ls_temp ; // c'est en affectant le texte que l'on passe en mode édition
-      SelStart  := li_pos ;
+      Text      := ls_temp; // c'est en affectant le texte que l'on passe en mode édition
       writeln ( 'selection '+ls_temp+' '+SelText+' '+ IntTostr(SelStart) + ' ' + IntTostr(SelLength));
-      SelLength := length ( ls_temp ) - li_pos ;
+      SelStart  := li_pos ;
+     // SelLength := length ( ls_temp ) - li_pos ;
       writeln ( 'selection '+ls_temp+' '+SelText+' '+ IntTostr(SelStart) + ' ' + IntTostr(SelLength));
       Result    := length ( ls_temp )=li_pos;
       writeln ( 'selection '+ls_temp+' '+SelText+' '+ IntTostr(SelStart) + ' ' + IntTostr(SelLength));
