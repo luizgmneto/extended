@@ -91,7 +91,7 @@ type
     FSearchList,FSearchWidths : String;
     FListVisible: Boolean;
     FNotifyOrder : TNotifyEvent;
-    FPopup:TExtPopUpForm;
+    FPopup:TExtPopupGrid;
     FSearchDisplayIndex: Integer;
     FOnCloseUp: TNotifyEvent;
     FKeyFieldName: string;
@@ -185,7 +185,7 @@ type
     FSearchList,FSearchWidths : String;
     FListVisible : Boolean;
     FNotifyOrder : TNotifyEvent;
-    FPopup:TExtPopUpForm;
+    FPopup:TExtPopupGrid;
     FOnCloseUp: TNotifyEvent;
     FSearchDisplayIndex: Integer;
     procedure ClosePopupEvent;

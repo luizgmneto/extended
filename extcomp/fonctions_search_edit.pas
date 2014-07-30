@@ -59,15 +59,25 @@ type ISearchEdit = interface
       function GetFieldSearch: String;
      End;
 
-  { TExtPopUpGrid }
+  { TExtPopupGrid }
 
-  TExtPopUpGrid = class(TDBGrid)
-  private
+  TExtPopupGrid = class(TDBGrid)
+   private
+    WControl:TWinControl;
     FLookupDisplayIndex: integer;
     FLookupDisplayField:string;
     procedure SetLookupDisplayIndex(const AValue: integer);
   protected
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    property LookupDisplayIndex:integer read FLookupDisplayIndex write SetLookupDisplayIndex;
+    procedure GridClickEvent(Column: TColumn); virtual;
+    procedure Paint;override;
+    property  Control:TWinControl read WControl;
+  public
+    procedure Click; override;
+    constructor CreatePopUp(const AControl: TWinControl;
+      const AOptions : TDBGridOptions;const ARowCount:word); virtual;
+    procedure DoSetFieldsFromString(FL,FWidths:string;const AFieldSeparator:Char); virtual;
     property LookupDisplayIndex:integer read FLookupDisplayIndex write SetLookupDisplayIndex;
   end;
 
@@ -78,37 +88,18 @@ type ISearchEdit = interface
 
   TExtPopUpForm = class (TForm)
   private
-    FGrid:TExtPopUpGrid;
-    FRowCount:word;
-    WControl:TWinControl;
-    function GetLookupDisplayIndex: integer;
-    procedure SetLookupDisplayIndex(const AValue: integer);
-  protected
-    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
-    procedure GridClickEvent(Column: TColumn); virtual;
-    procedure Paint;override;
-    procedure CreateWnd;override;
-    property  Control:TWinControl read WControl;
-  public
-    procedure DoClose(var CloseAction: TCloseAction); override;
-    procedure Click; override;
-    constructor CreatePopUp(const AOwner: TComponent;
-      const AOptions : TDBGridOptions;const ARowCount:word); virtual;
-    destructor Destroy; override;
-    procedure DoSetFieldsFromString(FL,FWidths:string;const AFieldSeparator:Char); virtual;
-    property LookupDisplayCount:Word read FRowCount write FRowCount;
-    property LookupDisplayIndex:integer read GetLookupDisplayIndex write SetLookupDisplayIndex;
+    FGrid:TExtPopupGrid;
   end;
 
 function fb_KeyUp ( const AEdit : TCustomEdit ;var Key : Word ; var Alocated, ASet : Boolean; const APopup : TCustomControl ):Boolean;
-function fb_SearchLocating(var FPopup : TExtPopUpForm; var FSearchVisible : Boolean;
+function fb_SearchLocating(var FPopup : TExtPopupGrid; var FSearchVisible : Boolean;
                            const AControl : TCustomEdit ; const FSearchSource : TFieldDataLink;
                            const FTextSeparator : String ; const AOptions : TDBGridOptions;
                            const ALookupDisplayIndex : Integer; const ARowCount :Word;
                            const FSearchList,FWidths : String ;const FFieldSeparator:Char ):Boolean;
 function fb_SearchText(const AEdit : TCustomEdit ; const FSearchSource : TFieldDataLink;
                        const FSearchFiltered : Boolean; const FTextSeparator : String ):Boolean;
-procedure p_ShowPopup(var FPopup : TExtPopUpForm;const AControl : TWinControl;
+procedure p_ShowPopup(var FPopup : TExtPopupGrid;const AControl : TWinControl;
                       const FSearchSource : TFieldDataLink;const FSearchList,FWidths : String;
                       const ALookupDisplayIndex : Integer; const ARowCount :Word;
                       const AOptions : TDBGridOptions ;const FFieldSeparator:Char);
@@ -125,7 +116,7 @@ uses dbutils,
      sysutils;
 
 // show popup
-procedure p_ShowPopup(var FPopup : TExtPopUpForm;const AControl : TWinControl;
+procedure p_ShowPopup(var FPopup : TExtPopupGrid;const AControl : TWinControl;
                       const FSearchSource : TFieldDataLink;const FSearchList,FWidths : String;
                       const ALookupDisplayIndex : Integer; const ARowCount :Word;
                       const AOptions : TDBGridOptions ;const FFieldSeparator:Char);
@@ -140,20 +131,20 @@ Begin
      try
        if not Assigned( FPopup ) Then
         Begin
-          FPopup:=TExtPopUpForm.CreatePopUp(AControl, AOptions,ARowCount);
-          FPopup.FGrid.Datasource:=FSearchSource.Datasource;
+          FPopup:=TExtPopupGrid.CreatePopUp(AControl, AOptions,ARowCount);
+          FPopup.Datasource:=FSearchSource.Datasource;
           FPopup.LookupDisplayIndex:=ALookupDisplayIndex;
 
           FPopup.WControl:=AControl;
 
           if Assigned(Font) then
           begin
-            FPopup.FGrid.Font.Assign(Font);
+            FPopup.Font.Assign(Font);
           end;
           FPopup.DoSetFieldsFromString(FSearchList,FWidths,FFieldSeparator);
 
         end;
-       FPopup.Show;
+       FPopup.Visible:=True;
      finally
        FSearchSource.DataSet.GotoBookmark(ABookmark);
        FreeBookmark(ABookmark);
@@ -161,22 +152,13 @@ Begin
    End;
 End;
 
-{ TExtPopUpForm }
+{ TExtPopupGrid }
 
-procedure TExtPopUpForm.SetLookupDisplayIndex(const AValue: integer);
-begin
-  FGrid.LookupDisplayIndex:=AValue;
-end;
 
-function TExtPopUpForm.GetLookupDisplayIndex: integer;
-begin
-  Result:=FGrid.LookupDisplayIndex;
-end;
-
-procedure TExtPopUpForm.KeyDown(var Key: Word; Shift: TShiftState);
+procedure TExtPopupGrid.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   case Key of
-    VK_ESCAPE:Close;
+    VK_ESCAPE:Visible:=False;
     VK_RETURN:begin
                 Key:=0;
                 Shift:=[];
@@ -186,17 +168,16 @@ begin
   else
     inherited KeyDown(Key, Shift);
   end;
-  FGrid.KeyDown(Key, Shift);
 //  Key:=0;
   Invalidate;
 end;
 
-procedure TExtPopUpForm.GridClickEvent(Column: TColumn);
+procedure TExtPopupGrid.GridClickEvent(Column: TColumn);
 begin
   Click;
 end;
 
-procedure TExtPopUpForm.Paint;
+procedure TExtPopupGrid.Paint;
 var
   CR:TRect;
 begin
@@ -206,13 +187,7 @@ begin
   Canvas.Rectangle(0, 0, Width-1, Height-1)
 end;
 
-procedure TExtPopUpForm.CreateWnd;
-begin
-  inherited CreateWnd;
-  Height:=FGrid.DefaultRowHeight * FRowCount;
-end;
-
-procedure TExtPopUpForm.DoSetFieldsFromString(FL,FWidths: string;const AFieldSeparator:Char);
+procedure TExtPopupGrid.DoSetFieldsFromString(FL,FWidths: string;const AFieldSeparator:Char);
 var
   FieldName:string;
   GK:TColumn;
@@ -240,8 +215,8 @@ begin
       FL:='';
       FWidths:='';
     end;
-    GK:=FGrid.Columns.Add;
-    GK.Field:=FGrid.DataSource.DataSet.FieldByName(FieldName);
+    GK:=Columns.Add;
+    GK.Field:=DataSource.DataSet.FieldByName(FieldName);
     if ANumber > '' Then
     try
       GK.Width:=StrToInt(ANumber);
@@ -250,76 +225,45 @@ begin
   end;
 end;
 
-procedure TExtPopUpForm.DoClose(var CloseAction: TCloseAction);
-begin
-  inherited DoClose(CloseAction);
-  CloseAction:=caHide;
-end;
-
-constructor TExtPopUpForm.CreatePopUp(const AOwner: TComponent;
+constructor TExtPopupGrid.CreatePopUp(const AControl: TWinControl;
       const AOptions : TDBGridOptions;const ARowCount:word);
 var
   PopupOrigin:TPoint;
 begin
-  inherited CreateNew(nil);
-  FRowCount:=ARowCount;
-  BorderStyle := bsNone;
+  inherited Create(nil);
+  Parent:=AControl.Owner as TWinControl;
+  while Parent.Owner is TWinControl do
+   Parent:= Parent.Owner as TWinControl;
+  WControl:=AControl;
   Caption:='ExtPopUp';
-  KeyPreview:=true;
-  Visible := false;
 {$IFDEF LINUX}
-  PopupOrigin:=TCustomControl(AOwner).Parent.ControlToScreen(Point(TCustomControl(AOwner).Left, TCustomControl(AOwner).Height + TCustomControl(AOwner).Top));
+  PopupOrigin:=Parent.ScreenToClient(TCustomControl(AControl).Parent.ControlToScreen(Point(TCustomControl(AControl).Left, TCustomControl(AControl).Height + TCustomControl(AControl).Top)));
 {$ELSE}
-  PopupOrigin:=TCustomControl(AOwner).ControlToScreen(Point(0, TCustomControl(AOwner).Height));
+  PopupOrigin:=Parent.ScreenToClient(TCustomControl(AOwner).ControlToScreen(Point(0, TCustomControl(AOwner).Height)));
 {$ENDIF}
   Top:=PopupOrigin.y;
   Left:=PopupOrigin.x;
 
-  FGrid:=TExtPopUpGrid.Create(Self);
-  FGrid.Parent:=Self;
-  FGrid.Visible:=True;
-  FGrid.ReadOnly:=true;
-  FGrid.Options:=AOptions;
-  FGrid.Options:=FGrid.Options - [dgEditing];
-  FGrid.OnCellClick:={$IFDEF DELPHI}@{$ENDIF}GridClickEvent;
-  FGrid.Top:=1;
-  FGrid.Left:=1;
-  FGrid.Width:=Width - 3;
-  FGrid.Height:=Height - 3;
-  FGrid.Anchors:=[akLeft, akRight, akTop, akBottom];
+  ReadOnly:=true;
+  Options:=AOptions;
+  Options:=Options - [dgEditing];
+  Anchors:=[akLeft, akRight, akTop, akBottom];
+  Height:=DefaultRowHeight * ARowCount;
 end;
-
-destructor TExtPopUpForm.Destroy;
-begin
-  FGrid.DataSource:=nil;
-  inherited Destroy;
-end;
-{ TExtPopUpForm }
 
 // clik event of datasearch popup
-procedure TExtPopUpForm.Click;
+procedure TExtPopupGrid.Click;
 begin
  (WControl as ISearchEdit).ClosePopupEvent;
- Close;
+ Visible:=False;
 end;
 
-
-{ TExtPopUpGrid }
-
-procedure TExtPopUpGrid.SetLookupDisplayIndex(const AValue: integer);
+procedure TExtPopupGrid.SetLookupDisplayIndex(const AValue: integer);
 begin
   FLookupDisplayIndex:=AValue;
   if FLookupDisplayIndex > -1
    Then FLookupDisplayField:=Columns[FLookupDisplayIndex].FieldName
    Else FLookupDisplayField:='';
-end;
-
-procedure TExtPopUpGrid.KeyDown(var Key: Word; Shift: TShiftState);
-begin
-  if Key = VK_RETURN then
-    Click
-  else
-    inherited KeyDown(Key, Shift);
 end;
 
 { functions }
@@ -353,7 +297,7 @@ begin
     end
 end;
 
-function fb_SearchLocating(var FPopup : TExtPopUpForm; var FSearchVisible : Boolean;
+function fb_SearchLocating(var FPopup : TExtPopupGrid; var FSearchVisible : Boolean;
                            const AControl : TCustomEdit ; const FSearchSource : TFieldDataLink;
                            const FTextSeparator : String ; const AOptions : TDBGridOptions;
                            const ALookupDisplayIndex : Integer; const ARowCount :Word;
@@ -365,6 +309,7 @@ begin
   FSearchVisible:=assigned ( FPopup ) and FPopup.Visible;
   with AControl do
     Begin
+      AControl.SetFocus;
       ls_temp := Text ; // c'est en affectant le texte que l'on passe en mode édition
       li_pos := fs_LastString ( FTextSeparator, Ls_temp );
       if li_pos>0
@@ -379,7 +324,7 @@ begin
       Text      := ls_temp; // c'est en affectant le texte que l'on passe en mode édition
       writeln ( 'selection '+ls_temp+' '+SelText+' '+ IntTostr(SelStart) + ' ' + IntTostr(SelLength));
       SelStart  := li_pos ;
-     // SelLength := length ( ls_temp ) - li_pos ;
+      SelLength := length ( ls_temp ) - li_pos ;
       writeln ( 'selection '+ls_temp+' '+SelText+' '+ IntTostr(SelStart) + ' ' + IntTostr(SelLength));
       Result    := length ( ls_temp )=li_pos;
       writeln ( 'selection '+ls_temp+' '+SelText+' '+ IntTostr(SelStart) + ' ' + IntTostr(SelLength));
@@ -408,11 +353,16 @@ Begin
       (AEdit as ISearchEdit).ValidateSearch;
       Result:=False;
     End;
-    VK_DOWN,VK_UP:
+    VK_DOWN:
     Begin
       if assigned ( APopup )
       and APopup.Visible Then
        APopup.SetFocus;
+      Result:=False;
+    End;
+    VK_UP:
+    Begin
+      AEdit.SetFocus;
       Result:=False;
     End;
   end;
