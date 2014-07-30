@@ -1,9 +1,9 @@
 ﻿FOR LAZARUS
 
 Just Register lazregisterextcomp package.
-Twice, Register your data connexion pakage.
+Register your ibx, zeos, dbnet data connexion pakage.
 
-
+extends.inc and dlcompilers.inc must be copied to inherited packages with root extendsinc.sh or extendsinc.bat. Verify directories in these files.
 
 
 Warning : Have not found how to compile lazfonctions one time only. 
