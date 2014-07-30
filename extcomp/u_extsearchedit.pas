@@ -75,7 +75,7 @@ type
   TCustomSearchDBEdit = class(TExtFormatDBEdit,ISearchEdit)
   private
     // Lien de données
-    FSearchCount:Word;
+    FSearchLines:Word;
     FSearchSource: TFieldDataLink;
     FOnNotFound,
     FOnLocate ,
@@ -86,7 +86,6 @@ type
     Flocated,
     FSet : Boolean;
     FListWidth : Word;
-    FListLines : Integer;
     FTextSeparator : String;
     FFieldSeparator : Char;
     FSearchList,FSearchWidths : String;
@@ -111,8 +110,6 @@ type
     {$ENDIF}
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-    function ListUp:Boolean;virtual;
-    function ListLines:Integer;virtual;
     function CanModify:Boolean;virtual;
     procedure SelectKeyValue(ListValue:String);virtual;
     procedure Locating; virtual;
@@ -148,10 +145,8 @@ type
     property SearchDisplay : String read fs_getSearchDisplay write p_setSearchDisplay;
     property SearchList : String read FSearchList write FSearchList ;
     property SearchWidths : String read FSearchWidths write FSearchWidths ;
-    property DropDownRows : Integer read FListLines write FListLines default 5;
-    property SearchDisplayIndex : Integer read FSearchDisplayIndex write FSearchDisplayIndex default -1;
-    property SearchDisplayCount : Word read FSearchCount write FSearchCount default SEARCHEDIT_DEFAULT_COUNT;
-    property DropDownWidth : Word read FListWidth write FListWidth default 0;
+    property SearchLines : Word read FSearchLines write FSearchLines default SEARCHEDIT_DEFAULT_COUNT;
+    property SearchWidth : Word read FListWidth write FListWidth default 0;
     property SearchDisplayIndex: Integer read FSearchDisplayIndex write FSearchDisplayIndex default 0;
     property SearchFiltered : Boolean read FSearchFiltered write FSearchFiltered default False;
     property FieldSeparator : Char read FFieldSeparator write FFieldSeparator default SEARCHEDIT_DEFAULT_FIELD_SEPARATOR;
@@ -173,7 +168,7 @@ type
   TCustomSearchEdit = class(TExtFormatEdit,ISearchEdit)
   private
     // Lien de données
-    FSearchCount:Word;
+    FSearchLines:Word;
     FSearchSource: TFieldDataLink;
     FOnNotFound,
     FOnLocate ,
@@ -185,12 +180,10 @@ type
     FReadOnly,
     FSet : Boolean;
     FListWidth : Word;
-    FListLines : Integer;
     FTextSeparator : String;
     FFieldSeparator : Char;
     FSearchList,FSearchWidths : String;
-    FListVisible,
-    FListUp : Boolean;
+    FListVisible : Boolean;
     FNotifyOrder : TNotifyEvent;
     FPopup:TExtPopUpForm;
     FOnCloseUp: TNotifyEvent;
@@ -208,8 +201,6 @@ type
     {$ENDIF}
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-    function ListUp:Boolean;virtual;
-    function ListLines:Integer;virtual;
     procedure InitSearch;virtual;
     procedure Locating; virtual;
     procedure NotFound; virtual;
@@ -237,13 +228,11 @@ type
   published
     property SearchDisplay : String read fs_getSearchDisplay write p_setSearchDisplay ;
     property SearchList : String read FSearchList write FSearchList ;
-    property SearchDisplayIndex : Integer read FSearchDisplayIndex write FSearchDisplayIndex default -1;
-    property SearchDisplayCount : Word read FSearchCount write FSearchCount default SEARCHEDIT_DEFAULT_COUNT;
+    property SearchDisplayIndex: Integer read FSearchDisplayIndex write FSearchDisplayIndex default 0;
+    property SearchLines : Word read FSearchLines write FSearchLines default SEARCHEDIT_DEFAULT_COUNT;
     property SearchWidths : String read FSearchWidths write FSearchWidths ;
     property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
-    property DropDownRows : Integer read FListLines write FListLines default 5;
-    property DropDownWidth : Word read FListWidth write FListWidth default 0;
-    property DropUp : Boolean read FListUp write FListUp default False;
+    property SearchWidth : Word read FListWidth write FListWidth default 0;
     property ReadOnly : Boolean read FReadOnly write FReadOnly default False;
     property SearchFiltered : Boolean read FSearchFiltered write FSearchFiltered default False;
     property SearchOptions : TDBGridOptions read FSearchOptions write FSearchOptions default SEARCHEDIT_GRID_DEFAULT_OPTIONS;
@@ -330,18 +319,11 @@ begin
    Then Datasource := nil;
 end;
 
-function TCustomSearchDBEdit.ListUp: Boolean;
-begin
-  Result := FListUp;
-end;
 
-function TCustomSearchDBEdit.ListLines: Integer;
-begin
-  Result := FListLines;
-end;
 
 procedure TCustomSearchDBEdit.FreePopup;
 begin
+  FListVisible:=False;
   FreeAndNil(FPopup);
 end;
 
@@ -352,7 +334,7 @@ var li_pos : Integer;
     ls_temp : String;
 begin
   Flocated  := True;
-  if fb_SearchLocating( FPopup,FSearchVisible,Self,FSearchSource, FTextSeparator ,FSearchOptions,FSearchDisplayIndex,FSearchCount,FSearchList,FSearchWidths,FFieldSeparator)
+  if fb_SearchLocating( FPopup,FListVisible,Self,FSearchSource, FTextSeparator ,FSearchOptions,FSearchDisplayIndex,FSearchLines,FSearchList,FSearchWidths,FFieldSeparator)
    Then ValidateSearch
    Else
     if assigned ( FOnLocate ) Then
@@ -362,7 +344,9 @@ end;
 procedure TCustomSearchDBEdit.ClosePopupEvent;
 begin
   Text := FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
+  InitSearch;
   ValidateSearch;
+  FListVisible:=False;
 End;
 
 procedure TCustomSearchDBEdit.InitSearch;
@@ -535,14 +519,12 @@ end;
 constructor TCustomSearchDBEdit.Create(Aowner: TComponent);
 begin
   inherited Create(Aowner);
-  FSearchCount := SEARCHEDIT_DEFAULT_COUNT;
+  FSearchLines := SEARCHEDIT_DEFAULT_COUNT;
   //DataLink.OnDataChange := DataChange;
   FSearchFiltered := False;
-  FListUp := False;
+  FListVisible := False;
   FListWidth:=0;
   FFieldSeparator := SEARCHEDIT_DEFAULT_FIELD_SEPARATOR;
-  FListLines := 5;
-  FSearchDisplayIndex:=-1;
   FSearchDisplayIndex:=0;
   FPopup := nil;
   FSearchSource := TFieldDataLink.Create;
@@ -608,18 +590,9 @@ begin
    Then Searchsource := nil;
 end;
 
-function TCustomSearchEdit.ListUp: Boolean;
-begin
-  Result := FListUp;
-end;
-
-function TCustomSearchEdit.ListLines: Integer;
-begin
-  Result := FListLines;
-end;
-
 procedure TCustomSearchEdit.FreePopup;
 begin
+  FListVisible:=False;
   FreeAndNil(FPopup);
 end;
 
@@ -633,6 +606,7 @@ begin
   Text := FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
   InitSearch;
   ValidateSearch;
+  FListVisible:=False;
 End;
 
 procedure TCustomSearchEdit.InitSearch;
@@ -660,7 +634,7 @@ var li_pos : Integer;
     ls_temp : String;
 begin
   Flocated  := True;
-  if fb_SearchLocating( FPopup,FSearchVisible,Self,FSearchSource, FTextSeparator ,FSearchOptions,FSearchDisplayIndex,FSearchCount,FSearchList,FSearchWidths,FFieldSeparator)
+  if fb_SearchLocating( FPopup,FListVisible,Self,FSearchSource, FTextSeparator ,FSearchOptions,FSearchDisplayIndex,FSearchLines,FSearchList,FSearchWidths,FFieldSeparator)
    Then ValidateSearch
    Else
     if assigned ( FOnLocate ) Then
@@ -785,13 +759,12 @@ begin
   inherited Create(Aowner);
   //DataLink.OnDataChange := DataChange;
   FSearchFiltered := False;
-  FSearchCount := SEARCHEDIT_DEFAULT_COUNT;
-  FListUp := False;
+  FSearchLines := SEARCHEDIT_DEFAULT_COUNT;
+  FListVisible := False;
   FListWidth:=0;
   FFieldSeparator := SEARCHEDIT_DEFAULT_FIELD_SEPARATOR;
-  FListLines := 5;
   FPopup := nil;
-  FSearchDisplayIndex:=-1;
+  FSearchDisplayIndex:=0;
   FSearchSource := TFieldDataLink.Create;
   FSearchOptions := SEARCHEDIT_GRID_DEFAULT_OPTIONS;
   InitSearch;
