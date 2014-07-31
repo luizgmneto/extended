@@ -105,7 +105,6 @@ type
     {$IFNDEF FPC}
     procedure WMCut(var Message: TMessage); message WM_CUT;
     procedure WMPaste(var Message: TMessage); message WM_PASTE;
-    procedure CMBiDiModeChanged(var Message: TMessage); message CM_BIDIMODECHANGED;
     {$ENDIF}
   protected
     procedure ClosePopupEvent; virtual;
@@ -195,7 +194,6 @@ type
     {$IFNDEF FPC}
     procedure WMCut(var Message: TMessage); message WM_CUT;
     procedure WMPaste(var Message: TMessage); message WM_PASTE;
-    procedure CMBiDiModeChanged(var Message: TMessage); message CM_BIDIMODECHANGED;
     {$ENDIF}
   protected
     procedure ClosePopupEvent;virtual;

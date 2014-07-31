@@ -69,7 +69,6 @@ type ISearchEdit = interface
     procedure SetLookupDisplayIndex(const AValue: integer);
   protected
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
-    property LookupDisplayIndex:integer read FLookupDisplayIndex write SetLookupDisplayIndex;
     property  Control:TWinControl read WControl;
   public
     procedure Click; override;
@@ -103,9 +102,9 @@ procedure p_ShowPopup(var FPopup : TExtPopupGrid;const AControl : TWinControl;
                       const AOptions : TDBGridOptions ;const FFieldSeparator:Char);
 implementation
 
-uses dbutils,
-     fonctions_db,
+uses fonctions_db,
      {$IFDEF FPC}
+     dbutils,
      LazUTF8,
      {$ELSE}
      {$ENDIF}
@@ -236,7 +235,11 @@ begin
      {$IFDEF LINUX}
        PopupOrigin:=Parent.ScreenToClient(AControl.Parent.ControlToScreen(Point(AControl.Left, AControl.Height + AControl.Top)));
      {$ELSE}
-       PopupOrigin:=Parent.ScreenToClient(TCustomControl(AOwner).ControlToScreen(Point(0, TCustomControl(AOwner).Height)));
+     {$IFDEF FPC}
+       PopupOrigin:=Parent.ScreenToClient(TCustomControl(Owner).ControlToScreen(Point(0, TCustomControl(Owner).Height)));
+     {$ELSE}
+     {$ENDIF}
+       PopupOrigin:=Parent.ScreenToClient(TControl(Owner).ClientToScreen(Point(0, TControl(Owner).Height)));
      {$ENDIF}
 
      if y+Height>Parent.ClientHeight Then
@@ -307,7 +310,8 @@ begin
     p_ShowPopup(FPopup,AControl,FSearchSource,FSearchList,FWidths,ALookupDisplayIndex,ARowCount,AWidth,AOptions,FFieldSeparator);
     FSearchVisible:=assigned ( FPopup ) and FPopup.Visible;
    end;
-  if not FPopup.Focused Then
+  if assigned ( FPopup )
+  and not FPopup.Focused Then
   with AControl do
     Begin
       ls_temp := Text ; // c'est en affectant le texte que l'on passe en mode édition
