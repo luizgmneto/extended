@@ -864,26 +864,29 @@ var lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
 begin
   {$IFDEF BGRA}
   lid_imagedata:=nil;
+  if DetectFileFormat ( Stream )>ifUnknown
   {$ELSE}
   Finalize ( lid_imagedata );
+  if DetermineStreamFormat ( Stream )>''
   {$ENDIF}
-  try
-    lid_imagedata := fci_StreamToCustomImage  ( Stream, ali_newWidth, ali_newHeight, ab_KeepProportion );
-    if  ( lid_imagedata.Width  > 0 )
-    and ( lid_imagedata.Height > 0 ) Then
-      Begin
-       {$IFDEF BGRA}
-       Image.Assign(lid_imagedata.Bitmap);
-       {$ELSE}
-       ConvertDataToBitmap( lid_imagedata, Image );
-       {$ENDIF}
-        Image.Canvas.Refresh;
-      end
-     Else
-      p_ClearBitmapWithoutMemoryLeak ( Image );
-  Finally
-    p_FreeCustomImage (lid_imagedata);
-  end;
+   Then
+    try
+      lid_imagedata := fci_StreamToCustomImage  ( Stream, ali_newWidth, ali_newHeight, ab_KeepProportion );
+      if  ( lid_imagedata.Width  > 0 )
+      and ( lid_imagedata.Height > 0 ) Then
+        Begin
+         {$IFDEF BGRA}
+         Image.Assign(lid_imagedata.Bitmap);
+         {$ELSE}
+         ConvertDataToBitmap( lid_imagedata, Image );
+         {$ENDIF}
+          Image.Canvas.Refresh;
+        end
+       Else
+        p_ClearBitmapWithoutMemoryLeak ( Image );
+    Finally
+      p_FreeCustomImage (lid_imagedata);
+    end;
 end;
 procedure p_FreeCustomImage ( var abb_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF} );
 Begin
