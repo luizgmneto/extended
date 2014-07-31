@@ -70,8 +70,6 @@ type ISearchEdit = interface
   protected
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     property LookupDisplayIndex:integer read FLookupDisplayIndex write SetLookupDisplayIndex;
-    procedure GridClickEvent(Column: TColumn); virtual;
-    procedure Paint;override;
     property  Control:TWinControl read WControl;
   public
     procedure Click; override;
@@ -135,11 +133,11 @@ Begin
           FPopup.Datasource:=FSearchSource.Datasource;
           FPopup.LookupDisplayIndex:=ALookupDisplayIndex;
 
-          FPopup.WControl:=AControl;
           FPopup.ParentColor:=True;
           FPopup.ParentFont:=True;
 
           FPopup.DoSetFieldsFromString(FSearchList,FWidths,FFieldSeparator);
+          FPopup.Loaded;
 
         end;
        FPopup.Show;
@@ -158,31 +156,15 @@ begin
   case Key of
     VK_ESCAPE:Visible:=False;
     VK_RETURN:begin
-                Key:=0;
-                Shift:=[];
                 Click;
                 exit;{In that case we need to exit away.}
               end;
   else
-    inherited KeyDown(Key, Shift);
+    if  (Key = VK_UP)
+    and (Row = FixedRows)
+     Then WControl.SetFocus
+     Else inherited KeyDown(Key, Shift);
   end;
-//  Key:=0;
-  Invalidate;
-end;
-
-procedure TExtPopupGrid.GridClickEvent(Column: TColumn);
-begin
-  Click;
-end;
-
-procedure TExtPopupGrid.Paint;
-var
-  CR:TRect;
-begin
-  inherited Paint;
-  Canvas.Pen.Color:=clWindowText;
-  Canvas.Pen.Style := psSolid;
-  Canvas.Rectangle(0, 0, Width-1, Height-1)
 end;
 
 procedure TExtPopupGrid.DoSetFieldsFromString(FL,FWidths: string;const AFieldSeparator:Char);
@@ -229,7 +211,7 @@ constructor TExtPopupGrid.CreatePopUp(const AControl: TWinControl;
 var
   PopupOrigin:TPoint;
 begin
-  inherited Create(AControl);
+  inherited Create(AControl.Owner);
   Parent:=AControl.Owner as TWinControl;
   while Parent.Owner is TWinControl do
    Parent:= Parent.Owner as TWinControl;
@@ -240,15 +222,23 @@ begin
   Options:=Options - [dgEditing];
   Anchors:=[akLeft, akRight, akTop, akBottom];
   Height:=DefaultRowHeight * ARowCount;
-  Width:=AWidth;
-  {$IFDEF LINUX}
-    PopupOrigin:=Parent.ScreenToClient(TCustomControl(AControl).Parent.ControlToScreen(Point(AControl.Left, AControl.Height + AControl.Top)));
-  {$ELSE}
-    PopupOrigin:=Parent.ScreenToClient(TCustomControl(AOwner).ControlToScreen(Point(0, TCustomControl(AOwner).Height)));
-  {$ENDIF}
-
+  if AWidth > 0 Then
+    Width:=AWidth;
   with PopupOrigin do
    Begin
+     if Parent=AControl.Parent
+      Then
+       Begin
+        x:=AControl.Left;
+        y:=AControl.Height + AControl.Top;
+       end
+      Else
+     {$IFDEF LINUX}
+       PopupOrigin:=Parent.ScreenToClient(AControl.Parent.ControlToScreen(Point(AControl.Left, AControl.Height + AControl.Top)));
+     {$ELSE}
+       PopupOrigin:=Parent.ScreenToClient(TCustomControl(AOwner).ControlToScreen(Point(0, TCustomControl(AOwner).Height)));
+     {$ENDIF}
+
      if y+Height>Parent.ClientHeight Then
       dec(y,AControl.Height+Height);
      if x>Parent.ClientWidth Then
@@ -312,11 +302,14 @@ function fb_SearchLocating(var FPopup : TExtPopupGrid; var FSearchVisible : Bool
 var li_pos : Integer;
     ls_temp : String;
 begin
-  p_ShowPopup(FPopup,AControl,FSearchSource,FSearchList,FWidths,ALookupDisplayIndex,ARowCount,AWidth,AOptions,FFieldSeparator);
-  FSearchVisible:=assigned ( FPopup ) and FPopup.Visible;
+  if not FSearchVisible Then
+   Begin
+    p_ShowPopup(FPopup,AControl,FSearchSource,FSearchList,FWidths,ALookupDisplayIndex,ARowCount,AWidth,AOptions,FFieldSeparator);
+    FSearchVisible:=assigned ( FPopup ) and FPopup.Visible;
+   end;
+  if not FPopup.Focused Then
   with AControl do
     Begin
-      AControl.SetFocus;
       ls_temp := Text ; // c'est en affectant le texte que l'on passe en mode édition
       li_pos := fs_LastString ( FTextSeparator, Ls_temp );
       if li_pos>0
@@ -329,12 +322,9 @@ begin
       li_pos    := SelStart ;
       ls_temp   := ls_temp + FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
       Text      := ls_temp; // c'est en affectant le texte que l'on passe en mode édition
-      writeln ( 'selection '+ls_temp+' '+SelText+' '+ IntTostr(SelStart) + ' ' + IntTostr(SelLength));
       SelStart  := li_pos ;
       SelLength := length ( ls_temp ) - li_pos ;
-      writeln ( 'selection '+ls_temp+' '+SelText+' '+ IntTostr(SelStart) + ' ' + IntTostr(SelLength));
       Result    := length ( ls_temp )=li_pos;
-      writeln ( 'selection '+ls_temp+' '+SelText+' '+ IntTostr(SelStart) + ' ' + IntTostr(SelLength));
     end;
 end;
 
