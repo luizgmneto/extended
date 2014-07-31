@@ -95,7 +95,6 @@ type
     FSearchDisplayIndex: Integer;
     FOnCloseUp: TNotifyEvent;
     FKeyFieldName: string;
-    procedure ClosePopupEvent; virtual;
     procedure p_setSearchDisplay ( AValue : String );
     function  fs_getSearchDisplay:String;
     procedure p_setSearchSource ( AValue : TDataSource );
@@ -109,6 +108,7 @@ type
     procedure CMBiDiModeChanged(var Message: TMessage); message CM_BIDIMODECHANGED;
     {$ENDIF}
   protected
+    procedure ClosePopupEvent; virtual;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     function CanModify:Boolean;virtual;
     procedure SelectKeyValue(ListValue:String);virtual;
@@ -187,7 +187,6 @@ type
     FPopup:TExtPopupGrid;
     FOnCloseUp: TNotifyEvent;
     FSearchDisplayIndex: Integer;
-    procedure ClosePopupEvent;
     procedure p_setSearchDisplay ( AValue : String );
     function fs_getSearchDisplay : String ;
     procedure p_setSearchSource ( AValue : TDataSource );
@@ -199,6 +198,7 @@ type
     procedure CMBiDiModeChanged(var Message: TMessage); message CM_BIDIMODECHANGED;
     {$ENDIF}
   protected
+    procedure ClosePopupEvent;virtual;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure InitSearch;virtual;
     procedure Locating; virtual;
@@ -342,10 +342,13 @@ end;
 
 procedure TCustomSearchDBEdit.ClosePopupEvent;
 begin
-  Text := FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
-  InitSearch;
+  Field.DataSet.Edit;
+  Field.Value := FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).Value;
+  FSet:=False;
   ValidateSearch;
   FListVisible:=False;
+  if assigned ( FOnCloseUp ) Then
+    FOnCloseUp(Self);
 End;
 
 procedure TCustomSearchDBEdit.InitSearch;
@@ -603,9 +606,11 @@ end;
 procedure TCustomSearchEdit.ClosePopupEvent;
 begin
   Text := FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
-  InitSearch;
+  FSet:=False;
   ValidateSearch;
   FListVisible:=False;
+  if assigned ( FOnCloseUp ) Then
+    FOnCloseUp(Self);
 End;
 
 procedure TCustomSearchEdit.InitSearch;

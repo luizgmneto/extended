@@ -146,10 +146,12 @@ begin
   try
     IBDatabase.Connected := True;
     IBTransaction.Active := True;
+    {$IFNDEF FPC}
     IBUser.UpdateObject:=IBUpdateUser;
     IBUserSearch.UpdateObject:=IBUpdateUser;
     IBDepartement.UpdateObject:=IBUpdateDepartem;
     IBDepSearch.UpdateObject:=IBUpdateDepartem;
+    {$ENDIF}
     // On cherche ou crée le fichier CSV
     IBUser.Open;
     IBDepartement.Open;

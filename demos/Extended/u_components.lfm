@@ -13,7 +13,7 @@ object Myform: TMyform
   Font.Name = 'Tahoma'
   Menu = mu_MainMenu
   OnShow = FormShow
-  LCLVersion = '1.2.3.0'
+  LCLVersion = '1.2.1.0'
   object Splitter1: TSplitter
     Left = 208
     Height = 564

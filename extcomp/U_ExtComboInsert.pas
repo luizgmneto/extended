@@ -83,6 +83,7 @@ type
     procedure DoExit; override ;
     procedure SetFieldKeyValue; virtual;
     procedure DataChange ( ADataLink :TObject ); virtual;
+    procedure ClosePopupEvent; override;
   public
     constructor Create ( AOwner : TComponent ); override;
     destructor Destroy ; override;
@@ -246,6 +247,13 @@ begin
      Else Text:= '';
    End;
 end;
+
+procedure TExtDBComboInsert.ClosePopupEvent;
+begin
+  inherited;
+  Field.DataSet.Edit;
+  Field.Value := SearchSource.DataSet.FieldByName ( FSearchKey ).Value;
+End;
 
 procedure TExtDBComboInsert.SetFieldKeyValue;
 Begin

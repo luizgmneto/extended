@@ -63,7 +63,7 @@
         <PackageName Value="LCL"/>
       </Item10>
     </RequiredPackages>
-    <Units Count="313">
+    <Units Count="314">
       <Unit0>
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -71,7 +71,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="101" Y="19"/>
-        <UsageCount Value="179"/>
+        <UsageCount Value="183"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -87,10 +87,12 @@
         <ComponentName Value="Myform"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="676"/>
-        <CursorPos X="37" Y="698"/>
-        <UsageCount Value="17"/>
+        <TopLine Value="703"/>
+        <CursorPos X="141" Y="728"/>
+        <UsageCount Value="18"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit2>
       <Unit3>
@@ -166,10 +168,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="57"/>
-        <CursorPos X="85" Y="64"/>
-        <UsageCount Value="119"/>
+        <TopLine Value="13"/>
+        <CursorPos X="101" Y="23"/>
+        <UsageCount Value="123"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -2175,11 +2179,11 @@
       <Unit245>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
         <UnitName Value="u_extsearchedit"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="506"/>
-        <CursorPos X="117" Y="511"/>
-        <UsageCount Value="19"/>
+        <TopLine Value="1"/>
+        <CursorPos X="125" Y="1"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit245>
       <Unit246>
@@ -2225,11 +2229,11 @@
       <Unit251>
         <Filename Value="../../core/fonctions_string.pas"/>
         <UnitName Value="fonctions_string"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="85"/>
         <CursorPos X="1" Y="127"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="15"/>
         <Loaded Value="True"/>
       </Unit251>
       <Unit252>
@@ -2360,11 +2364,11 @@
       <Unit267>
         <Filename Value="../../core/unite_messages.pas"/>
         <UnitName Value="unite_messages"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="135"/>
         <CursorPos X="140" Y="155"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit267>
       <Unit268>
@@ -2460,9 +2464,9 @@
         <UnitName Value="U_ExtComboInsert"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="254"/>
-        <CursorPos X="143" Y="268"/>
-        <UsageCount Value="19"/>
+        <TopLine Value="217"/>
+        <CursorPos X="143" Y="228"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit279>
       <Unit280>
@@ -2629,28 +2633,33 @@
       <Unit301>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
         <UnitName Value="fonctions_search_edit"/>
-        <EditorIndex Value="9"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="250"/>
-        <CursorPos X="51" Y="274"/>
-        <UsageCount Value="13"/>
+        <TopLine Value="47"/>
+        <CursorPos X="15" Y="71"/>
+        <UsageCount Value="15"/>
         <Loaded Value="True"/>
       </Unit301>
       <Unit302>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbgrids.pas"/>
         <UnitName Value="DBGrids"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="257"/>
         <CursorPos X="3" Y="281"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
       </Unit302>
       <Unit303>
         <Filename Value="/usr/share/lazarus/1.2.1/lcl/grids.pas"/>
         <UnitName Value="Grids"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="631"/>
-        <CursorPos X="21" Y="655"/>
+        <TopLine Value="9196"/>
+        <CursorPos X="10" Y="9236"/>
         <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit303>
       <Unit304>
         <Filename Value="../../base/fonctions_images.pas"/>
@@ -2659,212 +2668,209 @@
         <WindowIndex Value="0"/>
         <TopLine Value="423"/>
         <CursorPos X="38" Y="455"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit304>
       <Unit305>
         <Filename Value="../../imgcomp/u_extdbimage.pas"/>
         <UnitName Value="U_ExtDBImage"/>
-        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="95" Y="31"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="12"/>
       </Unit305>
       <Unit306>
         <Filename Value="../../imgcomp/u_extimage.pas"/>
         <UnitName Value="U_ExtImage"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="83" Y="31"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="12"/>
       </Unit306>
       <Unit307>
         <Filename Value="../../../../Lazarus/composants/bgrabitmap/bgragtkbitmap.pas"/>
         <UnitName Value="BGRAGtkBitmap"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="50" Y="9"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit307>
       <Unit308>
         <Filename Value="../../../../Lazarus/composants/bgrabitmap/bgradefaultbitmap.pas"/>
         <UnitName Value="BGRADefaultBitmap"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="158"/>
         <CursorPos X="32" Y="195"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit308>
       <Unit309>
         <Filename Value="../../../../Lazarus/composants/bgrabitmap/bgrabitmaptypes.pas"/>
         <UnitName Value="BGRABitmapTypes"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="34" Y="43"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="12"/>
       </Unit309>
       <Unit310>
-        <Filename Value="../../../../../../../development/lazarus/lcl/graphics.pp"/>
+        <Filename Value="/development/lazarus/lcl/graphics.pp"/>
         <UnitName Value="Graphics"/>
-        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="10"/>
         <CursorPos X="20" Y="48"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit310>
       <Unit311>
         <Filename Value="../../../Ancestromania/Sources/Main/u_common_ancestro_functions.pas"/>
         <UnitName Value="u_common_ancestro_functions"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="494"/>
         <CursorPos X="21" Y="508"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="12"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit311>
       <Unit312>
-        <Filename Value="../../../../../../../development/lazarus/lcl/lclclasses.pp"/>
+        <Filename Value="/development/lazarus/lcl/lclclasses.pp"/>
         <UnitName Value="LCLClasses"/>
-        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3"/>
         <CursorPos X="10" Y="26"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit312>
+      <Unit313>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/lcltype.pp"/>
+        <UnitName Value="LCLType"/>
+        <EditorIndex Value="9"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="402"/>
+        <CursorPos X="3" Y="426"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit313>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="120" Column="20" TopLine="97"/>
+        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position1>
       <Position2>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="974" Column="24" TopLine="944"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbgrids.pas"/>
+        <Caret Line="2090" Column="109" TopLine="2084"/>
       </Position2>
       <Position3>
-        <Filename Value="../../base/fonctions_images.pas"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbgrids.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
       </Position3>
       <Position4>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="47" Column="89" TopLine="9"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbgrids.pas"/>
+        <Caret Line="2204" Column="10" TopLine="2164"/>
       </Position4>
       <Position5>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="48" Column="107" TopLine="10"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbgrids.pas"/>
+        <Caret Line="1988" Column="13" TopLine="1963"/>
       </Position5>
       <Position6>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="583" Column="10" TopLine="545"/>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="329" Column="125" TopLine="325"/>
       </Position6>
       <Position7>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="865" Column="5" TopLine="827"/>
+        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
+        <Caret Line="163" Column="9" TopLine="127"/>
       </Position7>
       <Position8>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="1011" Column="17" TopLine="973"/>
+        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position8>
       <Position9>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="87" Column="1" TopLine="63"/>
+        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
+        <Caret Line="163" Column="21" TopLine="122"/>
       </Position9>
       <Position10>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="871" Column="54" TopLine="848"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbgrids.pas"/>
+        <Caret Line="2134" Column="3" TopLine="2110"/>
       </Position10>
       <Position11>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="870" Column="1" TopLine="848"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbgrids.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position11>
       <Position12>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="123" Column="15" TopLine="118"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbgrids.pas"/>
+        <Caret Line="2204" Column="10" TopLine="2164"/>
       </Position12>
       <Position13>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="104" Column="41" TopLine="82"/>
+        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
+        <Caret Line="163" Column="18" TopLine="122"/>
       </Position13>
       <Position14>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="120" Column="1" TopLine="98"/>
+        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
+        <Caret Line="71" Column="15" TopLine="47"/>
       </Position14>
       <Position15>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="124" Column="1" TopLine="98"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbgrids.pas"/>
+        <Caret Line="500" Column="3" TopLine="476"/>
       </Position15>
       <Position16>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="121" Column="1" TopLine="98"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbgrids.pas"/>
+        <Caret Line="281" Column="3" TopLine="257"/>
       </Position16>
       <Position17>
-        <Filename Value="../../imgcomp/u_extdbimage.pas"/>
-        <Caret Line="149" Column="1" TopLine="142"/>
+        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
+        <Caret Line="71" Column="15" TopLine="47"/>
       </Position17>
       <Position18>
-        <Filename Value="../../imgcomp/u_extdbimage.pas"/>
-        <Caret Line="54" Column="56" TopLine="54"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbgrids.pas"/>
+        <Caret Line="500" Column="3" TopLine="475"/>
       </Position18>
       <Position19>
-        <Filename Value="../../imgcomp/u_extdbimage.pas"/>
-        <Caret Line="142" Column="52" TopLine="140"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/dbgrids.pas"/>
+        <Caret Line="281" Column="3" TopLine="257"/>
       </Position19>
       <Position20>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="906" Column="17" TopLine="890"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/grids.pas"/>
+        <Caret Line="655" Column="3" TopLine="631"/>
       </Position20>
       <Position21>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="83" Column="34" TopLine="60"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/grids.pas"/>
+        <Caret Line="6713" Column="10" TopLine="6673"/>
       </Position21>
       <Position22>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="906" Column="34" TopLine="868"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/grids.pas"/>
+        <Caret Line="9236" Column="10" TopLine="9196"/>
       </Position22>
       <Position23>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="83" Column="34" TopLine="60"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/grids.pas"/>
+        <Caret Line="11812" Column="10" TopLine="11772"/>
       </Position23>
       <Position24>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="917" Column="26" TopLine="877"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/grids.pas"/>
+        <Caret Line="6713" Column="10" TopLine="6690"/>
       </Position24>
       <Position25>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="934" Column="36" TopLine="896"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/grids.pas"/>
+        <Caret Line="9236" Column="10" TopLine="9196"/>
       </Position25>
       <Position26>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="994" Column="29" TopLine="965"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/grids.pas"/>
+        <Caret Line="11812" Column="10" TopLine="11772"/>
       </Position26>
       <Position27>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="82" Column="29" TopLine="59"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/grids.pas"/>
+        <Caret Line="6713" Column="10" TopLine="6690"/>
       </Position27>
       <Position28>
-        <Filename Value="../../base/fonctions_images.pas"/>
-        <Caret Line="446" Column="25" TopLine="420"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/grids.pas"/>
+        <Caret Line="9236" Column="10" TopLine="9196"/>
       </Position28>
       <Position29>
-        <Filename Value="../../imgcomp/u_extimage.pas"/>
-        <Caret Line="112" Column="169" TopLine="99"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/grids.pas"/>
+        <Caret Line="11812" Column="10" TopLine="11772"/>
       </Position29>
       <Position30>
-        <Filename Value="../../imgcomp/u_extdbimage.pas"/>
-        <Caret Line="44" Column="133" TopLine="32"/>
+        <Filename Value="/usr/share/lazarus/1.2.1/lcl/grids.pas"/>
+        <Caret Line="6713" Column="10" TopLine="6690"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>
@@ -2890,8 +2896,8 @@
     </CodeGeneration>
     <Linking>
       <Debugging>
-        <GenerateDebugInfo Value="False"/>
         <DebugInfoType Value="dsStabs"/>
+        <UseValgrind Value="True"/>
       </Debugging>
       <LinkSmart Value="True"/>
       <Options>
@@ -2914,6 +2920,29 @@
     </Other>
   </CompilerOptions>
   <Debugging>
+    <BreakPoints Count="3">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../extcomp/u_extsearchedit.pas"/>
+        <Line Value="628"/>
+      </Item1>
+      <Item2>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../extcomp/u_extsearchedit.pas"/>
+        <Line Value="611"/>
+      </Item2>
+      <Item3>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../extcomp/u_extsearchedit.pas"/>
+        <Line Value="641"/>
+      </Item3>
+    </BreakPoints>
     <Exceptions Count="4">
       <Item1>
         <Name Value="EAbort"/>
