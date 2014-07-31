@@ -76,7 +76,7 @@ type ISearchEdit = interface
   public
     procedure Click; override;
     constructor CreatePopUp(const AControl: TWinControl;
-      const AOptions : TDBGridOptions;const ARowCount:word); virtual;
+      const AOptions : TDBGridOptions;const ARowCount,AWidth:word); virtual;
     procedure DoSetFieldsFromString(FL,FWidths:string;const AFieldSeparator:Char); virtual;
     property LookupDisplayIndex:integer read FLookupDisplayIndex write SetLookupDisplayIndex;
   end;
@@ -95,13 +95,13 @@ function fb_KeyUp ( const AEdit : TCustomEdit ;var Key : Word ; var Alocated, AS
 function fb_SearchLocating(var FPopup : TExtPopupGrid; var FSearchVisible : Boolean;
                            const AControl : TCustomEdit ; const FSearchSource : TFieldDataLink;
                            const FTextSeparator : String ; const AOptions : TDBGridOptions;
-                           const ALookupDisplayIndex : Integer; const ARowCount :Word;
+                           const ALookupDisplayIndex : Integer; const ARowCount,AWidth :Word;
                            const FSearchList,FWidths : String ;const FFieldSeparator:Char ):Boolean;
 function fb_SearchText(const AEdit : TCustomEdit ; const FSearchSource : TFieldDataLink;
                        const FSearchFiltered : Boolean; const FTextSeparator : String ):Boolean;
 procedure p_ShowPopup(var FPopup : TExtPopupGrid;const AControl : TWinControl;
                       const FSearchSource : TFieldDataLink;const FSearchList,FWidths : String;
-                      const ALookupDisplayIndex : Integer; const ARowCount :Word;
+                      const ALookupDisplayIndex : Integer; const ARowCount,AWidth :Word;
                       const AOptions : TDBGridOptions ;const FFieldSeparator:Char);
 implementation
 
@@ -118,7 +118,7 @@ uses dbutils,
 // show popup
 procedure p_ShowPopup(var FPopup : TExtPopupGrid;const AControl : TWinControl;
                       const FSearchSource : TFieldDataLink;const FSearchList,FWidths : String;
-                      const ALookupDisplayIndex : Integer; const ARowCount :Word;
+                      const ALookupDisplayIndex : Integer; const ARowCount,AWidth :Word;
                       const AOptions : TDBGridOptions ;const FFieldSeparator:Char);
 var i : Integer;
     ABookmark:TBookmark;
@@ -131,20 +131,18 @@ Begin
      try
        if not Assigned( FPopup ) Then
         Begin
-          FPopup:=TExtPopupGrid.CreatePopUp(AControl, AOptions,ARowCount);
+          FPopup:=TExtPopupGrid.CreatePopUp(AControl, AOptions,ARowCount,AWidth);
           FPopup.Datasource:=FSearchSource.Datasource;
           FPopup.LookupDisplayIndex:=ALookupDisplayIndex;
 
           FPopup.WControl:=AControl;
+          FPopup.ParentColor:=True;
+          FPopup.ParentFont:=True;
 
-          if Assigned(Font) then
-          begin
-            FPopup.Font.Assign(Font);
-          end;
           FPopup.DoSetFieldsFromString(FSearchList,FWidths,FFieldSeparator);
 
         end;
-       FPopup.Visible:=True;
+       FPopup.Show;
      finally
        FSearchSource.DataSet.GotoBookmark(ABookmark);
        FreeBookmark(ABookmark);
@@ -216,39 +214,48 @@ begin
       FWidths:='';
     end;
     GK:=Columns.Add;
-    GK.Field:=DataSource.DataSet.FieldByName(FieldName);
+    GK.FieldName:=FieldName;
     if ANumber > '' Then
-    try
-      GK.Width:=StrToInt(ANumber);
-    Except
-    end;
+      try
+        GK.Width:=StrToInt(ANumber);
+      Except
+      end;
+    GK.Visible:=True;
   end;
 end;
 
 constructor TExtPopupGrid.CreatePopUp(const AControl: TWinControl;
-      const AOptions : TDBGridOptions;const ARowCount:word);
+      const AOptions : TDBGridOptions;const ARowCount,AWidth:word);
 var
   PopupOrigin:TPoint;
 begin
-  inherited Create(nil);
+  inherited Create(AControl);
   Parent:=AControl.Owner as TWinControl;
   while Parent.Owner is TWinControl do
    Parent:= Parent.Owner as TWinControl;
   WControl:=AControl;
   Caption:='ExtPopUp';
-{$IFDEF LINUX}
-  PopupOrigin:=Parent.ScreenToClient(TCustomControl(AControl).Parent.ControlToScreen(Point(TCustomControl(AControl).Left, TCustomControl(AControl).Height + TCustomControl(AControl).Top)));
-{$ELSE}
-  PopupOrigin:=Parent.ScreenToClient(TCustomControl(AOwner).ControlToScreen(Point(0, TCustomControl(AOwner).Height)));
-{$ENDIF}
-  Top:=PopupOrigin.y;
-  Left:=PopupOrigin.x;
-
   ReadOnly:=true;
   Options:=AOptions;
   Options:=Options - [dgEditing];
   Anchors:=[akLeft, akRight, akTop, akBottom];
   Height:=DefaultRowHeight * ARowCount;
+  Width:=AWidth;
+  {$IFDEF LINUX}
+    PopupOrigin:=Parent.ScreenToClient(TCustomControl(AControl).Parent.ControlToScreen(Point(AControl.Left, AControl.Height + AControl.Top)));
+  {$ELSE}
+    PopupOrigin:=Parent.ScreenToClient(TCustomControl(AOwner).ControlToScreen(Point(0, TCustomControl(AOwner).Height)));
+  {$ENDIF}
+
+  with PopupOrigin do
+   Begin
+     if y+Height>Parent.ClientHeight Then
+      dec(y,AControl.Height+Height);
+     if x>Parent.ClientWidth Then
+      x:=Parent.ClientWidth-Width;
+     Top:=y;
+     Left:=x;
+   end;
 end;
 
 // clik event of datasearch popup
@@ -300,12 +307,12 @@ end;
 function fb_SearchLocating(var FPopup : TExtPopupGrid; var FSearchVisible : Boolean;
                            const AControl : TCustomEdit ; const FSearchSource : TFieldDataLink;
                            const FTextSeparator : String ; const AOptions : TDBGridOptions;
-                           const ALookupDisplayIndex : Integer; const ARowCount :Word;
+                           const ALookupDisplayIndex : Integer; const ARowCount,AWidth :Word;
                            const FSearchList,FWidths : String ;const FFieldSeparator:Char ):Boolean;
 var li_pos : Integer;
     ls_temp : String;
 begin
-  p_ShowPopup(FPopup,AControl,FSearchSource,FSearchList,FWidths,ALookupDisplayIndex,ARowCount,AOptions,FFieldSeparator);
+  p_ShowPopup(FPopup,AControl,FSearchSource,FSearchList,FWidths,ALookupDisplayIndex,ARowCount,AWidth,AOptions,FFieldSeparator);
   FSearchVisible:=assigned ( FPopup ) and FPopup.Visible;
   with AControl do
     Begin
@@ -358,11 +365,6 @@ Begin
       if assigned ( APopup )
       and APopup.Visible Then
        APopup.SetFocus;
-      Result:=False;
-    End;
-    VK_UP:
-    Begin
-      AEdit.SetFocus;
       Result:=False;
     End;
   end;
