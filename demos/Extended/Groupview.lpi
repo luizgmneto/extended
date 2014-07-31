@@ -85,7 +85,7 @@
         <PackageName Value="LCL"/>
       </Item15>
     </RequiredPackages>
-    <Units Count="196">
+    <Units Count="197">
       <Unit0>
         <Filename Value="Groupview.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -1779,7 +1779,6 @@
       <Unit183>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
         <UnitName Value="fonctions_search_edit"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="57"/>
@@ -1890,6 +1889,7 @@
       <Unit194>
         <Filename Value="../../../../../../lazarus/fpc/2.6.2/source/packages/fcl-db/src/base/db.pas"/>
         <UnitName Value="db"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1464"/>
@@ -1906,6 +1906,14 @@
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit195>
+      <Unit196>
+        <Filename Value="../../../Ancestromania/Packages/AncestroComponents/lazancestroreg.pas"/>
+        <UnitName Value="lazancestroreg"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="34" Y="23"/>
+        <UsageCount Value="10"/>
+      </Unit196>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
