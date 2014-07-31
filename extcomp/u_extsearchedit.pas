@@ -85,7 +85,7 @@ type
     FSearchFiltered,
     Flocated,
     FSet : Boolean;
-    FListWidth : Word;
+    FSearchWidth : Word;
     FTextSeparator : String;
     FFieldSeparator : Char;
     FSearchList,FSearchWidths : String;
@@ -146,7 +146,7 @@ type
     property SearchList : String read FSearchList write FSearchList ;
     property SearchWidths : String read FSearchWidths write FSearchWidths ;
     property SearchLines : Word read FSearchLines write FSearchLines default SEARCHEDIT_DEFAULT_COUNT;
-    property SearchWidth : Word read FListWidth write FListWidth default 0;
+    property SearchWidth : Word read FSearchWidth write FSearchWidth default 0;
     property SearchDisplayIndex: Integer read FSearchDisplayIndex write FSearchDisplayIndex default 0;
     property SearchFiltered : Boolean read FSearchFiltered write FSearchFiltered default False;
     property FieldSeparator : Char read FFieldSeparator write FFieldSeparator default SEARCHEDIT_DEFAULT_FIELD_SEPARATOR;
@@ -167,7 +167,7 @@ type
 
   TCustomSearchEdit = class(TExtFormatEdit,ISearchEdit)
   private
-    // Lien de données
+    FSearchWidth,
     FSearchLines:Word;
     FSearchSource: TFieldDataLink;
     FOnNotFound,
@@ -179,7 +179,6 @@ type
     Flocated,
     FReadOnly,
     FSet : Boolean;
-    FListWidth : Word;
     FTextSeparator : String;
     FFieldSeparator : Char;
     FSearchList,FSearchWidths : String;
@@ -232,7 +231,7 @@ type
     property SearchLines : Word read FSearchLines write FSearchLines default SEARCHEDIT_DEFAULT_COUNT;
     property SearchWidths : String read FSearchWidths write FSearchWidths ;
     property SearchSource : TDatasource read fs_getSearchSource write p_setSearchSource ;
-    property SearchWidth : Word read FListWidth write FListWidth default 0;
+    property SearchWidth : Word read FSearchWidth write FSearchWidth default 0;
     property ReadOnly : Boolean read FReadOnly write FReadOnly default False;
     property SearchFiltered : Boolean read FSearchFiltered write FSearchFiltered default False;
     property SearchOptions : TDBGridOptions read FSearchOptions write FSearchOptions default SEARCHEDIT_GRID_DEFAULT_OPTIONS;
@@ -334,7 +333,7 @@ var li_pos : Integer;
     ls_temp : String;
 begin
   Flocated  := True;
-  if fb_SearchLocating( FPopup,FListVisible,Self,FSearchSource, FTextSeparator ,FSearchOptions,FSearchDisplayIndex,FSearchLines,FSearchList,FSearchWidths,FFieldSeparator)
+  if fb_SearchLocating( FPopup,FListVisible,Self,FSearchSource, FTextSeparator ,FSearchOptions,FSearchDisplayIndex,FSearchLines,FSearchWidth,FSearchList,FSearchWidths,FFieldSeparator)
    Then ValidateSearch
    Else
     if assigned ( FOnLocate ) Then
@@ -523,7 +522,7 @@ begin
   //DataLink.OnDataChange := DataChange;
   FSearchFiltered := False;
   FListVisible := False;
-  FListWidth:=0;
+  FSearchWidth:=0;
   FFieldSeparator := SEARCHEDIT_DEFAULT_FIELD_SEPARATOR;
   FSearchDisplayIndex:=0;
   FPopup := nil;
@@ -634,7 +633,7 @@ var li_pos : Integer;
     ls_temp : String;
 begin
   Flocated  := True;
-  if fb_SearchLocating( FPopup,FListVisible,Self,FSearchSource, FTextSeparator ,FSearchOptions,FSearchDisplayIndex,FSearchLines,FSearchList,FSearchWidths,FFieldSeparator)
+  if fb_SearchLocating( FPopup,FListVisible,Self,FSearchSource, FTextSeparator ,FSearchOptions,FSearchDisplayIndex,FSearchLines,FSearchWidth,FSearchList,FSearchWidths,FFieldSeparator)
    Then ValidateSearch
    Else
     if assigned ( FOnLocate ) Then
@@ -761,7 +760,7 @@ begin
   FSearchFiltered := False;
   FSearchLines := SEARCHEDIT_DEFAULT_COUNT;
   FListVisible := False;
-  FListWidth:=0;
+  FSearchWidth:=0;
   FFieldSeparator := SEARCHEDIT_DEFAULT_FIELD_SEPARATOR;
   FPopup := nil;
   FSearchDisplayIndex:=0;
