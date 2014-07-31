@@ -3,21 +3,17 @@
 Just Register lazregisterextcomp package.
 Register your ibx, zeos, dbnet data connexion pakage.
 
+Versioning is in each unit and global versioning is un lazextcomponents.lpk
+
+Now Extended uses rx and other lazarus components from lazarus-ccr SVN repositories.
+
+For Extended extensions : 
+
 extends.inc and dlcompilers.inc must be copied to inherited packages with root extendsinc.sh or extendsinc.bat. Verify directories in these files.
-
-
-Warning : Have not found how to compile lazfonctions one time only. 
-Should compile lazfonctions two of three times to install it. If it does not install, please verify that the version support your plateform. The author use linux mint and test on Windows when doing a delphi version. If units are twice delete lib directory and recompile.
-
-Now Extended uses rx from lazarus-ccr SVN repositories.
-
-For Extended extensions : dlcompilers.inc and extend.inc must be the sames.
 
 ExtCopy may use imagemagick and magickwand development libraries.
 
-
-
-Use Fortes Report version 3.24 from www.lazarus-components.org
+Use Fortes Report version 3.24 from official web site
 
 FOR DELPHI
 
