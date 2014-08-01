@@ -172,7 +172,11 @@ var
   GK:TColumn;
   K:integer;
   ANumber : String;
+  gb_autowidths : Boolean;
+  gi_count : Integer;
 begin
+  gb_autowidths:=Fwidths='';
+  gi_count:=fi_CharCounter ( FL, AFieldSeparator )+1;
   while (FL<>'') do
   begin
     K:=Pos(AFieldSeparator, FL);
@@ -196,11 +200,14 @@ begin
     end;
     GK:=Columns.Add;
     GK.FieldName:=FieldName;
-    if ANumber > '' Then
-      try
-        GK.Width:=StrToInt(ANumber);
-      Except
-      end;
+    if gb_autowidths
+     Then GK.Width:=ClientWidth div gi_count
+     Else
+      if ANumber > '' Then
+        try
+          GK.Width:=StrToInt(ANumber);
+        Except
+        end;
     GK.Visible:=True;
   end;
 end;
@@ -219,7 +226,7 @@ begin
   ReadOnly:=true;
   Options:=AOptions;
   Options:=Options - [dgEditing];
-  Anchors:=[akLeft, akRight, akTop, akBottom];
+  Anchors:=[akLeft, akTop];
   Height:=DefaultRowHeight * ARowCount;
   if AWidth > 0 Then
     Width:=AWidth;
@@ -243,9 +250,17 @@ begin
      {$ENDIF}
 
      if y+Height>Parent.ClientHeight Then
-      dec(y,AControl.Height+Height);
+      Begin
+        dec(y,AControl.Height+Height);
+        Anchors:=[akLeft, akBottom];
+      end;
      if x>Parent.ClientWidth Then
-      x:=Parent.ClientWidth-Width;
+      Begin
+        x:=Parent.ClientWidth-Width;
+        if akBottom in Anchors
+         Then Anchors:=[akRight, akBottom]
+         Else Anchors:=[akRight, akTop];
+      end;
      Top:=y;
      Left:=x;
    end;

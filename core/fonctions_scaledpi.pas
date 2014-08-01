@@ -20,6 +20,7 @@ Const
   FromDPI=8;//Screen.MenuFont.Size de la conception
   SPACING = 'Spacing';
   SCALE_NODE_HEIGHT = 'DefaultNodeHeight';
+  SCALE_SEARCH_WIDTH = 'SearchWidth';
   SCALE_GLYPH_SIZE  = 'GlyphSize';
   {$IFDEF VERSIONS}
   gver_fonctions_scaledpi : T_Version = ( Component : 'Fonctions d''adaptation de fontes' ;
@@ -268,6 +269,8 @@ begin
 
     if assigned ( GetPropInfo ( Control, SCALE_NODE_HEIGHT )) Then
       SetPropValue(Control, SCALE_NODE_HEIGHT, Scale ( GetPropValue (Control, SCALE_NODE_HEIGHT ), ANewEchelle));
+    if assigned ( GetPropInfo ( Control, SCALE_SEARCH_WIDTH )) Then
+      SetPropValue(Control, SCALE_SEARCH_WIDTH, Scale ( GetPropValue (Control, SCALE_SEARCH_WIDTH ), ANewEchelle));
     if assigned ( GetPropInfo ( Control, SPACING ))
     and ( PropType(Control,SPACING) in [tkInteger{$IFDEF FPC},tkQWord{$ENDIF},tkInt64] ) Then
      Begin
