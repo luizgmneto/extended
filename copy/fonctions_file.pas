@@ -26,6 +26,7 @@ const
            Owner : '' ;
            Comment : 'Fonctions de gestion de fichiers' ;
            BugsStory :
+           'Version 1.0.6.0 : Creating fs_getBackupFileName';
            'Version 1.0.5.0 : Adding FileWriteln and FileCreateUTF8File.';
            'Version 1.0.4.0 : Adding FileReadln and FileCreateDeleteUTF8.';
            'Version 1.0.3.0 : Adding ExtractDirName and ExtractSubDir.';
@@ -33,7 +34,7 @@ const
            'Version 1.0.1.0 : adding Windows drive verifying function.';
            'Version 1.0.0.0 : La gestion est en place, ne gérant pas tout.';
            UnitType : 1 ;
-                     Major : 1 ; Minor : 0 ; Release : 5 ; Build : 0 );
+                     Major : 1 ; Minor : 0 ; Release : 6 ; Build : 0 );
 {$ENDIF}
   CST_COPYFILES_ERROR_IS_READONLY = faReadOnly ;
   CST_COPYFILES_ERROR_UNKNOWN = -1 ;
@@ -67,9 +68,9 @@ Function fb_CopyFile ( const as_Source, as_Destination : String ; const ab_Appen
 function fb_CreateDirectoryStructure ( const as_DirectoryToCreate : String ) : Boolean ;
 function fb_IsFullPath ( const ASPath : String ):Boolean;
 procedure p_FileNameDivision ( const as_FileNameWithExtension : String ; var as_FileName, as_Extension : String );
-function fs_createUniqueFileName ( const as_base, as_FileAltName : String ; const as_extension : String ):String;
 procedure p_LoadStrings ( const astl_StringList : TStrings; const as_FilePath,  as_message : String );
 procedure p_SaveStrings ( const astl_StringList : TStrings; const as_FilePath,  as_message : String );
+function fs_GetBackupFileName ( const as_File,as_extension : String;  const as_Namebackup : String=''):String;
 {$IFDEF WINDOWS}
 function fs_verifyAndReplaceDriveLetter ( const as_path : String ):String;
 {$ENDIF}
@@ -85,6 +86,21 @@ uses StrUtils, Dialogs,
   {$ENDIF}
     fonctions_string,
     Forms ;
+
+function fs_GetBackupFileName ( const as_File,as_extension : String;  const as_Namebackup : String=''):String;
+var i:Word;
+Begin
+  if not FileExistsUTF8 (as_File+as_Extension )
+   Then
+    Begin
+     Result:=as_File+as_Extension;
+     Exit;
+    End;
+  i:=2;
+  while FileExistsUTF8 ( as_File+as_Namebackup+inttostr(i)+as_extension ) do
+   inc ( i );
+  Result:= as_File+as_Namebackup+inttostr(i)+as_extension;
+End;
 
 procedure DirSizeRecurse(  as_Dir : String; var ai64_size : Int64);
 var lstl_Files : TStringList;
@@ -393,18 +409,6 @@ begin
       Result := 0 ;
     End ;
   Application.ProcessMessages ;
-end;
-
-function fs_createUniqueFileName ( const as_base, as_FileAltName : String ; const as_extension : String ):String;
-var li_i : Integer;
-Begin
-  li_i := 1;
-  Result := fs_TextToFileName(as_FileAltName) + as_extension;
-  while FileExistsUTF8(as_base+Result) { *Converted from FileExists*  } do
-  Begin
-    inc ( li_i );
-    Result := fs_TextToFileName(as_FileAltName ) + '-'+ IntToStr(li_i) + as_extension;
-  end;
 end;
 
 {$IFDEF WINDOWS}
