@@ -218,9 +218,9 @@ var
   PopupOrigin:TPoint;
 begin
   inherited Create(AControl.Owner);
-  Parent:=AControl.Owner as TWinControl;
-  while Parent.Owner is TWinControl do
-   Parent:= Parent.Owner as TWinControl;
+  Parent:=AControl.Parent as TWinControl;
+  while Parent.Parent is TWinControl do
+   Parent:= Parent.Parent as TWinControl;
   WControl:=AControl;
   Caption:='ExtPopUp';
   ReadOnly:=true;
