@@ -121,9 +121,10 @@ var i : Integer;
     ABookmark:TBookmark;
 Begin
   with AControl,FSearchSource.DataSet do
-  if  ( RecordCount > 1 )
-  and ( FSearchList > '' ) Then
-   Begin
+  if  ( FSearchList > '' )
+  and ( RecordCount > 1 ) // RecordCount must be at end of if tests, long test
+   Then
+    Begin
      ABookmark:=FSearchSource.DataSet.GetBookmark;
      try
        if not Assigned( FPopup ) Then
@@ -144,7 +145,7 @@ Begin
        FSearchSource.DataSet.GotoBookmark(ABookmark);
        FreeBookmark(ABookmark);
      end;
-   End;
+    End;
 End;
 
 { TExtPopupGrid }
