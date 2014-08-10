@@ -6,7 +6,7 @@
 
 {$I ..\dlcompilers.inc}
 {$I ..\extends.inc}
-// uncomment if cannot compile lazarus, compile lazarus and set as comment
+// Uncomment if cannot compile lazarus. After compile lazarus to finish to set as comment
 {.$UNDEF MD5}
 
 
@@ -658,4 +658,4 @@ end;
 initialization
   p_ConcatVersion(gVer_netupdate);
 {$ENDIF}
-end.
+end.

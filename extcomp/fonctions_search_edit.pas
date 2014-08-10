@@ -218,9 +218,7 @@ var
   PopupOrigin:TPoint;
 begin
   inherited Create(AControl.Owner);
-  Parent:=AControl.Parent as TWinControl;
-  while Parent.Parent is TWinControl do
-   Parent:= Parent.Parent as TWinControl;
+  Parent:=AControl.Owner as TWinControl;
   WControl:=AControl;
   Caption:='ExtPopUp';
   ReadOnly:=true;
@@ -239,16 +237,7 @@ begin
         y:=AControl.Height + AControl.Top;
        end
       Else
-     {$IFDEF LINUX}
        PopupOrigin:=Parent.ScreenToClient(AControl.Parent.ControlToScreen(Point(AControl.Left, AControl.Height + AControl.Top)));
-     {$ELSE}
-     {$IFDEF FPC}
-       PopupOrigin:=Parent.ScreenToClient(TCustomControl(Owner).ControlToScreen(Point(0, TCustomControl(Owner).Height)));
-     {$ELSE}
-     {$ENDIF}
-       PopupOrigin:=Parent.ScreenToClient(TControl(Owner).ClientToScreen(Point(0, TControl(Owner).Height)));
-     {$ENDIF}
-
      if y+Height>Parent.ClientHeight Then
       Begin
         dec(y,AControl.Height+Height);
