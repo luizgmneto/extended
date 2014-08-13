@@ -238,7 +238,7 @@ begin
         y:=AControl.Height + AControl.Top;
        end
       Else
-       PopupOrigin:=Parent.ScreenToClient(AControl.Parent.ControlToScreen(Point(AControl.Left, AControl.Height + AControl.Top)));
+       PopupOrigin:=Parent.ScreenToClient(AControl.Parent.{$IFDEF FPC}ControlToScreen{$ELSE}ClientToScreen{$ENDIF}(Point(AControl.Left, AControl.Height + AControl.Top)));
      if y+Height>Parent.ClientHeight Then
       Begin
         dec(y,AControl.Height+Height);
