@@ -1,6 +1,10 @@
 rem diffuse inc extended files
 
-copy *.inc ..\Ancestromania\Packages\AncestroComponents\
-copy *.inc ..\ManFrames\
-copy *.inc ..\XMLFrames\
+cd %CD%
+
+cd ..
+
+copy Extended\*.inc Ancestromania\Packages\AncestroComponents\
+copy Extended\*.inc ManFrames\
+copy Extended\*.inc XMLFrames\
 

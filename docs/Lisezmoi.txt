@@ -1,0 +1,24 @@
+﻿FOR LAZARUS
+
+Installez le paquet lazregisterextcomp.
+Installez votre paquet d'accèse aux données ibx, zeos, dbnet data.
+
+Nécessité de compiler le paquet lazextcore une fois avant linking de lazarus.
+
+Le Versioning est dans chaque unité et la version élaborée est dans lazextcomponents.lpk
+
+Extended utilise les rx et autres composants lazarus à partir du dépôt lazarus-ccr SVN.
+
+Vous devez chercher les nouvelles version dans les logs pour compiler (Update to version).
+
+Pour les extensions Extended : 
+
+extends.inc et dlcompilers.inc doivent être copiés vers les paquets hérités avec extendsinc.sh or extendsinc.bat à côté.
+
+ExtCopy pouvait utiliser la librairie imagemagick and magickwand.
+
+Utilisez Fortes Report version 3.24 du site officiel.
+
+Pour DELPHI
+
+Installez juste le paquet ExtComponents.
