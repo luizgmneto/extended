@@ -3,9 +3,13 @@
 Just Register lazregisterextcomp package.
 Register your ibx, zeos, dbnet data connexion pakage.
 
+Need to compile lazextcore one time before linking lazarus.
+
 Versioning is in each unit and global versioning is un lazextcomponents.lpk
 
 Now Extended uses rx and other lazarus components from lazarus-ccr SVN repositories.
+
+You need te find each version compiling looking at each component log.
 
 For Extended extensions : 
 
