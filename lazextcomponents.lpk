@@ -21,8 +21,11 @@
           <UseHeaptrc Value="True"/>
         </Debugging>
       </Linking>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
     </CompilerOptions>
-    <Version Major="1" Minor="6"/>
+    <Version Major="1" Minor="6" Build="1"/>
     <Files Count="16">
       <Item1>
         <Filename Value="extcomp/PDBCheck.pas"/>
