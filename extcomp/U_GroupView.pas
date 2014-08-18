@@ -1670,7 +1670,7 @@ Begin
            //  la liste est en train d'être parcourue
           Begin
             // Aller à l'enregistrement
-            if ( gbm_DernierEnregistrement <> '' )
+            if ( gbm_DernierEnregistrement <> {$IFDEF WITH_TBOOKMARK}nil{$ELSE}''{$ENDIF} )
              Then
               Begin
                   // L'enregistrement peut avoir été effacé
@@ -1731,7 +1731,7 @@ Begin
       Begin
         Result := True ;
         if not gb_AllLoaded
-        and ( gbm_DernierEnregistrement <> '' )
+        and ( gbm_DernierEnregistrement <> {$IFDEF WITH_TBOOKMARK}nil{$ELSE}''{$ENDIF} )
          Then
           try
           // Aller à l'enregistrement
@@ -1748,7 +1748,7 @@ Begin
      Else
       Begin
         if not gb_AllLoaded
-        and ( gbm_DernierEnregistrement <> '' )
+        and ( gbm_DernierEnregistrement <> {$IFDEF WITH_TBOOKMARK}nil{$ELSE}''{$ENDIF} )
          Then
           try
           // Aller à l'enregistrement

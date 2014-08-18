@@ -2,6 +2,10 @@
 
 interface
 
+{$IFDEF FPC}
+{$mode Delphi}
+{$ENDIF}
+
 {$I ..\DLCompilers.inc}
 {$I ..\extends.inc}
 uses SysUtils,
@@ -23,15 +27,7 @@ uses SysUtils,
    fonctions_proprietes,
    fonctions_variant,
    Classes ;
-
-{$IFNDEF FPC}
-  const
-    FPC_FULLVERSION = 0.0;
-{$ENDIF}
    
-{$IFDEF FPC}
-{$mode Delphi}
-{$ENDIF}
 
 type TSpecialProcDataset = procedure ( const ADataset : TDataset );
      TSpecialFuncDataset = function ( const ADataset : TDataset ):Boolean;

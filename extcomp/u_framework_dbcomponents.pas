@@ -268,7 +268,11 @@ type
           procedure SetDataSource(AValue: TDataSource); virtual;
           procedure SetDataField(const AValue: string); virtual;
           procedure MouseDown( Button : TMouseButton; Shift : TShiftState; X,Y : Integer); override;
+          {$IFDEF SPECIALEDIT}
+          procedure EditChange;
+          {$ELSE}
           procedure Change; override;
+          {$ENDIF}
           procedure ActiveChange(Sender: TObject); virtual;
           procedure DataChange(Sender: TObject); virtual;
           procedure UpdateData(Sender: TObject); virtual;
@@ -999,7 +1003,11 @@ begin
     FDataLink.UpdateAction(AAction){$ENDIF};
 end;
 
+{$IFDEF SPECIALEDIT}
+procedure TFWDBFileEdit.EditChange;
+{$ELSE}
 procedure TFWDBFileEdit.Change;
+{$ENDIF}
 begin
  Inherited;
  if assigned ( FDataLink )
