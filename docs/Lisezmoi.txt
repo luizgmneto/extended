@@ -7,7 +7,7 @@ Nécessité de compiler le paquet lazextcore ou typhonextcore une fois avant lin
 
 Le Versioning est dans chaque unité et la version élaborée est dans lazextcomponents.lpk
 
-Extended utilise les rx et autres composants lazarus à partir du dépôt lazarus-ccr SVN.
+Extended utilise les rx, JvXPBar et autres composants lazarus à partir du dépôt lazarus-ccr SVN.
 
 Vous devez chercher les nouvelles version dans les logs pour compiler (Update to version).
 

@@ -9,7 +9,8 @@ interface
 uses
   U_ExtDBImage, U_ExtImage, U_ExtPictCombo, U_ExtMapImageIndex, 
   u_extimagelist, U_ExtDBPictCombo, U_ExtDBImageList, u_buttons_defs, 
-  u_extdbgrid, LazarusPackageIntf;
+  u_extdbgrid, extjvxpbuttons, ExtJvXPCheckCtrls, extjvxpcoreutils, 
+  LazarusPackageIntf;
 
 implementation
 

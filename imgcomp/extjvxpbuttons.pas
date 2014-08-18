@@ -1003,8 +1003,8 @@ end;
 
 
 initialization
-  {$I JvXPButtons.lrs}
-  {$I JvXPButtons.res}
+  {$I *.lrs}
+  {$I *.res}
 {$IFDEF USEJVCL}
 {$IFDEF UNITVERSIONING}
   RegisterUnitVersion(HInstance, UnitVersioning);
