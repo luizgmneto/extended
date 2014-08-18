@@ -33,10 +33,10 @@
     </RunParams>
     <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="lazextcomponents"/>
+        <PackageName Value="typhonextcomponents"/>
       </Item1>
       <Item2>
-        <PackageName Value="ExtCopy"/>
+        <PackageName Value="TyphonExtCopy"/>
       </Item2>
       <Item3>
         <PackageName Value="FCL"/>
@@ -46,7 +46,7 @@
         <PackageName Value="LCL"/>
       </Item4>
       <Item5>
-        <PackageName Value="lazextcomponentsimg"/>
+        <PackageName Value="typhonextcomponentsimg"/>
       </Item5>
     </RequiredPackages>
     <Units Count="3">
@@ -88,11 +88,5 @@
         <OptimizationLevel Value="0"/>
       </Optimizations>
     </CodeGeneration>
-    <Other>
-      <CompilerMessages>
-        <UseMsgFile Value="True"/>
-      </CompilerMessages>
-      <CompilerPath Value="$(CompPath)"/>
-    </Other>
   </CompilerOptions>
 </CONFIG>

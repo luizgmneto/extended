@@ -14,16 +14,16 @@ interface
 
 uses
 {$IFDEF FPC}
-  MaskEdit, LCLType, ToolEdit,
+  MaskEdit, LCLType, ToolEdit, ExtJvXPButtons,
 {$ELSE}
-  RXSplit, Mask, JvXPCore,
+  RXSplit, Mask, JvXPCore, JvXPButtons,
   JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvDBLookup,
 {$ENDIF}
   Messages, Graphics, Controls, Classes, ExtCtrls, Dialogs, DB,
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
   DBGrids, u_framework_dbcomponents, ComCtrls, StdCtrls, SysUtils, TypInfo,
   Variants, StrUtils, U_OnFormInfoIni, U_FormAdapt,
-  JvXPButtons, U_ExtDBGrid, U_ConstMessage, U_DmArticles,
+  U_ExtDBGrid, U_ConstMessage, U_DmArticles,
   u_framework_components, u_buttons_appli, U_ExtComboInsert, u_buttons_defs,
   u_reports_components, u_extformatedits, u_extsearchedit;
 

@@ -385,6 +385,4 @@ end;
 
 
 
-initialization
-  gs_
 end.

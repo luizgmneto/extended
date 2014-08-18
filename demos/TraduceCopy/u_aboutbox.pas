@@ -10,11 +10,11 @@ interface
 
 uses SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
 {$IFDEF FPC}
-  LResources,
+  LResources, ExtJvXPButtons,
 {$ELSE}
-  JvExControls,
+  JvExControls, JvXPButtons,
 {$ENDIF}
-  Buttons, ExtCtrls, JvXPButtons,
+  Buttons, ExtCtrls,
   JvXPCore;
 
 type

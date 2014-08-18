@@ -9,8 +9,7 @@ uses
   fonctions_system,
   Interfaces, // this includes the LCL widgetset
   Forms
-  { you can add units after this }, U_FormCopy, u_aboutbox,
-  JvXPBarLaz, lazextcomponents, ExtCopy;
+  { you can add units after this }, U_FormCopy, u_aboutbox;
 
 begin
   Application.Initialize;

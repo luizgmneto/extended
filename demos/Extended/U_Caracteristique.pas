@@ -14,9 +14,9 @@ interface
 
 uses
 {$IFDEF FPC}
-  MaskEdit, LCLType, ToolEdit,
+  MaskEdit, LCLType, ToolEdit, ExtJvXPButtons,
 {$ELSE}
-  RXSplit, Mask, JvXPCore,
+  RXSplit, Mask, JvXPCore, JvXPButtons,
   JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvDBLookup,
   JvExComCtrls, JvListView,
 {$ENDIF}
@@ -24,7 +24,7 @@ uses
   U_ExtDBNavigator, Buttons, Forms, DBCtrls, Grids,
   DBGrids, u_framework_dbcomponents, u_framework_components,
   ComCtrls, StdCtrls, SysUtils,  TypInfo,  Variants,
-  StrUtils, U_OnFormInfoIni,  JvXPButtons,
+  StrUtils, U_OnFormInfoIni,
   U_ExtDBGrid, U_ConstMessage, u_buttons_appli,
   U_GroupView, ImgList,fonctions_string,
   U_DBListView, U_FormAdapt, u_buttons_defs, u_reports_components;

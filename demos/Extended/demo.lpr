@@ -10,8 +10,7 @@ uses
   fonctions_dbcomponents,
   fonctions_system,
   Interfaces, // this includes the LCL widgetset
-  Forms, U_Components, LResources, DBFLaz, lazextcomponents,
-  lazextbuttons, lazextcomponentsimg, lazextinit, ibexpress;
+  Forms, U_Components, LResources, DBFLaz;
 begin
   {$I demo.lrs}
   Application.Initialize;

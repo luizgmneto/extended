@@ -13,13 +13,13 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
 {$IFDEF FPC}
-  LResources, Process, EditBtn, 
+  LResources, Process, EditBtn, ExtJvXPCheckCtrls, ExtJvXPButtons,
 {$ELSE}
-  Mask, rxToolEdit, JvExControls,
+  Mask, rxToolEdit, JvExControls, JvXPCheckCtrls, JvXPButtons,
 {$ENDIF}
   U_ExtFileCopy, ExtCtrls, FileCtrl, StdCtrls,
-  U_OnFormInfoIni, JvXPCheckCtrls, ComCtrls,
-  Menus, JvXPButtons, Spin, U_DBListView,
+  U_OnFormInfoIni, ComCtrls,
+  Menus, Spin, U_DBListView,
   u_traducefile, u_extabscopy, U_FormMainIni,
   JvXPCore ;
 
