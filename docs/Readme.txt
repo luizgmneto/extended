@@ -7,7 +7,7 @@ Need to compile lazextcore or typhonextcore one time before linking lazarus.
 
 Versioning is in each unit and global versioning is un lazextcomponents.lpk
 
-Now Extended uses rx and other lazarus components from lazarus-ccr SVN repositories.
+Now Extended uses rx, JvXPBar and other lazarus components from lazarus-ccr SVN repositories.
 
 You need te find each version compiling looking at each component log.
 

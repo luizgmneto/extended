@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <Name Value="lazextcomponentsimg"/>
@@ -21,7 +21,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="2" Release="9"/>
-    <Files Count="9">
+    <Files Count="14">
       <Item1>
         <Filename Value="imgcomp/u_extdbimage.pas"/>
         <UnitName Value="U_ExtDBImage"/>
@@ -58,6 +58,26 @@
         <Filename Value="imgcomp/u_extdbgrid.pas"/>
         <UnitName Value="u_extdbgrid"/>
       </Item9>
+      <Item10>
+        <Filename Value="imgcomp/extjvxpbuttons.lrs"/>
+        <Type Value="LRS"/>
+      </Item10>
+      <Item11>
+        <Filename Value="imgcomp/extjvxpbuttons.pas"/>
+        <UnitName Value="extjvxpbuttons"/>
+      </Item11>
+      <Item12>
+        <Filename Value="imgcomp/extjvxpcheckctrls.lrs"/>
+        <Type Value="LRS"/>
+      </Item12>
+      <Item13>
+        <Filename Value="imgcomp/extjvxpcheckctrls.pas"/>
+        <UnitName Value="ExtJvXPCheckCtrls"/>
+      </Item13>
+      <Item14>
+        <Filename Value="imgcomp/extjvxpcoreutils.pas"/>
+        <UnitName Value="extjvxpcoreutils"/>
+      </Item14>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
