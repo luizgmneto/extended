@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   fonctions_system,
   Interfaces, // this includes the LCL widgetset
-  Forms, lnetvisual, u_formupdate, lazextbuttons
+  Forms, u_formupdate
   { you can add units after this };
 
 {$R *.res}

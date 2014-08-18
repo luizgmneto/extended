@@ -12,7 +12,7 @@ interface
 
 uses
   {$IFDEF FPC}
-  lresources, extjvxpbuttons,
+  lresources, extjvxpbuttons, ExtJvXPCheckCtrls,
   {$ENDIF}
   Classes;
 
@@ -42,7 +42,7 @@ begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TExtMapImages]);
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TExtDBImage,TExtDBImageList,
                                                  TExtDBGrid,TExtDBPictCombo]);
-  RegisterComponents(CST_PALETTE_BOUTONS   , [{$IFDEF FPC}TJvXPButton,{$ENDIF}TFWButton]);
+  RegisterComponents(CST_PALETTE_BOUTONS   , [{$IFDEF FPC}TJvXPButton,TJvXPCheckBox,{$ENDIF}TFWButton]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtImage,TExtImageList,
                                                 TExtPictCombo]);
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});

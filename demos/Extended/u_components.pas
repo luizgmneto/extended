@@ -8,10 +8,11 @@ interface
 
 uses
 {$IFDEF FPC}
-  FileUtil, LResources, process, AsyncProcess, u_scrollclones,
+  FileUtil, LResources, process, AsyncProcess, ExtJvXPButtons, u_scrollclones,
 {$ELSE}
   DBCtrls, JvExControls, JvDBLookup, JvExMask, JvSpin, JvExDBGrids, JvDBGrid, JvDBUltimGrid,
-  JvExComCtrls, JvListView, Mask,  fonctions_version, JvDBSpinEdit, JvDateTimePicker,
+  JvExComCtrls, JvListView, Mask,  fonctions_version,
+  JvDBSpinEdit, JvXPButtons, JvDateTimePicker,
 {$ENDIF}
   Classes, SysUtils, db, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
   StdCtrls, U_OnFormInfoIni, U_ExtColorCombos, u_extdbgrid,
@@ -21,7 +22,7 @@ uses
   DBGrids, Menus, u_extmenucustomize, ToolWin, IBDatabase, IBQuery, IBIntf,
   IBUpdateSQL, menutbar, ComCtrls, u_extmenutoolbar, U_ExtDBImage,
   U_ExtDBImageList, ImgList, ExtDlgs, IBCustomDataSet, U_ExtMapImageIndex,
-  u_buttons_appli, u_reports_components, JvXPCore, JvXPButtons, u_buttons_defs,
+  u_buttons_appli, u_reports_components, JvXPCore, u_buttons_defs,
   U_ExtPictCombo, U_ExtImage, u_extimagelist ;
 
 type

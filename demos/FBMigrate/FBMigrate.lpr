@@ -10,7 +10,7 @@ uses
   fonctions_dbcomponents,
   fonctions_system,
   Interfaces, // this includes the LCL widgetset
-  Forms, uniqueinstance_package, f_fbclonegui, lazextinit, extcopy,
+  Forms, f_fbclonegui,
   ibexpress;
 
 {$R *.res}

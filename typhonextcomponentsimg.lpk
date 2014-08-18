@@ -18,7 +18,7 @@
       </Parsing>
     </CompilerOptions>
     <Version Major="1" Minor="2" Release="9"/>
-    <Files Count="12">
+    <Files Count="14">
       <Item1>
         <Filename Value="imgcomp/u_extdbimage.pas"/>
         <UnitName Value="U_ExtDBImage"/>
@@ -67,6 +67,14 @@
         <Filename Value="imgcomp/extjvxpcoreutils.pas"/>
         <UnitName Value="extjvxpcoreutils"/>
       </Item12>
+      <Item13>
+        <Filename Value="imgcomp/extjvxpcheckctrls.lrs"/>
+        <Type Value="LRS"/>
+      </Item13>
+      <Item14>
+        <Filename Value="imgcomp/extjvxpcheckctrls.pas"/>
+        <UnitName Value="ExtJvXPCheckCtrls"/>
+      </Item14>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>

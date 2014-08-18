@@ -9,13 +9,13 @@ interface
 
 uses
   {$IFDEF FPC}
-  lNetComponents,FileUtil,
+  lNetComponents,FileUtil, ExtJvXPButtons,
   {$ELSE}
   IdHttp, IdBaseComponent, IdComponent, IdTCPConnection,
-  IdTCPClient, JvExControls,
+  IdTCPClient, JvExControls, JvXPButtons,
   {$ENDIF}
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  u_netupdate, u_buttons_appli,  u_buttons_defs, JvXPCore, JvXPButtons;
+  u_netupdate, u_buttons_appli,  u_buttons_defs, JvXPCore;
 
 type
 
