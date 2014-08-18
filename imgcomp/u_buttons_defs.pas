@@ -69,8 +69,8 @@ type
        FColorFrameFocus : TColor;
        FOnPopup : TNotifyEvent;
       protected
-       procedure MouseEnter{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
-       procedure MouseLeave{$IFNDEF FPC}(Acontrol : TControl ){$ENDIF}; override;
+       procedure MouseEnter(Acontrol : TControl ); override;
+       procedure MouseLeave(Acontrol : TControl ); override;
        procedure SetGlyphSize(AValue: Integer); virtual;
        procedure AdaptGlyph (const ASize : Integer ); virtual;
        procedure LoadBitmap; virtual;
