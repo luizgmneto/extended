@@ -35,9 +35,10 @@ const INI_FILE_UPDATE = 'UPDATE';
                                                FileUnit : 'fonctions_net' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Net File Download.' ;
-                                               BugsStory : '0.9.0.0 : Updating ok.' ;
+                                               BugsStory : '0.9.9.0 : Adding desktops.'+#13#10
+                                                         + '0.9.0.0 : Updating ok.';
                                                UnitType : 1 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 1 );
+                                               Major : 0 ; Minor : 9 ; Release : 9 ; Build : 0 );
 
 
 {$ENDIF}
@@ -66,6 +67,17 @@ begin
   case aat_ArchitectureType of
     at64 :  AppendStr ( Result, '64' );
   End;
+  {$IFDEF COCOA}
+  AppendStr ( Result, '-i' );
+  {$ELSE}
+  {$IFDEF QT}
+  AppendStr ( Result, '-qt' );
+  {$ELSE}
+  {$IFDEF ANDROID}
+  AppendStr ( Result, '-a' );
+  {$ENDIF}
+  {$ENDIF}
+  {$ENDIF}
 End;
 function fs_GetIniFileNameUpdate ( const aat_ArchitectureType : TArchitectureType; const apt_PackageType : TPackageType ; const aProcType : TProcessorType ; const as_BeginIni : String ):String;
 begin
