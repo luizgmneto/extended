@@ -67,15 +67,13 @@
         <PackageName Value="LCL"/>
       </Item10>
     </RequiredPackages>
-    <Units Count="197">
+    <Units Count="209">
       <Unit0>
         <Filename Value="Groupview.dpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="18" Y="18"/>
-        <UsageCount Value="95"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="96"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -95,10 +93,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Article"/>
-        <EditorIndex Value="2"/>
-        <CursorPos X="35" Y="17"/>
-        <UsageCount Value="95"/>
+        <CursorPos X="60" Y="32"/>
+        <UsageCount Value="96"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
@@ -125,7 +123,7 @@
         <Filename Value="U_ConstMessage.pas"/>
         <IsPartOfProject Value="True"/>
         <TopLine Value="49"/>
-        <UsageCount Value="95"/>
+        <UsageCount Value="96"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit5>
       <Unit6>
@@ -309,11 +307,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Gamme"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="8"/>
         <CursorPos X="25" Y="146"/>
-        <UsageCount Value="95"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="96"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit24>
       <Unit25>
@@ -323,11 +320,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_TypeArticle"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="14"/>
         <CursorPos X="78" Y="29"/>
-        <UsageCount Value="88"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="89"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit25>
       <Unit26>
@@ -337,11 +333,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Caracteristique"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="4"/>
         <CursorPos X="35" Y="17"/>
-        <UsageCount Value="95"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="96"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
@@ -602,9 +597,14 @@
         <ComponentName Value="M_Article"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-        <TopLine Value="91"/>
-        <CursorPos Y="129"/>
-        <UsageCount Value="79"/>
+        <UnitName Value="U_DmArticles"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="88"/>
+        <CursorPos X="79" Y="97"/>
+        <UsageCount Value="80"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit58>
       <Unit59>
@@ -633,11 +633,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Main"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="4"/>
         <CursorPos X="37" Y="8"/>
-        <UsageCount Value="78"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="79"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit62>
       <Unit63>
@@ -1379,11 +1378,10 @@
       <Unit177>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
         <UnitName Value="u_extsearchedit"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="681"/>
         <CursorPos Y="718"/>
         <UsageCount Value="13"/>
-        <Loaded Value="True"/>
       </Unit177>
       <Unit178>
         <Filename Value="../../base/fonctions_images.pas"/>
@@ -1417,10 +1415,10 @@
       <Unit183>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
         <UnitName Value="fonctions_search_edit"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="57"/>
         <CursorPos X="64" Y="74"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit183>
       <Unit184>
         <Filename Value="../../../../../../lazarus/components/ideintf/dbpropedits.pas"/>
@@ -1483,9 +1481,8 @@
       <Unit192>
         <Filename Value="../../../../Lazarus/ccr/components/rx/trunk/rxdbgrid.pas"/>
         <UnitName Value="rxdbgrid"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="-1"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit192>
       <Unit193>
@@ -1514,83 +1511,111 @@
         <CursorPos X="34" Y="23"/>
         <UsageCount Value="10"/>
       </Unit196>
+      <Unit197>
+        <Filename Value="../../imgcomp/u_buttons_defs.pas"/>
+        <UnitName Value="u_buttons_defs"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="44"/>
+        <CursorPos X="126" Y="51"/>
+        <UsageCount Value="10"/>
+      </Unit197>
+      <Unit198>
+        <Filename Value="../../extends.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="18"/>
+        <UsageCount Value="10"/>
+      </Unit198>
+      <Unit199>
+        <Filename Value="../../../Alcinoe/source/ALFcnString.pas"/>
+        <UnitName Value="ALFcnString"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="914"/>
+        <CursorPos X="25" Y="946"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit199>
+      <Unit200>
+        <Filename Value="../../../ManFrames/manframes/u_fillcombobutton.pas"/>
+        <UnitName Value="u_fillcombobutton"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="7" Y="14"/>
+        <UsageCount Value="10"/>
+      </Unit200>
+      <Unit201>
+        <Filename Value="../../../ManFrames/mansoft/fonctions_objets_dynamiques.pas"/>
+        <UnitName Value="fonctions_Objets_Dynamiques"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="27"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit201>
+      <Unit202>
+        <Filename Value="../../../ManFrames/mansoftware/u_fenetreprincipale.pas"/>
+        <UnitName Value="U_FenetrePrincipale"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="23"/>
+        <CursorPos X="3" Y="51"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit202>
+      <Unit203>
+        <Filename Value="../../../ManFrames/mansoftware/fonctions_objets_data.pas"/>
+        <UnitName Value="fonctions_Objets_Data"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="24"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit203>
+      <Unit204>
+        <Filename Value="../../../ManFrames/mansoftware/fonctions_administration.pas"/>
+        <UnitName Value="fonctions_administration"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="35" Y="40"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit204>
+      <Unit205>
+        <Filename Value="../../../ManFrames/mansoftware/u_administration.pas"/>
+        <UnitName Value="U_Administration"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="44"/>
+        <CursorPos X="18" Y="50"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit205>
+      <Unit206>
+        <Filename Value="../../../ManFrames/mansoftware/u_motpasse.pas"/>
+        <UnitName Value="U_MotPasse"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="47" Y="15"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit206>
+      <Unit207>
+        <Filename Value="../../../ManFrames/mansoftware/fonctions_aide.pas"/>
+        <UnitName Value="fonctions_aide"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="26"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit207>
+      <Unit208>
+        <Filename Value="../../../ManFrames/mansoftware/u_acces.pas"/>
+        <ComponentName Value="F_Acces"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="U_Acces"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="47" Y="10"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit208>
     </Units>
-    <JumpHistory Count="20" HistoryIndex="19">
+    <JumpHistory Count="1">
       <Position1>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="78" TopLine="78"/>
-      </Position1>
-      <Position2>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="202" Column="48" TopLine="198"/>
-      </Position2>
-      <Position3>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="205" Column="19" TopLine="198"/>
-      </Position3>
-      <Position4>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-      </Position4>
-      <Position5>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="415" Column="39" TopLine="406"/>
-      </Position5>
-      <Position6>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-      </Position6>
-      <Position7>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="412" Column="40" TopLine="379"/>
-      </Position7>
-      <Position8>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="301" Column="11" TopLine="294"/>
-      </Position8>
-      <Position9>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-      </Position9>
-      <Position10>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="59" Column="32" TopLine="24"/>
-      </Position10>
-      <Position11>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="687" Column="42" TopLine="682"/>
-      </Position11>
-      <Position12>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="715" Column="44" TopLine="682"/>
-      </Position12>
-      <Position13>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-      </Position13>
-      <Position14>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="111" Column="30" TopLine="76"/>
-      </Position14>
-      <Position15>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="224" Column="30" TopLine="189"/>
-      </Position15>
-      <Position16>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="415" TopLine="377"/>
-      </Position16>
-      <Position17>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="614" Column="20" TopLine="608"/>
-      </Position17>
-      <Position18>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-      </Position18>
-      <Position19>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="198" TopLine="167"/>
-      </Position19>
-      <Position20>
         <Filename Value="u_article.pas"/>
         <Caret Line="12"/>
-      </Position20>
+      </Position1>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

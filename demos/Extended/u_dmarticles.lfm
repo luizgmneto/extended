@@ -4,8 +4,8 @@ object M_Article: TM_Article
   left = 97
   top = 65516
   Height = 508
-  HorizontalOffset = 203
-  VerticalOffset = 42
+  HorizontalOffset = 725
+  VerticalOffset = 75
   Width = 771
   object ds_article: TDataSource
     DataSet = zq_Article
@@ -15,11 +15,13 @@ object M_Article: TM_Article
   object zq_Gamme: TIBQuery
     BufferChunks = 1000
     CachedUpdates = False
+    GenerateParamNames = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
     SQL.Strings = (
       'SELECT * from GAMME'
     )
     Params = <>
+    UpdateObject = IBU_Gamme
     left = 477
     top = 13
   end
@@ -33,6 +35,7 @@ object M_Article: TM_Article
     Transaction = IBTransaction
     BufferChunks = 1000
     CachedUpdates = False
+    GenerateParamNames = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
     SQL.Strings = (
       'SELECT * from TYPE_PRODUIT'
@@ -50,6 +53,7 @@ object M_Article: TM_Article
   object zq_Carac: TIBQuery
     BufferChunks = 1000
     CachedUpdates = False
+    GenerateParamNames = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
     SQL.Strings = (
       'SELECT * from CARACTERISTIQUE'
@@ -72,6 +76,7 @@ object M_Article: TM_Article
   object zq_FiltreProduit: TIBQuery
     BufferChunks = 1000
     CachedUpdates = False
+    GenerateParamNames = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
     SQL.Strings = (
       'SELECT * FROM FILTRE_PRODUIT'
@@ -105,6 +110,7 @@ object M_Article: TM_Article
     Transaction = IBTransaction
     BufferChunks = 1000
     CachedUpdates = False
+    GenerateParamNames = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
     SQL.Strings = (
       'select *'
@@ -125,6 +131,7 @@ object M_Article: TM_Article
     Transaction = IBTransaction
     BufferChunks = 1000
     CachedUpdates = False
+    GenerateParamNames = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
     SQL.Strings = (
       'select ARTI_Clep, ARTI_Libcom'
@@ -138,7 +145,6 @@ object M_Article: TM_Article
         Name = 'gamm'
         ParamType = ptInput
       end>
-    UpdateObject = IBU_Gamme
     left = 88
     top = 288
     ParamData = <    
@@ -284,11 +290,14 @@ object M_Article: TM_Article
     top = 288
   end
   object zq_Article: TIBQuery
+    Database = IBDatabase
+    Transaction = IBTransaction
     AfterInsert = IB_Article1AfterInsert
     AfterOpen = IB_articleAfterOpen
     AfterScroll = IB_articleAfterScroll
     BufferChunks = 1000
     CachedUpdates = False
+    GenerateParamNames = False
     GeneratorField.ApplyOnEvent = gaeOnNewRecord
     SQL.Strings = (
       'SELECT * from ARTICLE'
