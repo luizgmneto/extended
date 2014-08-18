@@ -34,38 +34,41 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="10">
+    <RequiredPackages Count="11">
       <Item1>
-        <PackageName Value="typhonextinit"/>
+        <PackageName Value="typhonextcomponents"/>
       </Item1>
       <Item2>
-        <PackageName Value="typhonextcomponentsimg"/>
+        <PackageName Value="typhonextinit"/>
       </Item2>
       <Item3>
-        <PackageName Value="typhonregisteribx"/>
+        <PackageName Value="typhonextcomponentsimg"/>
       </Item3>
       <Item4>
-        <PackageName Value="typhonextreports"/>
+        <PackageName Value="typhonregisteribx"/>
       </Item4>
       <Item5>
-        <PackageName Value="typhonextbuttons"/>
+        <PackageName Value="typhonextreports"/>
       </Item5>
       <Item6>
-        <PackageName Value="ibexpress"/>
+        <PackageName Value="typhonextbuttons"/>
       </Item6>
       <Item7>
-        <PackageName Value="FCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <PackageName Value="ibexpress"/>
       </Item7>
       <Item8>
-        <PackageName Value="CodeTools"/>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item8>
       <Item9>
-        <PackageName Value="ExpertSuperForm"/>
+        <PackageName Value="CodeTools"/>
       </Item9>
       <Item10>
-        <PackageName Value="LCL"/>
+        <PackageName Value="ExpertSuperForm"/>
       </Item10>
+      <Item11>
+        <PackageName Value="LCL"/>
+      </Item11>
     </RequiredPackages>
     <Units Count="209">
       <Unit0>
@@ -306,7 +309,6 @@
         <ComponentName Value="F_Gamme"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="U_Gamme"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="8"/>
         <CursorPos X="25" Y="146"/>
@@ -319,7 +321,6 @@
         <ComponentName Value="F_TypeProduit"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="U_TypeArticle"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="14"/>
         <CursorPos X="78" Y="29"/>
@@ -332,7 +333,6 @@
         <ComponentName Value="F_Caracteristique"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="U_Caracteristique"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="4"/>
         <CursorPos X="35" Y="17"/>
@@ -600,7 +600,7 @@
         <UnitName Value="U_DmArticles"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="88"/>
+        <TopLine Value="86"/>
         <CursorPos X="79" Y="97"/>
         <UsageCount Value="80"/>
         <Loaded Value="True"/>
@@ -632,7 +632,6 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="U_Main"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="4"/>
         <CursorPos X="37" Y="8"/>
@@ -1377,7 +1376,6 @@
       </Unit176>
       <Unit177>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <UnitName Value="u_extsearchedit"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="681"/>
         <CursorPos Y="718"/>
@@ -1414,7 +1412,6 @@
       </Unit182>
       <Unit183>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <UnitName Value="fonctions_search_edit"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="57"/>
         <CursorPos X="64" Y="74"/>
@@ -1480,7 +1477,6 @@
       </Unit191>
       <Unit192>
         <Filename Value="../../../../Lazarus/ccr/components/rx/trunk/rxdbgrid.pas"/>
-        <UnitName Value="rxdbgrid"/>
         <EditorIndex Value="-1"/>
         <UsageCount Value="11"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -1513,7 +1509,6 @@
       </Unit196>
       <Unit197>
         <Filename Value="../../imgcomp/u_buttons_defs.pas"/>
-        <UnitName Value="u_buttons_defs"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="44"/>
         <CursorPos X="126" Y="51"/>
@@ -1527,7 +1522,6 @@
       </Unit198>
       <Unit199>
         <Filename Value="../../../Alcinoe/source/ALFcnString.pas"/>
-        <UnitName Value="ALFcnString"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="914"/>
         <CursorPos X="25" Y="946"/>
@@ -1536,14 +1530,12 @@
       </Unit199>
       <Unit200>
         <Filename Value="../../../ManFrames/manframes/u_fillcombobutton.pas"/>
-        <UnitName Value="u_fillcombobutton"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="7" Y="14"/>
         <UsageCount Value="10"/>
       </Unit200>
       <Unit201>
         <Filename Value="../../../ManFrames/mansoft/fonctions_objets_dynamiques.pas"/>
-        <UnitName Value="fonctions_Objets_Dynamiques"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="27"/>
         <UsageCount Value="10"/>
@@ -1551,7 +1543,6 @@
       </Unit201>
       <Unit202>
         <Filename Value="../../../ManFrames/mansoftware/u_fenetreprincipale.pas"/>
-        <UnitName Value="U_FenetrePrincipale"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="23"/>
         <CursorPos X="3" Y="51"/>
@@ -1560,7 +1551,6 @@
       </Unit202>
       <Unit203>
         <Filename Value="../../../ManFrames/mansoftware/fonctions_objets_data.pas"/>
-        <UnitName Value="fonctions_Objets_Data"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="24"/>
         <UsageCount Value="10"/>
@@ -1568,7 +1558,6 @@
       </Unit203>
       <Unit204>
         <Filename Value="../../../ManFrames/mansoftware/fonctions_administration.pas"/>
-        <UnitName Value="fonctions_administration"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="35" Y="40"/>
         <UsageCount Value="10"/>
@@ -1576,7 +1565,6 @@
       </Unit204>
       <Unit205>
         <Filename Value="../../../ManFrames/mansoftware/u_administration.pas"/>
-        <UnitName Value="U_Administration"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="44"/>
         <CursorPos X="18" Y="50"/>
@@ -1585,7 +1573,6 @@
       </Unit205>
       <Unit206>
         <Filename Value="../../../ManFrames/mansoftware/u_motpasse.pas"/>
-        <UnitName Value="U_MotPasse"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="47" Y="15"/>
         <UsageCount Value="10"/>
@@ -1593,7 +1580,6 @@
       </Unit206>
       <Unit207>
         <Filename Value="../../../ManFrames/mansoftware/fonctions_aide.pas"/>
-        <UnitName Value="fonctions_aide"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="26"/>
         <UsageCount Value="10"/>
@@ -1604,7 +1590,6 @@
         <ComponentName Value="F_Acces"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="U_Acces"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="47" Y="10"/>
         <UsageCount Value="10"/>
