@@ -61,7 +61,7 @@ type
   TGlyphSize = (gsSmall, gsLarge);
 
 
-  EExtBookmarkError = procedure (Sender: TObject; Dataset: TDataset ; Bookmark : TBookmarkStr ) of object;
+  EExtBookmarkError = procedure (Sender: TObject; Dataset: TDataset ; Bookmark : {$IFDEF WITH_TBOOKMARK}TBookmark{$ELSE}TBookmarkStr{$ENDIF} ) of object;
 
   TExtButtonSet = set of TExtNavigateBtn;
 
@@ -88,7 +88,7 @@ type
     ResInstance             : THandle      ;
     {$ENDIF}
     FFlat: Boolean;
-    FBookmark: string;
+    FBookmark: {$IFDEF WITH_TBOOKMARK}TBookMark{$ELSE}string{$ENDIF};
     FDataset : TDataset ;
     FOnNavigateClick: EExtNavClick;
     MinButtonSize: TPoint;
@@ -165,7 +165,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor destroy ; override ;
     property Glyphs[Index: TExtNavigateBtn]: TBitmap read GetGlyphs write SetGlyphs;
-    property BookMark : String read FBookMark write FBookMark ;
+    property BookMark : {$IFDEF WITH_TBOOKMARK}TBookMark{$ELSE}string{$ENDIF} read FBookMark write FBookMark ;
     property Field : TField read GetField ;
   published
     property Flat: Boolean read FFlat write SetFlat default False;
@@ -562,7 +562,7 @@ begin
   FOrientation:=noHorizontal;
   Color := clBtnFace;
 
-  FBookmark := '';
+  FBookmark := {$IFDEF WITH_TBOOKMARK}nil{$ELSE}''{$ENDIF};
 
 end;
 
@@ -991,7 +991,7 @@ begin
         else
         if assigned ( FDataLink.DataSet ) then
           begin
-            if ( FBookmark <> '' )
+            if ( FBookmark <> {$IFDEF WITH_TBOOKMARK}nil{$ELSE}''{$ENDIF} )
             and FDataLink.DataSet.BookmarkValid ( @FBookMark ) then
               try
                 FDataLink.DataSet.Bookmark := FBookmark
@@ -1080,7 +1080,7 @@ begin
     not (FDataLink.DataSet.BOF and FDataLink.DataSet.EOF);
   FButtons[nbESetBookMark].Enabled := Enabled and FDataLink.Active and
     not (FDataLink.DataSet.BOF and FDataLink.DataSet.EOF)
-    and ( FBookmark <> '' )
+    and ( FBookmark <> {$IFDEF WITH_TBOOKMARK}nil{$ELSE}''{$ENDIF} )
     and  FDataLink.DataSet.BookmarkValid( @FBookmark );
 end;
 

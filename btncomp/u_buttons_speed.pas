@@ -10,16 +10,16 @@ interface
 
 uses
 {$IFDEF FPC}
-   lresources,
+   lresources, ExtJvXPButtons,
 {$ELSE}
-   Windows, Messages,
+   Windows, Messages, JvXPButtons,
 {$ENDIF}
   Classes,
 {$IFDEF VERSIONS}
    fonctions_version,
 {$ENDIF}
   Controls, u_buttons_defs,
-  JvXPButtons, Graphics,
+   Graphics,
   Menus, Buttons;
 
 {$IFDEF VERSIONS}

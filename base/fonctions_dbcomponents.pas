@@ -603,7 +603,7 @@ End;
 
 // universal refresh ( maybe )
 function fb_RefreshDataset ( const aDat_Dataset : TDataset; const ab_GardePosition : Boolean ): Boolean ;
-var {$IFDEF BOOKMARK_OBJECT}
+var {$IFDEF WITH_TBOOKMARK}
     lbkm_Bookmark : TBookmark ;
     {$ELSE}
     lbkm_Bookmark : TBookmarkStr ;
@@ -746,7 +746,7 @@ Begin
       ls_Filter := ls_Filter + as_Fields + '=' ;
       if ( aado_Seeker.FieldByName ( as_Fields ).DataType in CST_DELPHI_FIELD_STRING )
         Then
-          ls_Filter := ls_Filter + '''' + fs_stringDbQuote ( avar_Records ) + ''''
+          ls_Filter := ls_Filter + '''' + fs_stringDbQuote (VarToStr (avar_Records)) + ''''
         Else
           ls_Filter := ls_Filter + fs_stringDbQuote ( VarToStr ( avar_Records )) ;
       p_SetSQLQuery ( aado_Seeker, ls_Filter  );

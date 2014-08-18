@@ -233,7 +233,7 @@ type
     procedure DataLinkScrolled ; virtual;
    public
     // Bookmark pour le chargement intermédiaire
-    {$IF FPC_FULLVERSION >= 20700 }
+    {$IFDEF WITH_TBOOKMARK}
     gbm_DernierEnregistrement : TBookmark ;
     {$ELSE}
     gbm_DernierEnregistrement : TBookmarkStr ;
@@ -416,8 +416,9 @@ begin
   // Le lien de donnée doit être initialisé avant : c'est un lien vers une propriété
   gdl_DataLink := TUltimListViewDatalink.Create ( Self );
   // Initialisation avant la création : plus sûr
-  gbm_DernierEnregistrement := '' ;
-//  gb_TrieAsc                := True ;
+
+  gbm_DernierEnregistrement := {$IFDEF WITH_TBOOKMARK}nil{$ELSE}''{$ENDIF};
+  //  gb_TrieAsc                := True ;
   // Création
   {$IFDEF DELPHI}
   ResInstance:= FindResourceHInstance(HInstance);
@@ -946,7 +947,11 @@ Begin
     except
     End ;}
   // Mise à nil du bookmark
+  {$IFDEF WITH_TBOOKMARK}
+  gbm_DernierEnregistrement := nil ;
+  {$ELSE}
   gbm_DernierEnregistrement := '' ;
+  {$ENDIF}
 End ;
 
 // Réinitialise le composant : utilisé aussi lorsqu'on recharge le composant
@@ -1493,7 +1498,7 @@ Begin
    Then
     Begin
     // On va là où on s'était arrêté
-      if ( gbm_DernierEnregistrement <> '' )
+      if ( gbm_DernierEnregistrement <> {$IFDEF WITH_TBOOKMARK}nil{$ELSE}''{$ENDIF} )
        Then
         Begin
           try

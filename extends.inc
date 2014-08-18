@@ -15,6 +15,10 @@
 {$DEFINE ZEOS}
 {$DEFINE MD5}
 {$IFDEF FPC}
+  {$IF FPC_FULLVERSION>20700}       // will be introduced in 2.7+
+       {$DEFINE WITH_TBOOKMARK}        // Have TBookmark
+       {$DEFINE SPECIALEDIT}        // Have TBookmark
+  {$IFEND}
   {$DEFINE LNET}
   {$DEFINE BGRA}
   {$DEFINE UTF8}

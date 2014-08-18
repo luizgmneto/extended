@@ -4,6 +4,9 @@
 {$mode Delphi}{$H+}
 {$ENDIF}
 
+{$I ..\DLCompilers.inc}
+{$I ..\extends.inc}
+
 interface
 
 uses
@@ -68,7 +71,11 @@ type
     procedure UTF8KeyPress(var UTF8Key: TUTF8Char); override;
 
   public
+    {$IFDEF SPECIALEDIT}
+    procedure EditChange; override;
+    {$ELSE}
     procedure Change; override;
+    {$ENDIF}
     constructor Create (AOwner: TComponent); override;
     destructor Destroy; override;
     procedure DoEnter; override;
@@ -206,12 +213,14 @@ begin
 
     //if we are focused its possible to edit,
     //if the field is currently modifiable
+    {$IFNDEF SPECIALEDIT}
     if Focused and FDataLink.CanModify then begin
       //display the real text since we can modify it
       RestoreMask(DatalinkField.Text);
     end else
       //otherwise display the pretified/formated text since we can't
       DisableMask(DataLinkField.DisplayText);
+    {$ENDIF}
     if (DataLinkField.DataType in [ftString, ftFixedChar, ftWidestring, ftFixedWideChar])
       and (MaxLength = 0) then
       MaxLength := DatalinkField.Size;
@@ -256,9 +265,13 @@ begin
     (AComponent = DataSource) then DataSource := nil;
 end;
 
+{$IFDEF SPECIALEDIT}
+procedure TExtDBDirectoryEdit.EditChange;
+{$ELSE}
 procedure TExtDBDirectoryEdit.Change;
+{$ENDIF}
 begin
-  inherited Change;
+  inherited;
   UpdateData(Self);
 end;
 
