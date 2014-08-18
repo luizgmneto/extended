@@ -27,7 +27,7 @@ uses SysUtils,
    fonctions_proprietes,
    fonctions_variant,
    Classes ;
-   
+
 
 type TSpecialProcDataset = procedure ( const ADataset : TDataset );
      TSpecialFuncDataset = function ( const ADataset : TDataset ):Boolean;
@@ -419,11 +419,11 @@ End;
 function fb_IntervertitPositions2Champs   ( const aDat_Dataset : TDataset ; const as_NomOrdre : String ; const ab_Precedent, ab_SortAsc, ab_DisableControls : Boolean ): Boolean;
 var lvar_Numordre1      ,
     lvar_Numordre2      : Variant ;
-    {$IF FPC_FULLVERSION >= 20700 }
+    {$IFDEF WITH_TBOOKMARK}
     lbkm_GardeEnr     : TBookmark ;
     {$ELSE}
     lbkm_GardeEnr     : TBookmarkStr ;
-    {$IFEND}
+    {$ENDIF}
     lb_continue       : Boolean ;
 
 begin

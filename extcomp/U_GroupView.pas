@@ -4337,11 +4337,11 @@ end;
 //////////////////////////////////////////////////////////////////////////////
 procedure TDBGroupView.p_LocateRestore;
 var
-  {$IF FPC_FULLVERSION >= 20700 }
+  {$IFDEF WITH_TBOOKMARK}
   lbkm_Bookmark : TBookmark ;
   {$ELSE}
   lbkm_Bookmark : TBookmarkStr ;
-  {$IFEND}
+  {$ENDIF}
 
 begin
   lbkm_Bookmark := gdl_DataLink.DataSet.Bookmark ;
