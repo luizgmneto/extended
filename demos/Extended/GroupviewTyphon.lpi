@@ -70,7 +70,7 @@
         <PackageName Value="LCL"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="209">
+    <Units Count="210">
       <Unit0>
         <Filename Value="Groupview.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -598,13 +598,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="U_DmArticles"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="86"/>
         <CursorPos X="79" Y="97"/>
         <UsageCount Value="80"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit58>
       <Unit59>
@@ -1406,9 +1404,12 @@
       </Unit181>
       <Unit182>
         <Filename Value="../../copy/u_traducefile.pas"/>
-        <TopLine Value="447"/>
-        <CursorPos Y="471"/>
-        <UsageCount Value="9"/>
+        <UnitName Value="u_traducefile"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="66" Y="22"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit182>
       <Unit183>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
@@ -1595,6 +1596,15 @@
         <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit208>
+      <Unit209>
+        <Filename Value="../../copy/fonctions_file.pas"/>
+        <UnitName Value="fonctions_file"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="34"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit209>
     </Units>
     <JumpHistory Count="1">
       <Position1>
