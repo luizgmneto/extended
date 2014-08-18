@@ -15,7 +15,7 @@
 {$DEFINE ZEOS}
 {$DEFINE MD5}
 {$IFDEF FPC}
-  {$IFDEF VER2_7}       // will be introduced in 2.7+
+  {$IFNDEF VER2_6}       // will be introduced in 2.7+
        {$DEFINE WITH_TBOOKMARK}        // Have TBookmark
        {$DEFINE SPECIALEDIT}        // Have TBookmark
   {$ENDIF}
