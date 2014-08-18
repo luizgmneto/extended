@@ -71,7 +71,7 @@ begin
   AppendStr ( Result, '-i' );
   {$ELSE}
   {$IFDEF QT}
-  AppendStr ( Result, '-qt' );
+  AppendStr ( Result, '-k' );
   {$ELSE}
   {$IFDEF ANDROID}
   AppendStr ( Result, '-a' );
