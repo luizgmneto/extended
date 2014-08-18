@@ -3,7 +3,7 @@
 Installez le paquet lazregisterextcomp.
 Installez votre paquet d'accèse aux données ibx, zeos, dbnet data.
 
-Nécessité de compiler le paquet lazextcore une fois avant linking de lazarus.
+Nécessité de compiler le paquet lazextcore ou typhonextcore une fois avant linking de lazarus.
 
 Le Versioning est dans chaque unité et la version élaborée est dans lazextcomponents.lpk
 

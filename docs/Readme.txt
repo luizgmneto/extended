@@ -3,7 +3,7 @@
 Just Register lazregisterextcomp package.
 Register your ibx, zeos, dbnet data connexion pakage.
 
-Need to compile lazextcore one time before linking lazarus.
+Need to compile lazextcore or typhonextcore one time before linking lazarus.
 
 Versioning is in each unit and global versioning is un lazextcomponents.lpk
 
