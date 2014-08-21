@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <Name Value="lazregisterextcomp"/>
@@ -94,10 +94,12 @@
         <PackageName Value="lazextinit"/>
       </Item2>
       <Item3>
-        <PackageName Value="extreports"/>
+        <PackageName Value="lazextreports"/>
+        <MaxVersion Major="1"/>
       </Item3>
       <Item4>
-        <PackageName Value="ExtCopy"/>
+        <PackageName Value="lazextcopy"/>
+        <MaxVersion Major="1" Release="2"/>
       </Item4>
       <Item5>
         <PackageName Value="lazextcomponents"/>

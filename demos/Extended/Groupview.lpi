@@ -47,7 +47,8 @@
         <PackageName Value="lazregisteribx"/>
       </Item3>
       <Item4>
-        <PackageName Value="extreports"/>
+        <PackageName Value="lazextreports"/>
+        <MaxVersion Major="1"/>
       </Item4>
       <Item5>
         <PackageName Value="lazextbuttons"/>
@@ -63,7 +64,8 @@
         <PackageName Value="CodeTools"/>
       </Item8>
       <Item9>
-        <PackageName Value="ExtCopy"/>
+        <PackageName Value="lazextcopy"/>
+        <MaxVersion Major="1" Release="2"/>
       </Item9>
       <Item10>
         <PackageName Value="lazextcomponents"/>

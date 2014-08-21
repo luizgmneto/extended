@@ -9,7 +9,7 @@ uses
   fonctions_system,
   Interfaces, // this includes the LCL widgetset
   Forms
-  { you can add units after this }, U_FormCopy, u_aboutbox;
+  { you can add units after this }, U_FormCopy, u_aboutbox, lazextcopy;
 
 begin
   Application.Initialize;
