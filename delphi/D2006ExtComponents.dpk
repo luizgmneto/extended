@@ -32,7 +32,7 @@ package D2006ExtComponents;
 {$WRITEABLECONST ON}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DESCRIPTION 'Composants améliorés GIROUX'}
+{$DESCRIPTION 'Composants améliorés LIBERLOG'}
 {$IMPLICITBUILD ON}
 {$DEFINE ADO}
 

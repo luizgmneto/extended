@@ -47,7 +47,7 @@
 			<Compiler Name="UnitAliases">WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;</Compiler>
 			<Compiler Name="NamespacePrefix"></Compiler>
 			<Compiler Name="GenerateDocumentation">False</Compiler>
-			<Compiler Name="DefaultNamespace"></Compiler>
+			<Compiler Name="DefaultNamespace">ExtComponents</Compiler>
 			<Compiler Name="SymbolDeprecated">True</Compiler>
 			<Compiler Name="SymbolLibrary">True</Compiler>
 			<Compiler Name="SymbolPlatform">True</Compiler>
@@ -116,7 +116,7 @@
 			<Linker Name="MinStackSize">16384</Linker>
 			<Linker Name="MaxStackSize">1048576</Linker>
 			<Linker Name="ImageBase">4194304</Linker>
-			<Linker Name="ExeDescription">Composants améliorés GIROUX</Linker>
+			<Linker Name="ExeDescription">Composants améliorés LIBERLOG</Linker>
 		</Linker>
 		<Directories>
 			<Directories Name="OutputDir"></Directories>
@@ -148,8 +148,8 @@
 			<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
 			<VersionInfo Name="AutoIncBuild">False</VersionInfo>
 			<VersionInfo Name="MajorVer">0</VersionInfo>
-			<VersionInfo Name="MinorVer">9</VersionInfo>
-			<VersionInfo Name="Release">3</VersionInfo>
+			<VersionInfo Name="MinorVer">0</VersionInfo>
+			<VersionInfo Name="Release">0</VersionInfo>
 			<VersionInfo Name="Build">0</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
@@ -162,7 +162,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName"></VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">0.9.3.0</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">0.0.0.0</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
@@ -171,10 +171,7 @@
 			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
 		</VersionInfoKeys>  <Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\4.0\Bin\IndyCore100.bpl">Indy 10 Core</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\4.0\Bin\IndySystem100.bpl">Indy 10 System Runtime Package</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\4.0\Bin\IndyProtocols100.bpl">Indy 10 Protocols runtime package</Excluded_Packages>
-      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\ExtComponents.bpl">Fichier C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\ExtComponents.bpl non trouvé</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Matthieu\Documents\Projets Borland Studio\Bpl\ExtComponents.bpl">Composants améliorés GIROUX</Excluded_Packages>
     </Excluded_Packages>
   </Delphi.Personality>
 </BorlandProject>
