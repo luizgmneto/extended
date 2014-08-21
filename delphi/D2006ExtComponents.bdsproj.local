@@ -33,5 +33,6 @@
     <Transaction>2013/08/15 10:03:00.006.pas,C:\Matthieu\Programmation\Lazarus-Delphi\Extended\inicomp\u_registerforms.pas=</Transaction>
     <Transaction>2013/10/22 08:47:29.681.pas,C:\Matthieu\Programmation\Lazarus-Delphi\Extended\core\unite_messages.pas=</Transaction>
     <Transaction>2014/01/07 12:05:05.178.pas,C:\Matthieu\Programmation\Lazarus-Delphi\Extended\inicomp\u_extmenutoolbar.pas=</Transaction>
+    <Transaction>2014/08/21 13:56:31.906.bdsproj,C:\Matthieu\Programmation\Lazarus-Delphi\Extended\ExtComponents.bdsproj=C:\Matthieu\Programmation\Lazarus-Delphi\Extended\delphi\D2006ExtComponents.bdsproj</Transaction>
   </Transactions>
 </BorlandProject>

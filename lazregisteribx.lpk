@@ -31,7 +31,8 @@
         <PackageName Value="lazextbuttons"/>
       </Item1>
       <Item2>
-        <PackageName Value="ExtCopy"/>
+        <PackageName Value="lazextcopy"/>
+        <MaxVersion Major="1" Release="2"/>
       </Item2>
       <Item3>
         <PackageName Value="ibexpress"/>

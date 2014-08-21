@@ -33,10 +33,10 @@
     </RunParams>
     <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="lazextcomponents"/>
+        <PackageName Value="lazextcopy"/>
       </Item1>
       <Item2>
-        <PackageName Value="ExtCopy"/>
+        <PackageName Value="lazextcomponents"/>
       </Item2>
       <Item3>
         <PackageName Value="FCL"/>
