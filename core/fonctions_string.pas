@@ -58,7 +58,7 @@ const
   CST_NUMBERS = '0123456789';
 
 type
-TCharToUTF8Table = array[char] of PChar;
+TCharToUTF8Table = array[AnsiChar] of  PAnsiChar;
 
 
 type
@@ -208,8 +208,8 @@ var
   i: Integer;
   Src: PChar;
   Dest: PChar;
-  p: PChar;
-  c: Char;
+  p: PAnsiChar;
+  c: AnsiChar;
 begin
   if s='' then begin
     Result:=s;
