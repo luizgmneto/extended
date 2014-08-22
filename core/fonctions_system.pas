@@ -422,7 +422,8 @@ var {$IFDEF FPC}
     ReadPipe,WritePipe : THandle;
     start : TStartUpInfo;
     ProcessInfo : TProcessInformation;
-    Buffer : Pchar;
+
+    Buffer : PAnsichar;
     DosApp : String;
     BytesRead : DWord;
     Apprunning : DWord;
@@ -498,7 +499,9 @@ begin
           BytesRead := 0;
           ReadFile(ReadPipe,Buffer[0], ReadBuffer,BytesRead,nil) ;
           Buffer[BytesRead]:= #0;
+          {$IFNDEF WIDECHAR}
           OemToAnsi(Buffer,Buffer) ;
+          {$ENDIF}
           Result := String(Buffer) ;
         until (BytesRead < ReadBuffer) ;
      end;
