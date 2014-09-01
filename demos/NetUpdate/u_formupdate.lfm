@@ -1,38 +1,42 @@
 object F_Update: TF_Update
-  Left = 499
-  Height = 240
-  Top = 161
-  Width = 320
+  Left = 529
+  Height = 110
+  Top = 251
+  Width = 290
   Caption = 'F_Update'
-  ClientHeight = 240
-  ClientWidth = 320
+  ClientHeight = 110
+  ClientWidth = 290
   OnCreate = FormCreate
-  LCLVersion = '1.0.12.0'
+  LCLVersion = '1.2.4.0'
   object ProgressBar: TProgressBar
     Left = 0
     Height = 20
-    Top = 220
-    Width = 320
+    Top = 90
+    Width = 290
     Align = alBottom
     TabOrder = 0
   end
   object FWDownload: TFWRefresh
-    Left = 88
-    Height = 25
-    Top = 64
-    Width = 120
+    Left = 0
+    Height = 35
+    Top = 0
+    Width = 290
     Caption = 'Download'
     TabOrder = 1
+    Default = True
+    Align = alTop
     OnClick = FWDownloadClick
   end
-  object FWLoad: TFWLoad
-    Left = 88
-    Height = 25
-    Top = 128
-    Width = 120
-    Caption = 'FWLoad'
+  object FWOpen: TFWFolder
+    Left = 0
+    Height = 55
+    Top = 35
+    Width = 290
+    Caption = 'Open'
     TabOrder = 2
-    OnClick = FWLoadClick
+    ShowFocusRect = True
+    Align = alClient
+    OnClick = FWOpenClick
   end
   object NetUpdate: TNetUpdate
     FileUpdate = 'LINUX_A5.pdf'
@@ -42,12 +46,12 @@ object F_Update: TF_Update
     OnDownloading = NetUpdateDownloading
     OnDownloaded = NetUpdateDownloaded
     LNetComponent = LHTTPClient
-    left = 85
-    top = 70
+    left = 40
+    top = 32
   end
   object LHTTPClient: TLHTTPClientComponent
     Timeout = 0
-    left = 230
-    top = 66
+    left = 176
+    top = 32
   end
 end

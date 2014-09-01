@@ -118,6 +118,8 @@ type
     // common properties.
     property TabStop default True;
     property UseDockManager default True;
+    property Height default 21;
+    property Width default 73;
   end;
 
   TJvXPButton = class(TJvXPCustomButton)
@@ -127,8 +129,6 @@ type
     property Caption;
     property Enabled;
     property TabOrder;
-    property Height default 21;
-    property Width default 73;
 
     // advanced properties.
     property AutoGray;
@@ -370,6 +370,7 @@ begin
   FCkGradient := TBitmap.Create; // clicked gradient
   FFcGradient := TBitmap.Create; // focused gradient
   FHlGradient := TBitmap.Create; // Highlight gradient
+  HookResized;
 end;
 
 destructor TJvXPCustomButton.Destroy;
@@ -582,8 +583,6 @@ const
 var
   Offset: Integer;
 begin
-  inherited HookResized;
-
   // calculate offset.
   Offset := 4 * (Integer(IsSpecialDrawState(True)));
 
@@ -614,8 +613,7 @@ begin
       dxColor_Btn_Enb_HlTo_WXP, ColSteps, gsTop, Dithering, FHlGradient);
    end;
 
-  Invalidate;
-  Paint;
+  inherited HookResized;
 end;
 
 procedure TJvXPCustomButton.DrawBitmap ( const Image : TPicture ; const Rect: TRect ; const DrawPressed: Boolean );
