@@ -14,7 +14,6 @@ uses
 {$R *.res}
 
 begin
-  RequireDerivedFormResource := True;
   Application.Initialize;
   GS_SUBDIR_IMAGES_SOFT:='..'+DirectorySeparator+'..'+DirectorySeparator+'Images'+DirectorySeparator;
   Application.CreateForm(TF_Update, F_Update);
