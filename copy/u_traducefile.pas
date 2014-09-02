@@ -287,9 +287,9 @@ var Image: {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; var FormatSource :
 {$IFDEF CCREXIF}const ExifData : TExifData ;{$ENDIF} const FileTypeDest : TEImageFileOption ):
   Boolean;
 var
-  {$IFNDEF MAGICK}IArray:{$IFDEF BGRA}TStream{$ELSE}TDynImageDataArray{$ENDIF};{$ENDIF}
-  I: LongInt;
+  {$IFNDEF MAGICK}IArray:{$IFDEF BGRA}TStream;{$ELSE}TDynImageDataArray; I: LongInt;
   ls_extension:String;
+ {$ENDIF}{$ENDIF}
 begin
   Assert(FileNameSource <> '');
   Result := False;
@@ -308,8 +308,8 @@ begin
   if Result Then
    Begin
     Result := False;
-    ls_extension := LowerCase(FileNameExtSource);
     {$IFNDEF BGRA}
+    ls_extension := LowerCase(FileNameExtSource);
     for i:=0 to FormatSource.Extensions.Count - 1  do
       if ls_extension = FormatSource.Extensions [ i ] Then
         Begin
