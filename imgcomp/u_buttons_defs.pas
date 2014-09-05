@@ -69,8 +69,13 @@ type
        FColorFrameFocus : TColor;
        FOnPopup : TNotifyEvent;
       protected
+       {$IFDEF JEDI}
+       procedure HookMouseEnter; override;
+       procedure HookMouseLeave; override;
+       {$ELSE}
        procedure MouseEnter; override;
        procedure MouseLeave; override;
+       {$ENDIF}
        procedure SetGlyphSize(AValue: Integer); virtual;
        procedure AdaptGlyph (const ASize : Integer ); virtual;
        procedure LoadBitmap; virtual;
@@ -301,7 +306,11 @@ begin
   Invalidate;
 end;
 
+{$IFDEF JEDI}
+procedure TFWXPButton.HookMouseEnter;
+{$ELSE}
 procedure TFWXPButton.MouseEnter;
+{$ENDIF}
 begin
   FColor:=Color;
   Color := FColorFrameFocus;
@@ -310,7 +319,11 @@ begin
 {$ENDIF}
 end;
 
+{$IFDEF JEDI}
+procedure TFWXPButton.HookMouseLeave;
+{$ELSE}
 procedure TFWXPButton.MouseLeave;
+{$ENDIF}
 begin
   Color := FColor;
 {$IFDEF FPC}

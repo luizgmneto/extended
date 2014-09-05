@@ -111,7 +111,7 @@ type
              { Déclarations protégées }
            public
              function InternalDefaultCopyFile  ( const as_Source, as_Destination : String ):Boolean; virtual ;
-             procedure InternalFinish ( const as_Source, as_Destination : AnsiString ); virtual ;
+             procedure InternalFinish ( const as_Source, as_Destination : String ); virtual ;
              constructor Create(AOwner : Tcomponent);override;
              property InProgress : Boolean read FInprogress;
              Function CopyFile ( const as_Source, as_Destination : String ; const ab_AppendFile, ab_CreateBackup : Boolean ):Integer; virtual;
@@ -413,7 +413,7 @@ begin
 End ;
 
 
-procedure TExtFileCopy.InternalFinish ( const as_Source, as_Destination : AnsiString );
+procedure TExtFileCopy.InternalFinish ( const as_Source, as_Destination : String );
 begin
   if assigned ( FOnSuccess ) then
     Begin

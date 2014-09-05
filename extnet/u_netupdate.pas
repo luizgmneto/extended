@@ -104,7 +104,7 @@ type
     procedure HTTPClientError(const msg: string; aSocket: TLSocket); virtual;
     {$ELSE}
     procedure IdWork(ASender:TObject;AWorkMode:TWorkMode;
-      ASize:{$IFDEF CPU64}Int64{$ELSE}Integer{$ENDIF}); virtual;
+      ASize:Int64); virtual;
     {$ENDIF}
     procedure SetMD5; virtual;
     procedure GetURL(const as_URL, as_LocalDir, as_FileName: string;
@@ -326,7 +326,7 @@ function TNetUpdate.HTTPClientInput(ASocket: TLHTTPClientSocket;
   ABuffer: PChar; ASize: integer): integer;
 {$ELSE}
 procedure TNetUpdate.IdWork(ASender: TObject; AWorkMode: TWorkMode;
-  ASize: {$IFDEF CPU64}Int64{$ELSE}Integer{$ENDIF});
+  ASize: Int64);
 {$ENDIF}
 var
   OldLength: integer;

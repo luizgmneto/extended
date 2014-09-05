@@ -69,6 +69,7 @@ type
 {$IFNDEF FPC}
   function fs_Dos2Win( const aText: string): string;
   function fs_Win2Dos( const aText: string): string;
+  procedure AppendStr(var Dest: String; const S: String);
 {$ENDIF}
   function fb_isFileChar(AChar:Char):boolean;
   function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True):AnsiString;
@@ -83,7 +84,7 @@ type
   function fs_GetBeginingOfString ( const as_text, as_endingstring: string): string;
   function fb_stringVide ( const aTexte: string): Boolean;
   function fs_stringDate(): string;
-  function fs_stringDateTime(const aDateTime: TDateTime; const aFormat: string): Ansistring;
+  function fs_stringDateTime(const aDateTime: TDateTime; const aFormat: string): string;
   function fs_stringCrypte( const as_Text: string): string;
   function fs_stringDecrypte( const as_Text: string): string;
   function fs_stringDecoupe( const aTexte: Tstrings; const aSep: string): string;
@@ -96,7 +97,7 @@ type
   function fb_controleDistanceCoordLambert( const aLatitudeDep, aLongitudeDep, aLatitudeArr, aLongitudeArr: string; const aDistance: Extended): Boolean;
   procedure p_ChampsVersListe(var astl_ChampsClePrimaire: TStrings; const aws_ClePrimaire : String ; ach_Separateur : Char );
   procedure p_SetStringMaxLength    ( var  as_string : String ; const ai_Maxlength : Integer );
-  function fs_ListeVersChamps ( var astl_ChampsClePrimaire: TStrings; ach_Separateur : Char ):string;
+  function fs_ListeVersChamps ( var astl_ChampsClePrimaire: TStrings; ach_Separateur : AnsiChar ):string;
   function fs_RemplaceMsg(const as_Texte: String; const aTs_arg: Array of String): String;
   function fs_RemplaceMsgIfExists(const as_Texte: String; const as_arg: String): String;
   function fs_RemplaceEspace ( const as_Texte : String ; const as_Remplace : String ): String ;
@@ -206,9 +207,9 @@ function fs_ReplaceWithTable(const s: string; const Table: TCharToUTF8Table ): s
 var
   len: Integer;
   i: Integer;
-  Src: PChar;
+  Src: PAnsiChar;
   Dest: PChar;
-  p: PAnsiChar;
+  p: PChar;
   c: AnsiChar;
 begin
   if s='' then begin
@@ -217,12 +218,12 @@ begin
   end;
   len:=length(s);
   SetLength(Result,len*4);// UTF-8 is at most 4 bytes
-  Src:=PChar(s);
+  Src:=@(s[1]);
   Dest:=PChar(Result);
   for i:=1 to len do begin
     c:=Src^;
     inc(Src);
-    p:=Table[c];
+    p:=@Table[c];
     if p<>nil then begin
       while p^<>#0 do begin
         Dest^:=p^;
@@ -250,7 +251,7 @@ function fs_Dos2Win( const aText: string): string;
 begin
   if aText = '' then Exit;
   SetLength(Result, Length(aText));
-  OemToChar(PChar(aText), PChar(Result));
+  OemToChar(@(aText), @(Result));
 end;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -263,7 +264,7 @@ function fs_Win2Dos( const aText: string): string;
 begin
   if aText = '' then Exit;
   SetLength(Result, Length(aText));
-  CharToOem(PChar(aText), PChar(Result));
+  CharToOem(@(aText), @(Result));
 end;
 {$ENDIF}
 ///////////////////////////////////////////////////////////////////////////////
@@ -311,7 +312,7 @@ end;
 ///////////////////////////////////////////////////////////////////////////////
 //  Cette fonction renvoie la date ou l'heure sous un format précis en string
 ///////////////////////////////////////////////////////////////////////////////
-function fs_stringDateTime( const aDateTime: TDateTime; const aFormat: string): Ansistring;
+function fs_stringDateTime( const aDateTime: TDateTime; const aFormat: string):string;
 begin
   DateTimeToString(result, aFormat, aDateTime);
 end;
@@ -557,13 +558,22 @@ begin
     result := True;
 end;
 
+
+{$IFDEF COMPILER_10_UP}
+procedure AppendStr(var Dest: String; const S: String);
+begin
+  Dest := Dest + S;
+end;
+
+{$ENDIF}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Fonction   : fs_ListeVersChamps
 // Description : Création d'une liste à partir d'une chaîne avec des séparateurs
 // astl_ChampsClePrimaire : Les champs listés en entrée
 // as_Separateur        : Le séparateur
 ////////////////////////////////////////////////////////////////////////////////
-function fs_ListeVersChamps ( var astl_ChampsClePrimaire: TStrings; ach_Separateur : Char ):string;
+function fs_ListeVersChamps ( var astl_ChampsClePrimaire: TStrings; ach_Separateur : AnsiChar ):string;
 var li_i : Integer;
 Begin
   Result:='';

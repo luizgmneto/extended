@@ -17,7 +17,6 @@ uses
     ImgList, Graphics,
     Classes;
 
-
 {$IFDEF VERSIONS}
 const
   gVer_reports_rlcomponents: T_Version = (Component: 'Customized Reports Buttons';
