@@ -175,7 +175,12 @@ End ;
 function f_GereExceptionADO ( const aaco_connecteur : TADOConnection ; const aexc_Exception : Exception ; const adat_Dataset : TCustomADODataset ; var amdt_Icone : TMsgDlgType ) : String;
 var li_i, li_k : Integer ;
     li_Compteur  : integer;
-    lbkm_Enregistrement :  TBookmarkStr ;
+    {$IFDEF WITH_TBOOKMARK}
+    lbkm_Enregistrement : TBookmark ;
+    {$ELSE}
+    lbkm_Enregistrement : TBookmarkStr ;
+    {$ENDIF}
+
     lt_Arg       : Array [ 0..0] of string ;
     ls_Message   : String ;
 Begin
@@ -197,7 +202,7 @@ Begin
           and gdat_DatasetRefreshOnError.Active Then
             Begin
 
-              lbkm_Enregistrement := gdat_DatasetRefreshOnError.Bookmark ;
+              lbkm_Enregistrement := gdat_DatasetRefreshOnError.Bookmark;
               if gdat_DatasetRefreshOnError.State in [dsInsert,dsEdit ] Then
                 gdat_DatasetRefreshOnError.Cancel ;
               fb_RefreshDataset ( gdat_DatasetRefreshOnError );

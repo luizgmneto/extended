@@ -73,7 +73,7 @@ type
     procedure FormActivate(Sender: TObject);
     procedure bt_reinitClick(Sender: TObject);
     procedure vt_VersioningGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
-    TextType: TVSTTextType; var CellText: {$IFDEF DELPHI_7_UP}WideString{$ELSE}String{$ENDIF});
+    TextType: TVSTTextType; var CellText: {$IFDEF WIDECHAR}WideString{$ELSE}String{$ENDIF});
     procedure vt_VersioningInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure Commentaires1Click(Sender: TObject);
@@ -324,7 +324,7 @@ End ;
 // Description : Affichage des dates dans la liste
 ///////////////////////////////////////////////////
 procedure TF_About.vt_VersioningGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
-    TextType: TVSTTextType; var CellText: {$IFDEF DELPHI_7_UP}WideString{$ELSE}String{$ENDIF});
+    TextType: TVSTTextType; var CellText: {$IFDEF WIDECHAR}WideString{$ELSE}String{$ENDIF});
 
 Var
   // Données du VirtualTreeView

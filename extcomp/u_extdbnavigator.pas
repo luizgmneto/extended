@@ -20,7 +20,7 @@ uses
 {$IFDEF FPC}
   LCLIntf, LCLType, lMessages, lresources,
 {$ELSE}
-  Windows, VDBConsts, RXCtrls,
+  Windows, VDBConsts,
 {$ENDIF}
 {$IFDEF VERSIONS}
   fonctions_version,
@@ -249,7 +249,7 @@ type
 
   { TExtNavButton }
 
-  TExtNavButton = class({$IFDEF FPC}TSpeedButton{$ELSE}TRXSpeedButton{$ENDIF})
+  TExtNavButton = class(TSpeedButton)
   private
     FMouseDragged : Boolean ;
     FIndex: TExtNavigateBtn;
@@ -259,13 +259,10 @@ type
     procedure WMSetFocus(var Message: {$IFDEF FPC}TLMSetFocus); message LM_SETFOCUS{$ELSE}TWMSetFocus); message WM_SETFOCUS{$ENDIF};
   protected
     procedure Paint; override;
-    procedure MouseEnter ; override;
-    procedure MouseLeave ; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
       X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState;
       X, Y: Integer); override;
-    property MouseDragged : Boolean read FMouseDragged write FMouseDragged ;
   public
     property NavStyle: {$IFDEF FPC}TDBNavButtonStyle{$ELSE}TNavButtonStyle{$ENDIF} read FBtnStyle write FBtnStyle;
     property Index : TExtNavigateBtn read FIndex write FIndex;
@@ -520,7 +517,7 @@ begin
     Btn.Flat := Flat;
     Btn.Index := I;
     LoadImageButton ( Btn );
-    Btn.NumGlyphs := 5 ;
+    Btn.NumGlyphs := {$IFDEF FPC}5{$ELSE}4{$ENDIF};
     Btn.Visible := I in FVisibleButtons;
 
     Btn.Enabled := False;
@@ -1231,11 +1228,7 @@ begin
 {$ELSE}
   FRepeatTimer.Interval := RepeatPause;
 {$ENDIF}
-{$IFDEF FPC}
   if (FState = bsDown)
-{$ELSE}
-  if (FState = rbsDown)
-{$ENDIF}
   and MouseCapture then
   begin
     try
@@ -1258,11 +1251,7 @@ begin
   begin
     R := Bounds(0, 0, Width, Height);
     InflateRect(R, -3, -3);
-{$IFDEF FPC}
     if (FState = bsDown)
-{$ELSE}
-    if (FState = rbsDown)
-{$ENDIF}
      then
       OffsetRect(R, 1, 1);
     Canvas.Brush.Style := bsSolid;
@@ -1285,21 +1274,6 @@ begin
 
 end;
 
-
-// Mouse dragging
-procedure TExtNavButton.MouseEnter;
-begin
-  FMouseDragged := True ;
-  inherited;
-
-end;
-
-// Mouse dragging
-procedure TExtNavButton.MouseLeave;
-begin
-  inherited;
-  FMouseDragged := False ;
-end;
 
 // initing resources, version and hints
 initialization
