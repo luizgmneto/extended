@@ -30,7 +30,8 @@ const
                                        FileUnit : 'u_buttons_appli' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Customized Buttons components.' ;
-                                       BugsStory : '1.0.0.5 : Creating LoadBitmap.'+ #13#10
+                                       BugsStory : '1.0.1.0 : Delphi 2009 and Lazarus compatible.'+ #13#10
+                                                 + '1.0.0.5 : Creating LoadBitmap.'+ #13#10
                                                  + '1.0.0.4 : Better Popup.'+ #13#10
                                                  + '1.0.0.3 : Testing Popup.'+ #13#10
                                                  + '1.0.0.2 : Date and Folder Buttons.'+ #13#10
@@ -39,7 +40,7 @@ const
                                                  + '0.8.0.1 : Group view buttons better.'+ #13#10
                                                  + '0.8.0.0 : To test.';
                                        UnitType : 3 ;
-                                       Major : 1 ; Minor : 0 ; Release : 0 ; Build : 5 );
+                                       Major : 1 ; Minor : 0 ; Release : 1 ; Build : 0 );
 {$ENDIF}
   CST_FWWIDTH_CLOSE_BUTTON = 80 ;
   CST_SIZE_BUTTONS_MOVING  = 60;
@@ -69,13 +70,8 @@ type
        FColorFrameFocus : TColor;
        FOnPopup : TNotifyEvent;
       protected
-       {$IFDEF JEDI}
        procedure HookMouseEnter; override;
        procedure HookMouseLeave; override;
-       {$ELSE}
-       procedure MouseEnter; override;
-       procedure MouseLeave; override;
-       {$ENDIF}
        procedure SetGlyphSize(AValue: Integer); virtual;
        procedure AdaptGlyph (const ASize : Integer ); virtual;
        procedure LoadBitmap; virtual;
@@ -306,29 +302,17 @@ begin
   Invalidate;
 end;
 
-{$IFDEF JEDI}
 procedure TFWXPButton.HookMouseEnter;
-{$ELSE}
-procedure TFWXPButton.MouseEnter;
-{$ENDIF}
 begin
   FColor:=Color;
   Color := FColorFrameFocus;
-{$IFDEF FPC}
   inherited;
-{$ENDIF}
 end;
 
-{$IFDEF JEDI}
 procedure TFWXPButton.HookMouseLeave;
-{$ELSE}
-procedure TFWXPButton.MouseLeave;
-{$ENDIF}
 begin
   Color := FColor;
-{$IFDEF FPC}
   inherited;
-{$ENDIF}
 end;
 
 procedure TFWXPButton.SetGlyphSize(Avalue: Integer);

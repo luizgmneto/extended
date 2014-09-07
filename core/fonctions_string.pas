@@ -58,7 +58,7 @@ const
   CST_NUMBERS = '0123456789';
 
 type
-TCharToUTF8Table = array[AnsiChar] of  PAnsiChar;
+TCharToUTF8Table = array[AnsiChar] of  AnsiChar;
 
 
 type
@@ -203,37 +203,19 @@ Begin
   Result := AChar in ['0'..'9','A'..'z','-','.'];
 end;
 
-function fs_ReplaceWithTable(const s: string; const Table: TCharToUTF8Table ): string;
+function fs_ReplaceWithTable(const s: AnsiString; const Table: TCharToUTF8Table ): AnsiString;
 var
-  len: Integer;
   i: Integer;
-  Src: PAnsiChar;
-  Dest: PChar;
-  p: PChar;
-  c: AnsiChar;
+  Dest: PAnsiChar;
 begin
-  if s='' then begin
-    Result:=s;
+  Result:=s;
+  if s='' then
     exit;
+  Dest:=@Result[1];
+  for i:=1 to length(s) do begin
+    Dest^:=Table[Dest^];
+    inc(Dest);
   end;
-  len:=length(s);
-  SetLength(Result,len*4);// UTF-8 is at most 4 bytes
-  Src:=@(s[1]);
-  Dest:=PChar(Result);
-  for i:=1 to len do begin
-    c:=Src^;
-    inc(Src);
-    p:=@Table[c];
-    if p<>nil then begin
-      while p^<>#0 do begin
-        Dest^:=p^;
-        inc(p);
-        inc(Dest);
-      end;
-    end;
-  end;
-  SetLength(Result,{$IFDEF FPC}PtrUInt{$ELSE}Integer{$ENDIF}(Dest)
-                  -{$IFDEF FPC}PtrUInt{$ELSE}Integer{$ENDIF}(Result));
 end;
 
 
@@ -1155,4 +1137,4 @@ initialization
   p_ConcatVersion ( gVer_fonction_string );
 {$ENDIF}
 end.
-
+
