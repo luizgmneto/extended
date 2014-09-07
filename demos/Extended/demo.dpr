@@ -13,8 +13,8 @@ uses
 
 begin
   Application.Initialize;
-  gs_DefaultDatabase:=fs_getAppDir+'Exemple.fdb';
-  GS_SUBDIR_IMAGES_SOFT:='..'+DirectorySeparator+'Images'+DirectorySeparator;
+  gs_DefaultDatabase:=fs_getAppDir+'..\Exemple.fdb';
+  GS_SUBDIR_IMAGES_SOFT:='..'+DirectorySeparator+'..\Images'+DirectorySeparator;
   Application.CreateForm(TMyform, Myform);
   Application.Run;
-end.                                              nnnnnnnnnnn
+end.

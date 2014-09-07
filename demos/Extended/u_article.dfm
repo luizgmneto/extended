@@ -15,6 +15,8 @@ object F_Article: TF_Article
   Position = poMainFormCenter
   WindowState = wsMaximized
   OnCreate = F_FormDicoCreate
+  ExplicitWidth = 320
+  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 13
   object pa_1: TPanel
@@ -347,6 +349,7 @@ object F_Article: TF_Article
     object bt_imprimer: TFWPrintGrid
       Left = 25
       Top = 0
+      Height = 25
       Hint = 'Impression des r'#233'sultats de la s'#233'lection'
       Caption = 'Imprimer'
       TabOrder = 3
@@ -382,6 +385,7 @@ object F_Article: TF_Article
       Left = 928
       Top = 0
       Width = 96
+      Height = 25
       Caption = 'Fermer'
       TabOrder = 4
       Layout = blGlyphRight

@@ -16,7 +16,7 @@ uses
 {$IFDEF FPC}
   MaskEdit, LCLType, ToolEdit, ExtJvXPButtons,
 {$ELSE}
-  RXSplit, Mask, JvXPCore, JvXPButtons,
+  JvSplit, Mask, JvXPCore, JvXPButtons,
   JvExDBGrids, JvDBGrid, JvDBUltimGrid, JvExControls, JvDBLookup,
 {$ENDIF}
   Messages, Graphics, Controls, Classes, ExtCtrls, Dialogs, DB,
