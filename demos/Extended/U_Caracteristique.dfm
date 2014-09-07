@@ -295,7 +295,7 @@ object F_Caracteristique: TF_Caracteristique
               TabOrder = 0
               ViewStyle = vsReport
               ColumnsOrder = '0=238'
-              Groups = <>
+              InsertMarkColor = clWhite
               ExtendedColumns = <
                 item
                 end>
@@ -397,7 +397,7 @@ object F_Caracteristique: TF_Caracteristique
             TabOrder = 2
             ViewStyle = vsReport
             ColumnsOrder = '0=343'
-            Groups = <>
+            InsertMarkColor = clWhite
             ExtendedColumns = <
               item
               end>
@@ -546,7 +546,7 @@ object F_Caracteristique: TF_Caracteristique
                 TabOrder = 0
                 ViewStyle = vsReport
                 ColumnsOrder = '0=261'
-                Groups = <>
+                InsertMarkColor = clWhite
                 ExtendedColumns = <
                   item
                   end>
@@ -647,7 +647,7 @@ object F_Caracteristique: TF_Caracteristique
               TabOrder = 1
               ViewStyle = vsReport
               ColumnsOrder = '0=318'
-              Groups = <>
+              InsertMarkColor = clWhite
               ExtendedColumns = <
                 item
                 end>
