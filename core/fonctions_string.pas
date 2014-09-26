@@ -72,7 +72,7 @@ type
   procedure AppendStr(var Dest: String; const S: String);
 {$ENDIF}
   function fb_isFileChar(AChar:Char):boolean;
-  function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True):AnsiString;
+  function fs_TextToFileName(const Chaine:String; const ab_NoAccents :Boolean = True):AnsiString;
   function fs_getCorrectString ( const as_string : String ): String ;
   function fs_copyutf8 ( const astring : String; const apositionNonUTF8 : Int64 ; const aLengthNonUTF8 : Int64 ; const ab_strict : Boolean = False): String;
   procedure p_PutFirstCharOfWordsInMaj(var AChaine:String; const ANewWordChar : String = CST_DELIMITERS_CHAR );
@@ -1012,7 +1012,7 @@ End;
 
 // function TextToFileName
 // creating file name
-function fs_TextToFileName(Chaine:String; const ab_NoAccents :Boolean = True ):AnsiString;
+function fs_TextToFileName(const Chaine:String; const ab_NoAccents :Boolean = True ):AnsiString;
 begin
   Result:=chaine;
   if Result = '' Then
