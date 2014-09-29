@@ -76,7 +76,7 @@ function  fb_ImageFieldToFile ( const field : TField ; const afile: String; cons
 function  fb_FiletoImageField ( const afile: String; const field : TField ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True; const ab_ShowError : Boolean = False ) : Boolean;
 function  fci_StreamToCustomImage ( const Stream : TStream ; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ) : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
 function  fb_StreamToFile ( const Stream : TStream ; const afile : String; const ali_newWidth : Longint = 0; const ali_newHeight : Longint = 0; const ab_KeepProportion : Boolean = True ; const ab_ShowError : Boolean = False ) : Boolean;
-procedure p_ImageToStream ( const lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const Stream : TStream ; const Extension : String='JPG'; const ab_ShowError : Boolean = False);
+procedure p_ImageToStream ( const lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const Stream : TStream ; const Extension : String='JPG'; const FileName : String=''; const ab_ShowError : Boolean = False);
 procedure p_ImageFieldToStream ( const field : TField ; const ast_memory_stream: tMemoryStream ; const ab_ShowError : Boolean = False );
 procedure p_ImageFileToField ( const afile: String; const field : TField ; const ab_ShowError : Boolean = False );
 procedure p_StreamToField ( const astream: TStream; const field : TField ; const ab_ShowError : Boolean = False );
@@ -964,19 +964,24 @@ begin
     p_FreeCustomImage (lid_imagedata);
   end;
 end;
-procedure p_ImageToStream ( const lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const Stream : TStream ; const Extension : String='JPG'; const ab_ShowError : Boolean = False);
+procedure p_ImageToStream ( const lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF}; const Stream : TStream ; const Extension : String='JPG'; const FileName : String=''; const ab_ShowError : Boolean = False);
 {$IFDEF BGRA}
-var    AWriter:TFPCustomImageWriter;
+var   AWriter:TFPCustomImageWriter;
+      AImageType : TBGRAImageFormat;
 {$ENDIF}
 begin
   try
     {$IFDEF BGRA}
-    Awriter:=CreateBGRAImageWriter(DetectFileFormat('.'+Extension),True);
-    try
-      lid_imagedata.SaveToStream(Stream,AWriter);
-    finally
-      AWriter.Destroy;
-    end;
+    AImageType:= DetectFileFormat(FileName);
+    if AImageType > ifUnknown Then
+     Begin
+      Awriter:=CreateBGRAImageWriter(AImageType,True);
+      try
+        lid_imagedata.SaveToStream(Stream,AWriter);
+      finally
+        AWriter.Destroy;
+      end;
+     end;
     {$ELSE}
     SaveImageToStream( Extension, Stream, lid_imagedata);
     {$ENDIF}
@@ -1043,7 +1048,8 @@ begin
   lid_imagedata:=fci_FileToCustomImage ( afile, ab_ShowError );
   try
     {$IFDEF BGRA}
-    abmp_Image.Assign(lid_imagedata.Bitmap);
+    if assigned(lid_imagedata) Then
+      abmp_Image.Assign(lid_imagedata.Bitmap);
     {$ELSE}
     ConvertDataToBitmap( lid_imagedata, abmp_Image );
     {$ENDIF}
@@ -1065,25 +1071,19 @@ begin
   Result:=nil;
   {$ELSE}
   Finalize ( Result );
+  InitImage(Result);
   {$ENDIF}
-  try
-    {$IFNDEF BGRA}
-    InitImage(Result);
-    {$ENDIF}
 
-    try
-      {$IFDEF BGRA}
-      Result:=TBGRABitmap.Create(afile);
-      {$ELSE}
-      LoadImageFromFile  ( afile, Result );;
-      {$ENDIF}
-    Except
-      On E:Exception do
-        if ab_ShowError Then
-          ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FILE_IMAGE+CST_ENDOFLINE+E.ClassName);
-    end;
-  Finally
-    {$IFDEF BGRA}Result.Free{$ELSE}FreeImage(Result){$ENDIF};
+  try
+    {$IFDEF BGRA}
+    Result:=TBGRABitmap.Create(afile);
+    {$ELSE}
+    LoadImageFromFile  ( afile, Result );;
+    {$ENDIF}
+  Except
+    On E:Exception do
+      if ab_ShowError Then
+        ShowMessage(GS_CHARGEMENT_IMPOSSIBLE_FILE_IMAGE+CST_ENDOFLINE+E.ClassName);
   end;
 end;
 

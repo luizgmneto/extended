@@ -151,7 +151,7 @@ uses fonctions_images,fonctions_file, fonctions_string, Forms,
   {$IFDEF FPC}
      LazUTF8, FileUtil,
   {$ENDIF}
-  TypInfo;
+  TypInfo,lazutf8Classes;
 {$IFDEF MAGICK}
 function ThrowWandException(wand: PMagickWand): String;
 var
@@ -473,7 +473,7 @@ function TTraduceFile.SaveToFile ( const Adata : {$IFDEF MAGICK}PMagickWand{$ELS
                                    const as_source, as_Destination : String ; const AFormat :
                                    {$IFDEF MAGICK}String {$ELSE}{$IFDEF BGRA}TBGRAImageFormat{$ELSE}TImageFileFormat{$ENDIF}{$ENDIF};
                                    const AResized : Boolean = False ):Longint;
-var   FileStream, FileStreamSource : TFileStream ;
+var   FileStream, FileStreamSource : TFileStreamUTF8 ;
       LBuffer : array of Byte;
       LBufferSize : Integer;
       {$IFDEF BGRA}
@@ -487,13 +487,14 @@ Begin
         Result := Longint (MagickWriteImage   ( Adata, Pchar(as_Destination))<>MagickTrue);
         {$ELSE}
         fb_CreateDirectoryStructure(ExtractFileDir(as_Destination));
-        FileStream := TFileStream.Create(as_Destination,fmCreate);
+        FileStream := TFileStreamUTF8.Create(as_Destination,fmCreate);
         try
           if FHeader <> nil Then
              HexToBinary ( FHeader.Lines, FileStream );
           if ( AFormat = {$IFDEF MAGICK}''{$ELSE}{$IFDEF BGRA}ifUnknown{$ELSE}nil{$ENDIF}{$ENDIF} ) Then
            Begin
-            p_ImageToStream   ( Adata, FileStream, ExtractFileExt(as_Destination));
+             p_ImageToStream   ( Adata, FileStream, {$IFDEF BGRA}'',as_Destination{$ELSE}ExtractFileExt(as_Destination){$ENDIF});
+             Result := 0;
             end
            Else
             Begin
@@ -516,10 +517,10 @@ Begin
               Result := Longint ( SaveImageToFileFormat ( FileStream, Adata, AFormat ) <> true );
               {$ENDIF}
             end;
-          if Result > 0 Then
-          if FileExistsUTF8(as_source) Then
+          if  (Result > 0)
+          and FileExistsUTF8(as_source) Then
            Begin
-             FileStreamSource := TFileStream.Create(as_source,fmOpenRead);
+             FileStreamSource := TFileStreamUTF8.Create(as_source,fmOpenRead);
              SetLength(LBuffer,FBufferSize);
              with FileStreamSource do
                try
@@ -529,7 +530,8 @@ Begin
                      Then LBufferSize:=FBufferSize
                      Else LBufferSize:=Size - Position;
                       ReadBuffer(LBuffer[0],LBufferSize);
-                    FileStream.WriteBuffer(LBuffer[0],LBufferSize);
+                    if LBufferSize > 0 Then
+                      FileStream.WriteBuffer(LBuffer[0],LBufferSize);
                     Application.ProcessMessages;
                   end;
 
