@@ -35,7 +35,8 @@ const CST_EXTENSION_JPEG           = '.jpg' ;
   gVer_fonctions_images : T_Version = ( Component : 'Gestion des images' ; FileUnit : 'fonctions_images' ;
                         			             Owner : 'Matthieu Giroux' ;
                         			              Comment : 'Chargement des icônes et bitmap ( vérifier des erreurs éventuelles avec Memproof ).' + #13#10 + 'Gestion des images.' ;
-                        			              BugsStory : 'Version 1.0.2.0 : Introducing BGRABitmap.' + #13#10 +
+                        			              BugsStory : 'Version 1.0.2.1 : Errors on BGRABitmap debug.' + #13#10 +
+                        			                	  'Version 1.0.2.0 : Introducing BGRABitmap.' + #13#10 +
                         			                	  'Version 1.0.1.5 : try finally added.' + #13#10 +
                         			                	  'Version 1.0.1.4 : Stream resizing.' + #13#10 +
                         			                	  'Version 1.0.1.3 : No Bitmap bug.' + #13#10 +
@@ -49,7 +50,7 @@ const CST_EXTENSION_JPEG           = '.jpg' ;
                         			                	  'Version 1.0.0.1 : Meilleure gestion des images, problèmes de rafraichissement.' + #13#10 +
                         			                	  'Version 1.0.0.0 : La gestion est en place.' + #13#10 + 'Il faut utiliser les fonctions et vérifier les erreurs éventuellement produites avec Memproof.';
                         			              UnitType : 1 ;
-                        			              Major : 1 ; Minor : 0 ; Release : 1 ; Build : 5 );
+                        			              Major : 1 ; Minor : 0 ; Release : 2 ; Build : 1 );
 
 {$ENDIF}
 
