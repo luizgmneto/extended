@@ -11,7 +11,6 @@ package ExtComponents;
 {$R '..\..\inicomp\u_onforminfoini.dcr'}
 {$R '..\..\btncomp\u_buttons_appli.dcr'}
 {$R '..\..\inicomp\u_extmenutoolbar.dcr'}
-{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -22,21 +21,17 @@ package ExtComponents;
 {$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
+{$OPTIMIZATION ON}
 {$OVERFLOWCHECKS OFF}
 {$RANGECHECKS OFF}
 {$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
-{$WRITEABLECONST ON}
+{$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
-{$DEFINE ADO}
-{$DEFINE ADO}
-{$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'Composants améliorés LIBERLOG'}
 {$IMPLICITBUILD ON}
 
@@ -56,18 +51,11 @@ requires
   designdgm,
   vcldesigner,
   dcldb,
-  TntUnicodeVCL_R90,
   dsnap,
   xmlrtl,
   vclactnband,
   dclado,
-  VirtualTreesD10,
-  rxdb,
-  rxctl,
   ExpertSuperForm,
-  rxbde,
-  RLibWinTW322006vcl,
-  VampyreImagingPackage,
   IndyProtocols,
   Jcl,
   JclVcl,
@@ -76,13 +64,14 @@ requires
   JvStdCtrls,
   JvDB,
   JvXPCtrls,
-  ESBase70;
+  RLibWinD2006,
+  VirtualTreesR,
+  VampyreImagingPackage.D2006;
 
 contains
   fonctions_db in '..\..\core\fonctions_db.pas',
   fonctions_erreurs in '..\..\core\fonctions_erreurs.pas',
   fonctions_languages in '..\..\core\fonctions_languages.pas',
-  fonctions_objects in '..\..\core\fonctions_objects.pas',
   fonctions_proprietes in '..\..\core\fonctions_proprietes.pas',
   fonctions_scaledpi in '..\..\core\fonctions_scaledpi.pas',
   fonctions_string in '..\..\core\fonctions_string.pas',
@@ -98,7 +87,6 @@ contains
   fonctions_numedit in '..\..\base\fonctions_numedit.pas',
   fonctions_version in '..\..\base\fonctions_version.pas',
   fonctions_web in '..\..\base\fonctions_web.pas',
-  StoHtmlHelp in '..\..\base\StoHtmlHelp.pas',
   type_string_delphi in '..\..\base\type_string_delphi.pas',
   U_About in '..\..\base\U_About.pas',
   U_RegVersion in '..\..\base\U_RegVersion.pas',
@@ -158,7 +146,6 @@ contains
   fonctions_dialogs in '..\..\btncomp\fonctions_dialogs.pas',
   u_form_msg in '..\..\btncomp\u_form_msg.pas',
   u_form_working in '..\..\btncomp\u_form_working.pas',
-  u_registerforms in '..\..\inicomp\u_registerforms.pas',
   fonctions_net in '..\..\extnet\fonctions_net.pas',
   u_netupdate in '..\..\extnet\u_netupdate.pas',
   u_register_net in '..\..\extnet\u_register_net.pas',
