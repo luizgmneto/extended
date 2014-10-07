@@ -872,7 +872,11 @@ var atitleHeight, aSpaceWidth: Integer;
     ARightBand  : TRLBand;
     ARightReports : array of TRLReport;
     LMinusBM : TBitmap;
+    {$IFDEF FPC}
+    AText : String;
+    {$ELSE}
     AText : UnicodeString;
+    {$ENDIF}
     AGhosted : Boolean;
     ATextHeight,ATextWidth : Integer;
     ATreeLevel : Integer;
