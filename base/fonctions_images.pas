@@ -1047,7 +1047,11 @@ procedure p_FileToBitmap ( const afile : String; const abmp_Image : TBitmap ; co
 var lid_imagedata : {$IFDEF BGRA}TBGRABitmap{$ELSE}TImageData{$ENDIF};
 begin
   lid_imagedata:=fci_FileToCustomImage ( afile, ab_ShowError );
+  {$IFDEF BGRA}
   if assigned(lid_imagedata) Then
+  {$ELSE}
+  if lid_imagedata.Size > 0 Then
+  {$ENDIF}
    try
     {$IFDEF BGRA}
     abmp_Image.Assign(lid_imagedata.Bitmap);
