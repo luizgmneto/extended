@@ -32,12 +32,11 @@
   {$ENDIF}
   {.$DEFINE VERSIONS}
 {$ELSE}
-  {$IFDEF COMPILER_10_UP}
+  {$IFDEF COMPILER_10}
     {$DEFINE WIDECHAR}
   {$ENDIF}
   {$IFDEF COMPILER_11_UP}
     {$DEFINE WITH_TBOOKMARK}        // Have TBookmark
-    {$DEFINE UTF8OS}        // Have UTF 8 OS
   {$ELSE}
     {$DEFINE INDY10}        // Have UTF 8 OS
   {$ENDIF}

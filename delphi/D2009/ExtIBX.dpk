@@ -27,7 +27,7 @@ package ExtIBX;
 requires
   rtl,
   dbrtl,
-  ExtComponents.ExtComponents,
+  ExtComponents,
   ibxpress;
 
 contains

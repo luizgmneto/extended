@@ -50,8 +50,16 @@
 			</DelphiCompile>
 			<DCCReference Include="rtl.dcp"/>
 			<DCCReference Include="dbrtl.dcp"/>
-			<DCCReference Include="ExtComponents.ExtComponents.dcp"/>
+			<DCCReference Include="ExtComponents.dcp"/>
+			<DCCReference Include="ZComponent.dcp"/>
+			<DCCReference Include="ZParseSql.dcp"/>
+			<DCCReference Include="ZCore.dcp"/>
+			<DCCReference Include="ZDbc.dcp"/>
+			<DCCReference Include="ZPlain.dcp"/>
+			<DCCReference Include="..\..\extdb\fonctions_startzeos.pas"/>
 			<DCCReference Include="VirtualTreesR.dcp"/>
+			<DCCReference Include="ExtComponents.ExtComponents.dcp"/>
+			<DCCReference Include="ExtComponents..dcp"/>
 			<DCCReference Include="VampyreImagingPackage.D2009.dcp"/>
 			<DCCReference Include="vcl.dcp"/>
 			<DCCReference Include="ExtIBX.dcp"/>
@@ -89,14 +97,6 @@
 			<DCCReference Include="dbexpress.dcp"/>
 			<DCCReference Include="DbxClientDriver.dcp"/>
 			<DCCReference Include="DbxCommonDriver.dcp"/>
-			<DCCReference Include="ZComponent.dcp"/>
-			<DCCReference Include="ZParseSql.dcp"/>
-			<DCCReference Include="ZCore.dcp"/>
-			<DCCReference Include="ZDbc.dcp"/>
-			<DCCReference Include="ZPlain.dcp"/>
-			<DCCReference Include="..\..\extdb\fonctions_startzeos.pas"/>
-			<DCCReference Include="ExtComponents.dcp"/>
-			<DCCReference Include="VampyreImagingPackage.dcp"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
