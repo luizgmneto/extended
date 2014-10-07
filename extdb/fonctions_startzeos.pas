@@ -1,4 +1,4 @@
-unit fonctions_startzeos;
+﻿unit fonctions_startzeos;
 
 {$IFDEF FPC}
 {$MODE Delphi}
@@ -33,7 +33,10 @@ uses
     ZSqlProcessor,
     ZAbstractRODataset,
     StdCtrls,
-    fonctions_system, FileUtil, fonctions_db, fonctions_file,
+{$IFDEF FPC}
+    FileUtil,
+{$ENDIF}
+    fonctions_system, fonctions_db, fonctions_file,
     fonctions_proprietes,
     ZCompatibility,
     ZDbcIntfs,

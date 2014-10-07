@@ -55,7 +55,6 @@ requires
   vclactnband,
   dclado,
   ExpertSuperForm,
-  VampyreImagingPackage,
   IndyProtocols,
   Jcl,
   JclVcl,
@@ -63,7 +62,8 @@ requires
   JvSystem,
   JvStdCtrls,
   JvDB,
-  JvXPCtrls;
+  JvXPCtrls,
+  RLibWinD2009;
 
 contains
   fonctions_db in '..\..\core\fonctions_db.pas',

@@ -91,7 +91,6 @@
 			<DCCReference Include="vclactnband.dcp"/>
 			<DCCReference Include="dclado.dcp"/>
 			<DCCReference Include="ExpertSuperForm.dcp"/>
-			<DCCReference Include="VampyreImagingPackage.dcp"/>
 			<DCCReference Include="IndyProtocols.dcp"/>
 			<DCCReference Include="Jcl.dcp"/>
 			<DCCReference Include="JclVcl.dcp"/>
@@ -100,6 +99,7 @@
 			<DCCReference Include="JvStdCtrls.dcp"/>
 			<DCCReference Include="JvDB.dcp"/>
 			<DCCReference Include="JvXPCtrls.dcp"/>
+			<DCCReference Include="RLibWinD2009.dcp"/>
 			<DCCReference Include="..\..\core\fonctions_db.pas"/>
 			<DCCReference Include="..\..\core\fonctions_erreurs.pas"/>
 			<DCCReference Include="..\..\core\fonctions_languages.pas"/>
