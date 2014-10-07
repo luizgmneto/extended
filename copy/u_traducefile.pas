@@ -150,9 +150,9 @@ uses fonctions_images,fonctions_file, fonctions_string, Forms,
      CCR.Exif.JpegUtils, CCR.Exif.TagIDs, CCR.Exif.XMPUtils,
   {$ENDIF}
   {$IFDEF FPC}
-     LazUTF8, FileUtil,
+     LazUTF8, FileUtil,lazutf8Classes,
   {$ENDIF}
-  TypInfo,lazutf8Classes;
+  TypInfo;
 {$IFDEF MAGICK}
 function ThrowWandException(wand: PMagickWand): String;
 var
@@ -474,7 +474,7 @@ function TTraduceFile.SaveToFile ( const Adata : {$IFDEF MAGICK}PMagickWand{$ELS
                                    const as_source, as_Destination : String ; const AFormat :
                                    {$IFDEF MAGICK}String {$ELSE}{$IFDEF BGRA}TBGRAImageFormat{$ELSE}TImageFileFormat{$ENDIF}{$ENDIF};
                                    const AResized : Boolean = False ):Longint;
-var   FileStream, FileStreamSource : TFileStreamUTF8 ;
+var   FileStream, FileStreamSource : {$IFDEF UTF8OS}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF} ;
       LBuffer : array of Byte;
       LBufferSize : Integer;
       {$IFDEF BGRA}
@@ -488,7 +488,7 @@ Begin
         Result := Longint (MagickWriteImage   ( Adata, Pchar(as_Destination))<>MagickTrue);
         {$ELSE}
         fb_CreateDirectoryStructure(ExtractFileDir(as_Destination));
-        FileStream := TFileStreamUTF8.Create(as_Destination,fmCreate);
+        FileStream := {$IFDEF UTF8OS}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF}.Create(as_Destination,fmCreate);
         try
           if FHeader <> nil Then
              HexToBinary ( FHeader.Lines, FileStream );
@@ -521,7 +521,7 @@ Begin
           if  (Result > 0)
           and FileExistsUTF8(as_source) Then
            Begin
-             FileStreamSource := TFileStreamUTF8.Create(as_source,fmOpenRead);
+             FileStreamSource := {$IFDEF UTF8OS}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF}.Create(as_source,fmOpenRead);
              SetLength(LBuffer,FBufferSize);
              with FileStreamSource do
                try

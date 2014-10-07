@@ -20,6 +20,7 @@
        {$DEFINE SPECIALEDIT}        // Have TBookmark
   {$ENDIF}
   {$DEFINE LNET}
+  {$DEFINE UTF8OS}        // Have UTF 8 OS
   {$DEFINE BGRA}
   {$DEFINE UTF8}
   {$DEFINE DBNET}
@@ -31,11 +32,14 @@
   {$ENDIF}
   {.$DEFINE VERSIONS}
 {$ELSE}
+  {$IFDEF COMPILER_10_UP}
+    {$DEFINE WIDECHAR}
+  {$ENDIF}
   {$IFDEF COMPILER_11_UP}
     {$DEFINE WITH_TBOOKMARK}        // Have TBookmark
-  {$ENDIF}
-  {$IFDEF COMPILER_XE}
-    {$DEFINE WIDECHAR}
+    {$DEFINE UTF8OS}        // Have UTF 8 OS
+  {$ELSE}
+    {$DEFINE INDY10}        // Have UTF 8 OS
   {$ENDIF}
   {$DEFINE RXJVCOMBO}
   {$DEFINE VERSIONS}
