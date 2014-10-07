@@ -144,6 +144,9 @@
   {$if CompilerVersion=14}
     {$define COMPILER_13}
   {$ifend}
+  {$if CompilerVersion=13}
+    {$define COMPILER_12}
+  {$ifend}
   {$ifend}
 
   {$ifdef VER200}

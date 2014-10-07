@@ -1690,10 +1690,13 @@
       <Unit172>
         <Filename Value="../../reportcomp/fonctions_reports.pas"/>
         <UnitName Value="fonctions_reports"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="513"/>
-        <CursorPos X="44" Y="535"/>
+        <TopLine Value="986"/>
+        <CursorPos X="54" Y="1006"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit172>
       <Unit173>
         <Filename Value="../../../ManFrames/lazregdbnet.pas"/>
@@ -1731,7 +1734,7 @@
       <Unit177>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
         <UnitName Value="u_extsearchedit"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="682"/>
         <CursorPos X="33" Y="682"/>
@@ -1791,77 +1794,62 @@
       <Unit184>
         <Filename Value="../../../../../../lazarus/components/ideintf/dbpropedits.pas"/>
         <UnitName Value="DBPropEdits"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="136"/>
         <CursorPos X="47" Y="169"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit184>
       <Unit185>
         <Filename Value="../../../../../../1.2.1/lcl/dbctrls.pp"/>
         <UnitName Value="DbCtrls"/>
-        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="876"/>
         <CursorPos X="15" Y="895"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit185>
       <Unit186>
         <Filename Value="../../../../../../1.2.1/lcl/stdctrls.pp"/>
         <UnitName Value="StdCtrls"/>
-        <EditorIndex Value="14"/>
         <WindowIndex Value="0"/>
         <TopLine Value="284"/>
         <CursorPos X="3" Y="257"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit186>
       <Unit187>
         <Filename Value="../../../../../../1.2.1/lcl/include/dblookupcombobox.inc"/>
-        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <TopLine Value="143"/>
         <CursorPos X="3" Y="181"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit187>
       <Unit188>
         <Filename Value="../../extcomp/fonctions_search_edit - Copie.pas"/>
-        <UnitName Value="fonctions_search_edit"/>
-        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="468"/>
         <CursorPos X="1" Y="504"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit188>
       <Unit189>
         <Filename Value="../../extcomp/u_extsearchedit - Copie.pas"/>
-        <UnitName Value="u_extsearchedit"/>
-        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="484"/>
         <CursorPos X="1" Y="519"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit189>
       <Unit190>
         <Filename Value="../../../../../../1.2.1/lcl/forms.pp"/>
         <UnitName Value="Forms"/>
-        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="517"/>
         <CursorPos X="1" Y="520"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit190>
       <Unit191>
         <Filename Value="../../../../Lazarus/ccr/components/rx/trunk/rxpopupunit.pas"/>
         <UnitName Value="rxpopupunit"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="35"/>
         <CursorPos X="16" Y="56"/>
@@ -1871,7 +1859,7 @@
       <Unit192>
         <Filename Value="../../../../Lazarus/ccr/components/rx/trunk/rxdbgrid.pas"/>
         <UnitName Value="rxdbgrid"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
@@ -1881,31 +1869,25 @@
       <Unit193>
         <Filename Value="../../../../../../1.2.1/lcl/dbgrids.pas"/>
         <UnitName Value="DBGrids"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3085"/>
         <CursorPos X="43" Y="3120"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit193>
       <Unit194>
         <Filename Value="../../../../../../lazarus/fpc/2.6.2/source/packages/fcl-db/src/base/db.pas"/>
         <UnitName Value="db"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1464"/>
         <CursorPos X="29" Y="1492"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit194>
       <Unit195>
         <Filename Value="../../../../../../lazarus/fpc/2.6.2/source/packages/fcl-db/src/base/dataset.inc"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1436"/>
         <CursorPos X="7" Y="1471"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit195>
       <Unit196>
         <Filename Value="../../../Ancestromania/Packages/AncestroComponents/lazancestroreg.pas"/>
@@ -1918,8 +1900,7 @@
       <Unit197>
         <Filename Value="../../imgcomp/u_buttons_defs.pas"/>
         <UnitName Value="u_buttons_defs"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="46"/>
         <CursorPos X="71" Y="73"/>
@@ -1927,127 +1908,91 @@
         <Loaded Value="True"/>
       </Unit197>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="21" HistoryIndex="20">
       <Position1>
-        <Filename Value="../../../../../../1.2.1/lcl/dbgrids.pas"/>
-        <Caret Line="2781" Column="46" TopLine="2746"/>
-      </Position1>
-      <Position2>
-        <Filename Value="../../../../../../1.2.1/lcl/dbgrids.pas"/>
-        <Caret Line="2783" Column="94" TopLine="2748"/>
-      </Position2>
-      <Position3>
-        <Filename Value="../../../../../../1.2.1/lcl/dbgrids.pas"/>
-        <Caret Line="2806" Column="27" TopLine="2771"/>
-      </Position3>
-      <Position4>
-        <Filename Value="../../../../../../1.2.1/lcl/dbgrids.pas"/>
-        <Caret Line="2807" Column="25" TopLine="2772"/>
-      </Position4>
-      <Position5>
-        <Filename Value="../../../../../../1.2.1/lcl/dbgrids.pas"/>
-        <Caret Line="2811" Column="25" TopLine="2776"/>
-      </Position5>
-      <Position6>
-        <Filename Value="../../../../../../1.2.1/lcl/dbgrids.pas"/>
-        <Caret Line="2815" Column="76" TopLine="2780"/>
-      </Position6>
-      <Position7>
-        <Filename Value="../../../../../../1.2.1/lcl/dbgrids.pas"/>
-        <Caret Line="2857" Column="41" TopLine="2822"/>
-      </Position7>
-      <Position8>
-        <Filename Value="../../../../../../1.2.1/lcl/dbgrids.pas"/>
-        <Caret Line="2903" Column="68" TopLine="2868"/>
-      </Position8>
-      <Position9>
-        <Filename Value="../../../../../../1.2.1/lcl/dbgrids.pas"/>
-        <Caret Line="3113" Column="28" TopLine="3078"/>
-      </Position9>
-      <Position10>
-        <Filename Value="../../../../../../1.2.1/lcl/dbgrids.pas"/>
-        <Caret Line="3116" Column="75" TopLine="3081"/>
-      </Position10>
-      <Position11>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
         <Caret Line="78" Column="1" TopLine="78"/>
-      </Position11>
-      <Position12>
+      </Position1>
+      <Position2>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
         <Caret Line="202" Column="48" TopLine="198"/>
-      </Position12>
-      <Position13>
+      </Position2>
+      <Position3>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
         <Caret Line="205" Column="19" TopLine="198"/>
-      </Position13>
-      <Position14>
+      </Position3>
+      <Position4>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
+      </Position4>
+      <Position5>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="415" Column="39" TopLine="406"/>
+      </Position5>
+      <Position6>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position6>
+      <Position7>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="412" Column="40" TopLine="379"/>
+      </Position7>
+      <Position8>
+        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
+        <Caret Line="301" Column="11" TopLine="294"/>
+      </Position8>
+      <Position9>
+        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position9>
+      <Position10>
+        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
+        <Caret Line="59" Column="32" TopLine="24"/>
+      </Position10>
+      <Position11>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="687" Column="42" TopLine="682"/>
+      </Position11>
+      <Position12>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="715" Column="44" TopLine="682"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
+        <Caret Line="111" Column="30" TopLine="76"/>
       </Position14>
       <Position15>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="415" Column="39" TopLine="406"/>
+        <Caret Line="224" Column="30" TopLine="189"/>
       </Position15>
       <Position16>
         <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="415" Column="1" TopLine="377"/>
       </Position16>
       <Position17>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="412" Column="40" TopLine="379"/>
+        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
+        <Caret Line="614" Column="20" TopLine="608"/>
       </Position17>
       <Position18>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="301" Column="11" TopLine="294"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position18>
       <Position19>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="198" Column="1" TopLine="167"/>
       </Position19>
       <Position20>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="59" Column="32" TopLine="24"/>
-      </Position20>
-      <Position21>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="687" Column="42" TopLine="682"/>
-      </Position21>
-      <Position22>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="715" Column="44" TopLine="682"/>
-      </Position22>
-      <Position23>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position23>
-      <Position24>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="111" Column="30" TopLine="76"/>
-      </Position24>
-      <Position25>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="224" Column="30" TopLine="189"/>
-      </Position25>
-      <Position26>
-        <Filename Value="../../extcomp/u_extsearchedit.pas"/>
-        <Caret Line="415" Column="1" TopLine="377"/>
-      </Position26>
-      <Position27>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="614" Column="20" TopLine="608"/>
-      </Position27>
-      <Position28>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position28>
-      <Position29>
-        <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
-        <Caret Line="198" Column="1" TopLine="167"/>
-      </Position29>
-      <Position30>
         <Filename Value="../../imgcomp/u_buttons_defs.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
-      </Position30>
+      </Position20>
+      <Position21>
+        <Filename Value="../../reportcomp/fonctions_reports.pas"/>
+        <Caret Line="535" Column="44" TopLine="513"/>
+      </Position21>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

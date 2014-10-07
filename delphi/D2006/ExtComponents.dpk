@@ -40,8 +40,6 @@ requires
   vcl,
   dbrtl,
   vcldb,
-  adortl,
-  vcljpg,
   vclx,
   designide,
   dbexpress,
