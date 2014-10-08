@@ -32,7 +32,7 @@ package ExtComponents;
 {$WRITEABLECONST ON}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DESCRIPTION 'Composants améliorés LIBERLOG'}
+{$DESCRIPTION 'Extended'}
 {$IMPLICITBUILD ON}
 
 requires
