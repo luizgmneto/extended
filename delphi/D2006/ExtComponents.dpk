@@ -32,7 +32,7 @@ package ExtComponents;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DESCRIPTION 'Composants améliorés LIBERLOG'}
+{$DESCRIPTION 'Extended'}
 {$IMPLICITBUILD ON}
 
 requires
@@ -64,7 +64,7 @@ requires
   JvXPCtrls,
   RLibWinD2006,
   VirtualTreesR,
-  VampyreImagingPackage.D2006;
+  VampyreImagingPackage;
 
 contains
   fonctions_db in '..\..\core\fonctions_db.pas',
@@ -151,6 +151,8 @@ contains
   menutbar in '..\..\inicomp\menutbar.pas',
   u_extformatedits in '..\..\extcomp\u_extformatedits.pas',
   md5api in '..\..\extnet\md5api.pas',
-  fonctions_search_edit in '..\..\extcomp\fonctions_search_edit.pas';
+  fonctions_search_edit in '..\..\extcomp\fonctions_search_edit.pas',
+  u_extfilecomp in '..\..\copy\u_extfilecomp.pas',
+  MD5Core in '..\..\extnet\MD5Core.pas';
 
 end.

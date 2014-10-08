@@ -45,7 +45,7 @@
 			<DCC_WriteableConstants>true</DCC_WriteableConstants>
 			<DCC_N>true</DCC_N>
 			<VerInfo_Locale>1036</VerInfo_Locale>
-			<DCC_Description>Composants améliorés LIBERLOG</DCC_Description>
+			<DCC_Description>Extended</DCC_Description>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
 			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
@@ -102,6 +102,102 @@
 			<DCCReference Include="JvXPCtrls.dcp"/>
 			<DCCReference Include="RLibWinD2009.dcp"/>
 			<DCCReference Include="VampyreImagingPackage.D2009.dcp"/>
+			<DCCReference Include="..\..\btncomp\u_buttons_appli.pas"/>
+			<DCCReference Include="..\..\btncomp\u_buttons_speed.pas"/>
+			<DCCReference Include="..\..\btncomp\u_regfwbuttons.pas"/>
+			<DCCReference Include="..\..\btncomp\u_regfwbuttons_appli.pas"/>
+			<DCCReference Include="..\..\btncomp\u_regsbbuttons.pas"/>
+			<DCCReference Include="..\..\extcomp\PCheck.pas"/>
+			<DCCReference Include="..\..\extcomp\PDBCheck.pas"/>
+			<DCCReference Include="..\..\extcomp\u_dblistview.pas"/>
+			<DCCReference Include="..\..\extcomp\u_extcolorcombos.pas"/>
+			<DCCReference Include="..\..\extcomp\U_ExtComboInsert.pas"/>
+			<DCCReference Include="..\..\extcomp\u_extdbnavigator.pas"/>
+			<DCCReference Include="..\..\extcomp\U_ExtNumEdits.pas"/>
+			<DCCReference Include="..\..\extcomp\u_extradios.pas"/>
+			<DCCReference Include="..\..\extcomp\u_extsearchedit.pas"/>
+			<DCCReference Include="..\..\extcomp\u_framework_components.pas"/>
+			<DCCReference Include="..\..\extcomp\u_framework_dbcomponents.pas"/>
+			<DCCReference Include="..\..\extcomp\U_GroupView.pas"/>
+			<DCCReference Include="..\..\extcomp\u_regextcomponents.pas"/>
+			<DCCReference Include="..\..\extcomp\u_regextracomponents.pas"/>
+			<DCCReference Include="..\..\extcomp\U_RegisterGroupView.pas"/>
+			<DCCReference Include="..\..\inicomp\fonctions_init.pas"/>
+			<DCCReference Include="..\..\inicomp\u_customizemenu.pas"/>
+			<DCCReference Include="..\..\inicomp\u_extmenucustomize.pas"/>
+			<DCCReference Include="..\..\inicomp\u_formadapt.pas"/>
+			<DCCReference Include="..\..\inicomp\u_formmainini.pas"/>
+			<DCCReference Include="..\..\inicomp\u_onforminfoini.pas"/>
+			<DCCReference Include="..\..\inicomp\u_reginicomponents.pas"/>
+			<DCCReference Include="..\..\reportcomp\fonctions_reports.pas"/>
+			<DCCReference Include="..\..\reportcomp\u_regreports_components.pas"/>
+			<DCCReference Include="..\..\reportcomp\u_reportform.pas"/>
+			<DCCReference Include="..\..\reportcomp\u_reports_components.pas"/>
+			<DCCReference Include="..\..\reportcomp\u_reports_rlcomponents.pas"/>
+			<DCCReference Include="..\..\imgcomp\u_buttons_defs.pas"/>
+			<DCCReference Include="..\..\imgcomp\u_extdbgrid.pas"/>
+			<DCCReference Include="..\..\imgcomp\u_extdbimage.pas"/>
+			<DCCReference Include="..\..\imgcomp\u_extdbimagelist.pas"/>
+			<DCCReference Include="..\..\imgcomp\u_extdbpictcombo.pas"/>
+			<DCCReference Include="..\..\imgcomp\u_extimage.pas"/>
+			<DCCReference Include="..\..\imgcomp\u_extimagelist.pas"/>
+			<DCCReference Include="..\..\imgcomp\u_extmapimageindex.pas"/>
+			<DCCReference Include="..\..\imgcomp\U_ExtPictCombo.pas"/>
+			<DCCReference Include="..\..\imgcomp\u_regimagecomponents.pas"/>
+			<DCCReference Include="..\..\inicomp\fonctions_forms.pas"/>
+			<DCCReference Include="..\..\inicomp\fonctions_vtree.pas"/>
+			<DCCReference Include="..\..\btncomp\fonctions_dialogs.pas"/>
+			<DCCReference Include="..\..\btncomp\u_form_msg.pas"/>
+			<DCCReference Include="..\..\btncomp\u_form_working.pas"/>
+			<DCCReference Include="..\..\extnet\fonctions_net.pas"/>
+			<DCCReference Include="..\..\extnet\u_netupdate.pas"/>
+			<DCCReference Include="..\..\extnet\u_register_net.pas"/>
+			<DCCReference Include="..\..\inicomp\u_extmenutoolbar.pas"/>
+			<DCCReference Include="..\..\inicomp\menutbar.pas"/>
+			<DCCReference Include="..\..\extcomp\u_extformatedits.pas"/>
+			<DCCReference Include="..\..\extnet\md5api.pas"/>
+			<DCCReference Include="..\..\extcomp\fonctions_search_edit.pas"/>
+			<DCCReference Include="..\..\base\fonctions_array.pas"/>
+			<DCCReference Include="..\..\base\fonctions_components.pas"/>
+			<DCCReference Include="..\..\base\fonctions_date.pas"/>
+			<DCCReference Include="..\..\base\fonctions_dbcomponents.pas"/>
+			<DCCReference Include="..\..\base\fonctions_images.pas"/>
+			<DCCReference Include="..\..\base\fonctions_numedit.pas"/>
+			<DCCReference Include="..\..\base\fonctions_version.pas"/>
+			<DCCReference Include="..\..\base\fonctions_web.pas"/>
+			<DCCReference Include="..\..\base\type_string_delphi.pas"/>
+			<DCCReference Include="..\..\base\U_About.pas"/>
+			<DCCReference Include="..\..\base\U_RegVersion.pas"/>
+			<DCCReference Include="..\..\core\fonctions_db.pas"/>
+			<DCCReference Include="..\..\core\fonctions_erreurs.pas"/>
+			<DCCReference Include="..\..\core\fonctions_languages.pas"/>
+			<DCCReference Include="..\..\core\fonctions_proprietes.pas"/>
+			<DCCReference Include="..\..\core\fonctions_scaledpi.pas"/>
+			<DCCReference Include="..\..\core\fonctions_string.pas"/>
+			<DCCReference Include="..\..\core\fonctions_system.pas"/>
+			<DCCReference Include="..\..\core\fonctions_variant.pas"/>
+			<DCCReference Include="..\..\core\type_string.pas"/>
+			<DCCReference Include="..\..\core\u_extcomponent.pas"/>
+			<DCCReference Include="..\..\core\unite_messages.pas"/>
+			<DCCReference Include="..\..\core\unite_messages_delphi.pas"/>
+			<DCCReference Include="..\..\copy\fonctions_file.pas"/>
+			<DCCReference Include="..\..\copy\u_extabscopy.pas"/>
+			<DCCReference Include="..\..\copy\u_extfilecomp.pas"/>
+			<DCCReference Include="..\..\copy\U_ExtFileCopy.pas"/>
+			<DCCReference Include="..\..\copy\u_extractfile.pas"/>
+			<DCCReference Include="..\..\copy\u_regextfilecopy.pas"/>
+			<DCCReference Include="..\..\copy\u_traducefile.pas"/>
+			<DCCReference Include="..\..\copy\unit_messagescopy_delphi.pas"/>
+			<DCCReference Include="..\..\copy\U_ExtFileCopy.dcr"/>
+			<DCCReference Include="..\..\copy\u_traducefile.dcr"/>
+			<DCCReference Include="..\..\extcomp\u_extcolorcombos.dcr"/>
+			<DCCReference Include="..\..\extcomp\u_extdbnavigator.dcr"/>
+			<DCCReference Include="..\..\extcomp\U_ExtNumEdits.dcr"/>
+			<DCCReference Include="..\..\extcomp\u_regextracomponents.dcr"/>
+			<DCCReference Include="..\..\inicomp\u_extmenucustomize.dcr"/>
+			<DCCReference Include="..\..\inicomp\u_onforminfoini.dcr"/>
+			<DCCReference Include="..\..\btncomp\u_buttons_appli.dcr"/>
+			<DCCReference Include="..\..\inicomp\u_extmenutoolbar.dcr"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
