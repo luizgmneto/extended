@@ -1,24 +1,24 @@
 object Form1: TForm1
-  Left = 613
-  Height = 564
-  Top = 202
+  Left = 133
+  Height = 548
+  Top = 0
   Width = 885
   Caption = 'TNetUpdate Ini'
-  ClientHeight = 564
+  ClientHeight = 548
   ClientWidth = 885
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.2.3.0'
+  LCLVersion = '1.2.4.0'
   object Panel31: TPanel
     Left = 0
-    Height = 515
+    Height = 499
     Top = 0
     Width = 424
     Align = alLeft
     Caption = 'Panel31'
-    ClientHeight = 515
+    ClientHeight = 499
     ClientWidth = 424
     TabOrder = 0
     object Panel2: TPanel
@@ -34,14 +34,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 77
+        Width = 78
         Align = alLeft
         Caption = 'Windows i386'
         ParentColor = False
       end
       object FileWin32: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'exe|*.exe'
@@ -77,14 +77,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 88
+        Width = 89
         Align = alLeft
         Caption = 'Windows i86-64'
         ParentColor = False
       end
       object FileWin33: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'exe|*.exe'
@@ -120,14 +120,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 131
+        Width = 134
         Align = alLeft
         Caption = 'MAC OSX CARBON i386'
         ParentColor = False
       end
       object FileWin34: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'mdg,pkg|*.mdg;*.pkg'
@@ -163,14 +163,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 142
+        Width = 145
         Align = alLeft
         Caption = 'MAC OSX CARBON i86-64'
         ParentColor = False
       end
       object FileWin35: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'mdg,pkg|*.mdg;*.pkg'
@@ -206,14 +206,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 129
+        Width = 132
         Align = alLeft
         Caption = 'MAC OSX CARBON PPC'
         ParentColor = False
       end
       object FileWin36: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'mdg,pkg|*.mdg;*.pkg'
@@ -249,14 +249,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 115
+        Width = 116
         Align = alLeft
         Caption = 'DEBIAN GNOME i386'
         ParentColor = False
       end
       object FileWin38: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'deb|*.deb'
@@ -292,14 +292,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 126
+        Width = 127
         Align = alLeft
         Caption = 'DEBIAN GNOME i86-64'
         ParentColor = False
       end
       object FileWin39: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'deb|*.deb'
@@ -335,14 +335,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 113
+        Width = 114
         Align = alLeft
         Caption = 'DEBIAN GNOME PPC'
         ParentColor = False
       end
       object FileWin40: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'deb|*.deb'
@@ -378,14 +378,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 114
+        Width = 117
         Align = alLeft
         Caption = 'DEBIAN GNOME ARM'
         ParentColor = False
       end
       object FileWin41: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'deb|*.deb'
@@ -421,14 +421,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 94
+        Width = 97
         Align = alLeft
         Caption = 'DEBIAN KDE ARM'
         ParentColor = False
       end
       object FileWin42: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'deb|*.deb'
@@ -464,14 +464,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 93
+        Width = 94
         Align = alLeft
         Caption = 'DEBIAN KDE PPC'
         ParentColor = False
       end
       object FileWin43: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'deb|*.deb'
@@ -507,14 +507,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 106
+        Width = 107
         Align = alLeft
         Caption = 'DEBIAN KDE i86-64'
         ParentColor = False
       end
       object FileWin44: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'deb|*.deb'
@@ -550,14 +550,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 95
+        Width = 96
         Align = alLeft
         Caption = 'DEBIAN KDE i386'
         ParentColor = False
       end
       object FileWin45: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'deb|*.deb'
@@ -593,14 +593,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 118
+        Width = 119
         Align = alLeft
         Caption = 'REDHAT GNOME i386'
         ParentColor = False
       end
       object FileWin47: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'rpm|*.rpm'
@@ -636,14 +636,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 129
+        Width = 130
         Align = alLeft
         Caption = 'REDHAT GNOME i86-64'
         ParentColor = False
       end
       object FileWin48: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'rpm|*.rpm'
@@ -679,14 +679,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 116
+        Width = 117
         Align = alLeft
         Caption = 'REDHAT GNOME PPC'
         ParentColor = False
       end
       object FileWin49: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'rpm|*.rpm'
@@ -722,14 +722,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 117
+        Width = 120
         Align = alLeft
         Caption = 'REDHAT GNOME ARM'
         ParentColor = False
       end
       object FileWin50: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'rpm|*.rpm'
@@ -765,14 +765,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 98
+        Width = 99
         Align = alLeft
         Caption = 'REDHAT KDE i386'
         ParentColor = False
       end
       object FileWin51: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'rpm|*.rpm'
@@ -808,14 +808,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 109
+        Width = 110
         Align = alLeft
         Caption = 'REDHAT KDE i86-64'
         ParentColor = False
       end
       object FileWin52: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'rpm|*.rpm'
@@ -851,14 +851,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 96
+        Width = 97
         Align = alLeft
         Caption = 'REDHAT KDE PPC'
         ParentColor = False
       end
       object FileWin53: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'rpm|*.rpm'
@@ -894,14 +894,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 97
+        Width = 100
         Align = alLeft
         Caption = 'REDHAT KDE ARM'
         ParentColor = False
       end
       object FileWin60: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 169
         Filter = 'rpm|*.rpm'
@@ -928,7 +928,7 @@ object Form1: TForm1
   object PanelBottom: TPanel
     Left = 0
     Height = 49
-    Top = 515
+    Top = 499
     Width = 885
     Align = alBottom
     ClientHeight = 49
@@ -945,7 +945,7 @@ object Form1: TForm1
     end
     object FilterComboBox: TFilterComboBox
       Left = 8
-      Height = 25
+      Height = 27
       Top = 6
       Width = 153
       Filter = 'Tous les fichiers (*.*)|*.*|Fichiers DELPHI et LAZARUS|*.dpr;*.lpi;*.pas;*.dfm;*.lfm|Fichiers projet|*.dpr;*.lpi|Unités DELPHI|*.pas|Propriétés DELPHI|*.dfm|Propriétés LAZARUS|*.lfm'
@@ -954,7 +954,7 @@ object Form1: TForm1
     end
     object DirectoryDest: TDirectoryEdit
       Left = 312
-      Height = 22
+      Height = 24
       Top = 0
       Width = 192
       ShowHidden = False
@@ -965,7 +965,7 @@ object Form1: TForm1
     end
     object DirectoryExe: TDirectoryEdit
       Left = 312
-      Height = 22
+      Height = 24
       Top = 19
       Width = 192
       ShowHidden = False
@@ -987,13 +987,13 @@ object Form1: TForm1
       Left = 256
       Height = 14
       Top = 22
-      Width = 48
+      Width = 49
       Caption = 'Exe Dir :'
       ParentColor = False
     end
     object FileBase: TFileNameEdit
       Left = 576
-      Height = 22
+      Height = 24
       Top = 0
       Width = 193
       Filter = 'Firebird|*.fdb;*.FDB'
@@ -1010,7 +1010,7 @@ object Form1: TForm1
       Left = 536
       Height = 14
       Top = 3
-      Width = 37
+      Width = 36
       Caption = 'Base :'
       ParentColor = False
     end
@@ -1025,7 +1025,7 @@ object Form1: TForm1
     end
     object UserName: TEdit
       Left = 576
-      Height = 22
+      Height = 24
       Top = 24
       Width = 80
       TabOrder = 6
@@ -1033,7 +1033,7 @@ object Form1: TForm1
     end
     object PassWord: TEdit
       Left = 728
-      Height = 22
+      Height = 24
       Top = 24
       Width = 80
       EchoMode = emPassword
@@ -1045,7 +1045,7 @@ object Form1: TForm1
       Left = 536
       Height = 14
       Top = 31
-      Width = 35
+      Width = 34
       Caption = 'User :'
       ParentColor = False
     end
@@ -1053,18 +1053,18 @@ object Form1: TForm1
       Left = 664
       Height = 14
       Top = 31
-      Width = 64
+      Width = 62
       Caption = 'Password :'
       ParentColor = False
     end
   end
   object Panel16: TPanel
     Left = 424
-    Height = 515
+    Height = 499
     Top = 0
     Width = 461
     Align = alClient
-    ClientHeight = 515
+    ClientHeight = 499
     ClientWidth = 461
     TabOrder = 2
     object Panel28: TPanel
@@ -1080,14 +1080,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 86
+        Width = 87
         Align = alLeft
         Caption = 'TAR KDE i86-64'
         ParentColor = False
       end
       object FileWin58: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 206
         Filter = 'tar.gz|*.tar.gz'
@@ -1123,14 +1123,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 95
+        Width = 96
         Align = alLeft
         Caption = 'TAR GNOME i386'
         ParentColor = False
       end
       object FileWin54: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 206
         Filter = 'tar.gz|*.tar.gz'
@@ -1166,14 +1166,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 106
+        Width = 107
         Align = alLeft
         Caption = 'TAR GNOME i86-64'
         ParentColor = False
       end
       object FileWin55: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 206
         Filter = 'tar.gz|*.tar.gz'
@@ -1209,14 +1209,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 93
+        Width = 94
         Align = alLeft
         Caption = 'TAR GNOME PPC'
         ParentColor = False
       end
       object FileWin56: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 206
         Filter = 'tar.gz|*.tar.gz'
@@ -1252,14 +1252,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 94
+        Width = 97
         Align = alLeft
         Caption = 'TAR GNOME ARM'
         ParentColor = False
       end
       object FileWin57: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 206
         Filter = 'tar.gz|*.tar.gz'
@@ -1295,14 +1295,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 74
+        Width = 77
         Align = alLeft
         Caption = 'TAR KDE ARM'
         ParentColor = False
       end
       object FileWin46: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 206
         Filter = 'tar.gz|*.tar.gz'
@@ -1338,14 +1338,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 73
+        Width = 74
         Align = alLeft
         Caption = 'TAR KDE PPC'
         ParentColor = False
       end
       object FileWin59: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 206
         Filter = 'tar.gz|*.tar.gz'
@@ -1381,14 +1381,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 75
+        Width = 76
         Align = alLeft
         Caption = 'TAR KDE i386'
         ParentColor = False
       end
       object FileWin61: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 206
         Filter = 'tar.gz|*.tar.gz'
@@ -1424,14 +1424,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 48
+        Width = 47
         Align = alLeft
         Caption = 'iOS i386'
         ParentColor = False
       end
       object FileWin62: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 206
         Filter = 'mdg,pkg|*.mdg;*.pkg'
@@ -1467,14 +1467,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 59
+        Width = 58
         Align = alLeft
         Caption = 'IOS i86-64'
         ParentColor = False
       end
       object FileWin63: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 206
         Filter = 'mdg,pkg|*.mdg;*.pkg'
@@ -1510,14 +1510,14 @@ object Form1: TForm1
         Left = 1
         Height = 22
         Top = 1
-        Width = 47
+        Width = 48
         Align = alLeft
         Caption = 'iOS ARM'
         ParentColor = False
       end
       object FileWin65: TFileNameEdit
         Left = 152
-        Height = 22
+        Height = 24
         Top = 1
         Width = 206
         Filter = 'mdg,pkg|*.mdg;*.pkg'
@@ -1576,6 +1576,8 @@ object Form1: TForm1
   end
   object IBQ_VersionBase: TIBSQL
     Database = ibd_BASE
+    GenerateParamNames = False
+    UniqueParamNames = False
     ParamCheck = True
     SQL.Strings = (
       'select VER_VERSION from T_VERSION_BASE'
