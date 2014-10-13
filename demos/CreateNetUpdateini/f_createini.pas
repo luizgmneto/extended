@@ -349,11 +349,16 @@ var Ainifile : TIniFile;
     AVersionExe,
     AIniFileName : String ;
 begin
+ AIniFileName := fs_GetIniFileNameUpdate(aar_Architecture,aPackage,aProcType, 'Update');
+ if not FileExistsUTF8 ( as_FileName ) Then
+   Begin
+    ShowMessage('Install file not found :'+#13#10+as_FileName+#13#10+'For ' +AIniFileName);
+    Abort;
+   end;
  Ainifile := TIniFile.Create(DirectoryExe.Directory+DirectorySeparator+'Ancestromania.ini');
  with Ainifile do
  try
   IniVersionExe(Ainifile);
-  AIniFileName := fs_GetIniFileNameUpdate(aar_Architecture,aPackage,aProcType, 'Update');
   if DirectoryExistsUTF8 ( DirectoryDest.Directory ) Then
    Begin
     Ainifile.Free;

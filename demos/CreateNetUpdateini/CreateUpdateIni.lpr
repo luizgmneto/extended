@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, f_createini,
-  ibexpress;
+  ibexpress, lazextcopy;
 
 {$R *.res}
 
