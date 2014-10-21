@@ -61,7 +61,7 @@ const
   CST_FWSEARCH = 'tfwsearch';
   CST_FWZOOMIN = 'tfwzoomin';
   CST_FWZOOMOUT = 'tfwzoomout';
-  CST_FWTRASH = 'tfwTtrash';
+  CST_FWTRASH = 'tfwtrash';
 {$IFDEF GROUPVIEW}
   CST_FWOUTSELECT = 'tfwoutselect';
   CST_FWINSELECT = 'tfwinselect';
