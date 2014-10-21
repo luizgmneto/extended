@@ -260,7 +260,7 @@ begin
        Result := False;
        FDoEraseDir ( Self, Result );
        if Result Then
-         Result := fb_EraseDir(as_Destination, True);
+         Result := DeleteDirUTF8(as_Destination, ddoKeepDirOnly);
       end
      Else
       if cpDestinationIsFile in FFileOptions Then

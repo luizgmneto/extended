@@ -26,6 +26,7 @@ const
            Owner : '' ;
            Comment : 'Fonctions de gestion de fichiers' ;
            BugsStory :
+           'Version 1.0.7.0 : Renaming fb_eraseDir to DeleteDirUTF8';
            'Version 1.0.6.0 : Creating fs_getBackupFileName';
            'Version 1.0.5.0 : Adding FileWriteln and FileCreateUTF8File.';
            'Version 1.0.4.0 : Adding FileReadln and FileCreateDeleteUTF8.';
@@ -34,7 +35,7 @@ const
            'Version 1.0.1.0 : adding Windows drive verifying function.';
            'Version 1.0.0.0 : La gestion est en place, ne gérant pas tout.';
            UnitType : 1 ;
-                     Major : 1 ; Minor : 0 ; Release : 6 ; Build : 0 );
+                     Major : 1 ; Minor : 0 ; Release : 7 ; Build : 0 );
 {$ENDIF}
   CST_COPYFILES_ERROR_IS_READONLY = faReadOnly ;
   CST_COPYFILES_ERROR_UNKNOWN = -1 ;
@@ -50,6 +51,8 @@ const
   CST_COPYFILES_ERROR_PARTIAL_COPY_SEEK = 9 ;
   CST_COPYFILES_ERROR_CANT_CHANGE_DATE = 10 ;
 
+type TDeleteDirOptions = ( ddoDeleteAll, ddoKeepDirOnly, ddoDeleteFirstFiles );
+
 function fb_EraseFiles(  as_StartDir : String ):Boolean;
 function FileCreateDeleteUTF8 ( const as_filename : String ) :THandle;
 function FileCreateDeleteFile ( const as_filename : String ) :THandle;
@@ -59,7 +62,7 @@ Function FileReadln (Handle : THandle; var Buffer : String) : Longint;
 function FileWriteln(const AFile : THandle; const as_chaine : String = '' ):Longint;
 function FileWriteString(const AFile : THandle; const as_chaine : String; const ab_addAtEnd : Boolean = False; const ab_toadd : Byte = 0 ):Longint;
 function DirSize( const as_Dir : String ):Int64;
-function fb_EraseDir(  as_StartDir : String ; const ab_EraseSubDirs : Boolean ):Boolean;
+function DeleteDirUTF8(  as_StartDir : String ; const ab_EraseOptions : TDeleteDirOptions = ddoDeleteFirstFiles ):Boolean;
 function  fb_FindFiles( const astl_FilesList: TStrings; as_StartDir : String;
                         const ab_ListFiles : Boolean = True ; const ab_ListDirs : Boolean = True;
                         const ab_FullPath : Boolean = False;
@@ -198,17 +201,16 @@ begin
 
 end;
 
-function fb_EraseDir(  as_StartDir : String ; const ab_EraseSubDirs : Boolean ):Boolean;
+function fb_EraseSubDirs( const as_StartDir : String  ):Boolean;
 var
   SR: TSearchRec;
   IsFound: Boolean;
+  as_subdir : String;
 begin
-  p_SetStartDir ( as_StartDir );
   Result := fb_EraseFiles ( as_StartDir );
 
   { Build a list of the files in directory as_StartDir
      (not the directories!)                         }
-  if ab_EraseSubDirs Then
   try
     IsFound := FindFirstUTF8(as_StartDir + '*', faDirectory, SR) = 0 ;
     while IsFound do
@@ -217,17 +219,30 @@ begin
       and DirectoryExistsUTF8 ( as_StartDir + SR.Name )
        then
         Begin
-          fb_EraseDir(as_StartDir + SR.Name, ab_EraseSubDirs);
-          RemoveDirUTF8(as_StartDir + SR.Name);
+          as_subdir:= as_StartDir + SR.Name+DirectorySeparator;
+          fb_EraseSubDirs(as_subdir);
+          RemoveDirUTF8(as_subdir);
         End ;
       IsFound := FindNextUTF8(SR) = 0;
       Result := True ;
     end;
-    FindCloseUTF8(SR);
-  Except
+  Finally
     FindCloseUTF8(SR);
   End ;
+end;
 
+function DeleteDirUTF8(  as_StartDir : String ; const ab_EraseOptions : TDeleteDirOptions = ddoDeleteFirstFiles ):Boolean;
+begin
+  p_SetStartDir ( as_StartDir );
+  Result := fb_EraseFiles ( as_StartDir );
+
+  { Build a list of the files in directory as_StartDir
+     (not the directories!)                         }
+  if ab_EraseOptions in [ddoDeleteAll,ddoKeepDirOnly] Then
+    Result:=fb_EraseSubDirs(as_StartDir);
+
+  if ab_EraseOptions = ddoDeleteAll Then
+    RemoveDirUTF8(as_StartDir);
 end;
 
 // Recursive procedure to build a list of files
