@@ -115,6 +115,22 @@ type
        property Width default 18;
     End;
 
+    { TFWButtonGlyphs }
+
+    TFWButtonGlyphs = class(TFWButtonList)
+    private
+      FGlyphs : TImageList;
+    public
+     constructor Create ( AOwner : TComponent ) ; override;
+     procedure LoadImageList(const as_Resource: String;
+       const AMaskColor: TColor);
+    published
+      property Images stored False;
+      property Height default 24;
+      property Width default 24;
+      property GlyphSize default 24;
+    end;
+
 implementation
 
 uses {$IFDEF FPC}
@@ -152,7 +168,7 @@ begin
     end
    else
     Begin
-     ls_imagePath := fs_getSoftImages + as_Resource + CST_IMAGE_SOFT_BITMAP;
+     ls_imagePath := fs_getImagesSoftDir + as_Resource + CST_IMAGE_SOFT_BITMAP;
      if FileExistsUTF8( ls_imagePath ) Then
        try
         FGLyph.LoadFromFile( ls_imagePath );
@@ -202,7 +218,7 @@ begin
         lb_Found := False;
         for n := high ( CST_IMAGES_SOFT_EXTENSIONS ) downto 0 do
          Begin
-          ls_imagePath := fs_getSoftImages + as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ n ];
+          ls_imagePath := fs_getImagesSoftDir + as_Resource + CST_IMAGES_SOFT_EXTENSIONS [ n ];
 
          if FileExistsUTF8( ls_imagePath ) Then
            try
@@ -222,6 +238,36 @@ begin
 
     End;
   acon_control.Invalidate;
+end;
+
+{ TFWButtonGlyphs }
+
+procedure TFWButtonGlyphs.LoadImageList(const as_Resource : String; const AMaskColor : TColor );
+var ABitmap:TBitmap;
+begin
+  ABitmap:=TBitmap.Create;
+  try
+    p_Load_Bitmap_Appli(ABitmap, as_Resource, Self);
+    Images.AddMasked(ABitmap,AMaskColor);
+  finally
+    {$IFNDEF FPC}
+    ABitmap.Dormant;
+    {$ENDIF}
+    ABitmap.FreeImage;
+    ABitmap.Destroy;
+  end;
+end;
+
+
+
+constructor TFWButtonGlyphs.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  fGlyphs:=TImageList.Create(Self); //will be destroyed with Self
+  Images:=FGlyphs;
+  Height:=24;
+  Width :=24;
+  GlyphSize:=24;
 end;
 
 { TFWButtonList }
@@ -250,8 +296,8 @@ begin
   FImageSize:=0;
   FImageIndex:=-1;
   FImagesList:=nil;
-  Height:=17;
-  Width :=17;
+  Height:=18;
+  Width :=18;
 end;
 
 procedure TFWButtonList.LoadBitmap;

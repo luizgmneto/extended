@@ -85,7 +85,7 @@ function fs_GetCorrectPath ( const as_Path :String ): string;
 // Retourne le nom d'ordinateur (string)
 function fs_GetComputerName: string;
 function GetDocDir: string;
-function fs_getSoftImages:String;
+function fs_getImagesSoftDir:String;
 function fs_GetPackagesExtension : String;
 function fpt_GetPackagesType : TPackageType;
 {$IFDEF WINDOWS}
@@ -258,7 +258,7 @@ Begin
 end;
 
 // Universal Images directory  with Separator, for Leonardi
-function fs_getSoftImages:String;
+function fs_getImagesSoftDir:String;
 Begin
   Result := fs_getAppDir+GS_SUBDIR_IMAGES_SOFT;
 End;

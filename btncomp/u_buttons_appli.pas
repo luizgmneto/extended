@@ -37,6 +37,7 @@ const
 {$ENDIF}
   CST_FWCANCEL='tfwcancel';
   CST_FWCLOSE='tfwclose';
+  CST_FWMEDIABUTTONS='tfwmediabuttons';
   CST_FWOK='tfwok';
   CST_FWBASKET = 'tfwbasket';
   CST_FWDATE = 'tfwdate';
@@ -117,6 +118,13 @@ type
   TFWAdd = class(TFWButton)
   public
     procedure LoadBitmap; override;
+  end;
+
+  { TFWMedia }
+
+  TFWMedia = class(TFWButtonGlyphs)
+  public
+    procedure Loaded; override;
   end;
 
   { TFWDelete }
@@ -353,6 +361,7 @@ uses {$IFDEF FPC}ObjInspStrConsts, lclstrconsts,
   unite_messages_delphi,
   {$ENDIF}
   fonctions_proprietes,
+  Graphics,
   Forms;
 
 procedure p_setControlCaption ( const AControl : TControl ; const as_Caption : String );
@@ -360,6 +369,19 @@ Begin
   with AControl do
     if  name = fs_getComponentProperty ( AControl, CST_PROPERTY_CAPTION ) Then
       p_setComponentProperty ( AControl, CST_PROPERTY_CAPTION, as_Caption );
+end;
+
+{ TFWMedia }
+
+procedure TFWMedia.Loaded;
+begin
+  LoadImageList( CST_FWMEDIABUTTONS, clBlack);
+  with Images do
+   Begin
+    Width :=24;
+    Height:=24;
+   end;
+  Inherited;
 end;
 
 {$IFNDEF FPC}
