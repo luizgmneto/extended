@@ -51,7 +51,7 @@ begin
                                    {$IFDEF GROUPVIEW}TFWBasket,TFWInSelect,TFWInAll,TFWOutSelect,TFWOutAll,{$ENDIF}
                                    TFWInsert,TFWInit,TFWAdd,TFWDelete,TFWDocument,
                                    TFWQuit,TFWErase,TFWImport,TFWExport,TFWPrint,TFWPreview,TFWCopy,
-                                   TFWSaveAs,TFWSearch,TFWZoomIn,TFWZoomOut]);
+                                   TFWSaveAs,TFWSearch,TFWZoomIn,TFWZoomOut,TFWMedia]);
 End ;
 
 {$IFNDEF MEMBUTTONS}
