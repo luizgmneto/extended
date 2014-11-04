@@ -108,6 +108,39 @@
 // - DELPHI.NET_1    : Delphi.NET version 1.x is being used.
 // - DELPHI.NET_1_UP : Delphi.NET version 1.x is being used.
 //----------------------------------------------------------------------------------------------------------------------
+{
+Technical CommentsEdit
+
+The CompilerVersion constant was introduced in Delphi 6 along with conditional expressions. In earlier Delphi versions various compiler defined VERxxx symbols are used to determine compiler versions.
+
+CompilerVersion values and the equivalent compiler defined symbols for the Delphi versions in which the CompilerVersion constant is defined are:
+Compiler 	CompilerVersion 	
+
+Defined Symbol
+Delphi XE7 	28 	VER280
+Delphi XE6 	27 	VER270
+AppMethod 1 	26.5 	VER265
+Delphi XE5 	26 	VER260
+Delphi XE4 	25 	VER250
+Delphi XE3 	24 	VER240
+Delphi XE2 	23 	VER230
+Delphi XE 	22 	VER220
+Delphi 2010 	21 	VER210
+Delphi 2009 	20 	VER200
+Delphi 2007 .NET 	19 	VER190
+Delphi 2007 	18.5 	VER185
+Delphi 2006 	18 	VER180
+Delphi 2005 	17 	VER170
+Delphi 8 .NET 	16 	VER160
+Delphi 7 	15 	VER150
+Delphi 6 	14 	VER140
+Delphi 5 	13(*) 	VER130
+Delphi 4 	12(*) 	VER120
+Delphi 3 	10(*) 	VER100
+Delphi 2 	9(*) 	VER90
+Delphi 1 	8(*) 	VER80
+
+}
 
 {$ifdef CLR}  // The common language runtime symbol is only defined for the .NET platform.
   {$define DELPHI.NET}
@@ -126,19 +159,19 @@
   {$define WINDOWS}
 {$endif}
 
-{$ifdef Win32}
+{$ifndef FPC}
 
 // Compiler defines not specific to a particlular platform.
 
   // DELPHI and BCB are no longer defined, only COMPILER
   {$IF DECLARED(CompilerVersion)}
-  {$if CompilerVersion=17}
+  {$if CompilerVersion=24}
     {$define COMPILER_XE3}
   {$ifend}
-  {$if CompilerVersion=16}
+  {$if CompilerVersion=23}
     {$define COMPILER_XE2}
   {$ifend}
-  {$if CompilerVersion=15}
+  {$if CompilerVersion=22}
     {$define COMPILER_XE}
   {$ifend}
   {$if CompilerVersion=14}
