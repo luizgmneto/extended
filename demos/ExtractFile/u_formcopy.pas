@@ -18,8 +18,8 @@ uses
   Mask, rxToolEdit, JvExControls,
 {$ENDIF}
   U_ExtFileCopy, ExtCtrls, FileCtrl, StdCtrls,
-  U_OnFormInfoIni, JvXPCheckCtrls, ComCtrls,
-  Menus, JvXPButtons, Spin, U_DBListView,
+  U_OnFormInfoIni, ExtJvXPCheckCtrls, ComCtrls,
+  Menus, ExtJvXPButtons, Spin, U_DBListView,
   u_traducefile, u_extabscopy, u_extractfile, U_FormMainIni,
   JvXPCore ;
 

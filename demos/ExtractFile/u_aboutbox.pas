@@ -14,7 +14,7 @@ uses SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
 {$ELSE}
   JvExControls,
 {$ENDIF}
-  Buttons, ExtCtrls, JvXPButtons,
+  Buttons, ExtCtrls, ExtJvXPButtons,
   JvXPCore;
 
 type
