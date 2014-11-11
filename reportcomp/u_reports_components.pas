@@ -37,7 +37,8 @@ const
     FileUnit: 'u_reports_components';
     Owner: 'Matthieu Giroux';
     Comment: 'Customized Reports Buttons components.';
-    BugsStory: '1.1.2.1 : Simplifying(need svn fortesreport for PrintData).' + #13#10 +
+    BugsStory: '1.1.3.0 : Print on File.' + #13#10 +
+               '1.1.2.1 : Simplifying(need svn fortesreport for PrintData).' + #13#10 +
                '1.1.2.0 : Adding Orientation and PaperSize.' + #13#10 +
                '1.1.1.0 : TFWPrintGrid CreateReport porperty.' + #13#10 +
                '1.1.0.0 : TFWPrintData Component.' + #13#10 +
@@ -47,11 +48,12 @@ const
       #13#10 + '1.0.0.0 : Tested.' + #13#10 +
                '0.9.0.0 : To test.';
     UnitType: 3;
-    Major: 1; Minor: 1; Release: 2; Build: 1);
+    Major: 1; Minor: 1; Release: 3; Build: 0);
 {$ENDIF}
 
 
 type
+  TExtPrintFile = ( pfPrinter, pfPDF, pfRTF );
   IFWPrintComp = interface
     ['{AD143A16-9635-4C81-B064-33BEF0946DA2}']
     procedure CreateAReport( const AReport : TRLReport );
@@ -82,6 +84,8 @@ type
     FPreview : TRLPReview;
     FOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF};
     FPaperSize     :TRLPaperSize;
+    FPrinterType : TExtPrintFile;
+    FPathOfFile : String;
     function GetFalse: Boolean;
     procedure SetDatasource(const AValue: TDatasource);
     function  GetDatasource: TDatasource;
@@ -112,13 +116,17 @@ type
     property CreateReport : Boolean read GetFalse write SetCreateReport default False; // design only property
     property Orientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} read FOrientation write FOrientation default poPortrait;
     property PaperSize   :TRLPaperSize read FPaperSize write FPaperSize default fpA4;
+    property PrinterType : TExtPrintFile read FPrinterType write FPrinterType default pfPrinter;
+    property PathOfFile : String read FPathOfFile write FPathOfFile;
   end;
 
   { TFWPrintComp }
   // create a report from component ( abstract )
   TFWPrintComp = class(TFWPrint,IFWPrintComp)
   private
+    FPathOfFile : String;
     FFilter: TRLCustomPrintFilter;
+    FPrinterType : TExtPrintFile;
     FReportForm : TReportForm;
     FReport : TRLReport;
     FDBTitle: string;
@@ -143,6 +151,8 @@ type
     property CreateReport : Boolean read GetFalse write SetCreateReport default False; // design only property
     property Orientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} read FOrientation write FOrientation default poPortrait;
     property PaperSize   :TRLPaperSize read FPaperSize write FPaperSize default fpA4;
+    property PrinterType : TExtPrintFile read FPrinterType write FPrinterType default pfPrinter;
+    property PathOfFile : String read FPathOfFile write FPathOfFile;
   end;
 
 
@@ -178,20 +188,49 @@ type
     property Tree: TCustomVirtualStringTree read FTree write SetTree;
   end;
 
-procedure p_SetBtnPrint  ( const APrintComp   : TObject; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean );
-procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean ); overload;
-procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String  ); overload;
-procedure p_SetPageSetup ( const ARLPageSetup : TObject; const ab_portrait : Boolean ); overload;
+procedure p_SetBtnPrint    ( const APrintComp   : TObject; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean; const ai_doctype : Integer; const FBaseDir : String );
+procedure p_SetPageSetup   ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean ; const ai_doctype : Integer = 0; const FBaseDir : String = '' ); overload;
+procedure p_SetPagePrinter ( const ARLPageSetup : TObject; const APrinter : Integer  );
+procedure p_SetFileName    ( const ARLPageSetup : TObject; const AFileName : String  );
+procedure p_SetPageSetup   ( const ARLPageSetup : TObject; const APaperSizeText : String  ); overload;
+procedure p_SetPageSetup   ( const ARLPageSetup : TObject; const ab_portrait : Boolean ); overload;
+procedure p_PrintFile ( const AReport : TRLReport; const as_FilePathWithoutExt, As_Title : String; const apf_FileType : TExtPrintFile );
 
 implementation
 
-uses Forms, SysUtils, typinfo;
+uses Forms, SysUtils, typinfo,Dialogs,fonctions_system;
 
+
+procedure p_PrintFile ( const AReport : TRLReport; const as_FilePathWithoutExt, As_Title : String; const apf_FileType : TExtPrintFile );
+var sd_PDFRTF: TSaveDialog;
+Begin
+  if apf_FileType = pfPrinter
+   Then Exit
+   Else sd_PDFRTF:=TSaveDialog.Create ( nil );
+
+   try
+    case apf_FileType of
+      pfPDF : sd_PDFRTF.DefaultExt:='.pdf';
+      pfRTF : sd_PDFRTF.DefaultExt:='.rtf';
+     end;
+  sd_PDFRTF.filename:=As_Title+sd_PDFRTF.DefaultExt;
+  sd_PDFRTF.InitialDir:=ExtractFileDir(as_FilePathWithoutExt);
+  if not sd_PDFRTF.Execute Then
+    Exit;
+
+    AReport.SaveToFile( sd_PDFRTF.FileName );
+
+    p_OpenFileOrDirectory(sd_PDFRTF.FileName);
+
+  finally
+    sd_PDFRTF.Destroy;
+  end;
+End;
 // From interface : setting report button
-procedure p_SetBtnPrint  ( const APrintComp   : TObject; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean );
+procedure p_SetBtnPrint  ( const APrintComp   : TObject; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean ; const ai_doctype : Integer ; const FBaseDir : String );
 Begin
   SetPropValue( APrintComp, 'DBTitle', ATitle );
-  p_SetPageSetup ( APrintComp, APaperSizeText, ab_portrait );
+  p_SetPageSetup ( APrintComp, APaperSizeText, ab_portrait, ai_doctype, FBaseDir );
 End;
 // From interface : setting report button
 procedure p_SetPageSetup ( const ARLPageSetup : TObject;const ab_portrait : Boolean );
@@ -206,11 +245,24 @@ Begin
   if APaperSizeText <> '' then
    SetPropValue( ARLPageSetup, 'PaperSize', 'fp' + APaperSizeText );
 End;
-// From interface : setting report button
-procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean );
+// From interface : setting report printer
+procedure p_SetPagePrinter ( const ARLPageSetup : TObject; const APrinter : Integer  );
 Begin
-  p_SetPageSetup ( ARLPageSetup, ab_portrait );
-  p_SetPageSetup ( ARLPageSetup, APaperSizeText );
+  SetPropValue( ARLPageSetup, 'PrinterType', APrinter );
+End;
+// From interface : setting report path
+procedure p_SetFileName ( const ARLPageSetup : TObject; const AFileName : String  );
+Begin
+  if AFileName <> '' then
+   SetPropValue( ARLPageSetup, 'PathOfFile', AFileName );
+End;
+// From interface : setting report button
+procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean ; const ai_doctype : Integer ; const FBaseDir : String);
+Begin
+  p_SetPageSetup   ( ARLPageSetup, ab_portrait );
+  p_SetPagePrinter ( ARLPageSetup, ai_doctype );
+  p_SetPageSetup   ( ARLPageSetup, APaperSizeText );
+  p_SetFileName    ( ARLPageSetup, FBaseDir);
 End;
 
 
@@ -260,7 +312,9 @@ begin
         if FormReport = nil Then
           FormReport := fref_CreateReport( FTree, FDBTitle, FOrientation, FPaperSize, FFilter );
         try
-          FormReport.RLReport.Preview(FPReview);
+          if FPrinterType = pfPrinter
+           then FormReport.RLReport.Preview(FPReview)
+           Else p_PrintFile ( FormReport.RLReport, FPathOfFile, FDBTitle, FPrinterType );
         finally
           if Assigned(ADatasource) Then ADatasource.DataSet.EnableControls;
         end;
@@ -316,6 +370,7 @@ end;
 constructor TFWPrintComp.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FPrinterType := pfPrinter;
   FOrientation:=poPortrait;
   FPaperSize  :=fpA4;
   FDBTitle    :='';
@@ -425,6 +480,7 @@ begin
   FOrientation:=poPortrait;
   FPaperSize  :=fpA4;
   FColumns := CreateColumns;
+  FPrinterType := pfPrinter;
   FDataLink := TDataLinkPrint.Create(Self);
   FDBTitle := '';
   FFilter  := nil;
@@ -447,7 +503,10 @@ begin
   try
     AddPreview(FReport);
     if assigned ( FReportForm ) Then
-     FReportForm.RLReport.Preview(FPreview);
+     if FPrinterType = pfPrinter
+      then FReportForm.RLReport.Preview(FPreview)
+      Else p_PrintFile ( FReportForm.RLReport, FPathOfFile, FDBTitle, FPrinterType );
+
   Finally
     FDataLink.DataSet.EnableControls;
   End;
@@ -545,7 +604,10 @@ begin
         fobj_getComponentObjectProperty(FDBGrid, CST_PROPERTY_COLUMNS)), FDBTitle, Orientation, PaperSize, FFilter);
       with FormReport  do
         try
-          RLReport.Preview(FPReview);
+          if FPrinterType = pfPrinter
+           then RLReport.Preview(FPReview)
+           Else p_PrintFile ( RLReport, FPathOfFile, FDBTitle, FPrinterType );
+
         finally
           EnableControls;
         end;
