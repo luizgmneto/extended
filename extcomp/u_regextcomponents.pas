@@ -42,11 +42,15 @@ uses  {$IFDEF FPC}
 procedure Register;
 begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_DB, [TExtFormatDBEdit,TPDBCheck,
-                                                {$IFDEF FPC}TExtDBDirectoryEdit,TExtClonedPanel,{$ENDIF}
+                                                {$IFDEF FPC}TExtDBDirectoryEdit,{$ENDIF}
                                                 TExtDBNavigator,
-                                                TExtSearchDBEdit,TExtSearchEdit,
-                                                TExtDBNumEdit]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TExtFormatEdit,TPCheck,TExtColorCombo,
+                                                TExtDBNumEdit,
+                                                TExtSearchDBEdit,TExtSearchEdit
+                                                ]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,
+                                                {$IFDEF FPC}TExtClonedPanel,{$ENDIF}
+                                                TExtColorCombo,
+                                                TExtFormatEdit,
                                                 TExtNumEdit,TExtRadioGroup]);
   RegisterPropertyEditor ( TypeInfo(string), TExtDBNavigator, 'SortField', {$IFDEF FPC}TFieldProperty{$ELSE}TDataFieldProperty{$ENDIF});
 end;

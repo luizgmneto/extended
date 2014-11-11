@@ -43,8 +43,45 @@ type
 
 type
 
+   { TExtExtractColumn }
+
+   TExtExtractColumn = class(TCollectionItem)
+   private
+     FFieldName : String;
+     FExtractChars, FExtractEnd : String ;
+     FRight, FLeft : Boolean;
+     procedure SetLeft  ( AValue : Boolean );
+     procedure SetRight ( AValue : Boolean );
+     procedure SetFieldName(const AValue: String);
+   public
+     constructor Create(ACollection: TCollection); override;
+   published
+     property TakeLeft  : Boolean     read FLeft  write SetLeft  default True;
+     property TakeRight : Boolean     read FRight write SetRight default True;
+     property FieldName : String read FFieldName write SetFieldName;
+     property ExtractChars : String   read FExtractChars write FExtractChars;
+     property ExtractEnd   : String   read FExtractEnd   write FExtractEnd;
+   end;
+
+   TExtExtractColumnClass = class of TExtExtractColumn;
+   { TExtExtractColumns }
+
+   TExtExtractColumns = class(TCollection)
+   private
+     function GetColumn ( Index: Integer): TExtExtractColumn;
+     procedure SetColumn( Index: Integer; const Value: TExtExtractColumn);
+   public
+     function Add: TExtExtractColumn;
+     {$IFDEF FPC}
+    published
+     {$ENDIF}
+     property Items[Index: Integer]: TExtExtractColumn read GetColumn write SetColumn; default;
+   end;
+
+
     TExtractFile = class(TAbsFileCopy, IFileCopyComponent)
      private
+       FColumnsExtract : TExtExtractColumns;
        FExtractOptions : TEExtractOptions;
        FOnChange : TEChangeDirectoryEvent ;
        FOnSuccess : TECopyFinishEvent;
@@ -52,20 +89,18 @@ type
        FBeforeExtract : TEReturnEvent ;
        FOnProgress       : TECopyEvent;
        FSource : String;
-       FMiddleExtract,
-       FBeginExtract,
-       FEndExtract  : String ;
        FDestination : TDatasource;
-       FFieldName : String;
        FInProgress : Boolean;
        procedure SetDestination(const AValue: TDataSource);
        procedure SetSource(const AValue: String);
-       procedure SetFieldName(const AValue: String);
      protected
        FInited : Boolean;
        function IsCopyOk(const ai_Error: Integer;  as_Message: String): Boolean; override;
        function  BeforeCopy : Boolean ; virtual;
        function CreateDestination ( const as_Destination : String ): Boolean; virtual;
+       function GetColumns: TExtExtractColumns; virtual;
+       function CreateColumns: TExtExtractColumns; virtual;
+       procedure SetColumns(const AValue: TExtExtractColumns); virtual;
        { Déclarations protégées }
      public
        constructor Create ( AOwner : TComponent ) ; override;
@@ -76,36 +111,87 @@ type
        Procedure CopySourceToDestination; virtual;
        destructor Destroy;override;
      published
+       property ColumnsExtract: TExtExtractColumns read GetColumns write SetColumns;
        property ExtractOptions : TEExtractOptions read FExtractOptions write FExtractOptions;
        property DirSource : String read FSource write SetSource;
-       property FieldName : String read FFieldName write SetFieldName;
        property DataSource : TDatasource read FDestination write SetDestination;
        property OnSuccess : TECopyFinishEvent read FOnSuccess write FOnSuccess;
        property OnFailure : TECopyErrorEvent read FOnFailure write FOnFailure;
        property OnProgress : TECopyEvent read FOnProgress write Fonprogress;
        property OnBeforeExtract : TEReturnEvent read FBeforeExtract write FBeforeExtract;
        property OnChange : TEChangeDirectoryEvent read FOnChange write FOnChange;
-       property BeginExtract : String read FBeginExtract write FBeginExtract;
-       property EndExtract : String read FEndExtract write FEndExtract;
-       property MiddleExtract : String read FMiddleExtract write FMiddleExtract;
      end;
 
 implementation
 
 uses Forms, TypInfo, StrUtils, Dialogs;
 
+{ TExtExtractColumns }
+
+function TExtExtractColumns.GetColumn(Index: Integer): TExtExtractColumn;
+begin
+  Result:=Items[index] as TExtExtractColumn;
+end;
+
+procedure TExtExtractColumns.SetColumn(Index: Integer;
+  const Value: TExtExtractColumn);
+begin
+  Items[Index]:=Value;
+end;
+
+function TExtExtractColumns.Add: TExtExtractColumn;
+begin
+  Result:=Inherited Add as TExtExtractColumn;
+end;
+
+{ TExtExtractColumn }
+
+procedure TExtExtractColumn.SetLeft(AValue: Boolean);
+begin
+  // need a true value
+  if  not AValue
+  and not FRight Then
+   Exit;
+  FLeft:=AValue;
+end;
+
+procedure TExtExtractColumn.SetRight(AValue: Boolean);
+begin
+  // need a true value
+  if  not AValue
+  and not FLeft Then
+   Exit;
+  FRight:=AValue;
+end;
+
+procedure TExtExtractColumn.SetFieldName(const AValue: String);
+begin
+  if AValue <> FFieldName Then
+   Begin
+     FFieldName:= AValue;
+   end;
+end;
+
+constructor TExtExtractColumn.Create(ACollection: TCollection);
+begin
+  inherited Create(ACollection);
+  FLeft :=True;
+  FRight:=True;
+end;
+
 {TExtractFile}
 
 // DoInit TExtractFile component
-constructor TExtractFile.Create(AOwner :Tcomponent);
+constructor TExtractFile.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FInited := False;
   FInProgress := False;
+  FColumnsExtract:=CreateColumns;
 end;
 
 // destination property
-procedure TExtractFile.SetDestination(const AValue: TDatasource);
+procedure TExtractFile.SetDestination(const AValue: TDataSource);
 begin
   if FDestination <> AValue Then
     Begin
@@ -126,16 +212,6 @@ begin
     End;
 end;
 
-procedure TExtractFile.SetFieldName(const AValue: String);
-begin
-  if AValue <> FFieldName Then
-   Begin
-     FFieldName:= AValue;
-   end;
-
-end;
-
-
 // Event BeforeExtract
 function TExtractFile.BeforeCopy: Boolean;
 begin
@@ -147,7 +223,7 @@ begin
       if Active Then
         Exit;
       Open;
-      if not assigned ( FindField(FFieldName)) Then
+      if FColumnsExtract.Count <= 0 Then
         Result := False ;
     Except
       Result := False ;
@@ -162,6 +238,21 @@ end;
 function TExtractFile.CreateDestination(const as_Destination: String): Boolean;
 begin
   Result := True;
+end;
+
+function TExtractFile.GetColumns: TExtExtractColumns;
+begin
+  Result := FColumnsExtract;
+end;
+
+function TExtractFile.CreateColumns: TExtExtractColumns;
+begin
+  Result:=TExtExtractColumns.Create(TExtExtractColumn);
+end;
+
+procedure TExtractFile.SetColumns(const AValue: TExtExtractColumns);
+begin
+  FColumnsExtract.Assign(AValue);
 end;
 
 // verifying Extractd copy
@@ -194,17 +285,18 @@ var lstl_Strings : TStringList;
     ls_Temp, ls_temp2 : String;
     li_Begin,
     li_end,
-    li_i : Integer;
+    li_i, li_j : Integer;
 
     function fb_IsCorrectChar ( const ai_pos : Integer ):boolean;
     Begin
       Result := ( ls_Temp [ ai_pos ] in ['0'..'9','A'..'Z','a'..'z'] )or (( eoMail in ExtractOptions )and ( ls_Temp [ ai_pos ] in ['.','-'] ));
     End;
-    procedure p_MiddleExtract ( var ai_BeginEnd : Integer; const ab_Prior : Boolean );
+    procedure p_MiddleExtract ( const AColumn : TExtExtractColumn; var ai_BeginEnd : Integer; const ab_Prior : Boolean );
     Begin
-      if FMiddleExtract <> '' Then
+      with AColumn do
+      if FLeft and FRight Then
       Begin
-        ai_BeginEnd := pos ( FMiddleExtract, ls_Temp );
+        ai_BeginEnd := pos ( FExtractChars, ls_Temp );
         if ab_Prior Then
          Begin
            while (li_Begin>1 ) and fb_IsCorrectChar ( li_Begin - 1 )
@@ -229,27 +321,22 @@ Begin
     try
      lstl_Strings.LoadFromFile(as_Source);
      for li_i := 0 to lstl_Strings.Count - 1 do
+     for li_j := 0 to FColumnsExtract.Count - 1 do
+     with FColumnsExtract [ li_j ] do
+      if FExtractChars > '' then
        Begin
          ls_Temp:=lstl_Strings [ li_i ];
-         if FBeginExtract > '' Then
-           li_Begin := pos ( FBeginExtract, ls_Temp )
-          else
-           Begin
-             p_MiddleExtract ( li_Begin, True );
-             if li_Begin = pos ( FMiddleExtract, ls_Temp ) Then
-              Continue;
-             if li_end = pos ( FMiddleExtract, ls_Temp ) Then
-              Continue;
-           end;
+         li_Begin := pos ( FExtractChars, ls_Temp );
          if  ( li_Begin > 0 ) Then
            Begin
-             if FEndExtract > ''
-              Then li_end:=posEx ( FEndExtract, ls_Temp, li_Begin + length ( FBeginExtract ) )
-              else p_MiddleExtract ( li_end, False );
+             if not FLeft
+              Then li_end:=posEx ( FExtractChars, ls_Temp, li_Begin + length ( FExtractChars ) )
+              else if FRight Then
+                 p_MiddleExtract ( FColumnsExtract [ li_j ], li_end, False );
              if ( li_end > 0 )
               Then
                Begin
-                ls_temp2:=copy ( ls_Temp, li_Begin + length ( FBeginExtract ), li_end - li_Begin - length ( FBeginExtract )+1);
+                ls_temp2:=copy ( ls_Temp, li_Begin + length ( FExtractChars ), li_end - li_Begin - length ( FExtractChars )+1);
                 with FDestination.DataSet do
                  if not ( eoUnique in FExtractOptions ) or not Locate(FFieldName,ls_temp2,[loCaseInsensitive]) Then
                  Begin
