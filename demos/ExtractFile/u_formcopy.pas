@@ -17,11 +17,10 @@ uses
 {$ELSE}
   Mask, rxToolEdit, JvExControls,
 {$ENDIF}
-  U_ExtFileCopy, ExtCtrls, FileCtrl, StdCtrls,
-  U_OnFormInfoIni, ExtJvXPCheckCtrls, ComCtrls,
-  Menus, ExtJvXPButtons, Spin, U_DBListView,
-  u_traducefile, u_extabscopy, u_extractfile, U_FormMainIni,
-  JvXPCore ;
+  U_ExtFileCopy, ExtCtrls, FileCtrl, StdCtrls, U_OnFormInfoIni,
+  ExtJvXPCheckCtrls, ComCtrls, Menus, ExtJvXPButtons, Spin, U_DBListView,
+  u_scrollclones, u_framework_components, u_traducefile, u_extabscopy,
+  u_extractfile, U_FormMainIni, JvXPCore ;
 
 type
 
@@ -30,18 +29,23 @@ type
   TF_Extract = class(TF_FormMainIni)
     bt_Extract: TJvXPButton;
     ds_Destination: TDatasource;
-    EBeginExtract: TEdit;
-    EEndExtract: TEdit;
     EMiddleExtract: TEdit;
+    EndExtract: TEdit;
+    ExtClonedPanel: TExtClonedPanel;
     ExtractAFile: TExtractFile;
     FilesSeek: TExtFileCopy;
     FDestination: TFileNameEdit;
-    Label3: TLabel;
     ch_subdirs: TJvXPCheckbox;
-    Label1: TLabel;
-    Label2: TLabel;
+    FWLabel1: TFWLabel;
+    ColumnsExtract: TFWSpinEdit;
+    JvXPCheckbox1: TJvXPCheckbox;
+    ch_droite: TJvXPCheckbox;
+    EndEnter: TJvXPCheckbox;
+    Label3: TLabel;
+    Label4: TLabel;
     OnFormInfoIni: TOnFormInfoIni;
     Panel5: TPanel;
+    PanelCloned: TPanel;
     ProgressBar: TProgressBar;
     Result: TMemo;
     Panel7: TPanel;
@@ -63,10 +67,10 @@ type
     Splitter2: TSplitter;
     Panel8: TPanel;
     pa_DestImages: TPanel;
-    FileListDestination: TFileListBox;
     Splitter3: TSplitter;
     Panel4: TPanel;
     procedure bt_ExtractClick(Sender: TObject);
+    procedure ColumnsExtractChange(Sender: TObject);
     procedure DirectorySourceChange(Sender: TObject);
     procedure ExtractAFileProgress(Sender: Tobject; const BytesCopied,
       BytesTotal: cardinal);
@@ -125,6 +129,7 @@ end;
 procedure TF_Extract.bt_ExtractClick(Sender: TObject);
 var i : TEImageFileOption;
     stl_file : TStringList ;
+    li_j : Integer;
 begin
   if not FileExists(FDestination.Text)
   and not DirectoryExists(FileListSource.Directory)
@@ -134,19 +139,30 @@ begin
   if FileExists ( FDestination.Text ) Then
     DeleteFile(FDestination.Text);
   stl_file := TStringList.Create;
-  try
-    stl_file.Add(ExtractAFile.FieldName);
-    stl_file.SaveToFile(FDestination.Text);
-  finally
-    stl_file.Free;
-  end;
-  if ch_subdirs.Checked then
-    FilesSeek.FilesOptions := FilesSeek.FilesOptions + [cpCopyAll]
-   else
-    FilesSeek.FilesOptions := FilesSeek.FilesOptions - [cpCopyAll];
-  ExtractAFile.BeginExtract  :=  EBeginExtract.Text ;
-  ExtractAFile.MiddleExtract := EMiddleExtract.Text ;
-  ExtractAFile.EndExtract    :=    EEndExtract.Text ;
+  with ExtractAFile,ExtClonedPanel,ColumnsExtract do
+   Begin
+    while Count > Rows do Delete(Count-1)
+    else while Count < Rows do Add
+    try
+      for li_j := 0 to ColumnsExtract.Count-1 do
+        stl_file.Add(ColumnsExtract [li_j].FieldName);
+      stl_file.SaveToFile(FDestination.Text);
+    finally
+      stl_file.Free;
+    end;
+    if ch_subdirs.Checked then
+      FilesSeek.FilesOptions := FilesSeek.FilesOptions + [cpCopyAll]
+     else
+      FilesSeek.FilesOptions := FilesSeek.FilesOptions - [cpCopyAll];
+    for li_j := 1 to ExtClonedPanel.Rows do
+      with ColumnsExtract [li_j] do
+       Begin
+
+       end;
+    ExtractAFile.BeginExtract  :=  EBeginExtract.Text ;
+    ExtractAFile.MiddleExtract := EMiddleExtract.Text ;
+    ExtractAFile.EndExtract    :=    EEndExtract.Text ;
+   end;
   Result.Lines.Clear;
   FilesSeek.Source := FileListSource.Directory ;
   SdfDestination.FileName := FDestination.Text ;
@@ -154,6 +170,11 @@ begin
   FilesSeek.CopySourceToDestination;
   FileListSource.Directory := DirectorySource.Text;
   SdfDestination.Close;
+end;
+
+procedure TF_Extract.ColumnsExtractChange(Sender: TObject);
+begin
+  ExtClonedPanel.Rows:=ColumnsExtract.Value;
 end;
 
 procedure TF_Extract.DirectorySourceChange(Sender: TObject);

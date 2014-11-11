@@ -10,7 +10,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, sdflaz
   { you can add units after this }, U_FormCopy, u_aboutbox,
-  lazextcomponents, lazextinit, lazextcopy;
+  lazextcomponents, lazextinit, lazextcopy, lazextcomponentsimg;
 
 begin
   Application.Initialize;

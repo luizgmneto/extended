@@ -28,27 +28,30 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="6">
+    <RequiredPackages Count="7">
       <Item1>
-        <PackageName Value="lazextcopy"/>
+        <PackageName Value="lazextcomponentsimg"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazextinit"/>
+        <PackageName Value="lazextcopy"/>
       </Item2>
       <Item3>
-        <PackageName Value="SDFLaz"/>
-        <MinVersion Minor="1" Release="1" Valid="True"/>
+        <PackageName Value="lazextinit"/>
       </Item3>
       <Item4>
-        <PackageName Value="lazextcomponents"/>
+        <PackageName Value="SDFLaz"/>
+        <MinVersion Minor="1" Release="1" Valid="True"/>
       </Item4>
       <Item5>
-        <PackageName Value="FCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <PackageName Value="lazextcomponents"/>
       </Item5>
       <Item6>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item6>
+      <Item7>
+        <PackageName Value="LCL"/>
+      </Item7>
     </RequiredPackages>
     <Units Count="3">
       <Unit0>

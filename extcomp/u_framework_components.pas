@@ -302,6 +302,7 @@ type
        property OptimalFill default True ;
        {$ENDIF}
        property Align;
+       property Font;
      End;
    { TFWDBGrid }
 
