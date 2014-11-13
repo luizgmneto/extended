@@ -187,22 +187,6 @@ Delphi 1 	8(*) 	VER80
     {$define COMPILER_2007_UP}
   {$ifend}
   {$if CompilerVersion>=18}
-    {$define COMPILER_2006_UP}
-  {$ifend}
-  {$if CompilerVersion>=17}
-    {$define COMPILER_17_UP}
-  {$ifend}
-  {$if CompilerVersion>=16}
-    {$define COMPILER_16_UP}
-  {$ifend}
-  {$if CompilerVersion>=15}
-    {$define COMPILER_15_UP}
-  {$ifend}
-  {$if CompilerVersion>=14}
-    {$define COMPILER_14_UP}
-  {$ifend}
-  {$if CompilerVersion>=13}
-    {$define COMPILER_13_UP}
     {$define COMPILER_1_UP}
     {$define COMPILER_2_UP}
     {$define COMPILER_3_UP}
@@ -213,7 +197,6 @@ Delphi 1 	8(*) 	VER80
     {$define COMPILER_8_UP}
     {$define COMPILER_9_UP}
     {$define COMPILER_10_UP}
-    {$define COMPILER_11_UP}
     // Backwards compatibility
     {$define DELPHI_2_UP}
     {$define DELPHI_3_UP}

@@ -141,8 +141,8 @@ begin
   stl_file := TStringList.Create;
   with ExtractAFile,ExtClonedPanel,ColumnsExtract do
    Begin
-    while Count > Rows do Delete(Count-1)
-    else while Count < Rows do Add
+    while Count > Rows do Delete(Count-1);
+    while Count < Rows do Add;
     try
       for li_j := 0 to ColumnsExtract.Count-1 do
         stl_file.Add(ColumnsExtract [li_j].FieldName);
@@ -159,9 +159,6 @@ begin
        Begin
 
        end;
-    ExtractAFile.BeginExtract  :=  EBeginExtract.Text ;
-    ExtractAFile.MiddleExtract := EMiddleExtract.Text ;
-    ExtractAFile.EndExtract    :=    EEndExtract.Text ;
    end;
   Result.Lines.Clear;
   FilesSeek.Source := FileListSource.Directory ;

@@ -19,8 +19,8 @@ uses
   Controls,
   u_buttons_defs;
 
-const
 {$IFDEF VERSIONS}
+const
   gVer_buttons_appli: T_Version = (Component: 'Customized Buttons';
     FileUnit: 'u_buttons_appli';
     Owner: 'Matthieu Giroux';
@@ -35,43 +35,8 @@ const
     UnitType: 3;
     Major: 1; Minor: 0; Release: 1; Build: 1);
 {$ENDIF}
-  CST_FWCANCEL='tfwcancel';
-  CST_FWCLOSE='tfwclose';
-  CST_FWMEDIABUTTONS='tfwmediabuttons';
-  CST_FWOK='tfwok';
-  CST_FWBASKET = 'tfwbasket';
-  CST_FWDATE = 'tfwdate';
-  CST_FWDOCUMENT = 'tfwdocument';
-  CST_FWFOLDER = 'tfwfolder';
-  CST_FWINSERT = 'tfwinsert';
-  CST_FWDELETE = 'tfwdelete';
-  CST_FWIMPORT = 'tfwimport';
-  CST_FWEXPORT = 'tfwexport';
-  CST_FWCOPY = 'tfwcopy';
-  CST_FWQUIT = 'tfwquit';
-  CST_FWERASE = 'tfwerase';
-  CST_FWSAVEAS = 'tfwsaveas';
-  CST_FWPRINT = 'tfwprint';
-  CST_FWPREVIEW = 'tfwpreview';
-  CST_FWNEXT = 'tfwnext';
-  CST_FWREFRESH = 'tfwrefresh';
-  CST_FWPRIOR = 'tfwprior';
-  CST_FWINIT = 'tfwinit';
-  CST_FWCONFIG = 'tfwconfig';
-  CST_FWLOAD = 'tfwload';
-  CST_FWSEARCH = 'tfwsearch';
-  CST_FWZOOMIN = 'tfwzoomin';
-  CST_FWZOOMOUT = 'tfwzoomout';
-  CST_FWTRASH = 'tfwtrash';
-{$IFDEF GROUPVIEW}
-  CST_FWOUTSELECT = 'tfwoutselect';
-  CST_FWINSELECT = 'tfwinselect';
-  CST_FWOUTALL = 'tfwoutall';
-  CST_FWINALL = 'tfwinall';
-{$ENDIF}
 
 
-procedure p_setControlCaption ( const AControl : TControl ; const as_Caption : String );
 type
 
   { TFWClose }
@@ -363,13 +328,6 @@ uses {$IFDEF FPC}ObjInspStrConsts, lclstrconsts,
   fonctions_proprietes,
   Graphics,
   Forms;
-
-procedure p_setControlCaption ( const AControl : TControl ; const as_Caption : String );
-Begin
-  with AControl do
-    if  name = fs_getComponentProperty ( AControl, CST_PROPERTY_CAPTION ) Then
-      p_setComponentProperty ( AControl, CST_PROPERTY_CAPTION, as_Caption );
-end;
 
 { TFWMedia }
 
