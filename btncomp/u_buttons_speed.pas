@@ -25,12 +25,13 @@ uses
 {$IFDEF VERSIONS}
 const
     gVer_buttons_speed : T_Version = ( Component : 'Customized Buttons' ;
-                                       FileUnit : 'u_buttons_appli' ;
+                                       FileUnit : 'u_buttons_speed' ;
                                        Owner : 'Matthieu Giroux' ;
                                        Comment : 'Customized Buttons components.' ;
-                                       BugsStory : '0.9.0.0 : To test.';
+                                       BugsStory : '1.0.0.0 : Compiled.'+#13#10+
+                                                   '0.9.0.0 : To test.';
                                        UnitType : 3 ;
-                                       Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                       Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 {$ENDIF}
 
 type
@@ -299,7 +300,7 @@ uses {$IFDEF FPC}ObjInspStrConsts,lclstrconsts,
   unite_messages_delphi,
   {$ENDIF}
      fonctions_images,
-     Forms, u_buttons_appli ;
+     Forms ;
 
 
 {$IFNDEF FPC}

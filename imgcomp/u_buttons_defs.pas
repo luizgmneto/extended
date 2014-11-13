@@ -50,10 +50,45 @@ const
   CST_HEIGHT_BUTTONS_ACTIONS = 20;
   CST_IMAGE_SOFT_BITMAP = '.bmp';
   CST_IMAGES_SOFT_EXTENSIONS : array [ 0 .. {$IFDEF FPC}2{$ELSE}0{$ENDIF} ] of String  = (CST_IMAGE_SOFT_BITMAP{$IFDEF FPC},'.xpm','.png'{$ENDIF});
+  CST_FWCANCEL='tfwcancel';
+  CST_FWCLOSE='tfwclose';
+  CST_FWMEDIABUTTONS='tfwmediabuttons';
+  CST_FWOK='tfwok';
+  CST_FWBASKET = 'tfwbasket';
+  CST_FWDATE = 'tfwdate';
+  CST_FWDOCUMENT = 'tfwdocument';
+  CST_FWFOLDER = 'tfwfolder';
+  CST_FWINSERT = 'tfwinsert';
+  CST_FWDELETE = 'tfwdelete';
+  CST_FWIMPORT = 'tfwimport';
+  CST_FWEXPORT = 'tfwexport';
+  CST_FWCOPY = 'tfwcopy';
+  CST_FWQUIT = 'tfwquit';
+  CST_FWERASE = 'tfwerase';
+  CST_FWSAVEAS = 'tfwsaveas';
+  CST_FWPRINT = 'tfwprint';
+  CST_FWPREVIEW = 'tfwpreview';
+  CST_FWNEXT = 'tfwnext';
+  CST_FWREFRESH = 'tfwrefresh';
+  CST_FWPRIOR = 'tfwprior';
+  CST_FWINIT = 'tfwinit';
+  CST_FWCONFIG = 'tfwconfig';
+  CST_FWLOAD = 'tfwload';
+  CST_FWSEARCH = 'tfwsearch';
+  CST_FWZOOMIN = 'tfwzoomin';
+  CST_FWZOOMOUT = 'tfwzoomout';
+  CST_FWTRASH = 'tfwtrash';
+{$IFDEF GROUPVIEW}
+  CST_FWOUTSELECT = 'tfwoutselect';
+  CST_FWINSELECT = 'tfwinselect';
+  CST_FWOUTALL = 'tfwoutall';
+  CST_FWINALL = 'tfwinall';
+{$ENDIF}
 
 
 procedure p_Load_Buttons_Appli ( const FGLyph : {$IFDEF USEJVCL}TJvPicture{$ELSE}TPicture{$ENDIF USEJVCL}; const as_Resource : String ; const acon_control :TControl);
 procedure p_Load_Bitmap_Appli ( const FGLyph : TBitmap; const as_Resource : String ; const acon_control :TControl );
+procedure p_setControlCaption ( const AControl : TControl ; const as_Caption : String );
 
 type
    IFWButton = interface
@@ -141,12 +176,21 @@ uses {$IFDEF FPC}
      fonctions_images,
      Dialogs,
      fonctions_system, sysutils,
+     fonctions_proprietes,
      fonctions_string;
 
 
 {$IFNDEF FPC}
 var Buttons_Appli_ResInstance             : THandle      = 0 ;
 {$ENDIF}
+
+// auto caption
+procedure p_setControlCaption ( const AControl : TControl ; const as_Caption : String );
+Begin
+  with AControl do
+    if  name = fs_getComponentProperty ( AControl, CST_PROPERTY_CAPTION ) Then
+      p_setComponentProperty ( AControl, CST_PROPERTY_CAPTION, as_Caption );
+end;
 
 // procedure p_Load_Bitmap_Appli
 // loads a picture into a Button with Bitmap
