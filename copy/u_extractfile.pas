@@ -58,7 +58,7 @@ type
    published
      property TakeLeft  : Boolean     read FLeft  write SetLeft  default True;
      property TakeRight : Boolean     read FRight write SetRight default True;
-     property FieldName : String read FFieldName write SetFieldName;
+     property FieldName : String      read FFieldName    write SetFieldName;
      property ExtractChars : String   read FExtractChars write FExtractChars;
      property ExtractEnd   : String   read FExtractEnd   write FExtractEnd;
    end;
@@ -91,6 +91,7 @@ type
        FSource : String;
        FDestination : TDatasource;
        FInProgress : Boolean;
+       FBeginLine,FEndLine:String;
        procedure SetDestination(const AValue: TDataSource);
        procedure SetSource(const AValue: String);
      protected
@@ -112,6 +113,8 @@ type
        destructor Destroy;override;
      published
        property ColumnsExtract: TExtExtractColumns read GetColumns write SetColumns;
+       property BeginLine : String read FBeginLine write FBeginLine;
+       property EndLine : String read FEndLine write FEndLine;
        property ExtractOptions : TEExtractOptions read FExtractOptions write FExtractOptions;
        property DirSource : String read FSource write SetSource;
        property DataSource : TDatasource read FDestination write SetDestination;
@@ -375,6 +378,7 @@ end;
 destructor TExtractFile.Destroy;
 begin
   inherited Destroy;
+  FColumnsExtract.Destroy;
 end;
 
 {$IFDEF VERSIONS}
