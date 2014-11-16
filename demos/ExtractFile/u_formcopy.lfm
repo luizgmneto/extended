@@ -1,8 +1,8 @@
 object F_Extract: TF_Extract
   Cursor = crArrow
-  Left = 356
+  Left = 92
   Height = 500
-  Top = 75
+  Top = 63
   Width = 666
   ActiveControl = Splitter1
   Caption = 'Files Extract'
@@ -230,10 +230,9 @@ object F_Extract: TF_Extract
         end
         object FWLabel1: TFWLabel
           Left = 0
-          Height = 17
+          Height = 14
           Top = 25
           Width = 120
-          AutoSize = False
           Caption = 'Colonnes à extraire :'
           Color = clDefault
           Font.Color = clWindowText
@@ -256,6 +255,52 @@ object F_Extract: TF_Extract
           Value = 1
           MyLabel = FWLabel1
         end
+        object ed_begin: TEdit
+          Left = 144
+          Height = 24
+          Top = 56
+          Width = 80
+          TabOrder = 2
+        end
+        object FWLabel2: TFWLabel
+          Left = 0
+          Height = 14
+          Top = 56
+          Width = 120
+          AutoSize = False
+          Caption = 'Début de ligne :'
+          Color = clDefault
+          Font.Color = clWindowText
+          Font.Height = 11
+          Font.Name = 'Tahoma'
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+          ColorFocus = clActiveText
+        end
+        object FWLabel3: TFWLabel
+          Left = 0
+          Height = 14
+          Top = 84
+          Width = 120
+          AutoSize = False
+          Caption = 'Fin de ligne :'
+          Color = clDefault
+          Font.Color = clWindowText
+          Font.Height = 11
+          Font.Name = 'Tahoma'
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+          ColorFocus = clActiveText
+        end
+        object ed_end: TEdit
+          Left = 144
+          Height = 24
+          Top = 84
+          Width = 80
+          TabOrder = 3
+        end
       end
     end
     object ExtClonedPanel: TExtClonedPanel
@@ -263,7 +308,7 @@ object F_Extract: TF_Extract
       Height = 73
       Top = 201
       Width = 666
-      HorzScrollBar.Page = 661
+      HorzScrollBar.Page = 649
       VertScrollBar.Page = 26
       Align = alBottom
       ClientHeight = 71
@@ -311,14 +356,14 @@ object F_Extract: TF_Extract
           Left = 300
           Height = 24
           Top = 1
-          Width = 88
+          Width = 76
           Caption = 'À Droite'
           TabOrder = 2
           UseDockManager = False
           Align = alLeft
         end
         object Label4: TLabel
-          Left = 388
+          Left = 464
           Height = 24
           Top = 1
           Width = 110
@@ -327,7 +372,7 @@ object F_Extract: TF_Extract
           ParentColor = False
         end
         object EndExtract: TEdit
-          Left = 498
+          Left = 574
           Height = 24
           Top = 1
           Width = 74
@@ -335,12 +380,12 @@ object F_Extract: TF_Extract
           TabOrder = 3
           Text = '@'
         end
-        object EndEnter: TJvXPCheckbox
-          Left = 572
+        object EraseEtractChars: TJvXPCheckbox
+          Left = 376
           Height = 24
           Top = 1
           Width = 88
-          Caption = 'Entrée'
+          Caption = 'À Effacer'
           TabOrder = 4
           UseDockManager = False
           Align = alLeft
@@ -398,12 +443,12 @@ object F_Extract: TF_Extract
     AllowMultiLine = False
     Delimiter = ','
     FirstLineAsSchema = True
-    left = 168
-    top = 168
+    left = 176
+    top = 128
   end
   object ds_Destination: TDataSource
     DataSet = SdfDestination
     left = 48
-    top = 168
+    top = 128
   end
 end

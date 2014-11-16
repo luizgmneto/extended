@@ -48,19 +48,22 @@ type
    TExtExtractColumn = class(TCollectionItem)
    private
      FFieldName : String;
-     FExtractChars, FExtractEnd : String ;
+     FExtractChars, FExtractEnd, FExtractEndEnter : String ;
      FRight, FLeft : Boolean;
+     FEraseExtractChars : Boolean;
      procedure SetLeft  ( AValue : Boolean );
      procedure SetRight ( AValue : Boolean );
      procedure SetFieldName(const AValue: String);
    public
      constructor Create(ACollection: TCollection); override;
    published
+     property EraseExtractChars  : Boolean     read FEraseExtractChars  write FEraseExtractChars  default True;
      property TakeLeft  : Boolean     read FLeft  write SetLeft  default True;
      property TakeRight : Boolean     read FRight write SetRight default True;
      property FieldName : String      read FFieldName    write SetFieldName;
      property ExtractChars : String   read FExtractChars write FExtractChars;
      property ExtractEnd   : String   read FExtractEnd   write FExtractEnd;
+     property ExtractEndEnter   : String   read FExtractEndEnter   write FExtractEndEnter;
    end;
 
    TExtExtractColumnClass = class of TExtExtractColumn;
@@ -113,8 +116,8 @@ type
        destructor Destroy;override;
      published
        property ColumnsExtract: TExtExtractColumns read GetColumns write SetColumns;
-       property BeginLine : String read FBeginLine write FBeginLine;
-       property EndLine : String read FEndLine write FEndLine;
+       property LineBegin : String read FBeginLine write FBeginLine;
+       property LineEnd : String read FEndLine write FEndLine;
        property ExtractOptions : TEExtractOptions read FExtractOptions write FExtractOptions;
        property DirSource : String read FSource write SetSource;
        property DataSource : TDatasource read FDestination write SetDestination;
@@ -127,7 +130,11 @@ type
 
 implementation
 
-uses Forms, TypInfo, StrUtils, Dialogs;
+uses Forms, TypInfo,
+     StrUtils,
+     FileUtil,
+     lazutf8classes,
+     Dialogs;
 
 { TExtExtractColumns }
 
@@ -180,6 +187,7 @@ begin
   inherited Create(ACollection);
   FLeft :=True;
   FRight:=True;
+  FEraseExtractChars:=True;
 end;
 
 {TExtractFile}
@@ -284,12 +292,13 @@ begin
 
 end;
 function TExtractFile.InternalDefaultCopyFile  ( const as_Source, as_Destination : String ):Boolean;
-var lstl_Strings : TStringList;
-    ls_Temp, ls_temp2 : String;
+var lstl_Strings : TStringListUTF8;
+    ls_Temp, ls_temp2, ls_text : String;
     li_Begin,
     li_end,
     li_i, li_j : Integer;
-
+    li_beginLine, li_EndLine, li_currentColumn : Integer;
+    lb_searchbeginline,lb_searchendline : Boolean;
     function fb_IsCorrectChar ( const ai_pos : Integer ):boolean;
     Begin
       Result := ( ls_Temp [ ai_pos ] in ['0'..'9','A'..'Z','a'..'z'] )or (( eoMail in ExtractOptions )and ( ls_Temp [ ai_pos ] in ['.','-'] ));
@@ -318,39 +327,49 @@ var lstl_Strings : TStringList;
 
 Begin
   Result := True;
-  if FileExists(as_Source) Then
+  if FileExistsUTF8(as_Source) Then
    Begin
-    lstl_Strings := TStringList.Create;
+    lstl_Strings := TStringListUTF8.Create;
+    li_beginLine:=-1;
+    lb_searchbeginline := FBeginLine > '';
+    lb_searchendline   := FEndLine   > '';
     try
      lstl_Strings.LoadFromFile(as_Source);
-     for li_i := 0 to lstl_Strings.Count - 1 do
-     for li_j := 0 to FColumnsExtract.Count - 1 do
-     with FColumnsExtract [ li_j ] do
-      if FExtractChars > '' then
-       Begin
-         ls_Temp:=lstl_Strings [ li_i ];
-         li_Begin := pos ( FExtractChars, ls_Temp );
-         if  ( li_Begin > 0 ) Then
-           Begin
-             if not FLeft
-              Then li_end:=posEx ( FExtractChars, ls_Temp, li_Begin + length ( FExtractChars ) )
-              else if FRight Then
-                 p_MiddleExtract ( FColumnsExtract [ li_j ], li_end, False );
-             if ( li_end > 0 )
-              Then
-               Begin
-                ls_temp2:=copy ( ls_Temp, li_Begin + length ( FExtractChars ), li_end - li_Begin - length ( FExtractChars )+1);
-                with FDestination.DataSet do
-                 if not ( eoUnique in FExtractOptions ) or not Locate(FFieldName,ls_temp2,[loCaseInsensitive]) Then
-                 Begin
-                   Append;
-//                   ShowMessage(copy ( ls_Temp, li_Begin + length ( FBeginExtract ), li_end - li_Begin - length ( FBeginExtract )));
-                   FieldByName(FFieldName).Value:=ls_temp2;
-                   Post;
-                 end;
-               end;
+     ls_text:=lstl_Strings.Text;
+     if lb_searchbeginline Then
+      Begin
+       li_beginLine := pos ( FBeginLine, ls_text );
 
-           end;
+      end;
+      Begin
+       for li_j := 0 to FColumnsExtract.Count - 1 do
+       with FColumnsExtract [ li_j ] do
+        if FExtractChars > '' then
+         Begin
+           ls_Temp:=lstl_Strings [ li_i ];
+           li_Begin := pos ( FExtractChars, ls_Temp );
+           if  ( li_Begin > 0 ) Then
+             Begin
+               if not FLeft
+                Then li_end:=posEx ( FExtractChars, ls_Temp, li_Begin + length ( FExtractChars ) )
+                else if FRight Then
+                   p_MiddleExtract ( FColumnsExtract [ li_j ], li_end, False );
+               if ( li_end > 0 )
+                Then
+                 Begin
+                  ls_temp2:=copy ( ls_Temp, li_Begin + length ( FExtractChars ), li_end - li_Begin - length ( FExtractChars )+1);
+                  with FDestination.DataSet do
+                   if not ( eoUnique in FExtractOptions ) or not Locate(FFieldName,ls_temp2,[loCaseInsensitive]) Then
+                   Begin
+                     Append;
+  //                   ShowMessage(copy ( ls_Temp, li_Begin + length ( FBeginExtract ), li_end - li_Begin - length ( FBeginExtract )));
+                     FieldByName(FFieldName).Value:=ls_temp2;
+                     Post;
+                   end;
+                 end;
+
+             end;
+         end;
        end;
     finally
       lstl_Strings.Free;
@@ -363,7 +382,7 @@ end;
 procedure TExtractFile.CopySourceToDestination;
 begin
   Finprogress := true;
-  if not FileExists ( FSource )
+  if not FileExistsUTF8 ( FSource )
   or not assigned ( FDestination )
   or not assigned ( FDestination.Dataset )
    Then

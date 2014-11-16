@@ -27,7 +27,8 @@ type
   { TF_Extract }
 
   TF_Extract = class(TF_FormMainIni)
-    Edit1: TEdit;
+    ed_begin: TEdit;
+    ed_end: TEdit;
     EndLine: TEdit;
     bt_Extract: TJvXPButton;
     ds_Destination: TDatasource;
@@ -47,7 +48,7 @@ type
     FWLabel3: TFWLabel;
     JvXPCheckbox1: TJvXPCheckbox;
     ch_droite: TJvXPCheckbox;
-    EndEnter: TJvXPCheckbox;
+    EraseEtractChars: TJvXPCheckbox;
     Label3: TLabel;
     Label4: TLabel;
     OnFormInfoIni: TOnFormInfoIni;
@@ -136,7 +137,7 @@ end;
 procedure TF_Extract.bt_ExtractClick(Sender: TObject);
 var i : TEImageFileOption;
     stl_file : TStringList ;
-    li_j : Integer;
+    li_j,li_k : Integer;
 begin
   if not FileExists(FDestination.Text)
   and not DirectoryExists(FileListSource.Directory)
@@ -162,9 +163,21 @@ begin
      else
       FilesSeek.FilesOptions := FilesSeek.FilesOptions - [cpCopyAll];
     for li_j := 1 to ExtClonedPanel.Rows do
-      with ColumnsExtract [li_j] do
-       Begin
-
+      Begin
+        with ColumnsExtract [li_j], ExtClonedPanel do
+         for li_k := 0 to controlcount - 1 do
+          Begin
+           if ( Controls [ li_k ] is TEdit ) Then
+             if li_k < 4
+              Then ExtractChars := ( Controls [ li_k ] as TEdit ).Text
+              else ExtractEnd   := ( Controls [ li_k ] as TEdit ).Text;
+           if ( Controls [ li_k ] is TJVxpCheckBox ) Then
+            if li_k = 3
+             Then TakeRight   := ( Controls [ li_k ] as TJVxpCheckBox ).Checked
+             else if li_k < 3
+             Then TakeLeft   := ( Controls [ li_k ] as TJVxpCheckBox ).Checked
+             else EraseExtractChars   := ( Controls [ li_k ] as TJVxpCheckBox ).Checked
+          End;
        end;
    end;
   Result.Lines.Clear;
@@ -327,7 +340,8 @@ begin
 
   AExtractFile:= TExtractFile.Create(Self);
   AExtractFile.ColumnsExtract.Add;
-  AExtractFile.BeginLine:=;
+  AExtractFile.LineBegin:='';
+  AExtractFile.LineEnd:='';
   FilesSeek.TraduceCopy := AExtractFile;
 
 {$IFDEF FPC}
