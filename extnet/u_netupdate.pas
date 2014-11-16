@@ -74,7 +74,7 @@ type
   private
     // Parent propriétaire des évènements liés au lien de données
     gs_VersionExeUpdate, gs_VersionBaseUpdate, gs_Date, gs_MD5Ini,
-    gs_URL, gs_File, gs_FilePage, gs_md5File, gs_Ini,
+    gs_URL, gs_File, gs_EndFile, gs_FilePage, gs_md5File, gs_Ini,
     gs_UpdateDir: string;
     gsu_UpdateState: TStateUpdate;
     gus_UpdateStep: TUpdateStep;
@@ -107,7 +107,7 @@ type
       ASize:{$IFDEF INDY10}Integer{$ELSE}Int64{$ENDIF}); virtual;
     {$ENDIF}
     procedure SetMD5; virtual;
-    procedure GetURL(const as_URL, as_LocalDir, as_FileName: string;
+    procedure GetURL(const as_URL, as_LocalDir, as_FileName, as_endFile: string;
       const aus_Step: TUpdateStep = usNone); virtual;
     function CanDownloadIni: boolean; virtual;
     function CanDownloadPage: boolean; virtual;
@@ -139,6 +139,7 @@ type
   published
     property FileIni: string read gs_Ini write gs_Ini;
     property FileUpdate: string read gs_File write gs_File;
+    property FileAddAtEnd: string read gs_endFile write gs_endFile;
     property FilePage: string read gs_FilePage write gs_FilePage;
     property UpdateDir: string read gs_UpdateDir write SetUpdateDir;
     property URLBase: string read gs_URL write gs_URL;
@@ -403,9 +404,9 @@ end;
 procedure TNetUpdate.UpdateIniPage;
 begin
   if CanDownloadIni then
-    GetURL(gs_URL, gs_UpdateDir, gs_Ini, usIni)
+    GetURL(gs_URL, gs_UpdateDir, gs_Ini, '', usIni)
   else if CanDownloadPage then
-    GetURL(gs_URL, gs_UpdateDir, gs_FilePage, usPage);
+    GetURL(gs_URL, gs_UpdateDir, gs_FilePage, gs_EndFile, usPage);
 end;
 
 // update file with optional ini
@@ -419,7 +420,7 @@ begin
          ge_DownloadedFile ( Self, True );
       end
      Else
-      GetURL(gs_URL, gs_UpdateDir, gs_File, usFile);
+      GetURL(gs_URL, gs_UpdateDir, gs_File, gs_EndFile, usFile);
 end;
 
 // can we download file ?
@@ -476,7 +477,7 @@ begin
 end;
 
 // download ini page or file
-procedure TNetUpdate.GetURL(const as_URL, as_LocalDir, as_FileName: string;
+procedure TNetUpdate.GetURL(const as_URL, as_LocalDir, as_FileName, as_endFile: string;
   const aus_Step: TUpdateStep = usNone);
 var
 {$IFDEF LNET}
@@ -525,7 +526,7 @@ begin
         gst_Stream.Free;
         if FileExistsUTF8(as_LocalDir + as_FileName) then
           DeleteFileUTF8(as_LocalDir + as_FileName);
-        gst_Stream := TFileStreamUTF8.Create(as_LocalDir + as_FileName, fmCreate);
+        gst_Stream := TFileStreamUTF8.Create(as_LocalDir + as_FileName + as_EndFile, fmCreate);
         if Assigned(ge_Downloading) Then
           ge_Downloading ( Self, aus_Step );
       end;
@@ -575,7 +576,7 @@ begin
   gb_IsUpdating := True;
   doShowWorking(gs_Please_Wait + CST_ENDOFLINE + fs_RemplaceMsg(
     gs_Downloading_in_progress, [gs_URL + gs_File]));
-  GetURL(gs_URL, gs_UpdateDir, gs_File);
+  GetURL(gs_URL, gs_UpdateDir, gs_File, gs_EndFile);
 end;
 
 // ini loading after downloading
@@ -612,7 +613,7 @@ begin
       FreeAndNil(gini_inifile);
     end;
   if FilePage > '' then
-    GetURL(gs_URL, gs_UpdateDir, gs_FilePage, usPage);
+    GetURL(gs_URL, gs_UpdateDir, gs_FilePage, gs_EndFile, usPage);
 end;
 
 // dispatch after downloading
@@ -658,4 +659,4 @@ end;
 initialization
   p_ConcatVersion(gVer_netupdate);
 {$ENDIF}
-end.
+end.

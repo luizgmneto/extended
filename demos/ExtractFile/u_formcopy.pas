@@ -27,17 +27,24 @@ type
   { TF_Extract }
 
   TF_Extract = class(TF_FormMainIni)
+    Edit1: TEdit;
+    EndLine: TEdit;
     bt_Extract: TJvXPButton;
     ds_Destination: TDatasource;
+    BeginLine: TEdit;
     EMiddleExtract: TEdit;
     EndExtract: TEdit;
+    EndExtract1: TEdit;
+    EndExtract2: TEdit;
     ExtClonedPanel: TExtClonedPanel;
-    ExtractAFile: TExtractFile;
+    AExtractFile: TExtractFile;
     FilesSeek: TExtFileCopy;
     FDestination: TFileNameEdit;
     ch_subdirs: TJvXPCheckbox;
     FWLabel1: TFWLabel;
     ColumnsExtract: TFWSpinEdit;
+    FWLabel2: TFWLabel;
+    FWLabel3: TFWLabel;
     JvXPCheckbox1: TJvXPCheckbox;
     ch_droite: TJvXPCheckbox;
     EndEnter: TJvXPCheckbox;
@@ -139,7 +146,7 @@ begin
   if FileExists ( FDestination.Text ) Then
     DeleteFile(FDestination.Text);
   stl_file := TStringList.Create;
-  with ExtractAFile,ExtClonedPanel,ColumnsExtract do
+  with AExtractFile,ExtClonedPanel,ColumnsExtract do
    Begin
     while Count > Rows do Delete(Count-1);
     while Count < Rows do Add;
@@ -313,11 +320,15 @@ begin
   Result.Lines.EndUpdate ;
 end;
 
-constructor TF_Extract.Create(Aowner: TCOmponent);
+constructor TF_Extract.Create(Aowner: TComponent);
 begin
   AutoIni:=True;
   inherited;
-  FilesSeek.TraduceCopy := ExtractAFile;
+
+  AExtractFile:= TExtractFile.Create(Self);
+  AExtractFile.ColumnsExtract.Add;
+  AExtractFile.BeginLine:=;
+  FilesSeek.TraduceCopy := AExtractFile;
 
 {$IFDEF FPC}
   if not ( csDesigning in ComponentState ) Then
@@ -327,7 +338,6 @@ begin
       Donate.CommandLine := 'open ' + CST_SITE_DONATE ;
     end;
 {$ENDIF}
-
 end;
 
 end.

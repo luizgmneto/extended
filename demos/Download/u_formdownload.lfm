@@ -1,0 +1,156 @@
+object F_Update: TF_Update
+  Left = 227
+  Height = 251
+  Top = 278
+  Width = 290
+  Caption = 'F_Update'
+  ClientHeight = 251
+  ClientWidth = 290
+  OnCreate = FormCreate
+  LCLVersion = '1.2.6.0'
+  object ProgressBar: TProgressBar
+    Left = 0
+    Height = 20
+    Top = 231
+    Width = 290
+    Align = alBottom
+    TabOrder = 0
+  end
+  object FWDownload: TFWRefresh
+    Left = 0
+    Height = 35
+    Top = 73
+    Width = 290
+    Caption = 'Download'
+    TabOrder = 1
+    Default = True
+    Align = alTop
+    OnClick = FWDownloadClick
+  end
+  object FWOpen: TFWFolder
+    Left = 0
+    Height = 123
+    Top = 108
+    Width = 290
+    Caption = 'Open'
+    TabOrder = 2
+    ShowFocusRect = True
+    Align = alClient
+    OnClick = FWOpenClick
+  end
+  object Ed_url: TEdit
+    Left = 0
+    Height = 27
+    Top = 0
+    Width = 290
+    Align = alTop
+    TabOrder = 3
+    Text = 'http://'
+  end
+  object Panel1: TPanel
+    Left = 96
+    Height = 43
+    Top = 11
+    Width = 6
+    Caption = 'Panel1'
+    TabOrder = 4
+  end
+  object Panel2: TPanel
+    Left = 0
+    Height = 23
+    Top = 27
+    Width = 290
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 23
+    ClientWidth = 290
+    TabOrder = 5
+    object Label1: TLabel
+      Left = 0
+      Height = 23
+      Top = 0
+      Width = 32
+      Align = alLeft
+      Caption = 'From'
+      ParentColor = False
+    end
+    object Ed_from: TEdit
+      Left = 32
+      Height = 23
+      Top = 0
+      Width = 103
+      Align = alLeft
+      TabOrder = 0
+      Text = 'A'
+    end
+    object Ed_to: TEdit
+      Left = 148
+      Height = 23
+      Top = 0
+      Width = 103
+      Align = alLeft
+      TabOrder = 1
+      Text = 'Z'
+    end
+    object Label2: TLabel
+      Left = 135
+      Height = 23
+      Top = 0
+      Width = 13
+      Align = alLeft
+      Caption = 'to'
+      ParentColor = False
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Height = 23
+    Top = 50
+    Width = 290
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 23
+    ClientWidth = 290
+    TabOrder = 6
+    object Label3: TLabel
+      Left = 0
+      Height = 23
+      Top = 0
+      Width = 104
+      Align = alLeft
+      Caption = 'Extension to add '
+      ParentColor = False
+    end
+    object Ed_extension: TEdit
+      Left = 104
+      Height = 23
+      Top = 0
+      Width = 103
+      Align = alLeft
+      TabOrder = 0
+      Text = '.htm'
+    end
+  end
+  object NetUpdate: TNetUpdate
+    FileUpdate = 'LINUX_A5.pdf'
+    URLBase = 'http://www.aides-informatique.com/IMG/pdf/'
+    Progress = ProgressBar
+    OnErrorMessage = NetUpdateErrorMessage
+    OnDownloading = NetUpdateDownloading
+    OnDownloaded = NetUpdateDownloaded
+    LNetComponent = LHTTPClient
+    left = 40
+    top = 32
+  end
+  object LHTTPClient: TLHTTPClientComponent
+    Timeout = 0
+    left = 176
+    top = 32
+  end
+  object OnFormInfoIni1: TOnFormInfoIni
+    SaveEdits = [feTEdit]
+    SaveForm = [sfSavePos, sfSaveSize]
+    left = 93
+    top = 132
+  end
+end
