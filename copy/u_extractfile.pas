@@ -293,80 +293,92 @@ begin
 end;
 function TExtractFile.InternalDefaultCopyFile  ( const as_Source, as_Destination : String ):Boolean;
 var lstl_Strings : TStringListUTF8;
-    ls_Temp, ls_temp2, ls_text : String;
+    ls_Text, ls_temp2 : String;
     li_Begin,
     li_end,
     li_i, li_j : Integer;
-    li_beginLine, li_EndLine, li_currentColumn : Integer;
+    li_beginLine, li_EndLine, li_currentColumn, li_currentPosition, li_column : Integer;
     lb_searchbeginline,lb_searchendline : Boolean;
     function fb_IsCorrectChar ( const ai_pos : Integer ):boolean;
     Begin
-      Result := ( ls_Temp [ ai_pos ] in ['0'..'9','A'..'Z','a'..'z'] )or (( eoMail in ExtractOptions )and ( ls_Temp [ ai_pos ] in ['.','-'] ));
+      Result := ( ls_Text [ ai_pos ] in ['0'..'9','A'..'Z','a'..'z'] )or (( eoMail in ExtractOptions )and ( ls_Text [ ai_pos ] in ['.','-'] ));
     End;
-    procedure p_MiddleExtract ( const AColumn : TExtExtractColumn; var ai_BeginEnd : Integer; const ab_Prior : Boolean );
+    procedure p_ExtractString ( const ALeft, ARight : Boolean );
     Begin
-      with AColumn do
-      if FLeft and FRight Then
+      if ALeft Then
+       Begin
+         while (li_Begin>1 ) and fb_IsCorrectChar ( li_Begin - 1 )
+           do
+            Dec ( li_Begin );
+       end
+      Else
+      if ARight Then
       Begin
-        ai_BeginEnd := pos ( FExtractChars, ls_Temp );
-        if ab_Prior Then
-         Begin
-           while (li_Begin>1 ) and fb_IsCorrectChar ( li_Begin - 1 )
-             do
-              Dec ( li_Begin );
-         end
-        Else
-        Begin
-          while (li_end<length(ls_Temp)) and fb_IsCorrectChar ( li_end + 1 )
-            do
-             Inc ( li_end );
-        end
-
+        while (li_end<length(ls_Text)) and fb_IsCorrectChar ( li_end + 1 )
+          do
+           Inc ( li_end );
       end;
     End;
+    function fs_SearchNextText : String ;
+    var li_i, li_pos : Integer;
+    Begin
+      for li_i := li_column to FColumnsExtract.Count - 1 do
+       with FColumnsExtract [ li_i ] do
+         Begin
+          li_pos := posex ( FExtractChars, ls_text, li_beginLine );
+          if li_pos > 0 Then
+           Begin
+             li_currentPosition := li_pos;
+             li_begin := li_currentPosition;
+             li_end   := li_currentPosition + length(FExtractChars);
+             if not FLeft
+              Then li_end:=posEx ( FExtractChars, ls_Text, li_Begin + length ( FExtractChars ) )
+              else if FRight Then
+               p_ExtractString(FLeft,FRight);
+             if ( li_end > 0 )
+              Then
+               Begin
+                ls_temp2:=copy ( ls_Text, li_Begin + length ( FExtractChars ), li_end - li_Begin - length ( FExtractChars )+1);
+                with FDestination.DataSet do
+                 if not ( eoUnique in FExtractOptions ) or not Locate(FFieldName,ls_temp2,[loCaseInsensitive]) Then
+                 Begin
+                   Append;
+                   FieldByName(FFieldName).Value:=ls_temp2;
+                   Post;
+                 end;
+               end;
+             Result := copy ( ls_text, li_begin, li_end );
+             Exit;
+           end;
+         end;
+    end;
 
 Begin
   Result := True;
   if FileExistsUTF8(as_Source) Then
    Begin
     lstl_Strings := TStringListUTF8.Create;
-    li_beginLine:=-1;
+    li_beginLine:=1;
     lb_searchbeginline := FBeginLine > '';
     lb_searchendline   := FEndLine   > '';
     try
      lstl_Strings.LoadFromFile(as_Source);
+     li_column := 0;
      ls_text:=lstl_Strings.Text;
      if lb_searchbeginline Then
       Begin
        li_beginLine := pos ( FBeginLine, ls_text );
-
       end;
       Begin
        for li_j := 0 to FColumnsExtract.Count - 1 do
        with FColumnsExtract [ li_j ] do
         if FExtractChars > '' then
          Begin
-           ls_Temp:=lstl_Strings [ li_i ];
-           li_Begin := pos ( FExtractChars, ls_Temp );
+           ls_Text:=lstl_Strings [ li_i ];
+           li_Begin := pos ( FExtractChars, ls_Text );
            if  ( li_Begin > 0 ) Then
              Begin
-               if not FLeft
-                Then li_end:=posEx ( FExtractChars, ls_Temp, li_Begin + length ( FExtractChars ) )
-                else if FRight Then
-                   p_MiddleExtract ( FColumnsExtract [ li_j ], li_end, False );
-               if ( li_end > 0 )
-                Then
-                 Begin
-                  ls_temp2:=copy ( ls_Temp, li_Begin + length ( FExtractChars ), li_end - li_Begin - length ( FExtractChars )+1);
-                  with FDestination.DataSet do
-                   if not ( eoUnique in FExtractOptions ) or not Locate(FFieldName,ls_temp2,[loCaseInsensitive]) Then
-                   Begin
-                     Append;
-  //                   ShowMessage(copy ( ls_Temp, li_Begin + length ( FBeginExtract ), li_end - li_Begin - length ( FBeginExtract )));
-                     FieldByName(FFieldName).Value:=ls_temp2;
-                     Post;
-                   end;
-                 end;
+
 
              end;
          end;
