@@ -48,7 +48,7 @@ type
    TExtExtractColumn = class(TCollectionItem)
    private
      FFieldName : String;
-     FExtractChars, FExtractEnd, FExtractEndEnter : String ;
+     FExtractChars, FIncludeChars, FExtractEnd, FExtractEndEnter : String ;
      FRight, FLeft : Boolean;
      FEraseExtractChars : Boolean;
      procedure SetLeft  ( AValue : Boolean );
@@ -62,6 +62,7 @@ type
      property TakeRight : Boolean     read FRight write SetRight default True;
      property FieldName : String      read FFieldName    write SetFieldName;
      property ExtractChars : String   read FExtractChars write FExtractChars;
+     property IncludeChars : String   read FIncludeChars write FIncludeChars;
      property ExtractEnd   : String   read FExtractEnd   write FExtractEnd;
      property ExtractEndEnter   : String   read FExtractEndEnter   write FExtractEndEnter;
    end;
@@ -205,9 +206,7 @@ end;
 procedure TExtractFile.SetDestination(const AValue: TDataSource);
 begin
   if FDestination <> AValue Then
-    Begin
-      FDestination := AValue;
-    End;
+    FDestination := AValue;
 end;
 
 // Source property and event
@@ -299,22 +298,24 @@ var lstl_Strings : TStringListUTF8;
     li_i, li_j : Integer;
     li_beginLine, li_EndLine, li_currentColumn, li_currentPosition, li_column : Integer;
     lb_searchbeginline,lb_searchendline : Boolean;
-    function fb_IsCorrectChar ( const ai_pos : Integer ):boolean;
+    function fb_IsCorrectChar ( const ai_pos : Integer ; const AIncludeChars : String ):boolean;
     Begin
-      Result := ( ls_Text [ ai_pos ] in ['0'..'9','A'..'Z','a'..'z'] )or (( eoMail in ExtractOptions )and ( ls_Text [ ai_pos ] in ['.','-'] ));
+      if AIncludeChars = ''
+       Then  Result := ( pos ( ls_Text [ ai_pos ], AIncludeChars ) > 0 )
+       else  Result := ( ls_Text [ ai_pos ] in ['0'..'9','A'..'Z','a'..'z'] )or (( eoMail in ExtractOptions )and ( ls_Text [ ai_pos ] in ['.','-'] ));
     End;
-    procedure p_ExtractString ( const ALeft, ARight : Boolean );
+    procedure p_ExtractString ( const ALeft, ARight : Boolean ; const AIncludeChars : String );
     Begin
       if ALeft Then
        Begin
-         while (li_Begin>1 ) and fb_IsCorrectChar ( li_Begin - 1 )
+         while (li_Begin>1 ) and fb_IsCorrectChar ( li_Begin - 1, AIncludeChars )
            do
             Dec ( li_Begin );
        end
       Else
       if ARight Then
       Begin
-        while (li_end<length(ls_Text)) and fb_IsCorrectChar ( li_end + 1 )
+        while (li_end<length(ls_Text)) and fb_IsCorrectChar ( li_end + 1, AIncludeChars )
           do
            Inc ( li_end );
       end;
@@ -334,7 +335,7 @@ var lstl_Strings : TStringListUTF8;
              if not FLeft
               Then li_end:=posEx ( FExtractChars, ls_Text, li_Begin + length ( FExtractChars ) )
               else if FRight Then
-               p_ExtractString(FLeft,FRight);
+               p_ExtractString(FLeft,FRight,FIncludeChars);
              if ( li_end > 0 )
               Then
                Begin
