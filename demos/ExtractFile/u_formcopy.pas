@@ -116,7 +116,9 @@ var
 
 implementation
 
-uses fonctions_init, IniFiles, fonctions_file,
+uses fonctions_init, IniFiles,
+     fonctions_file,
+     FileUtil,
 {$IFDEF FPC}
   LCLType,
 {$ELSE}
@@ -139,16 +141,17 @@ var i : TEImageFileOption;
     stl_file : TStringList ;
     li_j,li_k : Integer;
 begin
-  if not FileExists(FDestination.Text)
-  and not DirectoryExists(FileListSource.Directory)
+  if not DirectoryExistsUTF8(ExtractFileDir(FDestination.Text))
+  and not DirectoryExistsUTF8(FileListSource.Directory)
    Then
     Exit;
 
-  if FileExists ( FDestination.Text ) Then
-    DeleteFile(FDestination.Text);
+  if FileExistsUTF8 ( FDestination.Text ) Then
+    DeleteFileUTF8(FDestination.Text);
   stl_file := TStringList.Create;
   with AExtractFile,ExtClonedPanel,ColumnsExtract do
    Begin
+    ColumnsExtract.Clear;
     while Count > Rows do Delete(Count-1);
     while Count < Rows do Add;
     try
@@ -280,7 +283,7 @@ begin
   FLangue := ALangue ;
   FFichierIni := ExtractFilePath(Application.ExeName) + 'Languages' +DirectorySeparator + FLangue + '.lng' ;
 
-  if ( FileExists ( FFichierIni )) then
+  if ( FileExistsUTF8 ( FFichierIni )) then
     Begin
       FIniLangue := TIniFile.Create ( FFichierIni );
       if assigned ( FIniLangue ) then
@@ -336,9 +339,9 @@ end;
 constructor TF_Extract.Create(Aowner: TComponent);
 begin
   AutoIni:=True;
+  AExtractFile:= TExtractFile.Create(Self);
   inherited;
 
-  AExtractFile:= TExtractFile.Create(Self);
   AExtractFile.ColumnsExtract.Add;
   AExtractFile.LineBegin:='';
   AExtractFile.LineEnd:='';
