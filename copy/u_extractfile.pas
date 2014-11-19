@@ -134,6 +134,7 @@ implementation
 uses Forms, TypInfo,
      StrUtils,
      FileUtil,
+     fonctions_string,
      lazutf8classes,
      Dialogs;
 
@@ -141,7 +142,7 @@ uses Forms, TypInfo,
 
 function TExtExtractColumns.GetColumn(Index: Integer): TExtExtractColumn;
 begin
-  Result:=Items[index] as TExtExtractColumn;
+  Result:=inherited Items[index] as TExtExtractColumn;
 end;
 
 procedure TExtExtractColumns.SetColumn(Index: Integer;
@@ -178,9 +179,7 @@ end;
 procedure TExtExtractColumn.SetFieldName(const AValue: String);
 begin
   if AValue <> FFieldName Then
-   Begin
      FFieldName:= AValue;
-   end;
 end;
 
 constructor TExtExtractColumn.Create(ACollection: TCollection);
@@ -269,21 +268,15 @@ end;
 function TExtractFile.IsCopyOk ( const ai_Error : Integer ;  as_Message : String ):Boolean;
 begin
   Result := True ;
-  if  ( ai_Error <> 0 ) then
-    Begin
-      if assigned ( FOnFailure ) then
-        Begin
-            FOnFailure ( Self, ai_Error, as_Message, Result );
-        End ;
-    End ;
+  if  ( ai_Error <> 0 )
+  and assigned ( FOnFailure ) then
+     FOnFailure ( Self, ai_Error, as_Message, Result );
 End ;
 // Internal finish
 procedure TExtractFile.InternalFinish ( const as_Source, as_Destination : String );
 begin
   if assigned ( FOnSuccess ) then
-    Begin
-        FOnSuccess ( Self, as_Source, as_Destination, 0 );
-    End ;
+      FOnSuccess ( Self, as_Source, as_Destination, 0 );
 End ;
 
 procedure TExtractFile.PrepareCopy;
@@ -292,7 +285,7 @@ begin
 end;
 function TExtractFile.InternalDefaultCopyFile  ( const as_Source, as_Destination : String ):Boolean;
 var lstl_Strings : TStringListUTF8;
-    ls_Text, ls_temp2 : String;
+    ls_Text, ls_found : String;
     li_Begin,
     li_end,
     li_i, li_j : Integer;
@@ -322,13 +315,22 @@ var lstl_Strings : TStringListUTF8;
     End;
     function fs_SearchNextText : String ;
     var li_i, li_pos : Integer;
+        lb_foundFirstLine : Boolean;
+        ls_temp2 : String;
     Begin
-      for li_i := li_column to FColumnsExtract.Count - 1 do
-       with FColumnsExtract [ li_i ] do
+      lb_foundFirstLine := False;
+      with FColumnsExtract, FDestination.DataSet do
+      for li_i := li_column to Count - 1 do
+       with Items [ li_i ] do
          Begin
           li_pos := posex ( FExtractChars, ls_text, li_beginLine );
           if li_pos > 0 Then
            Begin
+             if not lb_foundFirstLine Then
+              Begin
+                lb_foundFirstLine := True;
+                Append;
+              End;
              li_currentPosition := li_pos;
              li_begin := li_currentPosition;
              li_end   := li_currentPosition + length(FExtractChars);
@@ -339,19 +341,18 @@ var lstl_Strings : TStringListUTF8;
              if ( li_end > 0 )
               Then
                Begin
-                ls_temp2:=copy ( ls_Text, li_Begin + length ( FExtractChars ), li_end - li_Begin - length ( FExtractChars )+1);
-                with FDestination.DataSet do
+                 if FEraseExtractChars
+                   Then ls_temp2:=copy ( ls_Text, li_Begin + length ( FExtractChars ), li_end - li_Begin - length ( FExtractChars )+1)
+                   else ls_temp2:=copy ( ls_Text, li_Begin, li_end - li_Begin+1);
                  if not ( eoUnique in FExtractOptions ) or not Locate(FFieldName,ls_temp2,[loCaseInsensitive]) Then
-                 Begin
-                   Append;
-                   FieldByName(FFieldName).Value:=ls_temp2;
-                   Post;
-                 end;
+                   Begin
+                     Fields [ li_column ].AsString:=ls_temp2;
+                   end;
                end;
-             Result := copy ( ls_text, li_begin, li_end );
-             Exit;
            end;
-         end;
+          if li_i = count-1 Then
+           Post;
+      end;
     end;
 
 Begin
@@ -370,20 +371,9 @@ Begin
       Begin
        li_beginLine := pos ( FBeginLine, ls_text );
       end;
-      Begin
-       for li_j := 0 to FColumnsExtract.Count - 1 do
-       with FColumnsExtract [ li_j ] do
-        if FExtractChars > '' then
-         Begin
-           ls_Text:=lstl_Strings [ li_i ];
-           li_Begin := pos ( FExtractChars, ls_Text );
-           if  ( li_Begin > 0 ) Then
-             Begin
-
-
-             end;
-         end;
-       end;
+     ls_Text:=lstl_Strings.Text;
+     repeat
+     until fs_SearchNextText='';
     finally
       lstl_Strings.Free;
     end;

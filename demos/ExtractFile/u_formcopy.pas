@@ -27,6 +27,7 @@ type
   { TF_Extract }
 
   TF_Extract = class(TF_FormMainIni)
+    bt_open: TJvXPButton;
     ed_begin: TEdit;
     ed_end: TEdit;
     EndLine: TEdit;
@@ -78,6 +79,7 @@ type
     Splitter3: TSplitter;
     Panel4: TPanel;
     procedure bt_ExtractClick(Sender: TObject);
+    procedure bt_openClick(Sender: TObject);
     procedure ColumnsExtractChange(Sender: TObject);
     procedure DirectorySourceChange(Sender: TObject);
     procedure ExtractAFileProgress(Sender: Tobject; const BytesCopied,
@@ -117,6 +119,7 @@ var
 implementation
 
 uses fonctions_init, IniFiles,
+     fonctions_system,
      fonctions_file,
      FileUtil,
 {$IFDEF FPC}
@@ -139,7 +142,9 @@ end;
 procedure TF_Extract.bt_ExtractClick(Sender: TObject);
 var i : TEImageFileOption;
     stl_file : TStringList ;
-    li_j,li_k : Integer;
+    lpa_Panel : TWinControl;
+    lco_control : TControl;
+    li_j,li_k, li_l : Integer;
 begin
   if not DirectoryExistsUTF8(ExtractFileDir(FDestination.Text))
   and not DirectoryExistsUTF8(FileListSource.Directory)
@@ -154,35 +159,38 @@ begin
     ColumnsExtract.Clear;
     while Count > Rows do Delete(Count-1);
     while Count < Rows do Add;
-    try
-      for li_j := 0 to ColumnsExtract.Count-1 do
-        stl_file.Add(ColumnsExtract [li_j].FieldName);
-      stl_file.SaveToFile(FDestination.Text);
-    finally
-      stl_file.Free;
-    end;
-    if ch_subdirs.Checked then
-      FilesSeek.FilesOptions := FilesSeek.FilesOptions + [cpCopyAll]
-     else
-      FilesSeek.FilesOptions := FilesSeek.FilesOptions - [cpCopyAll];
+    if ch_subdirs.Checked
+     then FilesSeek.FilesOptions := FilesSeek.FilesOptions + [cpCopyAll]
+     else FilesSeek.FilesOptions := FilesSeek.FilesOptions - [cpCopyAll];
     for li_j := 1 to ExtClonedPanel.Rows do
       Begin
-        with ColumnsExtract [li_j], ExtClonedPanel do
+        with ColumnsExtract [li_j-1], ExtClonedPanel do
          for li_k := 0 to controlcount - 1 do
-          Begin
-           if ( Controls [ li_k ] is TEdit ) Then
-             if li_k < 4
-              Then ExtractChars := ( Controls [ li_k ] as TEdit ).Text
-              else ExtractEnd   := ( Controls [ li_k ] as TEdit ).Text;
-           if ( Controls [ li_k ] is TJVxpCheckBox ) Then
-            if li_k = 3
-             Then TakeRight   := ( Controls [ li_k ] as TJVxpCheckBox ).Checked
-             else if li_k < 3
-             Then TakeLeft   := ( Controls [ li_k ] as TJVxpCheckBox ).Checked
-             else EraseExtractChars   := ( Controls [ li_k ] as TJVxpCheckBox ).Checked
+           if Controls [ li_k ] is TCustomPanel Then
+           Begin
+             lpa_Panel:= Controls [ li_k ] as TWinControl;
+             for li_l := 0 to lpa_Panel.ControlCount - 1 do
+              Begin
+               lco_control := lpa_Panel.Controls [ li_l ];
+               if ( lco_control is TEdit ) Then
+                 if li_k < 4
+                  Then ExtractChars := ( lco_control as TEdit ).Text
+                  else ExtractEnd   := ( lco_control as TEdit ).Text;
+               if ( lco_control is TJVxpCheckBox ) Then
+                if li_k = 3
+                 Then TakeRight   := ( lco_control as TJVxpCheckBox ).Checked
+                 else if li_k < 3
+                 Then TakeLeft   := ( lco_control as TJVxpCheckBox ).Checked
+                 else EraseExtractChars   := ( lco_control as TJVxpCheckBox ).Checked
+              End;
           End;
        end;
    end;
+  try
+    stl_file.SaveToFile(FDestination.Text);
+  finally
+    stl_file.Free;
+  end;
   Result.Lines.Clear;
   FilesSeek.Source := FileListSource.Directory ;
   SdfDestination.FileName := FDestination.Text ;
@@ -190,6 +198,11 @@ begin
   FilesSeek.CopySourceToDestination;
   FileListSource.Directory := DirectorySource.Text;
   SdfDestination.Close;
+end;
+
+procedure TF_Extract.bt_openClick(Sender: TObject);
+begin
+  p_OpenFileOrDirectory(FDestination.FileName);
 end;
 
 procedure TF_Extract.ColumnsExtractChange(Sender: TObject);
@@ -345,6 +358,7 @@ begin
   AExtractFile.ColumnsExtract.Add;
   AExtractFile.LineBegin:='';
   AExtractFile.LineEnd:='';
+  AExtractFile.DataSource:=ds_Destination;
   FilesSeek.TraduceCopy := AExtractFile;
 
 {$IFDEF FPC}
