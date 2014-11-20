@@ -8,10 +8,9 @@ interface
 
 uses
   PDBCheck, PCheck, U_ExtColorCombos, U_DBListView, U_ExtNumEdits, 
-  U_ExtDBNavigator, U_GroupView, u_extradios, u_scrollclones, 
-  u_extDBDirectoryEdit, u_extformatedits, u_framework_components, 
-  u_framework_dbcomponents, u_extsearchedit, U_ExtComboInsert, 
-  fonctions_search_edit, LazarusPackageIntf;
+  U_ExtDBNavigator, U_GroupView, u_extradios, u_extDBDirectoryEdit, 
+  u_extformatedits, u_framework_components, u_framework_dbcomponents, 
+  u_extsearchedit, U_ExtComboInsert, fonctions_search_edit, LazarusPackageIntf;
 
 implementation
 

@@ -22,7 +22,7 @@
       </Other>
     </CompilerOptions>
     <Version Major="1" Minor="3" Release="3" Build="1"/>
-    <Files Count="13">
+    <Files Count="14">
       <Item1>
         <Filename Value="inicomp/u_extmenucustomize.pas"/>
         <UnitName Value="u_extmenucustomize"/>
@@ -75,6 +75,10 @@
         <Filename Value="inicomp/u_connection.pas"/>
         <UnitName Value="u_connection"/>
       </Item13>
+      <Item14>
+        <Filename Value="inicomp/u_scrollclones.pas"/>
+        <UnitName Value="u_scrollclones"/>
+      </Item14>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
@@ -113,4 +117,4 @@
       <_ExternHelp Items="Count"/>
     </CustomOptions>
   </Package>
-</CONFIG>
+</CONFIG>

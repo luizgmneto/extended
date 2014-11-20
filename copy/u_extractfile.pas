@@ -49,7 +49,8 @@ type
    TExtExtractColumn = class(TCollectionItem)
    private
      FFieldName : String;
-     FExtractChars, FIncludeChars, FExtractEnd, FExtractBegin, FExtractEndEnter : String ;
+     FExtractChars, FIncludeChars, FExcludeChars,
+     FExtractEnd, FExtractBegin, FExtractEndEnter : String ;
      FRight, FLeft : Boolean;
      FEraseExtractChars : Boolean;
      procedure SetLeft  ( AValue : Boolean );
@@ -64,6 +65,7 @@ type
      property FieldName : String      read FFieldName    write SetFieldName;
      property ExtractChars : String   read FExtractChars write FExtractChars;
      property IncludeChars : String   read FIncludeChars write FIncludeChars;
+     property ExcludeChars : String   read FExcludeChars write FExcludeChars;
      property ExtractBegin : String   read FExtractBegin write FExtractBegin;
      property ExtractEnd   : String   read FExtractEnd   write FExtractEnd;
      property ExtractEndEnter   : String   read FExtractEndEnter   write FExtractEndEnter;
@@ -105,7 +107,6 @@ type
        function IsCopyOk(const ai_Error: Integer;  as_Message: String): Boolean; override;
        function  BeforeCopy : Boolean ; virtual;
        function CreateDestination ( const as_Destination : String ): Boolean; virtual;
-       function GetColumns: TExtExtractColumns; virtual;
        function CreateColumns: TExtExtractColumns; virtual;
        procedure SetColumns(const AValue: TExtExtractColumns); virtual;
        { Déclarations protégées }
@@ -118,7 +119,7 @@ type
        Procedure CopySourceToDestination; virtual;
        destructor Destroy;override;
      published
-       property ColumnsExtract: TExtExtractColumns read GetColumns write SetColumns;
+       property ColumnsExtract: TExtExtractColumns read FColumnsExtract write SetColumns;
        property LineBegin : String read FBeginLine write FBeginLine;
        property LineEnd : String read FEndLine write FEndLine;
        property ExtractOptions : TEExtractOptions read FExtractOptions write FExtractOptions;
@@ -252,11 +253,6 @@ begin
   Result := True;
 end;
 
-function TExtractFile.GetColumns: TExtExtractColumns;
-begin
-  Result := FColumnsExtract;
-end;
-
 function TExtractFile.CreateColumns: TExtExtractColumns;
 begin
   Result:=TExtExtractColumns.Create(TExtExtractColumn);
@@ -294,13 +290,15 @@ var lstl_Strings : TStringListUTF8;
     li_beginLine, li_EndLine, li_currentColumn, li_currentPosition, li_column : Integer;
     lb_searchbeginline,lb_searchendline : Boolean;
     //send Extracted chars with existing IncludeChars found
-    function fs_ExtractString ( const ALeft, ARight : Boolean ; const AIncludeChars, AExtractChars : String ):String;
+    function fs_ExtractString ( const ALeft, ARight,AErase : Boolean ; const AIncludeChars, AEndChars, AExtractChars : String ):String;
     Begin
       if ALeft Then
-         Result:=fs_EnlargeString  ( ls_Text, AIncludeChars, li_currentPosition-1,True);
-      Result:=AExtractChars;
+         Result:=fs_EnlargeString  ( ls_Text, AIncludeChars, AEndChars, li_currentPosition-1,True)
+         else Result:='';
+      if not AErase then
+        AppendStr(Result,AExtractChars);
       if ARight Then
-       fs_EnlargeString  ( ls_Text, AIncludeChars, li_currentPosition+Length(AExtractChars),True);
+       AppendStr(Result,fs_EnlargeString  ( ls_Text, AIncludeChars, AEndChars, li_currentPosition+Length(AExtractChars),False));
     End;
     function fb_SearchNextText : Boolean ;
     var li_i : Integer;
@@ -311,8 +309,8 @@ var lstl_Strings : TStringListUTF8;
       for li_i := li_column to Count - 1 do
        with Items [ li_i ] do
          Begin
-          if lb_searchbeginline
-           Then li_currentPosition:= posex ( FExtractChars, ls_text, posex ( FBeginLine, ls_text, li_beginLine )+1)
+          if FExtractBegin > ''
+           Then li_currentPosition:= posex ( FExtractChars, ls_text, posex ( FExtractBegin, ls_text, li_beginLine )+1)
            Else li_currentPosition := posex ( FExtractChars, ls_text, li_beginLine );
           if li_currentPosition > 0 Then
            Begin
@@ -323,8 +321,9 @@ var lstl_Strings : TStringListUTF8;
               End;
              if li_currentPosition>li_maxCurrent Then
               li_maxCurrent:=li_currentPosition + length(FExtractChars);
-             ls_temp2 := fs_ExtractString(FLeft,FRight,FIncludeChars,FExtractChars);
-             if ( Length(FExtractChars) < length ( ls_temp2 ))
+             ls_temp2 := fs_ExtractString(FLeft,FRight,FEraseExtractChars,FIncludeChars,FExcludeChars,FExtractChars);
+             if (   (     FEraseExtractChars and ( Length(FExtractChars) < length ( ls_temp2 )))
+                 or ( not FEraseExtractChars and ( length ( ls_temp2 ) >0 )))
               Then
                Begin
                  if not ( eoUnique in FExtractOptions ) or not Locate(FFieldName,ls_temp2,[loCaseInsensitive]) Then

@@ -27,7 +27,7 @@ uses  {$IFDEF FPC}
   unite_messages_delphi,
   {$ENDIF}
 {$IFDEF FPC}
-     ComponentEditors, dbpropedits, PropEdits,
+     ComponentEditors, dbpropedits,u_scrollclones, PropEdits,
 {$ELSE}
      DBReg, Designintf,
 {$ENDIF}
@@ -39,7 +39,7 @@ begin
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [TOnFormInfoIni]);
   {$IFDEF MENUBAR}
   RegisterComponents(CST_PALETTE_COMPOSANTS_INVISIBLE, [ TExtMenuCustomize ]);
-  RegisterComponents(CST_PALETTE_COMPOSANTS, [ TMenuToolBar,TExtMenuToolBar ]);
+  RegisterComponents(CST_PALETTE_COMPOSANTS, [ TMenuToolBar,TExtMenuToolBar{$IFDEF FPC},TExtClonedPanel{$ENDIF}]);
   {$ENDIF}
 end;
 
