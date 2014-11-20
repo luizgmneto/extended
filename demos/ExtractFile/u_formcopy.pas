@@ -27,18 +27,20 @@ type
   { TF_Extract }
 
   TF_Extract = class(TF_FormMainIni)
+    BeginExtract: TEdit;
     bt_open: TJvXPButton;
+    ch_droite: TJvXPCheckbox;
     ed_begin: TEdit;
     ed_end: TEdit;
+    EEndExtract: TEdit;
     EIncludeExtract: TEdit;
+    EMiddleExtract: TEdit;
     EndLine: TEdit;
     bt_Extract: TJvXPButton;
     ds_Destination: TDatasource;
     BeginLine: TEdit;
-    EMiddleExtract: TEdit;
-    EEndExtract: TEdit;
-    BeginExtract: TEdit;
     EndExtract2: TEdit;
+    EraseEtractChars: TJvXPCheckbox;
     ExtClonedPanel: TExtClonedPanel;
     AExtractFile: TExtractFile;
     FilesSeek: TExtFileCopy;
@@ -49,8 +51,6 @@ type
     FWLabel2: TFWLabel;
     FWLabel3: TFWLabel;
     JvXPCheckbox1: TJvXPCheckbox;
-    ch_droite: TJvXPCheckbox;
-    EraseEtractChars: TJvXPCheckbox;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
@@ -150,8 +150,20 @@ var i : TEImageFileOption;
     stl_file : TStringList ;
     lpa_Panel : TWinControl;
     lco_control : TControl;
-    le_edit : TEdit;
     li_j,li_k, li_l : Integer;
+
+    procedure p_SetEdit ( const aad_text : TEdit;const li_i : Integer;const AColumnExtract:TExtExtractColumn);
+    Begin
+      with AColumnExtract,aad_text do
+      case li_i of
+        4  : ExtractBegin := Text;
+        6  : ExtractChars := Text;
+        8  : if Text = ''
+              Then Text := IncludeChars
+              else IncludeChars := Text;
+        10 : ExtractEnd := Text;
+     End;
+   End;
 begin
   if not DirectoryExistsUTF8(ExtractFileDir(FDestination.Text))
   and not DirectoryExistsUTF8(FileListSource.Directory)
@@ -192,18 +204,7 @@ begin
                    Schema [0]:=Schema [0]+fs_RepeteChar(Delimiter,li_j-fi_CharCounter(Schema [0],Delimiter)-1)+fs_RepeteChar('_',Size);
                  End;
                if ( lco_control is TEdit ) Then
-                Begin
-                  le_edit:=lco_control as TEdit;
-                 if li_l < 6
-                  Then ExtractBegin := le_edit.Text
-                  else if li_l = 6
-                  Then ExtractChars := le_edit.Text
-                  else if li_l > 8
-                   Then ExtractEnd   := le_edit.Text
-                   else if le_edit.Text = ''
-                    Then le_edit.Text := IncludeChars
-                    else IncludeChars := le_edit.Text;
-                End;
+                 p_SetEdit (lco_control as TEdit, li_l, ColumnsExtract [li_j]);
                if ( lco_control is TJVxpCheckBox ) Then
                 if li_l = 1
                  Then TakeRight  := ( lco_control as TJVxpCheckBox ).Checked
