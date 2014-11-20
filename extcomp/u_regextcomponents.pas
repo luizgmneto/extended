@@ -30,7 +30,6 @@ uses  {$IFDEF FPC}
      U_ExtNumEdits,U_ExtColorCombos,
 {$IFDEF FPC}
      ComponentEditors, dbpropedits, PropEdits,
-     u_scrollclones,
 {$ELSE}
      DBReg, Designintf,
 {$ENDIF}
@@ -48,7 +47,6 @@ begin
                                                 TExtSearchDBEdit,TExtSearchEdit
                                                 ]);
   RegisterComponents(CST_PALETTE_COMPOSANTS   , [TPCheck,
-                                                {$IFDEF FPC}TExtClonedPanel,{$ENDIF}
                                                 TExtColorCombo,
                                                 TExtFormatEdit,
                                                 TExtNumEdit,TExtRadioGroup]);

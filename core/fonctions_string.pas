@@ -27,7 +27,8 @@ const
     gVer_fonction_string : T_Version = ( Component : 'String management' ; FileUnit : 'fonctions_string' ;
                         			                 Owner : 'Matthieu Giroux' ;
                         			                 Comment : 'String traduction and format.' ;
-                        			                 BugsStory : 'Version 1.0.9.0 : Adding FontToString and StringToFont.' + #13#10 +
+                        			                 BugsStory : 'Version 1.1.0.0 : fs_EnlargeString function.' + #13#10 +
+              			                	        	     'Version 1.0.9.0 : Adding FontToString and StringToFont.' + #13#10 +
               			                	        	     'Version 1.0.8.1 : Modify fs_SeparateTextFromWidth.' + #13#10 +
               			                	        	     'Version 1.0.8.0 : procedure p_SetStringMaxLength.' + #13#10 +
               			                	        	     'Version 1.0.7.0 : function fs_RemplaceMsgIfExists.' + #13#10 +
@@ -45,7 +46,7 @@ const
                         			                	     'Version 1.0.0.1 : Rectifications sur p_ChampsVersListe.' + #13#10 +
                         			                	     'Version 1.0.0.0 : Certaines fonctions non utilisées sont à tester.';
                         			                 UnitType : 1 ;
-                        			                 Major : 1 ; Minor : 0 ; Release : 9 ; Build :  0);
+                        			                 Major : 1 ; Minor : 1 ; Release : 0 ; Build :  0);
 {$ENDIF}
   CST_ENDOFLINE = #10;
   CST_DELIMITERS_CHAR = '-_ .,:[()]{}=+*';
@@ -102,7 +103,7 @@ type
   function fs_RemplaceMsg(const as_Texte: String; const aTs_arg: Array of String): String;
   function fs_RemplaceMsgIfExists(const as_Texte: String; const as_arg: String): String;
   function fs_RemplaceEspace ( const as_Texte : String ; const as_Remplace : String ): String ;
-  function fs_EnlargeString  ( const as_texttoGet, as_includeChars : String ; const ai_pos : Integer; const ALeft : Boolean ):String ;
+  function fs_EnlargeString  ( const as_texttoGet, as_includeChars, as_excludeChars : String ; const ai_pos : Integer; const ALeft : Boolean ):String ;
 
   function fs_RepeteChar     ( const ach_Caractere : Char ; const ali_Repete : Integer ):String ;
   function fi_CharCounter    ( const as_Texte : String ; const ach_Caractere : Char ):Longint;
@@ -701,9 +702,10 @@ End ;
 // ali_Repete     : Le nombre de répétitions du caractère
 // Résultat       : la chaîne avec le caractère répété
 ////////////////////////////////////////////////////////////////////////////////
-function fs_EnlargeString  ( const as_texttoGet, as_includeChars : String ; const ai_pos : Integer; const ALeft : Boolean ):String ;
+function fs_EnlargeString  ( const as_texttoGet, as_includeChars, as_excludeChars : String ; const ai_pos : Integer; const ALeft : Boolean ):String ;
 var lpc_AChar,lpc_ACharLimit : PChar ;
     li_i : Integer;
+    lb_exclude,lb_Include : Boolean;
 Begin
   Result:='';
   if ai_pos < 0 Then
@@ -712,18 +714,23 @@ Begin
   if ALeft
    Then lpc_ACharLimit := @as_texttoGet[1]
    Else lpc_ACharLimit := @as_texttoGet[length(as_texttoGet)];
-  while pos (lpc_AChar^,as_includeChars)>0 do
+  lb_exclude:=as_excludeChars>'';
+  lb_Include:=as_includeChars>'';
+  while ( lb_Include and (pos (lpc_AChar^,as_includeChars)>0))
+  or    ( lb_exclude and (pos (lpc_AChar^,as_excludeChars)=0)) do
     Begin
       if ALeft
        Then
          Begin
           Result:=lpc_AChar^+Result;
           dec ( lpc_AChar );
+          if lpc_AChar<lpc_ACharLimit Then Exit;
          end
        else
         Begin
          AppendStr(Result,lpc_AChar^);
          inc ( lpc_AChar );
+         if lpc_AChar>lpc_ACharLimit Then Exit;
         end;
     end;
 End ;

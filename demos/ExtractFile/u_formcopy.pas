@@ -33,6 +33,7 @@ type
     ed_begin: TEdit;
     ed_end: TEdit;
     EEndExtract: TEdit;
+    EExcludeExtract: TEdit;
     EIncludeExtract: TEdit;
     EMiddleExtract: TEdit;
     EndLine: TEdit;
@@ -56,6 +57,7 @@ type
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
+    Label8: TLabel;
     OnFormInfoIni: TOnFormInfoIni;
     Panel5: TPanel;
     PanelCloned: TPanel;
@@ -87,8 +89,6 @@ type
     procedure bt_openClick(Sender: TObject);
     procedure ColumnsExtractChange(Sender: TObject);
     procedure DirectorySourceChange(Sender: TObject);
-    procedure ExtractAFileProgress(Sender: Tobject; const BytesCopied,
-      BytesTotal: cardinal);
     procedure FilesSeekChange(Sender: Tobject; const NewDirectory, DestinationDirectory : String);
     procedure FilesSeekFailure(Sender: Tobject; const ErrorCode: Integer;
       var ErrorMessage: AnsiString; var ContinueCopy: Boolean);
@@ -158,10 +158,9 @@ var i : TEImageFileOption;
       case li_i of
         4  : ExtractBegin := Text;
         6  : ExtractChars := Text;
-        8  : if Text = ''
-              Then Text := IncludeChars
-              else IncludeChars := Text;
-        10 : ExtractEnd := Text;
+        8  : IncludeChars := Text;
+        10 : ExcludeChars := Text;
+        12 : ExtractEnd := Text;
      End;
    End;
 begin
@@ -242,12 +241,6 @@ end;
 procedure TF_Extract.DirectorySourceChange(Sender: TObject);
 begin
     FileListSource.Directory := DirectorySource.Text;
-
-end;
-
-procedure TF_Extract.ExtractAFileProgress(Sender: Tobject; const BytesCopied,
-  BytesTotal: cardinal);
-begin
 
 end;
 
@@ -381,12 +374,8 @@ end;
 constructor TF_Extract.Create(Aowner: TComponent);
 begin
   AutoIni:=True;
-  AExtractFile:= TExtractFile.Create(Self);
+  AExtractFile:=TExtractFile.Create(Self);
   inherited;
-
-  AExtractFile.ColumnsExtract.Add;
-  AExtractFile.LineBegin:='';
-  AExtractFile.LineEnd:='';
   AExtractFile.DataSource:=ds_Destination;
   FilesSeek.TraduceCopy := AExtractFile;
 

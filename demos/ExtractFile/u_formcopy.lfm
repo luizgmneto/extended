@@ -322,21 +322,22 @@ object F_Extract: TF_Extract
       Height = 73
       Top = 201
       Width = 1005
-      HorzScrollBar.Page = 975
+      HorzScrollBar.Page = 1001
       VertScrollBar.Page = 26
       Align = alBottom
-      ClientHeight = 69
+      ClientHeight = 51
       ClientWidth = 1001
       TabOrder = 5
+      FormIni = OnFormInfoIni
       PanelCloned = PanelCloned
       object PanelCloned: TPanel
         Left = 0
         Height = 26
         Top = 0
-        Width = 1001
+        Width = 1007
         Align = alTop
         ClientHeight = 26
-        ClientWidth = 1001
+        ClientWidth = 1007
         TabOrder = 0
         object JvXPCheckbox1: TJvXPCheckbox
           Tag = 1
@@ -385,12 +386,12 @@ object F_Extract: TF_Extract
           Left = 384
           Height = 24
           Top = 1
-          Width = 64
+          Width = 48
           Align = alLeft
           TabOrder = 3
         end
         object Label3: TLabel
-          Left = 448
+          Left = 432
           Height = 24
           Top = 1
           Width = 87
@@ -400,16 +401,16 @@ object F_Extract: TF_Extract
         end
         object EMiddleExtract: TEdit
           Tag = 5
-          Left = 535
+          Left = 519
           Height = 24
           Top = 1
-          Width = 74
+          Width = 49
           Align = alLeft
           TabOrder = 4
           Text = '@'
         end
         object Label7: TLabel
-          Left = 609
+          Left = 568
           Height = 24
           Top = 1
           Width = 79
@@ -419,15 +420,33 @@ object F_Extract: TF_Extract
         end
         object EIncludeExtract: TEdit
           Tag = 6
-          Left = 688
+          Left = 647
           Height = 24
           Top = 1
-          Width = 74
+          Width = 49
           Align = alLeft
           TabOrder = 5
         end
+        object Label8: TLabel
+          Left = 696
+          Height = 24
+          Top = 1
+          Width = 83
+          Align = alLeft
+          Caption = ', d''exclusion : '
+          ParentColor = False
+        end
+        object EExcludeExtract: TEdit
+          Tag = 6
+          Left = 779
+          Height = 24
+          Top = 1
+          Width = 35
+          Align = alLeft
+          TabOrder = 6
+        end
         object Label6: TLabel
-          Left = 762
+          Left = 814
           Height = 24
           Top = 1
           Width = 52
@@ -437,16 +456,16 @@ object F_Extract: TF_Extract
         end
         object EEndExtract: TEdit
           Tag = 7
-          Left = 814
+          Left = 866
           Height = 24
           Top = 1
-          Width = 74
+          Width = 54
           Align = alLeft
-          TabOrder = 6
+          TabOrder = 7
           Text = '"'
         end
         object Label5: TLabel
-          Left = 888
+          Left = 920
           Height = 24
           Top = 1
           Width = 36
@@ -456,14 +475,14 @@ object F_Extract: TF_Extract
         end
         object SpinEdit1: TSpinEdit
           Tag = 8
-          Left = 924
+          Left = 956
           Height = 24
           Top = 1
           Width = 50
           Align = alLeft
           MaxValue = 1000
           MinValue = 1
-          TabOrder = 7
+          TabOrder = 8
           Value = 250
         end
       end
