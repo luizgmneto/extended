@@ -1,8 +1,8 @@
 object F_Extract: TF_Extract
   Cursor = crArrow
-  Left = 560
+  Left = 298
   Height = 500
-  Top = 140
+  Top = 147
   Width = 1005
   ActiveControl = Splitter1
   Caption = 'Files Extract'
@@ -338,40 +338,35 @@ object F_Extract: TF_Extract
         ClientHeight = 26
         ClientWidth = 1001
         TabOrder = 0
-        object Label3: TLabel
-          Left = 448
-          Height = 24
-          Top = 1
-          Width = 87
-          Align = alLeft
-          Caption = ', d''extraction : '
-          ParentColor = False
-        end
-        object EMiddleExtract: TEdit
-          Left = 535
-          Height = 24
-          Top = 1
-          Width = 74
-          Align = alLeft
-          TabOrder = 0
-          Text = '@'
-        end
         object JvXPCheckbox1: TJvXPCheckbox
+          Tag = 1
           Left = 1
           Height = 24
           Top = 1
           Width = 85
           Caption = 'À Gauche'
-          TabOrder = 1
+          TabOrder = 0
           UseDockManager = False
           Align = alLeft
         end
         object ch_droite: TJvXPCheckbox
+          Tag = 2
           Left = 86
           Height = 24
           Top = 1
           Width = 82
           Caption = 'À Droite'
+          TabOrder = 1
+          UseDockManager = False
+          Align = alLeft
+        end
+        object EraseEtractChars: TJvXPCheckbox
+          Tag = 3
+          Left = 168
+          Height = 24
+          Top = 1
+          Width = 88
+          Caption = 'À Effacer'
           TabOrder = 2
           UseDockManager = False
           Align = alLeft
@@ -385,61 +380,33 @@ object F_Extract: TF_Extract
           Caption = 'Caractères de début : '
           ParentColor = False
         end
-        object EEndExtract: TEdit
-          Left = 814
-          Height = 24
-          Top = 1
-          Width = 74
-          Align = alLeft
-          TabOrder = 3
-          Text = '"'
-        end
-        object EraseEtractChars: TJvXPCheckbox
-          Left = 168
-          Height = 24
-          Top = 1
-          Width = 88
-          Caption = 'À Effacer'
-          TabOrder = 4
-          UseDockManager = False
-          Align = alLeft
-        end
-        object SpinEdit1: TSpinEdit
-          Left = 924
-          Height = 24
-          Top = 1
-          Width = 50
-          Align = alLeft
-          MaxValue = 1000
-          MinValue = 1
-          TabOrder = 5
-          Value = 250
-        end
-        object Label5: TLabel
-          Left = 888
-          Height = 24
-          Top = 1
-          Width = 36
-          Align = alLeft
-          Caption = 'Taille :'
-          ParentColor = False
-        end
         object BeginExtract: TEdit
+          Tag = 4
           Left = 384
           Height = 24
           Top = 1
           Width = 64
           Align = alLeft
-          TabOrder = 6
+          TabOrder = 3
         end
-        object Label6: TLabel
-          Left = 762
+        object Label3: TLabel
+          Left = 448
           Height = 24
           Top = 1
-          Width = 52
+          Width = 87
           Align = alLeft
-          Caption = ', de fin : '
+          Caption = ', d''extraction : '
           ParentColor = False
+        end
+        object EMiddleExtract: TEdit
+          Tag = 5
+          Left = 535
+          Height = 24
+          Top = 1
+          Width = 74
+          Align = alLeft
+          TabOrder = 4
+          Text = '@'
         end
         object Label7: TLabel
           Left = 609
@@ -451,12 +418,53 @@ object F_Extract: TF_Extract
           ParentColor = False
         end
         object EIncludeExtract: TEdit
+          Tag = 6
           Left = 688
           Height = 24
           Top = 1
           Width = 74
           Align = alLeft
+          TabOrder = 5
+        end
+        object Label6: TLabel
+          Left = 762
+          Height = 24
+          Top = 1
+          Width = 52
+          Align = alLeft
+          Caption = ', de fin : '
+          ParentColor = False
+        end
+        object EEndExtract: TEdit
+          Tag = 7
+          Left = 814
+          Height = 24
+          Top = 1
+          Width = 74
+          Align = alLeft
+          TabOrder = 6
+          Text = '"'
+        end
+        object Label5: TLabel
+          Left = 888
+          Height = 24
+          Top = 1
+          Width = 36
+          Align = alLeft
+          Caption = 'Taille :'
+          ParentColor = False
+        end
+        object SpinEdit1: TSpinEdit
+          Tag = 8
+          Left = 924
+          Height = 24
+          Top = 1
+          Width = 50
+          Align = alLeft
+          MaxValue = 1000
+          MinValue = 1
           TabOrder = 7
+          Value = 250
         end
       end
     end

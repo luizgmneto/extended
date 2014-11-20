@@ -102,6 +102,7 @@ type
   function fs_RemplaceMsg(const as_Texte: String; const aTs_arg: Array of String): String;
   function fs_RemplaceMsgIfExists(const as_Texte: String; const as_arg: String): String;
   function fs_RemplaceEspace ( const as_Texte : String ; const as_Remplace : String ): String ;
+  function fs_EnlargeString  ( const as_texttoGet, as_includeChars : String ; const ai_pos : Integer; const ALeft : Boolean ):String ;
 
   function fs_RepeteChar     ( const ach_Caractere : Char ; const ali_Repete : Integer ):String ;
   function fi_CharCounter    ( const as_Texte : String ; const ach_Caractere : Char ):Longint;
@@ -690,6 +691,40 @@ Begin
     Begin
       lpc_AChar^ := ach_Caractere;
       inc ( lpc_AChar );
+    end;
+End ;
+
+////////////////////////////////////////////////////////////////////////////////
+// fonction : fs_RepeteChar
+// Description : Répète un carctère n fois
+// ach_Caractere  : Le caractère à répéter
+// ali_Repete     : Le nombre de répétitions du caractère
+// Résultat       : la chaîne avec le caractère répété
+////////////////////////////////////////////////////////////////////////////////
+function fs_EnlargeString  ( const as_texttoGet, as_includeChars : String ; const ai_pos : Integer; const ALeft : Boolean ):String ;
+var lpc_AChar,lpc_ACharLimit : PChar ;
+    li_i : Integer;
+Begin
+  Result:='';
+  if ai_pos < 0 Then
+    Exit;
+  lpc_AChar := @as_texttoGet[ai_pos];
+  if ALeft
+   Then lpc_ACharLimit := @as_texttoGet[1]
+   Else lpc_ACharLimit := @as_texttoGet[length(as_texttoGet)];
+  while pos (lpc_AChar^,as_includeChars)>0 do
+    Begin
+      if ALeft
+       Then
+         Begin
+          Result:=lpc_AChar^+Result;
+          dec ( lpc_AChar );
+         end
+       else
+        Begin
+         AppendStr(Result,lpc_AChar^);
+         inc ( lpc_AChar );
+        end;
     end;
 End ;
 

@@ -29,9 +29,10 @@ const
                                                FileUnit : 'U_Extractfile' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Extraction dans des fichiers.' ;
-                                               BugsStory : '0.9.0.0 : Gestion en place.';
+                                               BugsStory : '1.0.0.0 : Columns to extract.'
+                                                         + '0.9.0.0 : In place.';
                                                UnitType : 3 ;
-                                               Major : 0 ; Minor : 9 ; Release : 0 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 0 ; Build : 0 );
 
 {$ENDIF}
 type
@@ -288,30 +289,21 @@ end;
 function TExtractFile.InternalDefaultCopyFile  ( const as_Source, as_Destination : String ):Boolean;
 var lstl_Strings : TStringListUTF8;
     ls_Text, ls_found : String;
-    li_Begin,
-    li_end,
+    li_lengthText,
     li_i, li_maxCurrent, li_j : Integer;
     li_beginLine, li_EndLine, li_currentColumn, li_currentPosition, li_column : Integer;
     lb_searchbeginline,lb_searchendline : Boolean;
-    function fb_IsCorrectChar ( const ai_pos : Integer ; const AIncludeChars : String ):boolean;
-    Begin
-      if AIncludeChars > ''
-       Then  Result := ( pos ( ls_Text [ ai_pos ], AIncludeChars ) > 0 );
-    End;
-    procedure p_ExtractString ( const ALeft, ARight : Boolean ; const AIncludeChars : String );
+    //send Extracted chars with existing IncludeChars found
+    function fs_ExtractString ( const ALeft, ARight : Boolean ; const AIncludeChars, AExtractChars : String ):String;
     Begin
       if ALeft Then
-         while (li_Begin>1 )
-         and fb_IsCorrectChar ( li_Begin - 1, AIncludeChars )
-           do
-            Dec ( li_Begin );
+         Result:=fs_EnlargeString  ( ls_Text, AIncludeChars, li_currentPosition-1,True);
+      Result:=AExtractChars;
       if ARight Then
-       while (li_end<length(ls_Text))
-       and fb_IsCorrectChar ( li_end + 1, AIncludeChars )
-        do Inc ( li_end );
+       fs_EnlargeString  ( ls_Text, AIncludeChars, li_currentPosition+Length(AExtractChars),True);
     End;
     function fb_SearchNextText : Boolean ;
-    var li_i, li_pos : Integer;
+    var li_i : Integer;
         ls_temp2 : String;
     Begin
       Result:=False;
@@ -319,41 +311,30 @@ var lstl_Strings : TStringListUTF8;
       for li_i := li_column to Count - 1 do
        with Items [ li_i ] do
          Begin
-          li_pos := posex ( FExtractChars, ls_text, li_beginLine );
-          if li_pos > 0 Then
+          if lb_searchbeginline
+           Then li_currentPosition:= posex ( FExtractChars, ls_text, posex ( FBeginLine, ls_text, li_beginLine )+1)
+           Else li_currentPosition := posex ( FExtractChars, ls_text, li_beginLine );
+          if li_currentPosition > 0 Then
            Begin
              if not Result Then
               Begin
                 Result := True;
                 Append;
               End;
-             li_currentPosition := li_pos;
              if li_currentPosition>li_maxCurrent Then
               li_maxCurrent:=li_currentPosition + length(FExtractChars);
-             li_begin := li_currentPosition;
-             li_end   := li_currentPosition + length(FExtractChars);
-             if FExtractEnd > ''
-              Then
-                li_end:=posEx ( FExtractEnd, ls_Text, li_Begin + length ( FExtractChars ) ) - 1;
-              p_ExtractString(FLeft,FRight,FIncludeChars);
-             if ( li_end > 0 )
+             ls_temp2 := fs_ExtractString(FLeft,FRight,FIncludeChars,FExtractChars);
+             if ( Length(FExtractChars) < length ( ls_temp2 ))
               Then
                Begin
-                 if FEraseExtractChars and not ( FLeft and FRight )
-                   Then
-                    Begin
-                      if      Fleft  Then ls_temp2:=copy ( ls_Text, li_Begin, li_end - li_Begin - length ( FExtractChars )+1)
-                      else if FRight Then ls_temp2:=copy ( ls_Text, li_Begin + length ( FExtractChars ), li_end - li_Begin - length ( FExtractChars )+1)
-                    End
-                    else ls_temp2:=copy ( ls_Text, li_Begin, li_end - li_Begin+1);
                  if not ( eoUnique in FExtractOptions ) or not Locate(FFieldName,ls_temp2,[loCaseInsensitive]) Then
                   with Fields [ li_column ] do
                    Begin
                      AsString:=ls_temp2;
                    end;
                  if FExtractEnd > ''
-                  Then li_currentPosition := posex(FExtractEnd,ls_Text,li_end+1)
-                  Else li_currentPosition := li_end+1;
+                  Then li_currentPosition := posex(FExtractEnd,ls_Text,li_currentPosition + length ( FExtractChars )+1)
+                  Else li_currentPosition := li_currentPosition + length ( FExtractChars )+1;
                end;
            end;
           if (li_i = count-1) and (State in [dsInsert,dsEdit]) Then
@@ -376,18 +357,19 @@ Begin
     li_EndLine := 1;
     lb_searchbeginline := FBeginLine > '';
     lb_searchendline   := FEndLine   > '';
-    try
-     lstl_Strings.LoadFromFile(as_Source);
-     li_column := 0;
-     ls_text:=lstl_Strings.Text;
-     ls_Text:=lstl_Strings.Text;
-     repeat
-       if lb_searchbeginline Then
-         li_beginLine := posex ( FBeginLine, ls_text, li_EndLine );
-     until not fb_SearchNextText;
-    finally
-      lstl_Strings.Free;
-    end;
+    with lstl_Strings do
+      try
+       LoadFromFile(as_Source);
+       li_column := 0;
+       ls_text:=Text;
+       li_lengthText:=Length(Text);
+       repeat
+         if lb_searchbeginline Then
+           li_beginLine := posex ( FBeginLine, ls_text, li_EndLine );
+       until not fb_SearchNextText;
+      finally
+        Destroy;
+      end;
    End;
   InternalFinish(as_Source,as_Destination);
 end;
