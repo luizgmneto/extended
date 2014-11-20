@@ -1,13 +1,13 @@
 object F_Extract: TF_Extract
   Cursor = crArrow
-  Left = 92
+  Left = 560
   Height = 500
-  Top = 63
-  Width = 666
+  Top = 140
+  Width = 1005
   ActiveControl = Splitter1
   Caption = 'Files Extract'
   ClientHeight = 479
-  ClientWidth = 666
+  ClientWidth = 1005
   Font.Height = -11
   Font.Name = 'Tahoma'
   Menu = MainMenu
@@ -20,7 +20,7 @@ object F_Extract: TF_Extract
     Left = 0
     Height = 6
     Top = 274
-    Width = 666
+    Width = 1005
     Align = alTop
     ResizeAnchor = akTop
   end
@@ -28,10 +28,10 @@ object F_Extract: TF_Extract
     Left = 0
     Height = 36
     Top = 443
-    Width = 666
+    Width = 1005
     Align = alBottom
     ClientHeight = 36
-    ClientWidth = 666
+    ClientWidth = 1005
     TabOrder = 0
     object bt_Extract: TJvXPButton
       Left = 12
@@ -80,7 +80,7 @@ object F_Extract: TF_Extract
     Left = 0
     Height = 163
     Top = 280
-    Width = 666
+    Width = 1005
     Align = alClient
     TabOrder = 1
   end
@@ -88,12 +88,12 @@ object F_Extract: TF_Extract
     Left = 0
     Height = 274
     Top = 0
-    Width = 666
+    Width = 1005
     Align = alTop
     BevelOuter = bvNone
     Caption = 'Panel7'
     ClientHeight = 274
-    ClientWidth = 666
+    ClientWidth = 1005
     TabOrder = 2
     object Splitter2: TSplitter
       Left = 492
@@ -181,7 +181,7 @@ object F_Extract: TF_Extract
       Left = 497
       Height = 201
       Top = 0
-      Width = 169
+      Width = 508
       Align = alClient
       TabOrder = 1
     end
@@ -321,34 +321,34 @@ object F_Extract: TF_Extract
       Left = 0
       Height = 73
       Top = 201
-      Width = 666
-      HorzScrollBar.Page = 649
+      Width = 1005
+      HorzScrollBar.Page = 975
       VertScrollBar.Page = 26
       Align = alBottom
       ClientHeight = 69
-      ClientWidth = 662
+      ClientWidth = 1001
       TabOrder = 5
       PanelCloned = PanelCloned
       object PanelCloned: TPanel
         Left = 0
         Height = 26
         Top = 0
-        Width = 662
+        Width = 1001
         Align = alTop
         ClientHeight = 26
-        ClientWidth = 662
+        ClientWidth = 1001
         TabOrder = 0
         object Label3: TLabel
-          Left = 1
+          Left = 448
           Height = 24
           Top = 1
-          Width = 145
+          Width = 87
           Align = alLeft
-          Caption = 'Caractères d''extraction : '
+          Caption = ', d''extraction : '
           ParentColor = False
         end
         object EMiddleExtract: TEdit
-          Left = 146
+          Left = 535
           Height = 24
           Top = 1
           Width = 74
@@ -357,45 +357,45 @@ object F_Extract: TF_Extract
           Text = '@'
         end
         object JvXPCheckbox1: TJvXPCheckbox
-          Left = 220
+          Left = 1
           Height = 24
           Top = 1
-          Width = 80
+          Width = 85
           Caption = 'À Gauche'
           TabOrder = 1
           UseDockManager = False
           Align = alLeft
         end
         object ch_droite: TJvXPCheckbox
-          Left = 300
+          Left = 86
           Height = 24
           Top = 1
-          Width = 76
+          Width = 82
           Caption = 'À Droite'
           TabOrder = 2
           UseDockManager = False
           Align = alLeft
         end
         object Label4: TLabel
-          Left = 464
+          Left = 256
           Height = 24
           Top = 1
-          Width = 110
+          Width = 128
           Align = alLeft
-          Caption = 'Caractères de fin : '
+          Caption = 'Caractères de début : '
           ParentColor = False
         end
-        object EndExtract: TEdit
-          Left = 574
+        object EEndExtract: TEdit
+          Left = 814
           Height = 24
           Top = 1
           Width = 74
           Align = alLeft
           TabOrder = 3
-          Text = '@'
+          Text = '"'
         end
         object EraseEtractChars: TJvXPCheckbox
-          Left = 376
+          Left = 168
           Height = 24
           Top = 1
           Width = 88
@@ -403,6 +403,60 @@ object F_Extract: TF_Extract
           TabOrder = 4
           UseDockManager = False
           Align = alLeft
+        end
+        object SpinEdit1: TSpinEdit
+          Left = 924
+          Height = 24
+          Top = 1
+          Width = 50
+          Align = alLeft
+          MaxValue = 1000
+          MinValue = 1
+          TabOrder = 5
+          Value = 250
+        end
+        object Label5: TLabel
+          Left = 888
+          Height = 24
+          Top = 1
+          Width = 36
+          Align = alLeft
+          Caption = 'Taille :'
+          ParentColor = False
+        end
+        object BeginExtract: TEdit
+          Left = 384
+          Height = 24
+          Top = 1
+          Width = 64
+          Align = alLeft
+          TabOrder = 6
+        end
+        object Label6: TLabel
+          Left = 762
+          Height = 24
+          Top = 1
+          Width = 52
+          Align = alLeft
+          Caption = ', de fin : '
+          ParentColor = False
+        end
+        object Label7: TLabel
+          Left = 609
+          Height = 24
+          Top = 1
+          Width = 79
+          Align = alLeft
+          Caption = ', d''inclusion : '
+          ParentColor = False
+        end
+        object EIncludeExtract: TEdit
+          Left = 688
+          Height = 24
+          Top = 1
+          Width = 74
+          Align = alLeft
+          TabOrder = 7
         end
       end
     end
@@ -447,20 +501,15 @@ object F_Extract: TF_Extract
     Schema.Strings = (
       'Mail'
     )
-    FieldDefs = <    
-      item
-        Name = 'Mail'
-        DataType = ftString
-        Precision = 0
-        Size = 200
-      end>
+    FieldDefs = <>
     AllowMultiLine = False
-    Delimiter = ','
+    Delimiter = ';'
     FirstLineAsSchema = True
     left = 176
     top = 128
   end
   object ds_Destination: TDataSource
+    AutoEdit = False
     DataSet = SdfDestination
     left = 48
     top = 128

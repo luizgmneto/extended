@@ -37,7 +37,7 @@ const
 type
 
     { TExtractFile }
-    TEExtractOption = (eoCaseSentitive,eoMail,eoUnique);
+    TEExtractOption = (eoCaseSentitive,eoUnique);
     TEExtractOptions = set of TEExtractOption;
 
 
@@ -48,7 +48,7 @@ type
    TExtExtractColumn = class(TCollectionItem)
    private
      FFieldName : String;
-     FExtractChars, FIncludeChars, FExtractEnd, FExtractEndEnter : String ;
+     FExtractChars, FIncludeChars, FExtractEnd, FExtractBegin, FExtractEndEnter : String ;
      FRight, FLeft : Boolean;
      FEraseExtractChars : Boolean;
      procedure SetLeft  ( AValue : Boolean );
@@ -63,6 +63,7 @@ type
      property FieldName : String      read FFieldName    write SetFieldName;
      property ExtractChars : String   read FExtractChars write FExtractChars;
      property IncludeChars : String   read FIncludeChars write FIncludeChars;
+     property ExtractBegin : String   read FExtractBegin write FExtractBegin;
      property ExtractEnd   : String   read FExtractEnd   write FExtractEnd;
      property ExtractEndEnter   : String   read FExtractEndEnter   write FExtractEndEnter;
    end;
@@ -188,6 +189,7 @@ begin
   FLeft :=True;
   FRight:=True;
   FEraseExtractChars:=True;
+  FIncludeChars:=CST_NUMBERS+CST_ALPHABETA+lowercase(CST_ALPHABETA)+'.'+'-';
 end;
 
 {TExtractFile}
@@ -288,37 +290,31 @@ var lstl_Strings : TStringListUTF8;
     ls_Text, ls_found : String;
     li_Begin,
     li_end,
-    li_i, li_j : Integer;
+    li_i, li_maxCurrent, li_j : Integer;
     li_beginLine, li_EndLine, li_currentColumn, li_currentPosition, li_column : Integer;
     lb_searchbeginline,lb_searchendline : Boolean;
     function fb_IsCorrectChar ( const ai_pos : Integer ; const AIncludeChars : String ):boolean;
     Begin
-      if AIncludeChars = ''
-       Then  Result := ( pos ( ls_Text [ ai_pos ], AIncludeChars ) > 0 )
-       else  Result := ( ls_Text [ ai_pos ] in ['0'..'9','A'..'Z','a'..'z'] )or (( eoMail in ExtractOptions )and ( ls_Text [ ai_pos ] in ['.','-'] ));
+      if AIncludeChars > ''
+       Then  Result := ( pos ( ls_Text [ ai_pos ], AIncludeChars ) > 0 );
     End;
     procedure p_ExtractString ( const ALeft, ARight : Boolean ; const AIncludeChars : String );
     Begin
       if ALeft Then
-       Begin
-         while (li_Begin>1 ) and fb_IsCorrectChar ( li_Begin - 1, AIncludeChars )
+         while (li_Begin>1 )
+         and fb_IsCorrectChar ( li_Begin - 1, AIncludeChars )
            do
             Dec ( li_Begin );
-       end
-      Else
       if ARight Then
-      Begin
-        while (li_end<length(ls_Text)) and fb_IsCorrectChar ( li_end + 1, AIncludeChars )
-          do
-           Inc ( li_end );
-      end;
+       while (li_end<length(ls_Text))
+       and fb_IsCorrectChar ( li_end + 1, AIncludeChars )
+        do Inc ( li_end );
     End;
-    function fs_SearchNextText : String ;
+    function fb_SearchNextText : Boolean ;
     var li_i, li_pos : Integer;
-        lb_foundFirstLine : Boolean;
         ls_temp2 : String;
     Begin
-      lb_foundFirstLine := False;
+      Result:=False;
       with FColumnsExtract, FDestination.DataSet do
       for li_i := li_column to Count - 1 do
        with Items [ li_i ] do
@@ -326,54 +322,69 @@ var lstl_Strings : TStringListUTF8;
           li_pos := posex ( FExtractChars, ls_text, li_beginLine );
           if li_pos > 0 Then
            Begin
-             if not lb_foundFirstLine Then
+             if not Result Then
               Begin
-                lb_foundFirstLine := True;
+                Result := True;
                 Append;
               End;
              li_currentPosition := li_pos;
+             if li_currentPosition>li_maxCurrent Then
+              li_maxCurrent:=li_currentPosition + length(FExtractChars);
              li_begin := li_currentPosition;
              li_end   := li_currentPosition + length(FExtractChars);
-             if not FLeft
-              Then li_end:=posEx ( FExtractChars, ls_Text, li_Begin + length ( FExtractChars ) )
-              else if FRight Then
-               p_ExtractString(FLeft,FRight,FIncludeChars);
+             if FExtractEnd > ''
+              Then
+                li_end:=posEx ( FExtractEnd, ls_Text, li_Begin + length ( FExtractChars ) ) - 1;
+              p_ExtractString(FLeft,FRight,FIncludeChars);
              if ( li_end > 0 )
               Then
                Begin
-                 if FEraseExtractChars
-                   Then ls_temp2:=copy ( ls_Text, li_Begin + length ( FExtractChars ), li_end - li_Begin - length ( FExtractChars )+1)
-                   else ls_temp2:=copy ( ls_Text, li_Begin, li_end - li_Begin+1);
+                 if FEraseExtractChars and not ( FLeft and FRight )
+                   Then
+                    Begin
+                      if      Fleft  Then ls_temp2:=copy ( ls_Text, li_Begin, li_end - li_Begin - length ( FExtractChars )+1)
+                      else if FRight Then ls_temp2:=copy ( ls_Text, li_Begin + length ( FExtractChars ), li_end - li_Begin - length ( FExtractChars )+1)
+                    End
+                    else ls_temp2:=copy ( ls_Text, li_Begin, li_end - li_Begin+1);
                  if not ( eoUnique in FExtractOptions ) or not Locate(FFieldName,ls_temp2,[loCaseInsensitive]) Then
+                  with Fields [ li_column ] do
                    Begin
-                     Fields [ li_column ].AsString:=ls_temp2;
+                     AsString:=ls_temp2;
                    end;
+                 if FExtractEnd > ''
+                  Then li_currentPosition := posex(FExtractEnd,ls_Text,li_end+1)
+                  Else li_currentPosition := li_end+1;
                end;
            end;
-          if li_i = count-1 Then
-           Post;
+          if (li_i = count-1) and (State in [dsInsert,dsEdit]) Then
+           Begin
+             if FEndLine > ''
+              Then li_beginLine:=posex(FEndLine,ls_Text,li_maxCurrent)
+              else li_beginLine:=li_maxCurrent;
+             Post;
+           End;
       end;
     end;
 
 Begin
   Result := True;
+  li_maxCurrent:=0;
   if FileExistsUTF8(as_Source) Then
    Begin
     lstl_Strings := TStringListUTF8.Create;
     li_beginLine:=1;
+    li_EndLine := 1;
     lb_searchbeginline := FBeginLine > '';
     lb_searchendline   := FEndLine   > '';
     try
      lstl_Strings.LoadFromFile(as_Source);
      li_column := 0;
      ls_text:=lstl_Strings.Text;
-     if lb_searchbeginline Then
-      Begin
-       li_beginLine := pos ( FBeginLine, ls_text );
-      end;
      ls_Text:=lstl_Strings.Text;
      repeat
-     until fs_SearchNextText='';
+       if lb_searchbeginline Then
+         li_beginLine := posex ( FBeginLine, ls_text, li_EndLine );
+     until not fb_SearchNextText;
     finally
       lstl_Strings.Free;
     end;
