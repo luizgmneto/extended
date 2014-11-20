@@ -56,6 +56,7 @@ const
   CST_ORD_OUVRECROCHET   = ord ( '[' );
   CST_ORD_FERMECROCHET   = ord ( ']' );
   CST_NUMBERS = '0123456789';
+  CST_ALPHABETA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 type
 TCharToUTF8Table = array[AnsiChar] of  AnsiChar;

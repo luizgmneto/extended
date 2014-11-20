@@ -30,13 +30,14 @@ type
     bt_open: TJvXPButton;
     ed_begin: TEdit;
     ed_end: TEdit;
+    EIncludeExtract: TEdit;
     EndLine: TEdit;
     bt_Extract: TJvXPButton;
     ds_Destination: TDatasource;
     BeginLine: TEdit;
     EMiddleExtract: TEdit;
-    EndExtract: TEdit;
-    EndExtract1: TEdit;
+    EEndExtract: TEdit;
+    BeginExtract: TEdit;
     EndExtract2: TEdit;
     ExtClonedPanel: TExtClonedPanel;
     AExtractFile: TExtractFile;
@@ -52,6 +53,9 @@ type
     EraseEtractChars: TJvXPCheckbox;
     Label3: TLabel;
     Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
     OnFormInfoIni: TOnFormInfoIni;
     Panel5: TPanel;
     PanelCloned: TPanel;
@@ -72,6 +76,7 @@ type
     Faireundon: TMenuItem;
     APropos: TMenuItem;
     SdfDestination: TSdfDataSet;
+    SpinEdit1: TSpinEdit;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
     Panel8: TPanel;
@@ -120,6 +125,7 @@ implementation
 
 uses fonctions_init, IniFiles,
      fonctions_system,
+     fonctions_string,
      fonctions_file,
      FileUtil,
 {$IFDEF FPC}
@@ -144,6 +150,7 @@ var i : TEImageFileOption;
     stl_file : TStringList ;
     lpa_Panel : TWinControl;
     lco_control : TControl;
+    le_edit : TEdit;
     li_j,li_k, li_l : Integer;
 begin
   if not DirectoryExistsUTF8(ExtractFileDir(FDestination.Text))
@@ -154,17 +161,21 @@ begin
   if FileExistsUTF8 ( FDestination.Text ) Then
     DeleteFileUTF8(FDestination.Text);
   stl_file := TStringList.Create;
-  with AExtractFile,ExtClonedPanel,ColumnsExtract do
+  with SdfDestination,AExtractFile,ExtClonedPanel,ColumnsExtract do
    Begin
-    ColumnsExtract.Clear;
+    Clear;
+    Schema.Clear;
+    Schema.Add('');
     while Count > Rows do Delete(Count-1);
+    while FieldDefs.Count > Rows do FieldDefs.Delete(Count-1);
     while Count < Rows do Add;
+    while FieldDefs.Count < Rows do FieldDefs.Add;
     if ch_subdirs.Checked
      then FilesSeek.FilesOptions := FilesSeek.FilesOptions + [cpCopyAll]
      else FilesSeek.FilesOptions := FilesSeek.FilesOptions - [cpCopyAll];
-    for li_j := 1 to ExtClonedPanel.Rows do
+    for li_j := 0 to Count-1 do
       Begin
-        with ColumnsExtract [li_j-1], ExtClonedPanel do
+        with ColumnsExtract [li_j], ExtClonedPanel do
          for li_k := 0 to controlcount - 1 do
            if Controls [ li_k ] is TCustomPanel Then
            Begin
@@ -172,14 +183,31 @@ begin
              for li_l := 0 to lpa_Panel.ControlCount - 1 do
               Begin
                lco_control := lpa_Panel.Controls [ li_l ];
+               if ( lco_control is TSpinEdit )
+                Then
+                 with FieldDefs[li_j] do
+                 Begin
+                   Size := ( lco_control as TSpinEdit ).Value;
+                   Name:=fs_RepeteChar('_',Size);
+                   Schema [0]:=Schema [0]+fs_RepeteChar(Delimiter,li_j-fi_CharCounter(Schema [0],Delimiter)-1)+fs_RepeteChar('_',Size);
+                 End;
                if ( lco_control is TEdit ) Then
-                 if li_k < 4
-                  Then ExtractChars := ( lco_control as TEdit ).Text
-                  else ExtractEnd   := ( lco_control as TEdit ).Text;
+                Begin
+                  le_edit:=lco_control as TEdit;
+                 if li_l < 6
+                  Then ExtractBegin := le_edit.Text
+                  else if li_l = 6
+                  Then ExtractChars := le_edit.Text
+                  else if li_l > 8
+                   Then ExtractEnd   := le_edit.Text
+                   else if le_edit.Text = ''
+                    Then le_edit.Text := IncludeChars
+                    else IncludeChars := le_edit.Text;
+                End;
                if ( lco_control is TJVxpCheckBox ) Then
-                if li_k = 3
-                 Then TakeRight   := ( lco_control as TJVxpCheckBox ).Checked
-                 else if li_k < 3
+                if li_l = 1
+                 Then TakeRight  := ( lco_control as TJVxpCheckBox ).Checked
+                 else if li_l < 1
                  Then TakeLeft   := ( lco_control as TJVxpCheckBox ).Checked
                  else EraseExtractChars   := ( lco_control as TJVxpCheckBox ).Checked
               End;
