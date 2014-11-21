@@ -114,8 +114,9 @@ Begin
     Visible := acon_AControl.Visible;
     Anchors := acon_AControl.Anchors;
     Cursor  := acon_AControl.Cursor;
-    p_SetComponentProperty ( Result, CST_PROPERTY_TEXT      , fs_getComponentProperty   ( acon_AControl, CST_PROPERTY_TEXT ));
-    p_SetComponentProperty ( Result, CST_PROPERTY_CAPTION   , fs_getComponentProperty   ( acon_AControl, CST_PROPERTY_CAPTION ));
+    p_SetComponentProperty ( Result, CST_PROPERTY_MAXVALUE  , fli_getComponentProperty ( acon_AControl, CST_PROPERTY_MAXVALUE ));
+    p_SetComponentProperty ( Result, CST_PROPERTY_TEXT      , fs_getComponentProperty  ( acon_AControl, CST_PROPERTY_TEXT ));
+    p_SetComponentProperty ( Result, CST_PROPERTY_CAPTION   , fs_getComponentProperty  ( acon_AControl, CST_PROPERTY_CAPTION ));
     p_SetComponentProperty ( Result, CST_PROPERTY_COLOR     , fli_getComponentProperty ( acon_AControl, CST_PROPERTY_COLOR ));
     p_SetComponentObjectProperty ( Result, CST_PROPERTY_FONT, fobj_getComponentObjectProperty ( acon_AControl, CST_PROPERTY_FONT ));
    end;

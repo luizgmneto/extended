@@ -36,6 +36,7 @@ type
     EExcludeExtract: TEdit;
     EIncludeExtract: TEdit;
     EMiddleExtract: TEdit;
+    EName: TEdit;
     EndLine: TEdit;
     bt_Extract: TJvXPButton;
     ds_Destination: TDatasource;
@@ -58,6 +59,7 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
+    Label9: TLabel;
     OnFormInfoIni: TOnFormInfoIni;
     Panel5: TPanel;
     PanelCloned: TPanel;
@@ -89,6 +91,8 @@ type
     procedure bt_openClick(Sender: TObject);
     procedure ColumnsExtractChange(Sender: TObject);
     procedure DirectorySourceChange(Sender: TObject);
+    procedure ExtClonedPanelCloningControl(const Sender: TExtClonedPanel;
+      const ASource, ADestination: TControl);
     procedure FilesSeekChange(Sender: Tobject; const NewDirectory, DestinationDirectory : String);
     procedure FilesSeekFailure(Sender: Tobject; const ErrorCode: Integer;
       var ErrorMessage: AnsiString; var ContinueCopy: Boolean);
@@ -151,16 +155,17 @@ var i : TEImageFileOption;
     lpa_Panel : TWinControl;
     lco_control : TControl;
     li_j,li_k, li_l : Integer;
+    ls_Name : String;
 
     procedure p_SetEdit ( const aad_text : TEdit;const li_i : Integer;const AColumnExtract:TExtExtractColumn);
     Begin
       with AColumnExtract,aad_text do
       case li_i of
-        4  : ExtractBegin := Text;
-        6  : ExtractChars := Text;
-        8  : IncludeChars := Text;
-        10 : ExcludeChars := Text;
-        12 : ExtractEnd := Text;
+        6  : ExtractBegin := Text;
+        8  : ExtractChars := Text;
+        10 : IncludeChars := Text;
+        12 : ExcludeChars := Text;
+        14 : ExtractEnd := Text;
      End;
    End;
 begin
@@ -172,47 +177,54 @@ begin
   if FileExistsUTF8 ( FDestination.Text ) Then
     DeleteFileUTF8(FDestination.Text);
   stl_file := TStringList.Create;
+  ls_Name:='';
   with SdfDestination,AExtractFile,ExtClonedPanel,ColumnsExtract do
    Begin
     Clear;
+    FieldDefs.Clear;
     Schema.Clear;
-    Schema.Add('');
-    while Count > Rows do Delete(Count-1);
-    while FieldDefs.Count > Rows do FieldDefs.Delete(Count-1);
-    while Count < Rows do Add;
-    while FieldDefs.Count < Rows do FieldDefs.Add;
+    li_j:=0;
+    while Count > Rows
+      do Delete(Count-1);
+    while FieldDefs.Count > Rows
+       do FieldDefs.Delete(Count-1);
+    while Count < Rows
+      do Add;
+    while FieldDefs.Count < Rows
+      do FieldDefs.Add;
     if ch_subdirs.Checked
      then FilesSeek.FilesOptions := FilesSeek.FilesOptions + [cpCopyAll]
      else FilesSeek.FilesOptions := FilesSeek.FilesOptions - [cpCopyAll];
-    for li_j := 0 to Count-1 do
-      Begin
-        with ColumnsExtract [li_j], ExtClonedPanel do
-         for li_k := 0 to controlcount - 1 do
-           if Controls [ li_k ] is TCustomPanel Then
-           Begin
-             lpa_Panel:= Controls [ li_k ] as TWinControl;
-             for li_l := 0 to lpa_Panel.ControlCount - 1 do
-              Begin
-               lco_control := lpa_Panel.Controls [ li_l ];
-               if ( lco_control is TSpinEdit )
-                Then
-                 with FieldDefs[li_j] do
-                 Begin
-                   Size := ( lco_control as TSpinEdit ).Value;
-                   Name:=fs_RepeteChar('_',Size);
-                   Schema [0]:=Schema [0]+fs_RepeteChar(Delimiter,li_j-fi_CharCounter(Schema [0],Delimiter)-1)+fs_RepeteChar('_',Size);
-                 End;
-               if ( lco_control is TEdit ) Then
-                 p_SetEdit (lco_control as TEdit, li_l, ColumnsExtract [li_j]);
-               if ( lco_control is TJVxpCheckBox ) Then
-                if li_l = 1
-                 Then TakeRight  := ( lco_control as TJVxpCheckBox ).Checked
-                 else if li_l < 1
-                 Then TakeLeft   := ( lco_control as TJVxpCheckBox ).Checked
-                 else EraseExtractChars   := ( lco_control as TJVxpCheckBox ).Checked
-              End;
-          End;
-       end;
+    with ExtClonedPanel do
+     for li_k := 0 to controlcount - 1 do
+       if Controls [ li_k ] is TCustomPanel Then
+        with ColumnsExtract [li_j] do
+         Begin
+           lpa_Panel:= Controls [ li_k ] as TWinControl;
+           for li_l := 0 to lpa_Panel.ControlCount - 1 do
+            Begin
+             lco_control := lpa_Panel.Controls [ li_l ];
+             if  ( lco_control is TSpinEdit )
+              Then
+               with FieldDefs[li_j] do
+               Begin
+                 Size := ( lco_control as TSpinEdit ).Value;
+                 Name:=ls_Name;
+                 Schema.Add(Name+ fs_RepeteChar('_',Size-Length(ls_Name)+1));
+               End;
+             if ( lco_control is TEdit ) Then
+              if li_l = 4
+               Then ls_Name:= ( lco_control as TEdit ).Text
+               Else p_SetEdit (lco_control as TEdit, li_l, ColumnsExtract [li_j]);
+             if ( lco_control is TJVxpCheckBox ) Then
+              if li_l = 1
+               Then TakeRight  := ( lco_control as TJVxpCheckBox ).Checked
+               else if li_l < 1
+               Then TakeLeft   := ( lco_control as TJVxpCheckBox ).Checked
+               else EraseExtractChars   := ( lco_control as TJVxpCheckBox ).Checked
+            End;
+          inc(li_j);
+        End;
    end;
   try
     stl_file.SaveToFile(FDestination.Text);
@@ -242,6 +254,13 @@ procedure TF_Extract.DirectorySourceChange(Sender: TObject);
 begin
     FileListSource.Directory := DirectorySource.Text;
 
+end;
+
+procedure TF_Extract.ExtClonedPanelCloningControl(
+  const Sender: TExtClonedPanel; const ASource, ADestination: TControl);
+begin
+  if ASource is TSpinEdit
+   Then ( ADestination as TSpinEdit ).MaxValue:=( ASource as TSpinEdit ).MaxValue;
 end;
 
 procedure TF_Extract.FaireundonClick(Sender: TObject);
@@ -296,11 +315,7 @@ end;
 procedure TF_Extract.FormDestroy(Sender: TObject);
 begin
   if Assigned ( FIniFile ) then
-    Begin
       FIniFile.WriteString  ( 'Parametres', 'Language'  , FLangue );
-    End;
-  OnFormInfoIni.p_ExecuteEcriture(Self);
-  fb_iniWriteFile ( FIniFile, False );
 end;
 
 procedure TF_Extract.ch_subdirsClick(Sender: TObject);

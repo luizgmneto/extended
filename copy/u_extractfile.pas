@@ -322,55 +322,59 @@ var lstl_Strings : TStringListUTF8;
              if li_currentPosition>li_maxCurrent Then
               li_maxCurrent:=li_currentPosition + length(FExtractChars);
              ls_temp2 := fs_ExtractString(FLeft,FRight,FEraseExtractChars,FIncludeChars,FExcludeChars,FExtractChars);
-             if (   (     FEraseExtractChars and ( Length(FExtractChars) < length ( ls_temp2 )))
-                 or ( not FEraseExtractChars and ( length ( ls_temp2 ) >0 )))
+             if (   ( not FEraseExtractChars and ( Length(FExtractChars) < length ( ls_temp2 )))
+                 or (     FEraseExtractChars and ( ls_temp2 >'' )))
               Then
                Begin
-                 if not ( eoUnique in FExtractOptions ) or not Locate(FFieldName,ls_temp2,[loCaseInsensitive]) Then
-                  with Fields [ li_column ] do
-                   Begin
+                  with Fields [ li_i ] do
                      AsString:=ls_temp2;
-                   end;
                  if FExtractEnd > ''
                   Then li_currentPosition := posex(FExtractEnd,ls_Text,li_currentPosition + length ( FExtractChars )+1)
                   Else li_currentPosition := li_currentPosition + length ( FExtractChars )+1;
                end;
            end;
-          if (li_i = count-1) and (State in [dsInsert,dsEdit]) Then
-           Begin
-             if FEndLine > ''
-              Then li_beginLine:=posex(FEndLine,ls_Text,li_maxCurrent)
-              else li_beginLine:=li_maxCurrent;
-             Post;
-           End;
+          if li_currentPosition = 0 Then
+           Exit
+          else
+            if (li_i = count-1) and (State in [dsInsert,dsEdit]) Then
+             Begin
+               if FEndLine > ''
+                Then li_beginLine:=posex(FEndLine,ls_Text,li_maxCurrent)
+                else li_beginLine:=li_maxCurrent;
+               Post;
+             End;
       end;
     end;
 
 Begin
   Result := True;
   li_maxCurrent:=0;
-  if FileExistsUTF8(as_Source) Then
-   Begin
-    lstl_Strings := TStringListUTF8.Create;
-    li_beginLine:=1;
-    li_EndLine := 1;
-    lb_searchbeginline := FBeginLine > '';
-    lb_searchendline   := FEndLine   > '';
-    with lstl_Strings do
-      try
-       LoadFromFile(as_Source);
-       li_column := 0;
-       ls_text:=Text;
-       li_lengthText:=Length(Text);
-       repeat
-         if lb_searchbeginline Then
-           li_beginLine := posex ( FBeginLine, ls_text, li_EndLine );
-       until not fb_SearchNextText;
-      finally
-        Destroy;
-      end;
-   End;
-  InternalFinish(as_Source,as_Destination);
+  try
+    if FileExistsUTF8(as_Source) Then
+     Begin
+      lstl_Strings := TStringListUTF8.Create;
+      li_beginLine:=1;
+      li_EndLine := 1;
+      lb_searchbeginline := FBeginLine > '';
+      lb_searchendline   := FEndLine   > '';
+      with lstl_Strings do
+        try
+         LoadFromFile(as_Source);
+         li_column := 0;
+         ls_text:=Text;
+         li_lengthText:=Length(Text);
+         repeat
+           if lb_searchbeginline Then
+             li_beginLine := posex ( FBeginLine, ls_text, li_EndLine );
+         until not fb_SearchNextText;
+        finally
+          Destroy;
+        end;
+     End;
+
+  finally
+    InternalFinish(as_Source,as_Destination);
+  end;
 end;
 
 // overrided Copy to Extract image file
