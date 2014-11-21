@@ -1,13 +1,13 @@
 object F_Extract: TF_Extract
   Cursor = crArrow
-  Left = 298
+  Left = 286
   Height = 500
   Top = 147
-  Width = 1005
+  Width = 1118
   ActiveControl = Splitter1
   Caption = 'Files Extract'
   ClientHeight = 479
-  ClientWidth = 1005
+  ClientWidth = 1118
   Font.Height = -11
   Font.Name = 'Tahoma'
   Menu = MainMenu
@@ -20,7 +20,7 @@ object F_Extract: TF_Extract
     Left = 0
     Height = 6
     Top = 274
-    Width = 1005
+    Width = 1118
     Align = alTop
     ResizeAnchor = akTop
   end
@@ -28,10 +28,10 @@ object F_Extract: TF_Extract
     Left = 0
     Height = 36
     Top = 443
-    Width = 1005
+    Width = 1118
     Align = alBottom
     ClientHeight = 36
-    ClientWidth = 1005
+    ClientWidth = 1118
     TabOrder = 0
     object bt_Extract: TJvXPButton
       Left = 12
@@ -80,7 +80,7 @@ object F_Extract: TF_Extract
     Left = 0
     Height = 163
     Top = 280
-    Width = 1005
+    Width = 1118
     Align = alClient
     TabOrder = 1
   end
@@ -88,12 +88,12 @@ object F_Extract: TF_Extract
     Left = 0
     Height = 274
     Top = 0
-    Width = 1005
+    Width = 1118
     Align = alTop
     BevelOuter = bvNone
     Caption = 'Panel7'
     ClientHeight = 274
-    ClientWidth = 1005
+    ClientWidth = 1118
     TabOrder = 2
     object Splitter2: TSplitter
       Left = 492
@@ -181,7 +181,7 @@ object F_Extract: TF_Extract
       Left = 497
       Height = 201
       Top = 0
-      Width = 508
+      Width = 621
       Align = alClient
       TabOrder = 1
     end
@@ -321,23 +321,24 @@ object F_Extract: TF_Extract
       Left = 0
       Height = 73
       Top = 201
-      Width = 1005
-      HorzScrollBar.Page = 1001
+      Width = 1118
+      HorzScrollBar.Page = 1088
       VertScrollBar.Page = 26
       Align = alBottom
-      ClientHeight = 51
-      ClientWidth = 1001
+      ClientHeight = 69
+      ClientWidth = 1114
       TabOrder = 5
       FormIni = OnFormInfoIni
       PanelCloned = PanelCloned
+      OnCloningControl = ExtClonedPanelCloningControl
       object PanelCloned: TPanel
         Left = 0
         Height = 26
         Top = 0
-        Width = 1007
+        Width = 1114
         Align = alTop
         ClientHeight = 26
-        ClientWidth = 1007
+        ClientWidth = 1114
         TabOrder = 0
         object JvXPCheckbox1: TJvXPCheckbox
           Tag = 1
@@ -366,14 +367,32 @@ object F_Extract: TF_Extract
           Left = 168
           Height = 24
           Top = 1
-          Width = 88
+          Width = 80
           Caption = 'À Effacer'
           TabOrder = 2
           UseDockManager = False
           Align = alLeft
         end
+        object Label9: TLabel
+          Left = 248
+          Height = 24
+          Top = 1
+          Width = 38
+          Align = alLeft
+          Caption = 'Nom : '
+          ParentColor = False
+        end
+        object EName: TEdit
+          Tag = 7
+          Left = 286
+          Height = 24
+          Top = 1
+          Width = 83
+          Align = alLeft
+          TabOrder = 3
+        end
         object Label4: TLabel
-          Left = 256
+          Left = 369
           Height = 24
           Top = 1
           Width = 128
@@ -383,15 +402,15 @@ object F_Extract: TF_Extract
         end
         object BeginExtract: TEdit
           Tag = 4
-          Left = 384
+          Left = 497
           Height = 24
           Top = 1
-          Width = 48
+          Width = 40
           Align = alLeft
-          TabOrder = 3
+          TabOrder = 4
         end
         object Label3: TLabel
-          Left = 432
+          Left = 537
           Height = 24
           Top = 1
           Width = 87
@@ -401,16 +420,16 @@ object F_Extract: TF_Extract
         end
         object EMiddleExtract: TEdit
           Tag = 5
-          Left = 519
+          Left = 624
           Height = 24
           Top = 1
           Width = 49
           Align = alLeft
-          TabOrder = 4
+          TabOrder = 5
           Text = '@'
         end
         object Label7: TLabel
-          Left = 568
+          Left = 673
           Height = 24
           Top = 1
           Width = 79
@@ -420,15 +439,15 @@ object F_Extract: TF_Extract
         end
         object EIncludeExtract: TEdit
           Tag = 6
-          Left = 647
+          Left = 752
           Height = 24
           Top = 1
-          Width = 49
+          Width = 41
           Align = alLeft
-          TabOrder = 5
+          TabOrder = 6
         end
         object Label8: TLabel
-          Left = 696
+          Left = 793
           Height = 24
           Top = 1
           Width = 83
@@ -438,15 +457,15 @@ object F_Extract: TF_Extract
         end
         object EExcludeExtract: TEdit
           Tag = 6
-          Left = 779
+          Left = 876
           Height = 24
           Top = 1
           Width = 35
           Align = alLeft
-          TabOrder = 6
+          TabOrder = 7
         end
         object Label6: TLabel
-          Left = 814
+          Left = 911
           Height = 24
           Top = 1
           Width = 52
@@ -456,16 +475,16 @@ object F_Extract: TF_Extract
         end
         object EEndExtract: TEdit
           Tag = 7
-          Left = 866
+          Left = 963
           Height = 24
           Top = 1
-          Width = 54
+          Width = 38
           Align = alLeft
-          TabOrder = 7
+          TabOrder = 8
           Text = '"'
         end
         object Label5: TLabel
-          Left = 920
+          Left = 1001
           Height = 24
           Top = 1
           Width = 36
@@ -475,14 +494,14 @@ object F_Extract: TF_Extract
         end
         object SpinEdit1: TSpinEdit
           Tag = 8
-          Left = 956
+          Left = 1037
           Height = 24
           Top = 1
           Width = 50
           Align = alLeft
           MaxValue = 1000
           MinValue = 1
-          TabOrder = 8
+          TabOrder = 9
           Value = 250
         end
       end
@@ -529,6 +548,7 @@ object F_Extract: TF_Extract
       'Mail'
     )
     FieldDefs = <>
+    AutoCalcFields = False
     AllowMultiLine = False
     Delimiter = ';'
     FirstLineAsSchema = True
