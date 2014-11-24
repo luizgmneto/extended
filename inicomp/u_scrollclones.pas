@@ -127,9 +127,7 @@ begin
     if  ( FRows <> Avalue )
     and ( Avalue > 0 ) Then
      Begin
-      if Avalue> FRows+100
-       Then FRows:=FRows+100
-       Else FRows:=Avalue;
+      FRows:=Avalue;
       AutoCreateColsRows;
      end;
   end;
