@@ -1,0 +1,564 @@
+object F_Extract: TF_Extract
+  Cursor = crArrow
+  Left = 286
+  Height = 500
+  Top = 147
+  Width = 1118
+  ActiveControl = Splitter1
+  Caption = 'Files Extract'
+  ClientHeight = 479
+  ClientWidth = 1118
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Menu = MainMenu
+  OnDestroy = FormDestroy
+  Position = poDesktopCenter
+  LCLVersion = '1.2.6.0'
+  WindowState = wsMaximized
+  object Splitter1: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 6
+    Top = 274
+    Width = 1118
+    Align = alTop
+    ResizeAnchor = akTop
+  end
+  object Panel5: TPanel
+    Left = 0
+    Height = 36
+    Top = 443
+    Width = 1118
+    Align = alBottom
+    ClientHeight = 36
+    ClientWidth = 1118
+    TabOrder = 0
+    object bt_Extract: TJvXPButton
+      Left = 12
+      Top = 9
+      UseDockManager = False
+      Caption = 'Extraire'
+      TabOrder = 0
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      ParentFont = False
+      OnClick = bt_ExtractClick
+    end
+    object ProgressBar: TProgressBar
+      Left = 480
+      Height = 20
+      Top = 6
+      Width = 172
+      TabOrder = 1
+    end
+    object ch_subdirs: TJvXPCheckbox
+      Left = 200
+      Height = 17
+      Top = 9
+      Width = 161
+      Caption = 'Sous-répertoires'
+      TabOrder = 2
+      UseDockManager = False
+      OnClick = ch_subdirsClick
+    end
+    object bt_open: TJvXPButton
+      Left = 88
+      Top = 9
+      Width = 96
+      UseDockManager = False
+      Caption = 'Ouvrir'
+      TabOrder = 3
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      ParentFont = False
+      OnClick = bt_openClick
+    end
+  end
+  object Result: TMemo
+    Left = 0
+    Height = 163
+    Top = 280
+    Width = 1118
+    Align = alClient
+    TabOrder = 1
+  end
+  object Panel7: TPanel
+    Left = 0
+    Height = 274
+    Top = 0
+    Width = 1118
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = 'Panel7'
+    ClientHeight = 274
+    ClientWidth = 1118
+    TabOrder = 2
+    object Splitter2: TSplitter
+      Left = 492
+      Height = 201
+      Top = 0
+      Width = 5
+    end
+    object Splitter3: TSplitter
+      Left = 256
+      Height = 201
+      Top = 0
+      Width = 8
+    end
+    object Panel1: TPanel
+      Left = 0
+      Height = 201
+      Top = 0
+      Width = 256
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'Panel1'
+      ClientHeight = 201
+      ClientWidth = 256
+      TabOrder = 0
+      object Panel3: TPanel
+        Left = 0
+        Height = 24
+        Top = 0
+        Width = 256
+        Align = alTop
+        BevelOuter = bvNone
+        ClientHeight = 24
+        ClientWidth = 256
+        TabOrder = 0
+        object DirectorySource: TDirectoryEdit
+          Left = 0
+          Height = 24
+          Top = 0
+          Width = 234
+          ShowHidden = True
+          ButtonWidth = 23
+          NumGlyphs = 1
+          Align = alLeft
+          MaxLength = 0
+          TabOrder = 0
+          OnChange = DirectorySourceChange
+        end
+      end
+      object FileListSource: TFileListBox
+        Left = 0
+        Height = 151
+        Top = 50
+        Width = 256
+        Align = alClient
+        Directory = '/home/giroux'
+        FileType = [ftReadOnly, ftHidden, ftVolumeID, ftArchive, ftNormal]
+        ItemHeight = 0
+        TabOrder = 1
+        TopIndex = -1
+      end
+      object Panel6: TPanel
+        Left = 0
+        Height = 26
+        Top = 24
+        Width = 256
+        Align = alTop
+        BevelOuter = bvNone
+        Caption = 'Panel6'
+        ClientHeight = 26
+        ClientWidth = 256
+        TabOrder = 2
+        object Mask: TEdit
+          Left = 0
+          Height = 26
+          Top = 0
+          Width = 256
+          Align = alClient
+          OnChange = MaskChange
+          TabOrder = 0
+          Text = '*.*'
+        end
+      end
+    end
+    object ResultErrors: TMemo
+      Left = 497
+      Height = 201
+      Top = 0
+      Width = 621
+      Align = alClient
+      TabOrder = 1
+    end
+    object Panel2: TPanel
+      Left = 264
+      Height = 201
+      Top = 0
+      Width = 228
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'Panel2'
+      ClientHeight = 201
+      ClientWidth = 228
+      TabOrder = 2
+      object Panel8: TPanel
+        Left = 0
+        Height = 201
+        Top = 0
+        Width = 242
+        Align = alLeft
+        BevelOuter = bvNone
+        ClientHeight = 201
+        ClientWidth = 242
+        TabOrder = 0
+        object pa_DestImages: TPanel
+          Left = 0
+          Height = 24
+          Top = 0
+          Width = 242
+          Align = alTop
+          BevelOuter = bvNone
+          ClientHeight = 24
+          ClientWidth = 242
+          TabOrder = 0
+          object Panel4: TPanel
+            Left = 0
+            Height = 26
+            Top = 0
+            Width = 242
+            Align = alTop
+            BevelOuter = bvNone
+            ClientHeight = 26
+            ClientWidth = 242
+            TabOrder = 0
+            object FDestination: TFileNameEdit
+              Left = 0
+              Height = 22
+              Top = 0
+              Width = 200
+              DialogOptions = []
+              FilterIndex = 0
+              HideDirectories = False
+              ButtonWidth = 23
+              NumGlyphs = 1
+              MaxLength = 0
+              TabOrder = 0
+            end
+          end
+        end
+        object FWLabel1: TFWLabel
+          Left = 0
+          Height = 14
+          Top = 25
+          Width = 120
+          AutoSize = False
+          Caption = 'Colonnes à extraire :'
+          Color = clDefault
+          Font.Color = clWindowText
+          Font.Height = 11
+          Font.Name = 'Tahoma'
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+          ColorFocus = clActiveText
+        end
+        object ColumnsExtract: TFWSpinEdit
+          Left = 144
+          Height = 24
+          Top = 24
+          Width = 82
+          MaxValue = 1000
+          MinValue = 1
+          OnChange = ColumnsExtractChange
+          TabOrder = 1
+          Value = 1
+          MyLabel = FWLabel1
+        end
+        object ed_begin: TEdit
+          Left = 144
+          Height = 22
+          Top = 56
+          Width = 80
+          TabOrder = 2
+        end
+        object FWLabel2: TFWLabel
+          Left = 0
+          Height = 14
+          Top = 56
+          Width = 120
+          AutoSize = False
+          Caption = 'Début de ligne :'
+          Color = clDefault
+          Font.Color = clWindowText
+          Font.Height = 11
+          Font.Name = 'Tahoma'
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+          ColorFocus = clActiveText
+        end
+        object FWLabel3: TFWLabel
+          Left = 0
+          Height = 14
+          Top = 84
+          Width = 120
+          AutoSize = False
+          Caption = 'Fin de ligne :'
+          Color = clDefault
+          Font.Color = clWindowText
+          Font.Height = 11
+          Font.Name = 'Tahoma'
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+          ColorFocus = clActiveText
+        end
+        object ed_end: TEdit
+          Left = 144
+          Height = 22
+          Top = 84
+          Width = 80
+          TabOrder = 3
+        end
+      end
+    end
+    object ExtClonedPanel: TExtClonedPanel
+      Left = 0
+      Height = 73
+      Top = 201
+      Width = 1118
+      HorzScrollBar.Page = 1088
+      VertScrollBar.Page = 26
+      Align = alBottom
+      ClientHeight = 69
+      ClientWidth = 1114
+      TabOrder = 5
+      FormIni = OnFormInfoIni
+      PanelCloned = PanelCloned
+      OnCloningControl = ExtClonedPanelCloningControl
+      object PanelCloned: TPanel
+        Left = 0
+        Height = 26
+        Top = 0
+        Width = 1114
+        Align = alTop
+        ClientHeight = 26
+        ClientWidth = 1114
+        TabOrder = 0
+        object JvXPCheckbox1: TJvXPCheckbox
+          Tag = 1
+          Left = 1
+          Height = 24
+          Top = 1
+          Width = 85
+          Caption = 'À Gauche'
+          TabOrder = 0
+          UseDockManager = False
+          Align = alLeft
+        end
+        object ch_droite: TJvXPCheckbox
+          Tag = 2
+          Left = 86
+          Height = 24
+          Top = 1
+          Width = 82
+          Caption = 'À Droite'
+          TabOrder = 1
+          UseDockManager = False
+          Align = alLeft
+        end
+        object EraseEtractChars: TJvXPCheckbox
+          Tag = 3
+          Left = 168
+          Height = 24
+          Top = 1
+          Width = 80
+          Caption = 'À Effacer'
+          TabOrder = 2
+          UseDockManager = False
+          Align = alLeft
+        end
+        object Label9: TLabel
+          Left = 248
+          Height = 24
+          Top = 1
+          Width = 38
+          Align = alLeft
+          Caption = 'Nom : '
+          ParentColor = False
+        end
+        object EName: TEdit
+          Tag = 7
+          Left = 286
+          Height = 24
+          Top = 1
+          Width = 83
+          Align = alLeft
+          TabOrder = 3
+        end
+        object Label4: TLabel
+          Left = 369
+          Height = 24
+          Top = 1
+          Width = 128
+          Align = alLeft
+          Caption = 'Caractères de début : '
+          ParentColor = False
+        end
+        object BeginExtract: TEdit
+          Tag = 4
+          Left = 497
+          Height = 24
+          Top = 1
+          Width = 40
+          Align = alLeft
+          TabOrder = 4
+        end
+        object Label3: TLabel
+          Left = 537
+          Height = 24
+          Top = 1
+          Width = 87
+          Align = alLeft
+          Caption = ', d''extraction : '
+          ParentColor = False
+        end
+        object EMiddleExtract: TEdit
+          Tag = 5
+          Left = 624
+          Height = 24
+          Top = 1
+          Width = 49
+          Align = alLeft
+          TabOrder = 5
+          Text = '@'
+        end
+        object Label7: TLabel
+          Left = 673
+          Height = 24
+          Top = 1
+          Width = 79
+          Align = alLeft
+          Caption = ', d''inclusion : '
+          ParentColor = False
+        end
+        object EIncludeExtract: TEdit
+          Tag = 6
+          Left = 752
+          Height = 24
+          Top = 1
+          Width = 41
+          Align = alLeft
+          TabOrder = 6
+        end
+        object Label8: TLabel
+          Left = 793
+          Height = 24
+          Top = 1
+          Width = 83
+          Align = alLeft
+          Caption = ', d''exclusion : '
+          ParentColor = False
+        end
+        object EExcludeExtract: TEdit
+          Tag = 6
+          Left = 876
+          Height = 24
+          Top = 1
+          Width = 35
+          Align = alLeft
+          TabOrder = 7
+        end
+        object Label6: TLabel
+          Left = 911
+          Height = 24
+          Top = 1
+          Width = 52
+          Align = alLeft
+          Caption = ', de fin : '
+          ParentColor = False
+        end
+        object EEndExtract: TEdit
+          Tag = 7
+          Left = 963
+          Height = 24
+          Top = 1
+          Width = 38
+          Align = alLeft
+          TabOrder = 8
+          Text = '"'
+        end
+        object Label5: TLabel
+          Left = 1001
+          Height = 24
+          Top = 1
+          Width = 36
+          Align = alLeft
+          Caption = 'Taille :'
+          ParentColor = False
+        end
+        object SpinEdit1: TSpinEdit
+          Tag = 8
+          Left = 1037
+          Height = 24
+          Top = 1
+          Width = 50
+          Align = alLeft
+          MaxValue = 1000
+          MinValue = 1
+          TabOrder = 9
+          Value = 250
+        end
+      end
+    end
+  end
+  object FilesSeek: TExtFileCopy
+    Errors = 0
+    OnFailure = FilesSeekFailure
+    FileOptions = [cpUseFilter, cpCreateBackup]
+    OnSuccess = FilesSeekSuccess
+    OnProgress = FilesSeekProgress
+    OnChange = FilesSeekChange
+    left = 35
+    top = 33
+  end
+  object OnFormInfoIni: TOnFormInfoIni
+    SaveEdits = [feTEdit, feTCheck, feTComboValue, feTDirectoryEdit, feTFileNameEdit, feTSpinEdit]
+    SaveForm = [sfSavePos, sfSaveSize, sfSaveSizes]
+    left = 120
+    top = 32
+  end
+  object MainMenu: TMainMenu
+    left = 208
+    top = 33
+    object Language: TMenuItem
+      Caption = 'Langue'
+    end
+    object Faireundon: TMenuItem
+      Caption = 'Faire un don'
+      OnClick = FaireundonClick
+    end
+    object Aide: TMenuItem
+      Caption = 'Aide'
+      object APropos: TMenuItem
+        Caption = 'A Propos'
+        OnClick = AProposClick
+      end
+    end
+  end
+  object SdfDestination: TSdfDataSet
+    FileMustExist = False
+    ReadOnly = False
+    Schema.Strings = (
+      'Mail'
+    )
+    FieldDefs = <>
+    AutoCalcFields = False
+    AllowMultiLine = False
+    Delimiter = ';'
+    FirstLineAsSchema = True
+    left = 176
+    top = 128
+  end
+  object ds_Destination: TDataSource
+    AutoEdit = False
+    DataSet = SdfDestination
+    left = 48
+    top = 128
+  end
+end
