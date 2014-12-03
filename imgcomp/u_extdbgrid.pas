@@ -723,7 +723,7 @@ var Aindex, LCol : Integer;
     {$ENDIF}
     Canvas.FillRect(aRect);
    end;
-
+           (*
    procedure p_FieldMemo;
    var AImageIndex:Integer;
        RxColumn : TExtGridColumn;
@@ -762,7 +762,7 @@ var Aindex, LCol : Integer;
      end;
 
    end;
-
+        *)
    procedure p_FieldBlob;
    Begin
     if ( eoPaintBlobs in FPaintOptions) Then
