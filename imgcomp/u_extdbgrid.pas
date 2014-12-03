@@ -59,7 +59,8 @@ const
                                                FileUnit : 'U_ExtDBGrid' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Grille avec fonctions étendues.' ;
-                                               BugsStory : '1.0.4.0 : Paint Memos.' + #13#10
+                                               BugsStory : '1.0.4.1 : Better Paint Memos not fully tested.' + #13#10
+                                                         + '1.0.4.0 : Paint Memos.' + #13#10
                                                          + '1.0.3.0 : Column resize property.' + #13#10
                                                          + '1.0.2.2 : Testing.' + #13#10
                                                          + '1.0.2.1 : Testing.' + #13#10
@@ -71,7 +72,7 @@ const
                                                          + '0.9.9.9 : Tested OK on DELPHI, need new version of LAZARUS to be completed.' + #13#10
                                                          + '0.9.0.0 : Création à partir de u_framework_dbcomponents.' ;
                                                UnitType : 3 ;
-                                               Major : 1 ; Minor : 0 ; Release : 4 ; Build : 0 );
+                                               Major : 1 ; Minor : 0 ; Release : 4 ; Build : 1 );
 
 {$ENDIF}
 
@@ -734,20 +735,21 @@ var Aindex, LCol : Integer;
       if ( Field is TMemoField )  Then
        Begin
          PrepareCell;
+         {$IFDEF FPC}DrawCellGrid{$ELSE}DoDrawCell{$ENDIF}(ACol,aRow, aRect, aState);
     {$IFDEF FPC}
-         DrawCellGrid(aCol, aRow, aRect, aState);
-
          if Assigned(ImageList) then
          begin
            AImageIndex := StrToIntDef(KeyList.Values[Field.AsString],
              NotInKeyListIndex);
            if (AImageIndex > -1) and (AImageIndex < ImageList.Count) then
              DrawCellBitmap(RxColumn, aRect, aState, AImageIndex);
-         end
-         else
-           DefaultDrawCellData(aCol, aRow, aRect, aState);
+         end;
     {$ENDIF}
-         Canvas.TextRect(aRect,3,3,( Field as TMemoField ).Text);
+         Canvas.Brush.Color:=clWhite;
+         Canvas.Pen  .Color:=clWhite;
+         Canvas.Rectangle(aRect.Left+2,aRect.Top+2,aRect.Right-2,aRect.Bottom-2);
+         if Field.AsString > '' then
+            Canvas.TextRect(aRect,aRect.Left+1,arect.top+1, Field.AsString);
          FPainted := True;
        End;
      end;
