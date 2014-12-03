@@ -59,7 +59,7 @@ const
                                                FileUnit : 'U_ExtDBGrid' ;
                                                Owner : 'Matthieu Giroux' ;
                                                Comment : 'Grille avec fonctions étendues.' ;
-                                               BugsStory : '1.0.4.1 : Better Paint Memos not fully tested.' + #13#10
+                                               BugsStory : '1.0.5.0 : Paint Memos due to unknown problem.' + #13#10
                                                          + '1.0.4.0 : Paint Memos.' + #13#10
                                                          + '1.0.3.0 : Column resize property.' + #13#10
                                                          + '1.0.2.2 : Testing.' + #13#10
@@ -83,7 +83,7 @@ type
    TExtOptions = set of TExtOption;
    TFieldIndexEvent = function(const Sender: TObject; const Field : TField ) : Integer of Object;
 
-const CST_EXTGRID_DEFAULT_OPTIONS = [ eoPaintEdits, eoPaintMemos ];
+const CST_EXTGRID_DEFAULT_OPTIONS = [ eoPaintEdits{$IFNDEF FPC}, eoPaintMemos {$ENDIF}];
 type
    TExtGridColumn = class({$IFDEF TNT}TTntColumn{$ELSE}{$IFDEF FPC}TRxColumn{$ELSE}TColumn{$ENDIF}{$ENDIF})
    private
@@ -579,7 +579,7 @@ constructor TExtDBGrid.Create( AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FOldOnGetBtnParams := nil;
-  FPaintOptions:=CST_EXTGRID_DEFAULT_OPTIONS;
+  FPaintOptions:=[eoPaintEdits];
   FAlwaysSame := True;
   FColorFocus := CST_GRID_SELECT;
   FColorEdit  := CST_GRID_STD;
@@ -745,12 +745,19 @@ var Aindex, LCol : Integer;
              DrawCellBitmap(RxColumn, aRect, aState, AImageIndex);
          end;
     {$ENDIF}
-         Canvas.Brush.Color:=clWhite;
-         Canvas.Pen  .Color:=clWhite;
-         Canvas.Rectangle(aRect.Left+2,aRect.Top+2,aRect.Right-2,aRect.Bottom-2);
-         if Field.AsString > '' then
-            Canvas.TextRect(aRect,aRect.Left+1,arect.top+1, Field.AsString);
+       with Canvas, Field as TMemoField do
+        Begin
+         Brush.Color:=clWhite;
+         Pen  .Color:=clWhite;
+         Rectangle(aRect.Left+2,aRect.Top+2,aRect.Right-2,aRect.Bottom-2);
+         if BlobSize > 0 then
+           Begin
+             Font.Assign(Self.Font);
+             Pen  .Color:=font.Color;
+             TextRect(aRect,aRect.Left+2,arect.top+2, AsString );
+           end;
          FPainted := True;
+        end;
        End;
      end;
 
@@ -760,7 +767,7 @@ var Aindex, LCol : Integer;
    Begin
     if ( eoPaintBlobs in FPaintOptions) Then
     with ( TExtGridColumn ( Columns [ LCol - FixedCols ])) do
-    if ( Field is TBlobField )  Then
+    if ( Field is TBlobField ) and ( ( Field as TBlobField ).BlobType = ftBlob )  Then
      Begin
        FBitmap := TBitmap.Create;
        try
@@ -855,7 +862,7 @@ begin
    Begin
      FPainted := False;
      p_paintEdits;
-     p_FieldMemo;
+//     p_FieldMemo; // not the problem
      p_FieldBlob;
      if not FPainted Then
       inherited DrawCell(aCol, aRow, aRect, aState);
