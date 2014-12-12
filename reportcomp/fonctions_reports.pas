@@ -100,10 +100,12 @@ var RLLeftTopPage : TPoint = ( X: 20; Y:20 );
     ExtLandscapeColumnsCount : Integer = 9;
     ExtHeader  : TRLBand = nil;
 
-function fb_CreateReport ( const AReportComponent : TComponent ; const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean;
+function fb_CreateReport ( const AReportComponent : TComponent; const AReport : TRLReport ; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const ATempCanvas : TCanvas;const as_Title : String): Boolean; overload;
+function fb_CreateReport ( const AReport : TRLReport ; const aPicture : TPicture; const as_Title : String):Boolean; overload;
 function fref_CreateReport ( const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm; overload;
 function fref_CreateReport ( const aReportComponent : TComponent; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
 function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
+function fref_CreateReport ( const aReportComponent : TComponent; const aPicture : TPicture; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm; overload;
 function frlr_CreateNewReport ( const ASourceReport : TRLReport ):TRLReport;
 procedure p_CreateAndPreviewReport ( const atree : TCustomVirtualStringTree; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
 procedure p_CreateAndPreviewReport ( const aReportComponent : TComponent; const agrid : TCustomDBGrid; const ADatasource : TDatasource; const AColumns : TCollection; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil); overload;
@@ -382,7 +384,7 @@ Begin
    end;
 end;
 
-function frlc_createImage ( const AReport : TRLReport; const ARLBand : TRLBand; const ALeft, ATop, AWidth : Integer; const AColor : TColor ):TRLImage;
+function frlc_createImage ( const AReport : TRLReport; const ARLBand : TWinControl; const ALeft, ATop, AWidth : Integer; const AColor : TColor ):TRLImage;
 Begin
   Result := TRLImage.Create(AReport.Owner);
   with Result do
@@ -1440,6 +1442,20 @@ Begin
    Else CreateListGrid;
   AReport.DataSource:=ADatasource;
 end;
+//create picture report
+function fb_CreateReport ( const AReport : TRLReport ; const aPicture : TPicture; const as_Title : String):Boolean;
+var ARLBand : TRLBand;
+    ATitleHeight : Integer;
+    ARLImage : TRLImage;
+Begin
+  ATitleHeight := 0;
+  if as_Title > '' Then
+   Begin
+     ARLBand:=frlc_CreateHeader ( AReport, as_Title, ATitleHeight );
+   end;
+  ARLImage:=frlc_createImage(AReport, AReport, RLLeftTopPage.X+CST_PRINT_INTERNAL_BAND_MARGIN,ATitleHeight+CST_PRINT_INTERNAL_BAND_MARGIN*2,AReport.Width-RLLeftTopPage.X+CST_PRINT_INTERNAL_BAND_MARGIN*2,clWhite);
+  ARLImage.Picture:=aPicture;
+end;
 
 // create a blank report's form
 function fref_CreateReport ( const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil ): TReportForm;
@@ -1458,6 +1474,13 @@ function fref_CreateReport ( const atree : TCustomVirtualStringTree; const as_Ti
 Begin
   Result := fref_CreateReport ( AOrientation, APaperSize, acf_filter );
   p_CreateReport ( Result.RLReport, atree, Result.Canvas, as_Title );
+end;
+
+// main create image report's form
+function fref_CreateReport ( const aReportComponent : TComponent; const aPicture : TPicture; const as_Title : String ; const AOrientation : {$IFDEF FPC}TPrinterOrientation{$ELSE}TRLPageOrientation{$ENDIF} = poPortrait ; const APaperSize   :TRLPaperSize = fpA4; const acf_filter : TRLCustomPrintFilter = nil): TReportForm;
+Begin
+  Result := fref_CreateReport ( AOrientation, APaperSize, acf_filter );
+  fb_CreateReport ( Result.RLReport, aPicture, as_Title );
 end;
 
 // main create grid or data report's form

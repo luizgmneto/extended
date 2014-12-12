@@ -504,9 +504,9 @@ end;
 procedure p_SaveStrings ( const astl_StringList : TStrings; const as_FilePath,  as_message : String );
 var TheStream:{$IFDEF FPC}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF};
 Begin
-  if FileExistsUTF8(as_FilePath)
-   Then TheStream:={$IFDEF FPC}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF}.Create(as_FilePath,fmOpenReadWrite)
-   Else TheStream:={$IFDEF FPC}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF}.Create(as_FilePath,fmCreate);
+  if FileExistsUTF8(as_FilePath) Then
+   DeleteFileUTF8(as_FilePath);
+  TheStream:={$IFDEF FPC}TFileStreamUTF8{$ELSE}TFileStream{$ENDIF}.Create(as_FilePath,fmCreate);
   try
     try
       astl_StringList.SaveToStream(TheStream);
