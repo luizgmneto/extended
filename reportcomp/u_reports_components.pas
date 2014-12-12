@@ -172,6 +172,21 @@ type
     property DBGrid: TCustomDBGrid read FDBGrid write SetDBGrid;
   end;
 
+  { TFWPrintPicture }
+
+  TFWPrintPicture = class(TFWPrintComp)
+  private
+    FPicture: TPicture;
+    procedure SetPicture( const AValue: TPicture);
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+    procedure Click; override;
+    procedure CreateAReport( const AReport : TRLReport ); override;
+  published
+    property Picture: TPicture read FPicture write SetPicture;
+  end;
+
     { TFWPrintVTree }
     // create a report from virtual tree
   TFWPrintVTree = class(TFWPrintComp)
@@ -189,12 +204,13 @@ type
   end;
 
 procedure p_SetBtnPrint    ( const APrintComp   : TObject; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean; const ai_doctype : Integer; const FBaseDir : String );
-procedure p_SetPageSetup   ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean ; const ai_doctype : Integer = 0; const FBaseDir : String = '' ); overload;
 procedure p_SetPagePrinter ( const ARLPageSetup : TObject; const APrinter : Integer  );
 procedure p_SetFileName    ( const ARLPageSetup : TObject; const AFileName : String  );
 procedure p_SetPageSetup   ( const ARLPageSetup : TObject; const APaperSizeText : String  ); overload;
 procedure p_SetPageSetup   ( const ARLPageSetup : TObject; const ab_portrait : Boolean ); overload;
+procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean); overload;
 procedure p_PrintFile ( const AReport : TRLReport; const as_FilePathWithoutExt, As_Title : String; const apf_FileType : TExtPrintFile );
+procedure p_SetButtonSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean ; const ai_doctype : Integer ; const FBaseDir : String);
 
 implementation
 
@@ -230,7 +246,7 @@ End;
 procedure p_SetBtnPrint  ( const APrintComp   : TObject; const ATitle, APaperSizeText : String ;const ab_portrait : Boolean ; const ai_doctype : Integer ; const FBaseDir : String );
 Begin
   SetPropValue( APrintComp, 'DBTitle', ATitle );
-  p_SetPageSetup ( APrintComp, APaperSizeText, ab_portrait, ai_doctype, FBaseDir );
+  p_SetButtonSetup ( APrintComp, APaperSizeText, ab_portrait, ai_doctype, FBaseDir );
 End;
 // From interface : setting report button
 procedure p_SetPageSetup ( const ARLPageSetup : TObject;const ab_portrait : Boolean );
@@ -256,16 +272,65 @@ Begin
   if AFileName <> '' then
    SetPropValue( ARLPageSetup, 'PathOfFile', AFileName );
 End;
-// From interface : setting report button
-procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean ; const ai_doctype : Integer ; const FBaseDir : String);
+// From interface : setting trlreport
+procedure p_SetPageSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean);
 Begin
   p_SetPageSetup   ( ARLPageSetup, ab_portrait );
-  p_SetPagePrinter ( ARLPageSetup, ai_doctype );
   p_SetPageSetup   ( ARLPageSetup, APaperSizeText );
+End;
+
+// From interface : setting report button
+procedure p_SetButtonSetup ( const ARLPageSetup : TObject; const APaperSizeText : String ;const ab_portrait : Boolean ; const ai_doctype : Integer ; const FBaseDir : String);
+Begin
+  p_SetPageSetup   ( ARLPageSetup,  APaperSizeText, ab_portrait);
+  p_SetPagePrinter ( ARLPageSetup, ai_doctype );
   p_SetFileName    ( ARLPageSetup, FBaseDir);
 End;
 
+{ TFWPrintPicture }
 
+procedure TFWPrintPicture.SetPicture(const AValue: TPicture);
+begin
+  FPicture.Assign(AValue);
+end;
+
+constructor TFWPrintPicture.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FPicture:=TPicture.Create;
+end;
+
+destructor TFWPrintPicture.Destroy;
+begin
+  inherited Destroy;
+  FPicture.Destroy;
+end;
+
+procedure TFWPrintPicture.Click;
+begin
+  inherited Click;
+  if Assigned(FReport)
+   Then
+    Begin
+      CreateAReport(FReport);
+    end
+  Else
+   if FormReport = nil Then
+     FormReport := fref_CreateReport(Self, FPicture, FDBTitle, Orientation, PaperSize, FFilter);
+    with FormReport  do
+      Begin
+        if FPrinterType = pfPrinter
+         then RLReport.Preview(FPReview)
+         Else p_PrintFile ( RLReport, FPathOfFile, FDBTitle, FPrinterType );
+
+      end;
+end;
+
+procedure TFWPrintPicture.CreateAReport(const AReport: TRLReport);
+begin
+  p_SetReport(AReport);
+  fb_CreateReport(AReport,FPicture,FDBTitle);
+end;
 
 { TFWPrintVTree }
 
