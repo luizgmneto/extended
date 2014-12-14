@@ -310,25 +310,26 @@ procedure TFWPrintPicture.Click;
 begin
   inherited Click;
   if Assigned(FReport)
-   Then
-    Begin
-      CreateAReport(FReport);
-    end
+   Then CreateAReport(FReport)
   Else
-   if FormReport = nil Then
-     FormReport := fref_CreateReport(Self, FPicture, FDBTitle, Orientation, PaperSize, FFilter);
-    with FormReport  do
-      Begin
-        if FPrinterType = pfPrinter
-         then RLReport.Preview(FPReview)
-         Else p_PrintFile ( RLReport, FPathOfFile, FDBTitle, FPrinterType );
+  if Assigned(FormReport)
+   Then CreateAReport(FormReport.RLReport)
+  Else
+    FormReport := fref_CreateReport(Self, FPicture, FDBTitle, Orientation, PaperSize, FFilter);
+  with FormReport  do
+    Begin
+      if FPrinterType = pfPrinter
+       then RLReport.Preview(FPReview)
+       Else p_PrintFile ( RLReport, FPathOfFile, FDBTitle, FPrinterType );
 
-      end;
+    end;
 end;
 
 procedure TFWPrintPicture.CreateAReport(const AReport: TRLReport);
 begin
   p_SetReport(AReport);
+  while AReport.ControlCount>0 do
+    AReport.Controls[0].Free;
   fb_CreateReport(AReport,FPicture,FDBTitle);
 end;
 
