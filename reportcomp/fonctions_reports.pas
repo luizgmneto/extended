@@ -1449,15 +1449,19 @@ var ARLBand : TRLBand;
     ARLImage : TRLImage;
 Begin
   ATitleHeight := 0;
+  AReport.ForcePrepare:=False;
   if as_Title > '' Then
    Begin
      ARLBand:=frlc_CreateHeader ( AReport, as_Title, ATitleHeight );
    end;
   ARLImage:=frlc_createImage(AReport, AReport, RLLeftTopPage.X+CST_PRINT_INTERNAL_BAND_MARGIN,ATitleHeight+CST_PRINT_INTERNAL_BAND_MARGIN*2,AReport.Width-RLLeftTopPage.X+CST_PRINT_INTERNAL_BAND_MARGIN*2,clWhite);
-  ARLImage.Align:=faClient;
-  ARLImage.Stretch:=True;
-  ARLImage.Scaled :=True;
-  ARLImage.Picture:=aPicture;
+  with ARLImage do
+   Begin
+    Align:=faClient;
+    Stretch:=True;
+    Scaled :=True;
+    Picture:=aPicture;
+   end;
 end;
 
 // create a blank report's form
