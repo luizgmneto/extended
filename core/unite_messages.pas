@@ -180,6 +180,7 @@ resourcestring
   GS_LastRecord = 'Dernier enregistrement';
   GS_InsertRecord = 'Insérer enregistrement';
   GS_DeleteRecord = 'Supprimer l''enregistrement';
+  GS_DeleteFileNamed = 'Supprimer ce fichier :'+CST_ENDOFLINE+'@ARG ?';
   GS_EditRecord = 'Modifier l''enregistrement';
   GS_PostEdit = 'Valider modifications';
   GS_CancelEdit = 'Annuler les modifications';

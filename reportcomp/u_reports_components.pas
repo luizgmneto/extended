@@ -214,9 +214,18 @@ procedure p_SetButtonSetup ( const ARLPageSetup : TObject; const APaperSizeText 
 
 implementation
 
-uses Forms, SysUtils, typinfo,Dialogs,fonctions_system;
+uses Forms, SysUtils, typinfo,Dialogs,
+{$IFDEF FPC}
+     unite_messages,
+{$ELSE}
+     unite_messages_delphi,
+{$ENDIF}
+     FileUtil, Controls,
+     fonctions_system,
+     fonctions_string,
+     fonctions_dialogs;
 
-
+// print fortes report to file
 procedure p_PrintFile ( const AReport : TRLReport; const as_FilePathWithoutExt, As_Title : String; const apf_FileType : TExtPrintFile );
 var sd_PDFRTF: TSaveDialog;
 Begin
@@ -224,15 +233,23 @@ Begin
    Then Exit
    Else sd_PDFRTF:=TSaveDialog.Create ( nil );
 
+  with sd_PDFRTF do
    try
     case apf_FileType of
-      pfPDF : sd_PDFRTF.DefaultExt:='.pdf';
-      pfRTF : sd_PDFRTF.DefaultExt:='.rtf';
+      pfPDF : DefaultExt:='.pdf';
+      pfRTF : DefaultExt:='.rtf';
      end;
-  sd_PDFRTF.filename:=As_Title+sd_PDFRTF.DefaultExt;
-  sd_PDFRTF.InitialDir:=ExtractFileDir(as_FilePathWithoutExt);
-  if not sd_PDFRTF.Execute Then
-    Exit;
+
+    filename:=As_Title+DefaultExt;
+    InitialDir:=ExtractFileDir(as_FilePathWithoutExt);
+    if not Execute Then
+      Exit;
+
+    if FileExistsUTF8(FileName)
+    and ( MyMessageDlg(fs_RemplaceMsg(GS_DeleteFileNamed,[FileName]),mtConfirmation,mbYesNo)= mrNo )
+     Then Exit
+     Else DeleteFileUTF8(FileName);
+
 
     AReport.SaveToFile( sd_PDFRTF.FileName );
 
