@@ -1,4 +1,4 @@
-unit unite_messages_delphi;
+ï»¿unit unite_messages_delphi;
 
 {$IFDEF FPC}
   {$MODE Delphi}
@@ -26,9 +26,9 @@ const
                                                + 'Version 1.0.3.2 : Modifs GS_MC_VALEUR_UTILISEE et GS_MC_VALEURS_UTILISEES, ajout de GS_MC_DETAILS_TECHNIQUES.' + CST_ENDOFLINE
                                                + 'Version 1.0.3.1 : Constante message Form Dico.' + CST_ENDOFLINE
                                                + 'Version 1.0.3.0 : Constantes INI.' + CST_ENDOFLINE
-                                               + 'Version 1.0.2.0 : Plus de messages dans l''unité.' + CST_ENDOFLINE
-                                               + 'Version 1.0.1.0 : Plus de messages dans l''unité.' + CST_ENDOFLINE
-                                               + 'Version 1.0.0.0 : Gestion des messages des fenêtres.';
+                                               + 'Version 1.0.2.0 : Plus de messages dans l''unitÃ©.' + CST_ENDOFLINE
+                                               + 'Version 1.0.1.0 : Plus de messages dans l''unitÃ©.' + CST_ENDOFLINE
+                                               + 'Version 1.0.0.0 : Gestion des messages des fenÃªtres.';
                         	     UnitType : 1 ;
                         	     Major : 1 ; Minor : 0 ; Release : 6 ; Build : 0 )
 
@@ -54,7 +54,7 @@ const
  {$IFDEF EADO}
   CST_Set_KEYSET = 'Set Keyset' ;
   CST_MODE_ASYNCHRONE = 'Mode Asynchrone' ;
-  CST_ACCES_DIRECT_SERVEUR = 'Accès directs Serveur' ;
+  CST_ACCES_DIRECT_SERVEUR = 'AccÃ¨s directs Serveur' ;
   CST_MODE_CONNEXION_ASYNCHRONE = 'Connection Asynchrone' ;
   CST_MODE_ASYNCHRONE_NB_ENREGISTREMENTS = 'Mode Asynchrone Enregistrements' ;
   CST_MODE_ASYNCHRONE_TIMEOUT = 'Mode Asynchrone TimeOut' ;
@@ -68,41 +68,41 @@ resourcestring
 
   // Paquet extcore
 
-  GS_ECRITURE_IMPOSSIBLE_AVEC_ATTR = 'Impossible d''écrire sur le fichier @ARG avec l''attribut de fichier @ARG.' ;
-  GS_ECRITURE_IMPOSSIBLE = 'Impossible d''écrire sur le fichier @ARG.' ;
-  GS_DETAILS_TECHNIQUES = 'Détails techniques : ' ;
+  GS_ECRITURE_IMPOSSIBLE_AVEC_ATTR = 'Impossible d''Ã©crire sur le fichier @ARG avec l''attribut de fichier @ARG.' ;
+  GS_ECRITURE_IMPOSSIBLE = 'Impossible d''Ã©crire sur le fichier @ARG.' ;
+  GS_DETAILS_TECHNIQUES = 'DÃ©tails techniques : ' ;
   GS_TOOLBARMENU_Personnaliser = 'Personnaliser' ;
 
   GS_OF_DATASET = 'du Dataset ';
 
-  GS_SOFT_IMAGE_NOT_FOUND   ='Image @ARG non tnouvée'+CST_ENDOFLINE +
-                             'Veuillez copier le répertoire ''Images'' dans le répertoire de votre exécutable.';
+  GS_SOFT_IMAGE_NOT_FOUND   ='Image @ARG non tnouvÃ©e'+CST_ENDOFLINE +
+                             'Veuillez copier le rÃ©pertoire ''Images'' dans le rÃ©pertoire de votre exÃ©cutable.';
   GS_GROUPE_INCLURE         = 'Inclure' ;
   GS_GROUPE_EXCLURE         = 'Exclure' ;
   GS_GROUPE_TOUT_INCLURE    = 'Tout inclure' ;
-  GS_STRING_MUST_BE_HEXA    = 'La chaine doit représenter des hexadécimaux' ;
+  GS_STRING_MUST_BE_HEXA    = 'La chaine doit reprÃ©senter des hexadÃ©cimaux' ;
   GS_GROUPE_TOUT_EXCLURE    = 'Tout exclure' ;
-  GS_GROUPE_RETOUR_ORIGINE  = 'Restaurer les données initiales' ;
+  GS_GROUPE_RETOUR_ORIGINE  = 'Restaurer les donnÃ©es initiales' ;
   GS_GROUPE_MAUVAIS_BOUTONS = 'Les boutons de transfert doivent s''inverser dans les deux listes. ' + CST_ENDOFLINE
-                        	+ 'Les boutons de transfert sont identifiés par rapport à leur liste,' + CST_ENDOFLINE
-                        	+ ' à l''inverse des numéros d''images identifiés par rapport à la table. ' ;
+                        	+ 'Les boutons de transfert sont identifiÃ©s par rapport Ã  leur liste,' + CST_ENDOFLINE
+                        	+ ' Ã  l''inverse des numÃ©ros d''images identifiÃ©s par rapport Ã  la table. ' ;
       // Doit-on enregistrer ou abandonner
   GS_GROUPE_ABANDON = 'Veuillez enregistrer ou abandonner avant de continuer.' ;
       // Vidage du panier : oui ou non
-  GS_GROUPE_VIDER   = 'Le panier utilisé pour les réaffectations n''est pas vide.' + CST_ENDOFLINE
-                         + 'Voulez-vous abandonner ces réaffectations ?' ;
-  GS_PAS_GROUPES    = 'DatasourceOwnerTable ou DatasourceOwnerKey non trouvés.' ;
+  GS_GROUPE_VIDER   = 'Le panier utilisÃ© pour les rÃ©affectations n''est pas vide.' + CST_ENDOFLINE
+                         + 'Voulez-vous abandonner ces rÃ©affectations ?' ;
+  GS_PAS_GROUPES    = 'DatasourceOwnerTable ou DatasourceOwnerKey non trouvÃ©s.' ;
   GS_GROUP_INCLUDE_LIST = 'Liste d''inclusion';
   GS_GROUP_EXCLUDE_LIST = 'Liste d''exclusion';
 
-  GS_IMAGE_MAUVAISE_TAILLE = 'La taille de l''image doit être au moins de 32 sur 32.' ;
-  GS_IMAGE_DEFORMATION = 'L''image sera déformée, continuer ?' ;
+  GS_IMAGE_MAUVAISE_TAILLE = 'La taille de l''image doit Ãªtre au moins de 32 sur 32.' ;
+  GS_IMAGE_DEFORMATION = 'L''image sera dÃ©formÃ©e, continuer ?' ;
   GS_IMAGE_MAUVAISE_IMAGE = 'Mauvais format d''image.' ;
 // Messages box
   gs_OK = 'OK';
   gs_Yes = 'Oui';
-  gs_YesToAll = 'Oui à tout';
-  gs_NoToAll = 'Non à tout';
+  gs_YesToAll = 'Oui Ã  tout';
+  gs_NoToAll = 'Non Ã  tout';
   gs_No  = 'Non';
   gs_Cancel = 'Annuler';
   gs_Close = 'Fermer';
@@ -111,14 +111,14 @@ resourcestring
   gs_Information = 'Informations';
   gs_Confirmation = 'Confirmation';
   gs_Error = 'Erreur';
-  gs_Please_Wait = 'Veuillez patienter…';
+  gs_Please_Wait = 'Veuillez patienterâ€¦';
   gs_Press_ctrl_c_to_copy_text = 'Appuyez sur Ctrl+C pour copier ce texte.';
-  gs_Downloading_in_progress = 'Téléchargement de @ARG en cours…';
-  gs_Download_update = 'Télécharger mise à jour';
-  gs_Download_finished = 'Téléchargement terminé.';
+  gs_Downloading_in_progress = 'TÃ©lÃ©chargement de @ARG en coursâ€¦';
+  gs_Download_update = 'TÃ©lÃ©charger mise Ã  jour';
+  gs_Download_finished = 'TÃ©lÃ©chargement terminÃ©.';
   GS_mot_passe_invalide = 'Mot de passe invalide.' + CST_ENDOFLINE
 	 + 'Veuillez resaisir votre mot de passe.' ;
-  GS_EXE_DO_NOT_EXISTS_EXITING   = 'L''exécutable suivant n''a pas été trouvé. L''application va s''arr?ter.'+#10+'@ARG' ;
+  GS_EXE_DO_NOT_EXISTS_EXITING   = 'L''exÃ©cutable suivant n''a pas Ã©tÃ© trouvÃ©. L''application va s''arráº¿ter.'+#10+'@ARG' ;
   GS_IMAGING_FILTER = 'Graphic (*.bmp;*.BMP;*.xpm;*.XPM;*.pbm;*.PBM;*.pgm;*.PGM;*.ppm;*.PPM;*.ico;*.ICO;*.icns;*.ICNS;*.cur;*.CUR;*.jpeg;*.JPEG;*.jpg;*.JPG;'
           +'*.jfif;*.JFIF;*.tif;*.TIF;*.tiff;*.TIFF;*.gif*.GIF;*.dagsky;*.dat;*.dagtexture;*.img;*.cif;*.rci;*.bsi;'
           +'*.xpm;*.XPM;*.pcx;*.psd;*.pdd;*.jp2;*.j2k;*.j2c;*.jpx;*.jpc;*.pfm;*.pam;*.ppm;*.PPM;*.pgm;*.PGM;*.pbm;*.PBM;'
@@ -158,9 +158,9 @@ resourcestring
   gs_Caption_Save_in = 'Sauvegarde dans @ARG.';
   gs_Caption_Restore_database = 'Restauration base @ARG.';
   gs_Error_Restore_Directory_does_not_exists =
-          'Opération impossible, le répertoire de sauvegarde'+CST_ENDOFLINE
-        +'@ARG'+CST_ENDOFLINE+'n''existe pas et ne peut être créé.';
-  gs_Optimising_database_is_a_success = 'L''optimisation de la base s''est bien passée.';
+          'OpÃ©ration impossible, le rÃ©pertoire de sauvegarde'+CST_ENDOFLINE
+        +'@ARG'+CST_ENDOFLINE+'n''existe pas et ne peut Ãªtre crÃ©Ã©.';
+  gs_Optimising_database_is_a_success = 'L''optimisation de la base s''est bien passÃ©e.';
 
  // Composants
   GS_SUPPRIMER_QUESTION = 'Confirmez-vous l''effacement de l''enregistrement ?' ;
@@ -168,28 +168,29 @@ resourcestring
   GS_CHARGEMENT_IMPOSSIBLE_STREAM_IMAGE = 'Il est impossible de charger le flux image.' ;
   GS_CHARGEMENT_IMPOSSIBLE_STREAM_FIELD = 'Il est impossible de charger le flux image dans le champ.' ;
   GS_CHARGEMENT_IMPOSSIBLE_FILE_IMAGE   = 'Il est impossible de charger le fichier image.' ;
-  GS_ERREUR_OUVERTURE = 'Erreur à l''ouverture @ARG.' ;
+  GS_ERREUR_OUVERTURE = 'Erreur Ã  l''ouverture @ARG.' ;
   GS_FORM_ABANDON_OUVERTURE = 'Abandon de l''ouverture de la fiche @ARG...' ;
   GS_FirstRecord = 'Premier enregistrement';
   Gs_GROUPVIEW_Basket = 'Retour origine';
   Gs_GROUPVIEW_Record = 'Enregistrer';
   Gs_GROUPVIEW_Abort  = 'Abandonner';
 
-  GS_PriorRecord = 'Enregistrement précédent';
+  GS_PriorRecord = 'Enregistrement prÃ©cÃ©dent';
   GS_NextRecord = 'Enregistrement suivant';
   GS_LastRecord = 'Dernier enregistrement';
-  GS_InsertRecord = 'Insérer enregistrement';
+  GS_InsertRecord = 'InsÃ©rer enregistrement';
   GS_DeleteRecord = 'Supprimer l''enregistrement';
+  GS_DeleteFileNamed = 'Supprimer ce fichier :'+CST_ENDOFLINE+'@ARG ?';
   GS_EditRecord = 'Modifier l''enregistrement';
   GS_PostEdit = 'Valider modifications';
   GS_CancelEdit = 'Annuler les modifications';
   GS_ConfirmCaption = 'Confirmation';
-  GS_RefreshRecord = 'Rafraîchir les données';
+  GS_RefreshRecord = 'RafraÃ®chir les donnÃ©es';
   GS_SearchRecord = 'Rechercher' ;
-  GS_MoveNextRecord = 'Déplacer l''enregistrement au suivant' ;
-  GS_MovePreviousRecord = 'Déplacer l''enregistrement au précédent' ;
+  GS_MoveNextRecord = 'DÃ©placer l''enregistrement au suivant' ;
+  GS_MovePreviousRecord = 'DÃ©placer l''enregistrement au prÃ©cÃ©dent' ;
   GS_SetBookmarkRecord = 'Marquer L''enregistrement' ;
-  GS_GotoBookmarkRecord = 'Aller à l''enregistrement Marqué' ;
+  GS_GotoBookmarkRecord = 'Aller Ã  l''enregistrement MarquÃ©' ;
 
   // SGBD
  
@@ -198,65 +199,65 @@ resourcestring
  {$ENDIF}
 
   // Erreurs
-  gs_Error_Forbidden_Access = 'Accès interdit';
+  gs_Error_Forbidden_Access = 'AccÃ¨s interdit';
   gs_Error_Bad_URL = 'Mauvaise URL : @ARG';
-  gs_Error_Bad_request = 'Mauvaise requête';
+  gs_Error_Bad_request = 'Mauvaise requÃªte';
   gs_Error_Bad_Gateway = 'Mauvaise passerelle';
-  gs_Error_Bad_Web_Connection='Problème de connexion internet.';
-  gs_Error_Bad_Connection='Problème de connexion à @ARG.';
-  gs_Error_Cannot_load_not_downloaded_file = 'Impossible de lire le fichier. Il n''a pas été téléchargé.';
-  gs_Error_Cannot_Write_on = 'Écriture impossible de @ARG.';
-  gs_Error_File_is_not_on_the_web_site = 'Le fichier que vous essayez de télécharger est absent du site.';
-  gs_Error_timeout_problem = 'Problème de timeOut';
-  GS_ERREUR_NOMBRE_GRAND = 'Problème à la validation du nombre :' + CST_ENDOFLINE
+  gs_Error_Bad_Web_Connection='ProblÃ¨me de connexion internet.';
+  gs_Error_Bad_Connection='ProblÃ¨me de connexion Ã  @ARG.';
+  gs_Error_Cannot_load_not_downloaded_file = 'Impossible de lire le fichier. Il n''a pas Ã©tÃ© tÃ©lÃ©chargÃ©.';
+  gs_Error_Cannot_Write_on = 'Ã‰criture impossible de @ARG.';
+  gs_Error_File_is_not_on_the_web_site = 'Le fichier que vous essayez de tÃ©lÃ©charger est absent du site.';
+  gs_Error_timeout_problem = 'ProblÃ¨me de timeOut';
+  GS_ERREUR_NOMBRE_GRAND = 'ProblÃ¨me Ã  la validation du nombre :' + CST_ENDOFLINE
                    + 'Un nombre saisi est trop grand.' + CST_ENDOFLINE
                    + 'Modifier la saisie ou annuler.' ;
-  GS_METTRE_A_JOUR_FICHE = 'L''enregistrement a été effacé ou modifié par un autre utilisateur.' + #13 + #10
-                        			+ 'La fiche va être mise à jour.' ;
-  GS_VALEUR_UTILISEE   = 'La valeur @ARG est déjà utilisée.' + #13 + #10
-                        		+ 'Saisir une valeur différente, annuler ou réeffectuer la validation si une valeur n''est pas modifiable.' ;
-  GS_VALEURS_UTILISEES = 'Les valeurs @ARG sont déjà utilisées.' + #13 + #10
-                        		+ 'Saisir des valeurs différentes, annuler ou réeffectuer la validation si une valeur n''est pas modifiable.' ;
-  GS_ERREUR_RESEAU = 'Erreur réseau.' + CST_ENDOFLINE
-                        + 'Vérifier la connexion réseau.' ;
+  GS_METTRE_A_JOUR_FICHE = 'L''enregistrement a Ã©tÃ© effacÃ© ou modifiÃ© par un autre utilisateur.' + #13 + #10
+                        			+ 'La fiche va Ãªtre mise Ã  jour.' ;
+  GS_VALEUR_UTILISEE   = 'La valeur @ARG est dÃ©jÃ  utilisÃ©e.' + #13 + #10
+                        		+ 'Saisir une valeur diffÃ©rente, annuler ou rÃ©effectuer la validation si une valeur n''est pas modifiable.' ;
+  GS_VALEURS_UTILISEES = 'Les valeurs @ARG sont dÃ©jÃ  utilisÃ©es.' + #13 + #10
+                        		+ 'Saisir des valeurs diffÃ©rentes, annuler ou rÃ©effectuer la validation si une valeur n''est pas modifiable.' ;
+  GS_ERREUR_RESEAU = 'Erreur rÃ©seau.' + CST_ENDOFLINE
+                        + 'VÃ©rifier la connexion rÃ©seau.' ;
   GS_ERREUR_MODIFICATION_MAJ = 'Impossible de supprimer cet enregistrement.' + CST_ENDOFLINE
-               + 'Il est utilisé dans une autre fonction.';
-  GS_ERREUR_CONNEXION = 'Un problème est survenu pour la connexion aux données.' + CST_ENDOFLINE
-                        	 + 'Réessayez d''ouvrir la fiche.' ;
-                        //GS_CHANGEMENTS_SAUVER = 'Des changements ont été effectués.' + CST_ENDOFLINE +' Le trie nécessite alors une sauvegarde.'  + CST_ENDOFLINE + 'Voulez-vous enregistrer les changements effectués ?' ;
+               + 'Il est utilisÃ© dans une autre fonction.';
+  GS_ERREUR_CONNEXION = 'Un problÃ¨me est survenu pour la connexion aux donnÃ©es.' + CST_ENDOFLINE
+                        	 + 'RÃ©essayez d''ouvrir la fiche.' ;
+                        //GS_CHANGEMENTS_SAUVER = 'Des changements ont Ã©tÃ© effectuÃ©s.' + CST_ENDOFLINE +' Le trie nÃ©cessite alors une sauvegarde.'  + CST_ENDOFLINE + 'Voulez-vous enregistrer les changements effectuÃ©s ?' ;
 
  // Messages pour les images
   GS_IMAGE_MULTIPLE_5 = 'L''image doit avoir une largeur multiple de ' ;
-  GS_IMAGE_DOIT_ETRE = 'La taille de l''image doit être de ' ;
+  GS_IMAGE_DOIT_ETRE = 'La taille de l''image doit Ãªtre de ' ;
   GS_IMAGE_HAUTEUR = 'L''image doit avoir une hauteur de ' ;
   GS_IMAGE_TROP_PETITE = 'L''image est trop petite.' ;
   GS_IMAGE_TROP_GRANDE = 'L''image est trop grande.' ;
-  GS_FICHIER_NON_TROUVE = 'Fichier @ARG non trouvé.' ;
+  GS_FICHIER_NON_TROUVE = 'Fichier @ARG non trouvÃ©.' ;
 
-  // confirmation demandée
-  GS_INI_FILE_CANT_WRITE = 'Chemin @ARG inaccessible.' + CST_ENDOFLINE + 'Démarrer l''application en tant qu''administrateur' ;
-  gs_Confirm_File_is_unavailable_Do_i_erase_it_to_update_it = 'Le fichier est innaccessible.'+CST_ENDOFLINE+'L''effacer pour le mettre à jour ?';
+  // confirmation demandÃ©e
+  GS_INI_FILE_CANT_WRITE = 'Chemin @ARG inaccessible.' + CST_ENDOFLINE + 'DÃ©marrer l''application en tant qu''administrateur' ;
+  gs_Confirm_File_is_unavailable_Do_i_erase_it_to_update_it = 'Le fichier est innaccessible.'+CST_ENDOFLINE+'L''effacer pour le mettre Ã  jour ?';
 
  // Messages pour le navigateur
-  GS_INSERER_ENREGISTREMENT = 'Insérer un enregistrement' ;
+  GS_INSERER_ENREGISTREMENT = 'InsÃ©rer un enregistrement' ;
   GS_VALIDER_MODIFICATIONS  = 'Valider les modifications' ;
 
-  GS_NAVIGATEUR_VERS_LE_BAS  = 'Déplacer la ligne vers le bas' ;
-  GS_NAVIGATEUR_VERS_LE_HAUT = 'Déplacer la ligne vers le haut' ;
+  GS_NAVIGATEUR_VERS_LE_BAS  = 'DÃ©placer la ligne vers le bas' ;
+  GS_NAVIGATEUR_VERS_LE_HAUT = 'DÃ©placer la ligne vers le haut' ;
 
-  GS_PB_CONNEXION = 'La connexion a échouée.' + #13 + #10
+  GS_PB_CONNEXION = 'La connexion a Ã©chouÃ©e.' + #13 + #10
                       + 'Veuillez contacter votre administrateur.';
-  GS_DECONNECTER_ANNULE = 'Annulation de la déconnexion';
-  GS_PLEASE_SET_PROPERTY = 'Veuillez renseigner cette propriété : ';
-  GS_Files_seems_to_be_the_same_reuse = 'Il y a un fichier de même taille et nom déjà sauvegardé. Le réutilise-t-on ?';
+  GS_DECONNECTER_ANNULE = 'Annulation de la dÃ©connexion';
+  GS_PLEASE_SET_PROPERTY = 'Veuillez renseigner cette propriÃ©tÃ© : ';
+  GS_Files_seems_to_be_the_same_reuse = 'Il y a un fichier de mÃªme taille et nom dÃ©jÃ  sauvegardÃ©. Le rÃ©utilise-t-on ?';
 
   GS_MODE_ASYNCHRONE = 'Mode Asynchrone' ;
-  GS_ACCES_DIRECT_SERVEUR = 'Accès directs Serveur' ;
+  GS_ACCES_DIRECT_SERVEUR = 'AccÃ¨s directs Serveur' ;
   GS_MODE_CONNEXION_ASYNCHRONE = 'Connection Asynchrone' ;
   GS_MODE_ASYNCHRONE_NB_ENREGISTREMENTS = 'Mode Asynchrone Enregistrements' ;
   GS_MODE_ASYNCHRONE_TIMEOUT = 'Mode Asynchrone TimeOut' ;
   GS_CONNECTION_TIMEOUT = 'Connection TimeOut' ;
-  GS_Set_KEYSET         = 'Set Keyset'; 
+  GS_Set_KEYSET         = 'Set Keyset';
 
 var
   gb_MainFormIniOneUserOnServer : Boolean = False ;

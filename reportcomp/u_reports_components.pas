@@ -216,11 +216,11 @@ implementation
 
 uses Forms, SysUtils, typinfo,Dialogs,
 {$IFDEF FPC}
-     unite_messages,
+     unite_messages, FileUtil,
 {$ELSE}
      unite_messages_delphi,
 {$ENDIF}
-     FileUtil, Controls,
+     Controls,
      fonctions_system,
      fonctions_string,
      fonctions_dialogs;
