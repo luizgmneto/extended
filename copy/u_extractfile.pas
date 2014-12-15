@@ -136,9 +136,13 @@ implementation
 
 uses Forms, TypInfo,
      StrUtils,
+{$IFDEF FPC}
      FileUtil,
-     fonctions_string,
      lazutf8classes,
+{$ELSE}
+     fonctions_system,
+{$ENDIF}
+     fonctions_string,
      Dialogs;
 
 { TExtExtractColumns }
@@ -283,7 +287,7 @@ begin
 
 end;
 function TExtractFile.InternalDefaultCopyFile  ( const as_Source, as_Destination : String ):Boolean;
-var lstl_Strings : TStringListUTF8;
+var lstl_Strings : {$IFDEF FPC}TStringListUTF8{$ELSE}TStringList{$ENDIF};
     ls_Text, ls_found : String;
     li_lengthText,
     li_i, li_maxCurrent, li_j : Integer;
@@ -352,7 +356,7 @@ Begin
   try
     if FileExistsUTF8(as_Source) Then
      Begin
-      lstl_Strings := TStringListUTF8.Create;
+      lstl_Strings := {$IFDEF FPC}TStringListUTF8{$ELSE}TStringList{$ENDIF}.Create;
       li_beginLine:=1;
       li_EndLine := 1;
       lb_searchbeginline := FBeginLine > '';
