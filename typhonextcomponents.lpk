@@ -8,7 +8,7 @@
       <SearchPaths>
         <IncludeFiles Value="extcomp"/>
         <OtherUnitFiles Value="extcomp"/>
-        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+        <UnitOutputDirectory Value="typhon/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
         <SyntaxOptions>
