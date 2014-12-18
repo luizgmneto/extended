@@ -9,7 +9,7 @@
       <SearchPaths>
         <IncludeFiles Value="extnet"/>
         <OtherUnitFiles Value="extnet"/>
-        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+        <UnitOutputDirectory Value="typhon\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
         <CompilerMessages>
