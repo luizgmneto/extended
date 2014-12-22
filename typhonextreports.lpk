@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <Name Value="typhonextreports"/>
@@ -7,14 +7,8 @@
       <SearchPaths>
         <IncludeFiles Value="reportcomp"/>
         <OtherUnitFiles Value="reportcomp"/>
-        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+        <UnitOutputDirectory Value="typhon/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
-      <Other>
-        <CompilerMessages>
-          <MsgFileName Value=""/>
-        </CompilerMessages>
-        <CompilerPath Value="$(CompPath)"/>
-      </Other>
     </CompilerOptions>
     <Version Major="1"/>
     <Files Count="5">
@@ -40,22 +34,19 @@
       </Item5>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="5">
+    <RequiredPkgs Count="4">
       <Item1>
         <PackageName Value="typhonextinit"/>
       </Item1>
       <Item2>
-        <PackageName Value="ExpertSuperForm"/>
+        <PackageName Value="typhonextbuttons"/>
       </Item2>
       <Item3>
-        <PackageName Value="typhonextbuttons"/>
+        <PackageName Value="pl_fortesreport"/>
       </Item3>
       <Item4>
-        <PackageName Value="pl_fortesreport"/>
-      </Item4>
-      <Item5>
         <PackageName Value="FCL"/>
-      </Item5>
+      </Item4>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
