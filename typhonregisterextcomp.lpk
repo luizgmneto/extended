@@ -8,7 +8,7 @@
       <SearchPaths>
         <IncludeFiles Value="reportcomp"/>
         <OtherUnitFiles Value="extcomp;inicomp;copy;extracomp;imgcomp;btncomp;reportcomp;extnet"/>
-        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+        <UnitOutputDirectory Value="typhon/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
         <CompilerPath Value="$(CompPath)"/>

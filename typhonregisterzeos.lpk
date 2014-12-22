@@ -6,7 +6,7 @@
       <Version Value="11"/>
       <SearchPaths>
         <OtherUnitFiles Value="extdb"/>
-        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+        <UnitOutputDirectory Value="typhon/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
         <CompilerMessages>
