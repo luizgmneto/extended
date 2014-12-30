@@ -491,29 +491,32 @@ begin
     OnChange ( Self, as_Source, as_Destination );
   Result := True ;
   lstl_StringList := TStringList.Create ;
-  if fb_FindFiles ( lstl_StringList, as_Source, True, ab_CopyAll, True, as_Mask ) Then
-    while lstl_StringList.count > 0 do
-      Begin
-        ls_Source := lstl_StringList.Strings [ 0 ];
-        FindFirstUTF8( ls_Source,faanyfile,lsr_AttrSource);
-        ls_FileName := lsr_AttrSource.Name ;
-        FindCloseUTF8(lsr_AttrSource);
-        if DirectoryExistsUTF8 ( ls_Source ) Then
-          Begin
-            if ab_CopyStructure then
-              ls_destination := as_Destination + DirectorySeparator + ls_FileName
-            Else
-              ls_destination := as_Destination ;
-            Result := fb_InternalCopyDirectory ( ls_Source, ls_Destination, as_Mask, ab_CopyStructure, ab_DestinationIsFile, ab_CopyAll, ab_CreateBackup );
-          End
-        Else
-          if FileExistsUTF8 ( ls_Source ) Then
+  try
+    if fb_FindFiles ( lstl_StringList, as_Source, True, ab_CopyAll, True, as_Mask ) Then
+      while lstl_StringList.count > 0 do
+        Begin
+          ls_Source := lstl_StringList.Strings [ 0 ];
+          FindFirstUTF8( ls_Source,faanyfile,lsr_AttrSource);
+          ls_FileName := lsr_AttrSource.Name ;
+          FindCloseUTF8(lsr_AttrSource);
+          if DirectoryExistsUTF8 ( ls_Source ) Then
             Begin
-               Result := InternalDefaultCopyFile ( ls_Source, as_Destination + DirectorySeparator + ls_FileName );
-            End ;
-        lstl_StringList.Delete(0);
-      End ;
-  lstl_StringList.Free ;
+              if ab_CopyStructure then
+                ls_destination := as_Destination + DirectorySeparator + ls_FileName
+              Else
+                ls_destination := as_Destination ;
+              Result := fb_InternalCopyDirectory ( ls_Source, ls_Destination, as_Mask, ab_CopyStructure, ab_DestinationIsFile, ab_CopyAll, ab_CreateBackup );
+            End
+          Else
+            if FileExistsUTF8 ( ls_Source ) Then
+              Begin
+                 Result := InternalDefaultCopyFile ( ls_Source, as_Destination + DirectorySeparator + ls_FileName );
+              End ;
+          lstl_StringList.Delete(0);
+        End ;
+   finally
+    lstl_StringList.Destroy;
+   end;
 End ;
 
 

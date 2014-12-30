@@ -6,6 +6,7 @@
       <MainUnit Value="0"/>
       <UseXPManifest Value="True"/>
       <Icon Value="0"/>
+      <ActiveWindowIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <Language Value=""/>
@@ -165,10 +166,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="U_Components"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="13"/>
         <CursorPos X="101" Y="23"/>
         <UsageCount Value="123"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -2620,8 +2624,6 @@
       <Unit301>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
         <UnitName Value="fonctions_search_edit"/>
-        <IsVisibleTab Value="True"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="47"/>
         <CursorPos X="15" Y="71"/>
         <UsageCount Value="15"/>
@@ -2811,4 +2813,4 @@
     </Exceptions>
   </Debugging>
   <EditorMacros Count="0"/>
-</CONFIG>
+</CONFIG>

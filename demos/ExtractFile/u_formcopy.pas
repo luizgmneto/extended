@@ -151,7 +151,6 @@ end;
 
 procedure TF_Extract.bt_ExtractClick(Sender: TObject);
 var i : TEImageFileOption;
-    stl_file : TStringList ;
     lpa_Panel : TWinControl;
     lco_control : TControl;
     li_j,li_k, li_l : Integer;
@@ -176,7 +175,6 @@ begin
 
   if FileExistsUTF8 ( FDestination.Text ) Then
     DeleteFileUTF8(FDestination.Text);
-  stl_file := TStringList.Create;
   ls_Name:='';
   with SdfDestination,AExtractFile,ExtClonedPanel,ColumnsExtract do
    Begin
@@ -226,11 +224,6 @@ begin
           inc(li_j);
         End;
    end;
-  try
-    stl_file.SaveToFile(FDestination.Text);
-  finally
-    stl_file.Free;
-  end;
   Result.Lines.Clear;
   FilesSeek.Source := FileListSource.Directory ;
   SdfDestination.FileName := FDestination.Text ;

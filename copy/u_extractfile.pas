@@ -304,6 +304,13 @@ var lstl_Strings : {$IFDEF FPC}TStringListUTF8{$ELSE}TStringList{$ENDIF};
       if ARight Then
        AppendStr(Result,fs_EnlargeString  ( ls_Text, AIncludeChars, AEndChars, li_currentPosition+Length(AExtractChars),False));
     End;
+    procedure p_maxcurrent ( const ai_more : Integer );
+    Begin
+      if li_currentPosition+ai_more>li_maxCurrent Then
+       li_maxCurrent:=li_currentPosition + ai_more;
+
+    end;
+
     function fb_SearchNextText : Boolean ;
     var li_i : Integer;
         ls_temp2 : String;
@@ -313,7 +320,7 @@ var lstl_Strings : {$IFDEF FPC}TStringListUTF8{$ELSE}TStringList{$ENDIF};
       for li_i := li_column to Count - 1 do
        with Items [ li_i ] do
          Begin
-          if FExtractBegin > ''
+          if ( FExtractBegin > '' ) and (posex ( FExtractBegin, ls_text, li_beginLine )>0)
            Then li_currentPosition:= posex ( FExtractChars, ls_text, posex ( FExtractBegin, ls_text, li_beginLine )+1)
            Else li_currentPosition := posex ( FExtractChars, ls_text, li_beginLine );
           if li_currentPosition > 0 Then
@@ -323,8 +330,6 @@ var lstl_Strings : {$IFDEF FPC}TStringListUTF8{$ELSE}TStringList{$ENDIF};
                 Result := True;
                 Append;
               End;
-             if li_currentPosition>li_maxCurrent Then
-              li_maxCurrent:=li_currentPosition + length(FExtractChars);
              ls_temp2 := fs_ExtractString(FLeft,FRight,FEraseExtractChars,FIncludeChars,FExcludeChars,FExtractChars);
              if (   ( not FEraseExtractChars and ( Length(FExtractChars) < length ( ls_temp2 )))
                  or (     FEraseExtractChars and ( ls_temp2 >'' )))
@@ -335,7 +340,10 @@ var lstl_Strings : {$IFDEF FPC}TStringListUTF8{$ELSE}TStringList{$ENDIF};
                  if FExtractEnd > ''
                   Then li_currentPosition := posex(FExtractEnd,ls_Text,li_currentPosition + length ( FExtractChars )+1)
                   Else li_currentPosition := li_currentPosition + length ( FExtractChars )+1;
-               end;
+                 p_maxcurrent ( 0 );
+               end
+              else
+                p_maxcurrent ( length(FExtractChars));
            end;
           if li_currentPosition = 0 Then
            Exit

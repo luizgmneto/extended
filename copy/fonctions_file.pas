@@ -170,12 +170,10 @@ begin
     IsFound := FindFirstUTF8(as_StartDir + as_DirMask, faDirectory, SR) = 0 ;
     while IsFound do
      begin
-      if (( SR.Name <> '.' ) and ( SR.Name <> '..' ))
-      and DirectoryExistsUTF8 ( as_StartDir + SR.Name )
-       then
-        Begin
-          astl_FilesList.Add(ls_Path + SR.Name);
-        End ;
+      with SR do
+      if (( Name > '' ) and ( Name <> '.' ) and ( Name <> DirectorySeparator ) and ( Name <> '..' ))
+      and DirectoryExistsUTF8 ( as_StartDir + Name )
+       then astl_FilesList.Add(ls_Path + Name);
       IsFound := FindNextUTF8(SR) = 0;
       Result := True ;
     end;
@@ -188,9 +186,11 @@ begin
     IsFound := FindFirstUTF8(as_StartDir+as_FileMask, faAnyFile-faDirectory, SR) = 0;
     while IsFound do
      begin
-        if FileExistsUTF8 ( as_StartDir + SR.Name )
+        with SR do
+        if (( Name > '' ) and ( Name <> DirectorySeparator ))
+         and  FileExistsUTF8 ( as_StartDir + Name )
          Then
-          astl_FilesList.Add(ls_Path + SR.Name);
+          astl_FilesList.Add(ls_Path + Name);
         IsFound := FindNextUTF8(SR) = 0;
         Result := True ;
       end;
