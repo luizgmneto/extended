@@ -265,6 +265,8 @@ Begin
    sdExe        : Result:=GetAppDir;
    sdSystemRoot : Result:=GetRootDir;
    sdTmp        : Result:=GetTempDir;
+  else
+    Result:='';
   end;
 end;
 
