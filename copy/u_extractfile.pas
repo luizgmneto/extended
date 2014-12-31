@@ -288,11 +288,10 @@ begin
 end;
 function TExtractFile.InternalDefaultCopyFile  ( const as_Source, as_Destination : String ):Boolean;
 var lstl_Strings : {$IFDEF FPC}TStringListUTF8{$ELSE}TStringList{$ENDIF};
-    ls_Text, ls_found : String;
-    li_lengthText,
-    li_i, li_maxCurrent, li_j : Integer;
-    li_beginLine, li_EndLine, li_currentColumn, li_currentPosition, li_column : Integer;
-    lb_searchbeginline,lb_searchendline : Boolean;
+    ls_Text: String;
+    li_maxCurrent : Integer;
+    li_beginLine, li_EndLine, li_currentPosition, li_column : Integer;
+    lb_searchbeginline : Boolean;
     //send Extracted chars with existing IncludeChars found
     function fs_ExtractString ( const ALeft, ARight,AErase : Boolean ; const AIncludeChars, AEndChars, AExtractChars : String ):String;
     Begin
@@ -368,13 +367,11 @@ Begin
       li_beginLine:=1;
       li_EndLine := 1;
       lb_searchbeginline := FBeginLine > '';
-      lb_searchendline   := FEndLine   > '';
       with lstl_Strings do
         try
          LoadFromFile(as_Source);
          li_column := 0;
          ls_text:=Text;
-         li_lengthText:=Length(Text);
          repeat
            if lb_searchbeginline Then
              li_beginLine := posex ( FBeginLine, ls_text, li_EndLine );
