@@ -40,6 +40,7 @@ uses
 {$ENDIF}
   SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   IniFiles, StdCtrls, ComCtrls, ExtCtrls,
+  fonctions_system,
   Variants, Menus, Buttons, DbCtrls,
 {$IFDEF VERSIONS}
   fonctions_version,
@@ -96,7 +97,8 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                            FileUnit : 'U_OnFormInfoIni' ;
                                            Owner : 'Matthieu Giroux' ;
                                            Comment : 'Ini management tu put on a form.' ;
-                                           BugsStory : '1.1.0.2 : Simplifying.' +#13#10 +
+                                           BugsStory : '1.1.1.0 : UTF8 Directory with upgrading.' +#13#10 +
+                                                       '1.1.0.2 : Simplifying.' +#13#10 +
                                                        '1.1.0.1 : Optimising.' +#13#10 +
                                                        '1.1.0.0 : Resize on windows with width or height less than 10, sfSaveWeight.' +#13#10 +
                                                        '1.0.6.0 : Adding ListValue, renaming, correct init of ItemIndex.' +#13#10 +
@@ -116,7 +118,7 @@ const CST_ONFORMINI_DIRECTORYEDIT_DIR  = {$IFDEF FPC} 'Directory' {$ELSE} 'Text'
                                                        '1.0.0.1 : Lesser Bug, not searching the component in form.' +#13#10 +
                                                        '1.0.0.0 : Gestion de beaucoup de composants.';
                                            UnitType : 3 ;
-                                           Major : 1 ; Minor : 1 ; Release : 0 ; Build : 2 );
+                                           Major : 1 ; Minor : 1 ; Release : 1 ; Build : 0 );
 
 {$ENDIF}
 
@@ -137,6 +139,7 @@ type
   TSavesForm = set of TSaveForm;
   TEventIni = procedure ( const AInifile : TCustomInifile ; var KeepOn : Boolean ) of object;
   TOnIniComponent = procedure ( const AComponent : TComponent ; const AInifile : TCustomInifile ; var KeepOnComponent : Boolean ) of object;
+  TOnIniString = procedure ( const AComponent : TComponent ; const AInifile : TCustomInifile ; var Default : String ) of object;
   TSaveEdits = set of TSaveEdit;
 const CST_INI_OPTIONS_DEFAULT = [loFreeIni,loAutoUpdate,loAutoLoad,loAutoWrite];
 
@@ -153,6 +156,8 @@ type
     FOnFormShow   ,
     FOnFormCreate : TNotifyEvent ;
     FOnIniLoad, FOnIniWrite : TEventIni;
+    FDefaultDirectory:TSystemDirectory;
+    FOnDefaultDirectory:TOnIniString;
   protected
     FUpdateAll : Boolean;
     FFormOwner:     TCustomForm;
@@ -184,6 +189,7 @@ type
 //    property SavePosObjects: Boolean read FSavePosObjects write FSavePosObjects default False;
     // Propriété qui conserve les données des objets d'une form
     property SaveEdits: TSaveEdits read FSaveEdits write FSaveEdits default [];
+    property DefaultDirectory: TSystemDirectory read FDefaultDirectory write FDefaultDirectory default sdUnknown;
     property SaveForm : TSavesForm read FSaveForm write FSaveForm default [];
     property Options  : TLoadOptions read FOptions write FOptions default CST_INI_OPTIONS_DEFAULT;
 
@@ -197,6 +203,7 @@ type
     property OnFormShow : TNotifyEvent read FOnFormShow write FOnFormShow;
     property OnFormDestroy : TNotifyEvent read FOnFormDestroy write FOnFormDestroy;
     property OnFormCreate : TNotifyEvent read FOnFormCreate write FOnFormCreate;
+    property OnDefaultDirectory: TOnIniString read FOnDefaultDirectory write FOnDefaultDirectory;
 //    property Freeini : Boolean read FFreeIni write FFreeIni default True;
     procedure LaFormDestroy(Sender: TObject);
     procedure LaFormShow(Sender: TObject);
@@ -208,7 +215,7 @@ implementation
 
 uses TypInfo, Grids,
 {$IFDEF FPC}
-     EditBtn,
+     EditBtn, FileUtil,
 {$ELSE}
      fonctions_system,
 {$IFDEF RX}
@@ -233,8 +240,10 @@ begin
   Inherited Create(AOwner);
   FSaveForm      := [];
   FOptions       := CST_INI_OPTIONS_DEFAULT;
-  FOnReadComponent  := nil;
-  FOnWriteComponent := nil;
+  FDefaultDirectory := sdUnknown;
+  FOnReadComponent    := nil;
+  FOnWriteComponent   := nil;
+  FOnDefaultDirectory := nil;
   FOnIniLoad     := nil;
   FOnIniWrite    := nil;
   if not (csDesigning in ComponentState)  //si on est pas en mode conception
@@ -486,6 +495,15 @@ end;
 
 procedure TOnFormInfoIni.ReadIniComponent(const acom_Component,af_Form: TComponent);
 var ls_Temp : String;
+  procedure p_DefaultDirectory ( var as_DefaultDir : String);
+  Begin
+    if DirectoryExistsUTF8(as_DefaultDir) Then Exit;
+    if FDefaultDirectory>sdUnknown
+     Then as_DefaultDir := GetDirectory(FDefaultDirectory);
+    if Assigned(FOnDefaultDirectory) Then
+     FOnDefaultDirectory(acom_Component,FIniFile,as_DefaultDir);
+  end;
+
   function fli_ReadInteger (const as_ComponentName : String; const ali_Default : Longint ):Longint;
   Begin
     Result := FInifile.ReadInteger ( af_Form.Name, as_ComponentName, ali_Default );
@@ -577,16 +595,24 @@ var ls_Temp : String;
          if IsPublishedProp(acom_Component, CST_PROPERTY_TEXT )
           Then ls_FilenameProp:=CST_PROPERTY_TEXT
           Else ls_FilenameProp:=CST_ONFORMINI_FILENAME;
-           p_SetComponentProperty (acom_Component, ls_FilenameProp,
-                                    fs_ReadString( acom_Component.Name,
-                                    fs_getComponentProperty (acom_Component, ls_FilenameProp )));
-            Result := True;
+         //setting saved or default filename
+         ls_Temp:=fs_ReadString ( acom_Component.Name,
+                                  fs_getComponentProperty (acom_Component, ls_FilenameProp ));
+         p_SetComponentProperty ( acom_Component, ls_FilenameProp,
+                                  ls_Temp );
+         //setting saved or default directory
+         ls_Temp:=fs_ReadString ( acom_Component.Name,
+                                  fs_getComponentProperty (acom_Component, CST_PROPERTY_INITIALDIR ));
+         p_DefaultDirectory(ls_Temp);
+         p_SetComponentProperty ( acom_Component, CST_PROPERTY_INITIALDIR,
+                                  ls_Temp );
+          Result := True;
         end;
 
   end;
 
   function fb_ReadDirectories: Boolean;
-  var ls_DirnameProp : String ;
+  var ls_DirnameProp : String;
   Begin
     Result := False;
     if GetfeSauveEdit(FSaveEdits ,feTDirectoryEdit)
@@ -594,14 +620,13 @@ var ls_Temp : String;
          or (acom_Component.ClassNameIs ( CST_ONFORMINI_DirectoryEdit ))) Then
       Begin
        if IsPublishedProp(acom_Component, CST_ONFORMINI_DIRECTORYEDIT_DIR )
-        Then ls_DirnameProp:=CST_ONFORMINI_DIRECTORYEDIT_DIR
-        Else ls_DirnameProp:=CST_PROPERTY_TEXT;
-        ls_Temp := fs_ReadString(acom_Component.Name, fs_getComponentProperty(acom_Component, ls_DirnameProp));
-        If DirectoryExists( ls_Temp ) Then
-          Begin
-            p_SetComponentProperty (acom_Component, ls_DirnameProp, ls_temp );
-          end;
-        Result := True;
+        Then ls_DirnameProp := CST_ONFORMINI_DIRECTORYEDIT_DIR
+        Else ls_DirnameProp := CST_PROPERTY_TEXT;
+       //setting saved or default directory
+       ls_Temp := fs_ReadString(acom_Component.Name, fs_getComponentProperty(acom_Component, ls_DirnameProp));
+       p_DefaultDirectory(ls_Temp);
+       p_SetComponentProperty (acom_Component, ls_DirnameProp, ls_temp );
+       Result := True;
       End;
 
   end;

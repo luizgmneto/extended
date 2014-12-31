@@ -624,7 +624,7 @@ end;
 function fs_GetIniDir( const ab_Root : Boolean = False ; const ab_Create : Boolean = True ): String;
 begin
   if ( pos ( GetUserDir, Application.ExeName ) > 0 )
-   Then Result := fs_getAppDir
+   Then Result := GetAppDir
    Else if gs_AppConfigDir [ Integer ( ab_Root )] <> ''
     Then Result := gs_AppConfigDir [ Integer ( ab_Root ) ]
     Else
@@ -637,7 +637,7 @@ begin
     begin
       if  not DirectoryExists(  Result )
       and not CreateDir (  Result ) Then
-        Result := fs_getAppDir;
+        Result := GetAppDir;
    end;
 end;
 
@@ -773,7 +773,7 @@ end;
 function f_LectureSQLFile(parent, requete: string): string;
 begin
   if FSQLFile = nil then
-    FSQLFile := TIniFile.Create(fs_getAppDir + CST_INI_SQL + 'SQLFILE.INI');
+    FSQLFile := TIniFile.Create(GetAppDir + CST_INI_SQL + 'SQLFILE.INI');
   result := FSQLFile.ReadString(parent, requete, 'fichier non trouvé');
 end;
 

@@ -31,7 +31,8 @@ uses
   Classes ;
 
 type TPackageType = ( ptExe, ptTar, ptRpm, ptDeb, ptPkg, ptDmg );
-     TProcessorType = ( ptIntel, ptMIPS, ptAlpha, ptPPC, ptSHX, ptARM, ptIA64, ptAlpha64, ptUnknown );
+     TProcessorType = ( ptUnknown, ptIntel, ptMIPS, ptAlpha, ptPPC, ptSHX, ptARM, ptIA64, ptAlpha64 );
+     TSystemDirectory = ( sdUnknown, sdHome, sdUser, sdDocuments, sdImages, sdExe, sdTmp, sdSystemRoot );
 
 
 const
@@ -39,7 +40,8 @@ const
   gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_system' ;
                         	       Owner : 'Matthieu Giroux' ;
                         	       Comment : 'System Functions, with traducing and path management.' ;
-                        	       BugsStory : 'Version 1.1.0.6 : Testing FileDir.' + #10
+                        	       BugsStory : 'Version 1.1.1.0 : Creating System Directory functions.' + #10
+                                                 + 'Version 1.1.0.6 : Testing FileDir.' + #10
                                                  + 'Version 1.1.0.5 : Testing Open File.' + #10
                                                  + 'Version 1.1.0.4 : Testing command line on linux and windows.' + #10
                                                  + 'Version 1.1.0.3 : Renaming to fs_getappdir.' + #10
@@ -50,7 +52,7 @@ const
                                                  + 'Version 1.0.1.0 : fs_GetCorrectPath function.' + #10
                                                  + 'Version 1.0.0.0 : Creating from fonctions_string.';
                         	       UnitType : 1 ;
-                        	       Major : 1 ; Minor : 1 ; Release : 0 ; Build : 6 );
+                        	       Major : 1 ; Minor : 1 ; Release : 1 ; Build : 0 );
 {$ENDIF}
 {$IFDEF DELPHI}
   DirectorySeparator = '\' ;
@@ -60,7 +62,7 @@ const
   CST_EXTENSION_LOG_FILE = '.log';
   CST_EXTENSION_BATCH_FILE = {$IFDEF WINDOWS}'.bat'{$ELSE}'.sh'{$ENDIF};
   CST_PackageTypeString : Array [ TPackageType ] of String = ( 'exe', 'tar.gz', 'rpm', 'deb', 'pkg', 'dmg' );
-  CST_ProcessorTypeString : Array [ TProcessorType ] of String = ( 'Intel', 'MIPS', 'Alpha', 'PPC', 'SHX', 'ARM', 'IA64', 'Alpha64', '?' );
+  CST_ProcessorTypeString : Array [ TProcessorType ] of String = ( '?', 'Intel', 'MIPS', 'Alpha', 'PPC', 'SHX', 'ARM', 'IA64', 'Alpha64');
   CST_EXTENSION_SCRIPT            = {$IFDEF WINDOWS}'.bat'{$ELSE}'.sh'{$ENDIF} ;
 
 var
@@ -84,7 +86,12 @@ function fs_GetCorrectPath ( const as_Path :String ): string;
 
 // Retourne le nom d'ordinateur (string)
 function fs_GetComputerName: string;
+function GetAppDir : String;
+function GetImagesDir: string;
+function GetRootDir: string;
+function GetHomeDir: string;
 function GetDocDir: string;
+function GetDirectory(const ASystemDirectory : TSystemDirectory ): string;
 function fs_getImagesSoftDir:String;
 function fs_GetPackagesExtension : String;
 function fpt_GetPackagesType : TPackageType;
@@ -119,7 +126,6 @@ function FileSize(const as_file: String):int64;
 function ExtractFileDir ( const as_FilePath : String ) :String;
 {$ENDIF}
 function fs_EraseNameSoft ( const as_Nomapp, as_Path : String ) : String ;
-function fs_getAppDir : String;
 function fs_WithoutFirstDirectory ( const as_Path : String ) :String;
 function fi_TailleFichier(NomFichier:String):Int64;
 
@@ -245,8 +251,21 @@ End;
  // Every OS Functions                                                 //
 ////////////////////////////////////////////////////////////////////////
 
+function GetDirectory(const ASystemDirectory : TSystemDirectory ): string;
+Begin
+  case ASystemDirectory of
+   sdDocuments  : Result:=GetDocDir;
+   sdImages     : Result:=GetImagesDir;
+   sdHome       : Result:=GetHomeDir;
+   sdUser       : Result:=GetUserDir;
+   sdExe        : Result:=GetAppDir;
+   sdSystemRoot : Result:=GetRootDir;
+   sdTmp        : Result:=GetTempDir;
+  end;
+end;
+
 // application directory with Separator
-function fs_getAppDir : String;
+function GetAppDir : String;
 Begin
   Result := ExtractFileDir( Application.ExeName ){$IFDEF DELPHI}+DirectorySeparator{$ENDIF} ;
 End;
@@ -260,7 +279,7 @@ end;
 // Universal Images directory  with Separator, for Leonardi
 function fs_getImagesSoftDir:String;
 Begin
-  Result := fs_getAppDir+GS_SUBDIR_IMAGES_SOFT;
+  Result := GetAppDir+GS_SUBDIR_IMAGES_SOFT;
 End;
 
 // Can change part of Directory to get universal file system
@@ -278,14 +297,50 @@ Begin
 
 end;
 
-// document directory  with Separator
+// document directory with Separator
 // Problem for Unix
 function GetDocDir: string;
 Begin
   {$IFDEF WINDOWS}
   Result := GetWindir ( CSIDL_PERSONAL );
   {$ELSE}
-  Result := GetUserDir + 'Documents';
+  Result := GetUserDir + 'Documents'+DirectorySeparator;
+  {$ENDIF}
+
+end;
+
+// document directory with Separator
+// Problem for Unix
+function GetHomeDir: string;
+Begin
+  {$IFDEF WINDOWS}
+  Result := GetWindir ( CSIDL_HOME );
+  {$ELSE}
+  Result := DirectorySeparator+'home'+DirectorySeparator;
+  {$ENDIF}
+
+end;
+
+// images directory with Separator
+// Problem for Unix
+function GetImagesDir: string;
+Begin
+  {$IFDEF WINDOWS}
+  Result := GetWindir ( CSIDL_IMAGES );
+  {$ELSE}
+  Result := GetUserDir + 'Images'+DirectorySeparator;
+  {$ENDIF}
+
+end;
+
+// root directory  with Separator
+// Problem for Unix
+function GetRootDir: string;
+Begin
+  {$IFDEF WINDOWS}
+  Result := GetWindir ( CSIDL_SYSTEMROOT );
+  {$ELSE}
+  Result := '/';
   {$ENDIF}
 
 end;

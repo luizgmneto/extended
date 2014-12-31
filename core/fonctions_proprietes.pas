@@ -33,6 +33,7 @@ const
     CST_PROPERTY_COLUMNS        = 'Columns';
     CST_PROPERTY_WIDTH          = 'Width';
     CST_PROPERTY_TEXT           = 'Text' ;
+    CST_PROPERTY_INITIALDIR     = 'InitialDir' ;
     CST_PROPERTY_MAXVALUE       = 'MaxValue' ;
     CST_PROPERTY_IMAGES         = 'Images' ;
     CST_PROPERTY_CAPTION        = 'Caption' ;
