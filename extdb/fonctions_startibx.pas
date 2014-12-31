@@ -123,7 +123,7 @@ function fs_GetFirebirdExeorLib (const exeorlib_appdir,exeorlib_subdirectories: 
 var APath : String;
 Begin
   Result:= '';
-  APath:=fs_getAppDir;
+  APath:=GetAppDir;
   if FileExistsUTF8(APath+exeorlib_appdir)
    Then Begin
          Result:= exeorlib_appdir;
