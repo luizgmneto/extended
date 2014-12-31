@@ -345,7 +345,7 @@ Begin
     Then libname:='/usr/lib/x86_64-linux-gnu/'+Alib + CST_EXTENSION_LIBRARY + version;
   if FileExistsUTF8(libname)
   and FileExistsUTF8(GetAppDir+'exec.sh"') Then
-     fs_ExecuteProcess('sh',' "'+fs_getAppDir+'exec.sh"');
+     fs_ExecuteProcess('sh',' "'+GetAppDir+'exec.sh"');
   {$ENDIF}
 end;
 {$ENDIF}
