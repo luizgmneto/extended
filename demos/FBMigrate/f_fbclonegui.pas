@@ -132,7 +132,7 @@ begin
        Exit;
      end;
   ls_fileDest:=ExtractFilePath(Database.Text)+ExtractFileNameOnly(Database.Text)+CharsetDest.Text+'.fdb';
-  if fb_PromptDelete(fs_getAppDir+'DDL.sql') Then
+  if fb_PromptDelete(GetAppDir+'DDL.sql') Then
     Begin
       if fb_PromptDelete(DDL.text) Then
         Begin
@@ -169,15 +169,15 @@ begin
              end;
           end;
         insert(0,fs_CreateDatabase ( ls_fileDest, UserName.Text, PassWord.Text, CharsetDest.Text ));
-        SaveToFile(fs_getAppDir+'DDL.sql');
+        SaveToFile(GetAppDir+'DDL.sql');
        finally
         end;
     end;
   if fb_PromptDelete ( ls_fileDest )
    Then
      Begin
-      MyMessageDlg('Will execute this :'+#13#10+ISQL.Text+' -ch '+CharsetDest.Text +' -i '''+fs_getAppDir+'DDL.sql'''+#10+'Please wait...',mtInformation);
-      fs_ExecuteProcess(ISQL.Text,' -ch '+CharsetDest.Text +' -i '''+fs_getAppDir+'DDL.sql''',False);
+      MyMessageDlg('Will execute this :'+#13#10+ISQL.Text+' -ch '+CharsetDest.Text +' -i '''+GetAppDir+'DDL.sql'''+#10+'Please wait...',mtInformation);
+      fs_ExecuteProcess(ISQL.Text,' -ch '+CharsetDest.Text +' -i '''+GetAppDir+'DDL.sql''',False);
       MyMessageDlg('Will execute this :'+#13#10+FBClone.Text+' -s '''+Database.FileName+''' -t '+ls_fileDest+' -u '+UserName.Text+' -e po -p '+PassWord.Text+' -tc '+CharsetDest.Text+#13#10+'Please install Firebird 2.5 and Visual C++ 2005 Runtime for Windows 32. Please wait...',mtInformation);
       ls_fileDest := fs_ExecuteProcess(FBClone.Text,' -s '+Database.FileName+' -t '+ls_fileDest+' -u '+UserName.Text+' -e -po -p '+PassWord.Text+' -tc '+CharsetDest.Text,False);
       if ls_fileDest >'' Then
@@ -188,7 +188,7 @@ end;
 procedure TForm1.FormShow(Sender: TObject);
 begin
   if DDL.Text = '' Then
-    DDL.Text:=fs_getAppDir+'DDLWithoutCreate.sql';
+    DDL.Text:=GetAppDir+'DDLWithoutCreate.sql';
 end;
 
 
