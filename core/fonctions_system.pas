@@ -107,6 +107,7 @@ function fs_GetFullArchitecture : String;
 function fat_GetArchitectureType : TArchitectureType;
 function fs_ExecuteProcess ( const AExecutable : String; const AParameter : String = '' ; const HasOutput : Boolean = True{$IFDEF FPC}; const AOptions : TProcessOptions = [poWaitOnExit]{$ENDIF}):String;
 {$IFNDEF FPC}
+function GetTempDir: string;
 function GetAppConfigDir ( const Global : Boolean ): string;
 function GetUserDir: string;
 function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
@@ -184,7 +185,10 @@ function DirectoryExistsUTF8 ( const as_path : String ):Boolean;
 Begin
   Result:= DirectoryExists ( as_path );
 End;
-
+function GetTempDir: string;
+Begin
+  Result := GetWindir ( CSIDL_TEMPLATES );
+End;
 // no FileExistsUTF8 on delphi
 function FileExistsUTF8 ( const as_path : String ):Boolean;
 Begin
@@ -296,7 +300,6 @@ Begin
   {$ENDIF}
 
 end;
-
 // document directory with Separator
 // Problem for Unix
 function GetDocDir: string;
@@ -314,7 +317,7 @@ end;
 function GetHomeDir: string;
 Begin
   {$IFDEF WINDOWS}
-  Result := GetWindir ( CSIDL_HOME );
+  Result := GetWindir ( CSIDL_PERSONAL );
   {$ELSE}
   Result := DirectorySeparator+'home'+DirectorySeparator;
   {$ENDIF}
@@ -326,7 +329,7 @@ end;
 function GetImagesDir: string;
 Begin
   {$IFDEF WINDOWS}
-  Result := GetWindir ( CSIDL_IMAGES );
+  Result := GetWindir ( CSIDL_MYPICTURES );
   {$ELSE}
   Result := GetUserDir + 'Images'+DirectorySeparator;
   {$ENDIF}
@@ -338,7 +341,7 @@ end;
 function GetRootDir: string;
 Begin
   {$IFDEF WINDOWS}
-  Result := GetWindir ( CSIDL_SYSTEMROOT );
+  Result := GetWindir ( CSIDL_SYSTEM );
   {$ELSE}
   Result := '/';
   {$ENDIF}

@@ -216,11 +216,6 @@ implementation
 uses TypInfo, Grids,
 {$IFDEF FPC}
      EditBtn, FileUtil,
-{$ELSE}
-     fonctions_system,
-{$IFDEF RX}
-     rxToolEdit,
-{$ENDIF}
 {$ENDIF}
 {$IFDEF VIRTUALTREES}
      VirtualTrees ,
