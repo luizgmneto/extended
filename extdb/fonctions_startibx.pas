@@ -334,7 +334,7 @@ Begin
                or ( gs_DefaultDatabase [1] = '.' )))
   Then Begin Alib := 'libfbembed';  version := '.2.5'; End
   Else Begin Alib := 'libfbclient'; version := '.2'; End ;
-  libname:= fs_getAppDir+Alib+CST_EXTENSION_LIBRARY;
+  libname:= GetAppDir+Alib+CST_EXTENSION_LIBRARY;
   if not FileExistsUTF8(libname)
     Then libname:='/usr/lib/'+Alib + CST_EXTENSION_LIBRARY + version;
   if not FileExistsUTF8(libname)
@@ -344,7 +344,7 @@ Begin
   if not FileExistsUTF8(libname)
     Then libname:='/usr/lib/x86_64-linux-gnu/'+Alib + CST_EXTENSION_LIBRARY + version;
   if FileExistsUTF8(libname)
-  and FileExistsUTF8(fs_getAppDir+'exec.sh"') Then
+  and FileExistsUTF8(GetAppDir+'exec.sh"') Then
      fs_ExecuteProcess('sh',' "'+fs_getAppDir+'exec.sh"');
   {$ENDIF}
 end;
