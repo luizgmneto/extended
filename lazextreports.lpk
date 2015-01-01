@@ -16,7 +16,6 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1"/>
     <Files Count="5">
       <Item1>
         <Filename Value="reportcomp/fonctions_reports.pas"/>

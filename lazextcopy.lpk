@@ -20,7 +20,6 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Release="2"/>
     <Files Count="7">
       <Item1>
         <Filename Value="copy/u_traducefile.pas"/>
