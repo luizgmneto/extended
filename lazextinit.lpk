@@ -21,7 +21,6 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Minor="3" Release="3" Build="1"/>
     <Files Count="14">
       <Item1>
         <Filename Value="inicomp/u_extmenucustomize.pas"/>
@@ -117,4 +116,4 @@
       <_ExternHelp Items="Count"/>
     </CustomOptions>
   </Package>
-</CONFIG>
+</CONFIG>

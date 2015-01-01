@@ -20,7 +20,6 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Version Major="1" Minor="2" Release="9"/>
     <Files Count="14">
       <Item1>
         <Filename Value="imgcomp/u_extdbimage.pas"/>
