@@ -11,10 +11,11 @@ Rédigé par Matthieu Giroux le 1/12/2003
 interface
 
 {$I ..\DLCompilers.inc}
+{$I ..\extends.inc}
 
 uses
-{$IFDEF FPC}
-    PropEdits,ComponentEditors, dbpropedits,
+{$IFDEF PROPEDITS}
+  PropEdits,ComponentEditors, dbpropedits,
 {$ELSE}
   DesignEditors, DesignIntf,
 {$ENDIF}

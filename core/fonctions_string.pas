@@ -14,7 +14,7 @@ uses
 {$IFDEF FPC}
   LCLIntf,
 {$ELSE}
-  Windows, AdoConEd, MaskUtils,
+  Windows, MaskUtils,
 {$ENDIF}
   Forms, SysUtils, StrUtils, Classes,
 {$IFDEF VERSIONS}
@@ -662,7 +662,7 @@ Begin
   for lli_i := 1 to length ( as_Texte ) do
     Begin
       if  ( as_Texte [ lli_i ] <> ' ' )
-      and ( as_Texte [ lli_i ] <> ThousandSeparator {160} ) Then
+      and ( as_Texte [ lli_i ] <> {$IFDEF FORMATSETTING}FormatSettings.{$ENDIF}ThousandSeparator {160} ) Then
         Begin
           // la chaîne est retournée comme à l'origine
           Result := Result + as_Texte [ lli_i ];
