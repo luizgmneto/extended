@@ -15,7 +15,7 @@ uses
   u_formadapt,
   RLRichFilter, RLPDFFilter,
   RLHTMLFilter, u_reports_rlcomponents,
-  RLDraftFilter;
+  RLDraftFilter, Classes, Controls, RLReport;
 
 type
   { TReportForm }

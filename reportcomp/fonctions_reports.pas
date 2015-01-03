@@ -4,6 +4,9 @@
   {$MODE Delphi}
 {$ENDIF}
 
+{$I ..\DLCompilers.inc}
+{$I ..\extends.inc}
+
 interface
 
 uses
@@ -1296,7 +1299,7 @@ var totalgridwidth, aresizecolumns, ALastVisible,
          Then Begin ARLControl := frlc_createDBMemo ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_DBPROPERTY_FIELDNAME)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End
          Else Begin ARLControl := frlc_createDBText ( AReport, ARLBand, ADataSource, SomeLeft,ATop,aiWidth, ExtColumnFont, fs_getComponentProperty( AItem, CST_DBPROPERTY_FIELDNAME), fs_getComponentProperty( AItem, CST_PROPERTY_DISPLAYFORMAT)); p_DesignCell( ARLControl, AItemIndex, AIsFirst ); End;
          if Adataset.FieldByName(fs_getComponentProperty( AItem, CST_DBPROPERTY_FIELDNAME)) is TFloatField
-          Then ( ARLControl as TRLDBText ).DisplayMask := '#9'+DecimalSeparator+'9';
+          Then ( ARLControl as TRLDBText ).DisplayMask := '#9'+{$IFDEF FORMATSETTING}FormatSettings.{$ENDIF}DecimalSeparator+'9';
        end
     End
    Else

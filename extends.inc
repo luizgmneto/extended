@@ -19,6 +19,7 @@
        {$DEFINE WITH_TBOOKMARK}        // Have TBookmark
        {$DEFINE SPECIALEDIT}        // Have TBookmark
   {$ENDIF}
+  {$DEFINE PROPEDITS}
   {$DEFINE LNET}
   {$DEFINE UTF8OS}        // Have UTF 8 OS
   {$DEFINE BGRA}
@@ -35,10 +36,14 @@
   {$IFDEF COMPILER_10}
     {$DEFINE WIDECHAR}
   {$ENDIF}
-  {$IFDEF COMPILER_11_UP}
+  {$IFDEF COMPILER_XE_UP}
     {$DEFINE WITH_TBOOKMARK}        // Have TBookmark
+    {$DEFINE PROP EDITS}
   {$ELSE}
     {$DEFINE INDY10}        // Have UTF 8 OS
+  {$ENDIF}
+  {$IFDEF COMPILER_XE2_UP}
+    {$DEFINE FORMATSETTING}        // Have FormatSettings.
   {$ENDIF}
   {$DEFINE RXJVCOMBO}
   {$DEFINE VERSIONS}

@@ -1,4 +1,4 @@
-{*********************************************************************}
+﻿{*********************************************************************}
 {                                                                     }
 {                                                                     }
 {             Matthieu Giroux                                         }
@@ -651,7 +651,7 @@ begin
     Begin
       ls_Mask := '#0';
       if gby_NbApVirgule > 0 Then
-        ls_Mask := ls_Mask + DecimalSeparator + '#9' ;
+        ls_Mask := ls_Mask + {$IFDEF FORMATSETTING}FormatSettings.{$ENDIF}DecimalSeparator + '#9' ;
       ls_Mask := ';0; ';
       EditMask := ls_Mask;
 

@@ -1,4 +1,4 @@
-unit fonctions_numedit;
+﻿unit fonctions_numedit;
 
 interface
 
@@ -50,6 +50,10 @@ Begin
   // Rien alors on met un 0
   lb_Reformate := False ;
   lli_Position := aed_Sender.SelStart ;
+  {$IFDEF FORMATSETTING}
+  with FormatSettings do
+   Begin
+   {$ENDIF}
   if  ( AnsiPos ( DecimalSeparator, as_Texte ) > 0 )
   and ( AnsiPos ( DecimalSeparator, as_Texte ) < length ( as_Texte ) - aby_NbApVirgule ) then
     Begin
@@ -67,6 +71,9 @@ Begin
       Else
         aed_Sender.SelStart := lli_Position ;
     End ;
+  {$IFDEF FORMATSETTING}
+   End;
+  {$ENDIF}
 End ;
 // A ne utiliser si on surcharge l'évènement onkeydown d'une grille
 // action sur touche enlevée d'une grille
@@ -94,6 +101,10 @@ Begin
         End ;
     End ;
   // gestion de la bonne virgule à afficher
+  {$IFDEF FORMATSETTING}
+  with FormatSettings do
+   Begin
+   {$ENDIF}
   if ( ach_Key in ['.',',']) Then
     ach_Key := DecimalSeparator ;
   // Touches valides : il n'y en a pas d'autres
@@ -129,6 +140,9 @@ Begin
   if  ( ach_Key = DecimalSeparator)
   and ((( AnsiPos(DecimalSeparator, as_Texte ) > 0 ) and ( AnsiPos ( DecimalSeparator, as_SelTexte ) <= 0 )) or ( not ab_Virgule )) then
     ach_Key := #0 ;
+  {$IFDEF FORMATSETTING}
+   End;
+  {$ENDIF}
 End ;
 
 function fext_CalculateNumber ( const AValue : Extended ; const FNumRounded : TNumRounded ; const aby_NbApVirgule : Byte ): Extended;
