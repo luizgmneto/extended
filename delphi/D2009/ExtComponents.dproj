@@ -76,10 +76,7 @@
 			<DCCReference Include="vcl.dcp"/>
 			<DCCReference Include="dbrtl.dcp"/>
 			<DCCReference Include="vcldb.dcp"/>
-			<DCCReference Include="adortl.dcp"/>
 			<DCCReference Include="vclx.dcp"/>
-			<DCCReference Include="designide.dcp"/>
-			<DCCReference Include="dbexpress.dcp"/>
 			<DCCReference Include="bdertl.dcp"/>
 			<DCCReference Include="VclSmp.dcp"/>
 			<DCCReference Include="dclstd.dcp"/>
@@ -87,9 +84,7 @@
 			<DCCReference Include="vcldesigner.dcp"/>
 			<DCCReference Include="dcldb.dcp"/>
 			<DCCReference Include="dsnap.dcp"/>
-			<DCCReference Include="xmlrtl.dcp"/>
 			<DCCReference Include="vclactnband.dcp"/>
-			<DCCReference Include="dclado.dcp"/>
 			<DCCReference Include="ExpertSuperForm.dcp"/>
 			<DCCReference Include="IndyProtocols.dcp"/>
 			<DCCReference Include="Jcl.dcp"/>
