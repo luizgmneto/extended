@@ -3,242 +3,46 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
 <body class="body">
 <table width="100%"><tr>
-<td><span class="p_name">Package: u_netupdate</span></td>
+<td><span class="p_name">Package: u_reports_rlcomponents</span></td>
 <td class="t_cell"><a href="p_xmi_3825_diagram.html">Diagram</a></td>
 <td class="t_cell"><a href="overview.html">Back to overview</a></td>
 </tr></table>
 <p></p>
-<a name="xmi_13"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<a name="xmi_222"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
 <td class="ClassTableHeader" width="200">
-<b>TNetUpdate</b><br>
+<b>TExtPrintColumn</b><br>
 </td>
 <td class="ClassTableHeader" width="150">class
       </td>
 </tr></table>
 <br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
-TNetUpdate 
+TExtPrintColumn 
 </p></td></tr></table>Inherits from:
 
-    TComponent<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+    TCollectionItem<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
 <tr>
 <td class="tableheader">Name</td>
 <td class="tableheader">Type</td>
 <td class="tableheader">Visibility</td>
 </tr>
 <tr>
-<td class="t_cell">gs_VersionExeUpdate<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
-Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
-</p></td></tr></table>
+<td class="t_cell">FLineBreak<br>
 </td>
-<td class="t_cell">String
+<td class="t_cell">Integer
        
     </td>
 <td class="t_cell">private</td>
 </tr>
 <tr>
-<td class="t_cell">gs_VersionBaseUpdate<br>
+<td class="t_cell">FWidth<br>
 </td>
-<td class="t_cell">String
+<td class="t_cell">Integer
        
     </td>
 <td class="t_cell">private</td>
 </tr>
 <tr>
-<td class="t_cell">gs_Date<br>
-</td>
-<td class="t_cell">String
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gs_MD5Ini<br>
-</td>
-<td class="t_cell">String
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gs_URL<br>
-</td>
-<td class="t_cell">String
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gs_File<br>
-</td>
-<td class="t_cell">String
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gs_FilePage<br>
-</td>
-<td class="t_cell">String
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gs_md5File<br>
-</td>
-<td class="t_cell">String
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gs_Ini<br>
-</td>
-<td class="t_cell">String
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gs_UpdateDir<br>
-</td>
-<td class="t_cell">String
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gsu_UpdateState<br>
-</td>
-<td class="t_cell">
-<a href="p_xmi_3825.html#xmi_3827">TStateUpdate</a>
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gus_UpdateStep<br>
-</td>
-<td class="t_cell">
-<a href="p_xmi_3825.html#xmi_3826">TUpdateStep</a>
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gfs_FicStream<br>
-</td>
-<td class="t_cell">TFileStreamUTF8
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gs_Buffer<br>
-</td>
-<td class="t_cell">String
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gpb_Progress<br>
-</td>
-<td class="t_cell">TProgressBar
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">glc_LNetComponent<br>
-</td>
-<td class="t_cell">TLComponent
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">ge_ErrorEvent<br>
-</td>
-<td class="t_cell">TErrorMessageEvent
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">ge_ProgressEvent<br>
-</td>
-<td class="t_cell">TProgressEvent
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">ge_Downloaded<br>
-</td>
-<td class="t_cell">TDownloadedEvent
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">ge_CreateIni<br>
-</td>
-<td class="t_cell">TNotifyEvent
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">ge_DownloadedPage<br>
-</td>
-<td class="t_cell">TMD5Event
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">ge_DownloadedFile<br>
-</td>
-<td class="t_cell">TMD5Event
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">ge_Downloading<br>
-</td>
-<td class="t_cell">TDownloadingEvent
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">ge_IniRead<br>
-</td>
-<td class="t_cell">TProgressInit
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gini_inifile<br>
-</td>
-<td class="t_cell">TIniFile
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gi_Weight<br>
-</td>
-<td class="t_cell">longword
-       
-    </td>
-<td class="t_cell">private</td>
-</tr>
-<tr>
-<td class="t_cell">gb_Buffered<br>
+<td class="t_cell">FResize<br>
 </td>
 <td class="t_cell">Boolean
        
@@ -246,7 +50,7 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">private</td>
 </tr>
 <tr>
-<td class="t_cell">gb_Messages<br>
+<td class="t_cell">FVisible<br>
 </td>
 <td class="t_cell">Boolean
        
@@ -254,7 +58,64 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">private</td>
 </tr>
 <tr>
-<td class="t_cell">IniFile<br>
+<td class="t_cell">FBreakCaption<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FFormat<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FDBTitle<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FFieldName<br>
+</td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FDatasource<br>
+</td>
+<td class="t_cell">TDataSource
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FImages<br>
+</td>
+<td class="t_cell">TCustomImageList
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FMapImages<br>
+</td>
+<td class="t_cell">
+<a href="p_xmi_2851.html#xmi_9">TExtMapImages</a>
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Datasource<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -263,7 +124,7 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">UpdateWeight<br>
+<td class="t_cell">Width<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -272,7 +133,7 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">UpdateState<br>
+<td class="t_cell">Resize<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -281,7 +142,7 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">UpdateStep<br>
+<td class="t_cell">Visible<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -290,7 +151,7 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">MD5File<br>
+<td class="t_cell">LineBreak<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -299,7 +160,7 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">MD5Ini<br>
+<td class="t_cell">BreakCaption<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -308,7 +169,7 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">VersionExeUpdate<br>
+<td class="t_cell">DBTitle<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -317,7 +178,7 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">VersionBaseUpdate<br>
+<td class="t_cell">DisplayFormat<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -326,7 +187,7 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">Buffer<br>
+<td class="t_cell">FieldName<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -335,7 +196,7 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">FileIni<br>
+<td class="t_cell">Images<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -344,142 +205,7 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">FileUpdate<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">FilePage<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">UpdateDir<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">URLBase<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">Progress<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">OnErrorMessage<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">OnIniCreate<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">OnIniRead<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">OnProgress<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">OnPageDownloaded<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">OnDownloading<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">OnDownloaded<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">OnFileDownloaded<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">LNetComponent<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">Buffered<br>
-</td>
-<td class="t_cell">
-<a href="p_.html#"></a>
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">Messages<br>
+<td class="t_cell">MapImages<br>
 </td>
 <td class="t_cell">
 <a href="p_.html#"></a>
@@ -496,10 +222,13 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="tableheader">Visibility</td>
 </tr>
 <tr>
-<td class="t_cell">p_SetLNetComponent</td>
+<td class="t_cell">SetImages<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TExtPrintColumn 
+</p></td></tr></table>
+</td>
 <td class="t_cell">
 <table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TLComponent</td>
+<td class="t_cell">TCustomImageList</td>
 <td class="t_cell">AValue</td>
 </tr></table>
        
@@ -510,10 +239,10 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">private</td>
 </tr>
 <tr>
-<td class="t_cell">SetUpdateDir</td>
+<td class="t_cell">SetMapImages</td>
 <td class="t_cell">
 <table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">String</td>
+<td class="t_cell"><a href="p_xmi_2851.html#xmi_9">TExtMapImages</a></td>
 <td class="t_cell">AValue</td>
 </tr></table>
        
@@ -524,58 +253,110 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">private</td>
 </tr>
 <tr>
-<td class="t_cell">HTTPClientInput</td>
+<td class="t_cell">GetFieldName</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">String
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TCollection</td>
+<td class="t_cell">ACollection</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_229"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TExtPrintColumns</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TExtPrintColumns 
+</p></td></tr></table>Inherits from:
+
+    TCollection<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FOwner<br>
+</td>
+<td class="t_cell">TComponent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Owner<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Items<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">GetColumn<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TExtPrintColumns 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">Integer</td>
+<td class="t_cell">Index</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+<a href="p_xmi_3825.html#xmi_222">TExtPrintColumn</a>
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">SetColumn</td>
 <td class="t_cell">
 <table border="0" cellpadding="2" cellspacing="1">
-<tr>
-<td class="t_cell">TLHTTPClientSocket</td>
-<td class="t_cell">ASocket</td>
-</tr>
-<tr>
-<td class="t_cell">pchar</td>
-<td class="t_cell">ABuffer</td>
-</tr>
 <tr>
 <td class="t_cell">Integer</td>
-<td class="t_cell">ASize</td>
-</tr>
-</table>
-       
-    </td>
-<td class="t_cell">Integer
-       
-    </td>
-<td class="t_cell">protected</td>
+<td class="t_cell">Index</td>
 </tr>
 <tr>
-<td class="t_cell">SetMD5</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">GetURL</td>
-<td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1">
-<tr>
-<td class="t_cell">String</td>
-<td class="t_cell">as_URL</td>
-</tr>
-<tr>
-<td class="t_cell">String</td>
-<td class="t_cell">as_LocalDir</td>
-</tr>
-<tr>
-<td class="t_cell">String</td>
-<td class="t_cell">as_FileName</td>
-</tr>
-<tr>
-<td class="t_cell"><a href="p_xmi_3825.html#xmi_3826">TUpdateStep</a></td>
-<td class="t_cell">aus_Step</td>
+<td class="t_cell"><a href="p_xmi_3825.html#xmi_222">TExtPrintColumn</a></td>
+<td class="t_cell">Value</td>
 </tr>
 </table>
        
@@ -583,79 +364,317 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">
        
     </td>
-<td class="t_cell">protected</td>
+<td class="t_cell">private</td>
 </tr>
 <tr>
-<td class="t_cell">CanDownloadIni</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">Boolean
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">CanDownloadPage</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">Boolean
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">CanDownloadFile</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">Boolean
-       
-    </td>
-<td class="t_cell">protected</td>
-</tr>
-<tr>
-<td class="t_cell">HTTPClientDoneInput</td>
+<td class="t_cell">SetDatasource</td>
 <td class="t_cell">
 <table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">TLHTTPClientSocket</td>
-<td class="t_cell">ASocket</td>
+<td class="t_cell"><a href="p_xmi_3825.html#xmi_222">TExtPrintColumn</a></td>
+<td class="t_cell">AColumn</td>
 </tr></table>
        
     </td>
 <td class="t_cell">
        
     </td>
-<td class="t_cell">protected</td>
+<td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">HTTPClientError</td>
+<td class="t_cell">SetDatasource</td>
 <td class="t_cell">
-<table border="0" cellpadding="2" cellspacing="1">
-<tr>
-<td class="t_cell">String</td>
-<td class="t_cell">msg</td>
-</tr>
-<tr>
-<td class="t_cell">TLSocket</td>
-<td class="t_cell">aSocket</td>
-</tr>
-</table>
        
     </td>
 <td class="t_cell">
        
     </td>
-<td class="t_cell">protected</td>
+<td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">Notification</td>
+<td class="t_cell">Create</td>
 <td class="t_cell">
 <table border="0" cellpadding="2" cellspacing="1">
 <tr>
 <td class="t_cell">TComponent</td>
-<td class="t_cell">AComponent</td>
+<td class="t_cell">AOwner</td>
+</tr>
+<tr>
+<td class="t_cell">TCollectionItemClass</td>
+<td class="t_cell">aItemClass</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Add</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+<a href="p_xmi_3825.html#xmi_222">TExtPrintColumn</a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_296"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TExtReport</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TExtReport 
+</p></td></tr></table>Inherits from:
+
+    TRLReport<br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FPrintComponent<br>
+</td>
+<td class="t_cell">TComponent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">PrintComponent<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">Create</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">aOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">p_BeforePrintTexts<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TExtReport 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TObject</td>
+<td class="t_cell">Sender</td>
+</tr>
+<tr>
+<td class="t_cell">String</td>
+<td class="t_cell">OutputText</td>
+</tr>
+<tr>
+<td class="t_cell">Boolean</td>
+<td class="t_cell">PrintIt</td>
+</tr>
+</table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_301"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TRLCustomDBExtImage</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@class TRLCustomDBExtImage - Classe base para caixa de imagem ligada a campo de dataset.
+   @ancestor TRLCustomImage. 
+</p></td></tr></table>Inherits from:
+
+    TRLCustomImage<br>Subclasses:
+
+    <a href="p_xmi_3825.html#xmi_3870">TRLCustomDBExtImageList</a>,  <a href="p_xmi_3825.html#xmi_3872">TRLDBExtImage</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">fDataField<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+variables
+</p></td></tr></table>
+</td>
+<td class="t_cell">TRLDataFieldProperty
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">fDataSource<br>
+</td>
+<td class="t_cell">TDataSource
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Field<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Field - Referência para o objeto TField determinado pelas props DataField e DataSource. :/
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DataSet<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop DataSet - Referência para o objeto TDataSet determinado pela prop DataSource. :/
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DataField<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop DataField - Nome do campo associado.
+     @links TRLDataFieldProperty. :/
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DataSource<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop DataSource - Referência ao DataSource que controle utiliza para se conectar ao DataSet. :/
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">GetField<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+assign methods
+
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">TField
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">GetDataSet</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">TDataset
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">SetDataField</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TRLDataFieldProperty</td>
+<td class="t_cell">aValue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">SetDataSource</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TDataSource</td>
+<td class="t_cell">aValue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">LoadPicture<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+custom methods
+fDataSource:=nil;
+
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Notification<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+override methods
+
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1">
+<tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">aComponent</td>
 </tr>
 <tr>
 <td class="t_cell">TOperation</td>
@@ -670,16 +689,155 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">protected</td>
 </tr>
 <tr>
-<td class="t_cell">OnError</td>
+<td class="t_cell">InternalPrint</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Create<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+constructors &amp;; destructors
+ TRLCustomDBExtImage 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">aOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_3870"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TRLCustomDBExtImageList</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TRLCustomDBExtImageList 
+</p></td></tr></table>Inherits from:
+
+    <a href="p_xmi_3825.html#xmi_301">TRLCustomDBExtImage</a><br>Subclasses:
+
+    <a href="p_xmi_3825.html#xmi_3888">TRLDBExtImageList</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">FGetImageIndex<br>
+</td>
+<td class="t_cell">TFieldIndexEvent
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FMapImages<br>
+</td>
+<td class="t_cell">
+<a href="p_xmi_2851.html#xmi_9">TExtMapImages</a>
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">FImageList<br>
+</td>
+<td class="t_cell">TCustomImageList
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">OnGetImageIndex<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MapImages<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Images<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">SetImages<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TRLCustomDBExtImageList 
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TCustomImageList</td>
+<td class="t_cell">Avalue</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">LoadPicture<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+custom methods
+
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Notification</td>
 <td class="t_cell">
 <table border="0" cellpadding="2" cellspacing="1">
 <tr>
-<td class="t_cell">Integer</td>
-<td class="t_cell">ai_error</td>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">aComponent</td>
 </tr>
 <tr>
-<td class="t_cell">String</td>
-<td class="t_cell">as_Message</td>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
 </tr>
 </table>
        
@@ -694,7 +852,7 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
 <td class="t_cell">
 <table border="0" cellpadding="2" cellspacing="1"><tr>
 <td class="t_cell">TComponent</td>
-<td class="t_cell">AOwner</td>
+<td class="t_cell">aOwner</td>
 </tr></table>
        
     </td>
@@ -703,86 +861,955 @@ Parent propriÃ©taire des Ã©vÃ¨nements liÃ©s au lien de donnÃ©es
     </td>
 <td class="t_cell">public</td>
 </tr>
+</table>
+<br><br><a name="xmi_299"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TRLCustomImageList</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TRLCustomImageList 
+</p></td></tr></table>Inherits from:
+
+    TRLCustomImage<br>Subclasses:
+
+    <a href="p_xmi_3825.html#xmi_3849">TRLExtImageList</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
 <tr>
-<td class="t_cell">Destroy</td>
-<td class="t_cell">
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">fImages<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+variables
+</p></td></tr></table>
+</td>
+<td class="t_cell">TCustomImageList
        
     </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">fImageIndex<br>
+</td>
+<td class="t_cell">Integer
+       
+    </td>
+<td class="t_cell">private</td>
+</tr>
+<tr>
+<td class="t_cell">Images<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop DataField - Nome do campo associado.
+     @links TRLDataFieldProperty. :/
+</p></td></tr></table>
+</td>
 <td class="t_cell">
+<a href="p_.html#"></a>
        
     </td>
 <td class="t_cell">public</td>
 </tr>
 <tr>
-<td class="t_cell">Loaded</td>
+<td class="t_cell">ImageIndex<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop DataSource - Referência ao DataSource que controle utiliza para se conectar ao DataSet. :/
+</p></td></tr></table>
+</td>
 <td class="t_cell">
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">UpdateIniPage</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">
+<a href="p_.html#"></a>
        
     </td>
 <td class="t_cell">public</td>
 </tr>
+</table>
+<b>Operations</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
 <tr>
-<td class="t_cell">Update</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">public</td>
+<td class="tableheader">Name</td>
+<td class="tableheader">Parameters</td>
+<td class="tableheader">Returns</td>
+<td class="tableheader">Visibility</td>
 </tr>
 <tr>
-<td class="t_cell">VerifyUpdate</td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">
-       
-    </td>
-<td class="t_cell">public</td>
-</tr>
-<tr>
-<td class="t_cell">VerifyIni</td>
+<td class="t_cell">SetImages<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+TRLCustomImageList 
+</p></td></tr></table>
+</td>
 <td class="t_cell">
 <table border="0" cellpadding="2" cellspacing="1"><tr>
-<td class="t_cell">String</td>
-<td class="t_cell">as_file</td>
+<td class="t_cell">TCustomImageList</td>
+<td class="t_cell">AValue</td>
 </tr></table>
        
     </td>
 <td class="t_cell">
        
     </td>
-<td class="t_cell">public</td>
+<td class="t_cell">private</td>
 </tr>
 <tr>
-<td class="t_cell">AfterUpdate</td>
+<td class="t_cell">LoadPicture<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+custom methods
+
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Notification<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+override methods
+
+</p></td></tr></table>
+</td>
 <td class="t_cell">
 <table border="0" cellpadding="2" cellspacing="1">
 <tr>
-<td class="t_cell">String</td>
-<td class="t_cell">as_file</td>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">aComponent</td>
 </tr>
 <tr>
-<td class="t_cell">Boolean</td>
-<td class="t_cell">ab_StatusOK</td>
+<td class="t_cell">TOperation</td>
+<td class="t_cell">Operation</td>
 </tr>
 </table>
        
     </td>
 <td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">InternalPrint</td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">protected</td>
+</tr>
+<tr>
+<td class="t_cell">Create<table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+constructors &amp;; destructors
+
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<table border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="t_cell">TComponent</td>
+<td class="t_cell">aOwner</td>
+</tr></table>
+       
+    </td>
+<td class="t_cell">
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_3872"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TRLDBExtImage</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br>Inherits from:
+
+    <a href="p_xmi_3825.html#xmi_301">TRLCustomDBExtImage</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">Align<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Align = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Anchors<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Anchors = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AutoSize<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop AutoSize = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Behavior<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Behavior = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Borders<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Borders = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Center<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Center = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DataField<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop DataField = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DataSource<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop DataSource = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Font<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Font = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FriendlyName<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop FriendlyName = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Holder<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Holder = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">HoldStyle<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop HoldStyle = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">RealBounds<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop RealBounds = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Scaled<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Scaled = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SecondHolder<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop SecondHolder = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SecondHoldStyle<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop SecondHoldStyle = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Stretch<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Stretch = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Transparent<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Transparent = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Visible<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Visible = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AfterPrint<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@event AfterPrint = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">BeforePrint<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@event BeforePrint = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMeasureHeight<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@event OnMeasureHeight = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_3888"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TRLDBExtImageList</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br>Inherits from:
+
+    <a href="p_xmi_3825.html#xmi_3870">TRLCustomDBExtImageList</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">Align<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Align = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Anchors<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Anchors = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AutoSize<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop AutoSize = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Behavior<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Behavior = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Borders<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Borders = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Center<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Center = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DataField<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop DataField = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">DataSource<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop DataSource = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Font<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Font = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FriendlyName<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop FriendlyName = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Holder<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Holder = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">HoldStyle<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop HoldStyle = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">RealBounds<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop RealBounds = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Scaled<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Scaled = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SecondHolder<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop SecondHolder = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SecondHoldStyle<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop SecondHoldStyle = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Stretch<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Stretch = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Transparent<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Transparent = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Visible<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Visible = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AfterPrint<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@event AfterPrint = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">BeforePrint<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@event BeforePrint = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMeasureHeight<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@event OnMeasureHeight = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnGetImageIndex<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">MapImages<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Images<br>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+</table>
+<br><br><a name="xmi_3849"></a><table width="500" border="0" cellpadding="2" cellspacing="1"><tr>
+<td class="ClassTableHeader" width="200">
+<b>TRLExtImageList</b><br>
+</td>
+<td class="ClassTableHeader" width="150">class
+      </td>
+</tr></table>
+<br>Inherits from:
+
+    <a href="p_xmi_3825.html#xmi_299">TRLCustomImageList</a><br><b>Attributes</b><table width="100%" border="1" cellpadding="3" cellspacing="0">
+<tr>
+<td class="tableheader">Name</td>
+<td class="tableheader">Type</td>
+<td class="tableheader">Visibility</td>
+</tr>
+<tr>
+<td class="t_cell">Align<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Align = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Anchors<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Anchors = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AutoSize<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop AutoSize = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Behavior<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Behavior = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Borders<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Borders = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Center<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Center = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Images<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Images = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">ImageIndex<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop ImageIndex = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Font<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Font = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">FriendlyName<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop FriendlyName = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Holder<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Holder = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">HoldStyle<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop HoldStyle = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">RealBounds<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop RealBounds = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Scaled<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Scaled = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SecondHolder<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop SecondHolder = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">SecondHoldStyle<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop SecondHoldStyle = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Stretch<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Stretch = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Transparent<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Transparent = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">Visible<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@prop Visible = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">AfterPrint<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@event AfterPrint = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">BeforePrint<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@event BeforePrint = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
+       
+    </td>
+<td class="t_cell">public</td>
+</tr>
+<tr>
+<td class="t_cell">OnMeasureHeight<br><table class="Documentation" width="100%" border="0" cellpadding="2" cellspacing="1"><tr><td><p class="Documentation"><b>Description</b><br>
+@event OnMeasureHeight = ancestor /
+</p></td></tr></table>
+</td>
+<td class="t_cell">
+<a href="p_.html#"></a>
        
     </td>
 <td class="t_cell">public</td>
