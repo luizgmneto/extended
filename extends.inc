@@ -19,6 +19,7 @@
        {$DEFINE WITH_TBOOKMARK}        // Have TBookmark
        {$DEFINE SPECIALEDIT}        // Have TBookmark
   {$ENDIF}
+  {$DEFINE OOPEXPERTS}
   {$DEFINE PROPEDITS}
   {$DEFINE LNET}
   {$DEFINE UTF8OS}        // Have UTF 8 OS
