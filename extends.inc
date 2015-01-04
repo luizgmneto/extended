@@ -38,7 +38,7 @@
   {$ENDIF}
   {$IFDEF COMPILER_XE_UP}
     {$DEFINE WITH_TBOOKMARK}        // Have TBookmark
-    {$DEFINE PROP EDITS}
+    {$DEFINE OOPEXPERTS}
   {$ELSE}
     {$DEFINE INDY10}        // Have UTF 8 OS
   {$ENDIF}
