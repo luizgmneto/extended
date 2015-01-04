@@ -1,4 +1,4 @@
-unit u_registerforms;
+﻿unit u_registerforms;
 {
 Unité             U_RegisterIni
 Unité créant un projet form
@@ -11,16 +11,20 @@ Rédigé par Matthieu Giroux le 1/12/2003
 interface
 
 {$I ..\DLCompilers.inc}
+{$I ..\extends.inc}
 
 uses
 {$IFNDEF FPC}
-  DesignEditors, Windows, ESBaseForm,
+  DesignEditors, Windows,
+{$ENDIF}
+{$IFNDEF OOPEXPERTS}
+  ESBaseForm,
 {$ENDIF}
   Forms, SysUtils ;
 
 procedure Register ;
 
-{$IFNDEF FPC}
+{$IFNDEF OOPEXPERTS}
 const
   CST_AUTEUR = 'Matthieu Giroux'; //auteur du projet
   // Commentaire du projet
@@ -168,7 +172,7 @@ uses
 {$ENDIF}
   Classes,  U_FormMainIni, U_FormAdapt;
 
-{$IFNDEF FPC}
+{$IFNDEF OOPEXPERTS}
 {
 procedure Register ;
 begin // Enregistre le nouvel expert de projet
@@ -319,7 +323,9 @@ begin // Enregistre le nouvel expert de projet
 //   RegisterPropertyEditor(TypeInfo(WideString), TADOConnection, 'Provider', TProviderProperty);
 //   RegisterPropertyEditor(TypeInfo(WideString), TADOConnection, 'ConnectionString', TConnectionStringProperty);
 //   RegisterComponentEditor(TADOConnection, TADOConnectionEditor);
+{$IFNDEF OOPEXPERTS}
    RegisterLibraryExpert(TF_FormMainIniExpert.Create);
+{$ENDIF}
 {$ENDIF}
 end;
 

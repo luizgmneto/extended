@@ -53,11 +53,12 @@ requires
   IndyProtocols,
   VampyreImagingPackage,
   VirtualTreesR,
-  FortesReportCE_Win32_DXE3_vcl,
   Jcl,
   JvXPCtrls,
   JvDB,
   bdertl,
+  FortesReportCE_Win32_DXE4_vcl,
+  vcldesigner,
   dcldb;
 
 contains
@@ -143,8 +144,7 @@ contains
   U_RegisterGroupView in '..\..\extcomp\U_RegisterGroupView.pas',
   u_register_net in '..\..\extnet\u_register_net.pas',
   u_regimagecomponents in '..\..\imgcomp\u_regimagecomponents.pas',
-  u_reginicomponents in '..\..\inicomp\u_reginicomponents.pas',
-  u_registerforms in '..\..\inicomp\u_registerforms.pas',
-  u_regreports_components in '..\..\reportcomp\u_regreports_components.pas';
+  u_regreports_components in '..\..\reportcomp\u_regreports_components.pas',
+  u_registerforms in '..\..\inicomp\u_registerforms.pas';
 
 end.
