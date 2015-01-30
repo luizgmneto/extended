@@ -32,7 +32,8 @@ uses
 
 type TPackageType = ( ptExe, ptTar, ptRpm, ptDeb, ptPkg, ptDmg );
      TProcessorType = ( ptUnknown, ptIntel, ptMIPS, ptAlpha, ptPPC, ptSHX, ptARM, ptIA64, ptAlpha64 );
-     TSystemDirectory = ( sdUnknown, sdHome, sdUser, sdDocuments, sdImages, sdExe, sdTmp, sdSystemRoot );
+     TSystemDirectory = ( sdUnknown, sdHome, sdUser, sdDocuments, sdImages, sdExe, sdTmp, sdSystemRoot, sdData );
+     TGetDatabaseDirectory = function:String;
 
 
 const
@@ -40,7 +41,8 @@ const
   gVer_fonction_system : T_Version = ( Component : 'System management' ; FileUnit : 'fonctions_system' ;
                         	       Owner : 'Matthieu Giroux' ;
                         	       Comment : 'System Functions, with traducing and path management.' ;
-                        	       BugsStory : 'Version 1.1.1.0 : Creating System Directory functions.' + #10
+                        	       BugsStory : 'Version 1.1.2.0 : Data Directory.' + #10
+                                                 + 'Version 1.1.1.0 : Creating System Directory functions.' + #10
                                                  + 'Version 1.1.0.6 : Testing FileDir.' + #10
                                                  + 'Version 1.1.0.5 : Testing Open File.' + #10
                                                  + 'Version 1.1.0.4 : Testing command line on linux and windows.' + #10
@@ -64,6 +66,7 @@ const
   CST_PackageTypeString : Array [ TPackageType ] of String = ( 'exe', 'tar.gz', 'rpm', 'deb', 'pkg', 'dmg' );
   CST_ProcessorTypeString : Array [ TProcessorType ] of String = ( '?', 'Intel', 'MIPS', 'Alpha', 'PPC', 'SHX', 'ARM', 'IA64', 'Alpha64');
   CST_EXTENSION_SCRIPT            = {$IFDEF WINDOWS}'.bat'{$ELSE}'.sh'{$ENDIF} ;
+  ge_GetDatabaseDirectory : TGetDatabaseDirectory = nil;
 
 var
   GS_SUBDIR_IMAGES_SOFT : String = DirectorySeparator + 'Images'+DirectorySeparator;
@@ -91,6 +94,7 @@ function GetImagesDir: string;
 function GetRootDir: string;
 function GetHomeDir: string;
 function GetDocDir: string;
+function GetDataDir (const as_DataDirectory : String = '') :String;
 function GetDirectory(const ASystemDirectory : TSystemDirectory ): string;
 function fs_getImagesSoftDir:String;
 function fs_GetPackagesExtension : String;
@@ -251,6 +255,21 @@ Begin
   DeleteFile(as_File);
 End;
 {$ENDIF}
+
+function GetDataDir (const as_DataDirectory : String = '') :String;
+Begin
+  if assigned ( ge_GetDatabaseDirectory )
+   Then
+    Begin
+     Result:=ge_GetDatabaseDirectory;
+     if Result>'' Then Exit;
+    end;
+  if ( pos ( GetUserDir, as_DataDirectory ) > 0 )
+  or ( pos ( GetAppConfigDir ( True ), as_DataDirectory ) > 0 )
+   Then Result := GetAppDir
+   Else Result := GetAppConfigDir ( True ) ;
+End;
+
   ////////////////////////////////////////////////////////////////////////
  // Every OS Functions                                                 //
 ////////////////////////////////////////////////////////////////////////
@@ -262,6 +281,7 @@ Begin
    sdImages     : Result:=GetImagesDir;
    sdHome       : Result:=GetHomeDir;
    sdUser       : Result:=GetUserDir;
+   sdData       : Result:=GetDataDir;
    sdExe        : Result:=GetAppDir;
    sdSystemRoot : Result:=GetRootDir;
    sdTmp        : Result:=GetTempDir;

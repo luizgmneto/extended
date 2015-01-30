@@ -151,6 +151,13 @@ end;
 
 {$ENDIF}
 
+{$IFDEF LINUX}
+function fs_GetDatabaseDirectory :String;
+Begin
+  Result := DEFAULT_FIREBIRD_SERVER_DIR+'/data/';
+end;
+{$ENDIF}
+
 function fb_RestoreBase ( const AConnection : TComponent ;
                           const as_database, as_user, as_password, APathSave : String ;
                           const ASt_Messages : TStrings;
@@ -356,6 +363,9 @@ initialization
  ge_OnExecuteQuery  :=TOnExecuteQuery({$IFNDEF FPC}@{$ENDIF}p_ExecuteIBXQuery);
  ge_OnOptimiseDatabase  :=TOnOptimiseDatabase({$IFNDEF FPC}@{$ENDIF}fb_RestoreBase );
  ge_OnExecuteCommand:=TOnExecuteCommand({$IFNDEF FPC}@{$ENDIF}p_ExecuteSQLCommand);
+ {$IFDEF LINUX}
+ ge_GetDatabaseDirectory :=TGetDatabaseDirectory({$IFNDEF FPC}@{$ENDIF}fs_GetDatabaseDirectory);
+ {$ENDIF}
  {$IFDEF VERSIONS}
  p_ConcatVersion ( gver_fonctions_ibx );
  {$ENDIF}
