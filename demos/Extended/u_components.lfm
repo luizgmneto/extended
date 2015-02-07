@@ -55,12 +55,6 @@ object Myform: TMyform
           Title.Orientation = toHorizontal
           Width = 88
           FieldName = 'NOM'
-          Filter.DropDownRows = 0
-          Filter.EmptyValue = '(Empty)'
-          Filter.EmptyFont.Style = [fsItalic]
-          Filter.ItemIndex = -1
-          EditButtons = <>
-          FieldTag = 0
           Resize = True
         end      
         item
@@ -69,64 +63,7 @@ object Myform: TMyform
           Title.Orientation = toHorizontal
           Width = 88
           FieldName = 'PRENOM'
-          Filter.DropDownRows = 0
-          Filter.EmptyValue = '(Empty)'
-          Filter.EmptyFont.Style = [fsItalic]
-          Filter.ItemIndex = -1
-          EditButtons = <>
-          FieldTag = 0
           Resize = True
-        end>
-      KeyStrokes = <      
-        item
-          Command = rxgcShowFindDlg
-          ShortCut = 16454
-          Enabled = True
-        end      
-        item
-          Command = rxgcShowColumnsDlg
-          ShortCut = 16471
-          Enabled = True
-        end      
-        item
-          Command = rxgcShowFilterDlg
-          ShortCut = 16468
-          Enabled = True
-        end      
-        item
-          Command = rxgcShowSortDlg
-          ShortCut = 16467
-          Enabled = True
-        end      
-        item
-          Command = rxgcShowQuickFilter
-          ShortCut = 16465
-          Enabled = True
-        end      
-        item
-          Command = rxgcHideQuickFilter
-          ShortCut = 16456
-          Enabled = True
-        end      
-        item
-          Command = rxgcSelectAll
-          ShortCut = 16449
-          Enabled = True
-        end      
-        item
-          Command = rxgcDeSelectAll
-          ShortCut = 16429
-          Enabled = True
-        end      
-        item
-          Command = rxgcInvertSelection
-          ShortCut = 16426
-          Enabled = True
-        end      
-        item
-          Command = rxgcOptimizeColumnsWidth
-          ShortCut = 16427
-          Enabled = True
         end>
       FooterOptions.Color = clWindowText
       OptionsRx = []
@@ -136,14 +73,12 @@ object Myform: TMyform
       DrawFullLine = False
       FocusColor = clRed
       SelectedColor = clHighlight
-      GridLineStyle = psSolid
       DataSource = ds_user
       Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete]
       ParentColor = False
       Scrollbars = ssAutoBoth
       TabOrder = 1
       TitleFont.Color = clWindowText
-      TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
     end
     object Prenom: TExtSearchDBEdit
@@ -197,7 +132,6 @@ object Myform: TMyform
         ClientWidth = 204
         TabOrder = 0
         PanelCloned = Panel4
-        Rows = 4
         object Panel4: TPanel
           Left = 0
           Height = 50
