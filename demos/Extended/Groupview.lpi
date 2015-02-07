@@ -92,10 +92,13 @@
         <Filename Value="Groupview.dpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Groupview"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="17"/>
+        <TopLine Value="12"/>
+        <CursorPos X="37" Y="32"/>
         <UsageCount Value="95"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -1633,7 +1636,7 @@
         <UsageCount Value="10"/>
       </Unit164>
       <Unit165>
-        <Filename Value="../../../../../../lazarus/lcl/dbgrids.pas"/>
+        <Filename Value="/lazarus/lcl/dbgrids.pas"/>
         <UnitName Value="DBGrids"/>
         <WindowIndex Value="0"/>
         <TopLine Value="398"/>
@@ -1656,7 +1659,7 @@
         <UsageCount Value="9"/>
       </Unit167>
       <Unit168>
-        <Filename Value="../../../../../../lazarus/fpc/2.6.0/source/rtl/objpas/typinfo.pp"/>
+        <Filename Value="/lazarus/fpc/2.6.0/source/rtl/objpas/typinfo.pp"/>
         <UnitName Value="typinfo"/>
         <WindowIndex Value="0"/>
         <TopLine Value="26"/>
@@ -1690,7 +1693,6 @@
       <Unit172>
         <Filename Value="../../reportcomp/fonctions_reports.pas"/>
         <UnitName Value="fonctions_reports"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="986"/>
@@ -1766,7 +1768,7 @@
         <UsageCount Value="10"/>
       </Unit180>
       <Unit181>
-        <Filename Value="../../../../../../lazarus/fpc/2.6.2/source/packages/fcl-image/src/fpimage.pp"/>
+        <Filename Value="/lazarus/fpc/2.6.2/source/packages/fcl-image/src/fpimage.pp"/>
         <UnitName Value="FPimage"/>
         <WindowIndex Value="0"/>
         <TopLine Value="192"/>
@@ -1792,17 +1794,15 @@
         <Loaded Value="True"/>
       </Unit183>
       <Unit184>
-        <Filename Value="../../../../../../lazarus/components/ideintf/dbpropedits.pas"/>
+        <Filename Value="/lazarus/components/ideintf/dbpropedits.pas"/>
         <UnitName Value="DBPropEdits"/>
-        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="136"/>
         <CursorPos X="47" Y="169"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit184>
       <Unit185>
-        <Filename Value="../../../../../../1.2.1/lcl/dbctrls.pp"/>
+        <Filename Value="/1.2.1/lcl/dbctrls.pp"/>
         <UnitName Value="DbCtrls"/>
         <WindowIndex Value="0"/>
         <TopLine Value="876"/>
@@ -1810,7 +1810,7 @@
         <UsageCount Value="12"/>
       </Unit185>
       <Unit186>
-        <Filename Value="../../../../../../1.2.1/lcl/stdctrls.pp"/>
+        <Filename Value="/1.2.1/lcl/stdctrls.pp"/>
         <UnitName Value="StdCtrls"/>
         <WindowIndex Value="0"/>
         <TopLine Value="284"/>
@@ -1818,7 +1818,7 @@
         <UsageCount Value="12"/>
       </Unit186>
       <Unit187>
-        <Filename Value="../../../../../../1.2.1/lcl/include/dblookupcombobox.inc"/>
+        <Filename Value="/1.2.1/lcl/include/dblookupcombobox.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="143"/>
         <CursorPos X="3" Y="181"/>
@@ -1839,7 +1839,7 @@
         <UsageCount Value="12"/>
       </Unit189>
       <Unit190>
-        <Filename Value="../../../../../../1.2.1/lcl/forms.pp"/>
+        <Filename Value="/1.2.1/lcl/forms.pp"/>
         <UnitName Value="Forms"/>
         <WindowIndex Value="0"/>
         <TopLine Value="517"/>
@@ -1867,7 +1867,7 @@
         <Loaded Value="True"/>
       </Unit192>
       <Unit193>
-        <Filename Value="../../../../../../1.2.1/lcl/dbgrids.pas"/>
+        <Filename Value="/1.2.1/lcl/dbgrids.pas"/>
         <UnitName Value="DBGrids"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3085"/>
@@ -1875,7 +1875,7 @@
         <UsageCount Value="11"/>
       </Unit193>
       <Unit194>
-        <Filename Value="../../../../../../lazarus/fpc/2.6.2/source/packages/fcl-db/src/base/db.pas"/>
+        <Filename Value="/lazarus/fpc/2.6.2/source/packages/fcl-db/src/base/db.pas"/>
         <UnitName Value="db"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1464"/>
@@ -1883,7 +1883,7 @@
         <UsageCount Value="10"/>
       </Unit194>
       <Unit195>
-        <Filename Value="../../../../../../lazarus/fpc/2.6.2/source/packages/fcl-db/src/base/dataset.inc"/>
+        <Filename Value="/lazarus/fpc/2.6.2/source/packages/fcl-db/src/base/dataset.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1436"/>
         <CursorPos X="7" Y="1471"/>
@@ -1908,7 +1908,7 @@
         <Loaded Value="True"/>
       </Unit197>
     </Units>
-    <JumpHistory Count="21" HistoryIndex="20">
+    <JumpHistory Count="22" HistoryIndex="21">
       <Position1>
         <Filename Value="../../extcomp/fonctions_search_edit.pas"/>
         <Caret Line="78" Column="1" TopLine="78"/>
@@ -1993,6 +1993,10 @@
         <Filename Value="../../reportcomp/fonctions_reports.pas"/>
         <Caret Line="535" Column="44" TopLine="513"/>
       </Position21>
+      <Position22>
+        <Filename Value="Groupview.dpr"/>
+        <Caret Line="17" Column="1" TopLine="1"/>
+      </Position22>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

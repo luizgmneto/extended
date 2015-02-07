@@ -101,6 +101,7 @@ type
     Splitter3: TSplitter;
     {$ENDIF}
     procedure ExtDBImageClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure IBDatabaseBeforeConnect(Sender: TObject);
     procedure mc_CustomizeMenuChange(Sender: TObject);
@@ -207,6 +208,11 @@ begin
      IBUser.Edit;
      ExtDBImage.LoadFromFile(OpenPictureDialog.FileName);
    end;
+end;
+
+procedure TMyform.FormCreate(Sender: TObject);
+begin
+  ExtClonedPanel1.Rows:=4;
 end;
 
 procedure TMyform.QuitterClick(Sender: TObject);

@@ -29,7 +29,7 @@ uses
 
 begin
   Application.Initialize;
-  gs_DefaultDatabase:=ExtractSubDir(fs_getAppDir)+'Exemple.fdb';
+  gs_DefaultDatabase:=ExtractSubDir(getAppDir)+'Exemple.fdb';
   GS_SUBDIR_IMAGES_SOFT:='..'+DirectorySeparator+'..'+DirectorySeparator+'Images'+DirectorySeparator;
   Application.Title := CST_APPLI_NAME;
   Application.CreateForm(TM_Article, M_Article);

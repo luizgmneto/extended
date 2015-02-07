@@ -14,7 +14,7 @@ uses
 begin
   {$I demo.lrs}
   Application.Initialize;
-  gs_DefaultDatabase:=ExtractSubDir(fs_getAppDir)+'Exemple.fdb';
+  gs_DefaultDatabase:=ExtractSubDir(getAppDir)+'Exemple.fdb';
   GS_SUBDIR_IMAGES_SOFT:='..'+DirectorySeparator+'..'+DirectorySeparator+'Images'+DirectorySeparator;
   Application.CreateForm(TMyform, Myform);
   Application.Run;
