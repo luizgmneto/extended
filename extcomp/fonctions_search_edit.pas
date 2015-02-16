@@ -30,13 +30,14 @@ const
                                           FileUnit : 'U_TExtSearchDBEdit' ;
                                           Owner : 'Matthieu Giroux' ;
                                           Comment : 'Searching in a dbedit.' ;
-                                          BugsStory : '1.3.0.0 : Integrating rxpopupform.'
+                                          BugsStory : '1.3.0.1 : Searching not working correctly with not list or on Windows 8.'
+                                                    + '1.3.0.0 : Integrating rxpopupform.'
                                                     + '1.2.0.1 : Testing on Delphi.'
                                                     + '1.2.0.0 : Multiple searchs and TListPopupEdit import.'
                                                     + '1.1.0.0 : Adding fb_KeyUp.'
                                                     + '1.0.0.0 : Creating fb_SearchText.';
                                           UnitType : 1 ;
-                                          Major : 1 ; Minor : 3 ; Release : 0 ; Build : 0);
+                                          Major : 1 ; Minor : 3 ; Release : 0 ; Build : 1);
 
 {$ENDIF}
   SEARCHEDIT_GRID_DEFAULTS = [dgColumnResize, dgRowSelect, dgColLines, dgConfirmDelete, dgCancelOnExit, dgTabs, dgAlwaysShowSelection];
@@ -315,9 +316,10 @@ begin
     p_ShowPopup(FPopup,AControl,FSearchSource,FSearchList,FWidths,ALookupDisplayIndex,ARowCount,AWidth,AOptions,FFieldSeparator);
     FSearchVisible:=assigned ( FPopup ) and FPopup.Visible;
    end;
-  if assigned ( FPopup )
-  and not FPopup.Focused Then
-  with AControl do
+  if not assigned ( FPopup )
+  or not FPopup.Focused Then
+  with FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ), AControl do
+   if AsString > '' then
     Begin
       ls_temp := Text ; // c'est en affectant le texte que l'on passe en mode édition
       li_pos := fs_LastString ( FTextSeparator, Ls_temp );
@@ -329,7 +331,7 @@ begin
          End
         Else ls_temp := '' ;
       li_pos    := SelStart ;
-      ls_temp   := ls_temp + FSearchSource.Dataset.FieldByName ( FSearchSource.FieldName ).AsString;
+      ls_temp   := ls_temp + AsString;
       Text      := ls_temp; // c'est en affectant le texte que l'on passe en mode édition
       SelStart  := li_pos ;
       SelLength := length ( ls_temp ) - li_pos ;
