@@ -119,7 +119,7 @@ type
 
    { TFWDBDateEdit }
 
-   TFWDBDateEdit = class ( {$IFDEF FPC}TDBDateEdit{$ELSE}TJvDBDateEdit{$ENDIF}, IFWComponent, IFWComponentEdit )
+   TFWDBDateEdit = class ( {$IFDEF DELPHI}TJvDBDateEdit{$ELSE}{$IFNDEF VER2_6}TRxDBDateEdit{$ELSE}TDBDateEdit{$ENDIF}{$ENDIF}, IFWComponent, IFWComponentEdit )
       private
        FBeforeEnter, FBeforeExit : TNotifyEvent;
        FLabel: TLabel ;
